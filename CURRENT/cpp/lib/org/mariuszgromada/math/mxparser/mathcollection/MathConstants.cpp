@@ -1,5 +1,5 @@
 /*
- * @(#)MathConstants.cpp        6.1.0    2024-10-06
+ * @(#)MathConstants.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -230,13 +230,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser::wrapper;
 
 	/**
-	 * Returns constant value, where constant is represented by the
+	 * \brief Returns constant value, where constant is represented by the
 	 * token id in the ConstantValue class
-	 *
-	 * @param constantValueId Please refer to the ConstantValue class.
-	 * @return Returns constant value if id is known, otherwise Double.NaN is returned.
-	 *
-	 * @see ConstantValue
+	 * \param constantValueId Please refer to the ConstantValue class.
+	 * \return Returns constant value if id is known, otherwise Double.NaN is returned.
+	 * \sa org::mariuszgromada::math::mxparser::parsertokens::ConstantValue
 	 */
 	double
 

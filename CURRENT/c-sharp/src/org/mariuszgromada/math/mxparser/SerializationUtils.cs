@@ -1,5 +1,5 @@
 /*
- * @(#)SerializationUtils.cs        6.1.0    2024-10-06
+ * @(#)SerializationUtils.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -222,214 +222,191 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace org.mariuszgromada.math.mxparser {
-    /**
-     * A utility class for simplified serialization and deserialization of parser objects (and not only).
-     * 
-     * Important - using binary serialization you confirm that
-     * you understand the security risks.
-     * 
-     * WARNING: Deserializing data from an untrusted source can introduce
-     * security vulnerabilities to your application. Depending on the settings
-     * used during deserialization, untrusted data may be able to execute
-     * arbitrary code or cause a denial of service attack. Untrusted data
-     * can come from over the network from an untrusted source
-     * (e.g. any network client), or it can be manipulated/tampered by
-     * an intermediary while in transit over an unauthenticated connection,
-     * or from local storage where it may have been compromised/tampered,
-     * or from many other sources. MathParser.org-mXparser does not provide
-     * any means to authenticate data or secure it from tampering.
-     * Use an appropriate data authentication method before deserializing.
-     * Be very mindful of these attack scenarios; many projects and companies
-     * and users of serialization libraries in general have been bitten by
-     * untrusted deserialization of user data in the past.
-     *
-     * @author         <b>Mariusz Gromada</b><br>
-     *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-     *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-     *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-     *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-     *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-     *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-     *
-     * @version        5.2.0
-     *
-     * @see Expression
-     * @see Argument
-     * @see RecursiveArgument
-     * @see Constant
-     * @see Function
-     */
+    /// <summary>A utility class for simplified serialization and deserialization of parser objects (and not only).
+    ///
+    /// Important - using binary serialization you confirm that
+    /// you understand the security risks.
+    ///
+    /// WARNING: Deserializing data from an untrusted source can introduce
+    /// security vulnerabilities to your application. Depending on the settings
+    /// used during deserialization, untrusted data may be able to execute
+    /// arbitrary code or cause a denial of service attack. Untrusted data
+    /// can come from over the network from an untrusted source
+    /// (e.g. any network client), or it can be manipulated/tampered by
+    /// an intermediary while in transit over an unauthenticated connection,
+    /// or from local storage where it may have been compromised/tampered,
+    /// or from many other sources. MathParser.org-mXparser does not provide
+    /// any means to authenticate data or secure it from tampering.
+    /// Use an appropriate data authentication method before deserializing.
+    /// Be very mindful of these attack scenarios; many projects and companies
+    /// and users of serialization libraries in general have been bitten by
+    /// untrusted deserialization of user data in the past.</summary>
+    /// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+    /// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+    /// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
+    /// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
+    /// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
+    /// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+    ///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+    ///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+    ///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+    ///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+    ///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+    ///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
     [CLSCompliant(true)]
     public sealed class SerializationUtils {
         private static bool binarySerializationEnabled = false;
-        /**
-         * Enables binary serialization done by the SerializationUtils.
-         *
-         * Important - using binary serialization you confirm that
-         * you understand the security risks.
-         *
-         * WARNING: Deserializing data from an untrusted source can introduce
-         * security vulnerabilities to your application. Depending on the settings
-         * used during deserialization, untrusted data may be able to execute
-         * arbitrary code or cause a denial of service attack. Untrusted data
-         * can come from over the network from an untrusted source
-         * (e.g. any network client), or it can be manipulated/tampered by
-         * an intermediary while in transit over an unauthenticated connection,
-         * or from local storage where it may have been compromised/tampered,
-         * or from many other sources. MathParser.org-mXparser does not provide
-         * any means to authenticate data or secure it from tampering.
-         * Use an appropriate data authentication method before deserializing.
-         * Be very mindful of these attack scenarios; many projects and companies
-         * and users of serialization libraries in general have been bitten by
-         * untrusted deserialization of user data in the past.
-         */
+        /// <summary>Enables binary serialization done by the SerializationUtils.
+        ///
+        /// Important - using binary serialization you confirm that
+        /// you understand the security risks.
+        ///
+        /// WARNING: Deserializing data from an untrusted source can introduce
+        /// security vulnerabilities to your application. Depending on the settings
+        /// used during deserialization, untrusted data may be able to execute
+        /// arbitrary code or cause a denial of service attack. Untrusted data
+        /// can come from over the network from an untrusted source
+        /// (e.g. any network client), or it can be manipulated/tampered by
+        /// an intermediary while in transit over an unauthenticated connection,
+        /// or from local storage where it may have been compromised/tampered,
+        /// or from many other sources. MathParser.org-mXparser does not provide
+        /// any means to authenticate data or secure it from tampering.
+        /// Use an appropriate data authentication method before deserializing.
+        /// Be very mindful of these attack scenarios; many projects and companies
+        /// and users of serialization libraries in general have been bitten by
+        /// untrusted deserialization of user data in the past.</summary>
         public static void enableBinarySerializationIamAwareOfSecurityRisks() {
             binarySerializationEnabled = true;
             lastOperationWasSuccessful = true;
             logLastOperationMessage(StringModel.STRING_RESOURCES.BINARY_SERIALIZATION_ENABLED);
         }
-        /**
-         * Disables binary serialization done by the SerializationUtils.
-         *
-         * Important - using binary serialization you confirm that
-         * you understand the security risks.
-         *
-         * WARNING: Deserializing data from an untrusted source can introduce
-         * security vulnerabilities to your application. Depending on the settings
-         * used during deserialization, untrusted data may be able to execute
-         * arbitrary code or cause a denial of service attack. Untrusted data
-         * can come from over the network from an untrusted source
-         * (e.g. any network client), or it can be manipulated/tampered by
-         * an intermediary while in transit over an unauthenticated connection,
-         * or from local storage where it may have been compromised/tampered,
-         * or from many other sources. MathParser.org-mXparser does not provide
-         * any means to authenticate data or secure it from tampering.
-         * Use an appropriate data authentication method before deserializing.
-         * Be very mindful of these attack scenarios; many projects and companies
-         * and users of serialization libraries in general have been bitten by
-         * untrusted deserialization of user data in the past.
-         */
+        /// <summary>Disables binary serialization done by the SerializationUtils.
+        ///
+        /// Important - using binary serialization you confirm that
+        /// you understand the security risks.
+        ///
+        /// WARNING: Deserializing data from an untrusted source can introduce
+        /// security vulnerabilities to your application. Depending on the settings
+        /// used during deserialization, untrusted data may be able to execute
+        /// arbitrary code or cause a denial of service attack. Untrusted data
+        /// can come from over the network from an untrusted source
+        /// (e.g. any network client), or it can be manipulated/tampered by
+        /// an intermediary while in transit over an unauthenticated connection,
+        /// or from local storage where it may have been compromised/tampered,
+        /// or from many other sources. MathParser.org-mXparser does not provide
+        /// any means to authenticate data or secure it from tampering.
+        /// Use an appropriate data authentication method before deserializing.
+        /// Be very mindful of these attack scenarios; many projects and companies
+        /// and users of serialization libraries in general have been bitten by
+        /// untrusted deserialization of user data in the past.</summary>
         public static void disableBinarySerialization() {
             binarySerializationEnabled = false;
             lastOperationWasSuccessful = true;
             logLastOperationMessage(StringModel.STRING_RESOURCES.BINARY_SERIALIZATION_DISABLED);
         }
-        /**
-         * Returns whether binary serialization done by SerializationUtils is enabled by.
-         *
-         * Important - using binary serialization you confirm that
-         * you understand the security risks.
-         *
-         * WARNING: Deserializing data from an untrusted source can introduce
-         * security vulnerabilities to your application. Depending on the settings
-         * used during deserialization, untrusted data may be able to execute
-         * arbitrary code or cause a denial of service attack. Untrusted data
-         * can come from over the network from an untrusted source
-         * (e.g. any network client), or it can be manipulated/tampered by
-         * an intermediary while in transit over an unauthenticated connection,
-         * or from local storage where it may have been compromised/tampered,
-         * or from many other sources. MathParser.org-mXparser does not provide
-         * any means to authenticate data or secure it from tampering.
-         * Use an appropriate data authentication method before deserializing.
-         * Be very mindful of these attack scenarios; many projects and companies
-         * and users of serialization libraries in general have been bitten by
-         * untrusted deserialization of user data in the past.
-         *
-         * @return True if enabled, false if disabled.
-         */
+        /// <summary>Returns whether binary serialization done by SerializationUtils is enabled by.
+        ///
+        /// Important - using binary serialization you confirm that
+        /// you understand the security risks.
+        ///
+        /// WARNING: Deserializing data from an untrusted source can introduce
+        /// security vulnerabilities to your application. Depending on the settings
+        /// used during deserialization, untrusted data may be able to execute
+        /// arbitrary code or cause a denial of service attack. Untrusted data
+        /// can come from over the network from an untrusted source
+        /// (e.g. any network client), or it can be manipulated/tampered by
+        /// an intermediary while in transit over an unauthenticated connection,
+        /// or from local storage where it may have been compromised/tampered,
+        /// or from many other sources. MathParser.org-mXparser does not provide
+        /// any means to authenticate data or secure it from tampering.
+        /// Use an appropriate data authentication method before deserializing.
+        /// Be very mindful of these attack scenarios; many projects and companies
+        /// and users of serialization libraries in general have been bitten by
+        /// untrusted deserialization of user data in the past.</summary>
+        /// <returns>True if enabled, false if disabled.</returns>
         public static bool isBinarySerializationEnabled() {
             return binarySerializationEnabled;
         }
         private static bool lastOperationWasSuccessful = false;
         private static String lastOperationMessage = StringInvariant.EMPTY;
-        /**
-         * Information whether the last ordered operation under
-         * any serialization or deserialization method was correctly
-         * performed.
-         * 
-         * Important - using binary serialization you confirm that
-         * you understand the security risks.
-         * 
-         * WARNING: Deserializing data from an untrusted source can introduce
-         * security vulnerabilities to your application. Depending on the settings
-         * used during deserialization, untrusted data may be able to execute
-         * arbitrary code or cause a denial of service attack. Untrusted data
-         * can come from over the network from an untrusted source
-         * (e.g. any network client), or it can be manipulated/tampered by
-         * an intermediary while in transit over an unauthenticated connection,
-         * or from local storage where it may have been compromised/tampered,
-         * or from many other sources. MathParser.org-mXparser does not provide
-         * any means to authenticate data or secure it from tampering.
-         * Use an appropriate data authentication method before deserializing.
-         * Be very mindful of these attack scenarios; many projects and companies
-         * and users of serialization libraries in general have been bitten by
-         * untrusted deserialization of user data in the past.
-         *
-         * @return true if the operation was performed correctly, otherwise false.
-         */
+        /// <summary>Information whether the last ordered operation under
+        /// any serialization or deserialization method was correctly
+        /// performed.
+        ///
+        /// Important - using binary serialization you confirm that
+        /// you understand the security risks.
+        ///
+        /// WARNING: Deserializing data from an untrusted source can introduce
+        /// security vulnerabilities to your application. Depending on the settings
+        /// used during deserialization, untrusted data may be able to execute
+        /// arbitrary code or cause a denial of service attack. Untrusted data
+        /// can come from over the network from an untrusted source
+        /// (e.g. any network client), or it can be manipulated/tampered by
+        /// an intermediary while in transit over an unauthenticated connection,
+        /// or from local storage where it may have been compromised/tampered,
+        /// or from many other sources. MathParser.org-mXparser does not provide
+        /// any means to authenticate data or secure it from tampering.
+        /// Use an appropriate data authentication method before deserializing.
+        /// Be very mindful of these attack scenarios; many projects and companies
+        /// and users of serialization libraries in general have been bitten by
+        /// untrusted deserialization of user data in the past.</summary>
+        /// <returns>true if the operation was performed correctly, otherwise false.</returns>
         public static bool checkLastOperationWasSuccessful() {
             return lastOperationWasSuccessful;
         }
-        /**
-         * Text information about the last operation performed
-         * by any serialization or deserialization method.
-         * 
-         * Important - using binary serialization you confirm that
-         * you understand the security risks.
-         * 
-         * WARNING: Deserializing data from an untrusted source can introduce
-         * security vulnerabilities to your application. Depending on the settings
-         * used during deserialization, untrusted data may be able to execute
-         * arbitrary code or cause a denial of service attack. Untrusted data
-         * can come from over the network from an untrusted source
-         * (e.g. any network client), or it can be manipulated/tampered by
-         * an intermediary while in transit over an unauthenticated connection,
-         * or from local storage where it may have been compromised/tampered,
-         * or from many other sources. MathParser.org-mXparser does not provide
-         * any means to authenticate data or secure it from tampering.
-         * Use an appropriate data authentication method before deserializing.
-         * Be very mindful of these attack scenarios; many projects and companies
-         * and users of serialization libraries in general have been bitten by
-         * untrusted deserialization of user data in the past.
-         *
-         * @return The content of the error in case of failure, information
-         * about the operation performed in case of success.
-         */
+        /// <summary>Text information about the last operation performed
+        /// by any serialization or deserialization method.
+        ///
+        /// Important - using binary serialization you confirm that
+        /// you understand the security risks.
+        ///
+        /// WARNING: Deserializing data from an untrusted source can introduce
+        /// security vulnerabilities to your application. Depending on the settings
+        /// used during deserialization, untrusted data may be able to execute
+        /// arbitrary code or cause a denial of service attack. Untrusted data
+        /// can come from over the network from an untrusted source
+        /// (e.g. any network client), or it can be manipulated/tampered by
+        /// an intermediary while in transit over an unauthenticated connection,
+        /// or from local storage where it may have been compromised/tampered,
+        /// or from many other sources. MathParser.org-mXparser does not provide
+        /// any means to authenticate data or secure it from tampering.
+        /// Use an appropriate data authentication method before deserializing.
+        /// Be very mindful of these attack scenarios; many projects and companies
+        /// and users of serialization libraries in general have been bitten by
+        /// untrusted deserialization of user data in the past.</summary>
+        /// <returns>The content of the error in case of failure, information
+        /// about the operation performed in case of success.</returns>
         public static String getLastOperationMessage() {
             return lastOperationMessage;
         }
         private static void logLastOperationMessage(String message) {
             lastOperationMessage = message + StringInvariant.NEW_LINE + StringModel.STRING_RESOURCES.WARNING_BINARY_SERIALIZATION_SECURITY_RISKS;
         }
-        /**
-         * Serialization of an object to byte data.
-         * 
-         * Important - using binary serialization you confirm that
-         * you understand the security risks.
-         * 
-         * WARNING: Deserializing data from an untrusted source can introduce
-         * security vulnerabilities to your application. Depending on the settings
-         * used during deserialization, untrusted data may be able to execute
-         * arbitrary code or cause a denial of service attack. Untrusted data
-         * can come from over the network from an untrusted source
-         * (e.g. any network client), or it can be manipulated/tampered by
-         * an intermediary while in transit over an unauthenticated connection,
-         * or from local storage where it may have been compromised/tampered,
-         * or from many other sources. MathParser.org-mXparser does not provide
-         * any means to authenticate data or secure it from tampering.
-         * Use an appropriate data authentication method before deserializing.
-         * Be very mindful of these attack scenarios; many projects and companies
-         * and users of serialization libraries in general have been bitten by
-         * untrusted deserialization of user data in the past
-         * 
-         * @param objectToSerialize The object for which serialization is possible.
-         *
-         * @return The data object if the operation was successful, otherwise it returns null.
-         * @see #getLastOperationMessage()
-         * @see #checkLastOperationWasSuccessful()
-         */
+        /// <summary>Serialization of an object to byte data.
+        ///
+        /// Important - using binary serialization you confirm that
+        /// you understand the security risks.
+        ///
+        /// WARNING: Deserializing data from an untrusted source can introduce
+        /// security vulnerabilities to your application. Depending on the settings
+        /// used during deserialization, untrusted data may be able to execute
+        /// arbitrary code or cause a denial of service attack. Untrusted data
+        /// can come from over the network from an untrusted source
+        /// (e.g. any network client), or it can be manipulated/tampered by
+        /// an intermediary while in transit over an unauthenticated connection,
+        /// or from local storage where it may have been compromised/tampered,
+        /// or from many other sources. MathParser.org-mXparser does not provide
+        /// any means to authenticate data or secure it from tampering.
+        /// Use an appropriate data authentication method before deserializing.
+        /// Be very mindful of these attack scenarios; many projects and companies
+        /// and users of serialization libraries in general have been bitten by
+        /// untrusted deserialization of user data in the past.</summary>
+        /// <param name="objectToSerialize">The object for which serialization is possible.</param>
+        /// <returns>The data object if the operation was successful, otherwise it returns null.</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.SerializationUtils.getLastOperationMessage()"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.SerializationUtils.checkLastOperationWasSuccessful()"/>
         public static byte[] serializeToBytes(Object objectToSerialize) {
             lastOperationWasSuccessful = false;
             if (!binarySerializationEnabled) {
@@ -458,67 +435,59 @@ namespace org.mariuszgromada.math.mxparser {
                 return null;
             }
         }
-        /**
-         * Serialization of an object to String data.
-         * 
-         * Important - using binary serialization you confirm that
-         * you understand the security risks.
-         * 
-         * WARNING: Deserializing data from an untrusted source can introduce
-         * security vulnerabilities to your application. Depending on the settings
-         * used during deserialization, untrusted data may be able to execute
-         * arbitrary code or cause a denial of service attack. Untrusted data
-         * can come from over the network from an untrusted source
-         * (e.g. any network client), or it can be manipulated/tampered by
-         * an intermediary while in transit over an unauthenticated connection,
-         * or from local storage where it may have been compromised/tampered,
-         * or from many other sources. MathParser.org-mXparser does not provide
-         * any means to authenticate data or secure it from tampering.
-         * Use an appropriate data authentication method before deserializing.
-         * Be very mindful of these attack scenarios; many projects and companies
-         * and users of serialization libraries in general have been bitten by
-         * untrusted deserialization of user data in the past
-         * 
-         * @param objectToSerialize The object for which serialization is possible.
-         *
-         * @return The data string if the operation was successful, otherwise it returns null.
-         * @see #getLastOperationMessage()
-         * @see #checkLastOperationWasSuccessful()
-         */
+        /// <summary>Serialization of an object to String data.
+        ///
+        /// Important - using binary serialization you confirm that
+        /// you understand the security risks.
+        ///
+        /// WARNING: Deserializing data from an untrusted source can introduce
+        /// security vulnerabilities to your application. Depending on the settings
+        /// used during deserialization, untrusted data may be able to execute
+        /// arbitrary code or cause a denial of service attack. Untrusted data
+        /// can come from over the network from an untrusted source
+        /// (e.g. any network client), or it can be manipulated/tampered by
+        /// an intermediary while in transit over an unauthenticated connection,
+        /// or from local storage where it may have been compromised/tampered,
+        /// or from many other sources. MathParser.org-mXparser does not provide
+        /// any means to authenticate data or secure it from tampering.
+        /// Use an appropriate data authentication method before deserializing.
+        /// Be very mindful of these attack scenarios; many projects and companies
+        /// and users of serialization libraries in general have been bitten by
+        /// untrusted deserialization of user data in the past.</summary>
+        /// <param name="objectToSerialize">The object for which serialization is possible.</param>
+        /// <returns>The data string if the operation was successful, otherwise it returns null.</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.SerializationUtils.getLastOperationMessage()"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.SerializationUtils.checkLastOperationWasSuccessful()"/>
         public static String serializeToString(Object objectToSerialize) {
             lastOperationWasSuccessful = false;
             byte[] data = serializeToBytes(objectToSerialize);
             if (data == null) return null;
             return Convert.ToBase64String(data);
         }
-        /**
-         * Serialization of an object to a file.
-         * 
-         * Important - using binary serialization you confirm that
-         * you understand the security risks.
-         * 
-         * WARNING: Deserializing data from an untrusted source can introduce
-         * security vulnerabilities to your application. Depending on the settings
-         * used during deserialization, untrusted data may be able to execute
-         * arbitrary code or cause a denial of service attack. Untrusted data
-         * can come from over the network from an untrusted source
-         * (e.g. any network client), or it can be manipulated/tampered by
-         * an intermediary while in transit over an unauthenticated connection,
-         * or from local storage where it may have been compromised/tampered,
-         * or from many other sources. MathParser.org-mXparser does not provide
-         * any means to authenticate data or secure it from tampering.
-         * Use an appropriate data authentication method before deserializing.
-         * Be very mindful of these attack scenarios; many projects and companies
-         * and users of serialization libraries in general have been bitten by
-         * untrusted deserialization of user data in the past.
-         * 
-         * @param objectToSerialize The object for which serialization is possible.
-         * @param filePath  File path
-         *
-         * @return true if the operation was successful, otherwise it returns false.
-         * @see #getLastOperationMessage()
-         * @see #checkLastOperationWasSuccessful()
-         */
+        /// <summary>Serialization of an object to a file.
+        ///
+        /// Important - using binary serialization you confirm that
+        /// you understand the security risks.
+        ///
+        /// WARNING: Deserializing data from an untrusted source can introduce
+        /// security vulnerabilities to your application. Depending on the settings
+        /// used during deserialization, untrusted data may be able to execute
+        /// arbitrary code or cause a denial of service attack. Untrusted data
+        /// can come from over the network from an untrusted source
+        /// (e.g. any network client), or it can be manipulated/tampered by
+        /// an intermediary while in transit over an unauthenticated connection,
+        /// or from local storage where it may have been compromised/tampered,
+        /// or from many other sources. MathParser.org-mXparser does not provide
+        /// any means to authenticate data or secure it from tampering.
+        /// Use an appropriate data authentication method before deserializing.
+        /// Be very mindful of these attack scenarios; many projects and companies
+        /// and users of serialization libraries in general have been bitten by
+        /// untrusted deserialization of user data in the past.</summary>
+        /// <param name="objectToSerialize">The object for which serialization is possible.</param>
+        /// <param name="filePath">File path</param>
+        /// <returns>true if the operation was successful, otherwise it returns false.</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.SerializationUtils.getLastOperationMessage()"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.SerializationUtils.checkLastOperationWasSuccessful()"/>
         public static bool serializeToFile(Object objectToSerialize, String filePath) {
             lastOperationWasSuccessful = false;
             if (!binarySerializationEnabled) {
@@ -555,34 +524,28 @@ namespace org.mariuszgromada.math.mxparser {
                 return false;
             }
         }
-        /**
-         * Deserializes an object from byte data.
-         * 
-         * Important - using binary serialization you confirm that
-         * you understand the security risks.
-         * 
-         * WARNING: Deserializing data from an untrusted source can introduce
-         * security vulnerabilities to your application. Depending on the settings
-         * used during deserialization, untrusted data may be able to execute
-         * arbitrary code or cause a denial of service attack. Untrusted data
-         * can come from over the network from an untrusted source
-         * (e.g. any network client), or it can be manipulated/tampered by
-         * an intermediary while in transit over an unauthenticated connection,
-         * or from local storage where it may have been compromised/tampered,
-         * or from many other sources. MathParser.org-mXparser does not provide
-         * any means to authenticate data or secure it from tampering.
-         * Use an appropriate data authentication method before deserializing.
-         * Be very mindful of these attack scenarios; many projects and companies
-         * and users of serialization libraries in general have been bitten by
-         * untrusted deserialization of user data in the past.
-         * 
-         * @param data Data object.
-         * @param <T> Resulting class type.
-         *
-         * @return The deserialized object if operation was successful, otherwise it returns default(T).
-         * @see #getLastOperationMessage()
-         * @see #checkLastOperationWasSuccessful()
-         */
+        /// <summary>Deserializes an object from byte data.
+        ///
+        /// Important - using binary serialization you confirm that
+        /// you understand the security risks.
+        ///
+        /// WARNING: Deserializing data from an untrusted source can introduce
+        /// security vulnerabilities to your application. Depending on the settings
+        /// used during deserialization, untrusted data may be able to execute
+        /// arbitrary code or cause a denial of service attack. Untrusted data
+        /// can come from over the network from an untrusted source
+        /// (e.g. any network client), or it can be manipulated/tampered by
+        /// an intermediary while in transit over an unauthenticated connection,
+        /// or from local storage where it may have been compromised/tampered,
+        /// or from many other sources. MathParser.org-mXparser does not provide
+        /// any means to authenticate data or secure it from tampering.
+        /// Use an appropriate data authentication method before deserializing.
+        /// Be very mindful of these attack scenarios; many projects and companies
+        /// and users of serialization libraries in general have been bitten by
+        /// untrusted deserialization of user data in the past.</summary>
+        /// <param name="data">Data object.</param>
+        /// <typeparam name="T">Resulting class type.</typeparam>
+        /// <returns>The deserialized object if operation was successful, otherwise it returns null.</returns>
         public static T deserializeFromBytes <T>(byte[] data) {
             lastOperationWasSuccessful = false;
             if (!binarySerializationEnabled) {
@@ -612,34 +575,28 @@ namespace org.mariuszgromada.math.mxparser {
                 return default(T);
             }
         }
-        /**
-         * Deserializes an object from string data.
-         * 
-         * Important - using binary serialization you confirm that
-         * you understand the security risks.
-         * 
-         * WARNING: Deserializing data from an untrusted source can introduce
-         * security vulnerabilities to your application. Depending on the settings
-         * used during deserialization, untrusted data may be able to execute
-         * arbitrary code or cause a denial of service attack. Untrusted data
-         * can come from over the network from an untrusted source
-         * (e.g. any network client), or it can be manipulated/tampered by
-         * an intermediary while in transit over an unauthenticated connection,
-         * or from local storage where it may have been compromised/tampered,
-         * or from many other sources. MathParser.org-mXparser does not provide
-         * any means to authenticate data or secure it from tampering.
-         * Use an appropriate data authentication method before deserializing.
-         * Be very mindful of these attack scenarios; many projects and companies
-         * and users of serialization libraries in general have been bitten by
-         * untrusted deserialization of user data in the past.
-         * 
-         * @param data Data object.
-         * @param <T> Resulting class type.
-         *
-         * @return The deserialized object if operation was successful, otherwise it returns default(T).
-         * @see #getLastOperationMessage()
-         * @see #checkLastOperationWasSuccessful()
-         */
+        /// <summary>Deserializes an object from string data.
+        ///
+        /// Important - using binary serialization you confirm that
+        /// you understand the security risks.
+        ///
+        /// WARNING: Deserializing data from an untrusted source can introduce
+        /// security vulnerabilities to your application. Depending on the settings
+        /// used during deserialization, untrusted data may be able to execute
+        /// arbitrary code or cause a denial of service attack. Untrusted data
+        /// can come from over the network from an untrusted source
+        /// (e.g. any network client), or it can be manipulated/tampered by
+        /// an intermediary while in transit over an unauthenticated connection,
+        /// or from local storage where it may have been compromised/tampered,
+        /// or from many other sources. MathParser.org-mXparser does not provide
+        /// any means to authenticate data or secure it from tampering.
+        /// Use an appropriate data authentication method before deserializing.
+        /// Be very mindful of these attack scenarios; many projects and companies
+        /// and users of serialization libraries in general have been bitten by
+        /// untrusted deserialization of user data in the past.</summary>
+        /// <param name="data">Data object.</param>
+        /// <typeparam name="T">Resulting class type.</typeparam>
+        /// <returns>The deserialized object if operation was successful, otherwise it returns null.</returns>
         public static T deserializeFromString<T>(String data) {
             lastOperationWasSuccessful = false;
             if (!binarySerializationEnabled) {
@@ -652,34 +609,28 @@ namespace org.mariuszgromada.math.mxparser {
             }
             return deserializeFromBytes<T>(Convert.FromBase64String(data));
         }
-        /**
-         * Deserializes an object from byte data.
-         * 
-         * Important - using binary serialization you confirm that
-         * you understand the security risks.
-         * 
-         * WARNING: Deserializing data from an untrusted source can introduce
-         * security vulnerabilities to your application. Depending on the settings
-         * used during deserialization, untrusted data may be able to execute
-         * arbitrary code or cause a denial of service attack. Untrusted data
-         * can come from over the network from an untrusted source
-         * (e.g. any network client), or it can be manipulated/tampered by
-         * an intermediary while in transit over an unauthenticated connection,
-         * or from local storage where it may have been compromised/tampered,
-         * or from many other sources. MathParser.org-mXparser does not provide
-         * any means to authenticate data or secure it from tampering.
-         * Use an appropriate data authentication method before deserializing.
-         * Be very mindful of these attack scenarios; many projects and companies
-         * and users of serialization libraries in general have been bitten by
-         * untrusted deserialization of user data in the past.
-         * 
-         * @param filePath File path.
-         * @param <T> Resulting class type.
-         *
-         * @return The deserialized object if operation was successful, otherwise it returns default(T).
-         * @see #getLastOperationMessage()
-         * @see #checkLastOperationWasSuccessful()
-         */
+        /// <summary>Deserializes an object from byte data.
+        ///
+        /// Important - using binary serialization you confirm that
+        /// you understand the security risks.
+        ///
+        /// WARNING: Deserializing data from an untrusted source can introduce
+        /// security vulnerabilities to your application. Depending on the settings
+        /// used during deserialization, untrusted data may be able to execute
+        /// arbitrary code or cause a denial of service attack. Untrusted data
+        /// can come from over the network from an untrusted source
+        /// (e.g. any network client), or it can be manipulated/tampered by
+        /// an intermediary while in transit over an unauthenticated connection,
+        /// or from local storage where it may have been compromised/tampered,
+        /// or from many other sources. MathParser.org-mXparser does not provide
+        /// any means to authenticate data or secure it from tampering.
+        /// Use an appropriate data authentication method before deserializing.
+        /// Be very mindful of these attack scenarios; many projects and companies
+        /// and users of serialization libraries in general have been bitten by
+        /// untrusted deserialization of user data in the past.</summary>
+        /// <param name="filePath">File path.</param>
+        /// <typeparam name="T">Resulting class type.</typeparam>
+        /// <returns>The deserialized object if operation was successful, otherwise it returns null.</returns>
         public static T deserializeFromFile<T>(String filePath) {
             lastOperationWasSuccessful = false;
             if (!binarySerializationEnabled) {

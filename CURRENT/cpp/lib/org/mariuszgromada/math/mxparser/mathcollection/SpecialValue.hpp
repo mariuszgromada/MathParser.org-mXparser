@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialValue.hpp        6.1.0    2024-10-06
+ * @(#)SpecialValue.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -227,15 +227,26 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 	class API_VISIBLE SpecialValue {
 	public:
+		/**
+		 * \brief Main constructor - functions only with main unit
+		 * \param x  The value of x from f(x)
+		 * \param fv The value of f(x) for a given x
+		 */
 		SpecialValue(double x, double fv);
+		/**
+		 * \brief Constructor - functions only with values in radians and degrees
+		 * \param x       The value of x from f(x)
+		 * \param fv      The value of f(x) in radians for a given x
+		 * \param fvdeg   The value of f(x) in degrees for a given x
+		 */
 		SpecialValue(double x, double fv, double fvdeg);
 
 		/**
-		 * If true, special value / special case will not be recognized
+		 * \brief If true, special value / special case will not be recognized
 		 */
 		static bool specialCasesDisabled;
 		/**
-		 * Epsilon is used to compare the x value in regard to some given small interval
+		 * \brief Epsilon is used to compare the x value in regard to some given small interval
 		 */
 		static constexpr double EPSILON = 10 * BinaryRelations::DEFAULT_COMPARISON_EPSILON;
 
@@ -246,10 +257,23 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double fvdeg;
 	};
 
+	/**
+	 * \brief Main constructor - functions only with main unit
+	 * \param x  The value of x from f(x)
+	 * \param fv The value of f(x) for a given x
+	 * \return A shared pointer to the new SpecialValue instance.
+	 */
 	inline SpecialValuePtr new_SpecialValue(double x, double fv) {
 		return std::make_shared<SpecialValue>(x, fv);
 	}
 
+	/**
+	 * \brief Constructor - functions only with values in radians and degrees
+	 * \param x       The value of x from f(x)
+	 * \param fv      The value of f(x) in radians for a given x
+	 * \param fvdeg   The value of f(x) in degrees for a given x
+	 * \return A shared pointer to the new SpecialValue instance.
+	 */
 	inline SpecialValuePtr new_SpecialValue(double x, double fv, double fvdeg) {
 		return std::make_shared<SpecialValue>(x, fv, fvdeg);
 	}

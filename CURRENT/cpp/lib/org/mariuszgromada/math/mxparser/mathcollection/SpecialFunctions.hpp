@@ -231,9 +231,14 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Exponential integral function Ei(x)
+		 * \param x    Point at which function will be evaluated.
+		 * \return Exponential integral function Ei(x)
+		 */
 		static double exponentialIntegralEi(double x);
 		/**
-		 * Exponential integral function Ei(x)
+		 * \brief Exponential integral function Ei(x)
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
@@ -243,22 +248,27 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param x    Point at which function will be evaluated.
-		 * @return Exponential integral function Ei(x)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see exponentialIntegralEi(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param x    Point at which function will be evaluated.
+		 * \return Exponential integral function Ei(x)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::exponentialIntegralEi(double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double exponentialIntegralEiWithCancel(double x, int cancelId);
+		/**
+		 * \brief Logarithmic integral function li(x)
+		 * \param x   Point at which function will be evaluated.
+		 * \return Logarithmic integral function li(x)
+		 */
 		static double logarithmicIntegralLi(double x);
 		/**
-		 * Logarithmic integral function li(x)
+		 * \brief Logarithmic integral function li(x)
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
@@ -268,22 +278,27 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param x   Point at which function will be evaluated.
-		 * @return Logarithmic integral function li(x)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see logarithmicIntegralLi(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param x   Point at which function will be evaluated.
+		 * \return Logarithmic integral function li(x)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::logarithmicIntegralLi(double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double logarithmicIntegralLiWithCancel(double x, int cancelId);
+		/**
+		 * \brief Offset logarithmic integral function Li(x)
+		 * \param x   Point at which function will be evaluated.
+		 * \return Offset logarithmic integral function Li(x)
+		 */
 		static double offsetLogarithmicIntegralLi(double x);
 		/**
-		 * Offset logarithmic integral function Li(x)
+		 * \brief Offset logarithmic integral function Li(x)
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
@@ -293,32 +308,57 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param x   Point at which function will be evaluated.
-		 * @return Offset logarithmic integral function Li(x)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see offsetLogarithmicIntegralLi(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param x   Point at which function will be evaluated.
+		 * \return Offset logarithmic integral function Li(x)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::offsetLogarithmicIntegralLi(double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double offsetLogarithmicIntegralLiWithCancel(double x, int cancelId);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Calculates the error function
+		 * \param x   Point at which function will be evaluated.
+		 * \return Error function erf(x)
+		 */
 		static double erf(double x);
+		/**
+		 * \brief Calculates the complementary error function.
+		 * \param x   Point at which function will be evaluated.
+		 * \return Complementary error function erfc(x)
+		 */
 		static double erfc(double x);
+		/**
+		 * \brief Calculates the inverse error function evaluated at x.
+		 * \param x   Point at which function will be evaluated.
+		 * \return Inverse error function erfInv(x)
+		 */
 		static double erfInv(double x);
+		/**
+		 * \brief Calculates the complementary inverse error function evaluated at x.
+		 * \param z   Point at which function will be evaluated.
+		 * \return Inverse of complementary inverse error function erfcInv(x)
+		 */
 		static double erfcInv(double z);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Real valued Gamma function
+		 * \param x   Argument value
+		 * \return Returns gamma function value.
+		 */
 		static double gamma(double x);
 		/**
-		 * Real valued Gamma function
+		 * \brief Real valued Gamma function
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -329,22 +369,28 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param x   Argument value
-		 * @return  Returns gamma function value.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see gamma(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param x   Argument value
+		 * \return Returns gamma function value.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::gamma(double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double gammaWithCancel(double x, int cancelId);
+		/**
+		 * \brief Gamma function implementation based on
+		 * Lanchos approximation algorithm
+		 * \param x    Function parameter
+		 * \return Gamma function value (Lanchos approx).
+		 */
 		static double lanchosGamma(double x);
 		/**
-		 * Gamma function implementation based on
+		 * \brief Gamma function implementation based on
 		 * Lanchos approximation algorithm
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
@@ -356,22 +402,27 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param x    Function parameter
-		 * @return     Gamma function value (Lanchos approx).
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see lanchosGamma(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param x    Function parameter
+		 * \return Gamma function value (Lanchos approx).
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::lanchosGamma(double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double lanchosGammaWithCancel(double x, int cancelId);
+		/**
+		 * \brief Real valued log gamma function.
+		 * \param x  Argument value
+		 * \return Returns log value from gamma function.
+		 */
 		static double logGamma(double x);
 		/**
-		 * Real valued log gamma function.
+		 * \brief Real valued log gamma function.
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
@@ -381,22 +432,27 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param x  Argument value
-		 * @return  Returns log value from gamma function.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see logGamma(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param x  Argument value
+		 * \return Returns log value from gamma function.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::logGamma(double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double logGammaWithCancel(double x, int cancelId);
+		/**
+		 * \brief Signum from the real valued gamma function.
+		 * \param x Argument value
+		 * \return Returns signum of the gamma(x)
+		 */
 		static double sgnGamma(double x);
 		/**
-		 * Signum from the real valued gamma function.
+		 * \brief Signum from the real valued gamma function.
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
@@ -406,76 +462,94 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param x Argument value
-		 * @return  Returns signum of the gamma(x)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see sgnGamma(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param x Argument value
+		 * \return Returns signum of the gamma(x)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::sgnGamma(double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double sgnGammaWithCancel(double x, int cancelId);
+		/**
+		 * \brief Regularized lower gamma function 'P'
+		 * \param s  Argument value
+		 * \param x  Argument value
+		 * \return Value of the regularized lower gamma function 'P'.
+		 */
 		static double regularizedGammaLowerP(double s, double x);
 		/**
-		 * Regularized lower gamma function 'P'
+		 * \brief Regularized lower gamma function 'P'
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param s  Argument value
-		 * @param x  Argument value
-		 * @return Value of the regularized lower gamma function 'P'.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see regularizedGammaLowerP(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param s  Argument value
+		 * \param x  Argument value
+		 * \return Value of the regularized lower gamma function 'P'.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::regularizedGammaLowerP(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double regularizedGammaLowerPWithCancel(double s, double x, int cancelId);
+		/**
+		 * \brief Inverse of regularized lower gamma function 'P'
+		 * \param a  Argument value
+		 * \param p  Argument value
+		 * \return Value of the inverse regularized lower gamma function 'P'.
+		 */
 		static double inverseRegularizedGammaLowerP(double a, double p);
 		/**
-		 * Inverse of regularized lower gamma function 'P'
+		 * \brief Inverse of regularized lower gamma function 'P'
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param a  Argument value
-		 * @param p  Argument value
-		 * @return Value of the inverse regularized lower gamma function 'P'.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see inverseRegularizedGammaLowerP(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param a  Argument value
+		 * \param p  Argument value
+		 * \return Value of the inverse regularized lower gamma function 'P'.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::inverseRegularizedGammaLowerP(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double inverseRegularizedGammaLowerPWithCancel(double a, double p, int cancelId);
+		/**
+		 * \brief Incomplete lower gamma function
+		 * \param s   Argument value
+		 * \param x   Argument value
+		 * \return Value of the incomplete lower gamma function.
+		 */
 		static double incompleteGammaLower(double s, double x);
 		/**
-		 * Incomplete lower gamma function
+		 * \brief Incomplete lower gamma function
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
@@ -485,50 +559,62 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param s   Argument value
-		 * @param x   Argument value
-		 * @return Value of the incomplete lower gamma function.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see incompleteGammaLower(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param s   Argument value
+		 * \param x   Argument value
+		 * \return Value of the incomplete lower gamma function.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::incompleteGammaLower(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double incompleteGammaLowerWithCancel(double s, double x, int cancelId);
+		/**
+		 * \brief Regularized upper gamma function 'Q'
+		 * \param s  Argument value
+		 * \param x  Argument value
+		 * \return Value of the regularized upper gamma function 'Q'.
+		 */
 		static double regularizedGammaUpperQ(double s, double x);
 		/**
-		 * Regularized upper gamma function 'Q'
+		 * \brief Regularized upper gamma function 'Q'
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param s  Argument value
-		 * @param x  Argument value
-		 * @return Value of the regularized upper gamma function 'Q'.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see regularizedGammaUpperQ(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param s  Argument value
+		 * \param x  Argument value
+		 * \return Value of the regularized upper gamma function 'Q'.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::regularizedGammaUpperQ(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double regularizedGammaUpperQWithCancel(double s, double x, int cancelId);
+		/**
+		 * \brief Incomplete upper gamma function
+		 * \param s   Argument value
+		 * \param x   Argument value
+		 * \return Value of the incomplete upper gamma function.
+		 */
 		static double incompleteGammaUpper(double s, double x);
 		/**
-		 * Incomplete upper gamma function
+		 * \brief Incomplete upper gamma function
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
@@ -538,52 +624,63 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param s   Argument value
-		 * @param x   Argument value
-		 * @return Value of the incomplete upper gamma function.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see incompleteGammaUpper(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param s   Argument value
+		 * \param x   Argument value
+		 * \return Value of the incomplete upper gamma function.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::incompleteGammaUpper(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double incompleteGammaUpperWithCancel(double s, double x, int cancelId);
+		/**
+		 * \brief Digamma function as the logarithmic derivative of the Gamma special function
+		 * \param x   Argument value
+		 * \return Approximated value of the digamma function.
+		 */
 		static double diGamma(double x);
 		/**
-		 * Digamma function as the logarithmic derivative of the Gamma special function
+		 * \brief Digamma function as the logarithmic derivative of the Gamma special function
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param x   Argument value
-		 * @return Approximated value of the digamma function.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see diGamma(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param x   Argument value
+		 * \return Approximated value of the digamma function.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::diGamma(double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double diGammaWithCancel(double x, int cancelId);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Log Beta special function
+		 * \param x   Argument value
+		 * \param y   Argument value
+		 * \return Return logBeta special function (for positive x and positive y)
+		 */
 		static double logBeta(double x, double y);
 		/**
-		 * Log Beta special function
+		 * \brief Log Beta special function
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
@@ -593,23 +690,29 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param x   Argument value
-		 * @param y   Argument value
-		 * @return  Return logBeta special function (for positive x and positive y)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see logBeta(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param x   Argument value
+		 * \param y   Argument value
+		 * \return Return logBeta special function (for positive x and positive y)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::logBeta(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double logBetaWithCancel(double x, double y, int cancelId);
+		/**
+		 * \brief Beta special function
+		 * \param x   Argument value
+		 * \param y   Argument value
+		 * \return Return Beta special function (for positive x and positive y)
+		 */
 		static double beta(double x, double y);
 		/**
-		 * Beta special function
+		 * \brief Beta special function
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
@@ -619,23 +722,31 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param x   Argument value
-		 * @param y   Argument value
-		 * @return  Return Beta special function (for positive x and positive y)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see beta(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param x   Argument value
+		 * \param y   Argument value
+		 * \return Return Beta special function (for positive x and positive y)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::beta(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double betaWithCancel(double x, double y, int cancelId);
+		/**
+		 * \brief Log Incomplete Beta special function
+		 * \param a   Argument value
+		 * \param b   Argument value
+		 * \param x   Argument value
+		 * \return Return incomplete Beta special function
+		 * for positive a and positive b and x between 0 and 1
+		 */
 		static double incompleteBeta(double a, double b, double x);
 		/**
-		 * Log Incomplete Beta special function
+		 * \brief Log Incomplete Beta special function
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
@@ -645,55 +756,70 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param a   Argument value
-		 * @param b   Argument value
-		 * @param x   Argument value
-		 * @return  Return incomplete Beta special function
+		 * \param a   Argument value
+		 * \param b   Argument value
+		 * \param x   Argument value
+		 * \return Return incomplete Beta special function
 		 * for positive a and positive b and x between 0 and 1
-		 *
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see incompleteBeta(double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::incompleteBeta(double,double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double incompleteBetaWithCancel(double a, double b, double x, int cancelId);
+		/**
+		 * \brief Regularized incomplete Beta special function
+		 * \param a   Argument value
+		 * \param b   Argument value
+		 * \param x   Argument value
+		 * \return Return incomplete Beta special function
+		 * for positive a and positive b and x between 0 and 1
+		 */
 		static double regularizedBeta(double a, double b, double x);
 		/**
-		 * Regularized incomplete Beta special function
+		 * \brief Regularized incomplete Beta special function
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param a   Argument value
-		 * @param b   Argument value
-		 * @param x   Argument value
-		 * @return  Return incomplete Beta special function
+		 * \param a   Argument value
+		 * \param b   Argument value
+		 * \param x   Argument value
+		 * \return Return incomplete Beta special function
 		 * for positive a and positive b and x between 0 and 1
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see regularizedBeta(double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::regularizedBeta(double,double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double regularizedBetaWithCancel(double a, double b, double x, int cancelId);
+		/**
+		 * \brief Inerse regularized incomplete Beta special function
+		 * \param a   Argument value
+		 * \param b   Argument value
+		 * \param p   Argument value
+		 * \return Return inverse incomplete Beta special function
+		 * for positive a and positive b and x between 0 and 1
+		 */
 		static double inverseRegularizedBeta(double a, double b, double p);
 		/**
-		 * Inerse regularized incomplete Beta special function
+		 * \brief Inerse regularized incomplete Beta special function
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
@@ -703,28 +829,35 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param a   Argument value
-		 * @param b   Argument value
-		 * @param p   Argument value
-		 * @return  Return inverse incomplete Beta special function
+		 * \param a   Argument value
+		 * \param b   Argument value
+		 * \param p   Argument value
+		 * \return Return inverse incomplete Beta special function
 		 * for positive a and positive b and x between 0 and 1
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see inverseRegularizedBeta(double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::inverseRegularizedBeta(double,double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double inverseRegularizedBetaWithCancel(double a, double b, double p, int cancelId);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Real-valued Lambert-W function approximation.
+		 * \param x      Point at which function will be approximated
+		 * \param branch Branch id, 0 for principal branch, -1 for the other branch
+		 * \return Principal branch for x greater or equal than -1/e, otherwise Double.NaN.
+		 *               Minus 1 branch for x greater or equal than -1/e and lower than 0, otherwise Double.NaN.
+		 */
 		static double lambertW(double x, double branch);
 		/**
-		 * Real-valued Lambert-W function approximation.
+		 * \brief Real-valued Lambert-W function approximation.
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
@@ -734,27 +867,37 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param x      Point at which function will be approximated
-		 * @param branch Branch id, 0 for principal branch, -1 for the other branch
-		 * @return       Principal branch for x greater or equal than -1/e, otherwise Double::NaN.
-		 *               Minus 1 branch for x greater or equal than -1/e and lower than 0, otherwise Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see lambertW(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param x      Point at which function will be approximated
+		 * \param branch Branch id, 0 for principal branch, -1 for the other branch
+		 * \return Principal branch for x greater or equal than -1/e, otherwise Double.NaN.
+		 *               Minus 1 branch for x greater or equal than -1/e and lower than 0, otherwise Double.NaN.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::lambertW(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double lambertWWithCancel(double x, double branch, int cancelId);
 
 		// ***********************************************************
 
+		/**
+		 * \brief The Gaussian or ordinary hypergeometric special function
+		 * \param a    Argument value
+		 * \param b    Argument value
+		 * \param c    Argument value
+		 * \param z    Argument value
+		 * \param maxIterations   Stop condition
+		 * \param precision   Stop condition
+		 * \return Returns hypergeometric special function approximation
+		 */
 		static double hypergeometricF(double a, double b, double c, double z, double maxIterations, double precision);
 		/**
-		 * The Gaussian or ordinary hypergeometric special function
+		 * \brief The Gaussian or ordinary hypergeometric special function
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
@@ -764,22 +907,22 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param a    Argument value
-		 * @param b    Argument value
-		 * @param c    Argument value
-		 * @param z    Argument value
-		 * @param maxIterations   Stop condition
-		 * @param precision   Stop condition
-		 * @return   Returns hypergeometric special function approximation
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see hypergeometricF(double,double,double,double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param a    Argument value
+		 * \param b    Argument value
+		 * \param c    Argument value
+		 * \param z    Argument value
+		 * \param maxIterations   Stop condition
+		 * \param precision   Stop condition
+		 * \return Returns hypergeometric special function approximation
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::hypergeometricF(double,double,double,double,double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double hypergeometricFWithCancel(double a, double b, double c, double z, double maxIterations, double precision, int cancelId);
 

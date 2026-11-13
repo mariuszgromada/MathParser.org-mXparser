@@ -1,5 +1,5 @@
 /*
- * @(#)LaTeXParser.cs        6.2.0    2026-11-11
+ * @(#)LaTeXParser.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -225,48 +225,40 @@ using org.mariuszgromada.math.mxparser.parsertokens;
 namespace org.mariuszgromada.math.mxparser {
 
 
-/**
- * Structural parser for a deliberately limited arithmetic subset of mathematical
- * LaTeX fragments. Parsing preserves symbols and decimal spelling; it never
- * evaluates a formula, resolves definitions or expands TeX macros.
- *
- * <p><b>Experimental API:</b> this class and its nested types are a public
- * foundation for future import, not a stable import contract. The API, supported
- * subset and metadata may evolve before stabilization. This status is documented,
- * not a runtime switch or a deprecation of the established export API.</p>
- *
- * <p>Supports +, -, explicit and juxtaposed multiplication, /, fractions,
- * superscripts, factorial, percent, floor and the named remainder operation.
- * Parentheses, braces and matching scalable parentheses/floors are recognized.
- * Plain letters are individual symbols: xy is a product, while
- * {@code \mathit{xy}} is one symbol. Unknown commands and unsupported constructs
- * are errors, not guessed functions. Function-like juxtaposition (also after
- * a sign or symbolic power) requires an explicit multiplication operator.
- * This is a foundation for future import,
- * not a general TeX processor or a complete mXparser LaTeX importer.</p>
- *
- * <p>All offsets are zero-based UTF-16 offsets, with exclusive end offsets.
- * The symbol alphabet is ASCII letters and the closed single-character alphabet
- * defined by ParserSymbol; named symbols follow mXparser's identifier forms.
- * Only ASCII whitespace and the documented TeX spacing commands are ignored.
- * Each call owns its parser state; returned nodes and child lists are immutable.
- * At most 1,000,000 input characters, 100,000 nodes (including discarded grouping
- * wrappers), and 128 simultaneous recursive operand levels are accepted.</p>
- *
- * @since 6.1.2
- *
- * @version        6.2.0
- */
-/// <summary>Experimental structural parser for a limited arithmetic subset of LaTeX.
-/// Preserves spelling, symbol typography and UTF-16 source offsets without evaluation.
-/// This API and its nested types may evolve before stabilization; it is not a complete importer.</summary>
+/// <summary>Structural parser for a deliberately limited arithmetic subset of mathematical
+/// LaTeX fragments. Parsing preserves symbols and decimal spelling; it never
+/// evaluates a formula, resolves definitions or expands TeX macros.
+///
+/// <para><b>Experimental API:</b> this class and its nested types are a public
+/// foundation for future import, not a stable import contract. The API, supported
+/// subset and metadata may evolve before stabilization. This status is documented,
+/// not a runtime switch or a deprecation of the established export API.</para>
+///
+/// <para>Supports +, -, explicit and juxtaposed multiplication, /, fractions,
+/// superscripts, factorial, percent, floor and the named remainder operation.
+/// Parentheses, braces and matching scalable parentheses/floors are recognized.
+/// Plain letters are individual symbols: xy is a product, while
+/// <c>\mathit{xy}</c> is one symbol. Unknown commands and unsupported constructs
+/// are errors, not guessed functions. Function-like juxtaposition (also after
+/// a sign or symbolic power) requires an explicit multiplication operator.
+/// This is a foundation for future import,
+/// not a general TeX processor or a complete mXparser LaTeX importer.</para>
+///
+/// <para>All offsets are zero-based UTF-16 offsets, with exclusive end offsets.
+/// The symbol alphabet is ASCII letters and the closed single-character alphabet
+/// defined by ParserSymbol; named symbols follow mXparser's identifier forms.
+/// Only ASCII whitespace and the documented TeX spacing commands are ignored.
+/// Each call owns its parser state; returned nodes and child lists are immutable.
+/// At most 1,000,000 input characters, 100,000 nodes (including discarded grouping
+/// wrappers), and 128 simultaneous recursive operand levels are accepted.</para></summary>
+/// <remarks><para>Since: 6.2.0</para><para>Version: 6.2.0</para></remarks>
 public sealed class LaTeXParser {
 	private LaTeXParser() { }
 	private const int MAX_INPUT = 1000000, MAX_NODES = 100000, MAX_DEPTH = 128;
 	private static readonly String UNICODE_SYMBOLS = makeUnicodeSymbols();
 
-	/** Read the existing closed alphabet, not a Unicode database or a second table.
-	 * The source definition must remain an alternation of single BMP characters. */
+	/// <summary>Read the existing closed alphabet, not a Unicode database or a second table.
+	/// The source definition must remain an alternation of single BMP characters.</summary>
 	private static String makeUnicodeSymbols() {
 		String definition = ParserSymbol.UNICODE_NAME_REG_EXP;
 		int end = definition.Length - 1;
@@ -284,30 +276,21 @@ public sealed class LaTeXParser {
 		return symbols.ToString();
 	}
 
-	/** Experimental mathematical operations represented by the supported subset.
-	 *
-	 * @version        6.2.0
-	 */
-	/// <summary>Experimental mathematical operations in the supported arithmetic subset.</summary>
+	/// <summary>Experimental mathematical operations represented by the supported subset.</summary>
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	public enum Kind {
 		NUMBER, SYMBOL, POSITIVE, NEGATIVE, ADD, SUBTRACT, MULTIPLY, DIVIDE,
 		POWER, FACTORIAL, PERCENT, FLOOR, REMAINDER
 	}
 
-	/** Experimental source typography of a symbol; no constant/unit meaning is inferred.
-	 *
-	 * @version        6.2.0
-	 */
-	/// <summary>Experimental symbol typography; no constant or unit meaning is inferred.</summary>
+	/// <summary>Experimental source typography of a symbol; no constant/unit meaning is inferred.</summary>
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	public enum SymbolStyle {
 		DEFAULT, ITALIC, UPRIGHT
 	}
 
-	/** Experimental immutable mathematical structure, spelling and source range.
-	 *
-	 * @version        6.2.0
-	 */
-	/// <summary>Experimental immutable mathematical structure with an exact UTF-16 source range.</summary>
+	/// <summary>Experimental immutable mathematical structure, spelling and source range.</summary>
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	public sealed class Node {
 		internal readonly Kind kind;
 		internal readonly String text, source;
@@ -323,43 +306,35 @@ public sealed class LaTeXParser {
 			this.endOffset = end;
 			this.children = Array.AsReadOnly((Node[])children.Clone());
 		}
-		/** @return The mathematical operation; no numerical value is computed. */
-		/// <summary>Mathematical operation; no numerical value is computed.</summary>
+		/// <summary>Returns the mathematical operation represented by this node.</summary>
+		/// <returns>The operation kind; no numerical value is computed.</returns>
 		public Kind getKind() { return kind; }
-		/** @return Original number spelling, decoded symbol name, or "" for an operation. */
-		/// <summary>Original number spelling, decoded symbol name, or an empty string for an operation.</summary>
+		/// <summary>Returns the number spelling or decoded symbol name.</summary>
+		/// <returns>The original number spelling, decoded symbol name, or an empty string for an operation.</returns>
 		public String getText() { return text; }
-		/** @return Source typography for SYMBOL; DEFAULT for other kinds.
-		 * Typography alone does not identify a mathematical constant or a unit. */
-		/// <summary>Source typography for SYMBOL; DEFAULT for other kinds. Does not resolve constants or units.</summary>
+		/// <summary>Returns the source typography of a symbol.</summary>
+		/// <returns>The typography for a SYMBOL node, or DEFAULT for other kinds; no constant or unit meaning is inferred.</returns>
 		public SymbolStyle getSymbolStyle() { return symbolStyle; }
-		/** @return Immutable operands in mathematical order. */
-		/// <summary>Immutable operands in mathematical order.</summary>
+		/// <summary>Returns the operands in mathematical order.</summary>
+		/// <returns>An immutable list of child nodes.</returns>
 		public IList<Node> getChildren() { return children; }
-		/** @return Zero-based UTF-16 start offset, inclusive. */
-		/// <summary>Zero-based inclusive UTF-16 start offset.</summary>
+		/// <summary>Returns the inclusive start of this node in the source.</summary>
+		/// <returns>The zero-based UTF-16 start offset.</returns>
 		public int getStartOffset() { return startOffset; }
-		/** @return Zero-based UTF-16 end offset, exclusive. */
-		/// <summary>Zero-based exclusive UTF-16 end offset.</summary>
+		/// <summary>Returns the exclusive end of this node in the source.</summary>
+		/// <returns>The zero-based UTF-16 end offset.</returns>
 		public int getEndOffset() { return endOffset; }
-		/** @return Exact source spelling, including any enclosing grouping. */
-		/// <summary>Exact source spelling, including enclosing grouping.</summary>
+		/// <summary>Returns the exact source text covered by this node.</summary>
+		/// <returns>The original source spelling, including any enclosing grouping.</returns>
 		public String getSourceText() { return source.Substring(startOffset, endOffset - startOffset); }
 	}
 
-	/**
-	 * Parses one nonempty mathematical fragment into an immutable structure.
-	 * Delimiters such as $...$ and full documents are outside this subset.
-	 *
-	 * @param latex Mathematical LaTeX fragment.
-	 * @return The symbolic structure, without calculation or simplification.
-	 * @throws IllegalArgumentException For null/empty input, unsupported syntax,
-	 *         malformed input or a resource limit; message includes a UTF-16 offset.
-	 */
-	/// <summary>Parses a nonempty mathematical fragment without calculation or simplification.</summary>
-	/// <param name="latex">Mathematical LaTeX fragment without math-mode delimiters.</param>
-	/// <returns>The immutable symbolic structure.</returns>
-	/// <exception cref="ArgumentException">Null, malformed, unsupported or oversized input; message includes a UTF-16 offset.</exception>
+	/// <summary>Parses one nonempty mathematical fragment into an immutable structure.
+	/// Delimiters such as $...$ and full documents are outside this subset.</summary>
+	/// <param name="latex">Mathematical LaTeX fragment.</param>
+	/// <returns>The symbolic structure, without calculation or simplification.</returns>
+	/// <exception cref="System.ArgumentException">For null/empty input, unsupported syntax,
+	///         malformed input or a resource limit; message includes a UTF-16 offset.</exception>
 	public static Node parse(String latex) {
 		if (latex == null) throw new ArgumentException("LaTeX parse: null input (offset 0)");
 		if (latex.Length > MAX_INPUT) throw new ArgumentException("LaTeX parse: input limit exceeded (offset 0)");
@@ -370,7 +345,7 @@ public sealed class LaTeXParser {
 		return result;
 	}
 
-	/** @version        6.2.0 */
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	private sealed class Parser {
 		internal readonly String source;
 		internal int position, depth, nodes;
@@ -409,8 +384,8 @@ public sealed class LaTeXParser {
 				else return;
 			}
 		}
-		/** TeX command arguments skip ordinary whitespace, not spacing macros:
-		 * a macro such as quad is itself the next argument token. */
+		/// <summary>TeX command arguments skip ordinary whitespace, not spacing macros:
+		/// a macro such as quad is itself the next argument token.</summary>
 		private void argumentSpace() {
 			while (position < source.Length && whitespace(source[position])) position++;
 		}

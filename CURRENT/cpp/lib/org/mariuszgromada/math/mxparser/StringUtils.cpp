@@ -1,5 +1,5 @@
 /*
- * @(#)StringUtils.cpp        6.1.0    2024-10-06
+ * @(#)StringUtils.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -278,15 +278,6 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 		JSON_PART_DELIMITER = StringInvariant::COMMA + StringInvariant::NEW_LINE;
 	);
 
-	/**
-	 * Function used to introduce some compatibility
-	 * between JAVA and C# while regexp matching.
-	 *
-	 * @param str         String
-	 * @param pattern     Pattern (regexp)
-	 *
-	 * @return            True if pattern matches entirely, False otherwise
-	 */
 	API_VISIBLE bool StringUtils::regexMatch(const String &str, const String &pattern) {
 		std::wregex re(UTF("^(") + pattern + UTF(")$"));
 		return std::regex_match(str, re);
@@ -672,47 +663,22 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 		return str;
 	}
 
-	/**
-	 * Converts integer number to hex StringPtr (plain text)
-	 *
-	 * @param number   Integer number
-	 * @return         Hex StringPtr (i.e. FF23)
-	 */
 	API_VISIBLE StringPtr StringUtils::numberToHexString(int number) {
 		STRINGSTREAM ss;
 		ss << std::hex << number;
 		return S(ss.str());
 	}
 
-	/**
-	 * Converts long number to hex StringPtr (plain text)
-	 *
-	 * @param number   Long number
-	 * @return         Hex StringPtr (i.e. FF23)
-	 */
 	API_VISIBLE StringPtr StringUtils::numberToHexString(Long number) {
 		STRINGSTREAM ss;
 		ss << std::hex << number;
 		return S(ss.str());
 	}
 
-	/**
-	 * Converts (long)double number to hex StringPtr (plain text)
-	 *
-	 * @param number   Double number
-	 * @return         Hex StringPtr (i.e. FF23)
-	 */
 	API_VISIBLE StringPtr StringUtils::numberToHexString(double number) {
 		return numberToHexString(native_numeric_detail::javaLongCast(number));
 	}
 
-	/**
-	 * Converts hex StringPtr into ASCII string, where each letter is
-	 * represented by two hex digits (byte) from the hex string.
-	 *
-	 * @param hexString   Hex StringPtr (i.e. 48656C6C6F)
-	 * @return         ASCII StringPtr (i.e. '48656C6C6F' = 'Hello')
-	 */
 	API_VISIBLE StringPtr StringUtils::hexString2AsciiString(const StringPtr &hexString) {
 		StringPtr hexByteStr;
 		int hexByteInt;
@@ -725,38 +691,14 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 		return asciiString;
 	}
 
-	/**
-	 * Converts number into ASCII string, where each letter is
-	 * represented by two hex digits (byte) from the hex representation
-	 * of the original number
-	 *
-	 * @param number   Integer number (i.e. 310939249775 = '48656C6C6F')
-	 * @return         ASCII StringPtr (i.e. '48656C6C6F' = 'Hello')
-	 */
 	API_VISIBLE StringPtr StringUtils::numberToAsciiString(int number) {
 		return hexString2AsciiString(numberToHexString(number));
 	}
 
-	/**
-	 * Converts number into ASCII string, where each letter is
-	 * represented by two hex digits (byte) from the hex representation
-	 * of the original number
-	 *
-	 * @param number   Long number (i.e. 310939249775 = '48656C6C6F')
-	 * @return         ASCII StringPtr (i.e. '48656C6C6F' = 'Hello')
-	 */
 	API_VISIBLE StringPtr StringUtils::numberToAsciiString(Long number) {
 		return hexString2AsciiString(numberToHexString(number));
 	}
 
-	/**
-	 * Converts (long)double number into ASCII string, where each letter is
-	 * represented by two hex digits (byte) from the hex representation
-	 * of the original number cast to long type.
-	 *
-	 * @param number   Double number (i.e. 310939249775 = '48656C6C6F')
-	 * @return         ASCII StringPtr (i.e. '48656C6C6F' = 'Hello')
-	 */
 	API_VISIBLE StringPtr StringUtils::numberToAsciiString(double number) {
 		return hexString2AsciiString(numberToHexString(number));
 	}

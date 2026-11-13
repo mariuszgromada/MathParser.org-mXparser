@@ -1,5 +1,5 @@
 /*
- * @(#)Units.java        6.1.0    2024-10-06
+ * @(#)Units.java        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -232,7 +232,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Unit;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        6.2.0
  */
 public final class Units {
 	/* ===========================================
@@ -709,13 +709,10 @@ public final class Units {
 	 */
 	public static final double SECOND_ARC = MINUTE_ARC / 60.0;
 	/**
-	 * Returns unit value, where unit is represented by the
-	 * token id in the Unit class
+	 * Returns the numeric value of a built-in unit or prefix.
 	 *
-	 * @param unitId
-	 * @return Returns unit value if id is known, otherwise Double.NaN is returned.
-	 *
-	 * @see Unit
+	 * @param unitId The token identifier defined by {@link org.mariuszgromada.math.mxparser.parsertokens.Unit}.
+	 * @return The unit or prefix value, or {@code Double.NaN} if the identifier is unknown.
 	 */
 	public static double getUnitValue(int unitId) {
 		switch (unitId) {

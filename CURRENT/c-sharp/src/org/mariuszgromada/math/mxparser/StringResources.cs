@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.cs        6.1.0    2024-10-08
+ * @(#)StringResources.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -219,145 +219,97 @@ using System;
 using System.Globalization;
 
 namespace org.mariuszgromada.math.mxparser {
-    /**
-     * A class containing definition of user (interface) language.
-     * List of available languages:
-     * English, French, German, Italian, Polish, Portuguese, Spanish, Chinese.
-     *
-     * Class also allows a new user language definition - for instance
-     * user defined translation. Translation can be done via extending
-     * this class.
-     *
-     * @author         <b>Mariusz Gromada</b><br>
-     *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-     *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-     *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-     *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-     *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-     *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-     *
-     * @version        6.1.0
-     *
-     * @see StringModel
-     * @see StringModel#setUserLanguage(UserLanguage)
-     * @see StringModel#getUserLanguage()
-     */
+    /// <summary>A class containing definition of user (interface) language.
+    /// List of available languages:
+    /// English, French, German, Italian, Polish, Portuguese, Spanish, Chinese.
+    ///
+    /// Class also allows a new user language definition - for instance
+    /// user defined translation. Translation can be done via extending
+    /// this class.</summary>
+    /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel"/>
+    /// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+    ///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+    ///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+    ///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+    ///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+    ///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+    ///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para><para>See also: <c>StringModel#setUserLanguage(UserLanguage)</c></para><para>See also: <c>StringModel#getUserLanguage()</c></para></remarks>
     public class StringResources {
-        /**
-         * Default translations, currently English
-         *
-         * @return Returns a new instance of StringResources object
-         * containing Default translations, currently English.
-         *
-         * @see StringModel
-         * @see StringModel#setStringResources(StringResources)
-         * @see StringModel#setDefaultStringResources()
-         */
+        /// <summary>Default translations, currently English</summary>
+        /// <returns>Returns a new instance of StringResources object
+        /// containing Default translations, currently English.</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setStringResources(StringResources)"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setDefaultStringResources()"/>
         public static StringResources languageDefault() { return new StringResources(); }
-        /**
-         * Simplified Chinese translations
-         *
-         * @return Returns a new instance of StringResources object
-         * containing English translations.
-         *
-         * @see StringModel
-         * @see StringModel#setStringResources(StringResources)
-         * @see StringModel#setDefaultStringResources()
-         */
+        /// <summary>Simplified Chinese translations</summary>
+        /// <returns>Returns a new instance of StringResources object
+        /// containing English translations.</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setStringResources(StringResources)"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setDefaultStringResources()"/>
         public static StringResources languageChinese() { return new StringResourcesChinese(); }
-        /**
-         * English translations
-         *
-         * @return Returns a new instance of StringResources object
-         * containing English translations.
-         *
-         * @see StringModel
-         * @see StringModel#setStringResources(StringResources)
-         * @see StringModel#setDefaultStringResources()
-         */
+        /// <summary>English translations</summary>
+        /// <returns>Returns a new instance of StringResources object
+        /// containing English translations.</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setStringResources(StringResources)"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setDefaultStringResources()"/>
         public static StringResources languageEnglish() { return new StringResources(); }
-        /**
-         * French translations
-         *
-         * @return Returns a new instance of StringResources object
-         * containing French translations.
-         *
-         * @see StringModel
-         * @see StringModel#setStringResources(StringResources)
-         * @see StringModel#setDefaultStringResources()
-         */
+        /// <summary>French translations</summary>
+        /// <returns>Returns a new instance of StringResources object
+        /// containing French translations.</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setStringResources(StringResources)"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setDefaultStringResources()"/>
         public static StringResources languageFrench() { return new StringResourcesFrench(); }
-        /**
-         * German translations
-         *
-         * @return Returns a new instance of StringResources object
-         * containing German translations.
-         *
-         * @see StringModel
-         * @see StringModel#setStringResources(StringResources)
-         * @see StringModel#setDefaultStringResources()
-         */
+        /// <summary>German translations</summary>
+        /// <returns>Returns a new instance of StringResources object
+        /// containing German translations.</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setStringResources(StringResources)"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setDefaultStringResources()"/>
         public static StringResources languageGerman() { return new StringResourcesGerman(); }
-        /**
-         * Italian translations
-         *
-         * @return Returns a new instance of StringResources object
-         * containing Italian translations.
-         *
-         * @see StringModel
-         * @see StringModel#setStringResources(StringResources)
-         * @see StringModel#setDefaultStringResources()
-         */
+        /// <summary>Italian translations</summary>
+        /// <returns>Returns a new instance of StringResources object
+        /// containing Italian translations.</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setStringResources(StringResources)"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setDefaultStringResources()"/>
         public static StringResources languageItalian() { return new StringResourcesItalian(); }
-        /**
-         * Polish translations
-         *
-         * @return Returns a new instance of StringResources object
-         * containing Polish translations.
-         *
-         * @see StringModel
-         * @see StringModel#setStringResources(StringResources)
-         * @see StringModel#setDefaultStringResources()
-         */
+        /// <summary>Polish translations</summary>
+        /// <returns>Returns a new instance of StringResources object
+        /// containing Polish translations.</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setStringResources(StringResources)"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setDefaultStringResources()"/>
         public static StringResources languagePolish() { return new StringResourcesPolish(); }
-        /**
-         * Portuguese translations
-         *
-         * @return Returns a new instance of StringResources object
-         * containing Portuguese translations.
-         *
-         * @see StringModel
-         * @see StringModel#setStringResources(StringResources)
-         * @see StringModel#setDefaultStringResources()
-         */
+        /// <summary>Portuguese translations</summary>
+        /// <returns>Returns a new instance of StringResources object
+        /// containing Portuguese translations.</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setStringResources(StringResources)"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setDefaultStringResources()"/>
         public static StringResources languagePortuguese() { return new StringResourcesPortuguese(); }
-        /**
-         * Spanish translations
-         *
-         * @return Returns a new instance of StringResources object
-         * containing Spanish translations.
-         *
-         * @see StringModel
-         * @see StringModel#setStringResources(StringResources)
-         * @see StringModel#setDefaultStringResources()
-         */
+        /// <summary>Spanish translations</summary>
+        /// <returns>Returns a new instance of StringResources object
+        /// containing Spanish translations.</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setStringResources(StringResources)"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setDefaultStringResources()"/>
         public static StringResources languageSpanish() { return new StringResourcesSpanish(); }
 
-        /**
-         * Returns translation that best matches to provided language code.
-         * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish, Chinese.
-         *
-         * @param language     Supported language codes: en, fr, de, it, pl, pt, es, zh.
-         * @return             Returns translation that matches the language code.
-         *                     If language code does not belong to the supported language codes
-         *                     English translation is returned.
-         *
-         * @see StringModel
-         * @see StringModel#setStringResources(StringResources)
-         * @see StringModel#setDefaultStringResources()
-         */
+        /// <summary>Returns translation that best matches to provided language code.
+        /// Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish, Simplified Chinese.</summary>
+        /// <param name="language">Supported language codes: en, fr, de, it, pl, pt, es, zh.</param>
+        /// <returns>Returns translation that matches the language code.
+        ///                     If language code does not belong to the supported language codes
+        ///                     English translation is returned.</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setStringResources(StringResources)"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setDefaultStringResources()"/>
         public static StringResources bestMatchingLanguage(String language) {
             if (language.Equals("en")) return languageEnglish();
             if (language.Equals("fr")) return languageFrench();
@@ -370,36 +322,28 @@ namespace org.mariuszgromada.math.mxparser {
 			return StringResources.languageEnglish(); // Default to English if no match is found
         }
 
-        /**
-         * Returns translation that best matches to provided locale.
-         * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish, Chinese.
-         *
-         * @param locale    Supported locale language codes: en, fr, de, it, pl, pt, es, zh.
-         * @return          Returns translation that matches the language code in locale.
-         *                  If language code does not belong to the supported languages
-         *                  English translation is returned.
-         *
-         * @see StringModel
-         * @see StringModel#setStringResources(StringResources)
-         * @see StringModel#setDefaultStringResources()
-         */
+        /// <summary>Returns translation that best matches to provided locale.
+        /// Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish, Simplified Chinese.</summary>
+        /// <param name="locale">Supported locale language codes: en, fr, de, it, pl, pt, es, zh.</param>
+        /// <returns>Returns translation that matches the language code in locale.
+        ///                  If language code does not belong to the supported languages
+        ///                  English translation is returned.</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setStringResources(StringResources)"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setDefaultStringResources()"/>
         public static StringResources bestMatchingLanguage(CultureInfo locale) {
             String lang = locale.TwoLetterISOLanguageName;
             return bestMatchingLanguage(lang);
         }
 
-        /**
-         * Returns translation that best matches to the current system locale.
-         * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish, Chinese.
-         *
-         * @return          Returns translation that matches the language code in locale.
-         *                  If language code does not belong to the supported languages
-         *                  English translation is returned.
-         *
-         * @see StringModel
-         * @see StringModel#setStringResources(StringResources)
-         * @see StringModel#setDefaultStringResources()
-         */
+        /// <summary>Returns translation that best matches to the current system locale.
+        /// Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish, Simplified Chinese.</summary>
+        /// <returns>Returns translation that matches the language code in locale.
+        ///                  If language code does not belong to the supported languages
+        ///                  English translation is returned.</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setStringResources(StringResources)"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setDefaultStringResources()"/>
         public static StringResources bestMatchingLanguage() {
             return bestMatchingLanguage(CultureInfo.CurrentCulture);
         }
@@ -995,2213 +939,1135 @@ namespace org.mariuszgromada.math.mxparser {
         internal const String DEFAULT_UNIT_MINUTE_ARC = "Minute of arc";
         internal const String DEFAULT_UNIT_SECOND_ARC = "Second of arc";
 
-        /**
-         * Default String = "English"
-         */
+        /// <summary>Default String = "English"</summary>
         public String USER_LANGUAGE = DEFAULT_USER_LANGUAGE;
         // -------------------------------------------------
-        /**
-         * Default String = "Starting syntax check..."
-         */
+        /// <summary>Default String = "Starting syntax check..."</summary>
         public String STARTING_SYNTAX_CHECK = DEFAULT_STARTING_SYNTAX_CHECK;
-        /**
-         * Default String = "No errors detected."
-         */
+        /// <summary>Default String = "No errors detected."</summary>
         public String NO_ERRORS_DETECTED = DEFAULT_NO_ERRORS_DETECTED;
-        /**
-         * Default String = "No errors detected in argument definition."
-         */
+        /// <summary>Default String = "No errors detected in argument definition."</summary>
         public String NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION = DEFAULT_NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION;
-        /**
-         * Default String = "No errors detected in recursive argument definition."
-         */
+        /// <summary>Default String = "No errors detected in recursive argument definition."</summary>
         public String NO_ERRORS_DETECTED_IN_RECURSIVE_ARGUMENT_DEFINITION = DEFAULT_NO_ERRORS_DETECTED_IN_RECURSIVE_ARGUMENT_DEFINITION;
-        /**
-         * Default String = "No errors detected in function definition."
-         */
+        /// <summary>Default String = "No errors detected in function definition."</summary>
         public String NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION = DEFAULT_NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION;
-        /**
-         * Default String = "No errors detected in constant definition."
-         */
+        /// <summary>Default String = "No errors detected in constant definition."</summary>
         public String NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION = DEFAULT_NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION;
-        /**
-         * Default String = "A lexical error has been found."
-         */
+        /// <summary>Default String = "A lexical error has been found."</summary>
         public String LEXICAL_ERROR_HAS_BEEN_FOUND = DEFAULT_LEXICAL_ERROR_HAS_BEEN_FOUND;
-        /**
-         * Default String = "Errors have been found."
-         */
+        /// <summary>Default String = "Errors have been found."</summary>
         public String ERRORS_HAVE_BEEN_FOUND = DEFAULT_ERRORS_HAVE_BEEN_FOUND;
-        /**
-         * Default String = "The syntax has already been checked - no errors detected."
-         */
+        /// <summary>Default String = "The syntax has already been checked - no errors detected."</summary>
         public String ALREADY_CHECKED_NO_ERRORS = DEFAULT_ALREADY_CHECKED_NO_ERRORS;
-        /**
-         * Default String = "The syntax status is unknown."
-         */
+        /// <summary>Default String = "The syntax status is unknown."</summary>
         public String SYNTAX_STATUS_UNKNOWN = DEFAULT_SYNTAX_STATUS_UNKNOWN;
-        /**
-         * Default String = "There is a problem with expression syntax."
-         */
+        /// <summary>Default String = "There is a problem with expression syntax."</summary>
         public String PROBLEM_WITH_EXPRESSION_SYNTAX = DEFAULT_PROBLEM_WITH_EXPRESSION_SYNTAX;
         // -------------------------------------------------
-        /**
-         * Default String = "Encountered"
-         */
+        /// <summary>Default String = "Encountered"</summary>
         public String ENCOUNTERED = DEFAULT_ENCOUNTERED;
-        /**
-         * Default String = "at index"
-         */
+        /// <summary>Default String = "at index"</summary>
         public String AT_INDEX = DEFAULT_AT_INDEX;
-        /**
-         * Default String = "Was expecting"
-         */
+        /// <summary>Default String = "Was expecting"</summary>
         public String WAS_EXPECTING = DEFAULT_WAS_EXPECTING;
-        /**
-         * Default String = "Was expecting one of"
-         */
+        /// <summary>Default String = "Was expecting one of"</summary>
         public String WAS_EXPECTING_ONE_OF = DEFAULT_WAS_EXPECTING_ONE_OF;
-        /**
-         * Default String = "An unexpected exception was encountered. Probably a parser error - please report it."
-         */
+        /// <summary>Default String = "An unexpected exception was encountered. Probably a parser error - please report it."</summary>
         public String UNEXPECTED_EXCEPTION_WAS_ENCOUNTERED = DEFAULT_UNEXPECTED_EXCEPTION_WAS_ENCOUNTERED;
-        /**
-         * Default String = "An unexpected token manager error was encountered. Probably a parser error - please report it."
-         */
+        /// <summary>Default String = "An unexpected token manager error was encountered. Probably a parser error - please report it."</summary>
         public String UNEXPECTED_TOKEN_MANAGER_ERROR_WAS_ENCOUNTERED = DEFAULT_UNEXPECTED_TOKEN_MANAGER_ERROR_WAS_ENCOUNTERED;
         // -------------------------------------------------
-        /**
-         * Default String = "The expression string is empty."
-         */
+        /// <summary>Default String = "The expression string is empty."</summary>
         public String EXPRESSION_STRING_IS_EMPTY = DEFAULT_EXPRESSION_STRING_IS_EMPTY;
-        /**
-         * Default String = "The expression does not contain any tokens."
-         */
+        /// <summary>Default String = "The expression does not contain any tokens."</summary>
         public String EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS = DEFAULT_EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS;
-        /**
-         * Default String = "Duplicated keywords were found. Check user-defined items. Consider using option to override built-in tokens."
-         */
+        /// <summary>Default String = "Duplicated keywords were found. Check user-defined items. Consider using option to override built-in tokens."</summary>
         public String DUPLICATED_KEYWORD = DEFAULT_DUPLICATED_KEYWORD;
-        /**
-         * Default String = "Element"
-         */
+        /// <summary>Default String = "Element"</summary>
         public String ELEMENT = DEFAULT_ELEMENT;
-        /**
-         * Default String = "Error"
-         */
+        /// <summary>Default String = "Error"</summary>
         public String ERROR = DEFAULT_ERROR;
-        /**
-         * Default String = "Exception"
-         */
+        /// <summary>Default String = "Exception"</summary>
         public String EXCEPTION = DEFAULT_EXCEPTION;
-        /**
-         * Default String = "Token"
-         */
+        /// <summary>Default String = "Token"</summary>
         public String TOKEN = DEFAULT_TOKEN;
-        /**
-         * Default String = "index"
-         */
+        /// <summary>Default String = "index"</summary>
         public String INDEX = DEFAULT_INDEX;
-        /**
-         * Default String = "Invalid token."
-         */
+        /// <summary>Default String = "Invalid token."</summary>
         public String INVALID_TOKEN = DEFAULT_INVALID_TOKEN;
-        /**
-         * Default String = "Invalid token. Possibly missing multiplication operator - try implied multiplication mode."
-         */
+        /// <summary>Default String = "Invalid token. Possibly missing multiplication operator - try implied multiplication mode."</summary>
         public String INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR = DEFAULT_INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR;
-        /**
-         * Default String = "Expression tokens"
-         */
+        /// <summary>Default String = "Expression tokens"</summary>
         public String EXPRESSION_TOKENS = DEFAULT_EXPRESSION_TOKENS;
-        /**
-         * Default String = "NULL tokens list"
-         */
+        /// <summary>Default String = "NULL tokens list"</summary>
         public String NULL_TOKENS_LIST = DEFAULT_NULL_TOKENS_LIST;
         // -------------------------------------------------
-        /**
-         * Default String = "User-defined function with extended body - no errors by assumption."
-         */
+        /// <summary>Default String = "User-defined function with extended body - no errors by assumption."</summary>
         public String FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS = DEFAULT_FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS;
-        /**
-         * Default String = "User-defined argument with extended body - no errors by assumption."
-         */
+        /// <summary>Default String = "User-defined argument with extended body - no errors by assumption."</summary>
         public String ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS = DEFAULT_ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS;
-        /**
-         * Default String = "Provided extension is null."
-         */
+        /// <summary>Default String = "Provided extension is null."</summary>
         public String PROVIDED_EXTENSION_IS_NULL = DEFAULT_PROVIDED_EXTENSION_IS_NULL;
-        /**
-         * Default String = "Provided string is null."
-         */
+        /// <summary>Default String = "Provided string is null."</summary>
         public String PROVIDED_STRING_IS_NULL = DEFAULT_PROVIDED_STRING_IS_NULL;
-        /**
-         * Default String = "Provided elements are null."
-         */
+        /// <summary>Default String = "Provided elements are null."</summary>
         public String PROVIDED_ELEMENTS_ARE_NULL = DEFAULT_PROVIDED_ELEMENTS_ARE_NULL;
-        /**
-         * Default String = "Possibly missing multiplication operator - try implied multiplication mode."
-         */
+        /// <summary>Default String = "Possibly missing multiplication operator - try implied multiplication mode."</summary>
         public String MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE = DEFAULT_MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE;
         // -------------------------------------------------
-        /**
-         * Default String = "Starting syntax check of the dependent user-defined argument."
-         */
+        /// <summary>Default String = "Starting syntax check of the dependent user-defined argument."</summary>
         public String STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT = DEFAULT_STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT;
-        /**
-         * Default String = "Starting syntax check of the user-defined recursive argument."
-         */
+        /// <summary>Default String = "Starting syntax check of the user-defined recursive argument."</summary>
         public String STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT = DEFAULT_STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT;
-        /**
-         * Default String = "Starting syntax check of the user-defined function."
-         */
+        /// <summary>Default String = "Starting syntax check of the user-defined function."</summary>
         public String STARTING_SYNTAX_CHECK_USER_DEFINED_FUNCTION = DEFAULT_STARTING_SYNTAX_CHECK_USER_DEFINED_FUNCTION;
-        /**
-         * Default String = "Starting syntax check of the variadic user-defined function."
-         */
+        /// <summary>Default String = "Starting syntax check of the variadic user-defined function."</summary>
         public String STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION = DEFAULT_STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION;
         // -------------------------------------------------
-        /**
-         * Default String = "User-defined argument was expected."
-         */
+        /// <summary>Default String = "User-defined argument was expected."</summary>
         public String ARGUMENT_WAS_EXPECTED = DEFAULT_ARGUMENT_WAS_EXPECTED;
-        /**
-         * Default String = "A recursive user-defined argument requires one parameter."
-         */
+        /// <summary>Default String = "A recursive user-defined argument requires one parameter."</summary>
         public String RECURSIVE_ARGUMENT_EXPECTING_1_PARAMETER = DEFAULT_RECURSIVE_ARGUMENT_EXPECTING_1_PARAMETER;
         // -------------------------------------------------
-        /**
-         * Default String = "Incorrect number of parameters in user-defined function."
-         */
+        /// <summary>Default String = "Incorrect number of parameters in user-defined function."</summary>
         public String INCORRECT_NUMBER_OF_PARAMETERS_IN_USER_DEFINED_FUNCTION = DEFAULT_INCORRECT_NUMBER_OF_PARAMETERS_IN_USER_DEFINED_FUNCTION;
         // -------------------------------------------------
-        /**
-         * Default String = "Incorrect number of function parameters."
-         */
+        /// <summary>Default String = "Incorrect number of function parameters."</summary>
         public String INCORRECT_NUMBER_OF_FUNCTION_PARAMETERS = DEFAULT_INCORRECT_NUMBER_OF_FUNCTION_PARAMETERS;
-        /**
-         * Default String = "Expected"
-         */
+        /// <summary>Default String = "Expected"</summary>
         public String EXPECTED = DEFAULT_EXPECTED;
-        /**
-         * Default String = "provided"
-         */
+        /// <summary>Default String = "provided"</summary>
         public String PROVIDED = DEFAULT_PROVIDED;
-        /**
-         * Default String = "Incorrect number of parameters in user-defined function - at least one argument is expected."
-         */
+        /// <summary>Default String = "Incorrect number of parameters in user-defined function - at least one argument is expected."</summary>
         public String USER_DEFINED_FUNCTION_EXPECTING_AT_LEAST_ONE_ARGUMENT = DEFAULT_USER_DEFINED_FUNCTION_EXPECTING_AT_LEAST_ONE_ARGUMENT;
-        /**
-         * Default String = "Even number of arguments was expected."
-         */
+        /// <summary>Default String = "Even number of arguments was expected."</summary>
         public String EXPECTED_EVEN_NUMBER_OF_ARGUMENTS = DEFAULT_EXPECTED_EVEN_NUMBER_OF_ARGUMENTS;
         // -------------------------------------------------
-        /**
-         * Default String = "Invalid function name."
-         */
+        /// <summary>Default String = "Invalid function name."</summary>
         public String INVALID_FUNCTION_NAME = DEFAULT_INVALID_FUNCTION_NAME;
-        /**
-         * Default String = "Invalid argument name."
-         */
+        /// <summary>Default String = "Invalid argument name."</summary>
         public String INVALID_ARGUMENT_NAME = DEFAULT_INVALID_ARGUMENT_NAME;
-        /**
-         * Default String = "Invalid constant name."
-         */
+        /// <summary>Default String = "Invalid constant name."</summary>
         public String INVALID_CONSTANT_NAME = DEFAULT_INVALID_CONSTANT_NAME;
-        /**
-         * Default String = "Invalid function definition."
-         */
+        /// <summary>Default String = "Invalid function definition."</summary>
         public String INVALID_FUNCTION_DEFINITION = DEFAULT_INVALID_FUNCTION_DEFINITION;
-        /**
-         * Default String = "Invalid argument definition."
-         */
+        /// <summary>Default String = "Invalid argument definition."</summary>
         public String INVALID_ARGUMENT_DEFINITION = DEFAULT_INVALID_ARGUMENT_DEFINITION;
-        /**
-         * Default String = "Invalid constant definition."
-         */
+        /// <summary>Default String = "Invalid constant definition."</summary>
         public String INVALID_CONSTANT_DEFINITION = DEFAULT_INVALID_CONSTANT_DEFINITION;
-        /**
-         * Default String = "Pattern does not match."
-         */
+        /// <summary>Default String = "Pattern does not match."</summary>
         public String PATTERN_DOES_NOT_MATCH = DEFAULT_PATTERN_DOES_NOT_MATCH;
-        /**
-         * Default String = "Pattern examples"
-         */
+        /// <summary>Default String = "Pattern examples"</summary>
         public String PATTERN_EXAMPLES = DEFAULT_PATTERN_EXAMPLES;
         // -------------------------------------------------
-        /**
-         * Default String = "Constant value was expected."
-         */
+        /// <summary>Default String = "Constant value was expected."</summary>
         public String CONSTANT_WAS_EXPECTED = DEFAULT_CONSTANT_WAS_EXPECTED;
-        /**
-         * Default String = "User-defined constant was expected."
-         */
+        /// <summary>Default String = "User-defined constant was expected."</summary>
         public String USER_CONSTANT_WAS_EXPECTED = DEFAULT_USER_CONSTANT_WAS_EXPECTED;
         // -------------------------------------------------
-        /**
-         * Default String = "A unary function expects 1 parameter."
-         */
+        /// <summary>Default String = "A unary function expects 1 parameter."</summary>
         public String UNARY_FUNCTION_EXPECTS_1_PARAMETER = DEFAULT_UNARY_FUNCTION_EXPECTS_1_PARAMETER;
-        /**
-         * Default String = "A binary function expects 2 parameters."
-         */
+        /// <summary>Default String = "A binary function expects 2 parameters."</summary>
         public String BINARY_FUNCTION_EXPECTS_2_PARAMETERS = DEFAULT_BINARY_FUNCTION_EXPECTS_2_PARAMETERS;
-        /**
-         * Default String = "A ternary function expects 3 parameters."
-         */
+        /// <summary>Default String = "A ternary function expects 3 parameters."</summary>
         public String TERNARY_FUNCTION_EXPECTS_3_PARAMETERS = DEFAULT_TERNARY_FUNCTION_EXPECTS_3_PARAMETERS;
         // -------------------------------------------------
-        /**
-         * Default String = "A derivative operator expects 2 or 3 or 4 or 5 calculus parameters."
-         */
+        /// <summary>Default String = "A derivative operator expects 2 or 3 or 4 or 5 calculus parameters."</summary>
         public String DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS = DEFAULT_DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS;
-        /**
-         * Default String = "An argument was expected in a derivative operator invocation."
-         */
+        /// <summary>Default String = "An argument was expected in a derivative operator invocation."</summary>
         public String ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION = DEFAULT_ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION;
-        /**
-         * Default String = "Duplicated keywords were found in the calculus operator invocation, check calculus parameters."
-         */
+        /// <summary>Default String = "Duplicated keywords were found in the calculus operator invocation, check calculus parameters."</summary>
         public String DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION = DEFAULT_DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION;
-        /**
-         * Default String = "One token (argument or unknown) was expected in the calculus operator invocation."
-         */
+        /// <summary>Default String = "One token (argument or unknown) was expected in the calculus operator invocation."</summary>
         public String ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION = DEFAULT_ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION;
-        /**
-         * Default String = "N-th order derivative operator expects 3 or 5 calculus parameters."
-         */
+        /// <summary>Default String = "N-th order derivative operator expects 3 or 5 calculus parameters."</summary>
         public String NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS = DEFAULT_NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS;
-        /**
-         * Default String = "The integral / solve operator expects 4 calculus parameters."
-         */
+        /// <summary>Default String = "The integral / solve operator expects 4 calculus parameters."</summary>
         public String INTEGRAL_SOLVE_OPERATOR_EXPECTS_4_CALCULUS_PARAMETERS = DEFAULT_INTEGRAL_SOLVE_OPERATOR_EXPECTS_4_CALCULUS_PARAMETERS;
-        /**
-         * Default String = "The iterated operator expects 4 or 5 calculus parameters."
-         */
+        /// <summary>Default String = "The iterated operator expects 4 or 5 calculus parameters."</summary>
         public String ITERATED_OPERATOR_EXPECTS_4_OR_5_CALCULUS_PARAMETERS = DEFAULT_ITERATED_OPERATOR_EXPECTS_4_OR_5_CALCULUS_PARAMETERS;
-        /**
-         * Default String = "The forward / backward difference operator expects 2 or 3 calculus parameters."
-         */
+        /// <summary>Default String = "The forward / backward difference operator expects 2 or 3 calculus parameters."</summary>
         public String FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS = DEFAULT_FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS;
-        /**
-         * Default String = "An argument was expected in the forward / backward difference operator invocation."
-         */
+        /// <summary>Default String = "An argument was expected in the forward / backward difference operator invocation."</summary>
         public String FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED = DEFAULT_FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED;
-        /**
-         * Default String = "At least one argument was expected."
-         */
+        /// <summary>Default String = "At least one argument was expected."</summary>
         public String AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED = DEFAULT_AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED;
         // -------------------------------------------------
-        /**
-         * Default String = "Error while executing the calculate."
-         */
+        /// <summary>Default String = "Error while executing the calculate."</summary>
         public String ERROR_WHILE_EXECUTING_THE_CALCULATE = DEFAULT_ERROR_WHILE_EXECUTING_THE_CALCULATE;
-        /**
-         * Default String = "Recursion calls counter exceeded maximum calls allowed."
-         */
+        /// <summary>Default String = "Recursion calls counter exceeded maximum calls allowed."</summary>
         public String RECURSION_CALLS_COUNTER_EXCEEDED = DEFAULT_RECURSION_CALLS_COUNTER_EXCEEDED;
-        /**
-         * Default String = "Recursion calls counter"
-         */
+        /// <summary>Default String = "Recursion calls counter"</summary>
         public String RECURSION_CALLS_COUNTER = DEFAULT_RECURSION_CALLS_COUNTER;
-        /**
-         * Default String = "Starting calculation loop."
-         */
+        /// <summary>Default String = "Starting calculation loop."</summary>
         public String STARTING_CALCULATION_LOOP = DEFAULT_STARTING_CALCULATION_LOOP;
-        /**
-         * Default String = "Cancel request encountered - finishing."
-         */
+        /// <summary>Default String = "Cancel request encountered - finishing."</summary>
         public String CANCEL_REQUEST_FINISHING = DEFAULT_CANCEL_REQUEST_FINISHING;
-        /**
-         * Default String = "Internal error / strange token level - finishing. Probably a parser error - please report it."
-         */
+        /// <summary>Default String = "Internal error / strange token level - finishing. Probably a parser error - please report it."</summary>
         public String INTERNAL_ERROR_STRANGE_TOKEN_LEVEL_FINISHING = DEFAULT_INTERNAL_ERROR_STRANGE_TOKEN_LEVEL_FINISHING;
-        /**
-         * Default String = "Fatal error, do not know what to do with the encountered token. Probably a parser error - please report it."
-         */
+        /// <summary>Default String = "Fatal error, do not know what to do with the encountered token. Probably a parser error - please report it."</summary>
         public String FATAL_ERROR_DO_NOT_KNOW_WHAT_TO_DO_WITH_THE_ENCOUNTERED_TOKEN = DEFAULT_FATAL_ERROR_DO_NOT_KNOW_WHAT_TO_DO_WITH_THE_ENCOUNTERED_TOKEN;
-        /**
-         * Default String = "The maximum error message length has been exceeded."
-         */
+        /// <summary>Default String = "The maximum error message length has been exceeded."</summary>
         public String MAXIMUM_ERROR_MESSAGE_LENGTH_EXCEEDED = DEFAULT_MAXIMUM_ERROR_MESSAGE_LENGTH_EXCEEDED;
         // -------------------------------------------------
-        /**
-         * Default String = "Starting..."
-         */
+        /// <summary>Default String = "Starting..."</summary>
         public String STARTING = DEFAULT_STARTING;
-        /**
-         * Default String = "Parsing"
-         */
+        /// <summary>Default String = "Parsing"</summary>
         public String PARSING = DEFAULT_PARSING;
-        /**
-         * Default String = "Fully compiled"
-         */
+        /// <summary>Default String = "Fully compiled"</summary>
         public String FULLY_COMPILED = DEFAULT_FULLY_COMPILED;
-        /**
-         * Default String = "Calculated value"
-         */
+        /// <summary>Default String = "Calculated value"</summary>
         public String CALCULATED_VALUE = DEFAULT_CALCULATED_VALUE;
-        /**
-         * Default String = "Exiting."
-         */
+        /// <summary>Default String = "Exiting."</summary>
         public String EXITING = DEFAULT_EXITING;
-        /**
-         * Default String = "done."
-         */
+        /// <summary>Default String = "done."</summary>
         public String DONE = DEFAULT_DONE;
         // -------------------------------------------------
-        /**
-         * Default String = "Keyword"
-         */
+        /// <summary>Default String = "Keyword"</summary>
         public String KEYWORD = DEFAULT_KEYWORD;
-        /**
-         * Default String = "Syntax"
-         */
+        /// <summary>Default String = "Syntax"</summary>
         public String SYNTAX = DEFAULT_SYNTAX;
-        /**
-         * Default String = "Number"
-         */
+        /// <summary>Default String = "Number"</summary>
         public String NUMBER = DEFAULT_NUMBER;
-        /**
-         * Default String = "Number literal"
-         */
+        /// <summary>Default String = "Number literal"</summary>
         public String NUMBER_LITERAL = DEFAULT_NUMBER_LITERAL;
-        /**
-         * Default String = "Type"
-         */
+        /// <summary>Default String = "Type"</summary>
         public String TYPE = DEFAULT_TYPE;
-        /**
-         * Default String = "Since"
-         */
+        /// <summary>Default String = "Since"</summary>
         public String SINCE = DEFAULT_SINCE;
-        /**
-         * Default String = "Description"
-         */
+        /// <summary>Default String = "Description"</summary>
         public String DESCRIPTION = DEFAULT_DESCRIPTION;
         // -------------------------------------------------
-        /**
-         * Default String = "CalcStepsRegister is empty"
-         */
+        /// <summary>Default String = "CalcStepsRegister is empty"</summary>
         public String CALC_STEPS_REGISTER_IS_EMPTY = DEFAULT_CALC_STEPS_REGISTER_IS_EMPTY;
-        /**
-         * Default String = "CalcStepsRegister for"
-         */
+        /// <summary>Default String = "CalcStepsRegister for"</summary>
         public String CALC_STEPS_REGISTER_FOR = DEFAULT_CALC_STEPS_REGISTER_FOR;
-        /**
-         * Default String = "Argument"
-         */
+        /// <summary>Default String = "Argument"</summary>
         public String ARGUMENT = DEFAULT_ARGUMENT;
-        /**
-         * Default String = "Function"
-         */
+        /// <summary>Default String = "Function"</summary>
         public String FUNCTION = DEFAULT_FUNCTION;
-        /**
-         * Default String = "Expression"
-         */
+        /// <summary>Default String = "Expression"</summary>
         public String EXPRESSION = DEFAULT_EXPRESSION;
-        /**
-         * Default String = "result"
-         */
+        /// <summary>Default String = "result"</summary>
         public String RESULT = DEFAULT_RESULT;
-        /**
-         * Default String = "Computing time"
-         */
+        /// <summary>Default String = "Computing time"</summary>
         public String COMPUTING_TIME = DEFAULT_COMPUTING_TIME;
-        /**
-         * Default String = "gr"
-         */
+        /// <summary>Default String = "gr"</summary>
         public String GROUP_SHORT = DEFAULT_GROUP_SHORT;
-        /**
-         * Default String = "nr"
-         */
+        /// <summary>Default String = "nr"</summary>
         public String NUMBER_SHORT = DEFAULT_NUMBER_SHORT;
-        /**
-         * Default String = "first"
-         */
+        /// <summary>Default String = "first"</summary>
         public String FIRST = DEFAULT_FIRST;
-        /**
-         * Default String = "last"
-         */
+        /// <summary>Default String = "last"</summary>
         public String LAST = DEFAULT_LAST;
-        /**
-         * Default String = "descr"
-         */
+        /// <summary>Default String = "descr"</summary>
         public String DESCRIPTION_SHORT = DEFAULT_DESCRIPTION_SHORT;
-        /**
-         * Default String = "step"
-         */
+        /// <summary>Default String = "step"</summary>
         public String STEP = DEFAULT_STEP;
         // -------------------------------------------------
-        /**
-         * Default String = "Serialization has been performed:"
-         */
+        /// <summary>Default String = "Serialization has been performed:"</summary>
         public String SERIALIZATION_PERFORMED = DEFAULT_SERIALIZATION_PERFORMED;
-        /**
-         * Default String = "Deserialization has been performed:"
-         */
+        /// <summary>Default String = "Deserialization has been performed:"</summary>
         public String DESERIALIZATION_PERFORMED = DEFAULT_DESERIALIZATION_PERFORMED;
-        /**
-         * Default String = "Null object passed in the parameter."
-         */
+        /// <summary>Default String = "Null object passed in the parameter."</summary>
         public String NULL_OBJECT_PROVIDED = DEFAULT_NULL_OBJECT_PROVIDED;
-        /**
-         * Default String = "Null file passed in the parameter."
-         */
+        /// <summary>Default String = "Null file passed in the parameter."</summary>
         public String NULL_FILE_PATH_PROVIDED = DEFAULT_NULL_FILE_PATH_PROVIDED;
-        /**
-         * Default String = "The file path does not contain any characters."
-         */
+        /// <summary>Default String = "The file path does not contain any characters."</summary>
         public String FILE_PATH_ZERO_LENGTH_PROVIDED = DEFAULT_FILE_PATH_ZERO_LENGTH_PROVIDED;
-        /**
-         * Default String = "The file path is not a file:"
-         */
+        /// <summary>Default String = "The file path is not a file:"</summary>
         public String FILE_PATH_IS_NOT_A_FILE = DEFAULT_FILE_PATH_IS_NOT_A_FILE;
-        /**
-         * Default String = "The file path does not exist:"
-         */
+        /// <summary>Default String = "The file path does not exist:"</summary>
         public String FILE_PATH_NOT_EXISTS = DEFAULT_FILE_PATH_NOT_EXISTS;
-        /**
-         * Default String = "Null data passed in the parameter."
-         */
+        /// <summary>Default String = "Null data passed in the parameter."</summary>
         public String NULL_DATA_PROVIDED = DEFAULT_NULL_DATA_PROVIDED;
-        /**
-         * Default String = "Binary serialization is enabled. Use it only in a conscious and limited way."
-         */
+        /// <summary>Default String = "Binary serialization is enabled. Use it only in a conscious and limited way."</summary>
         public String BINARY_SERIALIZATION_ENABLED = DEFAULT_BINARY_SERIALIZATION_ENABLED;
-        /**
-         * Default String = "Binary serialization is disabled. You can enable it if you are aware of security risks."
-         */
+        /// <summary>Default String = "Binary serialization is disabled. You can enable it if you are aware of security risks."</summary>
         public String BINARY_SERIALIZATION_DISABLED = DEFAULT_BINARY_SERIALIZATION_DISABLED;
         // -------------------------------------------------
-        /**
-         * Default String = "User defined expression"
-         */
+        /// <summary>Default String = "User defined expression"</summary>
         public String USER_DEFINED_EXPRESSION = DEFAULT_USER_DEFINED_EXPRESSION;
-        /**
-         * Default String = "User defined argument"
-         */
+        /// <summary>Default String = "User defined argument"</summary>
         public String USER_DEFINED_ARGUMENT = DEFAULT_USER_DEFINED_ARGUMENT;
-        /**
-         * Default String = "User defined constant"
-         */
+        /// <summary>Default String = "User defined constant"</summary>
         public String USER_DEFINED_CONSTANT = DEFAULT_USER_DEFINED_CONSTANT;
-        /**
-         * Default String = "User defined function"
-         */
+        /// <summary>Default String = "User defined function"</summary>
         public String USER_DEFINED_FUNCTION = DEFAULT_USER_DEFINED_FUNCTION;
-        /**
-         * Default String = "User defined recursive argument"
-         */
+        /// <summary>Default String = "User defined recursive argument"</summary>
         public String USER_DEFINED_RECURSIVE_ARGUMENT = DEFAULT_USER_DEFINED_RECURSIVE_ARGUMENT;
         // -------------------------------------------------
-        /**
-         * Default String = "Help content limited to query"
-         */
+        /// <summary>Default String = "Help content limited to query"</summary>
         public String HELP_CONTENT_LIMITED_TO_QUERY = DEFAULT_HELP_CONTENT_LIMITED_TO_QUERY;
-        /**
-         * Default String = "All help content."
-         */
+        /// <summary>Default String = "All help content."</summary>
         public String ALL_HELP_CONTENT = DEFAULT_ALL_HELP_CONTENT;
-        /**
-         * Default String = "Caption"
-         */
+        /// <summary>Default String = "Caption"</summary>
         public String CAPTION = DEFAULT_CAPTION;
         // -------------------------------------------------
-        /**
-         * Default String = "Deserializing data from an untrusted source can introduce security vulnerabilities to your application."
-         */
+        /// <summary>Default String = "Deserializing data from an untrusted source can introduce security vulnerabilities to your application."</summary>
         public String WARNING_BINARY_SERIALIZATION_SECURITY_RISKS = DEFAULT_WARNING_BINARY_SERIALIZATION_SECURITY_RISKS;
         // -------------------------------------------------
-        /**
-         * Default String = "Binary relation"
-         */
+        /// <summary>Default String = "Binary relation"</summary>
         public String BINARY_RELATION = DEFAULT_BINARY_RELATION;
-        /**
-         * Default String = "Bitwise operator"
-         */
+        /// <summary>Default String = "Bitwise operator"</summary>
         public String BITWISE_OPERATOR = DEFAULT_BITWISE_OPERATOR;
-        /**
-         * Default String = "Boolean operator"
-         */
+        /// <summary>Default String = "Boolean operator"</summary>
         public String BOOLEAN_OPERATOR = DEFAULT_BOOLEAN_OPERATOR;
-        /**
-         * Default String = "Calculus operator"
-         */
+        /// <summary>Default String = "Calculus operator"</summary>
         public String CALCULUS_OPERATOR = DEFAULT_CALCULUS_OPERATOR;
-        /**
-         * Default String = "Constant value"
-         */
+        /// <summary>Default String = "Constant value"</summary>
         public String CONSTANT_VALUE = DEFAULT_CONSTANT_VALUE;
-        /**
-         * Default String = "Unary function"
-         */
+        /// <summary>Default String = "Unary function"</summary>
         public String FUNCTION_1_ARG = DEFAULT_FUNCTION_1_ARG;
-        /**
-         * Default String = "Binary function"
-         */
+        /// <summary>Default String = "Binary function"</summary>
         public String FUNCTION_2_ARG = DEFAULT_FUNCTION_2_ARG;
-        /**
-         * Default String = "Ternary function"
-         */
+        /// <summary>Default String = "Ternary function"</summary>
         public String FUNCTION_3_ARG = DEFAULT_FUNCTION_3_ARG;
-        /**
-         * Default String = "Variadic function"
-         */
+        /// <summary>Default String = "Variadic function"</summary>
         public String FUNCTION_VARIADIC = DEFAULT_FUNCTION_VARIADIC;
-        /**
-         * Default String = "Operator"
-         */
+        /// <summary>Default String = "Operator"</summary>
         public String OPERATOR = DEFAULT_OPERATOR;
-        /**
-         * Default String = "Parser symbol"
-         */
+        /// <summary>Default String = "Parser symbol"</summary>
         public String PARSER_SYMBOL = DEFAULT_PARSER_SYMBOL;
-        /**
-         * Default String = "Random variable"
-         */
+        /// <summary>Default String = "Random variable"</summary>
         public String RANDOM_VARIABLE = DEFAULT_RANDOM_VARIABLE;
-        /**
-         * Default String = "Unit"
-         */
+        /// <summary>Default String = "Unit"</summary>
         public String UNIT = DEFAULT_UNIT;
-        /**
-         * Default String = "Dimensionless unit"
-         */
+        /// <summary>Default String = "Dimensionless unit"</summary>
         public String DIMENSIONLESS_UNIT = DEFAULT_DIMENSIONLESS_UNIT;
-        /**
-         * Default String = "Iterated operator"
-         */
+        /// <summary>Default String = "Iterated operator"</summary>
         public String ITERATED_OPERATOR = DEFAULT_ITERATED_OPERATOR;
         // -------------------------------------------------
-        /**
-         * Default String = "Ratio / Fraction"
-         */
+        /// <summary>Default String = "Ratio / Fraction"</summary>
         public String RATIO_FRACTION = DEFAULT_RATIO_FRACTION;
-        /**
-         * Default String = "Metric prefix"
-         */
+        /// <summary>Default String = "Metric prefix"</summary>
         public String METRIC_PREFIX = DEFAULT_METRIC_PREFIX;
-        /**
-         * Default String = "Unit of length"
-         */
+        /// <summary>Default String = "Unit of length"</summary>
         public String UNIT_OF_LENGTH = DEFAULT_UNIT_OF_LENGTH;
-        /**
-         * Default String = "Unit of area"
-         */
+        /// <summary>Default String = "Unit of area"</summary>
         public String UNIT_OF_AREA = DEFAULT_UNIT_OF_AREA;
-        /**
-         * Default String = "Unit of volume"
-         */
+        /// <summary>Default String = "Unit of volume"</summary>
         public String UNIT_OF_VOLUME = DEFAULT_UNIT_OF_VOLUME;
-        /**
-         * Default String = "Unit of time"
-         */
+        /// <summary>Default String = "Unit of time"</summary>
         public String UNIT_OF_TIME = DEFAULT_UNIT_OF_TIME;
-        /**
-         * Default String = "Unit of mass"
-         */
+        /// <summary>Default String = "Unit of mass"</summary>
         public String UNIT_OF_MASS = DEFAULT_UNIT_OF_MASS;
-        /**
-         * Default String = "Unit of information"
-         */
+        /// <summary>Default String = "Unit of information"</summary>
         public String UNIT_OF_INFORMATION = DEFAULT_UNIT_OF_INFORMATION;
-        /**
-         * Default String = "Unit of energy"
-         */
+        /// <summary>Default String = "Unit of energy"</summary>
         public String UNIT_OF_ENERGY = DEFAULT_UNIT_OF_ENERGY;
-        /**
-         * Default String = "Unit of speed"
-         */
+        /// <summary>Default String = "Unit of speed"</summary>
         public String UNIT_OF_SPEED = DEFAULT_UNIT_OF_SPEED;
-        /**
-         * Default String = "Unit of acceleration"
-         */
+        /// <summary>Default String = "Unit of acceleration"</summary>
         public String UNIT_OF_ACCELERATION = DEFAULT_UNIT_OF_ACCELERATION;
-        /**
-         * Default String = "Unit of angle"
-         */
+        /// <summary>Default String = "Unit of angle"</summary>
         public String UNIT_OF_ANGLE = DEFAULT_UNIT_OF_ANGLE;
         // -------------------------------------------------
-        /**
-         * Default String = "Physical constant"
-         */
+        /// <summary>Default String = "Physical constant"</summary>
         public String PHYSICAL_CONSTANT = DEFAULT_PHYSICAL_CONSTANT;
-        /**
-         * Default String = "Astronomical constant"
-         */
+        /// <summary>Default String = "Astronomical constant"</summary>
         public String ASTRONOMICAL_CONSTANT = DEFAULT_ASTRONOMICAL_CONSTANT;
-        /**
-         * Default String = "Mathematical constant"
-         */
+        /// <summary>Default String = "Mathematical constant"</summary>
         public String MATHEMATICAL_CONSTANT = DEFAULT_MATHEMATICAL_CONSTANT;
         // -------------------------------------------------
-        /**
-         * Default String = "Probability distribution function"
-         */
+        /// <summary>Default String = "Probability distribution function"</summary>
         public String PROBABILITY_DISTRIBUTION_FUNCTION = DEFAULT_PROBABILITY_DISTRIBUTION_FUNCTION;
-        /**
-         * Default String = "Cumulative distribution function"
-         */
+        /// <summary>Default String = "Cumulative distribution function"</summary>
         public String CUMULATIVE_DISTRIBUTION_FUNCTION = DEFAULT_CUMULATIVE_DISTRIBUTION_FUNCTION;
-        /**
-         * Default String = "Quantile function (inverse cumulative distribution function)"
-         */
+        /// <summary>Default String = "Quantile function (inverse cumulative distribution function)"</summary>
         public String QUANTILE_FUNCTION = DEFAULT_QUANTILE_FUNCTION;
         // -------------------------------------------------
-        /**
-         * Default String = "Student's t-distribution"
-         */
+        /// <summary>Default String = "Student's t-distribution"</summary>
         public String STUDENTS_T_DISTRIBUTION = DEFAULT_STUDENTS_T_DISTRIBUTION;
-        /**
-         * Default String = "Chi-squared distribution"
-         */
+        /// <summary>Default String = "Chi-squared distribution"</summary>
         public String CHI_SQUARED_DISTRIBUTION = DEFAULT_CHI_SQUARED_DISTRIBUTION;
-        /**
-         * Default String = "Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)"
-         */
+        /// <summary>Default String = "Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)"</summary>
         public String SNEDECORS_F_DISTRIBUTION = DEFAULT_SNEDECORS_F_DISTRIBUTION;
-        /**
-         * Default String = "Uniform continuous distribution"
-         */
+        /// <summary>Default String = "Uniform continuous distribution"</summary>
         public String UNIFORM_CONTINUOUS_DISTRIBUTION = DEFAULT_UNIFORM_CONTINUOUS_DISTRIBUTION;
-        /**
-         * Default String = "Uniform discrete distribution"
-         */
+        /// <summary>Default String = "Uniform discrete distribution"</summary>
         public String UNIFORM_DISCRETE_DISTRIBUTION = DEFAULT_UNIFORM_DISCRETE_DISTRIBUTION;
-        /**
-         * Default String = "Normal distribution"
-         */
+        /// <summary>Default String = "Normal distribution"</summary>
         public String NORMAL_DISTRIBUTION = DEFAULT_NORMAL_DISTRIBUTION;
         // -------------------------------------------------
-        /**
-         * Default String = "Random integer"
-         */
+        /// <summary>Default String = "Random integer"</summary>
         public String RANDOM_INTEGER = DEFAULT_RANDOM_INTEGER;
-        /**
-         * Default String = "Random natural number"
-         */
+        /// <summary>Default String = "Random natural number"</summary>
         public String RANDOM_NATURAL_NUMBER = DEFAULT_RANDOM_NATURAL_NUMBER;
-        /**
-         * Default String = "Random natural number including 0"
-         */
+        /// <summary>Default String = "Random natural number including 0"</summary>
         public String RANDOM_NATURAL_NUMBER_INCLUDING_0 = DEFAULT_RANDOM_NATURAL_NUMBER_INCLUDING_0;
         // -------------------------------------------------
-        /**
-         * Default String = "Special function"
-         */
+        /// <summary>Default String = "Special function"</summary>
         public String SPECIAL_FUNCTION = DEFAULT_SPECIAL_FUNCTION;
         // -------------------------------------------------
-        /**
-         * Default String = "Semi major axis"
-         */
+        /// <summary>Default String = "Semi major axis"</summary>
         public String SEMI_MAJOR_AXIS = DEFAULT_SEMI_MAJOR_AXIS;
         // -------------------------------------------------
-        /**
-         * Default String = "Equality"
-         */
+        /// <summary>Default String = "Equality"</summary>
         public String BINARY_RELATION_EQ = DEFAULT_BINARY_RELATION_EQ;
-        /**
-         * Default String = "Inequation"
-         */
+        /// <summary>Default String = "Inequation"</summary>
         public String BINARY_RELATION_NEQ = DEFAULT_BINARY_RELATION_NEQ;
-        /**
-         * Default String = "Lower than"
-         */
+        /// <summary>Default String = "Lower than"</summary>
         public String BINARY_RELATION_LT = DEFAULT_BINARY_RELATION_LT;
-        /**
-         * Default String = "Greater than"
-         */
+        /// <summary>Default String = "Greater than"</summary>
         public String BINARY_RELATION_GT = DEFAULT_BINARY_RELATION_GT;
-        /**
-         * Default String = "Lower or equal"
-         */
+        /// <summary>Default String = "Lower or equal"</summary>
         public String BINARY_RELATION_LEQ = DEFAULT_BINARY_RELATION_LEQ;
-        /**
-         * Default String = "Greater or equal"
-         */
+        /// <summary>Default String = "Greater or equal"</summary>
         public String BINARY_RELATION_GEQ = DEFAULT_BINARY_RELATION_GEQ;
         // -------------------------------------------------
-        /**
-         * Default String = "Bitwise unary complement (NOT)"
-         */
+        /// <summary>Default String = "Bitwise unary complement (NOT)"</summary>
         public String BITWISE_OPERATOR_COMPL = DEFAULT_BITWISE_OPERATOR_COMPL;
-        /**
-         * Default String = "Bitwise and (AND)"
-         */
+        /// <summary>Default String = "Bitwise and (AND)"</summary>
         public String BITWISE_OPERATOR_AND = DEFAULT_BITWISE_OPERATOR_AND;
-        /**
-         * Default String = "Bitwise exclusive or (XOR)"
-         */
+        /// <summary>Default String = "Bitwise exclusive or (XOR)"</summary>
         public String BITWISE_OPERATOR_XOR = DEFAULT_BITWISE_OPERATOR_XOR;
-        /**
-         * Default String = "Bitwise inclusive or (OR)"
-         */
+        /// <summary>Default String = "Bitwise inclusive or (OR)"</summary>
         public String BITWISE_OPERATOR_OR = DEFAULT_BITWISE_OPERATOR_OR;
-        /**
-         * Default String = "Bitwise signed left shift"
-         */
+        /// <summary>Default String = "Bitwise signed left shift"</summary>
         public String BITWISE_OPERATOR_LEFT_SHIFT = DEFAULT_BITWISE_OPERATOR_LEFT_SHIFT;
-        /**
-         * Default String = "Bitwise signed right shift"
-         */
+        /// <summary>Default String = "Bitwise signed right shift"</summary>
         public String BITWISE_OPERATOR_RIGHT_SHIFT = DEFAULT_BITWISE_OPERATOR_RIGHT_SHIFT;
-        /**
-         * Default String = "Bitwise not and (NAND)"
-         */
+        /// <summary>Default String = "Bitwise not and (NAND)"</summary>
         public String BITWISE_OPERATOR_NAND = DEFAULT_BITWISE_OPERATOR_NAND;
-        /**
-         * Default String = "Bitwise not or (NOR)"
-         */
+        /// <summary>Default String = "Bitwise not or (NOR)"</summary>
         public String BITWISE_OPERATOR_NOR = DEFAULT_BITWISE_OPERATOR_NOR;
-        /**
-         * Default String = "Bitwise exclusive NOR (XNOR)"
-         */
+        /// <summary>Default String = "Bitwise exclusive NOR (XNOR)"</summary>
         public String BITWISE_OPERATOR_XNOR = DEFAULT_BITWISE_OPERATOR_XNOR;
         // -------------------------------------------------
-        /**
-         * Default String = "Logical conjunction"
-         */
+        /// <summary>Default String = "Logical conjunction"</summary>
         public String BOOLEAN_OPERATOR_AND = DEFAULT_BOOLEAN_OPERATOR_AND;
-        /**
-         * Default String = "Logical disjunction"
-         */
+        /// <summary>Default String = "Logical disjunction"</summary>
         public String BOOLEAN_OPERATOR_OR = DEFAULT_BOOLEAN_OPERATOR_OR;
-        /**
-         * Default String = "Negation"
-         */
+        /// <summary>Default String = "Negation"</summary>
         public String BOOLEAN_OPERATOR_NEG = DEFAULT_BOOLEAN_OPERATOR_NEG;
-        /**
-         * Default String = "Sheffer stroke"
-         */
+        /// <summary>Default String = "Sheffer stroke"</summary>
         public String BOOLEAN_OPERATOR_NAND = DEFAULT_BOOLEAN_OPERATOR_NAND;
-        /**
-         * Default String = "Logical not or (joint denial)"
-         */
+        /// <summary>Default String = "Logical not or (joint denial)"</summary>
         public String BOOLEAN_OPERATOR_NOR = DEFAULT_BOOLEAN_OPERATOR_NOR;
-        /**
-         * Default String = "Exclusive or"
-         */
+        /// <summary>Default String = "Exclusive or"</summary>
         public String BOOLEAN_OPERATOR_XOR = DEFAULT_BOOLEAN_OPERATOR_XOR;
-        /**
-         * Default String = "Implication"
-         */
+        /// <summary>Default String = "Implication"</summary>
         public String BOOLEAN_OPERATOR_IMP = DEFAULT_BOOLEAN_OPERATOR_IMP;
-        /**
-         * Default String = "Converse implication"
-         */
+        /// <summary>Default String = "Converse implication"</summary>
         public String BOOLEAN_OPERATOR_CIMP = DEFAULT_BOOLEAN_OPERATOR_CIMP;
-        /**
-         * Default String = "Material nonimplication"
-         */
+        /// <summary>Default String = "Material nonimplication"</summary>
         public String BOOLEAN_OPERATOR_NIMP = DEFAULT_BOOLEAN_OPERATOR_NIMP;
-        /**
-         * Default String = "Converse nonimplication"
-         */
+        /// <summary>Default String = "Converse nonimplication"</summary>
         public String BOOLEAN_OPERATOR_CNIMP = DEFAULT_BOOLEAN_OPERATOR_CNIMP;
-        /**
-         * Default String = "Logical biconditional"
-         */
+        /// <summary>Default String = "Logical biconditional"</summary>
         public String BOOLEAN_OPERATOR_EQV = DEFAULT_BOOLEAN_OPERATOR_EQV;
         // -------------------------------------------------
-        /**
-         * Default String = "Summation SIGMA"
-         */
+        /// <summary>Default String = "Summation SIGMA"</summary>
         public String CALCULUS_OPERATOR_SUM = DEFAULT_CALCULUS_OPERATOR_SUM;
-        /**
-         * Default String = "Product PI"
-         */
+        /// <summary>Default String = "Product PI"</summary>
         public String CALCULUS_OPERATOR_PROD = DEFAULT_CALCULUS_OPERATOR_PROD;
-        /**
-         * Default String = "Definite integral"
-         */
+        /// <summary>Default String = "Definite integral"</summary>
         public String CALCULUS_OPERATOR_INT = DEFAULT_CALCULUS_OPERATOR_INT;
-        /**
-         * Default String = "Derivative"
-         */
+        /// <summary>Default String = "Derivative"</summary>
         public String CALCULUS_OPERATOR_DER = DEFAULT_CALCULUS_OPERATOR_DER;
-        /**
-         * Default String = "Left derivative"
-         */
+        /// <summary>Default String = "Left derivative"</summary>
         public String CALCULUS_OPERATOR_DER_LEFT = DEFAULT_CALCULUS_OPERATOR_DER_LEFT;
-        /**
-         * Default String = "Right derivative"
-         */
+        /// <summary>Default String = "Right derivative"</summary>
         public String CALCULUS_OPERATOR_DER_RIGHT = DEFAULT_CALCULUS_OPERATOR_DER_RIGHT;
-        /**
-         * Default String = "n-th derivative"
-         */
+        /// <summary>Default String = "n-th derivative"</summary>
         public String CALCULUS_OPERATOR_DERN = DEFAULT_CALCULUS_OPERATOR_DERN;
-        /**
-         * Default String = "Forward difference"
-         */
+        /// <summary>Default String = "Forward difference"</summary>
         public String CALCULUS_OPERATOR_FORW_DIFF = DEFAULT_CALCULUS_OPERATOR_FORW_DIFF;
-        /**
-         * Default String = "Backward difference"
-         */
+        /// <summary>Default String = "Backward difference"</summary>
         public String CALCULUS_OPERATOR_BACKW_DIFF = DEFAULT_CALCULUS_OPERATOR_BACKW_DIFF;
-        /**
-         * Default String = "Average"
-         */
+        /// <summary>Default String = "Average"</summary>
         public String CALCULUS_OPERATOR_AVG = DEFAULT_CALCULUS_OPERATOR_AVG;
-        /**
-         * Default String = "Bias-corrected sample variance"
-         */
+        /// <summary>Default String = "Bias-corrected sample variance"</summary>
         public String CALCULUS_OPERATOR_VAR = DEFAULT_CALCULUS_OPERATOR_VAR;
-        /**
-         * Default String = "Bias-corrected sample standard deviation"
-         */
+        /// <summary>Default String = "Bias-corrected sample standard deviation"</summary>
         public String CALCULUS_OPERATOR_STD = DEFAULT_CALCULUS_OPERATOR_STD;
-        /**
-         * Default String = "Minimum value"
-         */
+        /// <summary>Default String = "Minimum value"</summary>
         public String CALCULUS_OPERATOR_MIN = DEFAULT_CALCULUS_OPERATOR_MIN;
-        /**
-         * Default String = "Maximum value"
-         */
+        /// <summary>Default String = "Maximum value"</summary>
         public String CALCULUS_OPERATOR_MAX = DEFAULT_CALCULUS_OPERATOR_MAX;
-        /**
-         * Default String = "Equation solving (root finding)"
-         */
+        /// <summary>Default String = "Equation solving (root finding)"</summary>
         public String CALCULUS_OPERATOR_SOLVE = DEFAULT_CALCULUS_OPERATOR_SOLVE;
         // -------------------------------------------------
-        /**
-         * Default String = "Pi, Archimedes' or Ludolph's number"
-         */
+        /// <summary>Default String = "Pi, Archimedes' or Ludolph's number"</summary>
         public String CONSTANT_VALUE_PI = DEFAULT_CONSTANT_VALUE_PI;
-        /**
-         * Default String = "Napier's or Euler's number (base of Natural logarithm)"
-         */
+        /// <summary>Default String = "Napier's or Euler's number (base of Natural logarithm)"</summary>
         public String CONSTANT_VALUE_EULER = DEFAULT_CONSTANT_VALUE_EULER;
-        /**
-         * Default String = "Euler-Mascheroni constant"
-         */
+        /// <summary>Default String = "Euler-Mascheroni constant"</summary>
         public String CONSTANT_VALUE_EULER_MASCHERONI = DEFAULT_CONSTANT_VALUE_EULER_MASCHERONI;
-        /**
-         * Default String = "Golden ratio"
-         */
+        /// <summary>Default String = "Golden ratio"</summary>
         public String CONSTANT_VALUE_GOLDEN_RATIO = DEFAULT_CONSTANT_VALUE_GOLDEN_RATIO;
-        /**
-         * Default String = "Plastic constant"
-         */
+        /// <summary>Default String = "Plastic constant"</summary>
         public String CONSTANT_VALUE_PLASTIC = DEFAULT_CONSTANT_VALUE_PLASTIC;
-        /**
-         * Default String = "Embree-Trefethen constant"
-         */
+        /// <summary>Default String = "Embree-Trefethen constant"</summary>
         public String CONSTANT_VALUE_EMBREE_TREFETHEN = DEFAULT_CONSTANT_VALUE_EMBREE_TREFETHEN;
-        /**
-         * Default String = "Feigenbaum delta constant"
-         */
+        /// <summary>Default String = "Feigenbaum delta constant"</summary>
         public String CONSTANT_VALUE_FEIGENBAUM_DELTA = DEFAULT_CONSTANT_VALUE_FEIGENBAUM_DELTA;
-        /**
-         * Default String = "Feigenbaum alpha constant"
-         */
+        /// <summary>Default String = "Feigenbaum alpha constant"</summary>
         public String CONSTANT_VALUE_FEIGENBAUM_ALPHA = DEFAULT_CONSTANT_VALUE_FEIGENBAUM_ALPHA;
-        /**
-         * Default String = "Twin prime constant"
-         */
+        /// <summary>Default String = "Twin prime constant"</summary>
         public String CONSTANT_VALUE_TWIN_PRIME = DEFAULT_CONSTANT_VALUE_TWIN_PRIME;
-        /**
-         * Default String = "Meissel-Mertens constant"
-         */
+        /// <summary>Default String = "Meissel-Mertens constant"</summary>
         public String CONSTANT_VALUE_MEISSEL_MERTEENS = DEFAULT_CONSTANT_VALUE_MEISSEL_MERTEENS;
-        /**
-         * Default String = "Brun's constant for twin primes"
-         */
+        /// <summary>Default String = "Brun's constant for twin primes"</summary>
         public String CONSTANT_VALUE_BRAUN_TWIN_PRIME = DEFAULT_CONSTANT_VALUE_BRAUN_TWIN_PRIME;
-        /**
-         * Default String = "Brun's constant for prime quadruplets"
-         */
+        /// <summary>Default String = "Brun's constant for prime quadruplets"</summary>
         public String CONSTANT_VALUE_BRAUN_PRIME_QUADR = DEFAULT_CONSTANT_VALUE_BRAUN_PRIME_QUADR;
-        /**
-         * Default String = "de Bruijn-Newman constant"
-         */
+        /// <summary>Default String = "de Bruijn-Newman constant"</summary>
         public String CONSTANT_VALUE_BRUIJN_NEWMAN = DEFAULT_CONSTANT_VALUE_BRUIJN_NEWMAN;
-        /**
-         * Default String = "Catalan's constant"
-         */
+        /// <summary>Default String = "Catalan's constant"</summary>
         public String CONSTANT_VALUE_CATALAN = DEFAULT_CONSTANT_VALUE_CATALAN;
-        /**
-         * Default String = "Landau-Ramanujan constant"
-         */
+        /// <summary>Default String = "Landau-Ramanujan constant"</summary>
         public String CONSTANT_VALUE_LANDAU_RAMANUJAN = DEFAULT_CONSTANT_VALUE_LANDAU_RAMANUJAN;
-        /**
-         * Default String = "Viswanath's constant"
-         */
+        /// <summary>Default String = "Viswanath's constant"</summary>
         public String CONSTANT_VALUE_VISWANATH = DEFAULT_CONSTANT_VALUE_VISWANATH;
-        /**
-         * Default String = "Legendre's constant"
-         */
+        /// <summary>Default String = "Legendre's constant"</summary>
         public String CONSTANT_VALUE_LEGENDRE = DEFAULT_CONSTANT_VALUE_LEGENDRE;
-        /**
-         * Default String = "Ramanujan-Soldner constant"
-         */
+        /// <summary>Default String = "Ramanujan-Soldner constant"</summary>
         public String CONSTANT_VALUE_RAMANUJAN_SOLDNER = DEFAULT_CONSTANT_VALUE_RAMANUJAN_SOLDNER;
-        /**
-         * Default String = "Erdos-Borwein constant"
-         */
+        /// <summary>Default String = "Erdos-Borwein constant"</summary>
         public String CONSTANT_VALUE_ERDOS_BORWEIN = DEFAULT_CONSTANT_VALUE_ERDOS_BORWEIN;
-        /**
-         * Default String = "Bernstein's constant"
-         */
+        /// <summary>Default String = "Bernstein's constant"</summary>
         public String CONSTANT_VALUE_BERNSTEIN = DEFAULT_CONSTANT_VALUE_BERNSTEIN;
-        /**
-         * Default String = "Gauss-Kuzmin-Wirsing constant"
-         */
+        /// <summary>Default String = "Gauss-Kuzmin-Wirsing constant"</summary>
         public String CONSTANT_VALUE_GAUSS_KUZMIN_WIRSING = DEFAULT_CONSTANT_VALUE_GAUSS_KUZMIN_WIRSING;
-        /**
-         * Default String = "Hafner-Sarnak-McCurley constant"
-         */
+        /// <summary>Default String = "Hafner-Sarnak-McCurley constant"</summary>
         public String CONSTANT_VALUE_HAFNER_SARNAK_MCCURLEY = DEFAULT_CONSTANT_VALUE_HAFNER_SARNAK_MCCURLEY;
-        /**
-         * Default String = "Golomb-Dickman constant"
-         */
+        /// <summary>Default String = "Golomb-Dickman constant"</summary>
         public String CONSTANT_VALUE_GOLOMB_DICKMAN = DEFAULT_CONSTANT_VALUE_GOLOMB_DICKMAN;
-        /**
-         * Default String = "Cahen's constant"
-         */
+        /// <summary>Default String = "Cahen's constant"</summary>
         public String CONSTANT_VALUE_CAHEN = DEFAULT_CONSTANT_VALUE_CAHEN;
-        /**
-         * Default String = "Laplace limit constant"
-         */
+        /// <summary>Default String = "Laplace limit constant"</summary>
         public String CONSTANT_VALUE_LAPLACE_LIMIT = DEFAULT_CONSTANT_VALUE_LAPLACE_LIMIT;
-        /**
-         * Default String = "Alladi-Grinstead constant"
-         */
+        /// <summary>Default String = "Alladi-Grinstead constant"</summary>
         public String CONSTANT_VALUE_ALLADI_GRINSTEAD = DEFAULT_CONSTANT_VALUE_ALLADI_GRINSTEAD;
-        /**
-         * Default String = "Lengyel's constant"
-         */
+        /// <summary>Default String = "Lengyel's constant"</summary>
         public String CONSTANT_VALUE_LENGYEL = DEFAULT_CONSTANT_VALUE_LENGYEL;
-        /**
-         * Default String = "Levy's constant"
-         */
+        /// <summary>Default String = "Levy's constant"</summary>
         public String CONSTANT_VALUE_LEVY = DEFAULT_CONSTANT_VALUE_LEVY;
-        /**
-         * Default String = "Apery's constant"
-         */
+        /// <summary>Default String = "Apery's constant"</summary>
         public String CONSTANT_VALUE_APERY = DEFAULT_CONSTANT_VALUE_APERY;
-        /**
-         * Default String = "Mills' constant"
-         */
+        /// <summary>Default String = "Mills' constant"</summary>
         public String CONSTANT_VALUE_MILLS = DEFAULT_CONSTANT_VALUE_MILLS;
-        /**
-         * Default String = "Backhouse's constant"
-         */
+        /// <summary>Default String = "Backhouse's constant"</summary>
         public String CONSTANT_VALUE_BACKHOUSE = DEFAULT_CONSTANT_VALUE_BACKHOUSE;
-        /**
-         * Default String = "Porter's constant"
-         */
+        /// <summary>Default String = "Porter's constant"</summary>
         public String CONSTANT_VALUE_PORTER = DEFAULT_CONSTANT_VALUE_PORTER;
-        /**
-         * Default String = "Lieb's square ice constant"
-         */
+        /// <summary>Default String = "Lieb's square ice constant"</summary>
         public String CONSTANT_VALUE_LIEB_QUARE_ICE = DEFAULT_CONSTANT_VALUE_LIEB_QUARE_ICE;
-        /**
-         * Default String = "Niven's constant"
-         */
+        /// <summary>Default String = "Niven's constant"</summary>
         public String CONSTANT_VALUE_NIVEN = DEFAULT_CONSTANT_VALUE_NIVEN;
-        /**
-         * Default String = "Sierpinski's constant"
-         */
+        /// <summary>Default String = "Sierpinski's constant"</summary>
         public String CONSTANT_VALUE_SIERPINSKI = DEFAULT_CONSTANT_VALUE_SIERPINSKI;
-        /**
-         * Default String = "Khinchin's constant"
-         */
+        /// <summary>Default String = "Khinchin's constant"</summary>
         public String CONSTANT_VALUE_KHINCHIN = DEFAULT_CONSTANT_VALUE_KHINCHIN;
-        /**
-         * Default String = "Fransen-Robinson constant"
-         */
+        /// <summary>Default String = "Fransen-Robinson constant"</summary>
         public String CONSTANT_VALUE_FRANSEN_ROBINSON = DEFAULT_CONSTANT_VALUE_FRANSEN_ROBINSON;
-        /**
-         * Default String = "Landau's constant"
-         */
+        /// <summary>Default String = "Landau's constant"</summary>
         public String CONSTANT_VALUE_LANDAU = DEFAULT_CONSTANT_VALUE_LANDAU;
-        /**
-         * Default String = "Parabolic constant"
-         */
+        /// <summary>Default String = "Parabolic constant"</summary>
         public String CONSTANT_VALUE_PARABOLIC = DEFAULT_CONSTANT_VALUE_PARABOLIC;
-        /**
-         * Default String = "Omega constant"
-         */
+        /// <summary>Default String = "Omega constant"</summary>
         public String CONSTANT_VALUE_OMEGA = DEFAULT_CONSTANT_VALUE_OMEGA;
-        /**
-         * Default String = "MRB constant"
-         */
+        /// <summary>Default String = "MRB constant"</summary>
         public String CONSTANT_VALUE_MRB = DEFAULT_CONSTANT_VALUE_MRB;
-        /**
-         * Default String = "Logarithmic integral at point 2"
-         */
+        /// <summary>Default String = "Logarithmic integral at point 2"</summary>
         public String CONSTANT_VALUE_LI2 = DEFAULT_CONSTANT_VALUE_LI2;
-        /**
-         * Default String = "Gompertz constant"
-         */
+        /// <summary>Default String = "Gompertz constant"</summary>
         public String CONSTANT_VALUE_GOMPERTZ = DEFAULT_CONSTANT_VALUE_GOMPERTZ;
-        /**
-         * Default String = "Light speed in vacuum"
-         */
+        /// <summary>Default String = "Light speed in vacuum"</summary>
         public String CONSTANT_VALUE_LIGHT_SPEED = DEFAULT_CONSTANT_VALUE_LIGHT_SPEED;
-        /**
-         * Default String = "Gravitational constant"
-         */
+        /// <summary>Default String = "Gravitational constant"</summary>
         public String CONSTANT_VALUE_GRAVITATIONAL_CONSTANT = DEFAULT_CONSTANT_VALUE_GRAVITATIONAL_CONSTANT;
-        /**
-         * Default String = "Gravitational acceleration on Earth"
-         */
+        /// <summary>Default String = "Gravitational acceleration on Earth"</summary>
         public String CONSTANT_VALUE_GRAVIT_ACC_EARTH = DEFAULT_CONSTANT_VALUE_GRAVIT_ACC_EARTH;
-        /**
-         * Default String = "Planck constant"
-         */
+        /// <summary>Default String = "Planck constant"</summary>
         public String CONSTANT_VALUE_PLANCK_CONSTANT = DEFAULT_CONSTANT_VALUE_PLANCK_CONSTANT;
-        /**
-         * Default String = "Reduced Planck constant (Dirac constant)"
-         */
+        /// <summary>Default String = "Reduced Planck constant (Dirac constant)"</summary>
         public String CONSTANT_VALUE_PLANCK_CONSTANT_REDUCED = DEFAULT_CONSTANT_VALUE_PLANCK_CONSTANT_REDUCED;
-        /**
-         * Default String = "Planck length"
-         */
+        /// <summary>Default String = "Planck length"</summary>
         public String CONSTANT_VALUE_PLANCK_LENGTH = DEFAULT_CONSTANT_VALUE_PLANCK_LENGTH;
-        /**
-         * Default String = "Planck mass"
-         */
+        /// <summary>Default String = "Planck mass"</summary>
         public String CONSTANT_VALUE_PLANCK_MASS = DEFAULT_CONSTANT_VALUE_PLANCK_MASS;
-        /**
-         * Default String = "Planck time"
-         */
+        /// <summary>Default String = "Planck time"</summary>
         public String CONSTANT_VALUE_PLANCK_TIME = DEFAULT_CONSTANT_VALUE_PLANCK_TIME;
-        /**
-         * Default String = "Light year"
-         */
+        /// <summary>Default String = "Light year"</summary>
         public String CONSTANT_VALUE_LIGHT_YEAR = DEFAULT_CONSTANT_VALUE_LIGHT_YEAR;
-        /**
-         * Default String = "Astronomical unit"
-         */
+        /// <summary>Default String = "Astronomical unit"</summary>
         public String CONSTANT_VALUE_ASTRONOMICAL_UNIT = DEFAULT_CONSTANT_VALUE_ASTRONOMICAL_UNIT;
-        /**
-         * Default String = "Parsec"
-         */
+        /// <summary>Default String = "Parsec"</summary>
         public String CONSTANT_VALUE_PARSEC = DEFAULT_CONSTANT_VALUE_PARSEC;
-        /**
-         * Default String = "Kiloparsec"
-         */
+        /// <summary>Default String = "Kiloparsec"</summary>
         public String CONSTANT_VALUE_KILOPARSEC = DEFAULT_CONSTANT_VALUE_KILOPARSEC;
-        /**
-         * Default String = "Earth equatorial radius"
-         */
+        /// <summary>Default String = "Earth equatorial radius"</summary>
         public String CONSTANT_VALUE_EARTH_RADIUS_EQUATORIAL = DEFAULT_CONSTANT_VALUE_EARTH_RADIUS_EQUATORIAL;
-        /**
-         * Default String = "Earth polar radius"
-         */
+        /// <summary>Default String = "Earth polar radius"</summary>
         public String CONSTANT_VALUE_EARTH_RADIUS_POLAR = DEFAULT_CONSTANT_VALUE_EARTH_RADIUS_POLAR;
-        /**
-         * Default String = "Earth mean radius"
-         */
+        /// <summary>Default String = "Earth mean radius"</summary>
         public String CONSTANT_VALUE_EARTH_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_EARTH_RADIUS_MEAN;
-        /**
-         * Default String = "Earth mass"
-         */
+        /// <summary>Default String = "Earth mass"</summary>
         public String CONSTANT_VALUE_EARTH_MASS = DEFAULT_CONSTANT_VALUE_EARTH_MASS;
-        /**
-         * Default String = "Earth-Sun distance"
-         */
+        /// <summary>Default String = "Earth-Sun distance"</summary>
         public String CONSTANT_VALUE_EARTH_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_EARTH_SEMI_MAJOR_AXIS;
-        /**
-         * Default String = "Moon mean radius"
-         */
+        /// <summary>Default String = "Moon mean radius"</summary>
         public String CONSTANT_VALUE_MOON_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_MOON_RADIUS_MEAN;
-        /**
-         * Default String = "Moon mass"
-         */
+        /// <summary>Default String = "Moon mass"</summary>
         public String CONSTANT_VALUE_MOON_MASS = DEFAULT_CONSTANT_VALUE_MOON_MASS;
-        /**
-         * Default String = "Moon-Earth distance"
-         */
+        /// <summary>Default String = "Moon-Earth distance"</summary>
         public String CONSTANT_VALUE_MOON_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_MOON_SEMI_MAJOR_AXIS;
-        /**
-         * Default String = "Solar mean radius"
-         */
+        /// <summary>Default String = "Solar mean radius"</summary>
         public String CONSTANT_VALUE_SOLAR_RADIUS = DEFAULT_CONSTANT_VALUE_SOLAR_RADIUS;
-        /**
-         * Default String = "Solar mass"
-         */
+        /// <summary>Default String = "Solar mass"</summary>
         public String CONSTANT_VALUE_SOLAR_MASS = DEFAULT_CONSTANT_VALUE_SOLAR_MASS;
-        /**
-         * Default String = "Mercury mean radius"
-         */
+        /// <summary>Default String = "Mercury mean radius"</summary>
         public String CONSTANT_VALUE_MERCURY_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_MERCURY_RADIUS_MEAN;
-        /**
-         * Default String = "Mercury mass"
-         */
+        /// <summary>Default String = "Mercury mass"</summary>
         public String CONSTANT_VALUE_MERCURY_MASS = DEFAULT_CONSTANT_VALUE_MERCURY_MASS;
-        /**
-         * Default String = "Mercury-Sun distance"
-         */
+        /// <summary>Default String = "Mercury-Sun distance"</summary>
         public String CONSTANT_VALUE_MERCURY_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_MERCURY_SEMI_MAJOR_AXIS;
-        /**
-         * Default String = "Venus mean radius"
-         */
+        /// <summary>Default String = "Venus mean radius"</summary>
         public String CONSTANT_VALUE_VENUS_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_VENUS_RADIUS_MEAN;
-        /**
-         * Default String = "Venus mass"
-         */
+        /// <summary>Default String = "Venus mass"</summary>
         public String CONSTANT_VALUE_VENUS_MASS = DEFAULT_CONSTANT_VALUE_VENUS_MASS;
-        /**
-         * Default String = "Venus-Sun distance"
-         */
+        /// <summary>Default String = "Venus-Sun distance"</summary>
         public String CONSTANT_VALUE_VENUS_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_VENUS_SEMI_MAJOR_AXIS;
-        /**
-         * Default String = "Mars mean radius"
-         */
+        /// <summary>Default String = "Mars mean radius"</summary>
         public String CONSTANT_VALUE_MARS_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_MARS_RADIUS_MEAN;
-        /**
-         * Default String = "Mars mass"
-         */
+        /// <summary>Default String = "Mars mass"</summary>
         public String CONSTANT_VALUE_MARS_MASS = DEFAULT_CONSTANT_VALUE_MARS_MASS;
-        /**
-         * Default String = "Mars-Sun distance"
-         */
+        /// <summary>Default String = "Mars-Sun distance"</summary>
         public String CONSTANT_VALUE_MARS_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_MARS_SEMI_MAJOR_AXIS;
-        /**
-         * Default String = "Jupiter mean radius"
-         */
+        /// <summary>Default String = "Jupiter mean radius"</summary>
         public String CONSTANT_VALUE_JUPITER_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_JUPITER_RADIUS_MEAN;
-        /**
-         * Default String = "Jupiter mass"
-         */
+        /// <summary>Default String = "Jupiter mass"</summary>
         public String CONSTANT_VALUE_JUPITER_MASS = DEFAULT_CONSTANT_VALUE_JUPITER_MASS;
-        /**
-         * Default String = "Jupiter-Sun distance"
-         */
+        /// <summary>Default String = "Jupiter-Sun distance"</summary>
         public String CONSTANT_VALUE_JUPITER_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_JUPITER_SEMI_MAJOR_AXIS;
-        /**
-         * Default String = "Saturn mean radius"
-         */
+        /// <summary>Default String = "Saturn mean radius"</summary>
         public String CONSTANT_VALUE_SATURN_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_SATURN_RADIUS_MEAN;
-        /**
-         * Default String = "Saturn mass"
-         */
+        /// <summary>Default String = "Saturn mass"</summary>
         public String CONSTANT_VALUE_SATURN_MASS = DEFAULT_CONSTANT_VALUE_SATURN_MASS;
-        /**
-         * Default String = "Saturn-Sun distance"
-         */
+        /// <summary>Default String = "Saturn-Sun distance"</summary>
         public String CONSTANT_VALUE_SATURN_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_SATURN_SEMI_MAJOR_AXIS;
-        /**
-         * Default String = "Uranus mean radius"
-         */
+        /// <summary>Default String = "Uranus mean radius"</summary>
         public String CONSTANT_VALUE_URANUS_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_URANUS_RADIUS_MEAN;
-        /**
-         * Default String = "Uranus mass"
-         */
+        /// <summary>Default String = "Uranus mass"</summary>
         public String CONSTANT_VALUE_URANUS_MASS = DEFAULT_CONSTANT_VALUE_URANUS_MASS;
-        /**
-         * Default String = "Uranus-Sun distance"
-         */
+        /// <summary>Default String = "Uranus-Sun distance"</summary>
         public String CONSTANT_VALUE_URANUS_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_URANUS_SEMI_MAJOR_AXIS;
-        /**
-         * Default String = "Neptune mean radius"
-         */
+        /// <summary>Default String = "Neptune mean radius"</summary>
         public String CONSTANT_VALUE_NEPTUNE_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_NEPTUNE_RADIUS_MEAN;
-        /**
-         * Default String = "Neptune mass"
-         */
+        /// <summary>Default String = "Neptune mass"</summary>
         public String CONSTANT_VALUE_NEPTUNE_MASS = DEFAULT_CONSTANT_VALUE_NEPTUNE_MASS;
-        /**
-         * Default String = "Neptune-Sun distance"
-         */
+        /// <summary>Default String = "Neptune-Sun distance"</summary>
         public String CONSTANT_VALUE_NEPTUNE_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_NEPTUNE_SEMI_MAJOR_AXIS;
-        /**
-         * Default String = "Boolean True represented as 1"
-         */
+        /// <summary>Default String = "Boolean True represented as 1"</summary>
         public String CONSTANT_VALUE_TRUE = DEFAULT_CONSTANT_VALUE_TRUE;
-        /**
-         * Default String = "Boolean False represented as 0"
-         */
+        /// <summary>Default String = "Boolean False represented as 0"</summary>
         public String CONSTANT_VALUE_FALSE = DEFAULT_CONSTANT_VALUE_FALSE;
-        /**
-         * Default String = "Automatically generated constant for user defined functions, returns number of given function parameters"
-         */
+        /// <summary>Default String = "Automatically generated constant for user defined functions, returns number of given function parameters"</summary>
         public String CONSTANT_VALUE_NPAR = DEFAULT_CONSTANT_VALUE_NPAR;
-        /**
-         * Default String = "Not-a-Number"
-         */
+        /// <summary>Default String = "Not-a-Number"</summary>
         public String CONSTANT_VALUE_NAN = DEFAULT_CONSTANT_VALUE_NAN;
         // -------------------------------------------------
-        /**
-         * Default String = "Trigonometric sine"
-         */
+        /// <summary>Default String = "Trigonometric sine"</summary>
         public String FUNCTION_1_ARG_SIN = DEFAULT_FUNCTION_1_ARG_SIN;
-        /**
-         * Default String = "Trigonometric cosine"
-         */
+        /// <summary>Default String = "Trigonometric cosine"</summary>
         public String FUNCTION_1_ARG_COS = DEFAULT_FUNCTION_1_ARG_COS;
-        /**
-         * Default String = "Trigonometric tangent"
-         */
+        /// <summary>Default String = "Trigonometric tangent"</summary>
         public String FUNCTION_1_ARG_TAN = DEFAULT_FUNCTION_1_ARG_TAN;
-        /**
-         * Default String = "Trigonometric cotangent"
-         */
+        /// <summary>Default String = "Trigonometric cotangent"</summary>
         public String FUNCTION_1_ARG_CTAN = DEFAULT_FUNCTION_1_ARG_CTAN;
-        /**
-         * Default String = "Trigonometric secant"
-         */
+        /// <summary>Default String = "Trigonometric secant"</summary>
         public String FUNCTION_1_ARG_SEC = DEFAULT_FUNCTION_1_ARG_SEC;
-        /**
-         * Default String = "Trigonometric cosecant"
-         */
+        /// <summary>Default String = "Trigonometric cosecant"</summary>
         public String FUNCTION_1_ARG_COSEC = DEFAULT_FUNCTION_1_ARG_COSEC;
-        /**
-         * Default String = "Inverse trigonometric sine"
-         */
+        /// <summary>Default String = "Inverse trigonometric sine"</summary>
         public String FUNCTION_1_ARG_ASIN = DEFAULT_FUNCTION_1_ARG_ASIN;
-        /**
-         * Default String = "Inverse trigonometric cosine"
-         */
+        /// <summary>Default String = "Inverse trigonometric cosine"</summary>
         public String FUNCTION_1_ARG_ACOS = DEFAULT_FUNCTION_1_ARG_ACOS;
-        /**
-         * Default String = "Inverse trigonometric tangent"
-         */
+        /// <summary>Default String = "Inverse trigonometric tangent"</summary>
         public String FUNCTION_1_ARG_ATAN = DEFAULT_FUNCTION_1_ARG_ATAN;
-        /**
-         * Default String = "Inverse trigonometric cotangent"
-         */
+        /// <summary>Default String = "Inverse trigonometric cotangent"</summary>
         public String FUNCTION_1_ARG_ACTAN = DEFAULT_FUNCTION_1_ARG_ACTAN;
-        /**
-         * Default String = "Natural logarithm (base e)"
-         */
+        /// <summary>Default String = "Natural logarithm (base e)"</summary>
         public String FUNCTION_1_ARG_LN = DEFAULT_FUNCTION_1_ARG_LN;
-        /**
-         * Default String = "Binary logarithm (base 2)"
-         */
+        /// <summary>Default String = "Binary logarithm (base 2)"</summary>
         public String FUNCTION_1_ARG_LOG2 = DEFAULT_FUNCTION_1_ARG_LOG2;
-        /**
-         * Default String = "Common logarithm (base 10)"
-         */
+        /// <summary>Default String = "Common logarithm (base 10)"</summary>
         public String FUNCTION_1_ARG_LOG10 = DEFAULT_FUNCTION_1_ARG_LOG10;
-        /**
-         * Default String = "Degrees to radians"
-         */
+        /// <summary>Default String = "Degrees to radians"</summary>
         public String FUNCTION_1_ARG_RAD = DEFAULT_FUNCTION_1_ARG_RAD;
-        /**
-         * Default String = "Exponential"
-         */
+        /// <summary>Default String = "Exponential"</summary>
         public String FUNCTION_1_ARG_EXP = DEFAULT_FUNCTION_1_ARG_EXP;
-        /**
-         * Default String = "Squre root"
-         */
+        /// <summary>Default String = "Squre root"</summary>
         public String FUNCTION_1_ARG_SQRT = DEFAULT_FUNCTION_1_ARG_SQRT;
-        /**
-         * Default String = "Hyperbolic sine"
-         */
+        /// <summary>Default String = "Hyperbolic sine"</summary>
         public String FUNCTION_1_ARG_SINH = DEFAULT_FUNCTION_1_ARG_SINH;
-        /**
-         * Default String = "Hyperbolic cosine"
-         */
+        /// <summary>Default String = "Hyperbolic cosine"</summary>
         public String FUNCTION_1_ARG_COSH = DEFAULT_FUNCTION_1_ARG_COSH;
-        /**
-         * Default String = "Hyperbolic tangent"
-         */
+        /// <summary>Default String = "Hyperbolic tangent"</summary>
         public String FUNCTION_1_ARG_TANH = DEFAULT_FUNCTION_1_ARG_TANH;
-        /**
-         * Default String = "Hyperbolic cotangent"
-         */
+        /// <summary>Default String = "Hyperbolic cotangent"</summary>
         public String FUNCTION_1_ARG_COTH = DEFAULT_FUNCTION_1_ARG_COTH;
-        /**
-         * Default String = "Hyperbolic secant"
-         */
+        /// <summary>Default String = "Hyperbolic secant"</summary>
         public String FUNCTION_1_ARG_SECH = DEFAULT_FUNCTION_1_ARG_SECH;
-        /**
-         * Default String = "Hyperbolic cosecant"
-         */
+        /// <summary>Default String = "Hyperbolic cosecant"</summary>
         public String FUNCTION_1_ARG_CSCH = DEFAULT_FUNCTION_1_ARG_CSCH;
-        /**
-         * Default String = "Radians to degrees"
-         */
+        /// <summary>Default String = "Radians to degrees"</summary>
         public String FUNCTION_1_ARG_DEG = DEFAULT_FUNCTION_1_ARG_DEG;
-        /**
-         * Default String = "Absolut value"
-         */
+        /// <summary>Default String = "Absolut value"</summary>
         public String FUNCTION_1_ARG_ABS = DEFAULT_FUNCTION_1_ARG_ABS;
-        /**
-         * Default String = "Signum"
-         */
+        /// <summary>Default String = "Signum"</summary>
         public String FUNCTION_1_ARG_SGN = DEFAULT_FUNCTION_1_ARG_SGN;
-        /**
-         * Default String = "Floor"
-         */
+        /// <summary>Default String = "Floor"</summary>
         public String FUNCTION_1_ARG_FLOOR = DEFAULT_FUNCTION_1_ARG_FLOOR;
-        /**
-         * Default String = "Ceiling"
-         */
+        /// <summary>Default String = "Ceiling"</summary>
         public String FUNCTION_1_ARG_CEIL = DEFAULT_FUNCTION_1_ARG_CEIL;
-        /**
-         * Default String = "Negation"
-         */
+        /// <summary>Default String = "Negation"</summary>
         public String FUNCTION_1_ARG_NOT = DEFAULT_FUNCTION_1_ARG_NOT;
-        /**
-         * Default String = "Inverse hyperbolic sine"
-         */
+        /// <summary>Default String = "Inverse hyperbolic sine"</summary>
         public String FUNCTION_1_ARG_ARSINH = DEFAULT_FUNCTION_1_ARG_ARSINH;
-        /**
-         * Default String = "Inverse hyperbolic cosine"
-         */
+        /// <summary>Default String = "Inverse hyperbolic cosine"</summary>
         public String FUNCTION_1_ARG_ARCOSH = DEFAULT_FUNCTION_1_ARG_ARCOSH;
-        /**
-         * Default String = "Inverse hyperbolic tangent"
-         */
+        /// <summary>Default String = "Inverse hyperbolic tangent"</summary>
         public String FUNCTION_1_ARG_ARTANH = DEFAULT_FUNCTION_1_ARG_ARTANH;
-        /**
-         * Default String = "Inverse hyperbolic cotangent"
-         */
+        /// <summary>Default String = "Inverse hyperbolic cotangent"</summary>
         public String FUNCTION_1_ARG_ARCOTH = DEFAULT_FUNCTION_1_ARG_ARCOTH;
-        /**
-         * Default String = "Inverse hyperbolic secant"
-         */
+        /// <summary>Default String = "Inverse hyperbolic secant"</summary>
         public String FUNCTION_1_ARG_ARSECH = DEFAULT_FUNCTION_1_ARG_ARSECH;
-        /**
-         * Default String = "Inverse hyperbolic cosecant"
-         */
+        /// <summary>Default String = "Inverse hyperbolic cosecant"</summary>
         public String FUNCTION_1_ARG_ARCSCH = DEFAULT_FUNCTION_1_ARG_ARCSCH;
-        /**
-         * Default String = "Sinc (normalized)"
-         */
+        /// <summary>Default String = "Sinc (normalized)"</summary>
         public String FUNCTION_1_ARG_SA = DEFAULT_FUNCTION_1_ARG_SA;
-        /**
-         * Default String = "Sinc (unnormalized)"
-         */
+        /// <summary>Default String = "Sinc (unnormalized)"</summary>
         public String FUNCTION_1_ARG_SINC = DEFAULT_FUNCTION_1_ARG_SINC;
-        /**
-         * Default String = "Bell number"
-         */
+        /// <summary>Default String = "Bell number"</summary>
         public String FUNCTION_1_ARG_BELL_NUMBER = DEFAULT_FUNCTION_1_ARG_BELL_NUMBER;
-        /**
-         * Default String = "Lucas number"
-         */
+        /// <summary>Default String = "Lucas number"</summary>
         public String FUNCTION_1_ARG_LUCAS_NUMBER = DEFAULT_FUNCTION_1_ARG_LUCAS_NUMBER;
-        /**
-         * Default String = "Fibonacci number"
-         */
+        /// <summary>Default String = "Fibonacci number"</summary>
         public String FUNCTION_1_ARG_FIBONACCI_NUMBER = DEFAULT_FUNCTION_1_ARG_FIBONACCI_NUMBER;
-        /**
-         * Default String = "Harmonic number"
-         */
+        /// <summary>Default String = "Harmonic number"</summary>
         public String FUNCTION_1_ARG_HARMONIC_NUMBER = DEFAULT_FUNCTION_1_ARG_HARMONIC_NUMBER;
-        /**
-         * Default String = "Prime number test (is number a prime?)"
-         */
+        /// <summary>Default String = "Prime number test (is number a prime?)"</summary>
         public String FUNCTION_1_ARG_IS_PRIME = DEFAULT_FUNCTION_1_ARG_IS_PRIME;
-        /**
-         * Default String = "Prime-counting"
-         */
+        /// <summary>Default String = "Prime-counting"</summary>
         public String FUNCTION_1_ARG_PRIME_COUNT = DEFAULT_FUNCTION_1_ARG_PRIME_COUNT;
-        /**
-         * Default String = "Exponential integral"
-         */
+        /// <summary>Default String = "Exponential integral"</summary>
         public String FUNCTION_1_ARG_EXP_INT = DEFAULT_FUNCTION_1_ARG_EXP_INT;
-        /**
-         * Default String = "Logarithmic integral"
-         */
+        /// <summary>Default String = "Logarithmic integral"</summary>
         public String FUNCTION_1_ARG_LOG_INT = DEFAULT_FUNCTION_1_ARG_LOG_INT;
-        /**
-         * Default String = "Offset logarithmic integral"
-         */
+        /// <summary>Default String = "Offset logarithmic integral"</summary>
         public String FUNCTION_1_ARG_OFF_LOG_INT = DEFAULT_FUNCTION_1_ARG_OFF_LOG_INT;
-        /**
-         * Default String = "Gauss error"
-         */
+        /// <summary>Default String = "Gauss error"</summary>
         public String FUNCTION_1_ARG_GAUSS_ERF = DEFAULT_FUNCTION_1_ARG_GAUSS_ERF;
-        /**
-         * Default String = "Gauss complementary error"
-         */
+        /// <summary>Default String = "Gauss complementary error"</summary>
         public String FUNCTION_1_ARG_GAUSS_ERFC = DEFAULT_FUNCTION_1_ARG_GAUSS_ERFC;
-        /**
-         * Default String = "Inverse Gauss error"
-         */
+        /// <summary>Default String = "Inverse Gauss error"</summary>
         public String FUNCTION_1_ARG_GAUSS_ERF_INV = DEFAULT_FUNCTION_1_ARG_GAUSS_ERF_INV;
-        /**
-         * Default String = "Inverse Gauss complementary error"
-         */
+        /// <summary>Default String = "Inverse Gauss complementary error"</summary>
         public String FUNCTION_1_ARG_GAUSS_ERFC_INV = DEFAULT_FUNCTION_1_ARG_GAUSS_ERFC_INV;
-        /**
-         * Default String = "Unit in The Last Place"
-         */
+        /// <summary>Default String = "Unit in The Last Place"</summary>
         public String FUNCTION_1_ARG_ULP = DEFAULT_FUNCTION_1_ARG_ULP;
-        /**
-         * Default String = "Returns true if value is a Not-a-Number (NaN), false otherwise"
-         */
+        /// <summary>Default String = "Returns true if value is a Not-a-Number (NaN), false otherwise"</summary>
         public String FUNCTION_1_ARG_ISNAN = DEFAULT_FUNCTION_1_ARG_ISNAN;
-        /**
-         * Default String = "Number of digits in numeral system with base 10"
-         */
+        /// <summary>Default String = "Number of digits in numeral system with base 10"</summary>
         public String FUNCTION_1_ARG_NDIG10 = DEFAULT_FUNCTION_1_ARG_NDIG10;
-        /**
-         * Default String = "Prime decomposition - number of distinct prime factors"
-         */
+        /// <summary>Default String = "Prime decomposition - number of distinct prime factors"</summary>
         public String FUNCTION_1_ARG_NFACT = DEFAULT_FUNCTION_1_ARG_NFACT;
-        /**
-         * Default String = "Inverse trigonometric secant"
-         */
+        /// <summary>Default String = "Inverse trigonometric secant"</summary>
         public String FUNCTION_1_ARG_ARCSEC = DEFAULT_FUNCTION_1_ARG_ARCSEC;
-        /**
-         * Default String = "Inverse trigonometric cosecant"
-         */
+        /// <summary>Default String = "Inverse trigonometric cosecant"</summary>
         public String FUNCTION_1_ARG_ARCCSC = DEFAULT_FUNCTION_1_ARG_ARCCSC;
-        /**
-         * Default String = "Gamma"
-         */
+        /// <summary>Default String = "Gamma"</summary>
         public String FUNCTION_1_ARG_GAMMA = DEFAULT_FUNCTION_1_ARG_GAMMA;
-        /**
-         * Default String = "Lambert-W, principal branch 0, also called the omega or product logarithm"
-         */
+        /// <summary>Default String = "Lambert-W, principal branch 0, also called the omega or product logarithm"</summary>
         public String FUNCTION_1_ARG_LAMBERT_W0 = DEFAULT_FUNCTION_1_ARG_LAMBERT_W0;
-        /**
-         * Default String = "Lambert-W, branch -1, also called the omega or product logarithm"
-         */
+        /// <summary>Default String = "Lambert-W, branch -1, also called the omega or product logarithm"</summary>
         public String FUNCTION_1_ARG_LAMBERT_W1 = DEFAULT_FUNCTION_1_ARG_LAMBERT_W1;
-        /**
-         * Default String = "Signum of Gamma"
-         */
+        /// <summary>Default String = "Signum of Gamma"</summary>
         public String FUNCTION_1_ARG_SGN_GAMMA = DEFAULT_FUNCTION_1_ARG_SGN_GAMMA;
-        /**
-         * Default String = "Log Gamma"
-         */
+        /// <summary>Default String = "Log Gamma"</summary>
         public String FUNCTION_1_ARG_LOG_GAMMA = DEFAULT_FUNCTION_1_ARG_LOG_GAMMA;
-        /**
-         * Default String = "Digamma as the logarithmic derivative of the Gamma"
-         */
+        /// <summary>Default String = "Digamma as the logarithmic derivative of the Gamma"</summary>
         public String FUNCTION_1_ARG_DI_GAMMA = DEFAULT_FUNCTION_1_ARG_DI_GAMMA;
-        /**
-         * Default String = "Automatically generated function for user defined functions, returns function parameter value at index 'i'"
-         */
+        /// <summary>Default String = "Automatically generated function for user defined functions, returns function parameter value at index 'i'"</summary>
         public String FUNCTION_1_ARG_PARAM = DEFAULT_FUNCTION_1_ARG_PARAM;
         // -------------------------------------------------
-        /**
-         * Default String = "Logarithm"
-         */
+        /// <summary>Default String = "Logarithm"</summary>
         public String FUNCTION_2_ARG_LOG = DEFAULT_FUNCTION_2_ARG_LOG;
-        /**
-         * Default String = "Modulo"
-         */
+        /// <summary>Default String = "Modulo"</summary>
         public String FUNCTION_2_ARG_MOD = DEFAULT_FUNCTION_2_ARG_MOD;
-        /**
-         * Default String = "Binomial coefficient, number of k-combinations that can be drawn from n-elements set"
-         */
+        /// <summary>Default String = "Binomial coefficient, number of k-combinations that can be drawn from n-elements set"</summary>
         public String FUNCTION_2_ARG_BINOM_COEFF = DEFAULT_FUNCTION_2_ARG_BINOM_COEFF;
-        /**
-         * Default String = "Bernoulli numbers"
-         */
+        /// <summary>Default String = "Bernoulli numbers"</summary>
         public String FUNCTION_2_ARG_BERNOULLI_NUMBER = DEFAULT_FUNCTION_2_ARG_BERNOULLI_NUMBER;
-        /**
-         * Default String = "Stirling numbers of the first kind"
-         */
+        /// <summary>Default String = "Stirling numbers of the first kind"</summary>
         public String FUNCTION_2_ARG_STIRLING1_NUMBER = DEFAULT_FUNCTION_2_ARG_STIRLING1_NUMBER;
-        /**
-         * Default String = "Stirling numbers of the second kind"
-         */
+        /// <summary>Default String = "Stirling numbers of the second kind"</summary>
         public String FUNCTION_2_ARG_STIRLING2_NUMBER = DEFAULT_FUNCTION_2_ARG_STIRLING2_NUMBER;
-        /**
-         * Default String = "Worpitzky number"
-         */
+        /// <summary>Default String = "Worpitzky number"</summary>
         public String FUNCTION_2_ARG_WORPITZKY_NUMBER = DEFAULT_FUNCTION_2_ARG_WORPITZKY_NUMBER;
-        /**
-         * Default String = "Euler number"
-         */
+        /// <summary>Default String = "Euler number"</summary>
         public String FUNCTION_2_ARG_EULER_NUMBER = DEFAULT_FUNCTION_2_ARG_EULER_NUMBER;
-        /**
-         * Default String = "Kronecker delta"
-         */
+        /// <summary>Default String = "Kronecker delta"</summary>
         public String FUNCTION_2_ARG_KRONECKER_DELTA = DEFAULT_FUNCTION_2_ARG_KRONECKER_DELTA;
-        /**
-         * Default String = "EulerPol"
-         */
+        /// <summary>Default String = "EulerPol"</summary>
         public String FUNCTION_2_ARG_EULER_POLYNOMIAL = DEFAULT_FUNCTION_2_ARG_EULER_POLYNOMIAL;
-        /**
-         * Default String = "Harmonic number"
-         */
+        /// <summary>Default String = "Harmonic number"</summary>
         public String FUNCTION_2_ARG_HARMONIC_NUMBER = DEFAULT_FUNCTION_2_ARG_HARMONIC_NUMBER;
-        /**
-         * Default String = "Half-up rounding"
-         */
+        /// <summary>Default String = "Half-up rounding"</summary>
         public String FUNCTION_2_ARG_ROUND = DEFAULT_FUNCTION_2_ARG_ROUND;
-        /**
-         * Default String = "Number of digits representing the number in numeral system with given base"
-         */
+        /// <summary>Default String = "Number of digits representing the number in numeral system with given base"</summary>
         public String FUNCTION_2_ARG_NDIG = DEFAULT_FUNCTION_2_ARG_NDIG;
-        /**
-         * Default String = "Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - base 10 numeral system"
-         */
+        /// <summary>Default String = "Digit at position 1 ... n (left -&gt; right) or 0 ... -(n-1) (right -&gt; left) - base 10 numeral system"</summary>
         public String FUNCTION_2_ARG_DIGIT10 = DEFAULT_FUNCTION_2_ARG_DIGIT10;
-        /**
-         * Default String = "Prime decomposition - factor value at position between 1 ... nfact(n) - ascending order by factor value"
-         */
+        /// <summary>Default String = "Prime decomposition - factor value at position between 1 ... nfact(n) - ascending order by factor value"</summary>
         public String FUNCTION_2_ARG_FACTVAL = DEFAULT_FUNCTION_2_ARG_FACTVAL;
-        /**
-         * Default String = "Prime decomposition - factor exponent / multiplicity at position between 1 ... nfact(n) - ascending order by factor value"
-         */
+        /// <summary>Default String = "Prime decomposition - factor exponent / multiplicity at position between 1 ... nfact(n) - ascending order by factor value"</summary>
         public String FUNCTION_2_ARG_FACTEXP = DEFAULT_FUNCTION_2_ARG_FACTEXP;
-        /**
-         * Default String = "N-th order root of a number"
-         */
+        /// <summary>Default String = "N-th order root of a number"</summary>
         public String FUNCTION_2_ARG_ROOT = DEFAULT_FUNCTION_2_ARG_ROOT;
-        /**
-         * Default String = "Lower incomplete gamma"
-         */
+        /// <summary>Default String = "Lower incomplete gamma"</summary>
         public String FUNCTION_2_ARG_INC_GAMMA_LOWER = DEFAULT_FUNCTION_2_ARG_INC_GAMMA_LOWER;
-        /**
-         * Default String = "Upper incomplete Gamma"
-         */
+        /// <summary>Default String = "Upper incomplete Gamma"</summary>
         public String FUNCTION_2_ARG_INC_GAMMA_UPPER = DEFAULT_FUNCTION_2_ARG_INC_GAMMA_UPPER;
-        /**
-         * Default String = "Lower regularized P gamma"
-         */
+        /// <summary>Default String = "Lower regularized P gamma"</summary>
         public String FUNCTION_2_ARG_REG_GAMMA_LOWER = DEFAULT_FUNCTION_2_ARG_REG_GAMMA_LOWER;
-        /**
-         * Default String = "Upper regularized Q Gamma"
-         */
+        /// <summary>Default String = "Upper regularized Q Gamma"</summary>
         public String FUNCTION_2_ARG_REG_GAMMA_UPPER = DEFAULT_FUNCTION_2_ARG_REG_GAMMA_UPPER;
-        /**
-         * Default String = "Number of k-permutations that can be drawn from n-elements set"
-         */
+        /// <summary>Default String = "Number of k-permutations that can be drawn from n-elements set"</summary>
         public String FUNCTION_2_ARG_PERMUTATIONS = DEFAULT_FUNCTION_2_ARG_PERMUTATIONS;
-        /**
-         * Default String = "The Beta, also called the Euler integral of the first kind"
-         */
+        /// <summary>Default String = "The Beta, also called the Euler integral of the first kind"</summary>
         public String FUNCTION_2_ARG_BETA = DEFAULT_FUNCTION_2_ARG_BETA;
-        /**
-         * Default String = "The Log Beta, also called the Log Euler integral of the first kind"
-         */
+        /// <summary>Default String = "The Log Beta, also called the Log Euler integral of the first kind"</summary>
         public String FUNCTION_2_ARG_LOG_BETA = DEFAULT_FUNCTION_2_ARG_LOG_BETA;
         // -------------------------------------------------
-        /**
-         * Default String = "If"
-         */
+        /// <summary>Default String = "If"</summary>
         public String FUNCTION_3_ARG_IF = DEFAULT_FUNCTION_3_ARG_IF;
-        /**
-         * Default String = "Characteristic function for x in (a,b)"
-         */
+        /// <summary>Default String = "Characteristic function for x in (a,b)"</summary>
         public String FUNCTION_3_ARG_CHI = DEFAULT_FUNCTION_3_ARG_CHI;
-        /**
-         * Default String = "Characteristic function for x in [a,b]"
-         */
+        /// <summary>Default String = "Characteristic function for x in [a,b]"</summary>
         public String FUNCTION_3_ARG_CHI_LR = DEFAULT_FUNCTION_3_ARG_CHI_LR;
-        /**
-         * Default String = "Characteristic function for x in [a,b)"
-         */
+        /// <summary>Default String = "Characteristic function for x in [a,b)"</summary>
         public String FUNCTION_3_ARG_CHI_L = DEFAULT_FUNCTION_3_ARG_CHI_L;
-        /**
-         * Default String = "Characteristic function for x in (a,b]"
-         */
+        /// <summary>Default String = "Characteristic function for x in (a,b]"</summary>
         public String FUNCTION_3_ARG_CHI_R = DEFAULT_FUNCTION_3_ARG_CHI_R;
-        /**
-         * Default String = "Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - numeral system with given base"
-         */
+        /// <summary>Default String = "Digit at position 1 ... n (left -&gt; right) or 0 ... -(n-1) (right -&gt; left) - numeral system with given base"</summary>
         public String FUNCTION_3_ARG_DIGIT = DEFAULT_FUNCTION_3_ARG_DIGIT;
-        /**
-         * Default String = "The incomplete Beta, also called the incomplete Euler integral of the first kind"
-         */
+        /// <summary>Default String = "The incomplete Beta, also called the incomplete Euler integral of the first kind"</summary>
         public String FUNCTION_3_ARG_INC_BETA = DEFAULT_FUNCTION_3_ARG_INC_BETA;
-        /**
-         * Default String = "The regularized incomplete Beta (or regularized beta), also called the regularized incomplete Euler integral of the first kind"
-         */
+        /// <summary>Default String = "The regularized incomplete Beta (or regularized beta), also called the regularized incomplete Euler integral of the first kind"</summary>
         public String FUNCTION_3_ARG_REG_BETA = DEFAULT_FUNCTION_3_ARG_REG_BETA;
         // -------------------------------------------------
-        /**
-         * Default String = "If function"
-         */
+        /// <summary>Default String = "If function"</summary>
         public String FUNCTION_VARIADIC_IFF = DEFAULT_FUNCTION_VARIADIC_IFF;
-        /**
-         * Default String = "Minimum"
-         */
+        /// <summary>Default String = "Minimum"</summary>
         public String FUNCTION_VARIADIC_MIN = DEFAULT_FUNCTION_VARIADIC_MIN;
-        /**
-         * Default String = "Maximum"
-         */
+        /// <summary>Default String = "Maximum"</summary>
         public String FUNCTION_VARIADIC_MAX = DEFAULT_FUNCTION_VARIADIC_MAX;
-        /**
-         * Default String = "Continued fraction"
-         */
+        /// <summary>Default String = "Continued fraction"</summary>
         public String FUNCTION_VARIADIC_CONT_FRAC = DEFAULT_FUNCTION_VARIADIC_CONT_FRAC;
-        /**
-         * Default String = "Continued polynomial"
-         */
+        /// <summary>Default String = "Continued polynomial"</summary>
         public String FUNCTION_VARIADIC_CONT_POL = DEFAULT_FUNCTION_VARIADIC_CONT_POL;
-        /**
-         * Default String = "Greatest common divisor"
-         */
+        /// <summary>Default String = "Greatest common divisor"</summary>
         public String FUNCTION_VARIADIC_GCD = DEFAULT_FUNCTION_VARIADIC_GCD;
-        /**
-         * Default String = "Least common multiple"
-         */
+        /// <summary>Default String = "Least common multiple"</summary>
         public String FUNCTION_VARIADIC_LCM = DEFAULT_FUNCTION_VARIADIC_LCM;
-        /**
-         * Default String = "Summation"
-         */
+        /// <summary>Default String = "Summation"</summary>
         public String FUNCTION_VARIADIC_SUM = DEFAULT_FUNCTION_VARIADIC_SUM;
-        /**
-         * Default String = "Multiplication"
-         */
+        /// <summary>Default String = "Multiplication"</summary>
         public String FUNCTION_VARIADIC_PROD = DEFAULT_FUNCTION_VARIADIC_PROD;
-        /**
-         * Default String = "Mean / average value"
-         */
+        /// <summary>Default String = "Mean / average value"</summary>
         public String FUNCTION_VARIADIC_AVG = DEFAULT_FUNCTION_VARIADIC_AVG;
-        /**
-         * Default String = "Bias-corrected sample variance"
-         */
+        /// <summary>Default String = "Bias-corrected sample variance"</summary>
         public String FUNCTION_VARIADIC_VAR = DEFAULT_FUNCTION_VARIADIC_VAR;
-        /**
-         * Default String = "Bias-corrected sample standard deviation"
-         */
+        /// <summary>Default String = "Bias-corrected sample standard deviation"</summary>
         public String FUNCTION_VARIADIC_STD = DEFAULT_FUNCTION_VARIADIC_STD;
-        /**
-         * Default String = "Random number from a given list of numbers"
-         */
+        /// <summary>Default String = "Random number from a given list of numbers"</summary>
         public String FUNCTION_VARIADIC_RND_LIST = DEFAULT_FUNCTION_VARIADIC_RND_LIST;
-        /**
-         * Default String = "Returns the first non-NaN value"
-         */
+        /// <summary>Default String = "Returns the first non-NaN value"</summary>
         public String FUNCTION_VARIADIC_COALESCE = DEFAULT_FUNCTION_VARIADIC_COALESCE;
-        /**
-         * Default String = "Logical disjunction (OR) - variadic"
-         */
+        /// <summary>Default String = "Logical disjunction (OR) - variadic"</summary>
         public String FUNCTION_VARIADIC_OR = DEFAULT_FUNCTION_VARIADIC_OR;
-        /**
-         * Default String = "Logical conjunction (AND) - variadic"
-         */
+        /// <summary>Default String = "Logical conjunction (AND) - variadic"</summary>
         public String FUNCTION_VARIADIC_AND = DEFAULT_FUNCTION_VARIADIC_AND;
-        /**
-         * Default String = "Exclusive or (XOR) - variadic"
-         */
+        /// <summary>Default String = "Exclusive or (XOR) - variadic"</summary>
         public String FUNCTION_VARIADIC_XOR = DEFAULT_FUNCTION_VARIADIC_XOR;
-        /**
-         * Default String = "Arguments / indices of the minima"
-         */
+        /// <summary>Default String = "Arguments / indices of the minima"</summary>
         public String FUNCTION_VARIADIC_ARGMIN = DEFAULT_FUNCTION_VARIADIC_ARGMIN;
-        /**
-         * Default String = "Arguments / indices of the maxima"
-         */
+        /// <summary>Default String = "Arguments / indices of the maxima"</summary>
         public String FUNCTION_VARIADIC_ARGMAX = DEFAULT_FUNCTION_VARIADIC_ARGMAX;
-        /**
-         * Default String = "The sample median"
-         */
+        /// <summary>Default String = "The sample median"</summary>
         public String FUNCTION_VARIADIC_MEDIAN = DEFAULT_FUNCTION_VARIADIC_MEDIAN;
-        /**
-         * Default String = "Mode - the value that appears most often"
-         */
+        /// <summary>Default String = "Mode - the value that appears most often"</summary>
         public String FUNCTION_VARIADIC_MODE = DEFAULT_FUNCTION_VARIADIC_MODE;
-        /**
-         * Default String = "Returns number in given numeral system base represented by list of digits"
-         */
+        /// <summary>Default String = "Returns number in given numeral system base represented by list of digits"</summary>
         public String FUNCTION_VARIADIC_BASE = DEFAULT_FUNCTION_VARIADIC_BASE;
-        /**
-         * Default String = "Number of distinct values"
-         */
+        /// <summary>Default String = "Number of distinct values"</summary>
         public String FUNCTION_VARIADIC_NDIST = DEFAULT_FUNCTION_VARIADIC_NDIST;
         // -------------------------------------------------
-        /**
-         * Default String = "Addition"
-         */
+        /// <summary>Default String = "Addition"</summary>
         public String OPERATOR_PLUS = DEFAULT_OPERATOR_PLUS;
-        /**
-         * Default String = "Subtraction"
-         */
+        /// <summary>Default String = "Subtraction"</summary>
         public String OPERATOR_MINUS = DEFAULT_OPERATOR_MINUS;
-        /**
-         * Default String = "Multiplication"
-         */
+        /// <summary>Default String = "Multiplication"</summary>
         public String OPERATOR_MULTIPLY = DEFAULT_OPERATOR_MULTIPLY;
-        /**
-         * Default String = "Division"
-         */
+        /// <summary>Default String = "Division"</summary>
         public String OPERATOR_DIVIDE = DEFAULT_OPERATOR_DIVIDE;
-        /**
-         * Default String = "Integer division (quotient)"
-         */
+        /// <summary>Default String = "Integer division (quotient)"</summary>
         public String OPERATOR_DIVIDE_QUOTIENT = DEFAULT_OPERATOR_DIVIDE_QUOTIENT;
-        /**
-         * Default String = "Exponentiation"
-         */
+        /// <summary>Default String = "Exponentiation"</summary>
         public String OPERATOR_POWER = DEFAULT_OPERATOR_POWER;
-        /**
-         * Default String = "Factorial"
-         */
+        /// <summary>Default String = "Factorial"</summary>
         public String OPERATOR_FACT = DEFAULT_OPERATOR_FACT;
-        /**
-         * Default String = "Modulo"
-         */
+        /// <summary>Default String = "Modulo"</summary>
         public String OPERATOR_MOD = DEFAULT_OPERATOR_MOD;
-        /**
-         * Default String = "Percentage"
-         */
+        /// <summary>Default String = "Percentage"</summary>
         public String OPERATOR_PERC = DEFAULT_OPERATOR_PERC;
-        /**
-         * Default String = "Tetration (hyper-4, power tower, exponential tower)"
-         */
+        /// <summary>Default String = "Tetration (hyper-4, power tower, exponential tower)"</summary>
         public String OPERATOR_TETRATION = DEFAULT_OPERATOR_TETRATION;
-        /**
-         * Default String = "Square root"
-         */
+        /// <summary>Default String = "Square root"</summary>
         public String OPERATOR_SQUARE_ROOT = DEFAULT_OPERATOR_SQUARE_ROOT;
-        /**
-         * Default String = "Cube root"
-         */
+        /// <summary>Default String = "Cube root"</summary>
         public String OPERATOR_CUBE_ROOT = DEFAULT_OPERATOR_CUBE_ROOT;
-        /**
-         * Default String = "Fourth root"
-         */
+        /// <summary>Default String = "Fourth root"</summary>
         public String OPERATOR_FOURTH_ROOT = DEFAULT_OPERATOR_FOURTH_ROOT;
         // -------------------------------------------------
-        /**
-         * Default String = "Left parentheses"
-         */
+        /// <summary>Default String = "Left parentheses"</summary>
         public String PARSER_SYMBOL_LEFT_PARENTHESES = DEFAULT_PARSER_SYMBOL_LEFT_PARENTHESES;
-        /**
-         * Default String = "Right parentheses"
-         */
+        /// <summary>Default String = "Right parentheses"</summary>
         public String PARSER_SYMBOL_RIGHT_PARENTHESES = DEFAULT_PARSER_SYMBOL_RIGHT_PARENTHESES;
-        /**
-         * Default String = "Comma (function parameters)"
-         */
+        /// <summary>Default String = "Comma (function parameters)"</summary>
         public String PARSER_SYMBOL_COMMA = DEFAULT_PARSER_SYMBOL_COMMA;
-        /**
-         * Default String = "Semicolon (function parameters)"
-         */
+        /// <summary>Default String = "Semicolon (function parameters)"</summary>
         public String PARSER_SYMBOL_SEMI = DEFAULT_PARSER_SYMBOL_SEMI;
-        /**
-         * Default String = "Blank (whitespace) character"
-         */
+        /// <summary>Default String = "Blank (whitespace) character"</summary>
         public String PARSER_SYMBOL_BLANK = DEFAULT_PARSER_SYMBOL_BLANK;
-        /**
-         * Default String = "Integer"
-         */
+        /// <summary>Default String = "Integer"</summary>
         public String PARSER_SYMBOL_NUMBER_INTEGER = DEFAULT_PARSER_SYMBOL_NUMBER_INTEGER;
-        /**
-         * Default String = "Decimal"
-         */
+        /// <summary>Default String = "Decimal"</summary>
         public String PARSER_SYMBOL_NUMBER_DECIMAL = DEFAULT_PARSER_SYMBOL_NUMBER_DECIMAL;
-        /**
-         * Default String = "Leading zero"
-         */
+        /// <summary>Default String = "Leading zero"</summary>
         public String PARSER_SYMBOL_NUMBER_LEADING_ZERO = DEFAULT_PARSER_SYMBOL_NUMBER_LEADING_ZERO;
-        /**
-         * Default String = "Scientific notation"
-         */
+        /// <summary>Default String = "Scientific notation"</summary>
         public String PARSER_SYMBOL_NUMBER_SCI_NOTATION = DEFAULT_PARSER_SYMBOL_NUMBER_SCI_NOTATION;
-        /**
-         * Default String = "No leading zero"
-         */
+        /// <summary>Default String = "No leading zero"</summary>
         public String PARSER_SYMBOL_NUMBER_NO_LEADING_ZERO = DEFAULT_PARSER_SYMBOL_NUMBER_NO_LEADING_ZERO;
-        /**
-         * Default String = "Fractions"
-         */
+        /// <summary>Default String = "Fractions"</summary>
         public String PARSER_SYMBOL_NUMBER_FRACTIONS = DEFAULT_PARSER_SYMBOL_NUMBER_FRACTIONS;
-        /**
-         * Default String = "Other numeral systems"
-         */
+        /// <summary>Default String = "Other numeral systems"</summary>
         public String PARSER_SYMBOL_NUMBER_OTHER_NUMERAL_SYSTEMS = DEFAULT_PARSER_SYMBOL_NUMBER_OTHER_NUMERAL_SYSTEMS;
-        /**
-         * Default String = " - Unicode math symbol"
-         */
+        /// <summary>Default String = " - Unicode math symbol"</summary>
         public String PARSER_SYMBOL_UNICODE_MATH = DEFAULT_PARSER_SYMBOL_UNICODE_MATH;
         // -------------------------------------------------
-        /**
-         * Default String = "Percentage"
-         */
+        /// <summary>Default String = "Percentage"</summary>
         public String DIMENSIONLESS_UNIT_PERC = DEFAULT_DIMENSIONLESS_UNIT_PERC;
-        /**
-         * Default String = "Per mille"
-         */
+        /// <summary>Default String = "Per mille"</summary>
         public String DIMENSIONLESS_UNIT_PERM = DEFAULT_DIMENSIONLESS_UNIT_PERM;
-        /**
-         * Default String = "Septillion / Yotta"
-         */
+        /// <summary>Default String = "Septillion / Yotta"</summary>
         public String DIMENSIONLESS_UNIT_YOTTA = DEFAULT_DIMENSIONLESS_UNIT_YOTTA;
-        /**
-         * Default String = "Sextillion / Zetta"
-         */
+        /// <summary>Default String = "Sextillion / Zetta"</summary>
         public String DIMENSIONLESS_UNIT_ZETTA = DEFAULT_DIMENSIONLESS_UNIT_ZETTA;
-        /**
-         * Default String = "Quintillion / Exa"
-         */
+        /// <summary>Default String = "Quintillion / Exa"</summary>
         public String DIMENSIONLESS_UNIT_EXA = DEFAULT_DIMENSIONLESS_UNIT_EXA;
-        /**
-         * Default String = "Quadrillion / Peta"
-         */
+        /// <summary>Default String = "Quadrillion / Peta"</summary>
         public String DIMENSIONLESS_UNIT_PETA = DEFAULT_DIMENSIONLESS_UNIT_PETA;
-        /**
-         * Default String = "Trillion / Tera"
-         */
+        /// <summary>Default String = "Trillion / Tera"</summary>
         public String DIMENSIONLESS_UNIT_TERA = DEFAULT_DIMENSIONLESS_UNIT_TERA;
-        /**
-         * Default String = "Billion / Giga"
-         */
+        /// <summary>Default String = "Billion / Giga"</summary>
         public String DIMENSIONLESS_UNIT_GIGA = DEFAULT_DIMENSIONLESS_UNIT_GIGA;
-        /**
-         * Default String = "Million / Mega"
-         */
+        /// <summary>Default String = "Million / Mega"</summary>
         public String DIMENSIONLESS_UNIT_MEGA = DEFAULT_DIMENSIONLESS_UNIT_MEGA;
-        /**
-         * Default String = "Thousand / Kilo"
-         */
+        /// <summary>Default String = "Thousand / Kilo"</summary>
         public String DIMENSIONLESS_UNIT_KILO = DEFAULT_DIMENSIONLESS_UNIT_KILO;
-        /**
-         * Default String = "Hundred / Hecto"
-         */
+        /// <summary>Default String = "Hundred / Hecto"</summary>
         public String DIMENSIONLESS_UNIT_HECTO = DEFAULT_DIMENSIONLESS_UNIT_HECTO;
-        /**
-         * Default String = "Ten / Deca"
-         */
+        /// <summary>Default String = "Ten / Deca"</summary>
         public String DIMENSIONLESS_UNIT_DECA = DEFAULT_DIMENSIONLESS_UNIT_DECA;
-        /**
-         * Default String = "Tenth / Deci"
-         */
+        /// <summary>Default String = "Tenth / Deci"</summary>
         public String DIMENSIONLESS_UNIT_DECI = DEFAULT_DIMENSIONLESS_UNIT_DECI;
-        /**
-         * Default String = "Hundredth / Centi"
-         */
+        /// <summary>Default String = "Hundredth / Centi"</summary>
         public String DIMENSIONLESS_UNIT_CENTI = DEFAULT_DIMENSIONLESS_UNIT_CENTI;
-        /**
-         * Default String = "Thousandth / Milli"
-         */
+        /// <summary>Default String = "Thousandth / Milli"</summary>
         public String DIMENSIONLESS_UNIT_MILLI = DEFAULT_DIMENSIONLESS_UNIT_MILLI;
-        /**
-         * Default String = "Millionth / Micro"
-         */
+        /// <summary>Default String = "Millionth / Micro"</summary>
         public String DIMENSIONLESS_UNIT_MICRO = DEFAULT_DIMENSIONLESS_UNIT_MICRO;
-        /**
-         * Default String = "Billionth / Nano"
-         */
+        /// <summary>Default String = "Billionth / Nano"</summary>
         public String DIMENSIONLESS_UNIT_NANO = DEFAULT_DIMENSIONLESS_UNIT_NANO;
-        /**
-         * Default String = "Trillionth / Pico"
-         */
+        /// <summary>Default String = "Trillionth / Pico"</summary>
         public String DIMENSIONLESS_UNIT_PICO = DEFAULT_DIMENSIONLESS_UNIT_PICO;
-        /**
-         * Default String = "Quadrillionth / Femto"
-         */
+        /// <summary>Default String = "Quadrillionth / Femto"</summary>
         public String DIMENSIONLESS_UNIT_FEMTO = DEFAULT_DIMENSIONLESS_UNIT_FEMTO;
-        /**
-         * Default String = "Quintillionth / Atoo"
-         */
+        /// <summary>Default String = "Quintillionth / Atoo"</summary>
         public String DIMENSIONLESS_UNIT_ATTO = DEFAULT_DIMENSIONLESS_UNIT_ATTO;
-        /**
-         * Default String = "Sextillionth / Zepto"
-         */
+        /// <summary>Default String = "Sextillionth / Zepto"</summary>
         public String DIMENSIONLESS_UNIT_ZEPTO = DEFAULT_DIMENSIONLESS_UNIT_ZEPTO;
-        /**
-         * Default String = "Septillionth / Yocto"
-         */
+        /// <summary>Default String = "Septillionth / Yocto"</summary>
         public String DIMENSIONLESS_UNIT_YOCTO = DEFAULT_DIMENSIONLESS_UNIT_YOCTO;
         // -------------------------------------------------
-        /**
-         * Default String = "Meter"
-         */
+        /// <summary>Default String = "Meter"</summary>
         public String UNIT_METRE = DEFAULT_UNIT_METRE;
-        /**
-         * Default String = "Kilometer"
-         */
+        /// <summary>Default String = "Kilometer"</summary>
         public String UNIT_KILOMETRE = DEFAULT_UNIT_KILOMETRE;
-        /**
-         * Default String = "Centimeter"
-         */
+        /// <summary>Default String = "Centimeter"</summary>
         public String UNIT_CENTIMETRE = DEFAULT_UNIT_CENTIMETRE;
-        /**
-         * Default String = "Millimeter"
-         */
+        /// <summary>Default String = "Millimeter"</summary>
         public String UNIT_MILLIMETRE = DEFAULT_UNIT_MILLIMETRE;
-        /**
-         * Default String = "Inch"
-         */
+        /// <summary>Default String = "Inch"</summary>
         public String UNIT_INCH = DEFAULT_UNIT_INCH;
-        /**
-         * Default String = "Yard"
-         */
+        /// <summary>Default String = "Yard"</summary>
         public String UNIT_YARD = DEFAULT_UNIT_YARD;
-        /**
-         * Default String = "Feet"
-         */
+        /// <summary>Default String = "Feet"</summary>
         public String UNIT_FEET = DEFAULT_UNIT_FEET;
-        /**
-         * Default String = "Mile"
-         */
+        /// <summary>Default String = "Mile"</summary>
         public String UNIT_MILE = DEFAULT_UNIT_MILE;
-        /**
-         * Default String = "Nautical mile"
-         */
+        /// <summary>Default String = "Nautical mile"</summary>
         public String UNIT_NAUTICAL_MILE = DEFAULT_UNIT_NAUTICAL_MILE;
-        /**
-         * Default String = "Square meter"
-         */
+        /// <summary>Default String = "Square meter"</summary>
         public String UNIT_METRE2 = DEFAULT_UNIT_METRE2;
-        /**
-         * Default String = "Square centimeter"
-         */
+        /// <summary>Default String = "Square centimeter"</summary>
         public String UNIT_CENTIMETRE2 = DEFAULT_UNIT_CENTIMETRE2;
-        /**
-         * Default String = "Square millimeter"
-         */
+        /// <summary>Default String = "Square millimeter"</summary>
         public String UNIT_MILLIMETRE2 = DEFAULT_UNIT_MILLIMETRE2;
-        /**
-         * Default String = "Are"
-         */
+        /// <summary>Default String = "Are"</summary>
         public String UNIT_ARE = DEFAULT_UNIT_ARE;
-        /**
-         * Default String = "Hectare"
-         */
+        /// <summary>Default String = "Hectare"</summary>
         public String UNIT_HECTARE = DEFAULT_UNIT_HECTARE;
-        /**
-         * Default String = "Acre"
-         */
+        /// <summary>Default String = "Acre"</summary>
         public String UNIT_ACRE = DEFAULT_UNIT_ACRE;
-        /**
-         * Default String = "Square kilometer"
-         */
+        /// <summary>Default String = "Square kilometer"</summary>
         public String UNIT_KILOMETRE2 = DEFAULT_UNIT_KILOMETRE2;
-        /**
-         * Default String = "Cubic millimeter"
-         */
+        /// <summary>Default String = "Cubic millimeter"</summary>
         public String UNIT_MILLIMETRE3 = DEFAULT_UNIT_MILLIMETRE3;
-        /**
-         * Default String = "Cubic centimeter"
-         */
+        /// <summary>Default String = "Cubic centimeter"</summary>
         public String UNIT_CENTIMETRE3 = DEFAULT_UNIT_CENTIMETRE3;
-        /**
-         * Default String = "Cubic meter"
-         */
+        /// <summary>Default String = "Cubic meter"</summary>
         public String UNIT_METRE3 = DEFAULT_UNIT_METRE3;
-        /**
-         * Default String = "Cubic kilometer"
-         */
+        /// <summary>Default String = "Cubic kilometer"</summary>
         public String UNIT_KILOMETRE3 = DEFAULT_UNIT_KILOMETRE3;
-        /**
-         * Default String = "Milliliter"
-         */
+        /// <summary>Default String = "Milliliter"</summary>
         public String UNIT_MILLILITRE = DEFAULT_UNIT_MILLILITRE;
-        /**
-         * Default String = "Liter"
-         */
+        /// <summary>Default String = "Liter"</summary>
         public String UNIT_LITRE = DEFAULT_UNIT_LITRE;
-        /**
-         * Default String = "Gallon"
-         */
+        /// <summary>Default String = "Gallon"</summary>
         public String UNIT_GALLON = DEFAULT_UNIT_GALLON;
-        /**
-         * Default String = "Pint"
-         */
+        /// <summary>Default String = "Pint"</summary>
         public String UNIT_PINT = DEFAULT_UNIT_PINT;
-        /**
-         * Default String = "Second"
-         */
+        /// <summary>Default String = "Second"</summary>
         public String UNIT_SECOND = DEFAULT_UNIT_SECOND;
-        /**
-         * Default String = "Millisecond"
-         */
+        /// <summary>Default String = "Millisecond"</summary>
         public String UNIT_MILLISECOND = DEFAULT_UNIT_MILLISECOND;
-        /**
-         * Default String = "Minute"
-         */
+        /// <summary>Default String = "Minute"</summary>
         public String UNIT_MINUTE = DEFAULT_UNIT_MINUTE;
-        /**
-         * Default String = "Hour"
-         */
+        /// <summary>Default String = "Hour"</summary>
         public String UNIT_HOUR = DEFAULT_UNIT_HOUR;
-        /**
-         * Default String = "Day"
-         */
+        /// <summary>Default String = "Day"</summary>
         public String UNIT_DAY = DEFAULT_UNIT_DAY;
-        /**
-         * Default String = "Week"
-         */
+        /// <summary>Default String = "Week"</summary>
         public String UNIT_WEEK = DEFAULT_UNIT_WEEK;
-        /**
-         * Default String = "Julian year = 365.25 days"
-         */
+        /// <summary>Default String = "Julian year = 365.25 days"</summary>
         public String UNIT_JULIAN_YEAR = DEFAULT_UNIT_JULIAN_YEAR;
-        /**
-         * Default String = "Kilogram"
-         */
+        /// <summary>Default String = "Kilogram"</summary>
         public String UNIT_KILOGRAM = DEFAULT_UNIT_KILOGRAM;
-        /**
-         * Default String = "Gram"
-         */
+        /// <summary>Default String = "Gram"</summary>
         public String UNIT_GRAM = DEFAULT_UNIT_GRAM;
-        /**
-         * Default String = "Milligram"
-         */
+        /// <summary>Default String = "Milligram"</summary>
         public String UNIT_MILLIGRAM = DEFAULT_UNIT_MILLIGRAM;
-        /**
-         * Default String = "Decagram"
-         */
+        /// <summary>Default String = "Decagram"</summary>
         public String UNIT_DECAGRAM = DEFAULT_UNIT_DECAGRAM;
-        /**
-         * Default String = "Tonne"
-         */
+        /// <summary>Default String = "Tonne"</summary>
         public String UNIT_TONNE = DEFAULT_UNIT_TONNE;
-        /**
-         * Default String = "Ounce"
-         */
+        /// <summary>Default String = "Ounce"</summary>
         public String UNIT_OUNCE = DEFAULT_UNIT_OUNCE;
-        /**
-         * Default String = "Pound"
-         */
+        /// <summary>Default String = "Pound"</summary>
         public String UNIT_POUND = DEFAULT_UNIT_POUND;
-        /**
-         * Default String = "Bit"
-         */
+        /// <summary>Default String = "Bit"</summary>
         public String UNIT_BIT = DEFAULT_UNIT_BIT;
-        /**
-         * Default String = "Kilobit"
-         */
+        /// <summary>Default String = "Kilobit"</summary>
         public String UNIT_KILOBIT = DEFAULT_UNIT_KILOBIT;
-        /**
-         * Default String = "Megabit"
-         */
+        /// <summary>Default String = "Megabit"</summary>
         public String UNIT_MEGABIT = DEFAULT_UNIT_MEGABIT;
-        /**
-         * Default String = "Gigabit"
-         */
+        /// <summary>Default String = "Gigabit"</summary>
         public String UNIT_GIGABIT = DEFAULT_UNIT_GIGABIT;
-        /**
-         * Default String = "Terabit"
-         */
+        /// <summary>Default String = "Terabit"</summary>
         public String UNIT_TERABIT = DEFAULT_UNIT_TERABIT;
-        /**
-         * Default String = "Petabit"
-         */
+        /// <summary>Default String = "Petabit"</summary>
         public String UNIT_PETABIT = DEFAULT_UNIT_PETABIT;
-        /**
-         * Default String = "Exabit"
-         */
+        /// <summary>Default String = "Exabit"</summary>
         public String UNIT_EXABIT = DEFAULT_UNIT_EXABIT;
-        /**
-         * Default String = "Zettabit"
-         */
+        /// <summary>Default String = "Zettabit"</summary>
         public String UNIT_ZETTABIT = DEFAULT_UNIT_ZETTABIT;
-        /**
-         * Default String = "Yottabit"
-         */
+        /// <summary>Default String = "Yottabit"</summary>
         public String UNIT_YOTTABIT = DEFAULT_UNIT_YOTTABIT;
-        /**
-         * Default String = "Byte"
-         */
+        /// <summary>Default String = "Byte"</summary>
         public String UNIT_BYTE = DEFAULT_UNIT_BYTE;
-        /**
-         * Default String = "Kilobyte"
-         */
+        /// <summary>Default String = "Kilobyte"</summary>
         public String UNIT_KILOBYTE = DEFAULT_UNIT_KILOBYTE;
-        /**
-         * Default String = "Megabyte"
-         */
+        /// <summary>Default String = "Megabyte"</summary>
         public String UNIT_MEGABYTE = DEFAULT_UNIT_MEGABYTE;
-        /**
-         * Default String = "Gigabyte"
-         */
+        /// <summary>Default String = "Gigabyte"</summary>
         public String UNIT_GIGABYTE = DEFAULT_UNIT_GIGABYTE;
-        /**
-         * Default String = "Terabyte"
-         */
+        /// <summary>Default String = "Terabyte"</summary>
         public String UNIT_TERABYTE = DEFAULT_UNIT_TERABYTE;
-        /**
-         * Default String = "Petabyte"
-         */
+        /// <summary>Default String = "Petabyte"</summary>
         public String UNIT_PETABYTE = DEFAULT_UNIT_PETABYTE;
-        /**
-         * Default String = "Exabyte"
-         */
+        /// <summary>Default String = "Exabyte"</summary>
         public String UNIT_EXABYTE = DEFAULT_UNIT_EXABYTE;
-        /**
-         * Default String = "Zettabyte"
-         */
+        /// <summary>Default String = "Zettabyte"</summary>
         public String UNIT_ZETTABYTE = DEFAULT_UNIT_ZETTABYTE;
-        /**
-         * Default String = "Yottabyte"
-         */
+        /// <summary>Default String = "Yottabyte"</summary>
         public String UNIT_YOTTABYTE = DEFAULT_UNIT_YOTTABYTE;
-        /**
-         * Default String = "Joule"
-         */
+        /// <summary>Default String = "Joule"</summary>
         public String UNIT_JOULE = DEFAULT_UNIT_JOULE;
-        /**
-         * Default String = "Electronovolt"
-         */
+        /// <summary>Default String = "Electronovolt"</summary>
         public String UNIT_ELECTRONO_VOLT = DEFAULT_UNIT_ELECTRONO_VOLT;
-        /**
-         * Default String = "Kiloelectronovolt"
-         */
+        /// <summary>Default String = "Kiloelectronovolt"</summary>
         public String UNIT_KILO_ELECTRONO_VOLT = DEFAULT_UNIT_KILO_ELECTRONO_VOLT;
-        /**
-         * Default String = "Megaelectronovolt"
-         */
+        /// <summary>Default String = "Megaelectronovolt"</summary>
         public String UNIT_MEGA_ELECTRONO_VOLT = DEFAULT_UNIT_MEGA_ELECTRONO_VOLT;
-        /**
-         * Default String = "Gigaelectronovolt"
-         */
+        /// <summary>Default String = "Gigaelectronovolt"</summary>
         public String UNIT_GIGA_ELECTRONO_VOLT = DEFAULT_UNIT_GIGA_ELECTRONO_VOLT;
-        /**
-         * Default String = "Teraelectronovolt"
-         */
+        /// <summary>Default String = "Teraelectronovolt"</summary>
         public String UNIT_TERA_ELECTRONO_VOLT = DEFAULT_UNIT_TERA_ELECTRONO_VOLT;
-        /**
-         * Default String = "Meter per second"
-         */
+        /// <summary>Default String = "Meter per second"</summary>
         public String UNIT_METRE_PER_SECOND = DEFAULT_UNIT_METRE_PER_SECOND;
-        /**
-         * Default String = "Kilometer per hour"
-         */
+        /// <summary>Default String = "Kilometer per hour"</summary>
         public String UNIT_KILOMETRE_PER_HOUR = DEFAULT_UNIT_KILOMETRE_PER_HOUR;
-        /**
-         * Default String = "Mile per hour"
-         */
+        /// <summary>Default String = "Mile per hour"</summary>
         public String UNIT_MILE_PER_HOUR = DEFAULT_UNIT_MILE_PER_HOUR;
-        /**
-         * Default String = "Knot"
-         */
+        /// <summary>Default String = "Knot"</summary>
         public String UNIT_KNOT = DEFAULT_UNIT_KNOT;
-        /**
-         * Default String = "Meter per square second"
-         */
+        /// <summary>Default String = "Meter per square second"</summary>
         public String UNIT_METRE_PER_SECOND2 = DEFAULT_UNIT_METRE_PER_SECOND2;
-        /**
-         * Default String = "Kilometer per square hour"
-         */
+        /// <summary>Default String = "Kilometer per square hour"</summary>
         public String UNIT_KILOMETRE_PER_HOUR2 = DEFAULT_UNIT_KILOMETRE_PER_HOUR2;
-        /**
-         * Default String = "Mile per square hour"
-         */
+        /// <summary>Default String = "Mile per square hour"</summary>
         public String UNIT_MILE_PER_HOUR2 = DEFAULT_UNIT_MILE_PER_HOUR2;
-        /**
-         * Default String = "Radian"
-         */
+        /// <summary>Default String = "Radian"</summary>
         public String UNIT_RADIAN_ARC = DEFAULT_UNIT_RADIAN_ARC;
-        /**
-         * Default String = "Degree of arc"
-         */
+        /// <summary>Default String = "Degree of arc"</summary>
         public String UNIT_DEGREE_ARC = DEFAULT_UNIT_DEGREE_ARC;
-        /**
-         * Default String = "Minute of arc"
-         */
+        /// <summary>Default String = "Minute of arc"</summary>
         public String UNIT_MINUTE_ARC = DEFAULT_UNIT_MINUTE_ARC;
-        /**
-         * Default String = "Second of arc"
-         */
+        /// <summary>Default String = "Second of arc"</summary>
         public String UNIT_SECOND_ARC = DEFAULT_UNIT_SECOND_ARC;
         // ===========================================================
-        /**
-         * Displays user-defined text resources in the console.
-         * The default value is shown and, if the current value
-         * is different from the default value, the current value
-         * is also shown. The method can be very useful when
-         * analyzing the correctness and completeness of defined
-         * resources, especially when translating into other languages.
-         */
+        /// <summary>Displays user-defined text resources in the console.
+        /// The default value is shown and, if the current value
+        /// is different from the default value, the current value
+        /// is also shown. The method can be very useful when
+        /// analyzing the correctness and completeness of defined
+        /// resources, especially when translating into other languages.</summary>
         public void print() {
             printResources(this, true);
         }
-        /**
-         * Displays the initial text resource definitions
-         * as source code. The method can be very useful when
-         * creating your own text resources, as it can be used
-         * as a basis for translation.
-         */
+        /// <summary>Displays the initial text resource definitions
+        /// as source code. The method can be very useful when
+        /// creating your own text resources, as it can be used
+        /// as a basis for translation.</summary>
         public void printInitSrc() {
             printResources(this, false);
         }

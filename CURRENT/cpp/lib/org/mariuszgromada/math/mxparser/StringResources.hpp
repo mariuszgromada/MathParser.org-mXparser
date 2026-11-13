@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.hpp        6.1.0    2024-10-08
+ * @(#)StringResources.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -237,14 +237,86 @@ namespace org::mariuszgromada::math::mxparser {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Default translations, currently English
+		 * \return Returns a new instance of StringResources object
+		 * containing Default translations, currently English.
+		 * \sa org::mariuszgromada::math::mxparser::StringModel
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setStringResources(const StringResourcesPtr &)
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setDefaultStringResources()
+		 */
 		static StringResourcesPtr languageDefault();
+		/**
+		 * \brief Simplified Chinese translations
+		 * \return Returns a new instance of StringResources object
+		 * containing English translations.
+		 * \sa org::mariuszgromada::math::mxparser::StringModel
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setStringResources(const StringResourcesPtr &)
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setDefaultStringResources()
+		 */
 		static StringResourcesPtr languageChinese();
+		/**
+		 * \brief English translations
+		 * \return Returns a new instance of StringResources object
+		 * containing English translations.
+		 * \sa org::mariuszgromada::math::mxparser::StringModel
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setStringResources(const StringResourcesPtr &)
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setDefaultStringResources()
+		 */
 		static StringResourcesPtr languageEnglish();
+		/**
+		 * \brief French translations
+		 * \return Returns a new instance of StringResources object
+		 * containing French translations.
+		 * \sa org::mariuszgromada::math::mxparser::StringModel
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setStringResources(const StringResourcesPtr &)
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setDefaultStringResources()
+		 */
 		static StringResourcesPtr languageFrench();
+		/**
+		 * \brief German translations
+		 * \return Returns a new instance of StringResources object
+		 * containing German translations.
+		 * \sa org::mariuszgromada::math::mxparser::StringModel
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setStringResources(const StringResourcesPtr &)
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setDefaultStringResources()
+		 */
 		static StringResourcesPtr languageGerman();
+		/**
+		 * \brief Italian translations
+		 * \return Returns a new instance of StringResources object
+		 * containing Italian translations.
+		 * \sa org::mariuszgromada::math::mxparser::StringModel
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setStringResources(const StringResourcesPtr &)
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setDefaultStringResources()
+		 */
 		static StringResourcesPtr languageItalian();
+		/**
+		 * \brief Polish translations
+		 * \return Returns a new instance of StringResources object
+		 * containing Polish translations.
+		 * \sa org::mariuszgromada::math::mxparser::StringModel
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setStringResources(const StringResourcesPtr &)
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setDefaultStringResources()
+		 */
 		static StringResourcesPtr languagePolish();
+		/**
+		 * \brief Portuguese translations
+		 * \return Returns a new instance of StringResources object
+		 * containing Portuguese translations.
+		 * \sa org::mariuszgromada::math::mxparser::StringModel
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setStringResources(const StringResourcesPtr &)
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setDefaultStringResources()
+		 */
 		static StringResourcesPtr languagePortuguese();
+		/**
+		 * \brief Spanish translations
+		 * \return Returns a new instance of StringResources object
+		 * containing Spanish translations.
+		 * \sa org::mariuszgromada::math::mxparser::StringModel
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setStringResources(const StringResourcesPtr &)
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setDefaultStringResources()
+		 */
 		static StringResourcesPtr languageSpanish();
 
 		// ***********************************************************
@@ -253,14 +325,47 @@ namespace org::mariuszgromada::math::mxparser {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Returns translation that best matches to provided language code.
+		 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish, Simplified Chinese.
+		 * \param language     Supported language codes: en, fr, de, it, pl, pt, es, zh.
+		 * \return Returns translation that matches the language code.
+		 *                     If language code does not belong to the supported language codes
+		 *                     English translation is returned.
+		 * \sa org::mariuszgromada::math::mxparser::StringModel
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setStringResources(const StringResourcesPtr &)
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setDefaultStringResources()
+		 */
 		static StringResourcesPtr bestMatchingLanguage(const StringPtr &language);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::StringResources::bestMatchingLanguage(const StringPtr &)
+		 */
 		static StringResourcesPtr bestMatchingLanguage(const String &language) { return bestMatchingLanguage(S(language)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::StringResources::bestMatchingLanguage(const StringPtr &)
+		 */
 		static StringResourcesPtr bestMatchingLanguage(const std::string &language) { return bestMatchingLanguage(SC(language)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::StringResources::bestMatchingLanguage(const StringPtr &)
+		 */
 		static StringResourcesPtr bestMatchingLanguage(const Char* language) { return bestMatchingLanguage(SC(language)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::StringResources::bestMatchingLanguage(const StringPtr &)
+		 */
 		static StringResourcesPtr bestMatchingLanguage(const char* language) { return bestMatchingLanguage(SC(language)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Returns translation that best matches to the current system locale.
+		 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish, Simplified Chinese.
+		 * \return Returns translation that matches the language code in locale.
+		 *                  If language code does not belong to the supported languages
+		 *                  English translation is returned.
+		 * \sa org::mariuszgromada::math::mxparser::StringModel
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setStringResources(const StringResourcesPtr &)
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setDefaultStringResources()
+		 */
 		static StringResourcesPtr bestMatchingLanguage();
 
 		// ***********************************************************
@@ -815,8 +920,22 @@ namespace org::mariuszgromada::math::mxparser {
 		static StringPtr ptLangCode;
 		static StringPtr esLangCode;
 
+		/**
+		 * \brief Displays user-defined text resources in the console.
+		 * The default value is shown and, if the current value
+		 * is different from the default value, the current value
+		 * is also shown. The method can be very useful when
+		 * analyzing the correctness and completeness of defined
+		 * resources, especially when translating into other languages.
+		 */
 		void print() const;
 
+		/**
+		 * \brief Displays the initial text resource definitions
+		 * as source code. The method can be very useful when
+		 * creating your own text resources, as it can be used
+		 * as a basis for translation.
+		 */
 		void printInitSrc() const;
 
 	private:

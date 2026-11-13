@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialValueTrigonometric.hpp        6.1.0    2024-10-06
+ * @(#)SpecialValueTrigonometric.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -230,10 +230,20 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 	class API_VISIBLE SpecialValueTrigonometric {
 	public:
+		/**
+		 * \brief Main constructor
+		 * \param factor  The angle provided as a factor of PI
+		 * \param sin     The sine function value
+		 * \param cos     The cosine function value
+		 * \param tan     The tangent function value
+		 * \param ctan    The cotangent function value
+		 * \param sec     The secant function value
+		 * \param csc     The cosecant function value
+		 */
 		SpecialValueTrigonometric(double factor, double sin, double cos, double tan, double ctan, double sec, double csc);
 
 		/**
-		 * Epsilon is used to compare the x value with regards to some given small interval
+		 * \brief Epsilon is used to compare the x value with regards to some given small interval
 		 */
 		static constexpr double EPSILON = 10 * BinaryRelations::DEFAULT_COMPARISON_EPSILON;
 		/* 0 DEGREES ------- */
@@ -376,18 +386,71 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		static ListPtr<SpecialValuePtr> valuesListAsec;
 		static ListPtr<SpecialValuePtr> valuesListAcsc;
 
+		/**
+		 * \brief Returns special values of trigonometric functions
+		 * \param xrad   The angle provided in radians
+		 * \return Returns special values of trigonometric functions object if the special value was found for a given x
+		 * otherwise returns null
+		 */
 		static SpecialValueTrigonometricPtr getSpecialValueTrigonometric(double xrad);
+		/**
+		 * \brief Returns special value of inverse trigonometric sine function
+		 * \param x    The sine value
+		 * \return Returns special value object if special value was found,
+		 * otherwise returns null.
+		 */
 		static SpecialValuePtr getSpecialValueAsin(double x);
+		/**
+		 * \brief Returns special value of inverse trigonometric cosine function
+		 * \param x    The cosine value
+		 * \return Returns special value object if special value was found,
+		 * otherwise returns null.
+		 */
 		static SpecialValuePtr getSpecialValueAcos(double x);
+		/**
+		 * \brief Returns special value of inverse trigonometric tangent function
+		 * \param x    The tangent value
+		 * \return Returns special value object if special value was found,
+		 * otherwise returns null.
+		 */
 		static SpecialValuePtr getSpecialValueAtan(double x);
+		/**
+		 * \brief Returns special value of inverse trigonometric cotangent function
+		 * \param x    The cotangent value
+		 * \return Returns special value object if special value was found,
+		 * otherwise returns null.
+		 */
 		static SpecialValuePtr getSpecialValueActan(double x);
+		/**
+		 * \brief Returns special value of inverse trigonometric secant function
+		 * \param x    The secant value
+		 * \return Returns special value object if special value was found,
+		 * otherwise returns null.
+		 */
 		static SpecialValuePtr getSpecialValueAsec(double x);
+		/**
+		 * \brief Returns special value of inverse trigonometric cosecant function
+		 * \param x    The cosecant value
+		 * \return Returns special value object if special value was found,
+		 * otherwise returns null.
+		 */
 		static SpecialValuePtr getSpecialValueAcsc(double x);
 
 	private:
 		static SpecialValuePtr getSpecialValue(double x, const ListPtr<SpecialValuePtr> &valuesList);
 	};
 
+	/**
+	 * \brief Main constructor
+	 * \param factor  The angle provided as a factor of PI
+	 * \param sin     The sine function value
+	 * \param cos     The cosine function value
+	 * \param tan     The tangent function value
+	 * \param ctan    The cotangent function value
+	 * \param sec     The secant function value
+	 * \param csc     The cosecant function value
+	 * \return A shared pointer to the new SpecialValueTrigonometric instance.
+	 */
 	inline SpecialValueTrigonometricPtr new_SpecialValueTrigonometric(double factor, double sin, double cos, double tan,
 																	  double ctan, double sec, double csc) {
 		return std::make_shared<SpecialValueTrigonometric>(factor, sin, cos, tan, ctan, sec, csc);

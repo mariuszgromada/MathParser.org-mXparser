@@ -218,162 +218,117 @@
 using System;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
-	 * BooleanAlgebra - class for boolean operators.
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        6.2.0
-	 */
+	/// <summary>BooleanAlgebra - class for boolean operators.</summary>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true)]
 	public sealed class BooleanAlgebra {
-		/**
-		 * False as integer
-		 */
+		/// <summary>False as integer</summary>
 		public const int FALSE = 0;
-		/**
-		 * True as integer
-		 */
+		/// <summary>True as integer</summary>
 		public const int TRUE = 1;
-		/**
-		 * Null as integer
-		 */
+		/// <summary>Null as integer</summary>
 		public const int NULL = 2;
-		/**
-		 * False as double
-		 */
+		/// <summary>False as double</summary>
 		public const double F = 0;
-		/**
-		 * True as double
-		 */
+		/// <summary>True as double</summary>
 		public const double T = 1;
-		/**
-		 * Null as double
-		 */
+		/// <summary>Null as double</summary>
 		public const double N = Double.NaN;
-		/**
-		 * AND truth table
-		 */
+		/// <summary>AND truth table</summary>
 		public static readonly double[,] AND_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ F, F, F} ,
 			/* T */	{ F, T, N} ,
 			/* N */	{ F, N, N}
 		};
-		/**
-		 * NAND truth table
-		 */
+		/// <summary>NAND truth table</summary>
 		public static readonly double[,] NAND_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ T, T, T} ,
 			/* T */	{ T, F, N} ,
 			/* N */	{ T, N, N}
 		};
-		/**
-		 * OR truth table
-		 */
+		/// <summary>OR truth table</summary>
 		public static readonly double[,] OR_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ F, T, N} ,
 			/* T */	{ T, T, T} ,
 			/* N */	{ N, T, N}
 		};
-		/**
-		 * NOR truth table
-		 */
+		/// <summary>NOR truth table</summary>
 		public static readonly double[,] NOR_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ T, F, N} ,
 			/* T */	{ F, F, F} ,
 			/* N */	{ N, F, N}
 		};
-		/**
-		 * XOR truth table
-		 */
+		/// <summary>XOR truth table</summary>
 		public static readonly double[,] XOR_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ F, T, N} ,
 			/* T */	{ T, F, N} ,
 			/* N */	{ N, N, N}
 		};
-		/**
-		 * XNOR truth table
-		 */
+		/// <summary>XNOR truth table</summary>
 		public static readonly double[,] XNOR_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ T, F, N} ,
 			/* T */	{ F, T, N} ,
 			/* N */	{ N, N, N}
 		};
-		/**
-		 * IMP truth table
-		 */
+		/// <summary>IMP truth table</summary>
 		public static readonly double[,] IMP_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ T, T, T} ,
 			/* T */	{ F, T, N} ,
 			/* N */	{ N, T, N}
 		};
-		/**
-		 * CIMP truth table
-		 */
+		/// <summary>CIMP truth table</summary>
 		public static readonly double[,] CIMP_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ T, F, N} ,
 			/* T */	{ T, T, T} ,
 			/* N */	{ T, N, N}
 		};
-		/**
-		 * EQV truth table
-		 */
+		/// <summary>EQV truth table</summary>
 		public static readonly double[,] EQV_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ T, F, N} ,
 			/* T */	{ F, T, N} ,
 			/* N */	{ N, N, N}
 		};
-		/**
-		 * NIMP truth table
-		 */
+		/// <summary>NIMP truth table</summary>
 		public static readonly double[,] NIMP_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ F, F, F} ,
 			/* T */	{ T, F, N} ,
 			/* N */	{ N, F, N}
 		};
-		/**
-		 * CNIMP truth table
-		 */
+		/// <summary>CNIMP truth table</summary>
 		public static readonly double[,] CNIMP_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ F, T, N} ,
 			/* T */	{ F, F, F} ,
 			/* N */	{ F, N, N}
 		};
-		/**
-		 * NOT truth table
-		 */
+		/// <summary>NOT truth table</summary>
 		public static readonly double[] NOT_TRUTH_TABLE = {
 				   /* F  T  N	*/
 					  T, F, N
 		};
-		/**
-		 * Double to integer boolean translation
-		 *
-		 * @param      a                   the double number
-		 *
-		 * @return     If a = Double.NaN return NULL,
-		 *             else if a <> 0 return TRUE,
-		 *             else return FALSE.
-		 */
+		/// <summary>Double to integer boolean translation</summary>
+		/// <param name="a">the double number</param>
+		/// <returns>If a = Double.NaN return NULL,
+		///             else if a &lt;&gt; 0 return TRUE,
+		///             else return FALSE.</returns>
 		public static int double2IntBoolean(double a) {
 			if (Double.IsNaN(a))
 				return NULL;
@@ -392,209 +347,156 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					return FALSE;
 			}
 		}
-		/**
-		 * Boolean AND
-		 *
-		 * @param      a                   the a number (a AND b)
-		 * @param      b                   the b number (a AND b)
-		 *
-		 * @return     Truth table element AND[A][B] where A = double2IntBoolean(a), B = double2IntBoolean(b)
-		 */
+		/// <summary>Boolean AND</summary>
+		/// <param name="a">the a number (a AND b)</param>
+		/// <param name="b">the b number (a AND b)</param>
+		/// <returns>Truth table element AND[A][B] where A = double2IntBoolean(a), B = double2IntBoolean(b)</returns>
 		public static double and(double a, double b) {
 			int A = double2IntBoolean(a);
 			int B = double2IntBoolean(b);
 			return AND_TRUTH_TABLE[A, B];
 		}
-		/**
-		 * Boolean OR
-		 *
-		 * @param      a                   the a number (a OR b)
-		 * @param      b                   the b number (a OR b)
-		 *
-		 * @return     Truth table element OR[A][B]
-		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-		 */
+		/// <summary>Boolean OR</summary>
+		/// <param name="a">the a number (a OR b)</param>
+		/// <param name="b">the b number (a OR b)</param>
+		/// <returns>Truth table element OR[A][B]
+		///             where A = double2IntBoolean(a), B = double2IntBoolean(b)</returns>
 		public static double or(double a, double b) {
 			int A = double2IntBoolean(a);
 			int B = double2IntBoolean(b);
 			return OR_TRUTH_TABLE[A, B];
 		}
-		/**
-		 * Boolean XOR
-		 *
-		 * @param      a                   the a number (a XOR b)
-		 * @param      b                   the b number (a XOR b)
-		 *
-		 * @return     Truth table element XOR[A][B]
-		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-		 */
+		/// <summary>Boolean XOR</summary>
+		/// <param name="a">the a number (a XOR b)</param>
+		/// <param name="b">the b number (a XOR b)</param>
+		/// <returns>Truth table element XOR[A][B]
+		///             where A = double2IntBoolean(a), B = double2IntBoolean(b)</returns>
 		public static double xor(double a, double b) {
 			int A = double2IntBoolean(a);
 			int B = double2IntBoolean(b);
 			return XOR_TRUTH_TABLE[A, B];
 		}
-		/**
-		 * Boolean NAND
-		 *
-		 * @param      a                   the a number (a NAND b)
-		 * @param      b                   the b number (a NAND b)
-		 *
-		 * @return     Truth table element NAND[A][B]
-		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-		 */
+		/// <summary>Boolean NAND</summary>
+		/// <param name="a">the a number (a NAND b)</param>
+		/// <param name="b">the b number (a NAND b)</param>
+		/// <returns>Truth table element NAND[A][B]
+		///             where A = double2IntBoolean(a), B = double2IntBoolean(b)</returns>
 		public static double nand(double a, double b) {
 			int A = double2IntBoolean(a);
 			int B = double2IntBoolean(b);
 			return NAND_TRUTH_TABLE[A, B];
 		}
-		/**
-		 * Boolean NOR
-		 *
-		 * @param      a                   the a number (a NOR b)
-		 * @param      b                   the b number (a NOR b)
-		 *
-		 * @return     Truth table element NOR[A][B]
-		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-		 */
+		/// <summary>Boolean NOR</summary>
+		/// <param name="a">the a number (a NOR b)</param>
+		/// <param name="b">the b number (a NOR b)</param>
+		/// <returns>Truth table element NOR[A][B]
+		///             where A = double2IntBoolean(a), B = double2IntBoolean(b)</returns>
 		public static double nor(double a, double b) {
 			int A = double2IntBoolean(a);
 			int B = double2IntBoolean(b);
 			return NOR_TRUTH_TABLE[A, B];
 		}
-		/**
-		 * Boolean XNOR
-		 *
-		 * @param      a                   the a number (a XNOR b)
-		 * @param      b                   the b number (a XNOR b)
-		 *
-		 * @return     Truth table element XNOR[A][B]
-		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-		 */
+		/// <summary>Boolean XNOR</summary>
+		/// <param name="a">the a number (a XNOR b)</param>
+		/// <param name="b">the b number (a XNOR b)</param>
+		/// <returns>Truth table element XNOR[A][B]
+		///             where A = double2IntBoolean(a), B = double2IntBoolean(b)</returns>
 		public static double xnor(double a, double b) {
 			int A = double2IntBoolean(a);
 			int B = double2IntBoolean(b);
 			return XNOR_TRUTH_TABLE[A, B];
 		}
-		/**
-		 * Boolean IMP
-		 *
-		 * @param      a                   the a number (a IMP b)
-		 * @param      b                   the b number (a IMP b)
-		 *
-		 * @return     Truth table element IMP[A][B]
-		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-		 */
+		/// <summary>Boolean IMP</summary>
+		/// <param name="a">the a number (a IMP b)</param>
+		/// <param name="b">the b number (a IMP b)</param>
+		/// <returns>Truth table element IMP[A][B]
+		///             where A = double2IntBoolean(a), B = double2IntBoolean(b)</returns>
 		public static double imp(double a, double b) {
 			int A = double2IntBoolean(a);
 			int B = double2IntBoolean(b);
 			return IMP_TRUTH_TABLE[A, B];
 		}
-		/**
-		 * Boolean EQV
-		 *
-		 * @param      a                   the a number (a EQV b)
-		 * @param      b                   the b number (a EQV b)
-		 *
-		 * @return     Truth table element EQV[A][B]
-		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-		 */
+		/// <summary>Boolean EQV</summary>
+		/// <param name="a">the a number (a EQV b)</param>
+		/// <param name="b">the b number (a EQV b)</param>
+		/// <returns>Truth table element EQV[A][B]
+		///             where A = double2IntBoolean(a), B = double2IntBoolean(b)</returns>
 		public static double eqv(double a, double b) {
 			int A = double2IntBoolean(a);
 			int B = double2IntBoolean(b);
 			return EQV_TRUTH_TABLE[A, B];
 		}
-		/**
-		 * Boolean NOT
-		 *
-		 * @param      a                   the a number (NOT a)
-		 *
-		 * @return     Truth table element NOT[A]
-		 *             where A = double2IntBoolean(a)
-		 */
+		/// <summary>Boolean NOT</summary>
+		/// <param name="a">the a number (NOT a)</param>
+		/// <returns>Truth table element NOT[A]
+		///             where A = double2IntBoolean(a)</returns>
 		public static double not(double a) {
 			int A = double2IntBoolean(a);
 			return NOT_TRUTH_TABLE[A];
 		}
-		/**
-		 * Boolean CIMP
-		 *
-		 * @param      a                   the a number (a CIMP b)
-		 * @param      b                   the b number (a CIMP b)
-		 *
-		 * @return     Truth table element CIMP[A][B]
-		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-		 */
+		/// <summary>Boolean CIMP</summary>
+		/// <param name="a">the a number (a CIMP b)</param>
+		/// <param name="b">the b number (a CIMP b)</param>
+		/// <returns>Truth table element CIMP[A][B]
+		///             where A = double2IntBoolean(a), B = double2IntBoolean(b)</returns>
 		public static double cimp(double a, double b) {
 			int A = double2IntBoolean(a);
 			int B = double2IntBoolean(b);
 			return CIMP_TRUTH_TABLE[A, B];
 		}
-		/**
-		 * Boolean NIMP
-		 *
-		 * @param      a                   the a number (a NIMP b)
-		 * @param      b                   the b number (a NIMP b)
-		 *
-		 * @return     Truth table element NIMP[A][B]
-		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-		 */
+		/// <summary>Boolean NIMP</summary>
+		/// <param name="a">the a number (a NIMP b)</param>
+		/// <param name="b">the b number (a NIMP b)</param>
+		/// <returns>Truth table element NIMP[A][B]
+		///             where A = double2IntBoolean(a), B = double2IntBoolean(b)</returns>
 		public static double nimp(double a, double b) {
 			int A = double2IntBoolean(a);
 			int B = double2IntBoolean(b);
 			return NIMP_TRUTH_TABLE[A, B];
 		}
-		/**
-		 * Boolean CNIMP
-		 *
-		 * @param      a                   the a number (a CNIMP b)
-		 * @param      b                   the b number (a CNIMP b)
-		 *
-		 * @return     Truth table element CNIMP[A][B]
-		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-		 */
+		/// <summary>Boolean CNIMP</summary>
+		/// <param name="a">the a number (a CNIMP b)</param>
+		/// <param name="b">the b number (a CNIMP b)</param>
+		/// <returns>Truth table element CNIMP[A][B]
+		///             where A = double2IntBoolean(a), B = double2IntBoolean(b)</returns>
 		public static double cnimp(double a, double b)
 		{
 			int A = double2IntBoolean(a);
 			int B = double2IntBoolean(b);
 			return CNIMP_TRUTH_TABLE[A, B];
 		}
-		/**
-		 * Boolean AND variadic
-		 *
-		 * @param values   List of values
-		 * @return   Returns BooleanAlgebra.TRUE if all values on the list are BooleanAlgebra.TURE,
-		 *           otherwise returns BooleanAlgebra.FALSE
-		 */
+		/// <summary>Boolean AND variadic</summary>
+		/// <param name="values">List of values</param>
+		/// <returns>Returns BooleanAlgebra.TRUE if all values on the list are BooleanAlgebra.TURE,
+		///           otherwise returns BooleanAlgebra.FALSE</returns>
 		public static double andVariadic(params double[] values) {
 			return andVariadicWithCancel(values, 0);
 		}
-		/**
-		 * Boolean AND variadic
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param values   List of values
-		 * @return   Returns BooleanAlgebra.TRUE if all values on the list are BooleanAlgebra.TURE,
-		 *           otherwise returns BooleanAlgebra.FALSE
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see andVariadic(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Boolean AND variadic
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// Array parameters are fixed arrays, not token-bearing varargs.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="values">List of values</param>
+		/// <returns>Returns BooleanAlgebra.TRUE if all values on the list are BooleanAlgebra.TURE,
+		///           otherwise returns BooleanAlgebra.FALSE</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.BooleanAlgebra.andVariadic(double[])"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double andVariadicWithCancel(double[] values, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -611,43 +513,38 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (cntTrue == values.Length) return TRUE;
 			else return Double.NaN;
 		}
-		/**
-		 * Boolean OR variadic
-		 *
-		 * @param values   List of values
-		 * @return   Returns BooleanAlgebra.TRUE if at least one value on the list is BooleanAlgebra.TURE,
-		 *           otherwise returns BooleanAlgebra.FALSE
-		 */
+		/// <summary>Boolean OR variadic</summary>
+		/// <param name="values">List of values</param>
+		/// <returns>Returns BooleanAlgebra.TRUE if at least one value on the list is BooleanAlgebra.TURE,
+		///           otherwise returns BooleanAlgebra.FALSE</returns>
 		public static double orVariadic(params double[] values) {
 			return orVariadicWithCancel(values, 0);
 		}
-		/**
-		 * Boolean OR variadic
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param values   List of values
-		 * @return   Returns BooleanAlgebra.TRUE if at least one value on the list is BooleanAlgebra.TURE,
-		 *           otherwise returns BooleanAlgebra.FALSE
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see orVariadic(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Boolean OR variadic
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// Array parameters are fixed arrays, not token-bearing varargs.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="values">List of values</param>
+		/// <returns>Returns BooleanAlgebra.TRUE if at least one value on the list is BooleanAlgebra.TURE,
+		///           otherwise returns BooleanAlgebra.FALSE</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.BooleanAlgebra.orVariadic(double[])"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double orVariadicWithCancel(double[] values, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -664,43 +561,38 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (cntFalse == values.Length) return FALSE;
 			else return Double.NaN;
 		}
-		/**
-		 * Boolean XOR variadic
-		 *
-		 * @param values   List of values
-		 * @return   Returns BooleanAlgebra.TRUE if exactly one value on the list is BooleanAlgebra.TURE,
-		 *           otherwise returns BooleanAlgebra.FALSE
-		 */
+		/// <summary>Boolean XOR variadic</summary>
+		/// <param name="values">List of values</param>
+		/// <returns>Returns BooleanAlgebra.TRUE if exactly one value on the list is BooleanAlgebra.TURE,
+		///           otherwise returns BooleanAlgebra.FALSE</returns>
 		public static double xorVariadic(params double[] values) {
 			return xorVariadicWithCancel(values, 0);
 		}
-		/**
-		 * Boolean XOR variadic
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param values   List of values
-		 * @return   Returns BooleanAlgebra.TRUE if exactly one value on the list is BooleanAlgebra.TURE,
-		 *           otherwise returns BooleanAlgebra.FALSE
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see xorVariadic(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Boolean XOR variadic
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// Array parameters are fixed arrays, not token-bearing varargs.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="values">List of values</param>
+		/// <returns>Returns BooleanAlgebra.TRUE if exactly one value on the list is BooleanAlgebra.TURE,
+		///           otherwise returns BooleanAlgebra.FALSE</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.BooleanAlgebra.xorVariadic(double[])"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double xorVariadicWithCancel(double[] values, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");

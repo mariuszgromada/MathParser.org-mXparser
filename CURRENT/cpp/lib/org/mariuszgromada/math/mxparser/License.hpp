@@ -1,5 +1,5 @@
 /*
- * @(#)License.hpp        6.1.0    2024-10-06
+ * @(#)License.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -237,35 +237,118 @@ namespace org::mariuszgromada::math::mxparser {
 
 		// ***********************************************************
 
+		/**
+		 * \brief By successfully calling this method, you confirm and sign that you use MathParser.org-mXparser
+		 * commercially according to the License.geTermsOfAgreement(). The confirmation can only be
+		 * called once. The method call takes place only internally for logging purposes and there is no
+		 * connection with other external services and no data is sent or collected. The lack of a method
+		 * call (or its successful call) does not affect the operation of the PRODUCT in any way.
+		 * \param mySignature    Your first and last name or your e-mail address or your company name.
+		 *                       At least 5 non-blank characters.
+		 * \return Logs commercial use and returns true if this was the first attempt to register
+		 *           a use type and the signature met the conditions specified for it. Otherwise, returns
+		 *           false and does not log use type.
+		 * \sa org::mariuszgromada::math::mxparser::License::iConfirmNonCommercialUse(const StringPtr &)
+		 * \sa org::mariuszgromada::math::mxparser::License::getUseTypeConfirmationMessage()
+		 * \sa org::mariuszgromada::math::mxparser::License::checkIfUseTypeConfirmed()
+		 * \sa org::mariuszgromada::math::mxparser::License::geTermsOfAgreement()
+		 */
 		static bool iConfirmCommercialUse(const StringPtr &mySignature);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::License::iConfirmCommercialUse(const StringPtr &)
+		 */
 		static bool iConfirmCommercialUse(const String &mySignature) { return iConfirmCommercialUse(S(mySignature)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::License::iConfirmCommercialUse(const StringPtr &)
+		 */
 		static bool iConfirmCommercialUse(const Char *mySignature) { return iConfirmCommercialUse(S(mySignature)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::License::iConfirmCommercialUse(const StringPtr &)
+		 */
 		static bool iConfirmCommercialUse(const std::string &mySignature) { return iConfirmCommercialUse(S(mySignature)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::License::iConfirmCommercialUse(const StringPtr &)
+		 */
 		static bool iConfirmCommercialUse(const char *mySignature) { return iConfirmCommercialUse(S(mySignature)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief By successfully calling this method, you confirm and sign that you use MathParser.org-mXparser
+		 * non-commercially according to the License.geTermsOfAgreement(). The confirmation can only be
+		 * called once. The method call takes place only internally for logging purposes and there is no
+		 * connection with other external services and no data is sent or collected. The lack of a method
+		 * call (or its successful call) does not affect the operation of the PRODUCT in any way.
+		 * \param mySignature    Your first and last name or your e-mail address or your company name.
+		 *                       At least 5 non-blank characters.
+		 * \return Logs non-commercial use and returns true if this was the first attempt to register
+		 *           a use type and the signature met the conditions specified for it. Otherwise, returns
+		 *           false and does not log use type.
+		 * \sa org::mariuszgromada::math::mxparser::License::iConfirmNonCommercialUse(const StringPtr &)
+		 * \sa org::mariuszgromada::math::mxparser::License::getUseTypeConfirmationMessage()
+		 * \sa org::mariuszgromada::math::mxparser::License::checkIfUseTypeConfirmed()
+		 * \sa org::mariuszgromada::math::mxparser::License::geTermsOfAgreement()
+		 */
 		static bool iConfirmNonCommercialUse(const StringPtr &mySignature);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::License::iConfirmNonCommercialUse(const StringPtr &)
+		 */
 		static bool iConfirmNonCommercialUse(const String &mySignature) { return iConfirmNonCommercialUse(S(mySignature)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::License::iConfirmNonCommercialUse(const StringPtr &)
+		 */
 		static bool iConfirmNonCommercialUse(const Char *mySignature) { return iConfirmNonCommercialUse(S(mySignature)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::License::iConfirmNonCommercialUse(const StringPtr &)
+		 */
 		static bool iConfirmNonCommercialUse(const std::string &mySignature) { return iConfirmNonCommercialUse(S(mySignature)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::License::iConfirmNonCommercialUse(const StringPtr &)
+		 */
 		static bool iConfirmNonCommercialUse(const char *mySignature) { return iConfirmNonCommercialUse(S(mySignature)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Verifies whether the use type has been successfully confirmed and signed.
+		 * \return True in case commercial or non-commercial user type has been confirmed and signed.
+		 *           Otherwise, returns false.
+		 */
 		static bool checkIfUseTypeConfirmed();
+		/**
+		 * \brief Verifies whether the use type has been successfully confirmed and signed.
+		 * \return Confirmation message in case commercial or non-commercial user type has been
+		 *           confirmed and signed. Otherwise, returns error / warning message.
+		 * \sa org::mariuszgromada::math::mxparser::License::iConfirmNonCommercialUse(const StringPtr &)
+		 * \sa org::mariuszgromada::math::mxparser::License::iConfirmNonCommercialUse(const StringPtr &)
+		 */
 		static StringPtr getUseTypeConfirmationMessage();
+		/**
+		 * \brief Information about the problem encountered when calling methods:
+		 * License.iConfirmNonCommercialUse(...), License.iConfirmCommercialUse(...)
+		 * \return Error message if an error occurred,
+		 *         empty string if no error.
+		 * \sa org::mariuszgromada::math::mxparser::License::iConfirmNonCommercialUse(const StringPtr &)
+		 * \sa org::mariuszgromada::math::mxparser::License::iConfirmNonCommercialUse(const StringPtr &)
+		 */
 		static StringPtr getErrorMessage();
 
 		// ***********************************************************
 
+		/**
+		 * \brief Return the terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT.
+		 * \return The terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT as string.
+		 */
 		static StringPtr geTermsOfAgreement();
+		/**
+		 * \brief Prints to the console the terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT
+		 */
 		static void consolePrintLicense();
 
 		// ***********************************************************
 
 		/**
-		 * The terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT
+		 * \brief The terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT
 		 */
 		static StringPtr MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT;
 

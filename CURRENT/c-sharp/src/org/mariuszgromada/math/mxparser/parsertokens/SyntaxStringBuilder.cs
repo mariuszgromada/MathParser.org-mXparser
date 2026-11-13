@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxStringBuilder.cs        6.1.0    2024-10-06
+ * @(#)SyntaxStringBuilder.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -218,31 +218,25 @@
 using System;
 
 namespace org.mariuszgromada.math.mxparser.parsertokens {
-	/**
-	 * Syntax String Builder - rules used by parser token classes.
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @see BinaryRelation
-	 * @see BitwiseOperator
-	 * @see BooleanOperator
-	 * @see CalculusOperator
-	 * @see Function1Arg
-	 * @see Function2Arg
-	 * @see Function3Arg
-	 * @see FunctionVariadic
-	 * @see Operator
-	 *
-	 * @version        5.1.0
-	 */
+	/// <summary>Syntax String Builder - rules used by parser token classes.</summary>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.BinaryRelation"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.BitwiseOperator"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.BooleanOperator"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.CalculusOperator"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.Function1Arg"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.Function2Arg"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.Function3Arg"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.FunctionVariadic"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.Operator"/>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	internal sealed class SyntaxStringBuilder {
 		internal const String space = " ";
 		internal const String one = "1";

@@ -220,67 +220,55 @@ using System;
 using System.Collections.Generic;
 
 namespace org.mariuszgromada.math.mxparser {
-	/**
-	 * RecursiveArgument class enables to declare the argument
-	 * (variable) which is defined in a recursive way. Such an argument
-	 * can be used in further processing in expressions, functions and dependent
-	 * or recursive arguments.<br>
-	 *
-	 * For example:
-	 * <ul>
-	 * <li>'fib(n) = fin(n-1)+fib(n-2), fib(0) = 0, fib(1) = 1'
-	 * <li>'factorial(n) = n*factorial(n-1), factorial(0) = 1'
-	 * </ul>
-	 * <p>
-	 * When creating an argument you should avoid:
-	 * <ul>
-	 * <li>names reserved as parser keywords, in general words known in mathematical language
-	 * as function names, operators (for example:
-	 * sin, cos, +, -, etc...). Please be informed that after associating
-	 * the argument with the expression, function or dependent/recursive argument
-	 * its name will be recognized by the parser as reserved key word.
-	 * It means that it could not be the same as any other key word known
-	 * by the parser for this particular expression.
-	 * <li>defining statements with increasing index: 'a(n) = a(n+1) + ... ', otherwise
-	 * you will get Double.NaN
-	 * <li>if recursion is not properly defined you will get Double.NaN in the result.
-	 * This is due to the recursion counter inside of the recursive argument. Calculating
-	 * n-th element requires no more than n recursion steps (usually less than n).
-	 * <li>For negative 'n' you will get Double.NaN.
-	 *
-	 * </ul>
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        6.2.0
-	 *
-	 * @see Argument
-	 * @see Expression
-	 * @see Function
-	 * @see Constant
-	 */
+	/// <summary>RecursiveArgument class enables to declare the argument
+	/// (variable) which is defined in a recursive way. Such an argument
+	/// can be used in further processing in expressions, functions and dependent
+	/// or recursive arguments.<br/>
+	///
+	/// For example:
+	/// <list type="bullet">
+	/// <item><description>'fib(n) = fin(n-1)+fib(n-2), fib(0) = 0, fib(1) = 1'
+	/// </description></item><item><description>'factorial(n) = n*factorial(n-1), factorial(0) = 1'
+	/// </description></item></list>
+	/// <para>
+	/// When creating an argument you should avoid:
+	/// <list type="bullet">
+	/// <item><description>names reserved as parser keywords, in general words known in mathematical language
+	/// as function names, operators (for example:
+	/// sin, cos, +, -, etc...). Please be informed that after associating
+	/// the argument with the expression, function or dependent/recursive argument
+	/// its name will be recognized by the parser as reserved key word.
+	/// It means that it could not be the same as any other key word known
+	/// by the parser for this particular expression.
+	/// </description></item><item><description>defining statements with increasing index: 'a(n) = a(n+1) + ... ', otherwise
+	/// you will get Double.NaN
+	/// </description></item><item><description>if recursion is not properly defined you will get Double.NaN in the result.
+	/// This is due to the recursion counter inside of the recursive argument. Calculating
+	/// n-th element requires no more than n recursion steps (usually less than n).
+	/// </description></item><item><description>For negative 'n' you will get Double.NaN.
+	///
+	/// </description></item></list></para></summary>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true), Serializable]
 	public class RecursiveArgument : Argument {
-		/**
-		 * Type identifier for recursive arguments.
-		 */
+		/// <summary>Type identifier for recursive arguments.</summary>
 		public const int TYPE_ID_RECURSIVE = 102;
 		public static String TYPE_DESC_RECURSIVE = ParserSymbol.NA;
-        /**
-		 * Base values
-		 */
+        /// <summary>Base values</summary>
         private List<Double> baseValues = null;
-		/**
-		 * To avoid never ending loops
-		 */
+		/// <summary>To avoid never ending loops</summary>
 		private int recursiveCounter = -1;
 		private int startingIndex = 0;
 		private void initRecursiveArgument() {
@@ -294,56 +282,44 @@ namespace org.mariuszgromada.math.mxparser {
 			initRecursiveArgument();
 			argumentExpression.addDefinitions(elements);
 		}
-		/**
-		 * Constructor - creates recursive argument.
-		 *
-		 * @param      argumentName                  the argument name
-		 * @param      recursiveExpressionString     the recursive expression string
-		 * @param      indexName                     index argument name
-		 */
+		/// <summary>Constructor - creates recursive argument.</summary>
+		/// <param name="argumentName">the argument name</param>
+		/// <param name="recursiveExpressionString">the recursive expression string</param>
+		/// <param name="indexName">index argument name</param>
 		public RecursiveArgument(String argumentName, String recursiveExpressionString, String indexName) : base(argumentName, recursiveExpressionString) {
 			if (!syntaxStatusDefinition)
 				return;
 			n = new Argument(indexName);
 			initRecursiveArgument();
 		}
-		/**
-		 * Constructor - creates recursive argument.
-		 *
-		 * @param      argumentName                  the argument name
-		 * @param      recursiveExpressionString     the recursive expression string
-		 * @param      n                             the index argument
-		 * @param      elements                      Optional elements list (variadic - comma
-		 *                                           separated) of types: Argument, Constant, Function
-		 *
-		 * @see        PrimitiveElement
-		 * @see        Argument
-		 */
+		/// <summary>Constructor - creates recursive argument.</summary>
+		/// <param name="argumentName">the argument name</param>
+		/// <param name="recursiveExpressionString">the recursive expression string</param>
+		/// <param name="n">the index argument</param>
+		/// <param name="elements">Optional elements list (variadic - comma
+		///                                           separated) of types: Argument, Constant, Function</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.PrimitiveElement"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
 		public RecursiveArgument(String argumentName, String recursiveExpressionString, Argument n, params PrimitiveElement[] elements) : base(argumentName, recursiveExpressionString) {
 			if (!syntaxStatusDefinition)
 				return;
 			this.n = n;
 			initRecursiveArgument(elements);
 		}
-		/**
-		 * Constructor - creates argument based on the argument definition string.
-		 *
-		 * @param      argumentDefinitionString        Argument definition string, i.e.:
-		 *                                             <ul>
-		 *                                                <li>'x' - only argument name
-		 *                                                <li>'x=5' - argument name and argument value
-		 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
-		 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
-		 *                                                <li>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)
-		 *                                             </ul>
-		 *
-		 * @param      elements                       Optional elements list
-		 *                                            (variadic - comma separated) of types: Argument,
-		 *                                            Constant, Function
-		 *
-		 * @see    PrimitiveElement
-		 * @see    Argument
-		 */
+		/// <summary>Constructor - creates argument based on the argument definition string.</summary>
+		/// <param name="argumentDefinitionString">Argument definition string, i.e.:
+		///                                             <list type="bullet">
+		///                                                <item><description>'x' - only argument name
+		///                                                </description></item><item><description>'x=5' - argument name and argument value
+		///                                                </description></item><item><description>'x=2*5' - argument name and argument value given as simple expression
+		///                                                </description></item><item><description>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+		///                                                </description></item><item><description>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)
+		///                                             </description></item></list></param>
+		/// <param name="elements">Optional elements list
+		///                                            (variadic - comma separated) of types: Argument,
+		///                                            Constant, Function</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.PrimitiveElement"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
 		public RecursiveArgument(String argumentDefinitionString, params PrimitiveElement[] elements) : base(true, argumentDefinitionString) {
 			if (!syntaxStatusDefinition)
 				return;
@@ -358,12 +334,9 @@ namespace org.mariuszgromada.math.mxparser {
 			recursiveCounter = recursiveArgumentToClone.recursiveCounter;
 			startingIndex = recursiveArgumentToClone.startingIndex;
 		}
-		/**
-		 * Adds base case
-		 *
-		 * @param      index               the base case index
-		 * @param      value               the base case value
-		 */
+		/// <summary>Adds base case</summary>
+		/// <param name="index">the base case index</param>
+		/// <param name="value">the base case value</param>
 		public void addBaseCase(int index, double value) {
 			int recSize = baseValues.Count;
 			if (index < recSize) {
@@ -377,44 +350,35 @@ namespace org.mariuszgromada.math.mxparser {
 				baseValues.Add( Double.NaN );
 			baseValues.Add(value);
 		}
-		/**
-		 * Clears all based cases and stored calculated values
-		 */
+		/// <summary>Clears all based cases and stored calculated values</summary>
 		public void resetAllCases() {
 			baseValues.Clear();
 			recursiveCounter = -1;
 		}
-		/**
-		 * Gets recursive argument value
-		 *
-		 * @param      index               the index
-		 *
-		 * @return     value as double
-		 */
+		/// <summary>Gets recursive argument value</summary>
+		/// <param name="index">the index</param>
+		/// <returns>value as double</returns>
 		public double getArgumentValue(double index) {
 			return getArgumentValueCoreWithCancel(index, 0);
 		}
-		/**
-		 * Gets recursive argument value
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * @param      index               the index
-		 *
-		 * @return     value as double
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see getArgumentValue(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Gets recursive argument value
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.</para></summary>
+		/// <param name="index">the index</param>
+		/// <returns>value as double</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument.getArgumentValue(double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public double getArgumentValueWithCancel(double index, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -517,16 +481,13 @@ namespace org.mariuszgromada.math.mxparser {
 			recursiveArgumentClone.addRelatedExpression(relatedExpressionThatInitiatedClone);
 			return recursiveArgumentClone;
 		}
-		/**
-		 * Creates a completely independent 1-1 clone that can be safely used
-		 * by a separate thread. If the cloned element contains references
-		 * to other elements (e.g. arguments, functions, constants),
-		 * then they will also be cloned and the newly created element will
-		 * contain references to the corresponding clones.
-		 * Important - the API allows you to extract all these clones.
-		 *
-		 * @return Cloned object.
-		 */
+		/// <summary>Creates a completely independent 1-1 clone that can be safely used
+		/// by a separate thread. If the cloned element contains references
+		/// to other elements (e.g. arguments, functions, constants),
+		/// then they will also be cloned and the newly created element will
+		/// contain references to the corresponding clones.
+		/// Important - the API allows you to extract all these clones.</summary>
+		/// <returns>Cloned object.</returns>
 		new public RecursiveArgument cloneForThreadSafe() {
 			CloneCache cloneCache = new CloneCache();
 			RecursiveArgument recursiveArgumentClone = cloneForThreadSafeInternal(cloneCache);

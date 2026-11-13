@@ -1,5 +1,5 @@
 /*
- * @(#)ReadOnlyList.hpp        6.2.0    2026-11-11
+ * @(#)ReadOnlyList.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -221,7 +221,9 @@
 #include <stdexcept>
 namespace org::mariuszgromada::math::mxparser::wrapper {
 // List::pop() is const but mutating: Ptr<const List<T>> is not immutable.
-/** @version        6.2.0 */
+/**
+ * \version 6.2.0
+ */
 template<class T> class ReadOnlyList {
     const std::vector<T> values;
 public:

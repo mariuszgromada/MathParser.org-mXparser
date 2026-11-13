@@ -1,5 +1,5 @@
 /*
- * @(#)BinaryRelations.cs        6.1.0    2024-10-06
+ * @(#)BinaryRelations.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -218,102 +218,70 @@
 using System;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
-	 * BinaryRelations - class for dealing with binary relations on integers or doubles.
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        5.2.0
-	 */
+	/// <summary>BinaryRelations - class for dealing with binary relations on integers or doubles.</summary>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true)]
 	public sealed class BinaryRelations {
-		/**
-		 * Default epsilon for comparison
-		 */
+		/// <summary>Default epsilon for comparison</summary>
 		public static readonly double DEFAULT_COMPARISON_EPSILON = 0.00000000000001;
-		/**
-		 * Epsilon for comparison
-		 */
+		/// <summary>Epsilon for comparison</summary>
 		internal static double epsilon = DEFAULT_COMPARISON_EPSILON;
-		/**
-		 * COmparison mode indicator
-		 */
+		/// <summary>COmparison mode indicator</summary>
 		internal static bool epsilonComparison = true;
-		/**
-		 * Sets comparison mode to EXACT.
-		 */
+		/// <summary>Sets comparison mode to EXACT.</summary>
 		public static void setExactComparison() {
 			epsilonComparison = false;
 		}
-		/**
-		 * Sets comparison mode to EPSILON.
-		 */
+		/// <summary>Sets comparison mode to EPSILON.</summary>
 		public static void setEpsilonComparison() {
 			epsilonComparison = true;
 		}
-		/**
-		 * Sets epsilon value.
-		 * @param epsilon   Epsilon value (grater than 0).
-		 *
-		 * @see #setEpsilonComparison()
-		 */
+		/// <summary>Sets epsilon value.</summary>
+		/// <param name="epsilon">Epsilon value (grater than 0).</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations.setEpsilonComparison()"/>
 		public static void setEpsilon(double epsilon) {
 			if (epsilon > 0) BinaryRelations.epsilon = epsilon;
 		}
-		/**
-		 * Sets default epsilon value.
-		 *
-		 * @see #setEpsilonComparison()
-		 * @see #DEFAULT_COMPARISON_EPSILON
-		 */
+		/// <summary>Sets default epsilon value.</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations.setEpsilonComparison()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations.DEFAULT_COMPARISON_EPSILON"/>
 		public static void setDefaultEpsilon() {
 			BinaryRelations.epsilon = DEFAULT_COMPARISON_EPSILON;
 		}
-		/**
-		 * Returns current epsilon value.
-		 * @return  Returns current epsilon value.
-		 *
-		 * @see #setEpsilonComparison()
-		 */
+		/// <summary>Returns current epsilon value.</summary>
+		/// <returns>Returns current epsilon value.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations.setEpsilonComparison()"/>
 		public static double getEpsilon() {
 			return epsilon;
 		}
-		/**
-		 * Checks if epsilon comparison mode is active;
-		 * @return  True if epsilon mode is active, otherwise returns false.
-		 * @see #setEpsilonComparison()
-		 * @see #setExactComparison()
-		 */
+		/// <summary>Checks if epsilon comparison mode is active;</summary>
+		/// <returns>True if epsilon mode is active, otherwise returns false.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations.setEpsilonComparison()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations.setExactComparison()"/>
 		public static bool checkIfEpsilonMode() {
 			return epsilonComparison;
 		}
-		/**
-		 * Checks if exact comparison mode is active;
-		 * @return  True if exact mode is active, otherwise returns false.
-		 * @see #setEpsilonComparison()
-		 * @see #setExactComparison()
-		 */
+		/// <summary>Checks if exact comparison mode is active;</summary>
+		/// <returns>True if exact mode is active, otherwise returns false.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations.setEpsilonComparison()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations.setExactComparison()"/>
 		public static bool checkIfExactMode() {
 			return !epsilonComparison;
 		}
-		/**
-		 * Equality relation.
-		 *
-		 * @param      a                   the a number (a = b)
-		 * @param      b                   the b number (a = b)
-		 *
-		 * @return     if a = Double.NaN or b = Double.NaN return Double.NaN,
-		 *             else if a = b return 1,
-		 *             otherwise return 0.
-		 */
+		/// <summary>Equality relation.</summary>
+		/// <param name="a">the a number (a = b)</param>
+		/// <param name="b">the b number (a = b)</param>
+		/// <returns>if a = Double.NaN or b = Double.NaN return Double.NaN,
+		///             else if a = b return 1,
+		///             otherwise return 0.</returns>
 		public static double eq(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
 			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
@@ -324,28 +292,20 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			} else if (a == b) result = BooleanAlgebra.TRUE;
 			return result;
 		}
-		/**
-		 * Test for equality or almost equality.
-		 *
-		 * @param a   First number
-		 * @param b   Second number
-		 * @return    Returns true if both number are equal or are almost equal.
-		 *
-		 * @see #DEFAULT_COMPARISON_EPSILON
-		 */
+		/// <summary>Test for equality or almost equality.</summary>
+		/// <param name="a">First number</param>
+		/// <param name="b">Second number</param>
+		/// <returns>Returns true if both number are equal or are almost equal.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations.DEFAULT_COMPARISON_EPSILON"/>
 		public static bool isEqualOrAlmost(double a, double b) {
 			return Math.Abs(a - b) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON;
 		}
-		/**
-		 * Inequality relation.
-		 *
-		 * @param      a                   the a number (a &lt;&gt; b)
-		 * @param      b                   the b number (a &lt;&gt; b)
-		 *
-		 * @return     if a = Double.NaN or b = Double.NaN return Double.NaN,
-		 *             else if a &lt;&gt; b return 1,
-		 *             otherwise return 0.
-		 */
+		/// <summary>Inequality relation.</summary>
+		/// <param name="a">the a number (a &lt;&gt; b)</param>
+		/// <param name="b">the b number (a &lt;&gt; b)</param>
+		/// <returns>if a = Double.NaN or b = Double.NaN return Double.NaN,
+		///             else if a &lt;&gt; b return 1,
+		///             otherwise return 0.</returns>
 		public static double neq(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
 			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
@@ -356,16 +316,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			} else if (a != b) result = BooleanAlgebra.TRUE;
 			return result;
 		}
-		/**
-		 * Lower than relation.
-		 *
-		 * @param      a                   the a number (a &lt; b)
-		 * @param      b                   the b number (a &lt; b)
-		 *
-		 * @return     if a = Double.NaN or b = Double.NaN return Double.NaN,
-		 *             else if a &lt; b return 1,
-		 *             otherwise return 0.
-		 */
+		/// <summary>Lower than relation.</summary>
+		/// <param name="a">the a number (a &lt; b)</param>
+		/// <param name="b">the b number (a &lt; b)</param>
+		/// <returns>if a = Double.NaN or b = Double.NaN return Double.NaN,
+		///             else if a &lt; b return 1,
+		///             otherwise return 0.</returns>
 		public static double lt(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
 			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
@@ -376,16 +332,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			} else if (a < b) result = BooleanAlgebra.TRUE;
 			return result;
 		}
-		/**
-		 * Greater than relation.
-		 *
-		 * @param      a                   the a number (a &gt; b)
-		 * @param      b                   the b number (a &gt; b)
-		 *
-		 * @return     if a = Double.NaN or b = Double.NaN return Double.NaN,
-		 *             else if a &gt; b return 1,
-		 *             otherwise return 0.
-		 */
+		/// <summary>Greater than relation.</summary>
+		/// <param name="a">the a number (a &gt; b)</param>
+		/// <param name="b">the b number (a &gt; b)</param>
+		/// <returns>if a = Double.NaN or b = Double.NaN return Double.NaN,
+		///             else if a &gt; b return 1,
+		///             otherwise return 0.</returns>
 		public static double gt(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
 			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
@@ -396,16 +348,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			} else if (a > b) result = BooleanAlgebra.TRUE;
 			return result;
 		}
-		/**
-		 * Lower or equal relation.
-		 *
-		 * @param      a                   the a number (a &lt;= b)
-		 * @param      b                   the b number (a &lt;= b)
-		 *
-		 * @return     if a = Double.NaN or b = Double.NaN return Double.NaN,
-		 *             else if a &lt;= b return 1,
-		 *             otherwise return 0.
-		 */
+		/// <summary>Lower or equal relation.</summary>
+		/// <param name="a">the a number (a &lt;= b)</param>
+		/// <param name="b">the b number (a &lt;= b)</param>
+		/// <returns>if a = Double.NaN or b = Double.NaN return Double.NaN,
+		///             else if a &lt;= b return 1,
+		///             otherwise return 0.</returns>
 		public static double leq(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
 			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
@@ -416,16 +364,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			} else if (a <= b) result = BooleanAlgebra.TRUE;
 			return result;
 		}
-		/**
-		 * Greater or equal relation.
-		 *
-		 * @param      a                   the a number (a &gt;= b)
-		 * @param      b                   the b number (a &gt;= b)
-		 *
-		 * @return     if a = Double.NaN or b = Double.NaN return Double.NaN,
-		 *             else if a &gt;= b return 1,
-		 *             otherwise return 0.
-		 */
+		/// <summary>Greater or equal relation.</summary>
+		/// <param name="a">the a number (a &gt;= b)</param>
+		/// <param name="b">the b number (a &gt;= b)</param>
+		/// <returns>if a = Double.NaN or b = Double.NaN return Double.NaN,
+		///             else if a &gt;= b return 1,
+		///             otherwise return 0.</returns>
 		public static double geq(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
 			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));

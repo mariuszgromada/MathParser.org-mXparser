@@ -1,5 +1,5 @@
 /*
- * @(#)PrimitiveElement.cs        6.1.0    2024-10-06
+ * @(#)PrimitiveElement.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -219,62 +219,43 @@ using System;
 
 namespace org.mariuszgromada.math.mxparser
 {
-	/**
-	 * Class used for connecting all basic elements such as: Argument, Constant,
-	 * Function. Class not used by the end user.
-	 *
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        5.2.0
-	 *
-	 * @see            Argument
-	 * @see            Constant
-	 * @see            Function
-	 * @see            RecursiveArgument
-	 * @see            Expression#addDefinitions(PrimitiveElement...)
-	 * @see            Expression#removeDefinitions(PrimitiveElement...)
-	 */
+	/// <summary>Class used for connecting all basic elements such as: Argument, Constant,
+	/// Function. Class not used by the end user.</summary>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Expression.addDefinitions(PrimitiveElement[])"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Expression.removeDefinitions(PrimitiveElement[])"/>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true), Serializable]
 	public class PrimitiveElement {
-		/**
-		 * Element type id
-		 *
-		 * @see     Argument.TYPE_ID
-		 * @see     Constant.TYPE_ID
-		 * @see     Function.TYPE_ID
-		 */
+		/// <summary>Element type id</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument.TYPE_ID"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant.TYPE_ID"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function.TYPE_ID"/>
 		private readonly int myTypeId;
-		/**
-		 * Default constructor setting element type id
-		 *
-		 * @param typeId     Element type id
-		 *
-		 * @see     Argument.TYPE_ID
-		 * @see     Constant.TYPE_ID
-		 * @see     Function.TYPE_ID
-		 */
+		/// <summary>Default constructor setting element type id</summary>
+		/// <param name="typeId">Element type id</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument.TYPE_ID"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant.TYPE_ID"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function.TYPE_ID"/>
 		public PrimitiveElement(int typeId) {
 			myTypeId = typeId;
 		}
-		/**
-		 * Returns element type id
-		 *
-		 * @return  Element type id as int Function.TYPE_ID, Argument.TYPE_ID, Function.TYPE_ID
-		 *
-		 * @see     Argument.TYPE_ID
-		 * @see     Constant.TYPE_ID
-		 * @see     Function.TYPE_ID
-		 *
-		 */
+		/// <summary>Returns element type id</summary>
+		/// <returns>Element type id as int Function.TYPE_ID, Argument.TYPE_ID, Function.TYPE_ID</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument.TYPE_ID"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant.TYPE_ID"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function.TYPE_ID"/>
 		public int getMyTypeId() {
 			return myTypeId;
 		}

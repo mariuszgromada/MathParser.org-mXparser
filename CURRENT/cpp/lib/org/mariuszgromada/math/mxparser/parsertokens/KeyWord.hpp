@@ -1,5 +1,5 @@
 /*
- * @(#)KeyWord.hpp        6.1.0    2024-10-06
+ * @(#)KeyWord.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -226,8 +226,21 @@
 namespace org::mariuszgromada::math::mxparser::parsertokens {
 	class API_VISIBLE KeyWord {
 	public:
+		/**
+		 * \brief Creates an empty keyword with no assigned token or token type.
+		 */
 		KeyWord();
 
+		/**
+		 * \brief Constructor - creates key words form wordString wordId
+		 * wordTypId syntax since
+		 * \param wordString   the word string (refers to below interfaces)
+		 * \param wordId       the word identifier (refers to below interfaces)
+		 * \param wordTypeId   the word type (refers to below interfaces)
+		 * \param description  the word description
+		 * \param syntax       the word syntax
+		 * \param since        the word version since
+		 */
 		KeyWord(const StringPtr &wordString, const StringPtr &description, int wordId, const StringPtr &syntax,
 		        const StringPtr &since, int wordTypeId);
 
@@ -239,6 +252,18 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		StringPtr syntax = nullptr;
 		StringPtr since = nullptr;
 
+		/**
+		 * \brief Checks whether the specified keyword is in the form of a function.
+		 * \param kw Provided key word.
+		 * \return True in case kw is Function1Arg, Function2Arg, Function3Arg, FunctionVariadic, Function, RecursiveArgument
+		 *         otherwise returns false.
+		 * \sa org::mariuszgromada::math::mxparser::parsertokens::Function1Arg
+		 * \sa org::mariuszgromada::math::mxparser::parsertokens::Function2Arg
+		 * \sa org::mariuszgromada::math::mxparser::parsertokens::Function3Arg
+		 * \sa org::mariuszgromada::math::mxparser::parsertokens::FunctionVariadic
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 */
 		static bool isFunctionForm(const KeyWordPtr &kw);
 
 	private:
@@ -254,10 +279,25 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		);
 	};
 
+	/**
+	 * \brief Creates an empty keyword with no assigned token or token type.
+	 * \return A shared pointer to the new KeyWord instance.
+	 */
 	inline KeyWordPtr new_KeyWord() {
 		return std::make_shared<KeyWord>();
 	}
 
+	/**
+	 * \brief Constructor - creates key words form wordString wordId
+	 * wordTypId syntax since
+	 * \param wordString   the word string (refers to below interfaces)
+	 * \param wordId       the word identifier (refers to below interfaces)
+	 * \param wordTypeId   the word type (refers to below interfaces)
+	 * \param description  the word description
+	 * \param syntax       the word syntax
+	 * \param since        the word version since
+	 * \return A shared pointer to the new KeyWord instance.
+	 */
 	inline KeyWordPtr new_KeyWord(const StringPtr &wordString, const StringPtr &description, int wordId,
 	                              const StringPtr &syntax, const StringPtr &since, int wordTypeId) {
 		return std::make_shared<KeyWord>(wordString, description, wordId, syntax, since, wordTypeId);

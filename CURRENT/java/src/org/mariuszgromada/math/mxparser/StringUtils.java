@@ -1,5 +1,5 @@
 /*
- * @(#)StringUtils.java        6.1.0    2024-10-14
+ * @(#)StringUtils.java        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -233,7 +233,7 @@ import java.util.regex.Pattern;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        6.1.0
+ * @version        6.2.0
  */
 public final class StringUtils {
     /**
@@ -814,6 +814,13 @@ public final class StringUtils {
     public static String numberToAsciiString(double number) {
         return hexString2AsciiString( numberToHexString(number) );
     }
+    /**
+     * Counts non-overlapping, case-sensitive occurrences of a substring.
+     *
+     * @param str The text to search.
+     * @param toFind The literal substring to count.
+     * @return The count; -1 if either input is null, or 0 for an empty input or substring.
+     */
     public static int countOccurrences(String str, String toFind) {
         if (str == null || toFind == null) return -1;
         int strLen = str.length();
@@ -821,6 +828,12 @@ public final class StringUtils {
         if (strLen == 0 || toFindLen == 0 || toFindLen > strLen) return 0;
         return (strLen - str.replace(toFind, StringInvariant.EMPTY).length()) / toFindLen;
     }
+    /**
+     * Counts lines separated by a newline character, including an empty trailing line.
+     *
+     * @param text The text to inspect.
+     * @return The line count; 0 for empty text, or -1 for null.
+     */
     public static int countLines(String text) {
         if (text == null) return -1;
         if (text.isEmpty()) return 0;

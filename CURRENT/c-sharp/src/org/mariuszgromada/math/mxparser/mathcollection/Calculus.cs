@@ -218,80 +218,64 @@
 using System;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
-	 * Calculus - numerical integration, differentiation, etc...
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        6.2.0
-	 */
+	/// <summary>Calculus - numerical integration, differentiation, etc...</summary>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true)]
 	public sealed class Calculus {
-		/**
-		 * Derivative type specification
-		 */
+		/// <summary>Derivative type specification</summary>
 		public const int LEFT_DERIVATIVE = 1;
 		public const int RIGHT_DERIVATIVE = 2;
 		public const int GENERAL_DERIVATIVE = 3;
-		/**
-		 * Trapezoid numerical integration
-		 *
-		 * @param      f                   the expression
-		 * @param      x                   the argument
-		 * @param      a                   form a ...
-		 * @param      b                   ... to b
-		 * @param      eps                 the epsilon (error)
-		 * @param      maxSteps            the maximum number of steps
-		 *
-		 * @return     Integral value as double.
-		 *
-		 * @see        Expression
-		 */
+		/// <summary>Trapezoid numerical integration</summary>
+		/// <param name="f">the expression</param>
+		/// <param name="x">the argument</param>
+		/// <param name="a">form a ...</param>
+		/// <param name="b">... to b</param>
+		/// <param name="eps">the epsilon (error)</param>
+		/// <param name="maxSteps">the maximum number of steps</param>
+		/// <returns>Integral value as double.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
 		public static double integralTrapezoid(Expression f, Argument x, double a, double b,
 				double eps, int maxSteps) {
 			return integralTrapezoidWithCancel(f, x, a, b, eps, maxSteps, 0);
 		}
-		/**
-		 * Trapezoid numerical integration
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      x                   the argument
-		 * @param      a                   form a ...
-		 * @param      b                   ... to b
-		 * @param      eps                 the epsilon (error)
-		 * @param      maxSteps            the maximum number of steps
-		 *
-		 * @return     Integral value as double.
-		 *
-		 * @see        Expression
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see integralTrapezoid(Expression,Argument,double,double,double,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Trapezoid numerical integration
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="f">the expression</param>
+		/// <param name="x">the argument</param>
+		/// <param name="a">form a ...</param>
+		/// <param name="b">... to b</param>
+		/// <param name="eps">the epsilon (error)</param>
+		/// <param name="maxSteps">the maximum number of steps</param>
+		/// <returns>Integral value as double.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.Calculus.integralTrapezoid(Expression,Argument,double,double,double,int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double integralTrapezoidWithCancel(Expression f, Argument x, double a, double b,
 				double eps, int maxSteps, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
@@ -325,59 +309,50 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return intF;
 		}
-		/**
-		 * Numerical derivative at x = x0
-		 *
-		 * @param      f                   the expression
-		 * @param      x                   the argument
-		 * @param      x0                  at point x = x0
-		 * @param      derType             derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
-		 *                                 GENERAL_DERIVATIVE
-		 * @param      eps                 the epsilon (error)
-		 * @param      maxSteps            the maximum number of steps
-		 *
-		 * @return     Derivative value as double.
-		 *
-		 * @see        Expression
-		 */
+		/// <summary>Numerical derivative at x = x0</summary>
+		/// <param name="f">the expression</param>
+		/// <param name="x">the argument</param>
+		/// <param name="x0">at point x = x0</param>
+		/// <param name="derType">derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
+		///                                 GENERAL_DERIVATIVE</param>
+		/// <param name="eps">the epsilon (error)</param>
+		/// <param name="maxSteps">the maximum number of steps</param>
+		/// <returns>Derivative value as double.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
 		public static double derivative(Expression f, Argument x, double x0,
 				int derType, double eps, int maxSteps) {
 			return derivativeWithCancel(f, x, x0, derType, eps, maxSteps, 0);
 		}
-		/**
-		 * Numerical derivative at x = x0
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      x                   the argument
-		 * @param      x0                  at point x = x0
-		 * @param      derType             derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
-		 *                                 GENERAL_DERIVATIVE
-		 * @param      eps                 the epsilon (error)
-		 * @param      maxSteps            the maximum number of steps
-		 *
-		 * @return     Derivative value as double.
-		 *
-		 * @see        Expression
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see derivative(Expression,Argument,double,int,double,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Numerical derivative at x = x0
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="f">the expression</param>
+		/// <param name="x">the argument</param>
+		/// <param name="x0">at point x = x0</param>
+		/// <param name="derType">derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
+		///                                 GENERAL_DERIVATIVE</param>
+		/// <param name="eps">the epsilon (error)</param>
+		/// <param name="maxSteps">the maximum number of steps</param>
+		/// <returns>Derivative value as double.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.Calculus.derivative(Expression,Argument,double,int,double,int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double derivativeWithCancel(Expression f, Argument x, double x0,
 				int derType, double eps, int maxSteps, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
@@ -414,63 +389,54 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			} while ( (step < maxSteps) && ( (error > eps) || Double.IsNaN(derF) ));
 			return derF;
 		}
-		/**
-		 * Numerical n-th derivative at x = x0 (you should avoid calculation
-		 * of derivatives with order higher than 2).
-		 *
-		 * @param      f                   the expression
-		 * @param      n                   the deriviative order
-		 * @param      x                   the argument
-		 * @param      x0                  at point x = x0
-		 * @param      derType             derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
-		 *                                 GENERAL_DERIVATIVE
-		 * @param      eps                 the epsilon (error)
-		 * @param      maxSteps            the maximum number of steps
-		 *
-		 * @return     Derivative value as double.
-		 *
-		 * @see        Expression
-		 */
+		/// <summary>Numerical n-th derivative at x = x0 (you should avoid calculation
+		/// of derivatives with order higher than 2).</summary>
+		/// <param name="f">the expression</param>
+		/// <param name="n">the deriviative order</param>
+		/// <param name="x">the argument</param>
+		/// <param name="x0">at point x = x0</param>
+		/// <param name="derType">derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
+		///                                 GENERAL_DERIVATIVE</param>
+		/// <param name="eps">the epsilon (error)</param>
+		/// <param name="maxSteps">the maximum number of steps</param>
+		/// <returns>Derivative value as double.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
 		public static double derivativeNth(Expression f, double n, Argument x,
 				double x0, int derType, double eps, int maxSteps) {
 			return derivativeNthWithCancel(f, n, x, x0, derType, eps, maxSteps, 0);
 		}
-		/**
-		 * Numerical n-th derivative at x = x0 (you should avoid calculation
-		 * of derivatives with order higher than 2).
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      n                   the deriviative order
-		 * @param      x                   the argument
-		 * @param      x0                  at point x = x0
-		 * @param      derType             derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
-		 *                                 GENERAL_DERIVATIVE
-		 * @param      eps                 the epsilon (error)
-		 * @param      maxSteps            the maximum number of steps
-		 *
-		 * @return     Derivative value as double.
-		 *
-		 * @see        Expression
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see derivativeNth(Expression,double,Argument,double,int,double,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Numerical n-th derivative at x = x0 (you should avoid calculation
+		/// of derivatives with order higher than 2).
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="f">the expression</param>
+		/// <param name="n">the deriviative order</param>
+		/// <param name="x">the argument</param>
+		/// <param name="x0">at point x = x0</param>
+		/// <param name="derType">derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
+		///                                 GENERAL_DERIVATIVE</param>
+		/// <param name="eps">the epsilon (error)</param>
+		/// <param name="maxSteps">the maximum number of steps</param>
+		/// <returns>Derivative value as double.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.Calculus.derivativeNth(Expression,double,Argument,double,int,double,int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double derivativeNthWithCancel(Expression f, double n, Argument x,
 				double x0, int derType, double eps, int maxSteps, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
@@ -505,18 +471,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			} while ( (step < maxSteps) && ( (error > eps) || Double.IsNaN(derF) ));
 			return derF;
 		}
-		/**
-		 * Forward difference(1) operator (at x = x0)
-		 *
-		 * @param      f                   the expression
-		 * @param      x                   the argument name
-		 * @param      x0                  x = x0
-		 *
-		 * @return     Forward difference(1) value calculated at x0.
-		 *
-		 * @see        Expression
-		 * @see        Argument
-		 */
+		/// <summary>Forward difference(1) operator (at x = x0)</summary>
+		/// <param name="f">the expression</param>
+		/// <param name="x">the argument name</param>
+		/// <param name="x0">x = x0</param>
+		/// <returns>Forward difference(1) value calculated at x0.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
 		public static double forwardDifference(Expression f, Argument x, double x0) {
 			if (Double.IsNaN(x0))
 				return Double.NaN;
@@ -525,17 +486,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			x.setArgumentValue(xb);
 			return delta;
 		}
-		/**
-		 * Forward difference(1) operator (at current value of argument x)
-		 *
-		 * @param      f                   the expression
-		 * @param      x                   the argument name
-		 *
-		 * @return     Forward difference(1) value calculated at the current value of argument x.
-		 *
-		 * @see        Expression
-		 * @see        Argument
-		 */
+		/// <summary>Forward difference(1) operator (at current value of argument x)</summary>
+		/// <param name="f">the expression</param>
+		/// <param name="x">the argument name</param>
+		/// <returns>Forward difference(1) value calculated at the current value of argument x.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
 		public static double forwardDifference(Expression f, Argument x) {
 			double xb = x.getArgumentValue();
 			if (Double.IsNaN(xb))
@@ -546,18 +502,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			x.setArgumentValue(xb);
 			return delta;
 		}
-		/**
-		 * Backward difference(1) operator (at x = x0).
-		 *
-		 * @param      f                   the expression
-		 * @param      x                   the argument name
-		 * @param      x0                  x = x0
-		 *
-		 * @return     Backward difference value calculated at x0.
-		 *
-		 * @see        Expression
-		 * @see        Argument
-		 */
+		/// <summary>Backward difference(1) operator (at x = x0).</summary>
+		/// <param name="f">the expression</param>
+		/// <param name="x">the argument name</param>
+		/// <param name="x0">x = x0</param>
+		/// <returns>Backward difference value calculated at x0.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
 		public static double backwardDifference(Expression f, Argument x, double x0) {
 			if (Double.IsNaN(x0))
 				return Double.NaN;
@@ -566,17 +517,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			x.setArgumentValue(xb);
 			return delta;
 		}
-		/**
-		 * Backward difference(1) operator (at current value of argument x)
-		 *
-		 * @param      f                   the expression
-		 * @param      x                   the argument name
-		 *
-		 * @return     Backward difference(1) value calculated at the current value of argument x.
-		 *
-		 * @see        Expression
-		 * @see        Argument
-		 */
+		/// <summary>Backward difference(1) operator (at current value of argument x)</summary>
+		/// <param name="f">the expression</param>
+		/// <param name="x">the argument name</param>
+		/// <returns>Backward difference(1) value calculated at the current value of argument x.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
 		public static double backwardDifference(Expression f, Argument x) {
 			double xb = x.getArgumentValue();
 			if (Double.IsNaN(xb))
@@ -587,19 +533,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			x.setArgumentValue(xb);
 			return delta;
 		}
-		/**
-		 * Forward difference(h) operator (at x = x0)
-		 *
-		 * @param      f                   the expression
-		 * @param      h                   the difference
-		 * @param      x                   the argument name
-		 * @param      x0                  x = x0
-		 *
-		 * @return     Forward difference(h) value calculated at x0.
-		 *
-		 * @see        Expression
-		 * @see        Argument
-		 */
+		/// <summary>Forward difference(h) operator (at x = x0)</summary>
+		/// <param name="f">the expression</param>
+		/// <param name="h">the difference</param>
+		/// <param name="x">the argument name</param>
+		/// <param name="x0">x = x0</param>
+		/// <returns>Forward difference(h) value calculated at x0.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
 		public static double forwardDifference(Expression f, double h, Argument x, double x0) {
 			if (Double.IsNaN(x0))
 				return Double.NaN;
@@ -608,51 +549,42 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			x.setArgumentValue(xb);
 			return delta;
 		}
-		/**
-		 * Forward difference(h) operator (at the current value of the argument x)
-		 *
-		 * @param      f                   the expression
-		 * @param      h                   the difference
-		 * @param      x                   the argument name
-		 *
-		 * @return     Forward difference(h) value calculated at the current value of the argument x.
-		 *
-		 * @see        Expression
-		 * @see        Argument
-		 */
+		/// <summary>Forward difference(h) operator (at the current value of the argument x)</summary>
+		/// <param name="f">the expression</param>
+		/// <param name="h">the difference</param>
+		/// <param name="x">the argument name</param>
+		/// <returns>Forward difference(h) value calculated at the current value of the argument x.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
 		public static double forwardDifference(Expression f, double h, Argument x) {
 			return forwardDifferenceWithCancel(f, h, x, 0);
 		}
-		/**
-		 * Forward difference(h) operator (at the current value of the argument x)
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      h                   the difference
-		 * @param      x                   the argument name
-		 *
-		 * @return     Forward difference(h) value calculated at the current value of the argument x.
-		 *
-		 * @see        Expression
-		 * @see        Argument
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see forwardDifference(Expression,double,Argument)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Forward difference(h) operator (at the current value of the argument x)
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="f">the expression</param>
+		/// <param name="h">the difference</param>
+		/// <param name="x">the argument name</param>
+		/// <returns>Forward difference(h) value calculated at the current value of the argument x.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.Calculus.forwardDifference(Expression,double,Argument)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double forwardDifferenceWithCancel(Expression f, double h, Argument x, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -665,19 +597,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			x.setArgumentValue(xb);
 			return delta;
 		}
-		/**
-		 * Backward difference(h) operator (at x = x0)
-		 *
-		 * @param      f                   the expression
-		 * @param      h                   the difference
-		 * @param      x                   the argument name
-		 * @param      x0                  x = x0
-		 *
-		 * @return     Backward difference(h) value calculated at x0.
-		 *
-		 * @see        Expression
-		 * @see        Argument
-		 */
+		/// <summary>Backward difference(h) operator (at x = x0)</summary>
+		/// <param name="f">the expression</param>
+		/// <param name="h">the difference</param>
+		/// <param name="x">the argument name</param>
+		/// <param name="x0">x = x0</param>
+		/// <returns>Backward difference(h) value calculated at x0.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
 		public static double backwardDifference(Expression f, double h, Argument x, double x0) {
 			if (Double.IsNaN(x0))
 				return Double.NaN;
@@ -686,51 +613,42 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			x.setArgumentValue(xb);
 			return delta;
 		}
-		/**
-		 * Backward difference(h) operator (at the current value of the argument x)
-		 *
-		 * @param      f                   the expression
-		 * @param      h                   the difference
-		 * @param      x                   the argument name
-		 *
-		 * @return     Backward difference(h) value calculated at the current value of the argument x.
-		 *
-		 * @see        Expression
-		 * @see        Argument
-		 */
+		/// <summary>Backward difference(h) operator (at the current value of the argument x)</summary>
+		/// <param name="f">the expression</param>
+		/// <param name="h">the difference</param>
+		/// <param name="x">the argument name</param>
+		/// <returns>Backward difference(h) value calculated at the current value of the argument x.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
 		public static double backwardDifference(Expression f, double h, Argument x) {
 			return backwardDifferenceWithCancel(f, h, x, 0);
 		}
-		/**
-		 * Backward difference(h) operator (at the current value of the argument x)
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      h                   the difference
-		 * @param      x                   the argument name
-		 *
-		 * @return     Backward difference(h) value calculated at the current value of the argument x.
-		 *
-		 * @see        Expression
-		 * @see        Argument
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see backwardDifference(Expression,double,Argument)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Backward difference(h) operator (at the current value of the argument x)
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="f">the expression</param>
+		/// <param name="h">the difference</param>
+		/// <param name="x">the argument name</param>
+		/// <returns>Backward difference(h) value calculated at the current value of the argument x.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.Calculus.backwardDifference(Expression,double,Argument)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double backwardDifferenceWithCancel(Expression f, double h, Argument x, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -743,48 +661,45 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			x.setArgumentValue(xb);
 			return delta;
 		}
-		/**
-		 * Brent solver (Brent root finder)
-		 *
-		 * @param f  Function given in the Expression form
-		 * @param x  Argument
-		 * @param a  Left limit
-		 * @param b  Right limit
-		 * @return   Function root - if found, otherwise Double.NaN.
-		 */
+		/// <summary>Brent solver (Brent root finder)</summary>
+		/// <param name="f">Function given in the Expression form</param>
+		/// <param name="x">Argument</param>
+		/// <param name="a">Left limit</param>
+		/// <param name="b">Right limit</param>
+		/// <param name="eps">Epsilon value (accuracy)</param>
+		/// <param name="maxSteps">Maximum number of iterations</param>
+		/// <returns>Function root - if found, otherwise Double.NaN.</returns>
 		public static double solveBrent(Expression f, Argument x, double a, double b, double eps, double maxSteps) {
 			return solveBrentWithCancel(f, x, a, b, eps, maxSteps, 0);
 		}
-		/**
-		 * Brent solver (Brent root finder)
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param f  Function given in the Expression form
-		 * @param x  Argument
-		 * @param a  Left limit
-		 * @param b  Right limit
-		 * @param eps      Epsilon value (accuracy)
-		 * @param maxSteps Maximum number of iterations
-		 * @return   Function root - if found, otherwise Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see solveBrent(Expression,Argument,double,double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Brent solver (Brent root finder)
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="f">Function given in the Expression form</param>
+		/// <param name="x">Argument</param>
+		/// <param name="a">Left limit</param>
+		/// <param name="b">Right limit</param>
+		/// <param name="eps">Epsilon value (accuracy)</param>
+		/// <param name="maxSteps">Maximum number of iterations</param>
+		/// <returns>Function root - if found, otherwise Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.Calculus.solveBrent(Expression,Argument,double,double,double,double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double solveBrentWithCancel(Expression f, Argument x, double a, double b, double eps, double maxSteps, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");

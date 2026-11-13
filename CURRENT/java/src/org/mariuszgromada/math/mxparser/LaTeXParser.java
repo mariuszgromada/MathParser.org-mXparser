@@ -1,5 +1,5 @@
 /*
- * @(#)LaTeXParser.java        6.2.0    2026-11-11
+ * @(#)LaTeXParser.java        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -251,7 +251,7 @@ import java.util.List;
  * At most 1,000,000 input characters, 100,000 nodes (including discarded grouping
  * wrappers), and 128 simultaneous recursive operand levels are accepted.</p>
  *
- * @since 6.1.2
+ * @since 6.2.0
  *
  * @version        6.2.0
  */
@@ -316,20 +316,47 @@ public final class LaTeXParser {
 			this.children = children.length == 0 ? Collections.<Node>emptyList()
 					: Collections.unmodifiableList(Arrays.asList(children.clone()));
 		}
-		/** @return The mathematical operation; no numerical value is computed. */
+		/**
+		 * Returns the mathematical operation represented by this node.
+		 *
+		 * @return The operation kind; no numerical value is computed.
+		 */
 		public Kind getKind() { return kind; }
-		/** @return Original number spelling, decoded symbol name, or "" for an operation. */
+		/**
+		 * Returns the number spelling or decoded symbol name.
+		 *
+		 * @return The original number spelling, decoded symbol name, or an empty string for an operation.
+		 */
 		public String getText() { return text; }
-		/** @return Source typography for SYMBOL; DEFAULT for other kinds.
-		 * Typography alone does not identify a mathematical constant or a unit. */
+		/**
+		 * Returns the source typography of a symbol.
+		 *
+		 * @return The typography for a SYMBOL node, or DEFAULT for other kinds; no constant or unit meaning is inferred.
+		 */
 		public SymbolStyle getSymbolStyle() { return symbolStyle; }
-		/** @return Immutable operands in mathematical order. */
+		/**
+		 * Returns the operands in mathematical order.
+		 *
+		 * @return An immutable list of child nodes.
+		 */
 		public List<Node> getChildren() { return children; }
-		/** @return Zero-based UTF-16 start offset, inclusive. */
+		/**
+		 * Returns the inclusive start of this node in the source.
+		 *
+		 * @return The zero-based UTF-16 start offset.
+		 */
 		public int getStartOffset() { return startOffset; }
-		/** @return Zero-based UTF-16 end offset, exclusive. */
+		/**
+		 * Returns the exclusive end of this node in the source.
+		 *
+		 * @return The zero-based UTF-16 end offset.
+		 */
 		public int getEndOffset() { return endOffset; }
-		/** @return Exact source spelling, including any enclosing grouping. */
+		/**
+		 * Returns the exact source text covered by this node.
+		 *
+		 * @return The original source spelling, including any enclosing grouping.
+		 */
 		public String getSourceText() { return source.substring(startOffset, endOffset); }
 	}
 

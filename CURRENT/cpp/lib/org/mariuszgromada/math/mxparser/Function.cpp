@@ -481,12 +481,11 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Constructor for function definition based on
+	 * \brief Constructor for function definition based on
 	 * your own source code - this is via implementation
 	 * of FunctionExtension interface.
-	 *
-	 * @param functionName       Function name
-	 * @param functionExtension  Your own source code
+	 * \param functionName       Function name
+	 * \param functionExtension  Your own source code
 	 */
 	API_VISIBLE void Function::executeContructorConst(const StringPtr &functionName,
 	                                      const FunctionExtensionPtr &functionExtension) {
@@ -513,12 +512,11 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Constructor for function definition based on
+	 * \brief Constructor for function definition based on
 	 * your own source code - this is via implementation
 	 * of FunctionExtensionVariadic interface.
-	 *
-	 * @param functionName       Function name
-	 * @param functionExtensionVariadic  Your own source code
+	 * \param functionName       Function name
+	 * \param functionExtensionVariadic  Your own source code
 	 */
 	API_VISIBLE void Function::executeContructorConst(const StringPtr &functionName,
 	                                      const FunctionExtensionVariadicPtr &functionExtensionVariadic) {
@@ -546,10 +544,11 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Private constructor used for function cloning.
-	 *
-	 * @param      functionToClone     the function, which is going
+	 * \brief Private constructor used for function cloning.
+	 * \param functionToClone     the function, which is going
 	 *                                 to be cloned.
+	 * \param isThreadSafeClone Whether a clone for thread-safe use is requested.
+	 * \param cloneCache The cache of related cloned objects.
 	 */
 	API_VISIBLE void Function::executeContructorConst(const FunctionPtr &functionToClone, bool isThreadSafeClone,
 	                                      const CloneCachePtr &cloneCache) {
@@ -588,22 +587,6 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 	}
 
-	/**
-	 * Constructor for function definition in natural math language,
-	 * for instance providing on string "f(x,y) = sin(x) + cos(x)"
-	 * is enough to define function "f" with parameters "x and y"
-	 * and function body "sin(x) + cos(x)".
-	 *
-	 * @param functionDefinitionString      Function definition in the form
-	 *                                      of one String, ie "f(x,y) = sin(x) + cos(x)"
-	 * @param elements                      Optional elements list (variadic - comma separated)
-	 *                                      of types: Argument, Constant, Function
-	 *
-	 * @see    PrimitiveElement
-	 *
-	 * @deprecated Planned to be removed, use {addFunctions(Function...)}, {addDefinitions(PrimitiveElement...)} instead
-	 *
-	 */
 	// @Deprecated
 	API_VISIBLE void Function::setFunction(const StringPtr &functionDefinitionString,
 	                           const ListPtr<PrimitiveElementPtr> &elements) {
@@ -639,49 +622,24 @@ namespace org::mariuszgromada::math::mxparser {
 		registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionDefinitionString(functionDefinitionString));
 	}
 
-	/**
-	 * Sets function description.
-	 *
-	 * @param      description         the function description
-	 */
 	API_VISIBLE void Function::setDescription(const StringPtr &description) {
 		if (description == nullptr)
 			return;
 		this->description = description;
 	}
 
-	/**
-	 * Gets function description
-	 *
-	 * @return     Function description as string
-	 */
 	API_VISIBLE StringPtr Function::getDescription() const {
 		return description;
 	}
 
-	/**
-	 * Gets function name.
-	 *
-	 * @return     Function name as string.
-	 */
 	API_VISIBLE StringPtr Function::getFunctionName() const {
 		return functionName;
 	}
 
-	/**
-	 * Gets function expression string
-	 *
-	 * @return     Function expression as string.
-	 */
 	API_VISIBLE StringPtr Function::getFunctionExpressionString() const {
 		return functionExpression->getExpressionString();
 	}
 
-	/**
-	 * Sets function name.
-	 *
-	 * @param      functionName        the function name
-	 */
 	API_VISIBLE void Function::setFunctionName(const StringPtr &functionName) {
 		if (functionName == nullptr) {
 			if (!syntaxStatusDefinition)
@@ -702,13 +660,6 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 
-	/**
-	 * Sets value of function argument (function parameter).
-	 *
-	 * @param      argumentIndex   the argument index (in accordance to
-	 *                             arguments declaration sequence)
-	 * @param      argumentValue   the argument value
-	 */
 	API_VISIBLE void Function::setArgumentValue(int argumentIndex, double argumentValue) {
 		if (argumentIndex < 0 || argumentIndex >= parametersNumber)
 			return;
@@ -720,21 +671,10 @@ namespace org::mariuszgromada::math::mxparser {
 			functionExtension->setParameterValue(argumentIndex, argumentValue);
 	}
 
-	/**
-	 * Returns function body type: {Function#BODY_RUNTIME} {Function#BODY_EXTENDED}
-	 * @return Returns function body type: {Function#BODY_RUNTIME} {Function#BODY_EXTENDED}
-	 */
 	API_VISIBLE int Function::getFunctionBodyType() const {
 		return functionBodyType;
 	}
 
-	/**
-	 * Checks function syntax
-	 *
-	 * @return     syntax status: Function::NO_SYNTAX_ERRORS,
-	 *                            Function::SYNTAX_ERROR
-	 *
-	 */
 	API_VISIBLE bool Function::checkSyntax() {
 		if (!syntaxStatusDefinition)
 			return SYNTAX_ERROR;
@@ -752,11 +692,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return syntaxStatus;
 	}
 
-	/**
-	 * Returns error message after checking the syntax->
-	 *
-	 * @return     Error message as string.
-	 */
 	API_VISIBLE StringPtr Function::getErrorMessage() const {
 		if (!syntaxStatusDefinition)
 			return errorMessageDefinition;
@@ -775,7 +710,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * clone method
+	 * \brief clone method
 	 */
 	API_VISIBLE FunctionPtr Function::clone() {
 		return new_Function(THIS(Function), false, nullptr);
@@ -837,23 +772,10 @@ namespace org::mariuszgromada::math::mxparser {
 		return calculate(allParamsAsDouble);
 	}
 
-	/**
-	 * Calculates function value
-	 *
-	 * @return     Function value as double.
-	 */
 	API_VISIBLE double Function::calculate() {
 		return calculate(CalcStepsRegister::Null);
 	}
 
-	/**
-	 * Calculates function value and registers all the calculation steps
-	 *
-	 * @param calcStepsRegister A collection to store list of calculation steps,
-	 *                          steps registered as strings.
-	 *
-	 * @return     Function value as double.
-	 */
 	API_VISIBLE double Function::calculate(const CalcStepsRegisterPtr &calcStepsRegister) {
 		return calculateCoreWithCancel(calcStepsRegister, 0);
 	}
@@ -891,13 +813,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return value;
 	}
 
-	/**
-	 * Calculates function value
-	 *
-	 * @param      parameters              the function parameters values (as doubles)
-	 *
-	 * @return     function value as double.
-	 */
 	API_VISIBLE double Function::calculate(const ListPtr<double> &parameters) {
 		return calculateCoreWithCancel(parameters, 0);
 	}
@@ -958,13 +873,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return value;
 	}
 
-	/**
-	 * Calculates function value
-	 *
-	 * @param      arguments   function parameters (as Arguments)
-	 *
-	 * @return     function value as double
-	 */
 	API_VISIBLE double Function::calculate(const ListPtr<ArgumentPtr> &arguments) {
 		return calculateCoreWithCancel(arguments, 0);
 	}
@@ -1030,15 +938,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return value;
 	}
 
-	/**
-	 * Adds user defined elements (such as: Arguments, Constants, Functions)
-	 * to the function expressions.
-	 *
-	 * @param elements Elements list (variadic), where Argument, Constant, Function
-	 *                 extend the same class PrimitiveElement
-	 *
-	 * @see PrimitiveElement
-	 */
 	API_VISIBLE void Function::addDefinitions(const ListPtr<PrimitiveElementPtr> &elements) {
 		if (elements == nullptr) return;
 		if (functionBodyType == Function::BODY_RUNTIME)
@@ -1051,15 +950,6 @@ namespace org::mariuszgromada::math::mxparser {
 			functionExpression->addDefinitions(element);
 	}
 
-	/**
-	 * Removes user defined elements (such as: Arguments, Constants, Functions)
-	 * from the function expressions.
-	 *
-	 * @param elements Elements list (variadic), where Argument, Constant, Function
-	 *                 extend the same class PrimitiveElement
-	 *
-	 * @see PrimitiveElement
-	 */
 	API_VISIBLE void Function::removeDefinitions(const ListPtr<PrimitiveElementPtr> &elements) {
 		if (elements == nullptr) return;
 		if (functionBodyType == Function::BODY_RUNTIME)
@@ -1088,14 +978,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return numOfRecursiveArguments;
 	}
 
-	/**
-	 * Adds arguments (variadic) to the function expression definition.
-	 *
-	 * @param      arguments           the arguments list
-	 *                                 (comma separated list)
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE void Function::addArguments(const ListPtr<ArgumentPtr> &arguments) {
 		if (arguments == nullptr) return;
 		if (functionBodyType != Function::BODY_RUNTIME) return;
@@ -1110,16 +992,6 @@ namespace org::mariuszgromada::math::mxparser {
 		//parametersNumber = functionExpression->getArgumentsNumber() - countRecursiveArguments();
 	}
 
-	/**
-	 * Enables to define the arguments (associated with
-	 * the function expression) based on the given arguments names.
-	 *
-	 * @param      argumentsNames      the arguments names (variadic)
-	 *                                 comma separated list
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE void Function::defineArguments(const ListPtr<StringPtr> &argumentsNames) {
 		if (argumentsNames == nullptr) return;
 		if (functionBodyType != Function::BODY_RUNTIME) return;
@@ -1134,16 +1006,6 @@ namespace org::mariuszgromada::math::mxparser {
 		parametersNumber = functionExpression->getArgumentsNumber() - countRecursiveArguments();
 	}
 
-	/**
-	 * Enables to define the argument (associated with the function expression)
-	 * based on the argument name and the argument value.
-	 *
-	 * @param      argumentName        the argument name
-	 * @param      argumentValue       the argument value
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE void Function::defineArgument(const StringPtr &argumentName, double argumentValue) {
 		if (argumentName == nullptr)
 			return;
@@ -1153,17 +1015,6 @@ namespace org::mariuszgromada::math::mxparser {
 		parametersNumber = functionExpression->getArgumentsNumber() - countRecursiveArguments();
 	}
 
-	/**
-	 * Gets argument index from the function expression.
-	 *
-	 * @param      argumentName        the argument name
-	 *
-	 * @return     The argument index if the argument name was found,
-	 *             otherwise returns Argument::NOT_FOUND
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE int Function::getArgumentIndex(const StringPtr &argumentName) const {
 		if (argumentName == nullptr)
 			return -1;
@@ -1172,18 +1023,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return functionExpression->getArgumentIndex(argumentName);
 	}
 
-	/**
-	 * Gets argument from the function expression.
-	 *
-	 *
-	 * @param      argumentName        the argument name
-	 *
-	 * @return     The argument if the argument name was found,
-	 *             otherwise returns nullptr.
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	ArgumentPtr Function::getArgument(const StringPtr &argumentName) const {
 		if (argumentName == nullptr)
 			return nullptr;
@@ -1192,18 +1031,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return functionExpression->getArgument(argumentName);
 	}
 
-	/**
-	 * Gets argument from the function expression.
-	 *
-	 * @param      argumentIndex       the argument index
-	 *
-	 * @return     Argument if the argument index is between 0 and
-	 *             the last available argument index (getArgumentsNumber()-1),
-	 *             otherwise returns nullptr.
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	ArgumentPtr Function::getArgument(int argumentIndex) const {
 		if (argumentIndex < 0)
 			return nullptr;
@@ -1212,14 +1039,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return functionExpression->getArgument(argumentIndex);
 	}
 
-	/**
-	 * Gets number of parameters associated with the function expression.
-	 *
-	 * @return     The number of function parameters (int &gt;= 0)
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE int Function::getParametersNumber() const {
 		if (!isVariadic)
 			return parametersNumber;
@@ -1228,12 +1047,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return functionExpression->UDFVariadicParamsAtRunTime->size();
 	}
 
-	/**
-	 * Set parameters number.
-	 *
-	 * @param      parametersNumber    the number of function parameters (default = number of arguments
-	 *                                 (lower number might be specified).
-	 */
 	API_VISIBLE void Function::setParametersNumber(int parametersNumber) {
 		if (parametersNumber < 0)
 			return;
@@ -1243,12 +1056,6 @@ namespace org::mariuszgromada::math::mxparser {
 		functionExpression->setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Gets user defined function parameter name
-	 *
-	 * @param parameterIndex  Parameter index between 0 and n-1
-	 * @return If parameter exists returns parameters name, otherwise empty string is returned.
-	 */
 	API_VISIBLE StringPtr Function::getParameterName(int parameterIndex) const {
 		if (parameterIndex < 0) return StringInvariant::EMPTY;
 		if (parameterIndex >= parametersNumber) return StringInvariant::EMPTY;
@@ -1262,31 +1069,12 @@ namespace org::mariuszgromada::math::mxparser {
 		return StringInvariant::EMPTY;
 	}
 
-	/**
-	 * Gets number of arguments associated with the function expression.
-	 *
-	 * @return     The number of arguments (int &gt;= 0)
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE int Function::getArgumentsNumber() const {
 		if (functionBodyType != Function::BODY_RUNTIME)
 			return 0;
 		return functionExpression->getArgumentsNumber();
 	}
 
-	/**
-	 * Removes first occurrences of the arguments
-	 * associated with the function expression.
-	 *
-	 * @param      argumentsNames      the arguments names
-	 *                                 (variadic parameters) comma separated
-	 *                                 list
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE void Function::removeArguments(const ListPtr<StringPtr> &argumentsNames) {
 		if (argumentsNames == nullptr) return;
 		if (functionBodyType != Function::BODY_RUNTIME) return;
@@ -1301,16 +1089,6 @@ namespace org::mariuszgromada::math::mxparser {
 		parametersNumber = functionExpression->getArgumentsNumber() - countRecursiveArguments();
 	}
 
-	/**
-	 * Removes first occurrences of the arguments
-	 * associated with the function expression.
-	 *
-	 * @param      arguments           the arguments (variadic parameters)
-	 *                                 comma separated list
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE void Function::removeArguments(const ListPtr<ArgumentPtr> &arguments) {
 		if (arguments == nullptr) return;
 		if (functionBodyType != Function::BODY_RUNTIME) return;
@@ -1325,12 +1103,6 @@ namespace org::mariuszgromada::math::mxparser {
 		parametersNumber = functionExpression->getArgumentsNumber() - countRecursiveArguments();
 	}
 
-	/**
-	 * Removes all arguments associated with the function expression.
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE void Function::removeAllArguments() {
 		if (functionBodyType != Function::BODY_RUNTIME)
 			return;
@@ -1345,14 +1117,6 @@ namespace org::mariuszgromada::math::mxparser {
 	 *
 	 *=================================================
 	 */
-	/**
-	 * Adds constants (variadic parameters) to the function expression definition.
-	 *
-	 * @param      constants           the constants
-	 *                                 (comma separated list)
-	 *
-	 * @see        Constant
-	 */
 	API_VISIBLE void Function::addConstants(const ListPtr<ConstantPtr> &constants) {
 		if (constants == nullptr) return;
 		if (functionBodyType == Function::BODY_RUNTIME)
@@ -1365,16 +1129,6 @@ namespace org::mariuszgromada::math::mxparser {
 			functionExpression->addConstants(constant);
 	}
 
-	/**
-	 * Enables to define the constant (associated with
-	 * the function expression) based on the constant name and
-	 * constant value.
-	 *
-	 * @param      constantName        the constant name
-	 * @param      constantValue       the constant value
-	 *
-	 * @see        Constant
-	 */
 	API_VISIBLE void Function::defineConstant(const StringPtr &constantName, double constantValue) {
 		if (constantName == nullptr)
 			return;
@@ -1382,16 +1136,6 @@ namespace org::mariuszgromada::math::mxparser {
 			functionExpression->defineConstant(constantName, constantValue);
 	}
 
-	/**
-	 * Gets constant index associated with the function expression.
-	 *
-	 * @param      constantName        the constant name
-	 *
-	 * @return     Constant index if constant name was found,
-	 *             otherwise return Constant::NOT_FOUND.
-	 *
-	 * @see        Constant
-	 */
 	API_VISIBLE int Function::getConstantIndex(const StringPtr &constantName) const {
 		if (constantName == nullptr)
 			return -1;
@@ -1400,16 +1144,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return functionExpression->getConstantIndex(constantName);
 	}
 
-	/**
-	 * Gets constant associated with the function expression.
-	 *
-	 * @param      constantName        the constant name
-	 *
-	 * @return     Constant if constant name was found,
-	 *             otherwise return nullptr.
-	 *
-	 * @see        Constant
-	 */
 	API_VISIBLE ConstantPtr Function::getConstant(const StringPtr &constantName) const {
 		if (constantName == nullptr)
 			return nullptr;
@@ -1418,18 +1152,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return functionExpression->getConstant(constantName);
 	}
 
-	/**
-	 * Gets constant associated with the function expression.
-	 *
-	 * @param      constantIndex       the constant index
-	 *
-	 * @return     Constant if the constantIndex is between
-	 *             0 and the last available constant index
-	 *             (getConstantsNumber() - 1),
-	 *             otherwise it returns nullptr.
-	 *
-	 * @see        Constant
-	 */
 	API_VISIBLE ConstantPtr Function::getConstant(int constantIndex) const {
 		if (constantIndex < 0)
 			return nullptr;
@@ -1438,28 +1160,12 @@ namespace org::mariuszgromada::math::mxparser {
 		return functionExpression->getConstant(constantIndex);
 	}
 
-	/**
-	 * Gets number of constants associated with the function expression.
-	 *
-	 * @return     number of constants (int &gt;= 0)
-	 *
-	 * @see        Constant
-	 */
 	API_VISIBLE int Function::getConstantsNumber() const {
 		if (functionBodyType != Function::BODY_RUNTIME)
 			return 0;
 		return functionExpression->getConstantsNumber();
 	}
 
-	/**
-	 * Removes first occurrences of the constants
-	 * associated with the function expression.
-	 *
-	 * @param      constantsNames      the constants names (variadic parameters)
-	 *                                 comma separated list
-	 *
-	 * @see        Constant
-	 */
 	API_VISIBLE void Function::removeConstants(const ListPtr<StringPtr> &constantsNames) {
 		if (constantsNames == nullptr) return;
 		if (functionBodyType == Function::BODY_RUNTIME)
@@ -1472,15 +1178,6 @@ namespace org::mariuszgromada::math::mxparser {
 			functionExpression->removeConstants(constantName);
 	}
 
-	/**
-	 * Removes first occurrences of the constants
-	 * associated with the function expression
-	 *
-	 * @param      constants           the constants (variadic parameters)
-	 *                                 comma separated list
-	 *
-	 * @see        Constant
-	 */
 	API_VISIBLE void Function::removeConstants(const ListPtr<ConstantPtr> &constants) {
 		if (constants == nullptr) return;
 		if (functionBodyType == Function::BODY_RUNTIME)
@@ -1493,12 +1190,6 @@ namespace org::mariuszgromada::math::mxparser {
 			functionExpression->removeConstants(constant);
 	}
 
-	/**
-	 * Removes all constants
-	 * associated with the function expression
-	 *
-	 * @see        Constant
-	 */
 	API_VISIBLE void Function::removeAllConstants() {
 		if (functionBodyType == Function::BODY_RUNTIME)
 			functionExpression->removeAllConstants();
@@ -1510,14 +1201,6 @@ namespace org::mariuszgromada::math::mxparser {
 	 * (protected argument expression)
 	 *
 	 *=================================================
-	 */
-	/**
-	 * Adds functions (variadic parameters) to the function expression definition.
-	 *
-	 * @param      functions           the functions
-	 *                                 (variadic parameters) comma separated list
-	 *
-	 * @see        Function
 	 */
 	API_VISIBLE void Function::addFunctions(const ListPtr<FunctionPtr> &functions) {
 		if (functions == nullptr) return;
@@ -1531,19 +1214,6 @@ namespace org::mariuszgromada::math::mxparser {
 			functionExpression->addFunctions(function);
 	}
 
-	/**
-	 * Enables to define the function (associated with
-	 * the function expression) based on the function name,
-	 * function expression string and arguments names (variadic parameters).
-	 *
-	 * @param      functionName                  the function name
-	 * @param      functionExpressionString      the expression string
-	 * @param      argumentsNames                the function arguments names
-	 *                                           (variadic parameters)
-	 *                                           comma separated list
-	 *
-	 * @see        Function
-	 */
 	API_VISIBLE void Function::defineFunction(const StringPtr &functionName, const StringPtr &functionExpressionString,
 	                              const ListPtr<StringPtr> &argumentsNames) {
 		if (functionName == nullptr || functionExpressionString == nullptr || argumentsNames == nullptr)
@@ -1552,16 +1222,6 @@ namespace org::mariuszgromada::math::mxparser {
 			functionExpression->defineFunction(functionName, functionExpressionString, argumentsNames);
 	}
 
-	/**
-	 * Gets index of function associated with the function expression.
-	 *
-	 * @param      functionName        the function name
-	 *
-	 * @return     Function index if function name was found,
-	 *             otherwise returns Function::NOT_FOUND
-	 *
-	 * @see        Function
-	 */
 	API_VISIBLE int Function::getFunctionIndex(const StringPtr &functionName) const {
 		if (functionName == nullptr)
 			return -1;
@@ -1570,16 +1230,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return functionExpression->getFunctionIndex(functionName);
 	}
 
-	/**
-	 * Gets function associated with the function expression.
-	 *
-	 * @param      functionName        the function name
-	 *
-	 * @return     Function if function name was found,
-	 *             otherwise returns nullptr.
-	 *
-	 * @see        Function
-	 */
 	API_VISIBLE FunctionPtr Function::getFunction(const StringPtr &functionName) const {
 		if (functionName == nullptr)
 			return nullptr;
@@ -1588,17 +1238,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return functionExpression->getFunction(functionName);
 	}
 
-	/**
-	 * Gets function associated with the function expression.
-	 *
-	 * @param      functionIndex the function index
-	 *
-	 * @return     Function if function index is between 0 and
-	 *             the last available function index (getFunctionsNumber()-1),
-	 *             otherwise returns nullptr.
-	 *
-	 * @see        Function
-	 */
 	API_VISIBLE FunctionPtr Function::getFunction(int functionIndex) const {
 		if (functionIndex < 0)
 			return nullptr;
@@ -1607,13 +1246,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return functionExpression->getFunction(functionIndex);
 	}
 
-	/**
-	 * Gets number of functions associated with the function expression.
-	 *
-	 * @return     number of functions (int &gt;= 0)
-	 *
-	 * @see        Function
-	 */
 	API_VISIBLE int Function::getFunctionsNumber() {
 		if (functionBodyType != Function::BODY_RUNTIME)
 			return 0;
@@ -1624,15 +1256,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return functionExpression->getFunctionsNumber() - recursiveThisCorrection;
 	}
 
-	/**
-	 * Removes first occurrences of the functions
-	 * associated with the function expression.
-	 *
-	 * @param      functionsNames      the functions names (variadic parameters)
-	 *                                 comma separated list
-	 *
-	 * @see        Function
-	 */
 	API_VISIBLE void Function::removeFunctions(const ListPtr<StringPtr> &functionsNames) {
 		if (functionsNames == nullptr) return;
 		if (functionBodyType == Function::BODY_RUNTIME)
@@ -1645,15 +1268,6 @@ namespace org::mariuszgromada::math::mxparser {
 			functionExpression->removeFunctions(functionName);
 	}
 
-	/**
-	 * Removes first occurrences of the functions
-	 * associated with the function expression.
-	 *
-	 * @param      functions           the functions (variadic parameters)
-	 *                                 comma separated list.
-	 *
-	 * @see        Function
-	 */
 	API_VISIBLE void Function::removeFunctions(const ListPtr<FunctionPtr> &functions) {
 		if (functions == nullptr) return;
 		if (functionBodyType == Function::BODY_RUNTIME)
@@ -1666,43 +1280,25 @@ namespace org::mariuszgromada::math::mxparser {
 			functionExpression->removeFunctions(function);
 	}
 
-	/**
-	 * Removes all functions
-	 * associated with the function expression.
-	 *
-	 * @see        Function
-	 */
 	API_VISIBLE void Function::removeAllFunctions() {
 		if (functionBodyType == Function::BODY_RUNTIME)
 			functionExpression->removeAllFunctions();
 	}
 
-	/**
-	 * Enables verbose function mode
-	 */
 	API_VISIBLE void Function::setVerboseMode() {
 		functionExpression->setVerboseMode();
 	}
 
-	/**
-	 * Disables function verbose mode (sets default silent mode)
-	 */
 	API_VISIBLE void Function::setSilentMode() {
 		functionExpression->setSilentMode();
 	}
 
-	/**
-	 * Returns verbose mode status
-	 *
-	 * @return     true if verbose mode is on,
-	 *             otherwise returns false
-	 */
 	API_VISIBLE bool Function::getVerboseMode() const {
 		return functionExpression->getVerboseMode();
 	}
 
 	/**
-	 * Checks whether function name appears in function body
+	 * \brief Checks whether function name appears in function body
 	 * if yes the recursive mode is being set
 	 */
 	API_VISIBLE void Function::checkRecursiveMode() {
@@ -1718,30 +1314,17 @@ namespace org::mariuszgromada::math::mxparser {
 			}
 	}
 
-	/**
-	 * Gets recursive mode status
-	 *
-	 * @return     true if recursive mode is enabled,
-	 *             otherwise returns false
-	 *
-	 */
 	API_VISIBLE bool Function::getRecursiveMode() const {
 		return functionExpression->getRecursiveMode();
 	}
 
-	/**
-	 * Gets computing time
-	 *
-	 * @return     computing time in seconds.
-	 */
 	API_VISIBLE double Function::getComputingTime() const {
 		return computingTime;
 	}
 
 	/**
-	 * Adds related expression.
-	 *
-	 * @param      expression          the related expression
+	 * \brief Adds related expression.
+	 * \param expression          the related expression
 	 */
 	API_VISIBLE void Function::addRelatedExpression(const ExpressionPtr &expression) {
 		if (functionBodyType == Function::BODY_RUNTIME)
@@ -1749,9 +1332,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Removes related expression.
-	 *
-	 * @param      expression          the related expression
+	 * \brief Removes related expression.
+	 * \param expression          the related expression
 	 */
 	API_VISIBLE void Function::removeRelatedExpression(const ExpressionPtr &expression) {
 		if (functionBodyType == Function::BODY_RUNTIME)
@@ -1759,7 +1341,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Set expression modified flags in the related expressions.
+	 * \brief Set expression modified flags in the related expressions.
 	 */
 	API_VISIBLE void Function::setExpressionModifiedFlags() {
 		if (functionBodyType == Function::BODY_RUNTIME)
@@ -1784,16 +1366,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return functionClone;
 	}
 
-	/**
-	 * Creates a completely independent 1-1 clone that can be safely used
-	 * by a separate thread. If the cloned element contains references
-	 * to other elements (e.g. arguments, functions, constants),
-	 * then they will also be cloned and the newly created element will
-	 * contain references to the corresponding clones.
-	 * Important - the API allows you to extract all these clones.
-	 *
-	 * @return Cloned object.
-	 */
 	API_VISIBLE FunctionPtr Function::cloneForThreadSafe() {
 		CloneCachePtr cloneCache = new_CloneCache();
 		FunctionPtr functionClone = cloneForThreadSafeInternal(cloneCache);

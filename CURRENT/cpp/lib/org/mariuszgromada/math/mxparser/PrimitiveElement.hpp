@@ -1,5 +1,5 @@
 /*
- * @(#)PrimitiveElement.hpp        6.1.0    2024-10-06
+ * @(#)PrimitiveElement.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -232,11 +232,25 @@ namespace org::mariuszgromada::math::mxparser {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Default constructor setting element type id
+		 * \param typeId     Element type id
+		 * \sa org::mariuszgromada::math::mxparser::Argument::TYPE_ID
+		 * \sa org::mariuszgromada::math::mxparser::Constant::TYPE_ID
+		 * \sa org::mariuszgromada::math::mxparser::Function::TYPE_ID
+		 */
 		explicit PrimitiveElement(int typeId);
 		virtual ~PrimitiveElement() = default;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Returns element type id
+		 * \return Element type id as int Function.TYPE_ID, Argument.TYPE_ID, Function.TYPE_ID
+		 * \sa org::mariuszgromada::math::mxparser::Argument::TYPE_ID
+		 * \sa org::mariuszgromada::math::mxparser::Constant::TYPE_ID
+		 * \sa org::mariuszgromada::math::mxparser::Function::TYPE_ID
+		 */
 		int getMyTypeId() const;
 
 		// ***********************************************************

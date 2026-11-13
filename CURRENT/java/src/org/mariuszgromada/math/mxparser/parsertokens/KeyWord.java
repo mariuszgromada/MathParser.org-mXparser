@@ -1,5 +1,5 @@
 /*
- * @(#)KeyWord.java        6.1.0    2024-10-06
+ * @(#)KeyWord.java        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -235,7 +235,7 @@ import java.io.Serializable;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        6.2.0
  */
 public class KeyWord implements Serializable {
 	private static final int serialClassID = 91;
@@ -247,6 +247,9 @@ public class KeyWord implements Serializable {
 	public String description;
 	public String syntax;
 	public String since;
+	/**
+	 * Creates an empty keyword with no assigned token or token type.
+	 */
 	public KeyWord() {
 		wordString = "";
 		wordId = NO_DEFINITION;

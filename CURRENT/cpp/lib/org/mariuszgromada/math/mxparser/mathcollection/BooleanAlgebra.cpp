@@ -229,15 +229,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser::wrapper;
 
 
-	/**
-	 * Double to integer bool translation
-	 *
-	 * @param      a                   the double number
-	 *
-	 * @return     If a = Double::NaN return NULL,
-	 *             else if a &lt;&gt; 0 return TRUE,
-	 *             else return FALSE.
-	 */
 	API_VISIBLE int BooleanAlgebra::double2IntBoolean(double a) {
 		if (Double::isNaN(a))
 			return NULLVAL;
@@ -256,190 +247,77 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		}
 	}
 
-	/**
-	 * Boolean AND
-	 *
-	 * @param      a                   the a number (a AND b)
-	 * @param      b                   the b number (a AND b)
-	 *
-	 * @return     Truth table element AND[A][B] where A = double2IntBoolean(a), B = double2IntBoolean(b)
-	 */
 	API_VISIBLE double BooleanAlgebra::and_(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return AND_TRUTH_TABLE[A][B];
 	}
 
-	/**
-	 * Boolean OR
-	 *
-	 * @param      a                   the a number (a OR b)
-	 * @param      b                   the b number (a OR b)
-	 *
-	 * @return     Truth table element OR[A][B]
-	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-	 */
 	API_VISIBLE double BooleanAlgebra::or_(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return OR_TRUTH_TABLE[A][B];
 	}
 
-	/**
-	 * Boolean XOR
-	 *
-	 * @param      a                   the a number (a XOR b)
-	 * @param      b                   the b number (a XOR b)
-	 *
-	 * @return     Truth table element XOR[A][B]
-	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-	 */
 	API_VISIBLE double BooleanAlgebra::xor_(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return XOR_TRUTH_TABLE[A][B];
 	}
 
-	/**
-	 * Boolean NAND
-	 *
-	 * @param      a                   the a number (a NAND b)
-	 * @param      b                   the b number (a NAND b)
-	 *
-	 * @return     Truth table element NAND[A][B]
-	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-	 */
 	API_VISIBLE double BooleanAlgebra::nand(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return NAND_TRUTH_TABLE[A][B];
 	}
 
-	/**
-	 * Boolean NOR
-	 *
-	 * @param      a                   the a number (a NOR b)
-	 * @param      b                   the b number (a NOR b)
-	 *
-	 * @return     Truth table element NOR[A][B]
-	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-	 */
 	API_VISIBLE double BooleanAlgebra::nor(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return NOR_TRUTH_TABLE[A][B];
 	}
 
-	/**
-	 * Boolean XNOR
-	 *
-	 * @param      a                   the a number (a XNOR b)
-	 * @param      b                   the b number (a XNOR b)
-	 *
-	 * @return     Truth table element XNOR[A][B]
-	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-	 */
 	API_VISIBLE double BooleanAlgebra::xnor(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return XNOR_TRUTH_TABLE[A][B];
 	}
 
-	/**
-	 * Boolean IMP
-	 *
-	 * @param      a                   the a number (a IMP b)
-	 * @param      b                   the b number (a IMP b)
-	 *
-	 * @return     Truth table element IMP[A][B]
-	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-	 */
 	API_VISIBLE double BooleanAlgebra::imp(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return IMP_TRUTH_TABLE[A][B];
 	}
 
-	/**
-	 * Boolean EQV
-	 *
-	 * @param      a                   the a number (a EQV b)
-	 * @param      b                   the b number (a EQV b)
-	 *
-	 * @return     Truth table element EQV[A][B]
-	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-	 */
 	API_VISIBLE double BooleanAlgebra::eqv(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return EQV_TRUTH_TABLE[A][B];
 	}
 
-	/**
-	 * Boolean NOT
-	 *
-	 * @param      a                   the a number (NOT a)
-	 *
-	 * @return     Truth table element NOT[A]
-	 *             where A = double2IntBoolean(a)
-	 */
 	API_VISIBLE double BooleanAlgebra::not_(double a) {
 		int A = double2IntBoolean(a);
 		return NOT_TRUTH_TABLE[A];
 	}
 
-	/**
-	 * Boolean CIMP
-	 *
-	 * @param      a                   the a number (a CIMP b)
-	 * @param      b                   the b number (a CIMP b)
-	 *
-	 * @return     Truth table element CIMP[A][B]
-	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-	 */
 	API_VISIBLE double BooleanAlgebra::cimp(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return CIMP_TRUTH_TABLE[A][B];
 	}
 
-	/**
-	 * Boolean NIMP
-	 *
-	 * @param      a                   the a number (a NIMP b)
-	 * @param      b                   the b number (a NIMP b)
-	 *
-	 * @return     Truth table element NIMP[A][B]
-	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-	 */
 	API_VISIBLE double BooleanAlgebra::nimp(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return NIMP_TRUTH_TABLE[A][B];
 	}
 
-	/**
-	 * Boolean CNIMP
-	 *
-	 * @param      a                   the a number (a CNIMP b)
-	 * @param      b                   the b number (a CNIMP b)
-	 *
-	 * @return     Truth table element CNIMP[A][B]
-	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
-	 */
 	API_VISIBLE double BooleanAlgebra::cnimp(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return CNIMP_TRUTH_TABLE[A][B];
 	}
 
-	/**
-	 * Boolean AND variadic
-	 *
-	 * @param values   List of values
-	 * @return   Returns BooleanAlgebra::TRUE if all values on the list are BooleanAlgebra::TURE,
-	 *           otherwise returns BooleanAlgebra::FALSE
-	 */
 	API_VISIBLE double BooleanAlgebra::andVariadic(const ArrayPtr<double> &values) {
 		return andVariadicWithCancel(values, 0);
 	}
@@ -461,13 +339,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		else return Double::NaN;
 	}
 
-	/**
-	 * Boolean OR variadic
-	 *
-	 * @param values   List of values
-	 * @return   Returns BooleanAlgebra::TRUE if at least one value on the list is BooleanAlgebra::TURE,
-	 *           otherwise returns BooleanAlgebra::FALSE
-	 */
 	API_VISIBLE double BooleanAlgebra::orVariadic(const ArrayPtr<double> &values) {
 		return orVariadicWithCancel(values, 0);
 	}
@@ -489,13 +360,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		else return Double::NaN;
 	}
 
-	/**
-	 * Boolean XOR variadic
-	 *
-	 * @param values   List of values
-	 * @return   Returns BooleanAlgebra::TRUE if exactly one value on the list is BooleanAlgebra::TURE,
-	 *           otherwise returns BooleanAlgebra::FALSE
-	 */
 	API_VISIBLE double BooleanAlgebra::xorVariadic(const ArrayPtr<double> &values) {
 		return xorVariadicWithCancel(values, 0);
 	}

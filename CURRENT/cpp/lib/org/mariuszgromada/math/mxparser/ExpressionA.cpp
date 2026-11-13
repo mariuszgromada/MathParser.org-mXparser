@@ -294,11 +294,10 @@ namespace org::mariuszgromada::math::mxparser {
 	 *=================================================
 	 */
 	/**
-	 * Adds related expression
+	 * \brief Adds related expression
 	 * The same expression could be added more than once
 	 * For example when
-	 *
-	 * @param      expression          the expression
+	 * \param expression          the expression
 	 */
 	API_VISIBLE void Expression::addRelatedExpression(const ExpressionPtr &expression) {
 		if (expression == nullptr || expression == THIS(Expression))
@@ -312,9 +311,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Removes related expression
-	 *
-	 * @param      expression          the expression
+	 * \brief Removes related expression
+	 * \param expression          the expression
 	 */
 	API_VISIBLE void Expression::removeRelatedExpression(const ExpressionPtr &expression) {
 		for (int i = relatedExpressionsList->size() - 1; i >= 0; i--) {
@@ -324,7 +322,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Prints related expression list
+	 * \brief Prints related expression list
 	 */
 	API_VISIBLE void Expression::showRelatedExpressions() const {
 		mXparser::consolePrintln();
@@ -337,37 +335,21 @@ namespace org::mariuszgromada::math::mxparser {
 					expressionString);
 	}
 
-	/**
-	 * Method return error message after
-	 * calling checkSyntax() method or
-	 * calculate().
-	 *
-	 * @return     Error message as string.
-	 */
 	API_VISIBLE StringPtr Expression::getErrorMessage() const {
 		return StringUtils::cleanNewLineAtTheEnd(errorMessage);
 	}
 
-	/**
-	 * Gets syntax status of the expression.
-	 *
-	 * @return     true if there are no syntax errors,
-	 *             false when syntax error was found or
-	 *             syntax status is unknown
-	 */
 	API_VISIBLE bool Expression::getSyntaxStatus() const {
 		return this->syntaxStatus;
 	}
 
 	/**
-	 * Package level method for passing
+	 * \brief Package level method for passing
 	 * information about errors identified
 	 * on the constructors level
-	 *
-	 * @param syntaxStatus Syntax status
-	 * @param errorMessage Error message
-	 *
-	 * @see Function
+	 * \param syntaxStatus Syntax status
+	 * \param errorMessage Error message
+	 * \sa org::mariuszgromada::math::mxparser::Function
 	 */
 	API_VISIBLE void Expression::setSyntaxStatus(bool syntaxStatus, const StringPtr &errorMessage) {
 		this->syntaxStatus = syntaxStatus;
@@ -382,7 +364,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Sets expression status to modified
+	 * \brief Sets expression status to modified
 	 * Calls setExpressionModifiedFlag() method
 	 * to all related expressions.
 	 */
@@ -401,7 +383,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Common variables while expression initializing
+	 * \brief Common variables while expression initializing
 	 */
 	API_VISIBLE void Expression::expressionInternalVarsInit() {
 		description = StringInvariant::EMPTY;
@@ -423,7 +405,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Common elements while expression initializing
+	 * \brief Common elements while expression initializing
 	 */
 	API_VISIBLE void Expression::expressionInit() {
 		/*
@@ -456,9 +438,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Constructor - creates new expression from expression string.
-	 * @param expressionString    definition of the expression
-	 * @param parserKeyWordsOnly  if true then all keywords such as functions,
+	 * \brief Constructor - creates new expression from expression string.
+	 * \param expressionString    definition of the expression
+	 * \param parserKeyWordsOnly  if true then all keywords such as functions,
 	 *                            constants, arguments will not be recognized.
 	 */
 	API_VISIBLE void Expression::executeConstructorConst(const StringPtr &expressionString, bool parserKeyWordsOnly) {
@@ -481,16 +463,18 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Package level constructor - creates new expression from subexpression
+	 * \brief Package level constructor - creates new expression from subexpression
 	 * (sublist of the tokens list), arguments list, functions list and
 	 * constants list (used by the internal calculus operations, etc...).
-	 *
-	 * @param      expressionString    the expression string
-	 * @param      initialTokens       the tokens list (starting point - no tokenizing,
+	 * \param expressionString    the expression string
+	 * \param initialTokens       the tokens list (starting point - no tokenizing,
 	 *                                 no syntax checking)
-	 * @param      argumentsList       the arguments list
-	 * @param      functionsList       the functions list
-	 * @param      constantsList       the constants list
+	 * \param argumentsList       the arguments list
+	 * \param functionsList       the functions list
+	 * \param constantsList       the constants list
+	 * \param disableUlpRounding Whether ULP rounding is disabled.
+	 * \param UDFExpression Whether this is a user-defined function expression.
+	 * \param UDFVariadicParamsAtRunTime The variadic parameter values supplied at runtime.
 	 */
 	API_VISIBLE void Expression::executeConstructorConst(const StringPtr &expressionString, const ListPtr<TokenPtr> &initialTokens,
 	                                         const ListPtr<ArgumentPtr> &argumentsList,
@@ -541,22 +525,22 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Package level constructor - creates new expression from expression string,
+	 * \brief Package level constructor - creates new expression from expression string,
 	 * arguments list, functions list and constants list (used by the
 	 * RecursiveArgument class).
 	 *
 	 * No related expressions at the beginning.
-	 *
-	 * @param      expressionString    the expression string
-	 * @param      argumentsList       the arguments list
-	 * @param      functionsList       the functions list
-	 * @param      constantsList       the constants list
-	 * @param      internal            the marker for internal processing
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 * @see        Function
-	 * @see        Constant
+	 * \param expressionString    the expression string
+	 * \param argumentsList       the arguments list
+	 * \param functionsList       the functions list
+	 * \param constantsList       the constants list
+	 * \param internal            the marker for internal processing
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+	 * \sa org::mariuszgromada::math::mxparser::Function
+	 * \sa org::mariuszgromada::math::mxparser::Constant
+	 * \param UDFExpression Whether this is a user-defined function expression.
+	 * \param UDFVariadicParamsAtRunTime The variadic parameter values supplied at runtime.
 	 */
 	API_VISIBLE void Expression::executeConstructorConst(const StringPtr &expressionString,
 	                                         const ListPtr<ArgumentPtr> &argumentsList,
@@ -659,31 +643,16 @@ namespace org::mariuszgromada::math::mxparser {
 		executeConstructorConst(CONST_STRING(expressionString));
 	}
 
-	/**
-	 * Sets (modifies expression) expression string.
-	 *
-	 * @param      expressionString    the expression string
-	 */
 	API_VISIBLE void Expression::setExpressionString(const StringPtr &expressionString) {
 		this->expressionString = expressionString;
 		expressionStringCleaned = StringInvariant::EMPTY;
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Returns expression string
-	 *
-	 * @return Expression string definition.
-	 */
 	API_VISIBLE StringPtr Expression::getExpressionString() {
 		return expressionString;
 	}
 
-	/**
-	 * Returns expression string
-	 *
-	 * @return Expression string definition.
-	 */
 	API_VISIBLE StringPtr Expression::getCanonicalExpressionString() {
 		StringBuilderPtr canonicalExpression = new_StringBuilder();
 		ListPtr<TokenPtr> tokens = getCopyOfInitialTokens();
@@ -692,194 +661,107 @@ namespace org::mariuszgromada::math::mxparser {
 		return canonicalExpression->toString();
 	}
 
-	/**
-	 * Clears expression string
-	 */
 	API_VISIBLE void Expression::clearExpressionString() {
 		expressionString = StringInvariant::EMPTY;
 		expressionStringCleaned = StringInvariant::EMPTY;
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Sets expression description.
-	 *
-	 * @param      description         the description string
-	 */
 	API_VISIBLE void Expression::setDescription(const StringPtr &description) {
 		this->description = description;
 	}
 
-	/**
-	 * Gets expression description.
-	 *
-	 * @return     StringPtr description.
-	 */
 	API_VISIBLE StringPtr Expression::getDescription() {
 		return description;
 	}
 
-	/**
-	 * Clears expression description
-	 */
 	API_VISIBLE void Expression::clearDescription() {
 		this->description = StringInvariant::EMPTY;
 	}
 
-	/**
-	 * Enables verbose mode.
-	 */
 	API_VISIBLE void Expression::setVerboseMode() {
 		verboseMode = true;
 	}
 
-	/**
-	 * Disables verbose mode (default silent mode).
-	 */
 	API_VISIBLE void Expression::setSilentMode() {
 		verboseMode = false;
 	}
 
-	/**
-	 * Returns verbose mode status.
-	 *
-	 * @return     true if verbose mode is on,
-	 *             otherwise returns false.
-	 */
 	API_VISIBLE bool Expression::getVerboseMode() const {
 		return verboseMode;
 	}
 
-	/**
-	 * Sets implied multiplication
-	 */
 	API_VISIBLE void Expression::enableImpliedMultiplicationMode() {
 		if (impliedMultiplicationMode) return;
 		impliedMultiplicationMode = true;
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Disables implied multiplication
-	 */
 	API_VISIBLE void Expression::disableImpliedMultiplicationMode() {
 		if (!impliedMultiplicationMode) return;
 		impliedMultiplicationMode = false;
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Gets implied multiplication status
-	 *
-	 * @return     true if implied multiplication is enabled,
-	 *             otherwise returns false.
-	 */
 	API_VISIBLE bool Expression::checkIfImpliedMultiplicationMode() const {
 		return impliedMultiplicationMode;
 	}
 
-	/**
-	 * Enables unicode built-in parser keywords, this flag
-	 * informs the parser that built-in unicode keywords
-	 * are supported and will be recognized as functions or
-	 * operators.
-	 */
 	API_VISIBLE void Expression::enableUnicodeBuiltinKeyWordsMode() {
 		if (unicodeKeyWordsEnabled) return;
 		unicodeKeyWordsEnabled = true;
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Disables unicode built-in parser keywords, this flag
-	 * informs the parser that built-in unicode keywords
-	 * are not supported and will not be recognized as functions or
-	 * operators.
-	 */
 	API_VISIBLE void Expression::disableUnicodeBuiltinKeyWordsMode() {
 		if (!unicodeKeyWordsEnabled) return;
 		unicodeKeyWordsEnabled = false;
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Gets unicode built-in parser keywords mode
-	 *
-	 * @return     true if unicode built-in parser keywords is enabled,
-	 *             otherwise returns false.
-	 */
 	API_VISIBLE bool Expression::checkIfUnicodeBuiltinKeyWordsMode() const {
 		return unicodeKeyWordsEnabled;
 	}
 
-	/**
-	 * Enables attempt to fix the expression String.
-	 * For example, situations such as:
-	 * "++" change to "+",
-	 * "+-" changed to "-"
-	 * "-+" changed to "-"
-	 * "--" changed to "+"
-	 */
 	API_VISIBLE void Expression::enableAttemptToFixExpStrMode() {
 		if (attemptToFixExpStrEnabled) return;
 		attemptToFixExpStrEnabled = true;
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Disables attempt to fix the expression String.
-	 * For example, situations such as:
-	 * "++" change to "+",
-	 * "+-" changed to "-"
-	 * "-+" changed to "-"
-	 * "--" changed ro "+"
-	 */
 	API_VISIBLE void Expression::disableAttemptToFixExpStrMode() {
 		if (!attemptToFixExpStrEnabled) return;
 		attemptToFixExpStrEnabled = false;
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Gets attempt to fix expression string mode
-	 *
-	 * @return     true attempt to fix expression string mode is enabled,
-	 *             otherwise returns false.
-	 */
 	API_VISIBLE bool Expression::checkIfAttemptToFixExpStrMode() const {
 		return attemptToFixExpStrEnabled;
 	}
 
 	/**
-	 * Sets recursive mode
+	 * \brief Sets recursive mode
 	 */
 	API_VISIBLE void Expression::setRecursiveMode() {
 		recursiveMode = true;
 	}
 
 	/**
-	 * Disables recursive mode
+	 * \brief Disables recursive mode
 	 */
 	API_VISIBLE void Expression::disableRecursiveMode() {
 		recursiveMode = false;
 	}
 
-	/**
-	 * Gets recursive mode status
-	 *
-	 * @return     true if recursive mode is enabled,
-	 *             otherwise returns false.
-	 */
 	API_VISIBLE bool Expression::getRecursiveMode() const {
 		return recursiveMode;
 	}
 
 	/**
-	 * An indicator of whether an error message
+	 * \brief An indicator of whether an error message
 	 * should be passed from the current expression
 	 * to the expression that called it.
-	 *
-	 * @param forward If true then message is being forwarded.
+	 * \param forward If true then message is being forwarded.
 	 */
 	API_VISIBLE void Expression::setForwardErrorMessage(bool forward) {
 		if (forward == forwardErrorMessage) return;
@@ -888,24 +770,10 @@ namespace org::mariuszgromada::math::mxparser {
 		forwardErrorMessage = forward;
 	}
 
-	/**
-	 * Gets computing time.
-	 *
-	 * @return     computing time in seconds.
-	 */
 	API_VISIBLE double Expression::getComputingTime() const {
 		return computingTime;
 	}
 
-	/**
-	 * Adds user defined elements (such as: Arguments, Constants, Functions)
-	 * to the expressions.
-	 *
-	 * @param elements Elements list (variadic), where Argument, Constant, Function
-	 *                 extend the same class PrimitiveElement
-	 *
-	 * @see PrimitiveElement
-	 */
 	API_VISIBLE void Expression::addDefinitions(const ListPtr<PrimitiveElementPtr> &elements) {
 		if (elements == nullptr)
 			throw std::invalid_argument("Native definition list must not be null");
@@ -930,15 +798,6 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 	}
 
-	/**
-	 * Removes user defined elements (such as: Arguments, Constants, Functions)
-	 * to the expressions.
-	 *
-	 * @param elements Elements list (variadic), where Argument, Constant, Function
-	 *                 extend the same class PrimitiveElement
-	 *
-	 * @see PrimitiveElement
-	 */
 	API_VISIBLE void Expression::removeDefinitions(const ListPtr<PrimitiveElementPtr> &elements) {
 		for (const PrimitiveElementPtr &e : *elements)
 			removeDefinitions(e);
@@ -968,14 +827,6 @@ namespace org::mariuszgromada::math::mxparser {
 	 *
 	 *=================================================
 	 */
-	/**
-	 * Adds arguments (variadic) to the expression definition.
-	 *
-	 * @param      arguments           the arguments list
-	 *                                 (comma separated list)
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE void Expression::addArguments(const ListPtr<ArgumentPtr> &arguments) {
 		for (const ArgumentPtr &arg : *arguments)
 			addArguments(arg);
@@ -1000,16 +851,6 @@ namespace org::mariuszgromada::math::mxparser {
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Enables to define the arguments (associated with
-	 * the expression) based on the given arguments names.
-	 *
-	 * @param      argumentsNames      the arguments names (variadic)
-	 *                                 comma separated list
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE void Expression::defineArguments(const ListPtr<StringPtr> &argumentsNames) {
 		for (const StringPtr& argName : *argumentsNames)
 			defineArguments(argName);
@@ -1023,16 +864,6 @@ namespace org::mariuszgromada::math::mxparser {
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Enables to define the argument (associated with the expression)
-	 * based on the argument name and the argument value.
-	 *
-	 * @param      argumentName        the argument name
-	 * @param      argumentValue       the argument value
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE void Expression::defineArgument(const StringPtr &argumentName, double argumentValue) {
 		ArgumentPtr arg = new_Argument(argumentName, argumentValue);
 		arg->addRelatedExpression(THIS(Expression));
@@ -1040,17 +871,6 @@ namespace org::mariuszgromada::math::mxparser {
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Gets argument index from the expression.
-	 *
-	 * @param      argumentName        the argument name
-	 *
-	 * @return     The argument index if the argument name was found,
-	 *             otherwise returns Argument::NOT_FOUND
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE int Expression::getArgumentIndex(const StringPtr &argumentName) const {
 		int argumentsNumber = argumentsList->size();
 		if (argumentsNumber == 0)
@@ -1063,18 +883,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return NOT_FOUND;
 	}
 
-	/**
-	 * Gets argument from the expression.
-	 *
-	 *
-	 * @param      argumentName        the argument name
-	 *
-	 * @return     The argument if the argument name was found,
-	 *             otherwise returns nullptr.
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE ArgumentPtr Expression::getArgument(const StringPtr &argumentName) const {
 		int argumentIndex = getArgumentIndex(argumentName);
 		if (argumentIndex == NOT_FOUND)
@@ -1082,56 +890,22 @@ namespace org::mariuszgromada::math::mxparser {
 		return argumentsList->get(argumentIndex);
 	}
 
-	/**
-	 * Gets argument from the expression.
-	 *
-	 * @param      argumentIndex       the argument index
-	 *
-	 * @return     Argument if the argument index is between 0 and
-	 *             the last available argument index (getArgumentsNumber()-1),
-	 *             otherwise returns nullptr.
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE ArgumentPtr Expression::getArgument(int argumentIndex) const {
 		if (argumentIndex < 0 || argumentIndex >= argumentsList->size())
 			return nullptr;
 		return argumentsList->get(argumentIndex);
 	}
 
-	/**
-	 * Gets number of arguments associated with the expression.
-	 *
-	 * @return     The number of arguments (int &gt;= 0)
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE int Expression::getArgumentsNumber() const {
 		return argumentsList->size();
 	}
 
-	/**
-	 * Sets argument value.
-	 *
-	 * @param      argumentName        the argument name
-	 * @param      argumentValue       the argument value
-	 */
 	API_VISIBLE void Expression::setArgumentValue(const StringPtr &argumentName, double argumentValue) {
 		int argumentIndex = getArgumentIndex(argumentName);
 		if (argumentIndex != NOT_FOUND)
 			argumentsList->get(argumentIndex)->setArgumentValue(argumentValue);
 	}
 
-	/**
-	 * Gets argument vale.
-	 *
-	 * @param      argumentName        the argument name
-	 *
-	 * @return     Argument value if argument name was found,
-	 *             otherwise return Double::NaN.
-	 */
 	API_VISIBLE double Expression::getArgumentValue(const StringPtr &argumentName) {
 		int argumentIndex = getArgumentIndex(argumentName);
 		if (argumentIndex == NOT_FOUND)
@@ -1139,17 +913,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return argumentsList->get(argumentIndex)->getArgumentValueWithCancel(activeCancelId);
 	}
 
-	/**
-	 * Removes first occurrences of the arguments
-	 * associated with the expression.
-	 *
-	 * @param      argumentsNames      the arguments names
-	 *                                 (variadic parameters) comma separated
-	 *                                 list
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE void Expression::removeArguments(const ListPtr<StringPtr> &argumentsNames) {
 		for (const StringPtr& argumentName : *argumentsNames)
 			removeArguments(argumentName);
@@ -1167,16 +930,6 @@ namespace org::mariuszgromada::math::mxparser {
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Removes first occurrences of the arguments
-	 * associated with the expression.
-	 *
-	 * @param      arguments           the arguments (variadic parameters)
-	 *                                 comma separated list
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE void Expression::removeArguments(const ListPtr<ArgumentPtr> &arguments) {
 		for (const ArgumentPtr &argument : *arguments)
 			removeArguments(argument);
@@ -1191,12 +944,6 @@ namespace org::mariuszgromada::math::mxparser {
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Removes all arguments associated with the expression.
-	 *
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
 	API_VISIBLE void Expression::removeAllArguments() {
 		for (int i = 0; i < argumentsList->size(); i++)
 			argumentsList->get(i)->removeRelatedExpression(THIS(Expression));
@@ -1209,14 +956,6 @@ namespace org::mariuszgromada::math::mxparser {
 	 * Constants handling API
 	 *
 	 *=================================================
-	 */
-	/**
-	 * Adds constants (variadic parameters) to the expression definition.
-	 *
-	 * @param      constants           the constants
-	 *                                 (comma separated list)
-	 *
-	 * @see        Constant
 	 */
 	API_VISIBLE void Expression::addConstants(const ListPtr<ConstantPtr> &constants) {
 		for (const ConstantPtr &constant : *constants)
@@ -1237,16 +976,6 @@ namespace org::mariuszgromada::math::mxparser {
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Enables to define the constant (associated with
-	 * the expression) based on the constant name and
-	 * constant value.
-	 *
-	 * @param      constantName        the constant name
-	 * @param      constantValue       the constant value
-	 *
-	 * @see        Constant
-	 */
 	API_VISIBLE void Expression::defineConstant(const StringPtr &constantName, double constantValue) {
 		ConstantPtr c = new_Constant(constantName, constantValue);
 		c->addRelatedExpression(THIS(Expression));
@@ -1254,16 +983,6 @@ namespace org::mariuszgromada::math::mxparser {
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Gets constant index associated with the expression.
-	 *
-	 * @param      constantName        the constant name
-	 *
-	 * @return     Constant index if constant name was found,
-	 *             otherwise return Constant::NOT_FOUND.
-	 *
-	 * @see        Constant
-	 */
 	API_VISIBLE int Expression::getConstantIndex(const StringPtr &constantName) const {
 		int constantsNumber = constantsList->size();
 		if (constantsNumber == 0)
@@ -1276,16 +995,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return NOT_FOUND;
 	}
 
-	/**
-	 * Gets constant associated with the expression.
-	 *
-	 * @param      constantName        the constant name
-	 *
-	 * @return     Constant if constant name was found,
-	 *             otherwise return nullptr.
-	 *
-	 * @see        Constant
-	 */
 	API_VISIBLE ConstantPtr Expression::getConstant(const StringPtr &constantName) const {
 		int constantIndex = getConstantIndex(constantName);
 		if (constantIndex == NOT_FOUND)
@@ -1293,44 +1002,16 @@ namespace org::mariuszgromada::math::mxparser {
 		return constantsList->getRef(constantIndex);
 	}
 
-	/**
-	 * Gets constant associated with the expression.
-	 *
-	 * @param      constantIndex       the constant index
-	 *
-	 * @return     Constant if the constantIndex is between
-	 *             0 and the last available constant index
-	 *             (getConstantsNumber() - 1),
-	 *             otherwise it returns nullptr.
-	 *
-	 * @see        Constant
-	 */
 	API_VISIBLE ConstantPtr Expression::getConstant(int constantIndex) const {
 		if (constantIndex < 0 || constantIndex >= constantsList->size())
 			return nullptr;
 		return constantsList->getRef(constantIndex);
 	}
 
-	/**
-	 * Gets number of constants associated with the expression.
-	 *
-	 * @return     number of constants (int &gt;= 0)
-	 *
-	 * @see        Constant
-	 */
 	API_VISIBLE int Expression::getConstantsNumber() const {
 		return constantsList->size();
 	}
 
-	/**
-	 * Removes first occurrences of the constants
-	 * associated with the expression.
-	 *
-	 * @param      constantsNames      the constants names (variadic parameters)
-	 *                                 comma separated list
-	 *
-	 * @see        Constant
-	 */
 	API_VISIBLE void Expression::removeConstants(const ListPtr<StringPtr> &constantsNames) {
 		for (const StringPtr& constantName : *constantsNames)
 			removeConstants(constantName);
@@ -1348,15 +1029,6 @@ namespace org::mariuszgromada::math::mxparser {
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Removes first occurrences of the constants
-	 * associated with the expression
-	 *
-	 * @param      constants           the constants (variadic parameters)
-	 *                                 comma separated list
-	 *
-	 * @see        Constant
-	 */
 	API_VISIBLE void Expression::removeConstants(const ListPtr<ConstantPtr> &constants) {
 		for (const ConstantPtr & constant: *constants)
 			removeConstants(constant);
@@ -1371,12 +1043,6 @@ namespace org::mariuszgromada::math::mxparser {
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Removes all constants
-	 * associated with the expression
-	 *
-	 * @see        Constant
-	 */
 	API_VISIBLE void Expression::removeAllConstants() {
 		for (const ConstantPtr & c: *constantsList)
 			c->removeRelatedExpression(THIS(Expression));
@@ -1389,14 +1055,6 @@ namespace org::mariuszgromada::math::mxparser {
 	 * Functions handling API
 	 *
 	 *=================================================
-	 */
-	/**
-	 * Adds functions (variadic parameters) to the expression definition.
-	 *
-	 * @param      functions           the functions
-	 *                                 (variadic parameters) comma separated list
-	 *
-	 * @see        Function
 	 */
 	API_VISIBLE void Expression::addFunctions(const ListPtr<FunctionPtr> &functions) {
 		for (const FunctionPtr &f: *functions)
@@ -1424,19 +1082,6 @@ namespace org::mariuszgromada::math::mxparser {
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Enables to define the function (associated with
-	 * the expression) based on the function name,
-	 * function expression string and arguments names (variadic parameters).
-	 *
-	 * @param      functionName                  the function name
-	 * @param      functionExpressionString      the expression string
-	 * @param      argumentsNames                the function arguments names
-	 *                                           (variadic parameters)
-	 *                                           comma separated list
-	 *
-	 * @see        Function
-	 */
 	API_VISIBLE void Expression::defineFunction(const StringPtr &functionName, const StringPtr &functionExpressionString,
 	                                const ListPtr<StringPtr> &argumentsNames) {
 		FunctionPtr f = new_Function(functionName, functionExpressionString, argumentsNames);
@@ -1445,16 +1090,6 @@ namespace org::mariuszgromada::math::mxparser {
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Gets index of function associated with the expression.
-	 *
-	 * @param      functionName        the function name
-	 *
-	 * @return     Function index if function name was found,
-	 *             otherwise returns Function::NOT_FOUND
-	 *
-	 * @see        Function
-	 */
 	API_VISIBLE int Expression::getFunctionIndex(const StringPtr &functionName) const {
 		int functionsNumber = functionsList->size();
 		if (functionsNumber == 0)
@@ -1467,16 +1102,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return NOT_FOUND;
 	}
 
-	/**
-	 * Gets function associated with the expression.
-	 *
-	 * @param      functionName        the function name
-	 *
-	 * @return     Function if function name was found,
-	 *             otherwise returns nullptr.
-	 *
-	 * @see        Function
-	 */
 	API_VISIBLE FunctionPtr Expression::getFunction(const StringPtr &functionName) const {
 		int functionIndex = getFunctionIndex(functionName);
 		if (functionIndex == NOT_FOUND)
@@ -1484,43 +1109,16 @@ namespace org::mariuszgromada::math::mxparser {
 		return functionsList->get(functionIndex);
 	}
 
-	/**
-	 * Gets function associated with the expression.
-	 *
-	 * @param      functionIndex the function index
-	 *
-	 * @return     Function if function index is between 0 and
-	 *             the last available function index (getFunctionsNumber()-1),
-	 *             otherwise returns nullptr.
-	 *
-	 * @see        Function
-	 */
 	API_VISIBLE FunctionPtr Expression::getFunction(int functionIndex) const {
 		if (functionIndex < 0 || functionIndex >= functionsList->size())
 			return nullptr;
 		return functionsList->get(functionIndex);
 	}
 
-	/**
-	 * Gets number of functions associated with the expression.
-	 *
-	 * @return     number of functions (int &gt;= 0)
-	 *
-	 * @see        Function
-	 */
 	API_VISIBLE int Expression::getFunctionsNumber() const {
 		return functionsList->size();
 	}
 
-	/**
-	 * Removes first occurrences of the functions
-	 * associated with the expression.
-	 *
-	 * @param      functionsNames      the functions names (variadic parameters)
-	 *                                 comma separated list
-	 *
-	 * @see        Function
-	 */
 	API_VISIBLE void Expression::removeFunctions(const ListPtr<StringPtr> &functionsNames) {
 		for (const StringPtr& functionName : *functionsNames)
 			removeFunctions(functionName);
@@ -1538,15 +1136,6 @@ namespace org::mariuszgromada::math::mxparser {
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Removes first occurrences of the functions
-	 * associated with the expression.
-	 *
-	 * @param      functions           the functions (variadic parameters)
-	 *                                 comma separated list.
-	 *
-	 * @see        Function
-	 */
 	API_VISIBLE void Expression::removeFunctions(const ListPtr<FunctionPtr> &functions) {
 		for (const FunctionPtr &function : *functions)
 			removeFunctions(function);
@@ -1561,12 +1150,6 @@ namespace org::mariuszgromada::math::mxparser {
 		setExpressionModifiedFlag();
 	}
 
-	/**
-	 * Removes all functions
-	 * associated with the expression.
-	 *
-	 * @see        Function
-	 */
 	API_VISIBLE void Expression::removeAllFunctions() {
 		for (int i = 0; i < functionsList->size(); i++)
 			functionsList->get(i)->removeRelatedExpression(THIS(Expression));
@@ -1581,13 +1164,12 @@ namespace org::mariuszgromada::math::mxparser {
 	 *=================================================
 	 */
 	/**
-	 * Sets given token to the number type / value.
+	 * \brief Sets given token to the number type / value.
 	 * Method should be called only by the SetDecreaseRemove like methods
-	 *
-	 * @param      pos                 the position on which token
+	 * \param pos                 the position on which token
 	 *                                 should be updated to the given number
-	 * @param      number              the number
-	 * @param      ulpRound            If true, then if {mXparser#ulpRounding} = true
+	 * \param number              the number
+	 * \param ulpRound            If true, then if {mXparser#ulpRounding} = true
 	 *                                 intelligent ULP rounding is applied.
 	 */
 	API_VISIBLE void Expression::setToNumber(int pos, double number, bool ulpRound) {
@@ -1618,7 +1200,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * SetDecreaseRemove for 1 arg functions
+	 * \brief SetDecreaseRemove for 1 arg functions
 	 *
 	 * SetDecreaseRemove like methods are called by the methods
 	 * calculating values of the unary operation, binary relations
@@ -1663,11 +1245,10 @@ namespace org::mariuszgromada::math::mxparser {
 	 *   idx   :  0   1    2
 	 *   token :  1   +    1
 	 *   level :  0   0    0
-	 *
-	 * @param      pos                 the position on which token
+	 * \param pos                 the position on which token
 	 *                                 should be updated to the given number
-	 * @param      result              the number
-	 * @param      ulpRound            If true, then if {mXparser#ulpRounding} = true
+	 * \param result              the number
+	 * \param ulpRound            If true, then if {mXparser#ulpRounding} = true
 	 *                                 intelligent ULP rounding is applied.
 	 */
 	API_VISIBLE void Expression::f1SetDecreaseRemove(int pos, double result, bool ulpRound) {
@@ -1681,15 +1262,14 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * SetDecreaseRemove for 2-args functions
+	 * \brief SetDecreaseRemove for 2-args functions
 	 *
 	 * For detailed specification refer to the
 	 *    f1SetDecreaseRemove()
-	 *
-	 * @param      pos                 the position on which token
+	 * \param pos                 the position on which token
 	 *                                 should be updated to the given number
-	 * @param      result              the number
-	 * @param      ulpRound            If true, then if {mXparser#ulpRounding} = true
+	 * \param result              the number
+	 * \param ulpRound            If true, then if {mXparser#ulpRounding} = true
 	 *                                 intelligent ULP rounding is applied.
 	 */
 	API_VISIBLE void Expression::f2SetDecreaseRemove(int pos, double result, bool ulpRound) {
@@ -1704,15 +1284,14 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * SetDecreaseRemove for 3-args functions
+	 * \brief SetDecreaseRemove for 3-args functions
 	 *
 	 * For detailed specification refer to the
 	 *    f1SetDecreaseRemove()
-	 *
-	 * @param      pos                 the position on which token
+	 * \param pos                 the position on which token
 	 *                                 should be updated to the given number
-	 * @param      result              the number
-	 * @param      ulpRound            If true, then if {mXparser#ulpRounding} = true
+	 * \param result              the number
+	 * \param ulpRound            If true, then if {mXparser#ulpRounding} = true
 	 *                                 intelligent ULP rounding is applied.
 	 */
 	API_VISIBLE void Expression::f3SetDecreaseRemove(int pos, double result, bool ulpRound) {
@@ -1728,15 +1307,14 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * SetDecreaseRemove for operators
+	 * \brief SetDecreaseRemove for operators
 	 *
 	 * For detailed specification refer to the
 	 *    f1SetDecreaseRemove()
-	 *
-	 * @param      pos                 the position on which token
+	 * \param pos                 the position on which token
 	 *                                 should be updated to the given number
-	 * @param      result              the number
-	 * @param      ulpRound            If true, then if {mXparser#ulpRounding} = true
+	 * \param result              the number
+	 * \param ulpRound            If true, then if {mXparser#ulpRounding} = true
 	 *                                 intelligent ULP rounding is applied.
 	 */
 	API_VISIBLE void Expression::opSetDecreaseRemove(int pos, double result, bool ulpRound) {
@@ -1750,15 +1328,14 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * SetDecreaseRemove for calculus operators.
+	 * \brief SetDecreaseRemove for calculus operators.
 	 *
 	 * For detailed specification refer to the
 	 *    f1SetDecreaseRemove()
-	 *
-	 * @param      pos                 the position on which token
+	 * \param pos                 the position on which token
 	 *                                 should be updated to the given number
-	 * @param      result              the number
-	 * @param      ulpRound            If true, then if {mXparser#ulpRounding} = true
+	 * \param result              the number
+	 * \param ulpRound            If true, then if {mXparser#ulpRounding} = true
 	 *                                 intelligent ULP rounding is applied.
 	 */
 	API_VISIBLE void Expression::calcSetDecreaseRemove(int pos, double result, bool ulpRound) {
@@ -1785,16 +1362,15 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * SetDecreaseRemove for special functions.
+	 * \brief SetDecreaseRemove for special functions.
 	 *
 	 * For detailed specification refer to the
 	 *    f1SetDecreaseRemove()
-	 *
-	 * @param      pos                 the position on which token
+	 * \param pos                 the position on which token
 	 *                                 should be updated to the given number
-	 * @param      value              the number
-	 * @param      length              the special function range
-	 * @param      ulpRound            If true, then if {mXparser#ulpRounding} = true
+	 * \param value              the number
+	 * \param length              the special function range
+	 * \param ulpRound            If true, then if {mXparser#ulpRounding} = true
 	 *                                 intelligent ULP rounding is applied.
 	 */
 	API_VISIBLE void Expression::variadicSetDecreaseRemove(int pos, double value, int length, bool ulpRound) {
@@ -1808,11 +1384,10 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * If set remove method for the if function->
-	 *
-	 * @param      pos                 the position
-	 * @param      ifCondition         the result of if condition
-	 * @param      ulpRound            If true, then if {mXparser#ulpRounding} = true
+	 * \brief If set remove method for the if function->
+	 * \param pos                 the position
+	 * \param ifCondition         the result of if condition
+	 * \param ulpRound            If true, then if {mXparser#ulpRounding} = true
 	 *                                 intelligent ULP rounding is applied.
 	 */
 	API_VISIBLE void Expression::ifSetRemove(int pos, double ifCondition, bool ulpRound) {
@@ -1881,12 +1456,11 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Creates string tokens list from the subexpression.
-	 *
-	 * @param      startPos            start position (index)
-	 * @param      endPos              end position   (index)
-	 *
-	 * @return     tokens list representing requested subexpression.
+	 * \brief Creates string tokens list from the subexpression.
+	 * \param startPos            start position (index)
+	 * \param endPos              end position   (index)
+	 * \return tokens list representing requested subexpression.
+	 * \param tokensList The token list.
 	 */
 	API_VISIBLE ListPtr<TokenPtr> Expression::createInitialTokens(int startPos, int endPos, const ListPtr<TokenPtr> &tokensList) {
 		ListPtr<TokenPtr> tokens = new_List<TokenPtr>();
@@ -1898,9 +1472,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Return number of functions parameters.
-	 *
-	 * @param      pos                 the function position
+	 * \brief Return number of functions parameters.
+	 * \param pos                 the function position
 	 */
 	API_VISIBLE int Expression::getParametersNumber(int pos) {
 		int lPpos = pos + 1;
@@ -1936,18 +1509,14 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Gets / returns argument representing given argument name. If
+	 * \brief Gets / returns argument representing given argument name. If
 	 * argument name exists on the list of known arguments
 	 * the initial status of the found argument is remembered, otherwise new
 	 * argument will be created.
-	 *
-	 * @param      argumentName        the argument name
-	 *
-	 * @return     Argument parameter representing given argument name:
-	 *
-	 *
-	 * @see        ArgumentParameter
-	 * @see        Argument
+	 * \param argumentName        the argument name
+	 * \return Argument parameter representing given argument name:
+	 * \sa org::mariuszgromada::math::mxparser::miscellaneous::ArgumentParameter
+	 * \sa org::mariuszgromada::math::mxparser::Argument
 	 */
 	ArgumentParameterPtr Expression::getParamArgument(const StringPtr &argumentName) {
 		ArgumentParameterPtr argParam = new_ArgumentParameter();
@@ -1969,9 +1538,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Clears argument parameter.
-	 *
-	 * @param      argParam            the argument parameter.
+	 * \brief Clears argument parameter.
+	 * \param argParam            the argument parameter.
 	 */
 	API_VISIBLE void Expression::clearParamArgument(const ArgumentParameterPtr &argParam) {
 		if (argParam->presence == NOT_FOUND) {
@@ -1987,11 +1555,6 @@ namespace org::mariuszgromada::math::mxparser {
 	 * Syntax checking and calculate() method
 	 *
 	 *=================================================
-	 */
-	/**
-	 * Checks syntax of the expression string.
-	 *
-	 * @return     true if syntax is ok
 	 */
 	API_VISIBLE bool Expression::checkLexSyntax() {
 		bool syntax = NO_SYNTAX_ERRORS;
@@ -2017,25 +1580,19 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Cleans blanks and other cases like "++', "+-", "-+"", "--"
+	 * \brief Cleans blanks and other cases like "++', "+-", "-+"", "--"
 	 */
 	API_VISIBLE void Expression::cleanExpressionString() {
 		expressionStringCleaned = ExpressionUtils::cleanExpressionString(expressionString, attemptToFixExpStrEnabled);
 	}
 
-	/**
-	 * Checks syntax of the expression string.
-	 *
-	 * @return     true if syntax is ok
-	 */
 	API_VISIBLE bool Expression::checkSyntax() {
 		return checkSyntax(ExpressionUtils::createExpressionDescription(description, expressionString), false);
 	}
 
 	/**
-	 * Checks syntax of the calculus parameter
-	 *
-	 * @return     true if syntax is ok
+	 * \brief Checks syntax of the calculus parameter
+	 * \return true if syntax is ok
 	 */
 	API_VISIBLE int Expression::checkCalculusParameter(const StringPtr &param) {
 		int errors = 0;
@@ -2047,12 +1604,10 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Checks if argument given in the function parameter is known
+	 * \brief Checks if argument given in the function parameter is known
 	 * in the expression.
-	 *
-	 * @param      param               the function parameter
-	 *
-	 * @return     true if argument is known,
+	 * \param param               the function parameter
+	 * \return true if argument is known,
 	 *             otherwise returns false.
 	 */
 	API_VISIBLE bool Expression::checkIfKnownArgument(const FunctionParameterPtr &param) {
@@ -2063,11 +1618,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Checks if token is uknown
-	 *
-	 * @param      param               the function parameter
-	 *
-	 * @return     true if there is only 1 token with unknown type,
+	 * \brief Checks if token is uknown
+	 * \param param               the function parameter
+	 * \return true if there is only 1 token with unknown type,
 	 *             otherwise returns false.
 	 */
 	API_VISIBLE bool Expression::checkIfUnknownToken(const FunctionParameterPtr &param) {
@@ -2691,11 +2244,11 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Checking the syntax (recursively).
-	 *
-	 * @param      recursionInfoLevel               string representing the recursion level.
-	 * @return     true if syntax was correct,
+	 * \brief Checking the syntax (recursively).
+	 * \param recursionInfoLevel               string representing the recursion level.
+	 * \return true if syntax was correct,
 	 *             otherwise returns false.
+	 * \param functionWithBodyExt Whether the function body is supplied by an extension.
 	 */
 	API_VISIBLE bool Expression::checkSyntax(const StringPtr &recursionInfoLevel, bool functionWithBodyExt) {
 		if (syntaxIsAlreadyCheckedNorErrors()) {
@@ -2764,12 +2317,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return syntax;
 	}
 
-	/**
-	 * Calculates the expression value and registers all the calculation steps
-	 *
-	 * @return     The expression value if syntax was ok,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double Expression::calculate() {
 		return calculate(CalcStepsRegister::Null);
 	}
@@ -2781,15 +2328,6 @@ namespace org::mariuszgromada::math::mxparser {
 		                                                            description, expressionString);
 	}
 
-	/**
-	 * Calculates the expression value
-	 *
-	 * @param calcStepsRegister A collection to store list of calculation steps,
-	 *                          steps registered as strings.
-	 *
-	 * @return     The expression value if syntax was ok,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double Expression::calculate(const CalcStepsRegisterPtr &calcStepsRegister) {
 		return calculateCoreWithCancel(calcStepsRegister, 0);
 	}
@@ -3508,8 +3046,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Calculates unary function
-	 * @param pos    token position
+	 * \brief Calculates unary function
+	 * \param pos    token position
 	 */
 	API_VISIBLE void Expression::f1ArgCalc(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::f1ArgCalc, pos);
@@ -3648,8 +3186,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Calculates binary function
-	 * @param pos   Token position
+	 * \brief Calculates binary function
+	 * \param pos   Token position
 	 */
 	API_VISIBLE void Expression::f2ArgCalc(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::f2ArgCalc, pos);
@@ -3728,8 +3266,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Calculates function with 3 arguments
-	 * @param pos   Token position
+	 * \brief Calculates function with 3 arguments
+	 * \param pos   Token position
 	 */
 	API_VISIBLE void Expression::f3ArgCalc(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::f3ArgCalc, pos);
@@ -3774,8 +3312,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Calculates Variadic function
-	 * @param pos   Token position
+	 * \brief Calculates Variadic function
+	 * \param pos   Token position
 	 */
 	API_VISIBLE void Expression::variadicFunCalc(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::variadicFunCalc, pos);
@@ -3832,8 +3370,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Calculates calculus operators
-	 * @param pos
+	 * \brief Calculates calculus operators
+	 * \param pos
 	 */
 	API_VISIBLE void Expression::calculusCalc(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::calculusCalc, pos);
@@ -3874,8 +3412,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Unicode root operators
-	 * @param pos
+	 * \brief Unicode root operators
+	 * \param pos
 	 */
 	API_VISIBLE void Expression::rootOperCalc(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::rootOperCalc, pos);
@@ -3892,8 +3430,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Calculates bool operators
-	 * @param pos
+	 * \brief Calculates bool operators
+	 * \param pos
 	 */
 	API_VISIBLE void Expression::bolCalc(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::bolCalc, pos);
@@ -3924,8 +3462,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Calculates Bitwise operators
-	 * @param pos
+	 * \brief Calculates Bitwise operators
+	 * \param pos
 	 */
 	API_VISIBLE void Expression::bitwiseCalc(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::bitwiseCalc, pos);
@@ -3958,7 +3496,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 *=================================================
 	 */
 	/**
-	 * Creates parser keywords list
+	 * \brief Creates parser keywords list
 	 */
 	API_VISIBLE void Expression::initParserKeyWords() {
 		keyWordsList = new_List<KeyWordPtr>();
@@ -4017,7 +3555,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Final validation of keywords
+	 * \brief Final validation of keywords
 	 */
 	API_VISIBLE void Expression::validateParserKeyWords() {
 		if (!mXparser::overrideBuiltinTokens)
@@ -4056,14 +3594,13 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Method used in case of implied multiplication, where x2x can be understood as x2*x
+	 * \brief Method used in case of implied multiplication, where x2x can be understood as x2*x
 	 *
 	 * sum( x2x, 1, 20, 2*x2x)
 	 *
 	 * x2x is not known and it will be prevented from split into x2*x
-	 *
-	 * @param token The token
-	 * @return Returns true in case calculus argument was found
+	 * \param token The token
+	 * \return Returns true in case calculus argument was found
 	 */
 	API_VISIBLE bool Expression::checkArgumentNameInCalculusOperator(const TokenPtr &token) {
 		if (neverParseForImpliedMultiplication->containsByPtrDeref(token->tokenStr)) {
@@ -4121,10 +3658,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Check whether we have a case of '[abc]'
-	 *
-	 * @param token  The token
-	 * @return Returns true in case token is in a form of '[abc]'
+	 * \brief Check whether we have a case of '[abc]'
+	 * \param token  The token
+	 * \return Returns true in case token is in a form of '[abc]'
 	 * otherwise returns false.
 	 */
 	API_VISIBLE bool Expression::checkSpecialConstantName(const TokenPtr &token) {
@@ -4137,11 +3673,10 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Checks whether unknown token represents number literal
+	 * \brief Checks whether unknown token represents number literal
 	 * provided in different numeral base system, where
 	 * base is between 1 and 36.
-	 *
-	 * @param token   The token not know to the parser
+	 * \param token   The token not know to the parser
 	 */
 	API_VISIBLE bool Expression::checkOtherNumberBases(const TokenPtr &token) {
 		int dotPos = 0;
@@ -4180,8 +3715,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Adds fraction token to the tokens list
-	 * @param token The token
+	 * \brief Adds fraction token to the tokens list
+	 * \param token The token
 	 */
 	API_VISIBLE void Expression::addFractionToken(const TokenPtr &token) {
 		int underscore1stPos = CAST_INT(token->tokenStr->find(UTF('_')));
@@ -4219,10 +3754,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Checks whether unknown token represents fraction
+	 * \brief Checks whether unknown token represents fraction
 	 * provided as fraction or mixed fraction
-	 *
-	 * @param token   The token not know to the parser
+	 * \param token   The token not know to the parser
 	 */
 	API_VISIBLE bool Expression::checkFraction(const TokenPtr &token) {
 		if (token->tokenStr->length() < 3) return false;
@@ -4232,7 +3766,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Finds the longest decimal prefix without copying or rechecking prefixes.
+	 * \brief Finds the longest decimal prefix without copying or rechecking prefixes.
 	 * Returns its inclusive end, or -1. An unfinished fraction/exponent keeps
 	 * the last complete prefix. allowTrailingDot preserves the .NET tokenizer's
 	 * NumberStyles.Float spelling; regex-based callers require fractional digits.
@@ -4261,7 +3795,9 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 		return numEnd;
 	}
-	/** Finds the longest INTEGER_INTEGER or INTEGER_INTEGER_INTEGER prefix. */
+	/**
+	 * \brief Finds the longest INTEGER_INTEGER or INTEGER_INTEGER_INTEGER prefix.
+	 */
 	API_VISIBLE int Expression::findFractionLiteralEnd(const StringPtr &str, int start) {
 		int length = CAST_INT(str->length());
 		int pos = start;
@@ -4279,9 +3815,9 @@ namespace org::mariuszgromada::math::mxparser {
 		return numEnd;
 	}
 	/**
-	 * Handles implied multiplication while adding single token to the tokens list
+	 * \brief Handles implied multiplication while adding single token to the tokens list
 	 * is checking preceding token
-	 * @param token The token
+	 * \param token The token
 	 */
 	API_VISIBLE void Expression::initialTokensAdd(const TokenPtr &token) {
 		if (initialTokens->isEmpty()) {
@@ -4395,10 +3931,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Assign found known keyword to the token
-	 *
-	 * @param token   The token
-	 * @param keyWord  The keyword
+	 * \brief Assign found known keyword to the token
+	 * \param token   The token
+	 * \param keyWord  The keyword
 	 */
 	API_VISIBLE void Expression::assignKnownKeyword(const TokenPtr &token, const KeyWordPtr &keyWord) {
 		token->tokenTypeId = keyWord->wordTypeId;
@@ -4408,11 +3943,10 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Tries to find known keyword for a given token
+	 * \brief Tries to find known keyword for a given token
 	 * via string matching
-	 *
-	 * @param tokenStr  Token string
-	 * @return known keyword if match found, otherwise not matched keyword
+	 * \param tokenStr  Token string
+	 * \return known keyword if match found, otherwise not matched keyword
 	 */
 	API_VISIBLE KeyWordPtr Expression::tryFindKnownKeyword(const StringPtr &tokenStr) {
 		for (const KeyWordPtr &kw : *keyWordsList) {
@@ -4423,11 +3957,10 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Tries to find known keyword for a given token
+	 * \brief Tries to find known keyword for a given token
 	 * via string matching
-	 *
-	 * @param token The token
-	 * @return  true if keyword matched, otherwise false
+	 * \param token The token
+	 * \return true if keyword matched, otherwise false
 	 */
 	API_VISIBLE bool Expression::tryAssignKnownKeyword(const TokenPtr &token) {
 		KeyWordPtr keyWord = tryFindKnownKeyword(token->tokenStr);
@@ -4439,10 +3972,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Handles adding token part after single token split
+	 * \brief Handles adding token part after single token split
 	 * in the proces of parsing implied multiplication.
-	 *
-	 * @param tokenPart  The token part to be added to the token list
+	 * \param tokenPart  The token part to be added to the token list
 	 */
 	API_VISIBLE void Expression::initialTokensAddTokenPart(const TokenPartPtr &tokenPart) {
 		TokenPtr token = new_Token();
@@ -4473,11 +4005,11 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Handles implied multiplication logic in case of a single
+	 * \brief Handles implied multiplication logic in case of a single
 	 * continuous string, e.g. no brackets
-	 *
-	 * @param token The token
-	 * @return  returns true in case there was a reason to parse, otherwise returns false
+	 * \param token The token
+	 * \return returns true in case there was a reason to parse, otherwise returns false
+	 * \param parenthesisIsOnTheRight Whether a parenthesis follows this token.
 	 */
 	API_VISIBLE bool Expression::checkNumberNameManyImpliedMultiplication(const TokenPtr &token, bool parenthesisIsOnTheRight) {
 		int tokenStrLength = CAST_INT(token->tokenStr->length());
@@ -4648,12 +4180,12 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Adds expression token
+	 * \brief Adds expression token
 	 * Method is called by the tokenExpressionString()
 	 * while parsing string expression
-	 *
-	 * @param      tokenStr            the token string
-	 * @param      keyWord             the keyword
+	 * \param tokenStr            the token string
+	 * \param keyWord             the keyword
+	 * \param parenthesisIsOnTheRight Whether a parenthesis follows this token.
 	 */
 	API_VISIBLE void Expression::addToken(const StringPtr &tokenStr, const KeyWordPtr &keyWord, bool parenthesisIsOnTheRight) {
 		TokenPtr token = new_Token();
@@ -4692,7 +4224,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Tokenizing expression string
+	 * \brief Tokenizing expression string
 	 */
 	API_VISIBLE void Expression::tokenizeExpressionString() {
 		impliedMultiplicationError = false;
@@ -4982,7 +4514,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 
 	/**
-	 * copy initial tokens list to tokens list and prepares initial compilation details
+	 * \brief copy initial tokens list to tokens list and prepares initial compilation details
 	 */
 	API_VISIBLE void Expression::copyInitialTokens() {
 		bool prepareInitialTokensListInfo = false;
@@ -5018,15 +4550,6 @@ namespace org::mariuszgromada::math::mxparser {
 		compilationDetails->compiledElements = initialCompilationDetails->compiledElements;
 	}
 
-	/**
-	 * Tokenizes expression string and returns tokens list,
-	 * including: string, type, level.
-	 *
-	 * @return Copy of initial tokens.
-	 *
-	 * @see Token
-	 * @see mXparser#consolePrintTokens(List)
-	 */
 	API_VISIBLE ListPtr<TokenPtr> Expression::getCopyOfInitialTokens() {
 		tokenizeExpressionString();
 		return ExpressionUtils::getCopyOfInitialTokens(expressionString, initialTokens);
@@ -5036,251 +4559,96 @@ namespace org::mariuszgromada::math::mxparser {
         return LaTeXExporter::format(getCopyOfInitialTokens());
     }
 
-	/**
-	 * Prints to the console copy of initial tokens. Presents how
-	 * expression string is interpreted by the parser.
-	 *
-	 * @see #getCopyOfInitialTokens()
-	 */
 	API_VISIBLE void Expression::consolePrintCopyOfInitialTokens() {
 		mXparser::consolePrintTokens(getCopyOfInitialTokens());
 	}
 
-	/**
-	 * Returns missing user defined arguments names, i.e.
-	 * sin(x) + cos(y) where x and y are not defined
-	 * function will return x and y.
-	 *
-	 * @return Array of missing user defined arguments names
-	 * - distinct strings.
-	 */
 	API_VISIBLE ArrayPtr<StringPtr> Expression::getMissingUserDefinedArguments() {
 		return ExpressionUtils::getMissingUserDefinedArguments(getCopyOfInitialTokens());
 	}
 
-	/**
-	 * Returns missing user defined units names, i.e.
-	 * 2*[w] + [q] where [w] and [q] are not defined
-	 * function will return [w] and [q].
-	 *
-	 * @return Array of missing user defined units names
-	 * - distinct strings.
-	 */
 	API_VISIBLE ArrayPtr<StringPtr> Expression::getMissingUserDefinedUnits() {
 		return ExpressionUtils::getMissingUserDefinedUnits(getCopyOfInitialTokens());
 	}
 
-	/**
-	 * Returns missing user defined functions names, i.e.
-	 * sin(x) + fun(x,y) where fun is not defined
-	 * function will return fun.
-	 *
-	 * @return Array of missing user defined functions names
-	 * - distinct strings.
-	 */
 	API_VISIBLE ArrayPtr<StringPtr> Expression::getMissingUserDefinedFunctions() {
 		return ExpressionUtils::getMissingUserDefinedFunctions(getCopyOfInitialTokens());
 	}
 
 	/**
-	 * Gets initial tokens and returns copied list
-	 *
-	 * @see Function
+	 * \brief Gets initial tokens and returns copied list
+	 * \sa org::mariuszgromada::math::mxparser::Function
 	 */
 	API_VISIBLE ListPtr<TokenPtr> Expression::getInitialTokens() {
 		return initialTokens;
 	}
 
 	/**
-	 * Shows parsing (verbose mode purposes).
-	 *
+	 * \brief Shows parsing (verbose mode purposes).
 	 */
 	API_VISIBLE void Expression::showParsing(int lPos, int rPos) const {
 		ExpressionUtils::showParsing(lPos, rPos, tokensList);
 	}
 
 	/**
-	 * shows known keywords
+	 * \brief shows known keywords
 	 */
 	API_VISIBLE void Expression::showKeyWords() const {
 		ExpressionUtils::showKeyWords(keyWordsList);
 	}
 
-	/**
-	 * Returns detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @return One string value containing all the help.
-	 */
 	API_VISIBLE StringPtr Expression::getHelp() {
 		return getHelp(StringInvariant::EMPTY);
 	}
 
-	/**
-	 * Returns detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @return One string value containing all the help.
-	 */
 	API_VISIBLE StringPtr Expression::getHelp(const StringPtr &query) {
 		initParserKeyWords();
 		return ExpressionUtils::getHelp(query, keyWordsList);
 	}
 
-	/**
-	 * Returns detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param addHeader Indicator whether to add a header.
-	 * @param addCaption Indicator whether to add caption.
-	 * @param caption If a non-standard caption is to be added, any string other than ""
-	 * will replace the standard caption with the one specified by the user.
-	 *
-	 * @return One string value containing all the help.
-	 */
 	API_VISIBLE StringPtr Expression::getHelp(bool addHeader, bool addCaption, const StringPtr &caption) {
 		initParserKeyWords();
 		return ExpressionUtils::getHelp(StringInvariant::EMPTY, keyWordsList, addHeader, addCaption, caption);
 	}
 
-	/**
-	 * Returns detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @param addHeader Indicator whether to add a header.
-	 * @param addCaption Indicator whether to add caption.
-	 * @param caption If a non-standard caption is to be added, any string other than ""
-	 *
-	 * @return One string value containing all the help.
-	 */
 	API_VISIBLE StringPtr Expression::getHelp(const StringPtr &query, bool addHeader, bool addCaption, const StringPtr &caption) {
 		initParserKeyWords();
 		return ExpressionUtils::getHelp(query, keyWordsList, addHeader, addCaption, caption);
 	}
 
-	/**
-	 * Returns (as CSV) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @return One string value in CSV format containing all the help.
-	 */
 	API_VISIBLE StringPtr Expression::getHelpAsCsv() {
 		initParserKeyWords();
 		return ExpressionUtils::getHelpAsCsv(keyWordsList, StringInvariant::QUOTE, StringInvariant::SEMICOLON, true,
 		                                     StringInvariant::EMPTY);
 	}
 
-	/**
-	 * Returns (as CSV) detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @return One string value in CSV format containing all the help.
-	 */
 	API_VISIBLE StringPtr Expression::getHelpAsCsv(const StringPtr &query) {
 		initParserKeyWords();
 		return ExpressionUtils::getHelpAsCsv(keyWordsList, StringInvariant::QUOTE, StringInvariant::SEMICOLON, true,
 		                                     query);
 	}
 
-	/**
-	 * Returns (as CSV) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @param quote Text qualifier.
-	 * @param delimiter Delimiter.
-	 * @param addHeader Indicator whether to add a header.
-	 *
-	 * @return One string value in CSV format containing all the help.
-	 */
 	API_VISIBLE StringPtr Expression::getHelpAsCsv(const StringPtr &quote, const StringPtr &delimiter, bool addHeader) {
 		initParserKeyWords();
 		return ExpressionUtils::getHelpAsCsv(keyWordsList, quote, delimiter, addHeader, StringInvariant::EMPTY);
 	}
 
-	/**
-	 * Returns (as CSV) detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @param quote Text qualifier.
-	 * @param delimiter Delimiter.
-	 * @param addHeader Indicator whether to add a header.
-	 *
-	 * @return One string value in CSV format containing all the help.
-	 */
 	API_VISIBLE StringPtr Expression::getHelpAsCsv(const StringPtr &query, const StringPtr &quote, const StringPtr &delimiter,
 	                                   bool addHeader) {
 		initParserKeyWords();
 		return ExpressionUtils::getHelpAsCsv(keyWordsList, quote, delimiter, addHeader, query);
 	}
 
-	/**
-	 * Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @return One string value containing all the help. StringPtr in HTML table format.
-	 */
 	API_VISIBLE StringPtr Expression::getHelpAsHtmlTable() {
 		initParserKeyWords();
 		return ExpressionUtils::getHelpAsHtmlTable(keyWordsList, true, StringInvariant::EMPTY);
 	}
 
-	/**
-	 * Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @return One string value containing all the help. StringPtr in HTML table format.
-	 */
 	API_VISIBLE StringPtr Expression::getHelpAsHtmlTable(const StringPtr &query) {
 		initParserKeyWords();
 		return ExpressionUtils::getHelpAsHtmlTable(keyWordsList, true, query);
 	}
 
-	/**
-	 * Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @param addHeader Indicator whether to add a header.
-	 * @param addCaption Indicator whether to add caption.
-	 * @param addFigure Indicator whether to add a FIGURE tag.
-	 * @param caption If a non-standard caption is to be added, use any string other than "".
-	 * @param cssClass If CSS class is to be added, use any string other than "".
-	 *
-	 * @return One string value containing all the help. StringPtr in HTML table format.
-	 */
 	API_VISIBLE StringPtr Expression::getHelpAsHtmlTable(bool addHeader, bool addCaption, bool addFigure, const StringPtr &caption,
 	                                         const StringPtr &cssClass) {
 		initParserKeyWords();
@@ -5288,26 +4656,6 @@ namespace org::mariuszgromada::math::mxparser {
 		                                           StringInvariant::EMPTY, caption, cssClass);
 	}
 
-	/**
-	 * Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @param addHeader Indicator whether to add a header.
-	 * @param addCaption Indicator whether to add caption.
-	 * @param addFigure Indicator whether to add a FIGURE tag.
-	 * @param caption If a non-standard caption is to be added, use any string other than "".
-	 * @param cssClass If CSS class is to be added, use any string other than "".
-	 *
-	 * @return One string value containing all the help. StringPtr in HTML table format.
-	 */
 	API_VISIBLE StringPtr Expression::getHelpAsHtmlTable(const StringPtr &query, bool addHeader, bool addCaption, bool addFigure,
 	                                         const StringPtr &caption, const StringPtr &cssClass) {
 		initParserKeyWords();
@@ -5315,166 +4663,50 @@ namespace org::mariuszgromada::math::mxparser {
 		                                           cssClass);
 	}
 
-	/**
-	 * Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @return One string value containing all the help. StringPtr in Markdown table format.
-	 */
 	API_VISIBLE StringPtr Expression::getHelpAsMarkdownTable() {
 		initParserKeyWords();
 		return ExpressionUtils::getHelpAsMarkdownTable(keyWordsList, StringInvariant::EMPTY);
 	}
 
-	/**
-	 * Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-
-	 * @return One string value containing all the help. StringPtr in Markdown table format.
-	 */
 	API_VISIBLE StringPtr Expression::getHelpAsMarkdownTable(const StringPtr &query) {
 		initParserKeyWords();
 		return ExpressionUtils::getHelpAsMarkdownTable(keyWordsList, query);
 	}
 
-	/**
-	 * Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @param addHeader Indicator whether to add a header.
-	 * @param addCaption Indicator whether to add caption.
-	 * @param caption If a non-standard caption is to be added, use any string other than "".
-	 *
-	 * @return One string value containing all the help. StringPtr in Markdown table format.
-	 */
 	API_VISIBLE StringPtr Expression::getHelpAsMarkdownTable(bool addHeader, bool addCaption, const StringPtr &caption) {
 		initParserKeyWords();
 		return ExpressionUtils::getHelpAsMarkdownTable(keyWordsList, addHeader, addCaption, StringInvariant::EMPTY,
 		                                               caption);
 	}
 
-	/**
-	 * Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @param addHeader Indicator whether to add a header.
-	 * @param addCaption Indicator whether to add caption.
-	 * @param caption If a non-standard caption is to be added, use any string other than "".
-	 *
-	 * @return One string value containing all the help. StringPtr in Markdown table format.
-	 */
 	API_VISIBLE StringPtr Expression::getHelpAsMarkdownTable(const StringPtr &query, bool addHeader, bool addCaption,
 	                                             const StringPtr &caption) {
 		initParserKeyWords();
 		return ExpressionUtils::getHelpAsMarkdownTable(keyWordsList, addHeader, addCaption, query, caption);
 	}
 
-	/**
-	 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @return One string value containing all the help. StringPtr in Json format.
-	 */
 	API_VISIBLE StringPtr Expression::getHelpAsJson() {
 		return getHelpAsJson(StringInvariant::EMPTY);
 	}
 
-	/**
-	 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @return One string value containing all the help. StringPtr in Json format.
-	 */
 	API_VISIBLE StringPtr Expression::getHelpAsJson(const StringPtr &query) {
 		return getHelpAsJson(query, true, StringInvariant::EMPTY);
 	}
 
-	/**
-	 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @param addCaption Indicator whether to add caption.
-	 * @param caption If a non-standard caption is to be added, use any string other than "".
-	 *
-	 * @return One string value containing all the help. StringPtr in Json format.
-	 */
 	API_VISIBLE StringPtr Expression::getHelpAsJson(bool addCaption, const StringPtr &caption) {
 		initParserKeyWords();
 		return ExpressionUtils::getHelpAsJson(keyWordsList, addCaption, StringInvariant::EMPTY, caption);
 	}
 
-	/**
-	 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @param addCaption Indicator whether to add caption.
-	 * @param caption If a non-standard caption is to be added, use any string other than "".
-	 *
-	 * @return One string value containing all the help. StringPtr in Json format.
-	 */
 	API_VISIBLE StringPtr Expression::getHelpAsJson(const StringPtr &query, bool addCaption, const StringPtr &caption) {
 		initParserKeyWords();
 		return ExpressionUtils::getHelpAsJson(keyWordsList, addCaption, query, caption);
 	}
 
-	/**
-	 * Returns list of keywords known to the parser
-	 *
-	 * @return      List of keywords known to the parser.
-	 *
-	 * @see KeyWord
-	 * @see KeyWord#wordTypeId
-	 * @see Expression#getHelp()
-	 */
 	API_VISIBLE ListPtr<KeyWordPtr> Expression::getKeyWords() {
 		return getKeyWords(StringInvariant::EMPTY);
 	}
 
-	/**
-	 * Returns list of keywords known to the parser. Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @return      List of keywords known to the parser filter against query string.
-	 *
-	 * @see KeyWord
-	 * @see KeyWord#wordTypeId
-	 * @see Expression#getHelp(String)
-	 */
 	API_VISIBLE ListPtr<KeyWordPtr> Expression::getKeyWords(const StringPtr &query) {
 		initParserKeyWords();
 		return ExpressionUtils::getKeyWords(query, keyWordsList);
@@ -5495,7 +4727,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * shows initial tokens
+	 * \brief shows initial tokens
 	 */
 	API_VISIBLE void Expression::showInitialTokens() const {
 		showTokens(initialTokens);
@@ -5518,9 +4750,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 *
-	 * @param info
-	 * @param withExpressionString
+	 * \param info
+	 * \param withExpressionString
 	 */
 	API_VISIBLE void Expression::printSystemInfo(const StringPtr &info, bool withExpressionString) const {
 		if (withExpressionString)
@@ -5532,7 +4763,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Expression cloning.
+	 * \brief Expression cloning.
 	 */
 	//@Override
 	API_VISIBLE ExpressionPtr Expression::clone() {
@@ -5590,16 +4821,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return expressionClone;
 	}
 
-	/**
-	 * Creates a completely independent 1-1 clone that can be safely used
-	 * by a separate thread. If the cloned element contains references
-	 * to other elements (e.g. arguments, functions, constants),
-	 * then they will also be cloned and the newly created element will
-	 * contain references to the corresponding clones.
-	 * Important - the API allows you to extract all these clones.
-	 *
-	 * @return Cloned object.
-	 */
 	API_VISIBLE ExpressionPtr Expression::cloneForThreadSafe() {
 		CloneCachePtr cloneCache = new_CloneCache();
 		ExpressionPtr expressionClone = cloneForThreadSafeInternal(cloneCache);

@@ -1,5 +1,5 @@
 /*
- * @(#)ArgumentExtension.hpp        6.1.0    2024-10-06
+ * @(#)ArgumentExtension.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -226,7 +226,17 @@ namespace org::mariuszgromada::math::mxparser {
 	class API_VISIBLE ArgumentExtension {
 	public:
 		virtual ~ArgumentExtension() = default;
+		/**
+		 * \brief Actual algorithm implementation.
+		 * \return Argument Extension value.
+		 */
 		virtual double getArgumentValue() = 0;
+		/**
+		 * \brief Cloning in case of usage in Expression
+		 * with recursive statements.
+		 * \return Returns ArgumentExtension object that was cloned.
+		 * \sa org::mariuszgromada::math::mxparser::Expression::getRecursiveMode()
+		 */
 		virtual ArgumentExtensionPtr clone() = 0;
 	};
 

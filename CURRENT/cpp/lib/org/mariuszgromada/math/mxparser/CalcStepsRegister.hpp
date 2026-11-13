@@ -1,5 +1,5 @@
 /*
- * @(#)CalcStepsRegister.hpp        6.1.0    2024-10-06
+ * @(#)CalcStepsRegister.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -246,8 +246,15 @@ namespace org::mariuszgromada::math::mxparser {
 		double computingTime;
 		StringPtr errorMessage = nullptr;
 
+		/**
+		 * \brief Prints this step register to the console.
+		 */
 		void consolePrint() const;
 
+		/**
+		 * \brief Returns a localized text report of the recorded calculation steps.
+		 * \return The report, or a localized message if the register is empty.
+		 */
 		[[nodiscard]] StringPtr toString() const;
 		static StringPtr toString(const CalcStepsRegister &calcStepsRegister);
 		static StringPtr toString(const CalcStepsRegisterPtr &calcStepsRegister);

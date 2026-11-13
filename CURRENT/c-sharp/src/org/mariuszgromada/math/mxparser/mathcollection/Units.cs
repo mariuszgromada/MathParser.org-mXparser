@@ -1,5 +1,5 @@
 /*
- * @(#)Units.cs        6.1.0    2024-10-06
+ * @(#)Units.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -219,291 +219,166 @@ using org.mariuszgromada.math.mxparser.parsertokens;
 using System;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
-	 * Units - class representing the most important units (length, area, volume, mass).
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        5.2.0
-	 */
+	/// <summary>Units - class representing the most important units (length, area, volume, mass).</summary>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true)]
 	public sealed class Units {
 		/* ===========================================
 		 * Units prefixes
 		 * ===========================================
 		 */
-		/**
-		 * Percentage
-		 */
+		/// <summary>Percentage</summary>
 		public const double PERC = 0.01;
-		/**
-		 * Promil, Per mille
-		 */
+		/// <summary>Promil, Per mille</summary>
 		public const double PROMIL = 0.001;
-		/**
-		 * Yotta
-		 */
+		/// <summary>Yotta</summary>
 		public const double YOTTA = 1.0E24;
-		/**
-		 * Zetta
-		 */
+		/// <summary>Zetta</summary>
 		public const double ZETTA = 1.0E21;
-		/**
-		 * Exa
-		 */
+		/// <summary>Exa</summary>
 		public const double EXA = 1.0E18;
-		/**
-		 * Peta
-		 */
+		/// <summary>Peta</summary>
 		public const double PETA = 1.0E15;
-		/**
-		 * Tera
-		 */
+		/// <summary>Tera</summary>
 		public const double TERA = 1.0E12;
-		/**
-		 * Giga
-		 */
+		/// <summary>Giga</summary>
 		public const double GIGA = 1000000000.0;
-		/**
-		 * Mega
-		 */
+		/// <summary>Mega</summary>
 		public const double MEGA = 1000000.0;
-		/**
-		 * Kilo
-		 */
+		/// <summary>Kilo</summary>
 		public const double KILO = 1000.0;
-		/**
-		 * Hecto
-		 */
+		/// <summary>Hecto</summary>
 		public const double HECTO = 100.0;
-		/**
-		 * Deca
-		 */
+		/// <summary>Deca</summary>
 		public const double DECA = 10.0;
-		/**
-		 * Deci
-		 */
+		/// <summary>Deci</summary>
 		public const double DECI = 0.1;
-		/**
-		 * Centi
-		 */
+		/// <summary>Centi</summary>
 		public const double CENTI = 0.01;
-		/**
-		 * Milli
-		 */
+		/// <summary>Milli</summary>
 		public const double MILLI = 0.001;
-		/**
-		 * Micro
-		 */
+		/// <summary>Micro</summary>
 		public const double MICRO = 0.000001;
-		/**
-		 * Nano
-		 */
+		/// <summary>Nano</summary>
 		public const double NANO = 0.000000001;
-		/**
-		 * Pico
-		 */
+		/// <summary>Pico</summary>
 		public const double PICO = 1.0E-12;
-		/**
-		 * Femto
-		 */
+		/// <summary>Femto</summary>
 		public const double FEMTO = 1.0E-15;
-		/**
-		 * Atto
-		 */
+		/// <summary>Atto</summary>
 		public const double ATTO = 1.0E-18;
-		/**
-		 * Zepto
-		 */
+		/// <summary>Zepto</summary>
 		public const double ZEPTO = 1.0E-21;
-		/**
-		 * Yocto
-		 */
+		/// <summary>Yocto</summary>
 		public const double YOCTO = 1.0E-24;
 
 		/* ===========================================
 		 * Units of length / distance
 		 * ===========================================
 		 */
-		/**
-		 * Meter
-		 */
+		/// <summary>Meter</summary>
 		public const double METRE = 1.0;
-		/**
-		 * Kilometer
-		 */
+		/// <summary>Kilometer</summary>
 		public const double KILOMETRE = 1000.0 * METRE;
-		/**
-		 * Centimeter
-		 */
+		/// <summary>Centimeter</summary>
 		public const double CENTIMETRE = CENTI * METRE;
-		/**
-		 * Millimetre
-		 */
+		/// <summary>Millimetre</summary>
 		public const double MILLIMETRE = MILLI * METRE;
-		/**
-		 * Inch
-		 */
+		/// <summary>Inch</summary>
 		public const double INCH = 2.54 * CENTIMETRE;
-		/**
-		 * Yard
-		 */
+		/// <summary>Yard</summary>
 		public const double YARD = 0.9144 * METRE;
-		/**
-		 * Feet
-		 */
+		/// <summary>Feet</summary>
 		public const double FEET = 30.48 * CENTIMETRE;
-		/**
-		 * Mile
-		 */
+		/// <summary>Mile</summary>
 		public const double MILE = 1.609344 * KILOMETRE;
-		/**
-		 * Nautical mile
-		 */
+		/// <summary>Nautical mile</summary>
 		public const double NAUTICAL_MILE = 1.852 * KILOMETRE;
 
 		/* ===========================================
 		 * Units of area
 		 * ===========================================
 		 */
-		/**
-		 * Square metre
-		 */
+		/// <summary>Square metre</summary>
 		public const double METRE2 = METRE * METRE;
-		/**
-		 * Square centimetre
-		 */
+		/// <summary>Square centimetre</summary>
 		public const double CENTIMETRE2 = CENTIMETRE * CENTIMETRE;
-		/**
-		 * Square millimetre
-		 */
+		/// <summary>Square millimetre</summary>
 		public const double MILLIMETRE2 = MILLIMETRE * MILLIMETRE;
-		/**
-		 * Are
-		 */
+		/// <summary>Are</summary>
 		public const double ARE = (10.0 * METRE) * (10.0 * METRE);
-		/**
-		 * Hectare
-		 */
+		/// <summary>Hectare</summary>
 		public const double HECTARE = (100.0 * METRE) * (100.0 * METRE);
-		/**
-		 * Square kilometre
-		 */
+		/// <summary>Square kilometre</summary>
 		public const double KILOMETRE2 = KILOMETRE * KILOMETRE;
-		/**
-		 * Acre
-		 */
+		/// <summary>Acre</summary>
 		public const double ACRE = (66.0 * FEET) * (660.0 * FEET);
 
 		/* ===========================================
 		 * Units of volume
 		 * ===========================================
 		 */
-		/**
-		 * Qubic millimetre
-		 */
+		/// <summary>Qubic millimetre</summary>
 		public const double MILLIMETRE3 = MILLIMETRE * MILLIMETRE * MILLIMETRE;
-		/**
-		 * Qubic centimetre
-		 */
+		/// <summary>Qubic centimetre</summary>
 		public const double CENTIMETRE3 = CENTIMETRE * CENTIMETRE * CENTIMETRE;
-		/**
-		 * Qubic metre
-		 */
+		/// <summary>Qubic metre</summary>
 		public const double METRE3 = METRE * METRE * METRE;
-		/**
-		 * Qubic kilometre
-		 */
+		/// <summary>Qubic kilometre</summary>
 		public const double KILOMETRE3 = KILOMETRE * KILOMETRE * KILOMETRE;
-		/**
-		 * Millilitre
-		 */
+		/// <summary>Millilitre</summary>
 		public const double MILLILITRE = CENTIMETRE3;
-		/**
-		 * Litre
-		 */
+		/// <summary>Litre</summary>
 		public const double LITRE = 1000.0 * MILLILITRE;
-		/**
-		 * Gallon
-		 */
+		/// <summary>Gallon</summary>
 		public const double GALLON = 3.78541178 * LITRE;
-		/**
-		 * Pint
-		 */
+		/// <summary>Pint</summary>
 		public const double PINT = 473.176473 * MILLILITRE;
 
 		/* ===========================================
 		 * Units of time
 		 * ===========================================
 		 */
-		/**
-		 * Second
-		 */
+		/// <summary>Second</summary>
 		public const double SECOND = 1.0;
-		/**
-		 * Millisecond
-		 */
+		/// <summary>Millisecond</summary>
 		public const double MILLISECOND = MILLI * SECOND;
-		/**
-		 * MINUTE
-		 */
+		/// <summary>MINUTE</summary>
 		public const double MINUTE = 60.0 * SECOND;
-		/**
-		 * HOUR
-		 */
+		/// <summary>HOUR</summary>
 		public const double HOUR = 60.0 * MINUTE;
-		/**
-		 * DAY
-		 */
+		/// <summary>DAY</summary>
 		public const double DAY = 24.0 * HOUR;
-		/**
-		 * WEEK
-		 */
+		/// <summary>WEEK</summary>
 		public const double WEEK = 7.0 * DAY;
-		/**
-		 * JULIAN YEAR
-		 */
+		/// <summary>JULIAN YEAR</summary>
 		public const double JULIAN_YEAR = 365.25 * DAY;
 
 		/* ===========================================
 		 * Units of mass
 		 * ===========================================
 		 */
-		/**
-		 * Kilogram
-		 */
+		/// <summary>Kilogram</summary>
 		public const double KILOGRAM = 1.0;
-		/**
-		 * Gram
-		 */
+		/// <summary>Gram</summary>
 		public const double GRAM = 0.001 * KILOGRAM;
-		/**
-		 * Milligram
-		 */
+		/// <summary>Milligram</summary>
 		public const double MILLIGRAM = MILLI * GRAM;
-		/**
-		 * Decagram
-		 */
+		/// <summary>Decagram</summary>
 		public const double DECAGRAM = DECA * GRAM;
-		/**
-		 * Tonne
-		 */
+		/// <summary>Tonne</summary>
 		public const double TONNE = 1000.0 * KILOGRAM;
-		/**
-		 * Ounce
-		 */
+		/// <summary>Ounce</summary>
 		public const double OUNCE = 28.3495231 * GRAM;
-		/**
-		 * Pound
-		 */
+		/// <summary>Pound</summary>
 		public const double POUND = 0.45359237 * KILOGRAM;
 
 		/* ===========================================
@@ -516,208 +391,122 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Units of Charge
 		 * ===========================================
 		 */
-		/**
-		 * Coulomb
-		 */
+		/// <summary>Coulomb</summary>
 		public const double COULOMB = 1.0;
 
-		/**
-		 * Ampere
-		 */
+		/// <summary>Ampere</summary>
 		public const double AMPERE = COULOMB / SECOND;
 
         /* ===========================================
          * Units of Temperature
          * ===========================================
          */
-		/**
-		 * Kelvin
-		 */
+		/// <summary>Kelvin</summary>
 		public const double KELVIN = 1.0;
 
-		/**
-		 * Celcius
-		 */
+		/// <summary>Celcius</summary>
 		public const double CELCIUS = 1.0;
 
-		/**
-		 * Farenheight
-		 */
+		/// <summary>Farenheight</summary>
 		public const double FARENHEIGHT = 1.8;
 
 		/* ===========================================
 		 * Units of information
 		 * ===========================================
 		 */
-		/**
-		 * Bit
-		 */
+		/// <summary>Bit</summary>
 		public const double BIT = 1.0;
-		/**
-		 * Kilobit
-		 */
+		/// <summary>Kilobit</summary>
 		public const double KILOBIT = 1024.0 * BIT;
-		/**
-		 * Megabit
-		 */
+		/// <summary>Megabit</summary>
 		public const double MEGABIT = 1024.0 * KILOBIT;
-		/**
-		 * Gigabit
-		 */
+		/// <summary>Gigabit</summary>
 		public const double GIGABIT = 1024.0 * MEGABIT;
-		/**
-		 * Terabit
-		 */
+		/// <summary>Terabit</summary>
 		public const double TERABIT = 1024.0 * GIGABIT;
-		/**
-		 * Petabit
-		 */
+		/// <summary>Petabit</summary>
 		public const double PETABIT = 1024.0 * TERABIT;
-		/**
-		 * Exabit
-		 */
+		/// <summary>Exabit</summary>
 		public const double EXABIT = 1024.0 * PETABIT;
-		/**
-		 * Zettabit
-		 */
+		/// <summary>Zettabit</summary>
 		public const double ZETTABIT = 1024.0 * EXABIT;
-		/**
-		 * Yottabit
-		 */
+		/// <summary>Yottabit</summary>
 		public const double YOTTABIT = 1024.0 * ZETTABIT;
-		/**
-		 * Byte
-		 */
+		/// <summary>Byte</summary>
 		public const double BYTE = 8.0 * BIT;
-		/**
-		 * Kilobyte
-		 */
+		/// <summary>Kilobyte</summary>
 		public const double KILOBYTE = 1024.0 * BYTE;
-		/**
-		 * Megabyte
-		 */
+		/// <summary>Megabyte</summary>
 		public const double MEGABYTE = 1024.0 * KILOBYTE;
-		/**
-		 * Gigabyte
-		 */
+		/// <summary>Gigabyte</summary>
 		public const double GIGABYTE = 1024.0 * MEGABYTE;
-		/**
-		 * Terabyte
-		 */
+		/// <summary>Terabyte</summary>
 		public const double TERABYTE = 1024.0 * GIGABYTE;
-		/**
-		 * Petabyte
-		 */
+		/// <summary>Petabyte</summary>
 		public const double PETABYTE = 1024.0 * TERABYTE;
-		/**
-		 * Exabyte
-		 */
+		/// <summary>Exabyte</summary>
 		public const double EXABYTE = 1024.0 * PETABYTE;
-		/**
-		 * Zettabyte
-		 */
+		/// <summary>Zettabyte</summary>
 		public const double ZETTABYTE = 1024.0 * EXABYTE;
-		/**
-		 * Yottabyte
-		 */
+		/// <summary>Yottabyte</summary>
 		public const double YOTTABYTE = 1024.0 * ZETTABYTE;
 
 		/* ===========================================
 		 * Units of energy
 		 * ===========================================
 		 */
-		/**
-		 * Jule
-		 */
+		/// <summary>Jule</summary>
 		public const double JOULE = (KILOGRAM * METRE * METRE) / (SECOND * SECOND);
-		/**
-		 * Electrono-Volt
-		 */
+		/// <summary>Electrono-Volt</summary>
 		public const double ELECTRONO_VOLT = 1.6021766208E-19 * JOULE;
-		/**
-		 * Kilo Electrono-Volt
-		 */
+		/// <summary>Kilo Electrono-Volt</summary>
 		public const double KILO_ELECTRONO_VOLT = KILO * ELECTRONO_VOLT;
-		/**
-		 * Mega Electrono-Volt
-		 */
+		/// <summary>Mega Electrono-Volt</summary>
 		public const double MEGA_ELECTRONO_VOLT = MEGA * ELECTRONO_VOLT;
-		/**
-		 * Giga Electrono-Volt
-		 */
+		/// <summary>Giga Electrono-Volt</summary>
 		public const double GIGA_ELECTRONO_VOLT = GIGA * ELECTRONO_VOLT;
-		/**
-		 * Tera Electrono-Volt
-		 */
+		/// <summary>Tera Electrono-Volt</summary>
 		public const double TERA_ELECTRONO_VOLT = TERA * ELECTRONO_VOLT;
 
 		/* ===========================================
 		 * Units of speed
 		 * ===========================================
 		 */
-		/**
-		 * Metre per second
-		 */
+		/// <summary>Metre per second</summary>
 		public const double METRE_PER_SECOND = METRE / SECOND;
-		/**
-		 * Kilometre per hour
-		 */
+		/// <summary>Kilometre per hour</summary>
 		public const double KILOMETRE_PER_HOUR = KILOMETRE / HOUR;
-		/**
-		 * Mile per hour
-		 */
+		/// <summary>Mile per hour</summary>
 		public const double MILE_PER_HOUR = MILE / HOUR;
-		/**
-		 * Knot
-		 */
+		/// <summary>Knot</summary>
 		public const double KNOT = 0.514444444 * METRE / SECOND;
 
 		/* ===========================================
 		 * Units of acceleration
 		 * ===========================================
 		 */
-		/**
-		 * Metre per squared second
-		 */
+		/// <summary>Metre per squared second</summary>
 		public const double METRE_PER_SECOND2 = METRE / (SECOND * SECOND);
-		/**
-		 * Kilometre per squared hour
-		 */
+		/// <summary>Kilometre per squared hour</summary>
 		public const double KILOMETRE_PER_HOUR2 = KILOMETRE / (HOUR * HOUR);
-		/**
-		 * Mile per squared hour
-		 */
+		/// <summary>Mile per squared hour</summary>
 		public const double MILE_PER_HOUR2 = MILE / (HOUR * HOUR);
 
 		/* ===========================================
 		 * Units of angle
 		 * ===========================================
 		 */
-		/**
-		 * Radian (angle)
-		 */
+		/// <summary>Radian (angle)</summary>
 		public const double RADIAN_ARC = 1.0;
-		/**
-		 * Degree (angle)
-		 */
+		/// <summary>Degree (angle)</summary>
 		public const double DEGREE_ARC = (MathConstants.PI / 180.0) * RADIAN_ARC;
-		/**
-		 * Minute (angle)
-		 */
+		/// <summary>Minute (angle)</summary>
 		public const double MINUTE_ARC = DEGREE_ARC / 60.0;
-		/**
-		 * Second (angle)
-		 */
+		/// <summary>Second (angle)</summary>
 		public const double SECOND_ARC = MINUTE_ARC / 60.0;
-		/**
-		 * Returns unit value, where unit is represented by the
-		 * token id in the Unit class
-		 *
-		 * @param unitId
-		 * @return Returns unit value if id is known, otherwise Double.NaN is returned.
-		 *
-		 * @see Unit
-		 */
+		/// <summary>Returns the numeric value of a built-in unit or prefix.</summary>
+		/// <param name="unitId">The token identifier defined by <see cref="org.mariuszgromada.math.mxparser.parsertokens.Unit"/>.</param>
+		/// <returns>The unit or prefix value, or <c>Double.NaN</c> if the identifier is unknown.</returns>
 		public static double getUnitValue(int unitId) {
 			switch (unitId) {
 				case Unit.PERC_ID: return PERC;

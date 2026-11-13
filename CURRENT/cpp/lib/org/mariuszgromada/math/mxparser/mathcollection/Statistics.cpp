@@ -232,20 +232,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser::wrapper;
 	using namespace org::mariuszgromada::math::mxparser;
 
-	/**
-	 * Average from sample function values - iterative operator.
-	 *
-	 * @param      f                   the expression
-	 * @param      index               the name of index argument
-	 * @param      from                FROM index = form
-	 * @param      to                  TO index = to
-	 * @param      delta               BY delta
-	 *
-	 * @return     product operation (for empty product operations returns 1).
-	 *
-	 * @see        Expression
-	 * @see        Argument
-	 */
 	API_VISIBLE double Statistics::avg(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta) {
 		return avgWithCancel(f, index, from, to, delta, 0);
 	}
@@ -286,20 +272,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return sum / n;
 	}
 
-	/**
-	 * Bias-corrected variance from sample function values - iterative operator.
-	 *
-	 * @param      f                   the expression
-	 * @param      index               the name of index argument
-	 * @param      from                FROM index = form
-	 * @param      to                  TO index = to
-	 * @param      delta               BY delta
-	 *
-	 * @return     product operation (for empty product operations returns 1).
-	 *
-	 * @see        Expression
-	 * @see        Argument
-	 */
 	API_VISIBLE double Statistics::var(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta) {
 		return varWithCancel(f, index, from, to, delta, 0);
 	}
@@ -314,20 +286,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return varWithCancel(numbers, cancelId);
 	}
 
-	/**
-	 * Bias-corrected standard deviation from sample function values - iterative operator.
-	 *
-	 * @param      f                   the expression
-	 * @param      index               the name of index argument
-	 * @param      from                FROM index = form
-	 * @param      to                  TO index = to
-	 * @param      delta               BY delta
-	 *
-	 * @return     product operation (for empty product operations returns 1).
-	 *
-	 * @see        Expression
-	 * @see        Argument
-	 */
 	API_VISIBLE double Statistics::std(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta) {
 		return stdWithCancel(f, index, from, to, delta, 0);
 	}
@@ -342,15 +300,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return stdWithCancel(numbers, cancelId);
 	}
 
-	/**
-	 * Sample average.
-	 *
-	 * @param      numbers             the numbers
-	 *
-	 * @return     if each number from numbers &lt;&gt; Double::NaN returns
-	 *             avg(a_1,...,a_n) a_1,...,a_n in numbers,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double Statistics::avg(const ArrayPtr<double> &numbers) {
 		return avgWithCancel(numbers, 0);
 	}
@@ -372,15 +321,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return sum / numbers->length;
 	}
 
-	/**
-	 * Sample variance (biased-corrected).
-	 *
-	 * @param      numbers             the numbers
-	 *
-	 * @return     if each number from numbers &lt;&gt; Double::NaN returns
-	 *             Var(a_1,...,a_n) a_1,...,a_n in numbers,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double Statistics::var(const ArrayPtr<double> &numbers) {
 		return varWithCancel(numbers, 0);
 	}
@@ -406,15 +346,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return sum / (numbers->length - 1);
 	}
 
-	/**
-	 * Sample standard deviation (biased-corrected).
-	 *
-	 * @param      numbers             the numbers
-	 *
-	 * @return     if each number from numbers &lt;&gt; Double::NaN returns
-	 *             Std(a_1,...,a_n) a_1,...,a_n in numbers,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double Statistics::std(const ArrayPtr<double> &numbers) {
 		return stdWithCancel(numbers, 0);
 	}
@@ -432,11 +363,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return MathFunctions::sqrt(varWithCancel(numbers, cancelId));
 	}
 
-	/**
-	 * Sample median
-	 * @param numbers   List of number
-	 * @return          Sample median, if table was empty or nullptr then Double::NaN is returned.
-	 */
 	API_VISIBLE double Statistics::median(const ArrayPtr<double> &numbers) {
 		return medianWithCancel(numbers, 0);
 	}
@@ -463,11 +389,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		}
 	}
 
-	/**
-	 * Sample mode
-	 * @param numbers   List of number
-	 * @return          Sample median, if table was empty or nullptr then Double::NaN is returned.
-	 */
 	API_VISIBLE double Statistics::mode(const ArrayPtr<double> &numbers) {
 		return modeWithCancel(numbers, 0);
 	}

@@ -1,5 +1,5 @@
 /*
- * @(#)StringInvariant.cs        6.1.1    2026-05-16
+ * @(#)StringInvariant.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -219,21 +219,16 @@ using System;
 
 namespace org.mariuszgromada.math.mxparser {
 
-    /**
-     * A class containing definitions of text strings that are invariant with respect to the user's language.
-     *
-     * @author         <b>Mariusz Gromada</b><br>
-     *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-     *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-     *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-     *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-     *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-     *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-     *
-     * @version        6.1.1
-     */
+    /// <summary>A class containing definitions of text strings that are invariant with respect to the user's language.</summary>
+    /// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+    ///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+    ///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+    ///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+    ///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+    ///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+    ///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
     internal sealed class StringInvariant {
         internal const String EMPTY = "";
         internal const String ARGUMENT_DEFINITION_EXAMPLES = "'x', 'x=5', 'x=5+3/2', 'x=2*y', ...";

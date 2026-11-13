@@ -233,31 +233,31 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		BooleanAlgebra() = delete;
 
 		/**
-		 * False as integer
+		 * \brief False as integer
 		 */
 		static constexpr int FALSE = 0;
 		/**
-		 * True as integer
+		 * \brief True as integer
 		 */
 		static constexpr int TRUE = 1;
 		/**
-		 * Null as integer
+		 * \brief Null as integer
 		 */
 		static constexpr int NULLVAL = 2;
 		/**
-		 * False as double
+		 * \brief False as double
 		 */
 		static constexpr double F = 0;
 		/**
-		 * True as double
+		 * \brief True as double
 		 */
 		static constexpr double T = 1;
 		/**
-		 * Null as double
+		 * \brief Null as double
 		 */
 		static constexpr double N = Double::NaN;
 		/**
-		 * AND truth table
+		 * \brief AND truth table
 		 */
 		static inline const double AND_TRUTH_TABLE[3][3] = {
 			/*		  F  T  N */
@@ -266,7 +266,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			/* N */ {F, N, N}
 		};
 		/**
-		 * NAND truth table
+		 * \brief NAND truth table
 		 */
 		static inline const double NAND_TRUTH_TABLE[3][3] = {
 			/*		  F  T  N */
@@ -275,7 +275,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			/* N */ {T, N, N}
 		};
 		/**
-		 * OR truth table
+		 * \brief OR truth table
 		 */
 		static inline const double OR_TRUTH_TABLE[3][3] = {
 			/*		  F  T  N */
@@ -284,7 +284,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			/* N */ {N, T, N}
 		};
 		/**
-		 * NOR truth table
+		 * \brief NOR truth table
 		 */
 		static inline const double NOR_TRUTH_TABLE[3][3] = {
 			/*		  F  T  N */
@@ -293,7 +293,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			/* N */ {N, F, N}
 		};
 		/**
-		 * XOR truth table
+		 * \brief XOR truth table
 		 */
 		static inline const double XOR_TRUTH_TABLE[3][3] = {
 			/*		  F  T  N */
@@ -302,7 +302,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			/* N */ {N, N, N}
 		};
 		/**
-		 * XNOR truth table
+		 * \brief XNOR truth table
 		 */
 		static inline const double XNOR_TRUTH_TABLE[3][3] = {
 			/*		  F  T  N */
@@ -311,7 +311,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			/* N */ {N, N, N}
 		};
 		/**
-		 * IMP truth table
+		 * \brief IMP truth table
 		 */
 		static inline const double IMP_TRUTH_TABLE[3][3] = {
 			/*		  F  T  N */
@@ -320,7 +320,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			/* N */ {N, T, N}
 		};
 		/**
-		 * CIMP truth table
+		 * \brief CIMP truth table
 		 */
 		static inline const double CIMP_TRUTH_TABLE[3][3] = {
 			/*		  F  T  N */
@@ -329,7 +329,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			/* N */ {T, N, N}
 		};
 		/**
-		 * EQV truth table
+		 * \brief EQV truth table
 		 */
 		static inline const double EQV_TRUTH_TABLE[3][3] = {
 			/*		  F  T  N */
@@ -338,7 +338,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			/* N */ {N, N, N}
 		};
 		/**
-		 * NIMP truth table
+		 * \brief NIMP truth table
 		 */
 		static inline const double NIMP_TRUTH_TABLE[3][3] = {
 			/*		  F  T  N */
@@ -347,7 +347,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			/* N */ {N, F, N}
 		};
 		/**
-		 * CNIMP truth table
+		 * \brief CNIMP truth table
 		 */
 		static inline const double CNIMP_TRUTH_TABLE[3][3] = {
 			/*		  F  T  N */
@@ -356,42 +356,137 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			/* N */ {F, N, N}
 		};
 		/**
-		 * NOT truth table
+		 * \brief NOT truth table
 		 */
 		static inline const double NOT_TRUTH_TABLE[3] = {
 			/* F  T  N	*/
 			T, F, N
 		};
 
+		/**
+		 * \brief Double to integer boolean translation
+		 * \param a                   the double number
+		 * \return If a = Double.NaN return NULL,
+		 *             else if a &lt;&gt; 0 return TRUE,
+		 *             else return FALSE.
+		 */
 		static int double2IntBoolean(double a);
 
+		/**
+		 * \brief Boolean AND
+		 * \param a                   the a number (a AND b)
+		 * \param b                   the b number (a AND b)
+		 * \return Truth table element AND[A][B] where A = double2IntBoolean(a), B = double2IntBoolean(b)
+		 */
 		static double and_(double a, double b);
 
+		/**
+		 * \brief Boolean OR
+		 * \param a                   the a number (a OR b)
+		 * \param b                   the b number (a OR b)
+		 * \return Truth table element OR[A][B]
+		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
+		 */
 		static double or_(double a, double b);
 
+		/**
+		 * \brief Boolean XOR
+		 * \param a                   the a number (a XOR b)
+		 * \param b                   the b number (a XOR b)
+		 * \return Truth table element XOR[A][B]
+		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
+		 */
 		static double xor_(double a, double b);
 
+		/**
+		 * \brief Boolean NAND
+		 * \param a                   the a number (a NAND b)
+		 * \param b                   the b number (a NAND b)
+		 * \return Truth table element NAND[A][B]
+		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
+		 */
 		static double nand(double a, double b);
 
+		/**
+		 * \brief Boolean NOR
+		 * \param a                   the a number (a NOR b)
+		 * \param b                   the b number (a NOR b)
+		 * \return Truth table element NOR[A][B]
+		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
+		 */
 		static double nor(double a, double b);
 
+		/**
+		 * \brief Boolean XNOR
+		 * \param a                   the a number (a XNOR b)
+		 * \param b                   the b number (a XNOR b)
+		 * \return Truth table element XNOR[A][B]
+		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
+		 */
 		static double xnor(double a, double b);
 
+		/**
+		 * \brief Boolean IMP
+		 * \param a                   the a number (a IMP b)
+		 * \param b                   the b number (a IMP b)
+		 * \return Truth table element IMP[A][B]
+		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
+		 */
 		static double imp(double a, double b);
 
+		/**
+		 * \brief Boolean EQV
+		 * \param a                   the a number (a EQV b)
+		 * \param b                   the b number (a EQV b)
+		 * \return Truth table element EQV[A][B]
+		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
+		 */
 		static double eqv(double a, double b);
 
+		/**
+		 * \brief Boolean NOT
+		 * \param a                   the a number (NOT a)
+		 * \return Truth table element NOT[A]
+		 *             where A = double2IntBoolean(a)
+		 */
 		static double not_(double a);
 
+		/**
+		 * \brief Boolean CIMP
+		 * \param a                   the a number (a CIMP b)
+		 * \param b                   the b number (a CIMP b)
+		 * \return Truth table element CIMP[A][B]
+		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
+		 */
 		static double cimp(double a, double b);
 
+		/**
+		 * \brief Boolean NIMP
+		 * \param a                   the a number (a NIMP b)
+		 * \param b                   the b number (a NIMP b)
+		 * \return Truth table element NIMP[A][B]
+		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
+		 */
 		static double nimp(double a, double b);
 
+		/**
+		 * \brief Boolean CNIMP
+		 * \param a                   the a number (a CNIMP b)
+		 * \param b                   the b number (a CNIMP b)
+		 * \return Truth table element CNIMP[A][B]
+		 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
+		 */
 		static double cnimp(double a, double b);
 
+		/**
+		 * \brief Boolean AND variadic
+		 * \param values   List of values
+		 * \return Returns BooleanAlgebra.TRUE if all values on the list are BooleanAlgebra.TURE,
+		 *           otherwise returns BooleanAlgebra.FALSE
+		 */
 		static double andVariadic(const ArrayPtr<double> &values);
 		/**
-		 * Boolean AND variadic
+		 * \brief Boolean AND variadic
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -399,29 +494,35 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
 		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param values   List of values
-		 * @return   Returns BooleanAlgebra.TRUE if all values on the list are BooleanAlgebra.TURE,
+		 * \param values   List of values
+		 * \return Returns BooleanAlgebra.TRUE if all values on the list are BooleanAlgebra.TURE,
 		 *           otherwise returns BooleanAlgebra.FALSE
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see andVariadic(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::BooleanAlgebra::andVariadic(const ArrayPtr< double > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double andVariadicWithCancel(const ArrayPtr<double> &values, int cancelId);
 
+		/**
+		 * \brief Boolean OR variadic
+		 * \param values   List of values
+		 * \return Returns BooleanAlgebra.TRUE if at least one value on the list is BooleanAlgebra.TURE,
+		 *           otherwise returns BooleanAlgebra.FALSE
+		 */
 		static double orVariadic(const ArrayPtr<double> &values);
 		/**
-		 * Boolean OR variadic
+		 * \brief Boolean OR variadic
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -429,29 +530,35 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
 		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param values   List of values
-		 * @return   Returns BooleanAlgebra.TRUE if at least one value on the list is BooleanAlgebra.TURE,
+		 * \param values   List of values
+		 * \return Returns BooleanAlgebra.TRUE if at least one value on the list is BooleanAlgebra.TURE,
 		 *           otherwise returns BooleanAlgebra.FALSE
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see orVariadic(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::BooleanAlgebra::orVariadic(const ArrayPtr< double > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double orVariadicWithCancel(const ArrayPtr<double> &values, int cancelId);
 
+		/**
+		 * \brief Boolean XOR variadic
+		 * \param values   List of values
+		 * \return Returns BooleanAlgebra.TRUE if exactly one value on the list is BooleanAlgebra.TURE,
+		 *           otherwise returns BooleanAlgebra.FALSE
+		 */
 		static double xorVariadic(const ArrayPtr<double> &values);
 		/**
-		 * Boolean XOR variadic
+		 * \brief Boolean XOR variadic
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -459,23 +566,23 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
 		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param values   List of values
-		 * @return   Returns BooleanAlgebra.TRUE if exactly one value on the list is BooleanAlgebra.TURE,
+		 * \param values   List of values
+		 * \return Returns BooleanAlgebra.TRUE if exactly one value on the list is BooleanAlgebra.TURE,
 		 *           otherwise returns BooleanAlgebra.FALSE
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see xorVariadic(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::BooleanAlgebra::xorVariadic(const ArrayPtr< double > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double xorVariadicWithCancel(const ArrayPtr<double> &values, int cancelId);
 	};

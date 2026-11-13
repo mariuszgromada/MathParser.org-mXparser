@@ -1,5 +1,5 @@
 /*
- * @(#)CalcStepsRegister.cs        6.1.0    2024-10-06
+ * @(#)CalcStepsRegister.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -220,69 +220,47 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace org.mariuszgromada.math.mxparser {
-    /**
-     * Calculation is a multistep process and this class
-     * provides a register to store all the steps, also
-     * done in a recursive way.
-     *
-     * @author         <b>Mariusz Gromada</b><br>
-     *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-     *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-     *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-     *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-     *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-     *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-     *
-     * @version        6.1.0
-     *
-     * @see CalcStepRecord
-     * @see Expression
-     * @see Argument
-     * @see Function
-     */
+    /// <summary>Calculation is a multistep process and this class
+    /// provides a register to store all the steps, also
+    /// done in a recursive way.</summary>
+    /// <seealso cref="org.mariuszgromada.math.mxparser.CalcStepRecord"/>
+    /// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+    /// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+    /// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
+    /// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+    ///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+    ///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+    ///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+    ///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+    ///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+    ///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
     [CLSCompliant(true), Serializable]
     public class CalcStepsRegister {
-        /**
-         * List that stores all the calculation steps
-         */
+        /// <summary>List that stores all the calculation steps</summary>
         public List<CalcStepRecord> calcStepRecords = new List<CalcStepRecord>();
-        /**
-         * If a root of the calculation tree is an argument
-         * then argument name is provided here
-         */
+        /// <summary>If a root of the calculation tree is an argument
+        /// then argument name is provided here</summary>
         public String argumentNameStart = StringInvariant.EMPTY;
-        /**
-         * If a root of the calculation tree is a function
-         * then function name is provided here
-         */
+        /// <summary>If a root of the calculation tree is a function
+        /// then function name is provided here</summary>
         public String functionNameStart = StringInvariant.EMPTY;
-        /**
-         * 1. If a root of the calculation tree is an expression
-         * then expression string is provided here.
-         * 2. If a root of the calculation tree is an argument
-         * then argument expression string is provided here.
-         * 3. If a root of the calculation tree is a function
-         * then function expression string is provided here.
-         */
+        /// <summary>1. If a root of the calculation tree is an expression
+        /// then expression string is provided here.
+        /// 2. If a root of the calculation tree is an argument
+        /// then argument expression string is provided here.
+        /// 3. If a root of the calculation tree is a function
+        /// then function expression string is provided here.</summary>
         public String expressionStringStart = StringInvariant.EMPTY;
-        /**
-         * Final result of calculation
-         */
+        /// <summary>Final result of calculation</summary>
         public double result = Double.NaN;
-        /**
-         * Duration of calculation process - in seconds
-         */
+        /// <summary>Duration of calculation process - in seconds</summary>
         public double computingTime = Double.NaN;
-        /**
-         * Information on error or lack of error
-         * while performing calculation process
-         */
+        /// <summary>Information on error or lack of error
+        /// while performing calculation process</summary>
         public String errorMessage = StringInvariant.EMPTY;
-        /**
-         * Prints this step register to the console.
-         */
+        /// <summary>Prints this step register to the console.</summary>
         public void consolePrint() {
             consolePrint(this);
         }
@@ -318,6 +296,8 @@ namespace org.mariuszgromada.math.mxparser {
                 );
             mXparser.consolePrintln(StringModel.STRING_RESOURCES.COMPUTING_TIME + StringInvariant.SPACE_EQUAL_SPACE + calcStepsRegister.computingTime + " s.");
         }
+        /// <summary>Returns a localized text report of the recorded calculation steps.</summary>
+        /// <returns>The report, or a localized message if the register is empty.</returns>
         public override String ToString() {
             return toString(this);
         }

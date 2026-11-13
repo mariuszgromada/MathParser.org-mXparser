@@ -1,5 +1,5 @@
 /*
- * @(#)KeyWord.cpp        6.1.0    2024-10-06
+ * @(#)KeyWord.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -238,17 +238,6 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		since = ParserSymbol::EMPTY;
 	}
 
-	/**
-	 * Constructor - creates key words form wordString wordId
-	 * wordTypId syntax since
-	 *
-	 * @param wordString   the word string (refers to below interfaces)
-	 * @param wordId       the word identifier (refers to below interfaces)
-	 * @param wordTypeId   the word type (refers to below interfaces)
-	 * @param description  the word description
-	 * @param syntax       the word syntax
-	 * @param since        the word version since
-	 */
 	API_VISIBLE KeyWord::KeyWord(const StringPtr &wordString, const StringPtr &description, int wordId, const StringPtr &syntax,
 	                 const StringPtr &since, int wordTypeId) {
 		this->wordString = wordString;
@@ -259,19 +248,6 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		this->since = since;
 	}
 
-	/**
-	 * Checks whether the specified keyword is in the form of a function.
-	 *
-	 * @param kw Provided key word.
-	 * @return True in case kw is Function1Arg, Function2Arg, Function3Arg, FunctionVariadic, Function, RecursiveArgument
-	 *         otherwise returns false.
-	 * @see Function1Arg
-	 * @see Function2Arg
-	 * @see Function3Arg
-	 * @see FunctionVariadic
-	 * @see Function
-	 * @see RecursiveArgument
-	 */
 	API_VISIBLE bool KeyWord::isFunctionForm(const KeyWordPtr &kw) {
 		if (kw == nullptr) return false;
 		switch (kw->wordTypeId) {

@@ -233,81 +233,227 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		ProbabilityDistributions() = delete;
 
 		/**
-		 * Random number generator
+		 * \brief Random number generator
 		 */
 		static RandomPtr randomGenerator;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Random number from Uniform Continuous distribution over interval [a, b).
+		 * \param a       Interval limit - left / lower.
+		 * \param b       Interval limit - right / upper.
+		 * \param rnd     Random number generator.
+		 * \return Double.NaN if a or b is null, or b is lower than a -
+		 *                otherwise returns random number.
+		 */
 		static double rndUniformContinuous(double a, double b, const RandomPtr &rnd);
+		/**
+		 * \brief Random number from dUniform Continuous distribution over interval [a, b).
+		 * \param a       Interval limit - left / lower.
+		 * \param b       Interval limit - right / upper.
+		 * \return Double.NaN if a or b is null, or b is lower than a -
+		 *                otherwise returns random number.
+		 */
 		static double rndUniformContinuous(double a, double b);
+		/**
+		 * \brief Random number from Uniform Continuous distribution over interval [0, 1).
+		 * \param rnd     Random number generator.
+		 * \return Random number.
+		 */
 		static double rndUniformContinuous(const RandomPtr &rnd);
+		/**
+		 * \brief Random number from Uniform Continuous distribution over interval [0, 1).
+		 * \return Random number.
+		 */
 		static double randomUniformContinuous();
 
 		// ***********************************************************
 
+		/**
+		 * \brief PDF - Probability Distribution Function - Uniform Continuous distribution
+		 * over interval [a, b).
+		 * \param x       Point to evaluate pdf function.
+		 * \param a       Interval limit - left / lower.
+		 * \param b       Interval limit - right / upper.
+		 * \return Double.NaN if a or b is null, or b is lower than a -
+		 *                otherwise function value.
+		 */
 		static double pdfUniformContinuous(double x, double a, double b);
+		/**
+		 * \brief CDF - Cumulative Distribution Function - Uniform Continuous distribution
+		 * over interval [a, b).
+		 * \param x       Point to evaluate cdf function.
+		 * \param a       Interval limit - left / lower.
+		 * \param b       Interval limit - right / upper.
+		 * \return Double.NaN if a or b is null, or b is lower than a -
+		 *                otherwise function value.
+		 */
 		static double cdfUniformContinuous(double x, double a, double b);
+		/**
+		 * \brief QNT - Quantile Function - Uniform Continuous distribution over interval [a, b).
+		 * (Inverse of Cumulative Distribution Function).
+		 * \param q       Quantile.
+		 * \param a       Interval limit - left / lower.
+		 * \param b       Interval limit - right / upper.
+		 * \return Double.NaN if a or b is null, or b is lower than a
+		 *                or q is lower than 0 or q is greater than 1 -
+		 *                otherwise function value.
+		 */
 		static double qntUniformContinuous(double q, double a, double b);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Random number from Uniform Discrete distribution.
+		 * over set interval (a, a+1, ..., b-1, b).
+		 * \param a       Interval limit - left / lower.
+		 * \param b       Interval limit - right / upper.
+		 * \param rnd     Random number generator.
+		 * \return Double.NaN if a or b is null, or b is lower than a -
+		 *                otherwise returns random number.
+		 */
 		static double rndInteger(int a, int b, const RandomPtr &rnd);
+		/**
+		 * \brief Random number from Uniform Discrete distribution.
+		 * over set interval (a, a+1, ..., b-1, b).
+		 * \param a       Interval limit - left / lower.
+		 * \param b       Interval limit - right / upper.
+		 * \param rnd     Random number generator.
+		 * \return Double.NaN if a or b is null, or b is lower than a -
+		 *                otherwise returns random number.
+		 */
 		static double rndInteger(double a, double b, const RandomPtr &rnd);
+		/**
+		 * \brief Random number from Uniform Discrete distribution.
+		 * over set interval (a, a+1, ..., b-1, b).
+		 * \param a       Interval limit - left / lower.
+		 * \param b       Interval limit - right / upper.
+		 * \return Double.NaN if a or b is null, or b is lower than a -
+		 *                otherwise returns random number.
+		 */
 		static double rndInteger(int a, int b);
+		/**
+		 * \brief Random integer.
+		 * \param rnd     Random number generator.
+		 * \return Returns random number.
+		 */
 		static double rndInteger(const RandomPtr &rnd);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Random index from 0 to n-1,
+		 * \param n          Bound.
+		 * \param rnd        Random number generator.
+		 * \return if n &lt; 0 returns -1, otherwise random index.
+		 */
 		static int rndIndex(int n, const RandomPtr &rnd);
+		/**
+		 * \brief Random index from 0 to n-1,
+		 * \param n          Bound.
+		 * \return if n &lt; 0 returns -1, otherwise random index.
+		 */
 		static int rndIndex(int n);
+		/**
+		 * \brief Random integer.
+		 * \return Double.NaN if a or b is null, or b is lower than a -
+		 *                otherwise returns random number.
+		 */
 		static double rndInteger();
 
 		// ***********************************************************
 
+		/**
+		 * \brief Random number from normal distribution N(mean, stddev).
+		 * \param mean              Mean value.
+		 * \param stddev            Standard deviation.
+		 * \param rnd               Random number generator.
+		 * \return Double.NaN if mean or stddev or rnd is null or stddev is lower than 0 -
+		 *                          otherwise random number.
+		 */
 		static double rndNormal(double mean, double stddev, const RandomPtr &rnd);
 		/**
-		 * Random number from normal distribution N(mean, stddev).
+		 * \brief Random number from normal distribution N(mean, stddev).
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param mean              Mean value.
-		 * @param stddev            Standard deviation.
-		 * @param rnd               Random number generator.
-		 * @return                  Double::NaN if mean or stddev or rnd is null or stddev is lower than 0 -
+		 * \param mean              Mean value.
+		 * \param stddev            Standard deviation.
+		 * \param rnd               Random number generator.
+		 * \return Double.NaN if mean or stddev or rnd is null or stddev is lower than 0 -
 		 *                          otherwise random number.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see rndNormal(double,double,RandomPtr)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::ProbabilityDistributions::rndNormal
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double rndNormalWithCancel(double mean, double stddev, const RandomPtr &rnd, int cancelId);
+		/**
+		 * \brief Random number from normal distribution N(mean, stddev).
+		 * \param mean              Mean value.
+		 * \param stddev            Standard deviation.
+		 * \return Double.NaN if mean or stddev is null or stddev is lower than 0 -
+		 *                          otherwise random number.
+		 */
 		static double rndNormal(double mean, double stddev);
 
 		// ***********************************************************
 
+		/**
+		 * \brief PDF - Probability Distribution Function - Normal distribution N(mean, stddev).
+		 * \param x                 Point to evaluate pdf function.
+		 * \param mean              Mean value.
+		 * \param stddev            Standard deviation.
+		 * \return Double.NaN if mean or stddev is null or stddev is lower than 0 -
+		 *                          otherwise function value.
+		 */
 		static double pdfNormal(double x, double mean, double stddev);
+		/**
+		 * \brief CDF - Cumulative Distribution Function - Normal distribution N(mean, stddev).
+		 * \param x                 Point to evaluate pdf function.
+		 * \param mean              Mean value.
+		 * \param stddev            Standard deviation.
+		 * \return Double.NaN if mean or stddev is null or stddev is lower than 0 -
+		 *                          otherwise function value.
+		 */
 		static double cdfNormal(double x, double mean, double stddev);
+		/**
+		 * \brief QNT - Quantile Function - Normal distribution N(mean, stddev).
+		 * (Inverse of Cumulative Distribution Function).
+		 * \param q                 Quantile.
+		 * \param mean              Mean value.
+		 * \param stddev            Standard deviation.
+		 * \return Double.NaN if mean or stddev is null or stddev is lower than 0
+		 *                          or q is lower than 0 or q is greater than 1 -
+		 *                          otherwise function value.
+		 */
 		static double qntNormal(double q, double mean, double stddev);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Probability distribution function - Student's t-distribution
+		 * \param x   Given point.
+		 * \param v   Number of degrees of freedom.
+		 * \return Returns the PDF of Student's t-distribution.
+		 */
 		static double pdfStudentT(double x, double v);
 		/**
-		 * Probability distribution function - Student's t-distribution
+		 * \brief Probability distribution function - Student's t-distribution
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -318,23 +464,29 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param x   Given point.
-		 * @param v   Number of degrees of freedom.
-		 * @return    Returns the PDF of Student's t-distribution.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see pdfStudentT(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param x   Given point.
+		 * \param v   Number of degrees of freedom.
+		 * \return Returns the PDF of Student's t-distribution.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::ProbabilityDistributions::pdfStudentT(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double pdfStudentTWithCancel(double x, double v, int cancelId);
+		/**
+		 * \brief Cumulative distribution function - Student's t-distribution
+		 * \param x   Given point.
+		 * \param v   Number of degrees of freedom.
+		 * \return Returns the CDF of Student's t-distribution.
+		 */
 		static double cdfStudentT(double x, double v);
 		/**
-		 * Cumulative distribution function - Student's t-distribution
+		 * \brief Cumulative distribution function - Student's t-distribution
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -345,23 +497,30 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param x   Given point.
-		 * @param v   Number of degrees of freedom.
-		 * @return    Returns the CDF of Student's t-distribution.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see cdfStudentT(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param x   Given point.
+		 * \param v   Number of degrees of freedom.
+		 * \return Returns the CDF of Student's t-distribution.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::ProbabilityDistributions::cdfStudentT(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double cdfStudentTWithCancel(double x, double v, int cancelId);
+		/**
+		 * \brief Quantile function (Inverse cumulative distribution function)
+		 * - Student's t-distribution
+		 * \param p   Probability
+		 * \param v   Number of degrees of freedom.
+		 * \return Returns the quantile of Student's t-distribution
+		 */
 		static double qntStudentT(double p, double v);
 		/**
-		 * Quantile function (Inverse cumulative distribution function)
+		 * \brief Quantile function (Inverse cumulative distribution function)
 		 * - Student's t-distribution
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
@@ -373,23 +532,28 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param p   Probability
-		 * @param v   Number of degrees of freedom.
-		 * @return    Returns the quantile of Student's t-distribution
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see qntStudentT(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param p   Probability
+		 * \param v   Number of degrees of freedom.
+		 * \return Returns the quantile of Student's t-distribution
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::ProbabilityDistributions::qntStudentT(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double qntStudentTWithCancel(double p, double v, int cancelId);
+		/**
+		 * \brief Pseudo-random number from Student's t-distribution
+		 * \param v   Number of degrees of freedom.
+		 * \return returns Pseudo-random number from Student's t-distribution
+		 */
 		static double rndStudentT(double v);
 		/**
-		 * Pseudo-random number from Student's t-distribution
+		 * \brief Pseudo-random number from Student's t-distribution
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -400,25 +564,31 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param v   Number of degrees of freedom.
-		 * @return    returns Pseudo-random number from Student's t-distribution
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see rndStudentT(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param v   Number of degrees of freedom.
+		 * \return returns Pseudo-random number from Student's t-distribution
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::ProbabilityDistributions::rndStudentT(double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double rndStudentTWithCancel(double v, int cancelId);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Probability distribution function - Chi-Squared distribution
+		 * \param x   Given point.
+		 * \param k   Number of degrees of freedom.
+		 * \return Returns the PDF of Chi-Squared t-distribution.
+		 */
 		static double pdfChiSquared(double x, double k);
 		/**
-		 * Probability distribution function - Chi-Squared distribution
+		 * \brief Probability distribution function - Chi-Squared distribution
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -429,23 +599,29 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param x   Given point.
-		 * @param k   Number of degrees of freedom.
-		 * @return    Returns the PDF of Chi-Squared t-distribution.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see pdfChiSquared(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param x   Given point.
+		 * \param k   Number of degrees of freedom.
+		 * \return Returns the PDF of Chi-Squared t-distribution.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::ProbabilityDistributions::pdfChiSquared(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double pdfChiSquaredWithCancel(double x, double k, int cancelId);
+		/**
+		 * \brief Cumulative distribution function - Chi-Squared distribution
+		 * \param x   Given point.
+		 * \param k   Number of degrees of freedom.
+		 * \return Returns the CDF of Chi-Squared distribution.
+		 */
 		static double cdfChiSquared(double x, double k);
 		/**
-		 * Cumulative distribution function - Chi-Squared distribution
+		 * \brief Cumulative distribution function - Chi-Squared distribution
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -456,23 +632,30 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param x   Given point.
-		 * @param k   Number of degrees of freedom.
-		 * @return    Returns the CDF of Chi-Squared distribution.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see cdfChiSquared(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param x   Given point.
+		 * \param k   Number of degrees of freedom.
+		 * \return Returns the CDF of Chi-Squared distribution.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::ProbabilityDistributions::cdfChiSquared(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double cdfChiSquaredWithCancel(double x, double k, int cancelId);
+		/**
+		 * \brief Quantile function (Inverse cumulative distribution function)
+		 * - Chi-Squared distribution
+		 * \param p   Probability
+		 * \param k   Number of degrees of freedom.
+		 * \return Returns the quantile of Chi-Squared distribution
+		 */
 		static double qntChiSquared(double p, double k);
 		/**
-		 * Quantile function (Inverse cumulative distribution function)
+		 * \brief Quantile function (Inverse cumulative distribution function)
 		 * - Chi-Squared distribution
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
@@ -484,23 +667,28 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param p   Probability
-		 * @param k   Number of degrees of freedom.
-		 * @return    Returns the quantile of Chi-Squared distribution
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see qntChiSquared(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param p   Probability
+		 * \param k   Number of degrees of freedom.
+		 * \return Returns the quantile of Chi-Squared distribution
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::ProbabilityDistributions::qntChiSquared(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double qntChiSquaredWithCancel(double p, double k, int cancelId);
+		/**
+		 * \brief Pseudo-random number from Chi-Squared distribution
+		 * \param k   Number of degrees of freedom.
+		 * \return returns Pseudo-random number from Chi-Squared distribution
+		 */
 		static double rndChiSquared(double k);
 		/**
-		 * Pseudo-random number from Chi-Squared distribution
+		 * \brief Pseudo-random number from Chi-Squared distribution
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -511,25 +699,34 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param k   Number of degrees of freedom.
-		 * @return    returns Pseudo-random number from Chi-Squared distribution
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see rndChiSquared(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param k   Number of degrees of freedom.
+		 * \return returns Pseudo-random number from Chi-Squared distribution
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::ProbabilityDistributions::rndChiSquared(double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double rndChiSquaredWithCancel(double k, int cancelId);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Probability distribution function - Snedecor's F distribution (F-distribution or F-ratio,
+		 * also known as Fisher–Snedecor distribution)
+		 * \param x     Real value
+		 * \param d1    Number of degrees of freedom - 1
+		 * \param d2    Number of degrees of freedom - 2
+		 * \return Returns the PDF of Snedecor's F distribution (F-distribution or F-ratio,
+		 * also known as Fisher–Snedecor distribution)
+		 */
 		static double pdfSnedecordF(double x, double d1, double d2);
 		/**
-		 * Probability distribution function - Snedecor's F distribution (F-distribution or F-ratio,
+		 * \brief Probability distribution function - Snedecor's F distribution (F-distribution or F-ratio,
 		 * also known as Fisher–Snedecor distribution)
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
@@ -541,25 +738,34 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param x     Real value
-		 * @param d1    Number of degrees of freedom - 1
-		 * @param d2    Number of degrees of freedom - 2
-		 * @return      Returns the PDF of Snedecor's F distribution (F-distribution or F-ratio,
+		 * \param x     Real value
+		 * \param d1    Number of degrees of freedom - 1
+		 * \param d2    Number of degrees of freedom - 2
+		 * \return Returns the PDF of Snedecor's F distribution (F-distribution or F-ratio,
 		 * also known as Fisher–Snedecor distribution)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see pdfSnedecordF(double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::ProbabilityDistributions::pdfSnedecordF(double,double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double pdfSnedecordFWithCancel(double x, double d1, double d2, int cancelId);
+		/**
+		 * \brief Cumulative distribution function - Snedecor's F distribution (F-distribution or F-ratio,
+		 * also known as Fisher–Snedecor distribution)
+		 * \param x     Real value
+		 * \param d1    Number of degrees of freedom - 1
+		 * \param d2    Number of degrees of freedom - 2
+		 * \return Returns the CDF of Snedecor's F distribution (F-distribution or F-ratio,
+		 *              also known as Fisher–Snedecor distribution)
+		 */
 		static double cdfSnedecordF(double x, double d1, double d2);
 		/**
-		 * Cumulative distribution function - Snedecor's F distribution (F-distribution or F-ratio,
+		 * \brief Cumulative distribution function - Snedecor's F distribution (F-distribution or F-ratio,
 		 * also known as Fisher–Snedecor distribution)
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
@@ -571,25 +777,34 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param x     Real value
-		 * @param d1    Number of degrees of freedom - 1
-		 * @param d2    Number of degrees of freedom - 2
-		 * @return      Returns the CDF of Snedecor's F distribution (F-distribution or F-ratio,
+		 * \param x     Real value
+		 * \param d1    Number of degrees of freedom - 1
+		 * \param d2    Number of degrees of freedom - 2
+		 * \return Returns the CDF of Snedecor's F distribution (F-distribution or F-ratio,
 		 *              also known as Fisher–Snedecor distribution)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see cdfSnedecordF(double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::ProbabilityDistributions::cdfSnedecordF(double,double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double cdfSnedecordFWithCancel(double x, double d1, double d2, int cancelId);
+		/**
+		 * \brief Quantile function (Inverse cumulative distribution function) - Snedecor's F distribution (F-distribution
+		 * or F-ratio, also known as Fisher–Snedecor distribution)
+		 * \param p     Probability
+		 * \param d1    Number of degrees of freedom - 1
+		 * \param d2    Number of degrees of freedom - 2
+		 * \return Returns the quantile of Snedecor's F distribution (F-distribution or F-ratio,
+		 *              also known as Fisher–Snedecor distribution)
+		 */
 		static double qntSnedecordF(double p, double d1, double d2);
 		/**
-		 * Quantile function (Inverse cumulative distribution function) - Snedecor's F distribution (F-distribution
+		 * \brief Quantile function (Inverse cumulative distribution function) - Snedecor's F distribution (F-distribution
 		 * or F-ratio, also known as Fisher–Snedecor distribution)
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
@@ -601,25 +816,33 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param p     Probability
-		 * @param d1    Number of degrees of freedom - 1
-		 * @param d2    Number of degrees of freedom - 2
-		 * @return      Returns the quantile of Snedecor's F distribution (F-distribution or F-ratio,
+		 * \param p     Probability
+		 * \param d1    Number of degrees of freedom - 1
+		 * \param d2    Number of degrees of freedom - 2
+		 * \return Returns the quantile of Snedecor's F distribution (F-distribution or F-ratio,
 		 *              also known as Fisher–Snedecor distribution)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see qntSnedecordF(double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::ProbabilityDistributions::qntSnedecordF(double,double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double qntSnedecordFWithCancel(double p, double d1, double d2, int cancelId);
+		/**
+		 * \brief Pseudo-random number from Snedecor's F distribution (F-distribution or F-ratio,
+		 * also known as Fisher–Snedecor distribution)
+		 * \param d1    Number of degrees of freedom - 1
+		 * \param d2    Number of degrees of freedom - 2
+		 * \return Returns Pseudo-random number from Snedecor's F distribution (F-distribution
+		 *              or F-ratio, also known as Fisher–Snedecor distribution)
+		 */
 		static double rndSnedecordF(double d1, double d2);
 		/**
-		 * Pseudo-random number from Snedecor's F distribution (F-distribution or F-ratio,
+		 * \brief Pseudo-random number from Snedecor's F distribution (F-distribution or F-ratio,
 		 * also known as Fisher–Snedecor distribution)
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
@@ -631,27 +854,34 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param d1    Number of degrees of freedom - 1
-		 * @param d2    Number of degrees of freedom - 2
-		 * @return      Returns Pseudo-random number from Snedecor's F distribution (F-distribution
+		 * \param d1    Number of degrees of freedom - 1
+		 * \param d2    Number of degrees of freedom - 2
+		 * \return Returns Pseudo-random number from Snedecor's F distribution (F-distribution
 		 *              or F-ratio, also known as Fisher–Snedecor distribution)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see rndSnedecordF(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::ProbabilityDistributions::rndSnedecordF(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double rndSnedecordFWithCancel(double d1, double d2, int cancelId);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Returns random variable value, where random variable is represented by the
+		 * token id in the RandomVariable class
+		 * \param randomVariableId Please refer to RandomVariable class.
+		 * \return Returns random variable value if id is known, otherwise Double.NaN is returned.
+		 * \sa org::mariuszgromada::math::mxparser::parsertokens::RandomVariable
+		 */
 		static double getRandomVariableValue(int randomVariableId);
 		/**
-		 * Returns random variable value, where random variable is represented by the
+		 * \brief Returns random variable value, where random variable is represented by the
 		 * token id in the RandomVariable class
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
@@ -663,19 +893,18 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param randomVariableId Please refer to RandomVariable class.
-		 * @return Returns random variable value if id is known, otherwise Double::NaN is returned.
-		 *
-		 * @see RandomVariable
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see getRandomVariableValue(int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param randomVariableId Please refer to RandomVariable class.
+		 * \return Returns random variable value if id is known, otherwise Double.NaN is returned.
+		 * \sa org::mariuszgromada::math::mxparser::parsertokens::RandomVariable
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::ProbabilityDistributions::getRandomVariableValue(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double getRandomVariableValueWithCancel(int randomVariableId, int cancelId);
 

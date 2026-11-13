@@ -1,5 +1,5 @@
 /*
- * @(#)BinaryRelations.cpp        6.1.0    2024-10-06
+ * @(#)BinaryRelations.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -228,80 +228,34 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser::wrapper;
 
 
-	/**
-	 * Sets comparison mode to EXACT.
-	 */
 	API_VISIBLE void BinaryRelations::setExactComparison() {
 		epsilonComparison = false;
 	}
 
-	/**
-	 * Sets comparison mode to EPSILON.
-	 */
 	API_VISIBLE void BinaryRelations::setEpsilonComparison() {
 		epsilonComparison = true;
 	}
 
-	/**
-	 * Sets epsilon value.
-	 * @param epsilon   Epsilon value (grater than 0).
-	 *
-	 * @see #setEpsilonComparison()
-	 */
 	API_VISIBLE void BinaryRelations::setEpsilon(double epsilon) {
 		if (epsilon > 0) BinaryRelations::epsilon = epsilon;
 	}
 
-	/**
-	 * Sets default epsilon value.
-	 *
-	 * @see #setEpsilonComparison()
-	 * @see #DEFAULT_COMPARISON_EPSILON
-	 */
 	API_VISIBLE void BinaryRelations::setDefaultEpsilon() {
 		epsilon = DEFAULT_COMPARISON_EPSILON;
 	}
 
-	/**
-	 * Returns current epsilon value.
-	 * @return  Returns current epsilon value.
-	 *
-	 * @see #setEpsilonComparison()
-	 */
 	API_VISIBLE double BinaryRelations::getEpsilon() {
 		return epsilon;
 	}
 
-	/**
-	 * Checks if epsilon comparison mode is active;
-	 * @return  True if epsilon mode is active, otherwise returns false.
-	 * @see #setEpsilonComparison()
-	 * @see #setExactComparison()
-	 */
 	API_VISIBLE bool BinaryRelations::checkIfEpsilonMode() {
 		return epsilonComparison;
 	}
 
-	/**
-	 * Checks if exact comparison mode is active;
-	 * @return  True if exact mode is active, otherwise returns false.
-	 * @see #setEpsilonComparison()
-	 * @see #setExactComparison()
-	 */
 	API_VISIBLE bool BinaryRelations::checkIfExactMode() {
 		return !epsilonComparison;
 	}
 
-	/**
-	 * Equality relation.
-	 *
-	 * @param      a                   the a number (a = b)
-	 * @param      b                   the b number (a = b)
-	 *
-	 * @return     if a = Double::NaN or b = Double::NaN return Double::NaN,
-	 *             else if a = b return 1,
-	 *             otherwise return 0.
-	 */
 	API_VISIBLE double BinaryRelations::eq(double a, double b) {
 		if ((Double::isNaN(a)) || (Double::isNaN(b))) return Double::NaN;
 		double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));
@@ -313,29 +267,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Test for equality or almost equality.
-	 *
-	 * @param a   First number
-	 * @param b   Second number
-	 * @return    Returns true if both number are equal or are almost equal.
-	 *
-	 * @see #DEFAULT_COMPARISON_EPSILON
-	 */
 	API_VISIBLE bool BinaryRelations::isEqualOrAlmost(double a, double b) {
 		return Math::abs(a - b) <= DEFAULT_COMPARISON_EPSILON;
 	}
 
-	/**
-	 * Inequality relation.
-	 *
-	 * @param      a                   the a number (a &lt;&gt; b)
-	 * @param      b                   the b number (a &lt;&gt; b)
-	 *
-	 * @return     if a = Double::NaN or b = Double::NaN return Double::NaN,
-	 *             else if a &lt;&gt; b return 1,
-	 *             otherwise return 0.
-	 */
 	API_VISIBLE double BinaryRelations::neq(double a, double b) {
 		if ((Double::isNaN(a)) || (Double::isNaN(b))) return Double::NaN;
 		double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));
@@ -347,16 +282,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Lower than relation.
-	 *
-	 * @param      a                   the a number (a &lt; b)
-	 * @param      b                   the b number (a &lt; b)
-	 *
-	 * @return     if a = Double::NaN or b = Double::NaN return Double::NaN,
-	 *             else if a &lt; b return 1,
-	 *             otherwise return 0.
-	 */
 	API_VISIBLE double BinaryRelations::lt(double a, double b) {
 		if ((Double::isNaN(a)) || (Double::isNaN(b))) return Double::NaN;
 		double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));
@@ -368,16 +293,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Greater than relation.
-	 *
-	 * @param      a                   the a number (a &gt; b)
-	 * @param      b                   the b number (a &gt; b)
-	 *
-	 * @return     if a = Double::NaN or b = Double::NaN return Double::NaN,
-	 *             else if a &gt; b return 1,
-	 *             otherwise return 0.
-	 */
 	API_VISIBLE double BinaryRelations::gt(double a, double b) {
 		if ((Double::isNaN(a)) || (Double::isNaN(b))) return Double::NaN;
 		double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));
@@ -389,16 +304,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Lower or equal relation.
-	 *
-	 * @param      a                   the a number (a &lt;= b)
-	 * @param      b                   the b number (a &lt;= b)
-	 *
-	 * @return     if a = Double::NaN or b = Double::NaN return Double::NaN,
-	 *             else if a &lt;= b return 1,
-	 *             otherwise return 0.
-	 */
 	API_VISIBLE double BinaryRelations::leq(double a, double b) {
 		if ((Double::isNaN(a)) || (Double::isNaN(b))) return Double::NaN;
 		double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));
@@ -410,16 +315,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Greater or equal relation.
-	 *
-	 * @param      a                   the a number (a &gt;= b)
-	 * @param      b                   the b number (a &gt;= b)
-	 *
-	 * @return     if a = Double::NaN or b = Double::NaN return Double::NaN,
-	 *             else if a &gt;= b return 1,
-	 *             otherwise return 0.
-	 */
 	API_VISIBLE double BinaryRelations::geq(double a, double b) {
 		if ((Double::isNaN(a)) || (Double::isNaN(b))) return Double::NaN;
 		double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));

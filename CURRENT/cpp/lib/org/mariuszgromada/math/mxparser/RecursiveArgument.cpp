@@ -270,12 +270,6 @@ namespace org::mariuszgromada::math::mxparser {
 		iAmFullyConstructed = true;
 	}
 
-	/**
-	 * Adds base case
-	 *
-	 * @param      index               the base case index
-	 * @param      value               the base case value
-	 */
 	API_VISIBLE void RecursiveArgument::addBaseCase(int index, double value) const {
 		int recSize = baseValues->size();
 		if (index < recSize) {
@@ -290,21 +284,11 @@ namespace org::mariuszgromada::math::mxparser {
 		baseValues->add(value);
 	}
 
-	/**
-	 * Clears all based cases and stored calculated values
-	 */
 	API_VISIBLE void RecursiveArgument::resetAllCases() {
 		baseValues->clear();
 		recursiveCounter = -1;
 	}
 
-	/**
-	 * Gets recursive argument value
-	 *
-	 * @param      index               the index
-	 *
-	 * @return     value as double
-	 */
 	API_VISIBLE double RecursiveArgument::getArgumentValue(double index) {
 		return getArgumentValueCoreWithCancel(index, 0);
 	}
@@ -419,16 +403,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return recursiveArgumentClone;
 	}
 
-	/**
-	 * Creates a completely independent 1-1 clone that can be safely used
-	 * by a separate thread. If the cloned element contains references
-	 * to other elements (e.g. arguments, functions, constants),
-	 * then they will also be cloned and the newly created element will
-	 * contain references to the corresponding clones.
-	 * Important - the API allows you to extract all these clones.
-	 *
-	 * @return Cloned object.
-	 */
 	API_VISIBLE ArgumentPtr RecursiveArgument::cloneForThreadSafe() {
 		CloneCachePtr cloneCache = new_CloneCache();
 		RecursiveArgumentPtr recursiveArgumentClone = PtrCast<RecursiveArgument, Argument>(RecursiveArgument::cloneForThreadSafeInternal(cloneCache));

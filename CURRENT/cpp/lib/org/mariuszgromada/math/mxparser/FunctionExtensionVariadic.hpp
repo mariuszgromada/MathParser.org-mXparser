@@ -1,5 +1,5 @@
 /*
- * @(#)FunctionExtensionVariadic.hpp        6.1.0    2024-10-06
+ * @(#)FunctionExtensionVariadic.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -226,7 +226,18 @@ namespace org::mariuszgromada::math::mxparser {
 	class API_VISIBLE FunctionExtensionVariadic {
 	public:
 		virtual ~FunctionExtensionVariadic() = default;
+		/**
+		 * \brief Actual algorithm implementation.
+		 * \param parameters Variadic list of parameters
+		 * \return Function Extension value.
+		 */
 		virtual double calculate(const ListPtr<double> &parameters) = 0;
+		/**
+		 * \brief Cloning in case of usage in Expression
+		 * with recursive statements.
+		 * \return Returns FunctionExtension object that was cloned.
+		 * \sa org::mariuszgromada::math::mxparser::Expression::getRecursiveMode()
+		 */
 		virtual FunctionExtensionVariadicPtr clone() = 0;
 	};
 } // namespace org::mariuszgromada::math::mxparser

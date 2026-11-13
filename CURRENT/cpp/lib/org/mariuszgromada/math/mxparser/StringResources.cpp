@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.cpp        6.1.0    2024-10-08
+ * @(#)StringResources.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -1446,118 +1446,15 @@ namespace org::mariuszgromada::math::mxparser {
 		DEFAULT_UNIT_SECOND_ARC = S(UTF("Second of arc"));
 	);
 
-	/**
-	 * Default translations, currently English
-	 *
-	 * @return Returns a new instance of StringResources object
-	 * containing Default translations, currently English.
-	 *
-	 * @see StringModel
-	 * @see StringModel#setStringResources(StringResources)
-	 * @see StringModel#setDefaultStringResources()
-	 */
 	API_VISIBLE StringResourcesPtr StringResources::languageDefault() { return new_StringResources(); }
-	/**
-	 * Simplified Chinese translations
-	 *
-	 * @return Returns a new instance of StringResources object
-	 * containing English translations.
-	 *
-	 * @see StringModel
-	 * @see StringModel#setStringResources(StringResources)
-	 * @see StringModel#setDefaultStringResources()
-	 */
 	API_VISIBLE StringResourcesPtr StringResources::languageChinese() { return new_StringResourcesChinese(); }
-	/**
-	 * English translations
-	 *
-	 * @return Returns a new instance of StringResources object
-	 * containing English translations.
-	 *
-	 * @see StringModel
-	 * @see StringModel#setStringResources(StringResources)
-	 * @see StringModel#setDefaultStringResources()
-	 */
 	API_VISIBLE StringResourcesPtr StringResources::languageEnglish() { return new_StringResources(); }
-	/**
-	 * French translations
-	 *
-	 * @return Returns a new instance of StringResources object
-	 * containing French translations.
-	 *
-	 * @see StringModel
-	 * @see StringModel#setStringResources(StringResources)
-	 * @see StringModel#setDefaultStringResources()
-	 */
 	API_VISIBLE StringResourcesPtr StringResources::languageFrench() { return new_StringResourcesFrench(); }
-	/**
-	 * German translations
-	 *
-	 * @return Returns a new instance of StringResources object
-	 * containing German translations.
-	 *
-	 * @see StringModel
-	 * @see StringModel#setStringResources(StringResources)
-	 * @see StringModel#setDefaultStringResources()
-	 */
 	API_VISIBLE StringResourcesPtr StringResources::languageGerman() { return new_StringResourcesGerman(); }
-	/**
-	 * Italian translations
-	 *
-	 * @return Returns a new instance of StringResources object
-	 * containing Italian translations.
-	 *
-	 * @see StringModel
-	 * @see StringModel#setStringResources(StringResources)
-	 * @see StringModel#setDefaultStringResources()
-	 */
 	API_VISIBLE StringResourcesPtr StringResources::languageItalian() { return new_StringResourcesItalian(); }
-	/**
-	 * Polish translations
-	 *
-	 * @return Returns a new instance of StringResources object
-	 * containing Polish translations.
-	 *
-	 * @see StringModel
-	 * @see StringModel#setStringResources(StringResources)
-	 * @see StringModel#setDefaultStringResources()
-	 */
 	API_VISIBLE StringResourcesPtr StringResources::languagePolish() { return new_StringResourcesPolish(); }
-	/**
-	 * Portuguese translations
-	 *
-	 * @return Returns a new instance of StringResources object
-	 * containing Portuguese translations.
-	 *
-	 * @see StringModel
-	 * @see StringModel#setStringResources(StringResources)
-	 * @see StringModel#setDefaultStringResources()
-	 */
 	API_VISIBLE StringResourcesPtr StringResources::languagePortuguese() { return new_StringResourcesPortuguese(); }
-	/**
-	 * Spanish translations
-	 *
-	 * @return Returns a new instance of StringResources object
-	 * containing Spanish translations.
-	 *
-	 * @see StringModel
-	 * @see StringModel#setStringResources(StringResources)
-	 * @see StringModel#setDefaultStringResources()
-	 */
 	API_VISIBLE StringResourcesPtr StringResources::languageSpanish() { return new_StringResourcesSpanish(); }
-	/**
-	 * Returns translation that best matches to provided language code.
-	 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish, Chinese.
-	 *
-	 * @param language Supported language codes: en, fr, de, it, pl, pt, es, zh.
-	 * @return Returns translation that matches the language code.
-	 * If language code does not belong to the supported language codes
-	 * English translation is returned.
-	 *
-	 * @see StringModel
-	 * @see StringModel#setStringResources(StringResources)
-	 * @see StringModel#setDefaultStringResources()
-	 */
 	API_VISIBLE StringResourcesPtr StringResources::bestMatchingLanguage(const StringPtr &language) {
 		if (language == nullptr) return languageEnglish();
 		std::string lang = getLanguageIso(UTF16toUTF8(*language));
@@ -1652,18 +1549,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return languageEnglish;
 	}
 
-	/**
-	 * Returns translation that best matches to the current system locale.
-	 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish, Chinese.
-	 *
-	 * @return  Returns translation that matches the language code in locale.
-	 *  If language code does not belong to the supported languages
-	 *  English translation is returned.
-	 *
-	 * @see StringModel
-	 * @see StringModel#setStringResources(StringResources)
-	 * @see StringModel#setDefaultStringResources()
-	 */
 	API_VISIBLE StringResourcesPtr StringResources::bestMatchingLanguage() {
 		std::string locStr = SystemUtils::getDefaultOsLanguage();
 		std::string isoLang = getLanguageIso(locStr);
@@ -1744,2223 +1629,2223 @@ namespace org::mariuszgromada::math::mxparser {
 
 	StringResources::StringResources() {
 		/**
-		 * Default = "English"
+		 * \brief Default = "English"
 		 */
 		USER_LANGUAGE = DEFAULT_USER_LANGUAGE;
 		// -------------------------------------------------
 		/**
-		 * Default = "Starting syntax check..."
+		 * \brief Default = "Starting syntax check..."
 		 */
 		STARTING_SYNTAX_CHECK = DEFAULT_STARTING_SYNTAX_CHECK;
 		/**
-		 * Default = "No errors detected."
+		 * \brief Default = "No errors detected."
 		 */
 		NO_ERRORS_DETECTED = DEFAULT_NO_ERRORS_DETECTED;
 		/**
-		 * Default = "No errors detected in argument definition."
+		 * \brief Default = "No errors detected in argument definition."
 		 */
 		NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION = DEFAULT_NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION;
 		/**
-		 * Default = "No errors detected in recursive argument definition."
+		 * \brief Default = "No errors detected in recursive argument definition."
 		 */
 		NO_ERRORS_DETECTED_IN_RECURSIVE_ARGUMENT_DEFINITION =
 				DEFAULT_NO_ERRORS_DETECTED_IN_RECURSIVE_ARGUMENT_DEFINITION;
 		/**
-		 * Default = "No errors detected in function definition."
+		 * \brief Default = "No errors detected in function definition."
 		 */
 		NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION = DEFAULT_NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION;
 		/**
-		 * Default = "No errors detected in constant definition."
+		 * \brief Default = "No errors detected in constant definition."
 		 */
 		NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION = DEFAULT_NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION;
 		/**
-		 * Default = "A lexical error has been found."
+		 * \brief Default = "A lexical error has been found."
 		 */
 		LEXICAL_ERROR_HAS_BEEN_FOUND = DEFAULT_LEXICAL_ERROR_HAS_BEEN_FOUND;
 		/**
-		 * Default = "Errors have been found."
+		 * \brief Default = "Errors have been found."
 		 */
 		ERRORS_HAVE_BEEN_FOUND = DEFAULT_ERRORS_HAVE_BEEN_FOUND;
 		/**
-		 * Default = "The syntax has already been checked - no errors detected."
+		 * \brief Default = "The syntax has already been checked - no errors detected."
 		 */
 		ALREADY_CHECKED_NO_ERRORS = DEFAULT_ALREADY_CHECKED_NO_ERRORS;
 		/**
-		 * Default = "The syntax status is unknown."
+		 * \brief Default = "The syntax status is unknown."
 		 */
 		SYNTAX_STATUS_UNKNOWN = DEFAULT_SYNTAX_STATUS_UNKNOWN;
 		/**
-		 * Default = "There is a problem with expression syntax."
+		 * \brief Default = "There is a problem with expression syntax."
 		 */
 		PROBLEM_WITH_EXPRESSION_SYNTAX = DEFAULT_PROBLEM_WITH_EXPRESSION_SYNTAX;
 		// -------------------------------------------------
 		/**
-		 * Default = "Encountered"
+		 * \brief Default = "Encountered"
 		 */
 		ENCOUNTERED = DEFAULT_ENCOUNTERED;
 		/**
-		 * Default = "while parsing"
+		 * \brief Default = "while parsing"
 		 */
 		WHILE_PARSING = DEFAULT_WHILE_PARSING;
 		/**
-		 * Default = "but got"
+		 * \brief Default = "but got"
 		 */
 		BUT_GOT = DEFAULT_BUT_GOT;
 		/**
-		 * Default = "Lexical error"
+		 * \brief Default = "Lexical error"
 		 */
 		LEXICAL_ERROR = DEFAULT_LEXICAL_ERROR;
 		/**
-		 * Default = "at index"
+		 * \brief Default = "at index"
 		 */
 		AT_INDEX = DEFAULT_AT_INDEX;
 		/**
-		 * Default = "after"
+		 * \brief Default = "after"
 		 */
 		AFTER = DEFAULT_AFTER;
 		/**
-		 * Default = "Was expecting"
+		 * \brief Default = "Was expecting"
 		 */
 		WAS_EXPECTING = DEFAULT_WAS_EXPECTING;
 		/**
-		 * Default = "Was expecting one of"
+		 * \brief Default = "Was expecting one of"
 		 */
 		WAS_EXPECTING_ONE_OF = DEFAULT_WAS_EXPECTING_ONE_OF;
 		/**
-		 * Default = "An unexpected exception was encountered. Probably a parser error - please report it."
+		 * \brief Default = "An unexpected exception was encountered. Probably a parser error - please report it."
 		 */
 		UNEXPECTED_EXCEPTION_WAS_ENCOUNTERED = DEFAULT_UNEXPECTED_EXCEPTION_WAS_ENCOUNTERED;
 		/**
-		 * Default = "An unexpected token manager error was encountered. Probably a parser error - please report it."
+		 * \brief Default = "An unexpected token manager error was encountered. Probably a parser error - please report it."
 		 */
 		UNEXPECTED_TOKEN_MANAGER_ERROR_WAS_ENCOUNTERED = DEFAULT_UNEXPECTED_TOKEN_MANAGER_ERROR_WAS_ENCOUNTERED;
 		// -------------------------------------------------
 		/**
-		 * Default = "The expression is empty."
+		 * \brief Default = "The expression is empty."
 		 */
 		EXPRESSION_STRING_IS_EMPTY = DEFAULT_EXPRESSION_STRING_IS_EMPTY;
 		/**
-		 * Default = "The expression does not contain any tokens."
+		 * \brief Default = "The expression does not contain any tokens."
 		 */
 		EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS = DEFAULT_EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS;
 		/**
-		 * Default = "Duplicated keywords were found. Check user-defined items. Consider using option to override built-in tokens."
+		 * \brief Default = "Duplicated keywords were found. Check user-defined items. Consider using option to override built-in tokens."
 		 */
 		DUPLICATED_KEYWORD = DEFAULT_DUPLICATED_KEYWORD;
 		/**
-		 * Default = "Element"
+		 * \brief Default = "Element"
 		 */
 		ELEMENT = DEFAULT_ELEMENT;
 		/**
-		 * Default = "Error"
+		 * \brief Default = "Error"
 		 */
 		ERROR = DEFAULT_ERROR;
 		/**
-		 * Default = "Exception"
+		 * \brief Default = "Exception"
 		 */
 		EXCEPTION = DEFAULT_EXCEPTION;
 		/**
-		 * Default = "Token"
+		 * \brief Default = "Token"
 		 */
 		TOKEN = DEFAULT_TOKEN;
 		/**
-		 * Default = "index"
+		 * \brief Default = "index"
 		 */
 		INDEX = DEFAULT_INDEX;
 		/**
-		 * Default = "Invalid token."
+		 * \brief Default = "Invalid token."
 		 */
 		INVALID_TOKEN = DEFAULT_INVALID_TOKEN;
 		/**
-		 * Default = "Invalid token. Possibly missing multiplication operator - try implied multiplication mode."
+		 * \brief Default = "Invalid token. Possibly missing multiplication operator - try implied multiplication mode."
 		 */
 		INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR =
 				DEFAULT_INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR;
 		/**
-		 * Default = "Expression tokens"
+		 * \brief Default = "Expression tokens"
 		 */
 		EXPRESSION_TOKENS = DEFAULT_EXPRESSION_TOKENS;
 		/**
-		 * Default = "NULL tokens list"
+		 * \brief Default = "NULL tokens list"
 		 */
 		NULL_TOKENS_LIST = DEFAULT_NULL_TOKENS_LIST;
 		// -------------------------------------------------
 		/**
-		 * Default = "User-defined function with extended body - no errors by assumption."
+		 * \brief Default = "User-defined function with extended body - no errors by assumption."
 		 */
 		FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS = DEFAULT_FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS;
 		/**
-		 * Default = "User-defined argument with extended body - no errors by assumption."
+		 * \brief Default = "User-defined argument with extended body - no errors by assumption."
 		 */
 		ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS = DEFAULT_ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS;
 		/**
-		 * Default = "Provided extension is null."
+		 * \brief Default = "Provided extension is null."
 		 */
 		PROVIDED_EXTENSION_IS_NULL = DEFAULT_PROVIDED_EXTENSION_IS_NULL;
 		/**
-		 * Default = "Provided is null."
+		 * \brief Default = "Provided is null."
 		 */
 		PROVIDED_STRING_IS_NULL = DEFAULT_PROVIDED_STRING_IS_NULL;
 		/**
-		 * Default = "Provided elements are null."
+		 * \brief Default = "Provided elements are null."
 		 */
 		PROVIDED_ELEMENTS_ARE_NULL = DEFAULT_PROVIDED_ELEMENTS_ARE_NULL;
 		/**
-		 * Default = "Possibly missing multiplication operator - try implied multiplication mode."
+		 * \brief Default = "Possibly missing multiplication operator - try implied multiplication mode."
 		 */
 		MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE =
 				DEFAULT_MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE;
 		// -------------------------------------------------
 		/**
-		 * Default = "Starting syntax check of the dependent user-defined argument."
+		 * \brief Default = "Starting syntax check of the dependent user-defined argument."
 		 */
 		STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT = DEFAULT_STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT;
 		/**
-		 * Default = "Starting syntax check of the user-defined recursive argument."
+		 * \brief Default = "Starting syntax check of the user-defined recursive argument."
 		 */
 		STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT = DEFAULT_STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT;
 		/**
-		 * Default = "Starting syntax check of the user-defined function."
+		 * \brief Default = "Starting syntax check of the user-defined function."
 		 */
 		STARTING_SYNTAX_CHECK_USER_DEFINED_FUNCTION = DEFAULT_STARTING_SYNTAX_CHECK_USER_DEFINED_FUNCTION;
 		/**
-		 * Default = "Starting syntax check of the variadic user-defined function."
+		 * \brief Default = "Starting syntax check of the variadic user-defined function."
 		 */
 		STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION =
 				DEFAULT_STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION;
 		// -------------------------------------------------
 		/**
-		 * Default = "User-defined argument was expected."
+		 * \brief Default = "User-defined argument was expected."
 		 */
 		ARGUMENT_WAS_EXPECTED = DEFAULT_ARGUMENT_WAS_EXPECTED;
 		/**
-		 * Default = "A recursive user-defined argument requires one parameter."
+		 * \brief Default = "A recursive user-defined argument requires one parameter."
 		 */
 		RECURSIVE_ARGUMENT_EXPECTING_1_PARAMETER = DEFAULT_RECURSIVE_ARGUMENT_EXPECTING_1_PARAMETER;
 		// -------------------------------------------------
 		/**
-		 * Default = "Incorrect number of parameters in user-defined function."
+		 * \brief Default = "Incorrect number of parameters in user-defined function."
 		 */
 		INCORRECT_NUMBER_OF_PARAMETERS_IN_USER_DEFINED_FUNCTION =
 				DEFAULT_INCORRECT_NUMBER_OF_PARAMETERS_IN_USER_DEFINED_FUNCTION;
 		// -------------------------------------------------
 		/**
-		 * Default = "Incorrect number of function parameters."
+		 * \brief Default = "Incorrect number of function parameters."
 		 */
 		INCORRECT_NUMBER_OF_FUNCTION_PARAMETERS = DEFAULT_INCORRECT_NUMBER_OF_FUNCTION_PARAMETERS;
 		/**
-		 * Default = "Expected"
+		 * \brief Default = "Expected"
 		 */
 		EXPECTED = DEFAULT_EXPECTED;
 		/**
-		 * Default = "provided"
+		 * \brief Default = "provided"
 		 */
 		PROVIDED = DEFAULT_PROVIDED;
 		/**
-		 * Default = "Incorrect number of parameters in user-defined function - at least one argument is expected."
+		 * \brief Default = "Incorrect number of parameters in user-defined function - at least one argument is expected."
 		 */
 		USER_DEFINED_FUNCTION_EXPECTING_AT_LEAST_ONE_ARGUMENT =
 				DEFAULT_USER_DEFINED_FUNCTION_EXPECTING_AT_LEAST_ONE_ARGUMENT;
 		/**
-		 * Default = "Even number of arguments was expected."
+		 * \brief Default = "Even number of arguments was expected."
 		 */
 		EXPECTED_EVEN_NUMBER_OF_ARGUMENTS = DEFAULT_EXPECTED_EVEN_NUMBER_OF_ARGUMENTS;
 		// -------------------------------------------------
 		/**
-		 * Default = "Invalid function name."
+		 * \brief Default = "Invalid function name."
 		 */
 		INVALID_FUNCTION_NAME = DEFAULT_INVALID_FUNCTION_NAME;
 		/**
-		 * Default = "Invalid argument name."
+		 * \brief Default = "Invalid argument name."
 		 */
 		INVALID_ARGUMENT_NAME = DEFAULT_INVALID_ARGUMENT_NAME;
 		/**
-		 * Default = "Invalid constant name."
+		 * \brief Default = "Invalid constant name."
 		 */
 		INVALID_CONSTANT_NAME = DEFAULT_INVALID_CONSTANT_NAME;
 		/**
-		 * Default = "Invalid function definition."
+		 * \brief Default = "Invalid function definition."
 		 */
 		INVALID_FUNCTION_DEFINITION = DEFAULT_INVALID_FUNCTION_DEFINITION;
 		/**
-		 * Default = "Invalid argument definition."
+		 * \brief Default = "Invalid argument definition."
 		 */
 		INVALID_ARGUMENT_DEFINITION = DEFAULT_INVALID_ARGUMENT_DEFINITION;
 		/**
-		 * Default = "Invalid constant definition."
+		 * \brief Default = "Invalid constant definition."
 		 */
 		INVALID_CONSTANT_DEFINITION = DEFAULT_INVALID_CONSTANT_DEFINITION;
 		/**
-		 * Default = "Pattern does not match."
+		 * \brief Default = "Pattern does not match."
 		 */
 		PATTERN_DOES_NOT_MATCH = DEFAULT_PATTERN_DOES_NOT_MATCH;
 		/**
-		 * Default = "Pattern examples"
+		 * \brief Default = "Pattern examples"
 		 */
 		PATTERN_EXAMPLES = DEFAULT_PATTERN_EXAMPLES;
 		// -------------------------------------------------
 		/**
-		 * Default = "Constant value was expected."
+		 * \brief Default = "Constant value was expected."
 		 */
 		CONSTANT_WAS_EXPECTED = DEFAULT_CONSTANT_WAS_EXPECTED;
 		/**
-		 * Default = "User-defined constant was expected."
+		 * \brief Default = "User-defined constant was expected."
 		 */
 		USER_CONSTANT_WAS_EXPECTED = DEFAULT_USER_CONSTANT_WAS_EXPECTED;
 		// -------------------------------------------------
 		/**
-		 * Default = "A unary function expects 1 parameter."
+		 * \brief Default = "A unary function expects 1 parameter."
 		 */
 		UNARY_FUNCTION_EXPECTS_1_PARAMETER = DEFAULT_UNARY_FUNCTION_EXPECTS_1_PARAMETER;
 		/**
-		 * Default = "A binary function expects 2 parameters."
+		 * \brief Default = "A binary function expects 2 parameters."
 		 */
 		BINARY_FUNCTION_EXPECTS_2_PARAMETERS = DEFAULT_BINARY_FUNCTION_EXPECTS_2_PARAMETERS;
 		/**
-		 * Default = "A ternary function expects 3 parameters."
+		 * \brief Default = "A ternary function expects 3 parameters."
 		 */
 		TERNARY_FUNCTION_EXPECTS_3_PARAMETERS = DEFAULT_TERNARY_FUNCTION_EXPECTS_3_PARAMETERS;
 		// -------------------------------------------------
 		/**
-		 * Default = "A derivative operator expects 2 or 3 or 4 or 5 calculus parameters."
+		 * \brief Default = "A derivative operator expects 2 or 3 or 4 or 5 calculus parameters."
 		 */
 		DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS =
 				DEFAULT_DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS;
 		/**
-		 * Default = "An argument was expected in a derivative operator invocation."
+		 * \brief Default = "An argument was expected in a derivative operator invocation."
 		 */
 		ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION =
 				DEFAULT_ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION;
 		/**
-		 * Default = "Duplicated keywords were found in the calculus operator invocation, check calculus parameters."
+		 * \brief Default = "Duplicated keywords were found in the calculus operator invocation, check calculus parameters."
 		 */
 		DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION =
 				DEFAULT_DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION;
 		/**
-		 * Default = "One token (argument or unknown) was expected in the calculus operator invocation."
+		 * \brief Default = "One token (argument or unknown) was expected in the calculus operator invocation."
 		 */
 		ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION =
 				DEFAULT_ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION;
 		/**
-		 * Default = "N-th order derivative operator expects 3 or 5 calculus parameters."
+		 * \brief Default = "N-th order derivative operator expects 3 or 5 calculus parameters."
 		 */
 		NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS =
 				DEFAULT_NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS;
 		/**
-		 * Default = "The integral / solve operator expects 4 calculus parameters."
+		 * \brief Default = "The integral / solve operator expects 4 calculus parameters."
 		 */
 		INTEGRAL_SOLVE_OPERATOR_EXPECTS_4_CALCULUS_PARAMETERS =
 				DEFAULT_INTEGRAL_SOLVE_OPERATOR_EXPECTS_4_CALCULUS_PARAMETERS;
 		/**
-		 * Default = "The iterated operator expects 4 or 5 calculus parameters."
+		 * \brief Default = "The iterated operator expects 4 or 5 calculus parameters."
 		 */
 		ITERATED_OPERATOR_EXPECTS_4_OR_5_CALCULUS_PARAMETERS =
 				DEFAULT_ITERATED_OPERATOR_EXPECTS_4_OR_5_CALCULUS_PARAMETERS;
 		/**
-		 * Default = "The forward / backward difference operator expects 2 or 3 calculus parameters."
+		 * \brief Default = "The forward / backward difference operator expects 2 or 3 calculus parameters."
 		 */
 		FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS =
 				DEFAULT_FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS;
 		/**
-		 * Default = "An argument was expected in the forward / backward difference operator invocation."
+		 * \brief Default = "An argument was expected in the forward / backward difference operator invocation."
 		 */
 		FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED = DEFAULT_FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED;
 		/**
-		 * Default = "At least one argument was expected."
+		 * \brief Default = "At least one argument was expected."
 		 */
 		AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED = DEFAULT_AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED;
 		// -------------------------------------------------
 		/**
-		 * Default = "Error while executing the calculate."
+		 * \brief Default = "Error while executing the calculate."
 		 */
 		ERROR_WHILE_EXECUTING_THE_CALCULATE = DEFAULT_ERROR_WHILE_EXECUTING_THE_CALCULATE;
 		/**
-		 * Default = "Recursion calls counter exceeded maximum calls allowed."
+		 * \brief Default = "Recursion calls counter exceeded maximum calls allowed."
 		 */
 		RECURSION_CALLS_COUNTER_EXCEEDED = DEFAULT_RECURSION_CALLS_COUNTER_EXCEEDED;
 		/**
-		 * Default = "Recursion calls counter"
+		 * \brief Default = "Recursion calls counter"
 		 */
 		RECURSION_CALLS_COUNTER = DEFAULT_RECURSION_CALLS_COUNTER;
 		/**
-		 * Default = "Starting calculation loop."
+		 * \brief Default = "Starting calculation loop."
 		 */
 		STARTING_CALCULATION_LOOP = DEFAULT_STARTING_CALCULATION_LOOP;
 		/**
-		 * Default = "Cancel request encountered - finishing."
+		 * \brief Default = "Cancel request encountered - finishing."
 		 */
 		CANCEL_REQUEST_FINISHING = DEFAULT_CANCEL_REQUEST_FINISHING;
 		/**
-		 * Default = "Internal error / strange token level - finishing. Probably a parser error - please report it."
+		 * \brief Default = "Internal error / strange token level - finishing. Probably a parser error - please report it."
 		 */
 		INTERNAL_ERROR_STRANGE_TOKEN_LEVEL_FINISHING = DEFAULT_INTERNAL_ERROR_STRANGE_TOKEN_LEVEL_FINISHING;
 		/**
-		 * Default = "Fatal error, do not know what to do with the encountered token. Probably a parser error - please report it."
+		 * \brief Default = "Fatal error, do not know what to do with the encountered token. Probably a parser error - please report it."
 		 */
 		FATAL_ERROR_DO_NOT_KNOW_WHAT_TO_DO_WITH_THE_ENCOUNTERED_TOKEN =
 				DEFAULT_FATAL_ERROR_DO_NOT_KNOW_WHAT_TO_DO_WITH_THE_ENCOUNTERED_TOKEN;
 		/**
-		 * Default = "The maximum error message length has been exceeded."
+		 * \brief Default = "The maximum error message length has been exceeded."
 		 */
 		MAXIMUM_ERROR_MESSAGE_LENGTH_EXCEEDED = DEFAULT_MAXIMUM_ERROR_MESSAGE_LENGTH_EXCEEDED;
 		// -------------------------------------------------
 		/**
-		 * Default = "Starting..."
+		 * \brief Default = "Starting..."
 		 */
 		STARTING = DEFAULT_STARTING;
 		/**
-		 * Default = "Parsing"
+		 * \brief Default = "Parsing"
 		 */
 		PARSING = DEFAULT_PARSING;
 		/**
-		 * Default = "Fully compiled"
+		 * \brief Default = "Fully compiled"
 		 */
 		FULLY_COMPILED = DEFAULT_FULLY_COMPILED;
 		/**
-		 * Default = "Calculated value"
+		 * \brief Default = "Calculated value"
 		 */
 		CALCULATED_VALUE = DEFAULT_CALCULATED_VALUE;
 		/**
-		 * Default = "Exiting."
+		 * \brief Default = "Exiting."
 		 */
 		EXITING = DEFAULT_EXITING;
 		/**
-		 * Default = "done."
+		 * \brief Default = "done."
 		 */
 		DONE = DEFAULT_DONE;
 		// -------------------------------------------------
 		/**
-		 * Default = "Keyword"
+		 * \brief Default = "Keyword"
 		 */
 		KEYWORD = DEFAULT_KEYWORD;
 		/**
-		 * Default = "Syntax"
+		 * \brief Default = "Syntax"
 		 */
 		SYNTAX = DEFAULT_SYNTAX;
 		/**
-		 * Default = "Number"
+		 * \brief Default = "Number"
 		 */
 		NUMBER = DEFAULT_NUMBER;
 		/**
-		 * Default = "Number literal"
+		 * \brief Default = "Number literal"
 		 */
 		NUMBER_LITERAL = DEFAULT_NUMBER_LITERAL;
 		/**
-		 * Default = "Type"
+		 * \brief Default = "Type"
 		 */
 		TYPE = DEFAULT_TYPE;
 		/**
-		 * Default = "Since"
+		 * \brief Default = "Since"
 		 */
 		SINCE = DEFAULT_SINCE;
 		/**
-		 * Default = "Description"
+		 * \brief Default = "Description"
 		 */
 		DESCRIPTION = DEFAULT_DESCRIPTION;
 		// -------------------------------------------------
 		/**
-		 * Default = "CalcStepsRegister is empty"
+		 * \brief Default = "CalcStepsRegister is empty"
 		 */
 		CALC_STEPS_REGISTER_IS_EMPTY = DEFAULT_CALC_STEPS_REGISTER_IS_EMPTY;
 		/**
-		 * Default = "CalcStepsRegister for"
+		 * \brief Default = "CalcStepsRegister for"
 		 */
 		CALC_STEPS_REGISTER_FOR = DEFAULT_CALC_STEPS_REGISTER_FOR;
 		/**
-		 * Default = "Argument"
+		 * \brief Default = "Argument"
 		 */
 		ARGUMENT = DEFAULT_ARGUMENT;
 		/**
-		 * Default = "Function"
+		 * \brief Default = "Function"
 		 */
 		FUNCTION = DEFAULT_FUNCTION;
 		/**
-		 * Default = "Expression"
+		 * \brief Default = "Expression"
 		 */
 		EXPRESSION = DEFAULT_EXPRESSION;
 		/**
-		 * Default = "result"
+		 * \brief Default = "result"
 		 */
 		RESULT = DEFAULT_RESULT;
 		/**
-		 * Default = "Computing time"
+		 * \brief Default = "Computing time"
 		 */
 		COMPUTING_TIME = DEFAULT_COMPUTING_TIME;
 		/**
-		 * Default = "gr"
+		 * \brief Default = "gr"
 		 */
 		GROUP_SHORT = DEFAULT_GROUP_SHORT;
 		/**
-		 * Default = "nr"
+		 * \brief Default = "nr"
 		 */
 		NUMBER_SHORT = DEFAULT_NUMBER_SHORT;
 		/**
-		 * Default = "first"
+		 * \brief Default = "first"
 		 */
 		FIRST = DEFAULT_FIRST;
 		/**
-		 * Default = "last"
+		 * \brief Default = "last"
 		 */
 		LAST = DEFAULT_LAST;
 		/**
-		 * Default = "descr"
+		 * \brief Default = "descr"
 		 */
 		DESCRIPTION_SHORT = DEFAULT_DESCRIPTION_SHORT;
 		/**
-		 * Default = "step"
+		 * \brief Default = "step"
 		 */
 		STEP = DEFAULT_STEP;
 		// -------------------------------------------------
 		/**
-		 * Default = "Serialization has been performed:"
+		 * \brief Default = "Serialization has been performed:"
 		 */
 		SERIALIZATION_PERFORMED = DEFAULT_SERIALIZATION_PERFORMED;
 		/**
-		 * Default = "Deserialization has been performed:"
+		 * \brief Default = "Deserialization has been performed:"
 		 */
 		DESERIALIZATION_PERFORMED = DEFAULT_DESERIALIZATION_PERFORMED;
 		/**
-		 * Default = "Null object passed in the parameter."
+		 * \brief Default = "Null object passed in the parameter."
 		 */
 		NULL_OBJECT_PROVIDED = DEFAULT_NULL_OBJECT_PROVIDED;
 		/**
-		 * Default = "Null file passed in the parameter."
+		 * \brief Default = "Null file passed in the parameter."
 		 */
 		NULL_FILE_PATH_PROVIDED = DEFAULT_NULL_FILE_PATH_PROVIDED;
 		/**
-		 * Default = "The file path does not contain any characters."
+		 * \brief Default = "The file path does not contain any characters."
 		 */
 		FILE_PATH_ZERO_LENGTH_PROVIDED = DEFAULT_FILE_PATH_ZERO_LENGTH_PROVIDED;
 		/**
-		 * Default = "The file path is not a file:"
+		 * \brief Default = "The file path is not a file:"
 		 */
 		FILE_PATH_IS_NOT_A_FILE = DEFAULT_FILE_PATH_IS_NOT_A_FILE;
 		/**
-		 * Default = "The file path does not exist:"
+		 * \brief Default = "The file path does not exist:"
 		 */
 		FILE_PATH_NOT_EXISTS = DEFAULT_FILE_PATH_NOT_EXISTS;
 		/**
-		 * Default = "Null data passed in the parameter."
+		 * \brief Default = "Null data passed in the parameter."
 		 */
 		NULL_DATA_PROVIDED = DEFAULT_NULL_DATA_PROVIDED;
 		/**
-		 * Default = "Binary serialization is enabled. Use it only in a conscious and limited way."
+		 * \brief Default = "Binary serialization is enabled. Use it only in a conscious and limited way."
 		 */
 		BINARY_SERIALIZATION_ENABLED = DEFAULT_BINARY_SERIALIZATION_ENABLED;
 		/**
-		 * Default = "Binary serialization is disabled. You can enable it if you are aware of security risks."
+		 * \brief Default = "Binary serialization is disabled. You can enable it if you are aware of security risks."
 		 */
 		BINARY_SERIALIZATION_DISABLED = DEFAULT_BINARY_SERIALIZATION_DISABLED;
 		// -------------------------------------------------
 		/**
-		 * Default = "User defined expression"
+		 * \brief Default = "User defined expression"
 		 */
 		USER_DEFINED_EXPRESSION = DEFAULT_USER_DEFINED_EXPRESSION;
 		/**
-		 * Default = "User defined argument"
+		 * \brief Default = "User defined argument"
 		 */
 		USER_DEFINED_ARGUMENT = DEFAULT_USER_DEFINED_ARGUMENT;
 		/**
-		 * Default = "User defined constant"
+		 * \brief Default = "User defined constant"
 		 */
 		USER_DEFINED_CONSTANT = DEFAULT_USER_DEFINED_CONSTANT;
 		/**
-		 * Default = "User defined function"
+		 * \brief Default = "User defined function"
 		 */
 		USER_DEFINED_FUNCTION = DEFAULT_USER_DEFINED_FUNCTION;
 		/**
-		 * Default = "User defined recursive argument"
+		 * \brief Default = "User defined recursive argument"
 		 */
 		USER_DEFINED_RECURSIVE_ARGUMENT = DEFAULT_USER_DEFINED_RECURSIVE_ARGUMENT;
 		// -------------------------------------------------
 		/**
-		 * Default = "Help content limited to query"
+		 * \brief Default = "Help content limited to query"
 		 */
 		HELP_CONTENT_LIMITED_TO_QUERY = DEFAULT_HELP_CONTENT_LIMITED_TO_QUERY;
 		/**
-		 * Default = "All help content."
+		 * \brief Default = "All help content."
 		 */
 		ALL_HELP_CONTENT = DEFAULT_ALL_HELP_CONTENT;
 		/**
-		 * Default = "Caption"
+		 * \brief Default = "Caption"
 		 */
 		CAPTION = DEFAULT_CAPTION;
 		// -------------------------------------------------
 		/**
-		 * Default = "Deserializing data from an untrusted source can introduce security vulnerabilities to your application."
+		 * \brief Default = "Deserializing data from an untrusted source can introduce security vulnerabilities to your application."
 		 */
 		WARNING_BINARY_SERIALIZATION_SECURITY_RISKS = DEFAULT_WARNING_BINARY_SERIALIZATION_SECURITY_RISKS;
 		// -------------------------------------------------
 		/**
-		 * Default = "Binary relation"
+		 * \brief Default = "Binary relation"
 		 */
 		BINARY_RELATION = DEFAULT_BINARY_RELATION;
 		/**
-		 * Default = "Bitwise operator"
+		 * \brief Default = "Bitwise operator"
 		 */
 		BITWISE_OPERATOR = DEFAULT_BITWISE_OPERATOR;
 		/**
-		 * Default = "Boolean operator"
+		 * \brief Default = "Boolean operator"
 		 */
 		BOOLEAN_OPERATOR = DEFAULT_BOOLEAN_OPERATOR;
 		/**
-		 * Default = "Calculus operator"
+		 * \brief Default = "Calculus operator"
 		 */
 		CALCULUS_OPERATOR = DEFAULT_CALCULUS_OPERATOR;
 		/**
-		 * Default = "Constant value"
+		 * \brief Default = "Constant value"
 		 */
 		CONSTANT_VALUE = DEFAULT_CONSTANT_VALUE;
 		/**
-		 * Default = "Unary function"
+		 * \brief Default = "Unary function"
 		 */
 		FUNCTION_1_ARG = DEFAULT_FUNCTION_1_ARG;
 		/**
-		 * Default = "Binary function"
+		 * \brief Default = "Binary function"
 		 */
 		FUNCTION_2_ARG = DEFAULT_FUNCTION_2_ARG;
 		/**
-		 * Default = "Ternary function"
+		 * \brief Default = "Ternary function"
 		 */
 		FUNCTION_3_ARG = DEFAULT_FUNCTION_3_ARG;
 		/**
-		 * Default = "Variadic function"
+		 * \brief Default = "Variadic function"
 		 */
 		FUNCTION_VARIADIC = DEFAULT_FUNCTION_VARIADIC;
 		/**
-		 * Default = "Operator"
+		 * \brief Default = "Operator"
 		 */
 		OPERATOR = DEFAULT_OPERATOR;
 		/**
-		 * Default = "Parser symbol"
+		 * \brief Default = "Parser symbol"
 		 */
 		PARSER_SYMBOL = DEFAULT_PARSER_SYMBOL;
 		/**
-		 * Default = "Random variable"
+		 * \brief Default = "Random variable"
 		 */
 		RANDOM_VARIABLE = DEFAULT_RANDOM_VARIABLE;
 		/**
-		 * Default = "Unit"
+		 * \brief Default = "Unit"
 		 */
 		UNIT = DEFAULT_UNIT;
 		/**
-		 * Default = "Dimensionless unit"
+		 * \brief Default = "Dimensionless unit"
 		 */
 		DIMENSIONLESS_UNIT = DEFAULT_DIMENSIONLESS_UNIT;
 		/**
-		 * Default = "Iterated operator"
+		 * \brief Default = "Iterated operator"
 		 */
 		ITERATED_OPERATOR = DEFAULT_ITERATED_OPERATOR;
 		// -------------------------------------------------
 		/**
-		 * Default = "Ratio / Fraction"
+		 * \brief Default = "Ratio / Fraction"
 		 */
 		RATIO_FRACTION = DEFAULT_RATIO_FRACTION;
 		/**
-		 * Default = "Metric prefix"
+		 * \brief Default = "Metric prefix"
 		 */
 		METRIC_PREFIX = DEFAULT_METRIC_PREFIX;
 		/**
-		 * Default = "Unit of length"
+		 * \brief Default = "Unit of length"
 		 */
 		UNIT_OF_LENGTH = DEFAULT_UNIT_OF_LENGTH;
 		/**
-		 * Default = "Unit of area"
+		 * \brief Default = "Unit of area"
 		 */
 		UNIT_OF_AREA = DEFAULT_UNIT_OF_AREA;
 		/**
-		 * Default = "Unit of volume"
+		 * \brief Default = "Unit of volume"
 		 */
 		UNIT_OF_VOLUME = DEFAULT_UNIT_OF_VOLUME;
 		/**
-		 * Default = "Unit of time"
+		 * \brief Default = "Unit of time"
 		 */
 		UNIT_OF_TIME = DEFAULT_UNIT_OF_TIME;
 		/**
-		 * Default = "Unit of mass"
+		 * \brief Default = "Unit of mass"
 		 */
 		UNIT_OF_MASS = DEFAULT_UNIT_OF_MASS;
 		/**
-		 * Default = "Unit of information"
+		 * \brief Default = "Unit of information"
 		 */
 		UNIT_OF_INFORMATION = DEFAULT_UNIT_OF_INFORMATION;
 		/**
-		 * Default = "Unit of energy"
+		 * \brief Default = "Unit of energy"
 		 */
 		UNIT_OF_ENERGY = DEFAULT_UNIT_OF_ENERGY;
 		/**
-		 * Default = "Unit of speed"
+		 * \brief Default = "Unit of speed"
 		 */
 		UNIT_OF_SPEED = DEFAULT_UNIT_OF_SPEED;
 		/**
-		 * Default = "Unit of acceleration"
+		 * \brief Default = "Unit of acceleration"
 		 */
 		UNIT_OF_ACCELERATION = DEFAULT_UNIT_OF_ACCELERATION;
 		/**
-		 * Default = "Unit of angle"
+		 * \brief Default = "Unit of angle"
 		 */
 		UNIT_OF_ANGLE = DEFAULT_UNIT_OF_ANGLE;
 		// -------------------------------------------------
 		/**
-		 * Default = "Physical constant"
+		 * \brief Default = "Physical constant"
 		 */
 		PHYSICAL_CONSTANT = DEFAULT_PHYSICAL_CONSTANT;
 		/**
-		 * Default = "Astronomical constant"
+		 * \brief Default = "Astronomical constant"
 		 */
 		ASTRONOMICAL_CONSTANT = DEFAULT_ASTRONOMICAL_CONSTANT;
 		/**
-		 * Default = "Mathematical constant"
+		 * \brief Default = "Mathematical constant"
 		 */
 		MATHEMATICAL_CONSTANT = DEFAULT_MATHEMATICAL_CONSTANT;
 		// -------------------------------------------------
 		/**
-		 * Default = "Probability distribution function"
+		 * \brief Default = "Probability distribution function"
 		 */
 		PROBABILITY_DISTRIBUTION_FUNCTION = DEFAULT_PROBABILITY_DISTRIBUTION_FUNCTION;
 		/**
-		 * Default = "Cumulative distribution function"
+		 * \brief Default = "Cumulative distribution function"
 		 */
 		CUMULATIVE_DISTRIBUTION_FUNCTION = DEFAULT_CUMULATIVE_DISTRIBUTION_FUNCTION;
 		/**
-		 * Default = "Quantile function (inverse cumulative distribution function)"
+		 * \brief Default = "Quantile function (inverse cumulative distribution function)"
 		 */
 		QUANTILE_FUNCTION = DEFAULT_QUANTILE_FUNCTION;
 		// -------------------------------------------------
 		/**
-		 * Default = "Student's t-distribution"
+		 * \brief Default = "Student's t-distribution"
 		 */
 		STUDENTS_T_DISTRIBUTION = DEFAULT_STUDENTS_T_DISTRIBUTION;
 		/**
-		 * Default = "Chi-squared distribution"
+		 * \brief Default = "Chi-squared distribution"
 		 */
 		CHI_SQUARED_DISTRIBUTION = DEFAULT_CHI_SQUARED_DISTRIBUTION;
 		/**
-		 * Default = "Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)"
+		 * \brief Default = "Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)"
 		 */
 		SNEDECORS_F_DISTRIBUTION = DEFAULT_SNEDECORS_F_DISTRIBUTION;
 		/**
-		 * Default = "Uniform continuous distribution"
+		 * \brief Default = "Uniform continuous distribution"
 		 */
 		UNIFORM_CONTINUOUS_DISTRIBUTION = DEFAULT_UNIFORM_CONTINUOUS_DISTRIBUTION;
 		/**
-		 * Default = "Uniform discrete distribution"
+		 * \brief Default = "Uniform discrete distribution"
 		 */
 		UNIFORM_DISCRETE_DISTRIBUTION = DEFAULT_UNIFORM_DISCRETE_DISTRIBUTION;
 		/**
-		 * Default = "Normal distribution"
+		 * \brief Default = "Normal distribution"
 		 */
 		NORMAL_DISTRIBUTION = DEFAULT_NORMAL_DISTRIBUTION;
 		// -------------------------------------------------
 		/**
-		 * Default = "Random integer"
+		 * \brief Default = "Random integer"
 		 */
 		RANDOM_INTEGER = DEFAULT_RANDOM_INTEGER;
 		/**
-		 * Default = "Random natural number"
+		 * \brief Default = "Random natural number"
 		 */
 		RANDOM_NATURAL_NUMBER = DEFAULT_RANDOM_NATURAL_NUMBER;
 		/**
-		 * Default = "Random natural number including 0"
+		 * \brief Default = "Random natural number including 0"
 		 */
 		RANDOM_NATURAL_NUMBER_INCLUDING_0 = DEFAULT_RANDOM_NATURAL_NUMBER_INCLUDING_0;
 		// -------------------------------------------------
 		/**
-		 * Default = "Special function"
+		 * \brief Default = "Special function"
 		 */
 		SPECIAL_FUNCTION = DEFAULT_SPECIAL_FUNCTION;
 		// -------------------------------------------------
 		/**
-		 * Default = "Semi major axis"
+		 * \brief Default = "Semi major axis"
 		 */
 		SEMI_MAJOR_AXIS = DEFAULT_SEMI_MAJOR_AXIS;
 		// -------------------------------------------------
 		/**
-		 * Default = "Equality"
+		 * \brief Default = "Equality"
 		 */
 		BINARY_RELATION_EQ = DEFAULT_BINARY_RELATION_EQ;
 		/**
-		 * Default = "Inequation"
+		 * \brief Default = "Inequation"
 		 */
 		BINARY_RELATION_NEQ = DEFAULT_BINARY_RELATION_NEQ;
 		/**
-		 * Default = "Lower than"
+		 * \brief Default = "Lower than"
 		 */
 		BINARY_RELATION_LT = DEFAULT_BINARY_RELATION_LT;
 		/**
-		 * Default = "Greater than"
+		 * \brief Default = "Greater than"
 		 */
 		BINARY_RELATION_GT = DEFAULT_BINARY_RELATION_GT;
 		/**
-		 * Default = "Lower or equal"
+		 * \brief Default = "Lower or equal"
 		 */
 		BINARY_RELATION_LEQ = DEFAULT_BINARY_RELATION_LEQ;
 		/**
-		 * Default = "Greater or equal"
+		 * \brief Default = "Greater or equal"
 		 */
 		BINARY_RELATION_GEQ = DEFAULT_BINARY_RELATION_GEQ;
 		// -------------------------------------------------
 		/**
-		 * Default = "Bitwise unary complement (NOT)"
+		 * \brief Default = "Bitwise unary complement (NOT)"
 		 */
 		BITWISE_OPERATOR_COMPL = DEFAULT_BITWISE_OPERATOR_COMPL;
 		/**
-		 * Default = "Bitwise and (AND)"
+		 * \brief Default = "Bitwise and (AND)"
 		 */
 		BITWISE_OPERATOR_AND = DEFAULT_BITWISE_OPERATOR_AND;
 		/**
-		 * Default = "Bitwise exclusive or (XOR)"
+		 * \brief Default = "Bitwise exclusive or (XOR)"
 		 */
 		BITWISE_OPERATOR_XOR = DEFAULT_BITWISE_OPERATOR_XOR;
 		/**
-		 * Default = "Bitwise inclusive or (OR)"
+		 * \brief Default = "Bitwise inclusive or (OR)"
 		 */
 		BITWISE_OPERATOR_OR = DEFAULT_BITWISE_OPERATOR_OR;
 		/**
-		 * Default = "Bitwise signed left shift"
+		 * \brief Default = "Bitwise signed left shift"
 		 */
 		BITWISE_OPERATOR_LEFT_SHIFT = DEFAULT_BITWISE_OPERATOR_LEFT_SHIFT;
 		/**
-		 * Default = "Bitwise signed right shift"
+		 * \brief Default = "Bitwise signed right shift"
 		 */
 		BITWISE_OPERATOR_RIGHT_SHIFT = DEFAULT_BITWISE_OPERATOR_RIGHT_SHIFT;
 		/**
-		 * Default = "Bitwise not and (NAND)"
+		 * \brief Default = "Bitwise not and (NAND)"
 		 */
 		BITWISE_OPERATOR_NAND = DEFAULT_BITWISE_OPERATOR_NAND;
 		/**
-		 * Default = "Bitwise not or (NOR)"
+		 * \brief Default = "Bitwise not or (NOR)"
 		 */
 		BITWISE_OPERATOR_NOR = DEFAULT_BITWISE_OPERATOR_NOR;
 		/**
-		 * Default = "Bitwise exclusive NOR (XNOR)"
+		 * \brief Default = "Bitwise exclusive NOR (XNOR)"
 		 */
 		BITWISE_OPERATOR_XNOR = DEFAULT_BITWISE_OPERATOR_XNOR;
 		// -------------------------------------------------
 		/**
-		 * Default = "Logical conjunction"
+		 * \brief Default = "Logical conjunction"
 		 */
 		BOOLEAN_OPERATOR_AND = DEFAULT_BOOLEAN_OPERATOR_AND;
 		/**
-		 * Default = "Logical disjunction"
+		 * \brief Default = "Logical disjunction"
 		 */
 		BOOLEAN_OPERATOR_OR = DEFAULT_BOOLEAN_OPERATOR_OR;
 		/**
-		 * Default = "Negation"
+		 * \brief Default = "Negation"
 		 */
 		BOOLEAN_OPERATOR_NEG = DEFAULT_BOOLEAN_OPERATOR_NEG;
 		/**
-		 * Default = "Sheffer stroke"
+		 * \brief Default = "Sheffer stroke"
 		 */
 		BOOLEAN_OPERATOR_NAND = DEFAULT_BOOLEAN_OPERATOR_NAND;
 		/**
-		 * Default = "Logical not or (joint denial)"
+		 * \brief Default = "Logical not or (joint denial)"
 		 */
 		BOOLEAN_OPERATOR_NOR = DEFAULT_BOOLEAN_OPERATOR_NOR;
 		/**
-		 * Default = "Exclusive or"
+		 * \brief Default = "Exclusive or"
 		 */
 		BOOLEAN_OPERATOR_XOR = DEFAULT_BOOLEAN_OPERATOR_XOR;
 		/**
-		 * Default = "Implication"
+		 * \brief Default = "Implication"
 		 */
 		BOOLEAN_OPERATOR_IMP = DEFAULT_BOOLEAN_OPERATOR_IMP;
 		/**
-		 * Default = "Converse implication"
+		 * \brief Default = "Converse implication"
 		 */
 		BOOLEAN_OPERATOR_CIMP = DEFAULT_BOOLEAN_OPERATOR_CIMP;
 		/**
-		 * Default = "Material nonimplication"
+		 * \brief Default = "Material nonimplication"
 		 */
 		BOOLEAN_OPERATOR_NIMP = DEFAULT_BOOLEAN_OPERATOR_NIMP;
 		/**
-		 * Default = "Converse nonimplication"
+		 * \brief Default = "Converse nonimplication"
 		 */
 		BOOLEAN_OPERATOR_CNIMP = DEFAULT_BOOLEAN_OPERATOR_CNIMP;
 		/**
-		 * Default = "Logical biconditional"
+		 * \brief Default = "Logical biconditional"
 		 */
 		BOOLEAN_OPERATOR_EQV = DEFAULT_BOOLEAN_OPERATOR_EQV;
 		// -------------------------------------------------
 		/**
-		 * Default = "Summation SIGMA"
+		 * \brief Default = "Summation SIGMA"
 		 */
 		CALCULUS_OPERATOR_SUM = DEFAULT_CALCULUS_OPERATOR_SUM;
 		/**
-		 * Default = "Product PI"
+		 * \brief Default = "Product PI"
 		 */
 		CALCULUS_OPERATOR_PROD = DEFAULT_CALCULUS_OPERATOR_PROD;
 		/**
-		 * Default = "Definite integral"
+		 * \brief Default = "Definite integral"
 		 */
 		CALCULUS_OPERATOR_INT = DEFAULT_CALCULUS_OPERATOR_INT;
 		/**
-		 * Default = "Derivative"
+		 * \brief Default = "Derivative"
 		 */
 		CALCULUS_OPERATOR_DER = DEFAULT_CALCULUS_OPERATOR_DER;
 		/**
-		 * Default = "Left derivative"
+		 * \brief Default = "Left derivative"
 		 */
 		CALCULUS_OPERATOR_DER_LEFT = DEFAULT_CALCULUS_OPERATOR_DER_LEFT;
 		/**
-		 * Default = "Right derivative"
+		 * \brief Default = "Right derivative"
 		 */
 		CALCULUS_OPERATOR_DER_RIGHT = DEFAULT_CALCULUS_OPERATOR_DER_RIGHT;
 		/**
-		 * Default = "n-th derivative"
+		 * \brief Default = "n-th derivative"
 		 */
 		CALCULUS_OPERATOR_DERN = DEFAULT_CALCULUS_OPERATOR_DERN;
 		/**
-		 * Default = "Forward difference"
+		 * \brief Default = "Forward difference"
 		 */
 		CALCULUS_OPERATOR_FORW_DIFF = DEFAULT_CALCULUS_OPERATOR_FORW_DIFF;
 		/**
-		 * Default = "Backward difference"
+		 * \brief Default = "Backward difference"
 		 */
 		CALCULUS_OPERATOR_BACKW_DIFF = DEFAULT_CALCULUS_OPERATOR_BACKW_DIFF;
 		/**
-		 * Default = "Average"
+		 * \brief Default = "Average"
 		 */
 		CALCULUS_OPERATOR_AVG = DEFAULT_CALCULUS_OPERATOR_AVG;
 		/**
-		 * Default = "Bias-corrected sample variance"
+		 * \brief Default = "Bias-corrected sample variance"
 		 */
 		CALCULUS_OPERATOR_VAR = DEFAULT_CALCULUS_OPERATOR_VAR;
 		/**
-		 * Default = "Bias-corrected sample standard deviation"
+		 * \brief Default = "Bias-corrected sample standard deviation"
 		 */
 		CALCULUS_OPERATOR_STD = DEFAULT_CALCULUS_OPERATOR_STD;
 		/**
-		 * Default = "Minimum value"
+		 * \brief Default = "Minimum value"
 		 */
 		CALCULUS_OPERATOR_MIN = DEFAULT_CALCULUS_OPERATOR_MIN;
 		/**
-		 * Default = "Maximum value"
+		 * \brief Default = "Maximum value"
 		 */
 		CALCULUS_OPERATOR_MAX = DEFAULT_CALCULUS_OPERATOR_MAX;
 		/**
-		 * Default = "Equation solving (root finding)"
+		 * \brief Default = "Equation solving (root finding)"
 		 */
 		CALCULUS_OPERATOR_SOLVE = DEFAULT_CALCULUS_OPERATOR_SOLVE;
 		// -------------------------------------------------
 		/**
-		 * Default = "Pi, Archimedes' or Ludolph's number"
+		 * \brief Default = "Pi, Archimedes' or Ludolph's number"
 		 */
 		CONSTANT_VALUE_PI = DEFAULT_CONSTANT_VALUE_PI;
 		/**
-		 * Default = "Napier's or Euler's number (base of Natural logarithm)"
+		 * \brief Default = "Napier's or Euler's number (base of Natural logarithm)"
 		 */
 		CONSTANT_VALUE_EULER = DEFAULT_CONSTANT_VALUE_EULER;
 		/**
-		 * Default = "Euler-Mascheroni constant"
+		 * \brief Default = "Euler-Mascheroni constant"
 		 */
 		CONSTANT_VALUE_EULER_MASCHERONI = DEFAULT_CONSTANT_VALUE_EULER_MASCHERONI;
 		/**
-		 * Default = "Golden ratio"
+		 * \brief Default = "Golden ratio"
 		 */
 		CONSTANT_VALUE_GOLDEN_RATIO = DEFAULT_CONSTANT_VALUE_GOLDEN_RATIO;
 		/**
-		 * Default = "Plastic constant"
+		 * \brief Default = "Plastic constant"
 		 */
 		CONSTANT_VALUE_PLASTIC = DEFAULT_CONSTANT_VALUE_PLASTIC;
 		/**
-		 * Default = "Embree-Trefethen constant"
+		 * \brief Default = "Embree-Trefethen constant"
 		 */
 		CONSTANT_VALUE_EMBREE_TREFETHEN = DEFAULT_CONSTANT_VALUE_EMBREE_TREFETHEN;
 		/**
-		 * Default = "Feigenbaum delta constant"
+		 * \brief Default = "Feigenbaum delta constant"
 		 */
 		CONSTANT_VALUE_FEIGENBAUM_DELTA = DEFAULT_CONSTANT_VALUE_FEIGENBAUM_DELTA;
 		/**
-		 * Default = "Feigenbaum alpha constant"
+		 * \brief Default = "Feigenbaum alpha constant"
 		 */
 		CONSTANT_VALUE_FEIGENBAUM_ALPHA = DEFAULT_CONSTANT_VALUE_FEIGENBAUM_ALPHA;
 		/**
-		 * Default = "Twin prime constant"
+		 * \brief Default = "Twin prime constant"
 		 */
 		CONSTANT_VALUE_TWIN_PRIME = DEFAULT_CONSTANT_VALUE_TWIN_PRIME;
 		/**
-		 * Default = "Meissel-Mertens constant"
+		 * \brief Default = "Meissel-Mertens constant"
 		 */
 		CONSTANT_VALUE_MEISSEL_MERTEENS = DEFAULT_CONSTANT_VALUE_MEISSEL_MERTEENS;
 		/**
-		 * Default = "Brun's constant for twin primes"
+		 * \brief Default = "Brun's constant for twin primes"
 		 */
 		CONSTANT_VALUE_BRAUN_TWIN_PRIME = DEFAULT_CONSTANT_VALUE_BRAUN_TWIN_PRIME;
 		/**
-		 * Default = "Brun's constant for prime quadruplets"
+		 * \brief Default = "Brun's constant for prime quadruplets"
 		 */
 		CONSTANT_VALUE_BRAUN_PRIME_QUADR = DEFAULT_CONSTANT_VALUE_BRAUN_PRIME_QUADR;
 		/**
-		 * Default = "de Bruijn-Newman constant"
+		 * \brief Default = "de Bruijn-Newman constant"
 		 */
 		CONSTANT_VALUE_BRUIJN_NEWMAN = DEFAULT_CONSTANT_VALUE_BRUIJN_NEWMAN;
 		/**
-		 * Default = "Catalan's constant"
+		 * \brief Default = "Catalan's constant"
 		 */
 		CONSTANT_VALUE_CATALAN = DEFAULT_CONSTANT_VALUE_CATALAN;
 		/**
-		 * Default = "Landau-Ramanujan constant"
+		 * \brief Default = "Landau-Ramanujan constant"
 		 */
 		CONSTANT_VALUE_LANDAU_RAMANUJAN = DEFAULT_CONSTANT_VALUE_LANDAU_RAMANUJAN;
 		/**
-		 * Default = "Viswanath's constant"
+		 * \brief Default = "Viswanath's constant"
 		 */
 		CONSTANT_VALUE_VISWANATH = DEFAULT_CONSTANT_VALUE_VISWANATH;
 		/**
-		 * Default = "Legendre's constant"
+		 * \brief Default = "Legendre's constant"
 		 */
 		CONSTANT_VALUE_LEGENDRE = DEFAULT_CONSTANT_VALUE_LEGENDRE;
 		/**
-		 * Default = "Ramanujan-Soldner constant"
+		 * \brief Default = "Ramanujan-Soldner constant"
 		 */
 		CONSTANT_VALUE_RAMANUJAN_SOLDNER = DEFAULT_CONSTANT_VALUE_RAMANUJAN_SOLDNER;
 		/**
-		 * Default = "Erdos-Borwein constant"
+		 * \brief Default = "Erdos-Borwein constant"
 		 */
 		CONSTANT_VALUE_ERDOS_BORWEIN = DEFAULT_CONSTANT_VALUE_ERDOS_BORWEIN;
 		/**
-		 * Default = "Bernstein's constant"
+		 * \brief Default = "Bernstein's constant"
 		 */
 		CONSTANT_VALUE_BERNSTEIN = DEFAULT_CONSTANT_VALUE_BERNSTEIN;
 		/**
-		 * Default = "Gauss-Kuzmin-Wirsing constant"
+		 * \brief Default = "Gauss-Kuzmin-Wirsing constant"
 		 */
 		CONSTANT_VALUE_GAUSS_KUZMIN_WIRSING = DEFAULT_CONSTANT_VALUE_GAUSS_KUZMIN_WIRSING;
 		/**
-		 * Default = "Hafner-Sarnak-McCurley constant"
+		 * \brief Default = "Hafner-Sarnak-McCurley constant"
 		 */
 		CONSTANT_VALUE_HAFNER_SARNAK_MCCURLEY = DEFAULT_CONSTANT_VALUE_HAFNER_SARNAK_MCCURLEY;
 		/**
-		 * Default = "Golomb-Dickman constant"
+		 * \brief Default = "Golomb-Dickman constant"
 		 */
 		CONSTANT_VALUE_GOLOMB_DICKMAN = DEFAULT_CONSTANT_VALUE_GOLOMB_DICKMAN;
 		/**
-		 * Default = "Cahen's constant"
+		 * \brief Default = "Cahen's constant"
 		 */
 		CONSTANT_VALUE_CAHEN = DEFAULT_CONSTANT_VALUE_CAHEN;
 		/**
-		 * Default = "Laplace limit constant"
+		 * \brief Default = "Laplace limit constant"
 		 */
 		CONSTANT_VALUE_LAPLACE_LIMIT = DEFAULT_CONSTANT_VALUE_LAPLACE_LIMIT;
 		/**
-		 * Default = "Alladi-Grinstead constant"
+		 * \brief Default = "Alladi-Grinstead constant"
 		 */
 		CONSTANT_VALUE_ALLADI_GRINSTEAD = DEFAULT_CONSTANT_VALUE_ALLADI_GRINSTEAD;
 		/**
-		 * Default = "Lengyel's constant"
+		 * \brief Default = "Lengyel's constant"
 		 */
 		CONSTANT_VALUE_LENGYEL = DEFAULT_CONSTANT_VALUE_LENGYEL;
 		/**
-		 * Default = "Levy's constant"
+		 * \brief Default = "Levy's constant"
 		 */
 		CONSTANT_VALUE_LEVY = DEFAULT_CONSTANT_VALUE_LEVY;
 		/**
-		 * Default = "Apery's constant"
+		 * \brief Default = "Apery's constant"
 		 */
 		CONSTANT_VALUE_APERY = DEFAULT_CONSTANT_VALUE_APERY;
 		/**
-		 * Default = "Mills' constant"
+		 * \brief Default = "Mills' constant"
 		 */
 		CONSTANT_VALUE_MILLS = DEFAULT_CONSTANT_VALUE_MILLS;
 		/**
-		 * Default = "Backhouse's constant"
+		 * \brief Default = "Backhouse's constant"
 		 */
 		CONSTANT_VALUE_BACKHOUSE = DEFAULT_CONSTANT_VALUE_BACKHOUSE;
 		/**
-		 * Default = "Porter's constant"
+		 * \brief Default = "Porter's constant"
 		 */
 		CONSTANT_VALUE_PORTER = DEFAULT_CONSTANT_VALUE_PORTER;
 		/**
-		 * Default = "Lieb's square ice constant"
+		 * \brief Default = "Lieb's square ice constant"
 		 */
 		CONSTANT_VALUE_LIEB_QUARE_ICE = DEFAULT_CONSTANT_VALUE_LIEB_QUARE_ICE;
 		/**
-		 * Default = "Niven's constant"
+		 * \brief Default = "Niven's constant"
 		 */
 		CONSTANT_VALUE_NIVEN = DEFAULT_CONSTANT_VALUE_NIVEN;
 		/**
-		 * Default = "Sierpinski's constant"
+		 * \brief Default = "Sierpinski's constant"
 		 */
 		CONSTANT_VALUE_SIERPINSKI = DEFAULT_CONSTANT_VALUE_SIERPINSKI;
 		/**
-		 * Default = "Khinchin's constant"
+		 * \brief Default = "Khinchin's constant"
 		 */
 		CONSTANT_VALUE_KHINCHIN = DEFAULT_CONSTANT_VALUE_KHINCHIN;
 		/**
-		 * Default = "Fransen-Robinson constant"
+		 * \brief Default = "Fransen-Robinson constant"
 		 */
 		CONSTANT_VALUE_FRANSEN_ROBINSON = DEFAULT_CONSTANT_VALUE_FRANSEN_ROBINSON;
 		/**
-		 * Default = "Landau's constant"
+		 * \brief Default = "Landau's constant"
 		 */
 		CONSTANT_VALUE_LANDAU = DEFAULT_CONSTANT_VALUE_LANDAU;
 		/**
-		 * Default = "Parabolic constant"
+		 * \brief Default = "Parabolic constant"
 		 */
 		CONSTANT_VALUE_PARABOLIC = DEFAULT_CONSTANT_VALUE_PARABOLIC;
 		/**
-		 * Default = "Omega constant"
+		 * \brief Default = "Omega constant"
 		 */
 		CONSTANT_VALUE_OMEGA = DEFAULT_CONSTANT_VALUE_OMEGA;
 		/**
-		 * Default = "MRB constant"
+		 * \brief Default = "MRB constant"
 		 */
 		CONSTANT_VALUE_MRB = DEFAULT_CONSTANT_VALUE_MRB;
 		/**
-		 * Default = "Logarithmic integral at point 2"
+		 * \brief Default = "Logarithmic integral at point 2"
 		 */
 		CONSTANT_VALUE_LI2 = DEFAULT_CONSTANT_VALUE_LI2;
 		/**
-		 * Default = "Gompertz constant"
+		 * \brief Default = "Gompertz constant"
 		 */
 		CONSTANT_VALUE_GOMPERTZ = DEFAULT_CONSTANT_VALUE_GOMPERTZ;
 		/**
-		 * Default = "Light speed in vacuum"
+		 * \brief Default = "Light speed in vacuum"
 		 */
 		CONSTANT_VALUE_LIGHT_SPEED = DEFAULT_CONSTANT_VALUE_LIGHT_SPEED;
 		/**
-		 * Default = "Gravitational constant"
+		 * \brief Default = "Gravitational constant"
 		 */
 		CONSTANT_VALUE_GRAVITATIONAL_CONSTANT = DEFAULT_CONSTANT_VALUE_GRAVITATIONAL_CONSTANT;
 		/**
-		 * Default = "Gravitational acceleration on Earth"
+		 * \brief Default = "Gravitational acceleration on Earth"
 		 */
 		CONSTANT_VALUE_GRAVIT_ACC_EARTH = DEFAULT_CONSTANT_VALUE_GRAVIT_ACC_EARTH;
 		/**
-		 * Default = "Planck constant"
+		 * \brief Default = "Planck constant"
 		 */
 		CONSTANT_VALUE_PLANCK_CONSTANT = DEFAULT_CONSTANT_VALUE_PLANCK_CONSTANT;
 		/**
-		 * Default = "Reduced Planck constant (Dirac constant)"
+		 * \brief Default = "Reduced Planck constant (Dirac constant)"
 		 */
 		CONSTANT_VALUE_PLANCK_CONSTANT_REDUCED = DEFAULT_CONSTANT_VALUE_PLANCK_CONSTANT_REDUCED;
 		/**
-		 * Default = "Planck length"
+		 * \brief Default = "Planck length"
 		 */
 		CONSTANT_VALUE_PLANCK_LENGTH = DEFAULT_CONSTANT_VALUE_PLANCK_LENGTH;
 		/**
-		 * Default = "Planck mass"
+		 * \brief Default = "Planck mass"
 		 */
 		CONSTANT_VALUE_PLANCK_MASS = DEFAULT_CONSTANT_VALUE_PLANCK_MASS;
 		/**
-		 * Default = "Planck time"
+		 * \brief Default = "Planck time"
 		 */
 		CONSTANT_VALUE_PLANCK_TIME = DEFAULT_CONSTANT_VALUE_PLANCK_TIME;
 		/**
-		 * Default = "Light year"
+		 * \brief Default = "Light year"
 		 */
 		CONSTANT_VALUE_LIGHT_YEAR = DEFAULT_CONSTANT_VALUE_LIGHT_YEAR;
 		/**
-		 * Default = "Astronomical unit"
+		 * \brief Default = "Astronomical unit"
 		 */
 		CONSTANT_VALUE_ASTRONOMICAL_UNIT = DEFAULT_CONSTANT_VALUE_ASTRONOMICAL_UNIT;
 		/**
-		 * Default = "Parsec"
+		 * \brief Default = "Parsec"
 		 */
 		CONSTANT_VALUE_PARSEC = DEFAULT_CONSTANT_VALUE_PARSEC;
 		/**
-		 * Default = "Kiloparsec"
+		 * \brief Default = "Kiloparsec"
 		 */
 		CONSTANT_VALUE_KILOPARSEC = DEFAULT_CONSTANT_VALUE_KILOPARSEC;
 		/**
-		 * Default = "Earth equatorial radius"
+		 * \brief Default = "Earth equatorial radius"
 		 */
 		CONSTANT_VALUE_EARTH_RADIUS_EQUATORIAL = DEFAULT_CONSTANT_VALUE_EARTH_RADIUS_EQUATORIAL;
 		/**
-		 * Default = "Earth polar radius"
+		 * \brief Default = "Earth polar radius"
 		 */
 		CONSTANT_VALUE_EARTH_RADIUS_POLAR = DEFAULT_CONSTANT_VALUE_EARTH_RADIUS_POLAR;
 		/**
-		 * Default = "Earth mean radius"
+		 * \brief Default = "Earth mean radius"
 		 */
 		CONSTANT_VALUE_EARTH_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_EARTH_RADIUS_MEAN;
 		/**
-		 * Default = "Earth mass"
+		 * \brief Default = "Earth mass"
 		 */
 		CONSTANT_VALUE_EARTH_MASS = DEFAULT_CONSTANT_VALUE_EARTH_MASS;
 		/**
-		 * Default = "Earth-Sun distance"
+		 * \brief Default = "Earth-Sun distance"
 		 */
 		CONSTANT_VALUE_EARTH_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_EARTH_SEMI_MAJOR_AXIS;
 		/**
-		 * Default = "Moon mean radius"
+		 * \brief Default = "Moon mean radius"
 		 */
 		CONSTANT_VALUE_MOON_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_MOON_RADIUS_MEAN;
 		/**
-		 * Default = "Moon mass"
+		 * \brief Default = "Moon mass"
 		 */
 		CONSTANT_VALUE_MOON_MASS = DEFAULT_CONSTANT_VALUE_MOON_MASS;
 		/**
-		 * Default = "Moon-Earth distance"
+		 * \brief Default = "Moon-Earth distance"
 		 */
 		CONSTANT_VALUE_MOON_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_MOON_SEMI_MAJOR_AXIS;
 		/**
-		 * Default = "Solar mean radius"
+		 * \brief Default = "Solar mean radius"
 		 */
 		CONSTANT_VALUE_SOLAR_RADIUS = DEFAULT_CONSTANT_VALUE_SOLAR_RADIUS;
 		/**
-		 * Default = "Solar mass"
+		 * \brief Default = "Solar mass"
 		 */
 		CONSTANT_VALUE_SOLAR_MASS = DEFAULT_CONSTANT_VALUE_SOLAR_MASS;
 		/**
-		 * Default = "Mercury mean radius"
+		 * \brief Default = "Mercury mean radius"
 		 */
 		CONSTANT_VALUE_MERCURY_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_MERCURY_RADIUS_MEAN;
 		/**
-		 * Default = "Mercury mass"
+		 * \brief Default = "Mercury mass"
 		 */
 		CONSTANT_VALUE_MERCURY_MASS = DEFAULT_CONSTANT_VALUE_MERCURY_MASS;
 		/**
-		 * Default = "Mercury-Sun distance"
+		 * \brief Default = "Mercury-Sun distance"
 		 */
 		CONSTANT_VALUE_MERCURY_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_MERCURY_SEMI_MAJOR_AXIS;
 		/**
-		 * Default = "Venus mean radius"
+		 * \brief Default = "Venus mean radius"
 		 */
 		CONSTANT_VALUE_VENUS_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_VENUS_RADIUS_MEAN;
 		/**
-		 * Default = "Venus mass"
+		 * \brief Default = "Venus mass"
 		 */
 		CONSTANT_VALUE_VENUS_MASS = DEFAULT_CONSTANT_VALUE_VENUS_MASS;
 		/**
-		 * Default = "Venus-Sun distance"
+		 * \brief Default = "Venus-Sun distance"
 		 */
 		CONSTANT_VALUE_VENUS_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_VENUS_SEMI_MAJOR_AXIS;
 		/**
-		 * Default = "Mars mean radius"
+		 * \brief Default = "Mars mean radius"
 		 */
 		CONSTANT_VALUE_MARS_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_MARS_RADIUS_MEAN;
 		/**
-		 * Default = "Mars mass"
+		 * \brief Default = "Mars mass"
 		 */
 		CONSTANT_VALUE_MARS_MASS = DEFAULT_CONSTANT_VALUE_MARS_MASS;
 		/**
-		 * Default = "Mars-Sun distance"
+		 * \brief Default = "Mars-Sun distance"
 		 */
 		CONSTANT_VALUE_MARS_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_MARS_SEMI_MAJOR_AXIS;
 		/**
-		 * Default = "Jupiter mean radius"
+		 * \brief Default = "Jupiter mean radius"
 		 */
 		CONSTANT_VALUE_JUPITER_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_JUPITER_RADIUS_MEAN;
 		/**
-		 * Default = "Jupiter mass"
+		 * \brief Default = "Jupiter mass"
 		 */
 		CONSTANT_VALUE_JUPITER_MASS = DEFAULT_CONSTANT_VALUE_JUPITER_MASS;
 		/**
-		 * Default = "Jupiter-Sun distance"
+		 * \brief Default = "Jupiter-Sun distance"
 		 */
 		CONSTANT_VALUE_JUPITER_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_JUPITER_SEMI_MAJOR_AXIS;
 		/**
-		 * Default = "Saturn mean radius"
+		 * \brief Default = "Saturn mean radius"
 		 */
 		CONSTANT_VALUE_SATURN_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_SATURN_RADIUS_MEAN;
 		/**
-		 * Default = "Saturn mass"
+		 * \brief Default = "Saturn mass"
 		 */
 		CONSTANT_VALUE_SATURN_MASS = DEFAULT_CONSTANT_VALUE_SATURN_MASS;
 		/**
-		 * Default = "Saturn-Sun distance"
+		 * \brief Default = "Saturn-Sun distance"
 		 */
 		CONSTANT_VALUE_SATURN_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_SATURN_SEMI_MAJOR_AXIS;
 		/**
-		 * Default = "Uranus mean radius"
+		 * \brief Default = "Uranus mean radius"
 		 */
 		CONSTANT_VALUE_URANUS_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_URANUS_RADIUS_MEAN;
 		/**
-		 * Default = "Uranus mass"
+		 * \brief Default = "Uranus mass"
 		 */
 		CONSTANT_VALUE_URANUS_MASS = DEFAULT_CONSTANT_VALUE_URANUS_MASS;
 		/**
-		 * Default = "Uranus-Sun distance"
+		 * \brief Default = "Uranus-Sun distance"
 		 */
 		CONSTANT_VALUE_URANUS_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_URANUS_SEMI_MAJOR_AXIS;
 		/**
-		 * Default = "Neptune mean radius"
+		 * \brief Default = "Neptune mean radius"
 		 */
 		CONSTANT_VALUE_NEPTUNE_RADIUS_MEAN = DEFAULT_CONSTANT_VALUE_NEPTUNE_RADIUS_MEAN;
 		/**
-		 * Default = "Neptune mass"
+		 * \brief Default = "Neptune mass"
 		 */
 		CONSTANT_VALUE_NEPTUNE_MASS = DEFAULT_CONSTANT_VALUE_NEPTUNE_MASS;
 		/**
-		 * Default = "Neptune-Sun distance"
+		 * \brief Default = "Neptune-Sun distance"
 		 */
 		CONSTANT_VALUE_NEPTUNE_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_NEPTUNE_SEMI_MAJOR_AXIS;
 		/**
-		 * Default = "Boolean True represented as 1"
+		 * \brief Default = "Boolean True represented as 1"
 		 */
 		CONSTANT_VALUE_TRUE = DEFAULT_CONSTANT_VALUE_TRUE;
 		/**
-		 * Default = "Boolean False represented as 0"
+		 * \brief Default = "Boolean False represented as 0"
 		 */
 		CONSTANT_VALUE_FALSE = DEFAULT_CONSTANT_VALUE_FALSE;
 		/**
-		 * Default = "Automatically generated constant for user defined functions, returns number of given function parameters"
+		 * \brief Default = "Automatically generated constant for user defined functions, returns number of given function parameters"
 		 */
 		CONSTANT_VALUE_NPAR = DEFAULT_CONSTANT_VALUE_NPAR;
 		/**
-		 * Default = "Not-a-Number"
+		 * \brief Default = "Not-a-Number"
 		 */
 		CONSTANT_VALUE_NAN = DEFAULT_CONSTANT_VALUE_NAN;
 		// -------------------------------------------------
 		/**
-		 * Default = "Trigonometric sine"
+		 * \brief Default = "Trigonometric sine"
 		 */
 		FUNCTION_1_ARG_SIN = DEFAULT_FUNCTION_1_ARG_SIN;
 		/**
-		 * Default = "Trigonometric cosine"
+		 * \brief Default = "Trigonometric cosine"
 		 */
 		FUNCTION_1_ARG_COS = DEFAULT_FUNCTION_1_ARG_COS;
 		/**
-		 * Default = "Trigonometric tangent"
+		 * \brief Default = "Trigonometric tangent"
 		 */
 		FUNCTION_1_ARG_TAN = DEFAULT_FUNCTION_1_ARG_TAN;
 		/**
-		 * Default = "Trigonometric cotangent"
+		 * \brief Default = "Trigonometric cotangent"
 		 */
 		FUNCTION_1_ARG_CTAN = DEFAULT_FUNCTION_1_ARG_CTAN;
 		/**
-		 * Default = "Trigonometric secant"
+		 * \brief Default = "Trigonometric secant"
 		 */
 		FUNCTION_1_ARG_SEC = DEFAULT_FUNCTION_1_ARG_SEC;
 		/**
-		 * Default = "Trigonometric cosecant"
+		 * \brief Default = "Trigonometric cosecant"
 		 */
 		FUNCTION_1_ARG_COSEC = DEFAULT_FUNCTION_1_ARG_COSEC;
 		/**
-		 * Default = "Inverse trigonometric sine"
+		 * \brief Default = "Inverse trigonometric sine"
 		 */
 		FUNCTION_1_ARG_ASIN = DEFAULT_FUNCTION_1_ARG_ASIN;
 		/**
-		 * Default = "Inverse trigonometric cosine"
+		 * \brief Default = "Inverse trigonometric cosine"
 		 */
 		FUNCTION_1_ARG_ACOS = DEFAULT_FUNCTION_1_ARG_ACOS;
 		/**
-		 * Default = "Inverse trigonometric tangent"
+		 * \brief Default = "Inverse trigonometric tangent"
 		 */
 		FUNCTION_1_ARG_ATAN = DEFAULT_FUNCTION_1_ARG_ATAN;
 		/**
-		 * Default = "Inverse trigonometric cotangent"
+		 * \brief Default = "Inverse trigonometric cotangent"
 		 */
 		FUNCTION_1_ARG_ACTAN = DEFAULT_FUNCTION_1_ARG_ACTAN;
 		/**
-		 * Default = "Natural logarithm (base e)"
+		 * \brief Default = "Natural logarithm (base e)"
 		 */
 		FUNCTION_1_ARG_LN = DEFAULT_FUNCTION_1_ARG_LN;
 		/**
-		 * Default = "Binary logarithm (base 2)"
+		 * \brief Default = "Binary logarithm (base 2)"
 		 */
 		FUNCTION_1_ARG_LOG2 = DEFAULT_FUNCTION_1_ARG_LOG2;
 		/**
-		 * Default = "Common logarithm (base 10)"
+		 * \brief Default = "Common logarithm (base 10)"
 		 */
 		FUNCTION_1_ARG_LOG10 = DEFAULT_FUNCTION_1_ARG_LOG10;
 		/**
-		 * Default = "Degrees to radians"
+		 * \brief Default = "Degrees to radians"
 		 */
 		FUNCTION_1_ARG_RAD = DEFAULT_FUNCTION_1_ARG_RAD;
 		/**
-		 * Default = "Exponential"
+		 * \brief Default = "Exponential"
 		 */
 		FUNCTION_1_ARG_EXP = DEFAULT_FUNCTION_1_ARG_EXP;
 		/**
-		 * Default = "Square root"
+		 * \brief Default = "Square root"
 		 */
 		FUNCTION_1_ARG_SQRT = DEFAULT_FUNCTION_1_ARG_SQRT;
 		/**
-		 * Default = "Hyperbolic sine"
+		 * \brief Default = "Hyperbolic sine"
 		 */
 		FUNCTION_1_ARG_SINH = DEFAULT_FUNCTION_1_ARG_SINH;
 		/**
-		 * Default = "Hyperbolic cosine"
+		 * \brief Default = "Hyperbolic cosine"
 		 */
 		FUNCTION_1_ARG_COSH = DEFAULT_FUNCTION_1_ARG_COSH;
 		/**
-		 * Default = "Hyperbolic tangent"
+		 * \brief Default = "Hyperbolic tangent"
 		 */
 		FUNCTION_1_ARG_TANH = DEFAULT_FUNCTION_1_ARG_TANH;
 		/**
-		 * Default = "Hyperbolic cotangent"
+		 * \brief Default = "Hyperbolic cotangent"
 		 */
 		FUNCTION_1_ARG_COTH = DEFAULT_FUNCTION_1_ARG_COTH;
 		/**
-		 * Default = "Hyperbolic secant"
+		 * \brief Default = "Hyperbolic secant"
 		 */
 		FUNCTION_1_ARG_SECH = DEFAULT_FUNCTION_1_ARG_SECH;
 		/**
-		 * Default = "Hyperbolic cosecant"
+		 * \brief Default = "Hyperbolic cosecant"
 		 */
 		FUNCTION_1_ARG_CSCH = DEFAULT_FUNCTION_1_ARG_CSCH;
 		/**
-		 * Default = "Radians to degrees"
+		 * \brief Default = "Radians to degrees"
 		 */
 		FUNCTION_1_ARG_DEG = DEFAULT_FUNCTION_1_ARG_DEG;
 		/**
-		 * Default = "Absolut value"
+		 * \brief Default = "Absolut value"
 		 */
 		FUNCTION_1_ARG_ABS = DEFAULT_FUNCTION_1_ARG_ABS;
 		/**
-		 * Default = "Signum"
+		 * \brief Default = "Signum"
 		 */
 		FUNCTION_1_ARG_SGN = DEFAULT_FUNCTION_1_ARG_SGN;
 		/**
-		 * Default = "Floor"
+		 * \brief Default = "Floor"
 		 */
 		FUNCTION_1_ARG_FLOOR = DEFAULT_FUNCTION_1_ARG_FLOOR;
 		/**
-		 * Default = "Ceiling"
+		 * \brief Default = "Ceiling"
 		 */
 		FUNCTION_1_ARG_CEIL = DEFAULT_FUNCTION_1_ARG_CEIL;
 		/**
-		 * Default = "Negation"
+		 * \brief Default = "Negation"
 		 */
 		FUNCTION_1_ARG_NOT = DEFAULT_FUNCTION_1_ARG_NOT;
 		/**
-		 * Default = "Inverse hyperbolic sine"
+		 * \brief Default = "Inverse hyperbolic sine"
 		 */
 		FUNCTION_1_ARG_ARSINH = DEFAULT_FUNCTION_1_ARG_ARSINH;
 		/**
-		 * Default = "Inverse hyperbolic cosine"
+		 * \brief Default = "Inverse hyperbolic cosine"
 		 */
 		FUNCTION_1_ARG_ARCOSH = DEFAULT_FUNCTION_1_ARG_ARCOSH;
 		/**
-		 * Default = "Inverse hyperbolic tangent"
+		 * \brief Default = "Inverse hyperbolic tangent"
 		 */
 		FUNCTION_1_ARG_ARTANH = DEFAULT_FUNCTION_1_ARG_ARTANH;
 		/**
-		 * Default = "Inverse hyperbolic cotangent"
+		 * \brief Default = "Inverse hyperbolic cotangent"
 		 */
 		FUNCTION_1_ARG_ARCOTH = DEFAULT_FUNCTION_1_ARG_ARCOTH;
 		/**
-		 * Default = "Inverse hyperbolic secant"
+		 * \brief Default = "Inverse hyperbolic secant"
 		 */
 		FUNCTION_1_ARG_ARSECH = DEFAULT_FUNCTION_1_ARG_ARSECH;
 		/**
-		 * Default = "Inverse hyperbolic cosecant"
+		 * \brief Default = "Inverse hyperbolic cosecant"
 		 */
 		FUNCTION_1_ARG_ARCSCH = DEFAULT_FUNCTION_1_ARG_ARCSCH;
 		/**
-		 * Default = "Sinc (normalized)"
+		 * \brief Default = "Sinc (normalized)"
 		 */
 		FUNCTION_1_ARG_SA = DEFAULT_FUNCTION_1_ARG_SA;
 		/**
-		 * Default = "Sinc (unnormalized)"
+		 * \brief Default = "Sinc (unnormalized)"
 		 */
 		FUNCTION_1_ARG_SINC = DEFAULT_FUNCTION_1_ARG_SINC;
 		/**
-		 * Default = "Bell number"
+		 * \brief Default = "Bell number"
 		 */
 		FUNCTION_1_ARG_BELL_NUMBER = DEFAULT_FUNCTION_1_ARG_BELL_NUMBER;
 		/**
-		 * Default = "Lucas number"
+		 * \brief Default = "Lucas number"
 		 */
 		FUNCTION_1_ARG_LUCAS_NUMBER = DEFAULT_FUNCTION_1_ARG_LUCAS_NUMBER;
 		/**
-		 * Default = "Fibonacci number"
+		 * \brief Default = "Fibonacci number"
 		 */
 		FUNCTION_1_ARG_FIBONACCI_NUMBER = DEFAULT_FUNCTION_1_ARG_FIBONACCI_NUMBER;
 		/**
-		 * Default = "Harmonic number"
+		 * \brief Default = "Harmonic number"
 		 */
 		FUNCTION_1_ARG_HARMONIC_NUMBER = DEFAULT_FUNCTION_1_ARG_HARMONIC_NUMBER;
 		/**
-		 * Default = "Prime number test (is number a prime?)"
+		 * \brief Default = "Prime number test (is number a prime?)"
 		 */
 		FUNCTION_1_ARG_IS_PRIME = DEFAULT_FUNCTION_1_ARG_IS_PRIME;
 		/**
-		 * Default = "Prime-counting"
+		 * \brief Default = "Prime-counting"
 		 */
 		FUNCTION_1_ARG_PRIME_COUNT = DEFAULT_FUNCTION_1_ARG_PRIME_COUNT;
 		/**
-		 * Default = "Exponential integral"
+		 * \brief Default = "Exponential integral"
 		 */
 		FUNCTION_1_ARG_EXP_INT = DEFAULT_FUNCTION_1_ARG_EXP_INT;
 		/**
-		 * Default = "Logarithmic integral"
+		 * \brief Default = "Logarithmic integral"
 		 */
 		FUNCTION_1_ARG_LOG_INT = DEFAULT_FUNCTION_1_ARG_LOG_INT;
 		/**
-		 * Default = "Offset logarithmic integral"
+		 * \brief Default = "Offset logarithmic integral"
 		 */
 		FUNCTION_1_ARG_OFF_LOG_INT = DEFAULT_FUNCTION_1_ARG_OFF_LOG_INT;
 		/**
-		 * Default = "Gauss error"
+		 * \brief Default = "Gauss error"
 		 */
 		FUNCTION_1_ARG_GAUSS_ERF = DEFAULT_FUNCTION_1_ARG_GAUSS_ERF;
 		/**
-		 * Default = "Gauss complementary error"
+		 * \brief Default = "Gauss complementary error"
 		 */
 		FUNCTION_1_ARG_GAUSS_ERFC = DEFAULT_FUNCTION_1_ARG_GAUSS_ERFC;
 		/**
-		 * Default = "Inverse Gauss error"
+		 * \brief Default = "Inverse Gauss error"
 		 */
 		FUNCTION_1_ARG_GAUSS_ERF_INV = DEFAULT_FUNCTION_1_ARG_GAUSS_ERF_INV;
 		/**
-		 * Default = "Inverse Gauss complementary error"
+		 * \brief Default = "Inverse Gauss complementary error"
 		 */
 		FUNCTION_1_ARG_GAUSS_ERFC_INV = DEFAULT_FUNCTION_1_ARG_GAUSS_ERFC_INV;
 		/**
-		 * Default = "Unit in The Last Place"
+		 * \brief Default = "Unit in The Last Place"
 		 */
 		FUNCTION_1_ARG_ULP = DEFAULT_FUNCTION_1_ARG_ULP;
 		/**
-		 * Default = "Returns true if value is a Not-a-Number (NaN), false otherwise"
+		 * \brief Default = "Returns true if value is a Not-a-Number (NaN), false otherwise"
 		 */
 		FUNCTION_1_ARG_ISNAN = DEFAULT_FUNCTION_1_ARG_ISNAN;
 		/**
-		 * Default = "Number of digits in numeral system with base 10"
+		 * \brief Default = "Number of digits in numeral system with base 10"
 		 */
 		FUNCTION_1_ARG_NDIG10 = DEFAULT_FUNCTION_1_ARG_NDIG10;
 		/**
-		 * Default = "Prime decomposition - number of distinct prime factors"
+		 * \brief Default = "Prime decomposition - number of distinct prime factors"
 		 */
 		FUNCTION_1_ARG_NFACT = DEFAULT_FUNCTION_1_ARG_NFACT;
 		/**
-		 * Default = "Inverse trigonometric secant"
+		 * \brief Default = "Inverse trigonometric secant"
 		 */
 		FUNCTION_1_ARG_ARCSEC = DEFAULT_FUNCTION_1_ARG_ARCSEC;
 		/**
-		 * Default = "Inverse trigonometric cosecant"
+		 * \brief Default = "Inverse trigonometric cosecant"
 		 */
 		FUNCTION_1_ARG_ARCCSC = DEFAULT_FUNCTION_1_ARG_ARCCSC;
 		/**
-		 * Default = "Gamma"
+		 * \brief Default = "Gamma"
 		 */
 		FUNCTION_1_ARG_GAMMA = DEFAULT_FUNCTION_1_ARG_GAMMA;
 		/**
-		 * Default = "Lambert-W, principal branch 0, also called the omega or product logarithm"
+		 * \brief Default = "Lambert-W, principal branch 0, also called the omega or product logarithm"
 		 */
 		FUNCTION_1_ARG_LAMBERT_W0 = DEFAULT_FUNCTION_1_ARG_LAMBERT_W0;
 		/**
-		 * Default = "Lambert-W, branch -1, also called the omega or product logarithm"
+		 * \brief Default = "Lambert-W, branch -1, also called the omega or product logarithm"
 		 */
 		FUNCTION_1_ARG_LAMBERT_W1 = DEFAULT_FUNCTION_1_ARG_LAMBERT_W1;
 		/**
-		 * Default = "Signum of Gamma"
+		 * \brief Default = "Signum of Gamma"
 		 */
 		FUNCTION_1_ARG_SGN_GAMMA = DEFAULT_FUNCTION_1_ARG_SGN_GAMMA;
 		/**
-		 * Default = "Log Gamma"
+		 * \brief Default = "Log Gamma"
 		 */
 		FUNCTION_1_ARG_LOG_GAMMA = DEFAULT_FUNCTION_1_ARG_LOG_GAMMA;
 		/**
-		 * Default = "Digamma as the logarithmic derivative of the Gamma"
+		 * \brief Default = "Digamma as the logarithmic derivative of the Gamma"
 		 */
 		FUNCTION_1_ARG_DI_GAMMA = DEFAULT_FUNCTION_1_ARG_DI_GAMMA;
 		/**
-		 * Default = "Automatically generated function for user defined functions, returns function parameter value at index 'i'"
+		 * \brief Default = "Automatically generated function for user defined functions, returns function parameter value at index 'i'"
 		 */
 		FUNCTION_1_ARG_PARAM = DEFAULT_FUNCTION_1_ARG_PARAM;
 		// -------------------------------------------------
 		/**
-		 * Default = "Logarithm"
+		 * \brief Default = "Logarithm"
 		 */
 		FUNCTION_2_ARG_LOG = DEFAULT_FUNCTION_2_ARG_LOG;
 		/**
-		 * Default = "Modulo"
+		 * \brief Default = "Modulo"
 		 */
 		FUNCTION_2_ARG_MOD = DEFAULT_FUNCTION_2_ARG_MOD;
 		/**
-		 * Default = "Binomial coefficient, number of k-combinations that can be drawn from n-elements set"
+		 * \brief Default = "Binomial coefficient, number of k-combinations that can be drawn from n-elements set"
 		 */
 		FUNCTION_2_ARG_BINOM_COEFF = DEFAULT_FUNCTION_2_ARG_BINOM_COEFF;
 		/**
-		 * Default = "Bernoulli numbers"
+		 * \brief Default = "Bernoulli numbers"
 		 */
 		FUNCTION_2_ARG_BERNOULLI_NUMBER = DEFAULT_FUNCTION_2_ARG_BERNOULLI_NUMBER;
 		/**
-		 * Default = "Stirling numbers of the first kind"
+		 * \brief Default = "Stirling numbers of the first kind"
 		 */
 		FUNCTION_2_ARG_STIRLING1_NUMBER = DEFAULT_FUNCTION_2_ARG_STIRLING1_NUMBER;
 		/**
-		 * Default = "Stirling numbers of the second kind"
+		 * \brief Default = "Stirling numbers of the second kind"
 		 */
 		FUNCTION_2_ARG_STIRLING2_NUMBER = DEFAULT_FUNCTION_2_ARG_STIRLING2_NUMBER;
 		/**
-		 * Default = "Worpitzky number"
+		 * \brief Default = "Worpitzky number"
 		 */
 		FUNCTION_2_ARG_WORPITZKY_NUMBER = DEFAULT_FUNCTION_2_ARG_WORPITZKY_NUMBER;
 		/**
-		 * Default = "Euler number"
+		 * \brief Default = "Euler number"
 		 */
 		FUNCTION_2_ARG_EULER_NUMBER = DEFAULT_FUNCTION_2_ARG_EULER_NUMBER;
 		/**
-		 * Default = "Kronecker delta"
+		 * \brief Default = "Kronecker delta"
 		 */
 		FUNCTION_2_ARG_KRONECKER_DELTA = DEFAULT_FUNCTION_2_ARG_KRONECKER_DELTA;
 		/**
-		 * Default = "EulerPol"
+		 * \brief Default = "EulerPol"
 		 */
 		FUNCTION_2_ARG_EULER_POLYNOMIAL = DEFAULT_FUNCTION_2_ARG_EULER_POLYNOMIAL;
 		/**
-		 * Default = "Harmonic number"
+		 * \brief Default = "Harmonic number"
 		 */
 		FUNCTION_2_ARG_HARMONIC_NUMBER = DEFAULT_FUNCTION_2_ARG_HARMONIC_NUMBER;
 		/**
-		 * Default = "Half-up rounding"
+		 * \brief Default = "Half-up rounding"
 		 */
 		FUNCTION_2_ARG_ROUND = DEFAULT_FUNCTION_2_ARG_ROUND;
 		/**
-		 * Default = "Number of digits representing the number in numeral system with given base"
+		 * \brief Default = "Number of digits representing the number in numeral system with given base"
 		 */
 		FUNCTION_2_ARG_NDIG = DEFAULT_FUNCTION_2_ARG_NDIG;
 		/**
-		 * Default = "Digit at position 1 ... n (left -&gt; right) or 0 ... -(n-1) (right -&gt; left) - base 10 numeral system"
+		 * \brief Default = "Digit at position 1 ... n (left -&gt; right) or 0 ... -(n-1) (right -&gt; left) - base 10 numeral system"
 		 */
 		FUNCTION_2_ARG_DIGIT10 = DEFAULT_FUNCTION_2_ARG_DIGIT10;
 		/**
-		 * Default = "Prime decomposition - factor value at position between 1 ... nfact(n) - ascending order by factor value"
+		 * \brief Default = "Prime decomposition - factor value at position between 1 ... nfact(n) - ascending order by factor value"
 		 */
 		FUNCTION_2_ARG_FACTVAL = DEFAULT_FUNCTION_2_ARG_FACTVAL;
 		/**
-		 * Default = "Prime decomposition - factor exponent / multiplicity at position between 1 ... nfact(n) - ascending order by factor value"
+		 * \brief Default = "Prime decomposition - factor exponent / multiplicity at position between 1 ... nfact(n) - ascending order by factor value"
 		 */
 		FUNCTION_2_ARG_FACTEXP = DEFAULT_FUNCTION_2_ARG_FACTEXP;
 		/**
-		 * Default = "N-th order root of a number"
+		 * \brief Default = "N-th order root of a number"
 		 */
 		FUNCTION_2_ARG_ROOT = DEFAULT_FUNCTION_2_ARG_ROOT;
 		/**
-		 * Default = "Lower incomplete gamma"
+		 * \brief Default = "Lower incomplete gamma"
 		 */
 		FUNCTION_2_ARG_INC_GAMMA_LOWER = DEFAULT_FUNCTION_2_ARG_INC_GAMMA_LOWER;
 		/**
-		 * Default = "Upper incomplete Gamma"
+		 * \brief Default = "Upper incomplete Gamma"
 		 */
 		FUNCTION_2_ARG_INC_GAMMA_UPPER = DEFAULT_FUNCTION_2_ARG_INC_GAMMA_UPPER;
 		/**
-		 * Default = "Lower regularized P gamma"
+		 * \brief Default = "Lower regularized P gamma"
 		 */
 		FUNCTION_2_ARG_REG_GAMMA_LOWER = DEFAULT_FUNCTION_2_ARG_REG_GAMMA_LOWER;
 		/**
-		 * Default = "Upper regularized Q Gamma"
+		 * \brief Default = "Upper regularized Q Gamma"
 		 */
 		FUNCTION_2_ARG_REG_GAMMA_UPPER = DEFAULT_FUNCTION_2_ARG_REG_GAMMA_UPPER;
 		/**
-		 * Default = "Number of k-permutations that can be drawn from n-elements set"
+		 * \brief Default = "Number of k-permutations that can be drawn from n-elements set"
 		 */
 		FUNCTION_2_ARG_PERMUTATIONS = DEFAULT_FUNCTION_2_ARG_PERMUTATIONS;
 		/**
-		 * Default = "The Beta, also called the Euler integral of the first kind"
+		 * \brief Default = "The Beta, also called the Euler integral of the first kind"
 		 */
 		FUNCTION_2_ARG_BETA = DEFAULT_FUNCTION_2_ARG_BETA;
 		/**
-		 * Default = "The Log Beta, also called the Log Euler integral of the first kind"
+		 * \brief Default = "The Log Beta, also called the Log Euler integral of the first kind"
 		 */
 		FUNCTION_2_ARG_LOG_BETA = DEFAULT_FUNCTION_2_ARG_LOG_BETA;
 		// -------------------------------------------------
 		/**
-		 * Default = "If"
+		 * \brief Default = "If"
 		 */
 		FUNCTION_3_ARG_IF = DEFAULT_FUNCTION_3_ARG_IF;
 		/**
-		 * Default = "Characteristic function for x in (a,b)"
+		 * \brief Default = "Characteristic function for x in (a,b)"
 		 */
 		FUNCTION_3_ARG_CHI = DEFAULT_FUNCTION_3_ARG_CHI;
 		/**
-		 * Default = "Characteristic function for x in [a,b]"
+		 * \brief Default = "Characteristic function for x in [a,b]"
 		 */
 		FUNCTION_3_ARG_CHI_LR = DEFAULT_FUNCTION_3_ARG_CHI_LR;
 		/**
-		 * Default = "Characteristic function for x in [a,b)"
+		 * \brief Default = "Characteristic function for x in [a,b)"
 		 */
 		FUNCTION_3_ARG_CHI_L = DEFAULT_FUNCTION_3_ARG_CHI_L;
 		/**
-		 * Default = "Characteristic function for x in (a,b]"
+		 * \brief Default = "Characteristic function for x in (a,b]"
 		 */
 		FUNCTION_3_ARG_CHI_R = DEFAULT_FUNCTION_3_ARG_CHI_R;
 		/**
-		 * Default = "Digit at position 1 ... n (left -&gt; right) or 0 ... -(n-1) (right -&gt; left) - numeral system with given base"
+		 * \brief Default = "Digit at position 1 ... n (left -&gt; right) or 0 ... -(n-1) (right -&gt; left) - numeral system with given base"
 		 */
 		FUNCTION_3_ARG_DIGIT = DEFAULT_FUNCTION_3_ARG_DIGIT;
 		/**
-		 * Default = "The incomplete Beta, also called the incomplete Euler integral of the first kind"
+		 * \brief Default = "The incomplete Beta, also called the incomplete Euler integral of the first kind"
 		 */
 		FUNCTION_3_ARG_INC_BETA = DEFAULT_FUNCTION_3_ARG_INC_BETA;
 		/**
-		 * Default = "The regularized incomplete Beta (or regularized beta), also called the regularized incomplete Euler integral of the first kind"
+		 * \brief Default = "The regularized incomplete Beta (or regularized beta), also called the regularized incomplete Euler integral of the first kind"
 		 */
 		FUNCTION_3_ARG_REG_BETA = DEFAULT_FUNCTION_3_ARG_REG_BETA;
 		// -------------------------------------------------
 		/**
-		 * Default = "If function"
+		 * \brief Default = "If function"
 		 */
 		FUNCTION_VARIADIC_IFF = DEFAULT_FUNCTION_VARIADIC_IFF;
 		/**
-		 * Default = "Minimum"
+		 * \brief Default = "Minimum"
 		 */
 		FUNCTION_VARIADIC_MIN = DEFAULT_FUNCTION_VARIADIC_MIN;
 		/**
-		 * Default = "Maximum"
+		 * \brief Default = "Maximum"
 		 */
 		FUNCTION_VARIADIC_MAX = DEFAULT_FUNCTION_VARIADIC_MAX;
 		/**
-		 * Default = "Continued fraction"
+		 * \brief Default = "Continued fraction"
 		 */
 		FUNCTION_VARIADIC_CONT_FRAC = DEFAULT_FUNCTION_VARIADIC_CONT_FRAC;
 		/**
-		 * Default = "Continued polynomial"
+		 * \brief Default = "Continued polynomial"
 		 */
 		FUNCTION_VARIADIC_CONT_POL = DEFAULT_FUNCTION_VARIADIC_CONT_POL;
 		/**
-		 * Default = "Greatest common divisor"
+		 * \brief Default = "Greatest common divisor"
 		 */
 		FUNCTION_VARIADIC_GCD = DEFAULT_FUNCTION_VARIADIC_GCD;
 		/**
-		 * Default = "Least common multiple"
+		 * \brief Default = "Least common multiple"
 		 */
 		FUNCTION_VARIADIC_LCM = DEFAULT_FUNCTION_VARIADIC_LCM;
 		/**
-		 * Default = "Summation"
+		 * \brief Default = "Summation"
 		 */
 		FUNCTION_VARIADIC_SUM = DEFAULT_FUNCTION_VARIADIC_SUM;
 		/**
-		 * Default = "Multiplication"
+		 * \brief Default = "Multiplication"
 		 */
 		FUNCTION_VARIADIC_PROD = DEFAULT_FUNCTION_VARIADIC_PROD;
 		/**
-		 * Default = "Mean / average value"
+		 * \brief Default = "Mean / average value"
 		 */
 		FUNCTION_VARIADIC_AVG = DEFAULT_FUNCTION_VARIADIC_AVG;
 		/**
-		 * Default = "Bias-corrected sample variance"
+		 * \brief Default = "Bias-corrected sample variance"
 		 */
 		FUNCTION_VARIADIC_VAR = DEFAULT_FUNCTION_VARIADIC_VAR;
 		/**
-		 * Default = "Bias-corrected sample standard deviation"
+		 * \brief Default = "Bias-corrected sample standard deviation"
 		 */
 		FUNCTION_VARIADIC_STD = DEFAULT_FUNCTION_VARIADIC_STD;
 		/**
-		 * Default = "Random number from a given list of numbers"
+		 * \brief Default = "Random number from a given list of numbers"
 		 */
 		FUNCTION_VARIADIC_RND_LIST = DEFAULT_FUNCTION_VARIADIC_RND_LIST;
 		/**
-		 * Default = "Returns the first non-NaN value"
+		 * \brief Default = "Returns the first non-NaN value"
 		 */
 		FUNCTION_VARIADIC_COALESCE = DEFAULT_FUNCTION_VARIADIC_COALESCE;
 		/**
-		 * Default = "Logical disjunction (OR) - variadic"
+		 * \brief Default = "Logical disjunction (OR) - variadic"
 		 */
 		FUNCTION_VARIADIC_OR = DEFAULT_FUNCTION_VARIADIC_OR;
 		/**
-		 * Default = "Logical conjunction (AND) - variadic"
+		 * \brief Default = "Logical conjunction (AND) - variadic"
 		 */
 		FUNCTION_VARIADIC_AND = DEFAULT_FUNCTION_VARIADIC_AND;
 		/**
-		 * Default = "Exclusive or (XOR) - variadic"
+		 * \brief Default = "Exclusive or (XOR) - variadic"
 		 */
 		FUNCTION_VARIADIC_XOR = DEFAULT_FUNCTION_VARIADIC_XOR;
 		/**
-		 * Default = "Arguments / indices of the minima"
+		 * \brief Default = "Arguments / indices of the minima"
 		 */
 		FUNCTION_VARIADIC_ARGMIN = DEFAULT_FUNCTION_VARIADIC_ARGMIN;
 		/**
-		 * Default = "Arguments / indices of the maxima"
+		 * \brief Default = "Arguments / indices of the maxima"
 		 */
 		FUNCTION_VARIADIC_ARGMAX = DEFAULT_FUNCTION_VARIADIC_ARGMAX;
 		/**
-		 * Default = "The sample median"
+		 * \brief Default = "The sample median"
 		 */
 		FUNCTION_VARIADIC_MEDIAN = DEFAULT_FUNCTION_VARIADIC_MEDIAN;
 		/**
-		 * Default = "Mode - the value that appears most often"
+		 * \brief Default = "Mode - the value that appears most often"
 		 */
 		FUNCTION_VARIADIC_MODE = DEFAULT_FUNCTION_VARIADIC_MODE;
 		/**
-		 * Default = "Returns number in given numeral system base represented by list of digits"
+		 * \brief Default = "Returns number in given numeral system base represented by list of digits"
 		 */
 		FUNCTION_VARIADIC_BASE = DEFAULT_FUNCTION_VARIADIC_BASE;
 		/**
-		 * Default = "Number of distinct values"
+		 * \brief Default = "Number of distinct values"
 		 */
 		FUNCTION_VARIADIC_NDIST = DEFAULT_FUNCTION_VARIADIC_NDIST;
 		// -------------------------------------------------
 		/**
-		 * Default = "Addition"
+		 * \brief Default = "Addition"
 		 */
 		OPERATOR_PLUS = DEFAULT_OPERATOR_PLUS;
 		/**
-		 * Default = "Subtraction"
+		 * \brief Default = "Subtraction"
 		 */
 		OPERATOR_MINUS = DEFAULT_OPERATOR_MINUS;
 		/**
-		 * Default = "Multiplication"
+		 * \brief Default = "Multiplication"
 		 */
 		OPERATOR_MULTIPLY = DEFAULT_OPERATOR_MULTIPLY;
 		/**
-		 * Default = "Division"
+		 * \brief Default = "Division"
 		 */
 		OPERATOR_DIVIDE = DEFAULT_OPERATOR_DIVIDE;
 		/**
-		 * Default = "Integer division (quotient)"
+		 * \brief Default = "Integer division (quotient)"
 		 */
 		OPERATOR_DIVIDE_QUOTIENT = DEFAULT_OPERATOR_DIVIDE_QUOTIENT;
 		/**
-		 * Default = "Exponentiation"
+		 * \brief Default = "Exponentiation"
 		 */
 		OPERATOR_POWER = DEFAULT_OPERATOR_POWER;
 		/**
-		 * Default = "Factorial"
+		 * \brief Default = "Factorial"
 		 */
 		OPERATOR_FACT = DEFAULT_OPERATOR_FACT;
 		/**
-		 * Default = "Modulo"
+		 * \brief Default = "Modulo"
 		 */
 		OPERATOR_MOD = DEFAULT_OPERATOR_MOD;
 		/**
-		 * Default = "Percentage"
+		 * \brief Default = "Percentage"
 		 */
 		OPERATOR_PERC = DEFAULT_OPERATOR_PERC;
 		/**
-		 * Default = "Tetration (hyper-4, power tower, exponential tower)"
+		 * \brief Default = "Tetration (hyper-4, power tower, exponential tower)"
 		 */
 		OPERATOR_TETRATION = DEFAULT_OPERATOR_TETRATION;
 		/**
-		 * Default = "Square root"
+		 * \brief Default = "Square root"
 		 */
 		OPERATOR_SQUARE_ROOT = DEFAULT_OPERATOR_SQUARE_ROOT;
 		/**
-		 * Default = "Cube root"
+		 * \brief Default = "Cube root"
 		 */
 		OPERATOR_CUBE_ROOT = DEFAULT_OPERATOR_CUBE_ROOT;
 		/**
-		 * Default = "Fourth root"
+		 * \brief Default = "Fourth root"
 		 */
 		OPERATOR_FOURTH_ROOT = DEFAULT_OPERATOR_FOURTH_ROOT;
 		// -------------------------------------------------
 		/**
-		 * Default = "Left parentheses"
+		 * \brief Default = "Left parentheses"
 		 */
 		PARSER_SYMBOL_LEFT_PARENTHESES = DEFAULT_PARSER_SYMBOL_LEFT_PARENTHESES;
 		/**
-		 * Default = "Right parentheses"
+		 * \brief Default = "Right parentheses"
 		 */
 		PARSER_SYMBOL_RIGHT_PARENTHESES = DEFAULT_PARSER_SYMBOL_RIGHT_PARENTHESES;
 		/**
-		 * Default = "Comma (function parameters)"
+		 * \brief Default = "Comma (function parameters)"
 		 */
 		PARSER_SYMBOL_COMMA = DEFAULT_PARSER_SYMBOL_COMMA;
 		/**
-		 * Default = "Semicolon (function parameters)"
+		 * \brief Default = "Semicolon (function parameters)"
 		 */
 		PARSER_SYMBOL_SEMI = DEFAULT_PARSER_SYMBOL_SEMI;
 		/**
-		 * Default = "Blank (whitespace) character"
+		 * \brief Default = "Blank (whitespace) character"
 		 */
 		PARSER_SYMBOL_BLANK = DEFAULT_PARSER_SYMBOL_BLANK;
 		/**
-		 * Default = "Integer"
+		 * \brief Default = "Integer"
 		 */
 		PARSER_SYMBOL_NUMBER_INTEGER = DEFAULT_PARSER_SYMBOL_NUMBER_INTEGER;
 		/**
-		 * Default = "Decimal"
+		 * \brief Default = "Decimal"
 		 */
 		PARSER_SYMBOL_NUMBER_DECIMAL = DEFAULT_PARSER_SYMBOL_NUMBER_DECIMAL;
 		/**
-		 * Default = "Leading zero"
+		 * \brief Default = "Leading zero"
 		 */
 		PARSER_SYMBOL_NUMBER_LEADING_ZERO = DEFAULT_PARSER_SYMBOL_NUMBER_LEADING_ZERO;
 		/**
-		 * Default = "Scientific notation"
+		 * \brief Default = "Scientific notation"
 		 */
 		PARSER_SYMBOL_NUMBER_SCI_NOTATION = DEFAULT_PARSER_SYMBOL_NUMBER_SCI_NOTATION;
 		/**
-		 * Default = "No leading zero"
+		 * \brief Default = "No leading zero"
 		 */
 		PARSER_SYMBOL_NUMBER_NO_LEADING_ZERO = DEFAULT_PARSER_SYMBOL_NUMBER_NO_LEADING_ZERO;
 		/**
-		 * Default = "Fractions"
+		 * \brief Default = "Fractions"
 		 */
 		PARSER_SYMBOL_NUMBER_FRACTIONS = DEFAULT_PARSER_SYMBOL_NUMBER_FRACTIONS;
 		/**
-		 * Default = "Other numeral systems"
+		 * \brief Default = "Other numeral systems"
 		 */
 		PARSER_SYMBOL_NUMBER_OTHER_NUMERAL_SYSTEMS = DEFAULT_PARSER_SYMBOL_NUMBER_OTHER_NUMERAL_SYSTEMS;
 		/**
-		 * Default = " - Unicode math symbol"
+		 * \brief Default = " - Unicode math symbol"
 		 */
 		PARSER_SYMBOL_UNICODE_MATH = DEFAULT_PARSER_SYMBOL_UNICODE_MATH;
 		// -------------------------------------------------
 		/**
-		 * Default = "Percentage"
+		 * \brief Default = "Percentage"
 		 */
 		DIMENSIONLESS_UNIT_PERC = DEFAULT_DIMENSIONLESS_UNIT_PERC;
 		/**
-		 * Default = "Per mille"
+		 * \brief Default = "Per mille"
 		 */
 		DIMENSIONLESS_UNIT_PERM = DEFAULT_DIMENSIONLESS_UNIT_PERM;
 		/**
-		 * Default = "Septillion / Yotta"
+		 * \brief Default = "Septillion / Yotta"
 		 */
 		DIMENSIONLESS_UNIT_YOTTA = DEFAULT_DIMENSIONLESS_UNIT_YOTTA;
 		/**
-		 * Default = "Sextillion / Zetta"
+		 * \brief Default = "Sextillion / Zetta"
 		 */
 		DIMENSIONLESS_UNIT_ZETTA = DEFAULT_DIMENSIONLESS_UNIT_ZETTA;
 		/**
-		 * Default = "Quintillion / Exa"
+		 * \brief Default = "Quintillion / Exa"
 		 */
 		DIMENSIONLESS_UNIT_EXA = DEFAULT_DIMENSIONLESS_UNIT_EXA;
 		/**
-		 * Default = "Quadrillion / Peta"
+		 * \brief Default = "Quadrillion / Peta"
 		 */
 		DIMENSIONLESS_UNIT_PETA = DEFAULT_DIMENSIONLESS_UNIT_PETA;
 		/**
-		 * Default = "Trillion / Tera"
+		 * \brief Default = "Trillion / Tera"
 		 */
 		DIMENSIONLESS_UNIT_TERA = DEFAULT_DIMENSIONLESS_UNIT_TERA;
 		/**
-		 * Default = "Billion / Giga"
+		 * \brief Default = "Billion / Giga"
 		 */
 		DIMENSIONLESS_UNIT_GIGA = DEFAULT_DIMENSIONLESS_UNIT_GIGA;
 		/**
-		 * Default = "Million / Mega"
+		 * \brief Default = "Million / Mega"
 		 */
 		DIMENSIONLESS_UNIT_MEGA = DEFAULT_DIMENSIONLESS_UNIT_MEGA;
 		/**
-		 * Default = "Thousand / Kilo"
+		 * \brief Default = "Thousand / Kilo"
 		 */
 		DIMENSIONLESS_UNIT_KILO = DEFAULT_DIMENSIONLESS_UNIT_KILO;
 		/**
-		 * Default = "Hundred / Hecto"
+		 * \brief Default = "Hundred / Hecto"
 		 */
 		DIMENSIONLESS_UNIT_HECTO = DEFAULT_DIMENSIONLESS_UNIT_HECTO;
 		/**
-		 * Default = "Ten / Deca"
+		 * \brief Default = "Ten / Deca"
 		 */
 		DIMENSIONLESS_UNIT_DECA = DEFAULT_DIMENSIONLESS_UNIT_DECA;
 		/**
-		 * Default = "Tenth / Deci"
+		 * \brief Default = "Tenth / Deci"
 		 */
 		DIMENSIONLESS_UNIT_DECI = DEFAULT_DIMENSIONLESS_UNIT_DECI;
 		/**
-		 * Default = "Hundredth / Centi"
+		 * \brief Default = "Hundredth / Centi"
 		 */
 		DIMENSIONLESS_UNIT_CENTI = DEFAULT_DIMENSIONLESS_UNIT_CENTI;
 		/**
-		 * Default = "Thousandth / Milli"
+		 * \brief Default = "Thousandth / Milli"
 		 */
 		DIMENSIONLESS_UNIT_MILLI = DEFAULT_DIMENSIONLESS_UNIT_MILLI;
 		/**
-		 * Default = "Millionth / Micro"
+		 * \brief Default = "Millionth / Micro"
 		 */
 		DIMENSIONLESS_UNIT_MICRO = DEFAULT_DIMENSIONLESS_UNIT_MICRO;
 		/**
-		 * Default = "Billionth / Nano"
+		 * \brief Default = "Billionth / Nano"
 		 */
 		DIMENSIONLESS_UNIT_NANO = DEFAULT_DIMENSIONLESS_UNIT_NANO;
 		/**
-		 * Default = "Trillionth / Pico"
+		 * \brief Default = "Trillionth / Pico"
 		 */
 		DIMENSIONLESS_UNIT_PICO = DEFAULT_DIMENSIONLESS_UNIT_PICO;
 		/**
-		 * Default = "Quadrillionth / Femto"
+		 * \brief Default = "Quadrillionth / Femto"
 		 */
 		DIMENSIONLESS_UNIT_FEMTO = DEFAULT_DIMENSIONLESS_UNIT_FEMTO;
 		/**
-		 * Default = "Quintillionth / Atoo"
+		 * \brief Default = "Quintillionth / Atoo"
 		 */
 		DIMENSIONLESS_UNIT_ATTO = DEFAULT_DIMENSIONLESS_UNIT_ATTO;
 		/**
-		 * Default = "Sextillionth / Zepto"
+		 * \brief Default = "Sextillionth / Zepto"
 		 */
 		DIMENSIONLESS_UNIT_ZEPTO = DEFAULT_DIMENSIONLESS_UNIT_ZEPTO;
 		/**
-		 * Default = "Septillionth / Yocto"
+		 * \brief Default = "Septillionth / Yocto"
 		 */
 		DIMENSIONLESS_UNIT_YOCTO = DEFAULT_DIMENSIONLESS_UNIT_YOCTO;
 		// -------------------------------------------------
 		/**
-		 * Default = "Meter"
+		 * \brief Default = "Meter"
 		 */
 		UNIT_METRE = DEFAULT_UNIT_METRE;
 		/**
-		 * Default = "Kilometer"
+		 * \brief Default = "Kilometer"
 		 */
 		UNIT_KILOMETRE = DEFAULT_UNIT_KILOMETRE;
 		/**
-		 * Default = "Centimeter"
+		 * \brief Default = "Centimeter"
 		 */
 		UNIT_CENTIMETRE = DEFAULT_UNIT_CENTIMETRE;
 		/**
-		 * Default = "Millimeter"
+		 * \brief Default = "Millimeter"
 		 */
 		UNIT_MILLIMETRE = DEFAULT_UNIT_MILLIMETRE;
 		/**
-		 * Default = "Inch"
+		 * \brief Default = "Inch"
 		 */
 		UNIT_INCH = DEFAULT_UNIT_INCH;
 		/**
-		 * Default = "Yard"
+		 * \brief Default = "Yard"
 		 */
 		UNIT_YARD = DEFAULT_UNIT_YARD;
 		/**
-		 * Default = "Feet"
+		 * \brief Default = "Feet"
 		 */
 		UNIT_FEET = DEFAULT_UNIT_FEET;
 		/**
-		 * Default = "Mile"
+		 * \brief Default = "Mile"
 		 */
 		UNIT_MILE = DEFAULT_UNIT_MILE;
 		/**
-		 * Default = "Nautical mile"
+		 * \brief Default = "Nautical mile"
 		 */
 		UNIT_NAUTICAL_MILE = DEFAULT_UNIT_NAUTICAL_MILE;
 		/**
-		 * Default = "Square meter"
+		 * \brief Default = "Square meter"
 		 */
 		UNIT_METRE2 = DEFAULT_UNIT_METRE2;
 		/**
-		 * Default = "Square centimeter"
+		 * \brief Default = "Square centimeter"
 		 */
 		UNIT_CENTIMETRE2 = DEFAULT_UNIT_CENTIMETRE2;
 		/**
-		 * Default = "Square millimeter"
+		 * \brief Default = "Square millimeter"
 		 */
 		UNIT_MILLIMETRE2 = DEFAULT_UNIT_MILLIMETRE2;
 		/**
-		 * Default = "Are"
+		 * \brief Default = "Are"
 		 */
 		UNIT_ARE = DEFAULT_UNIT_ARE;
 		/**
-		 * Default = "Hectare"
+		 * \brief Default = "Hectare"
 		 */
 		UNIT_HECTARE = DEFAULT_UNIT_HECTARE;
 		/**
-		 * Default = "Acre"
+		 * \brief Default = "Acre"
 		 */
 		UNIT_ACRE = DEFAULT_UNIT_ACRE;
 		/**
-		 * Default = "Square kilometer"
+		 * \brief Default = "Square kilometer"
 		 */
 		UNIT_KILOMETRE2 = DEFAULT_UNIT_KILOMETRE2;
 		/**
-		 * Default = "Cubic millimeter"
+		 * \brief Default = "Cubic millimeter"
 		 */
 		UNIT_MILLIMETRE3 = DEFAULT_UNIT_MILLIMETRE3;
 		/**
-		 * Default = "Cubic centimeter"
+		 * \brief Default = "Cubic centimeter"
 		 */
 		UNIT_CENTIMETRE3 = DEFAULT_UNIT_CENTIMETRE3;
 		/**
-		 * Default = "Cubic meter"
+		 * \brief Default = "Cubic meter"
 		 */
 		UNIT_METRE3 = DEFAULT_UNIT_METRE3;
 		/**
-		 * Default = "Cubic kilometer"
+		 * \brief Default = "Cubic kilometer"
 		 */
 		UNIT_KILOMETRE3 = DEFAULT_UNIT_KILOMETRE3;
 		/**
-		 * Default = "Milliliter"
+		 * \brief Default = "Milliliter"
 		 */
 		UNIT_MILLILITRE = DEFAULT_UNIT_MILLILITRE;
 		/**
-		 * Default = "Liter"
+		 * \brief Default = "Liter"
 		 */
 		UNIT_LITRE = DEFAULT_UNIT_LITRE;
 		/**
-		 * Default = "Gallon"
+		 * \brief Default = "Gallon"
 		 */
 		UNIT_GALLON = DEFAULT_UNIT_GALLON;
 		/**
-		 * Default = "Pint"
+		 * \brief Default = "Pint"
 		 */
 		UNIT_PINT = DEFAULT_UNIT_PINT;
 		/**
-		 * Default = "Second"
+		 * \brief Default = "Second"
 		 */
 		UNIT_SECOND = DEFAULT_UNIT_SECOND;
 		/**
-		 * Default = "Millisecond"
+		 * \brief Default = "Millisecond"
 		 */
 		UNIT_MILLISECOND = DEFAULT_UNIT_MILLISECOND;
 		/**
-		 * Default = "Minute"
+		 * \brief Default = "Minute"
 		 */
 		UNIT_MINUTE = DEFAULT_UNIT_MINUTE;
 		/**
-		 * Default = "Hour"
+		 * \brief Default = "Hour"
 		 */
 		UNIT_HOUR = DEFAULT_UNIT_HOUR;
 		/**
-		 * Default = "Day"
+		 * \brief Default = "Day"
 		 */
 		UNIT_DAY = DEFAULT_UNIT_DAY;
 		/**
-		 * Default = "Week"
+		 * \brief Default = "Week"
 		 */
 		UNIT_WEEK = DEFAULT_UNIT_WEEK;
 		/**
-		 * Default = "Julian year = 365.25 days"
+		 * \brief Default = "Julian year = 365.25 days"
 		 */
 		UNIT_JULIAN_YEAR = DEFAULT_UNIT_JULIAN_YEAR;
 		/**
-		 * Default = "Kilogram"
+		 * \brief Default = "Kilogram"
 		 */
 		UNIT_KILOGRAM = DEFAULT_UNIT_KILOGRAM;
 		/**
-		 * Default = "Gram"
+		 * \brief Default = "Gram"
 		 */
 		UNIT_GRAM = DEFAULT_UNIT_GRAM;
 		/**
-		 * Default = "Milligram"
+		 * \brief Default = "Milligram"
 		 */
 		UNIT_MILLIGRAM = DEFAULT_UNIT_MILLIGRAM;
 		/**
-		 * Default = "Decagram"
+		 * \brief Default = "Decagram"
 		 */
 		UNIT_DECAGRAM = DEFAULT_UNIT_DECAGRAM;
 		/**
-		 * Default = "Tonne"
+		 * \brief Default = "Tonne"
 		 */
 		UNIT_TONNE = DEFAULT_UNIT_TONNE;
 		/**
-		 * Default = "Ounce"
+		 * \brief Default = "Ounce"
 		 */
 		UNIT_OUNCE = DEFAULT_UNIT_OUNCE;
 		/**
-		 * Default = "Pound"
+		 * \brief Default = "Pound"
 		 */
 		UNIT_POUND = DEFAULT_UNIT_POUND;
 		/**
-		 * Default = "Bit"
+		 * \brief Default = "Bit"
 		 */
 		UNIT_BIT = DEFAULT_UNIT_BIT;
 		/**
-		 * Default = "Kilobit"
+		 * \brief Default = "Kilobit"
 		 */
 		UNIT_KILOBIT = DEFAULT_UNIT_KILOBIT;
 		/**
-		 * Default = "Megabit"
+		 * \brief Default = "Megabit"
 		 */
 		UNIT_MEGABIT = DEFAULT_UNIT_MEGABIT;
 		/**
-		 * Default = "Gigabit"
+		 * \brief Default = "Gigabit"
 		 */
 		UNIT_GIGABIT = DEFAULT_UNIT_GIGABIT;
 		/**
-		 * Default = "Terabit"
+		 * \brief Default = "Terabit"
 		 */
 		UNIT_TERABIT = DEFAULT_UNIT_TERABIT;
 		/**
-		 * Default = "Petabit"
+		 * \brief Default = "Petabit"
 		 */
 		UNIT_PETABIT = DEFAULT_UNIT_PETABIT;
 		/**
-		 * Default = "Exabit"
+		 * \brief Default = "Exabit"
 		 */
 		UNIT_EXABIT = DEFAULT_UNIT_EXABIT;
 		/**
-		 * Default = "Zettabit"
+		 * \brief Default = "Zettabit"
 		 */
 		UNIT_ZETTABIT = DEFAULT_UNIT_ZETTABIT;
 		/**
-		 * Default = "Yottabit"
+		 * \brief Default = "Yottabit"
 		 */
 		UNIT_YOTTABIT = DEFAULT_UNIT_YOTTABIT;
 		/**
-		 * Default = "Byte"
+		 * \brief Default = "Byte"
 		 */
 		UNIT_BYTE = DEFAULT_UNIT_BYTE;
 		/**
-		 * Default = "Kilobyte"
+		 * \brief Default = "Kilobyte"
 		 */
 		UNIT_KILOBYTE = DEFAULT_UNIT_KILOBYTE;
 		/**
-		 * Default = "Megabyte"
+		 * \brief Default = "Megabyte"
 		 */
 		UNIT_MEGABYTE = DEFAULT_UNIT_MEGABYTE;
 		/**
-		 * Default = "Gigabyte"
+		 * \brief Default = "Gigabyte"
 		 */
 		UNIT_GIGABYTE = DEFAULT_UNIT_GIGABYTE;
 		/**
-		 * Default = "Terabyte"
+		 * \brief Default = "Terabyte"
 		 */
 		UNIT_TERABYTE = DEFAULT_UNIT_TERABYTE;
 		/**
-		 * Default = "Petabyte"
+		 * \brief Default = "Petabyte"
 		 */
 		UNIT_PETABYTE = DEFAULT_UNIT_PETABYTE;
 		/**
-		 * Default = "Exabyte"
+		 * \brief Default = "Exabyte"
 		 */
 		UNIT_EXABYTE = DEFAULT_UNIT_EXABYTE;
 		/**
-		 * Default = "Zettabyte"
+		 * \brief Default = "Zettabyte"
 		 */
 		UNIT_ZETTABYTE = DEFAULT_UNIT_ZETTABYTE;
 		/**
-		 * Default = "Yottabyte"
+		 * \brief Default = "Yottabyte"
 		 */
 		UNIT_YOTTABYTE = DEFAULT_UNIT_YOTTABYTE;
 		/**
-		 * Default = "Joule"
+		 * \brief Default = "Joule"
 		 */
 		UNIT_JOULE = DEFAULT_UNIT_JOULE;
 		/**
-		 * Default = "Electronovolt"
+		 * \brief Default = "Electronovolt"
 		 */
 		UNIT_ELECTRONO_VOLT = DEFAULT_UNIT_ELECTRONO_VOLT;
 		/**
-		 * Default = "Kiloelectronovolt"
+		 * \brief Default = "Kiloelectronovolt"
 		 */
 		UNIT_KILO_ELECTRONO_VOLT = DEFAULT_UNIT_KILO_ELECTRONO_VOLT;
 		/**
-		 * Default = "Megaelectronovolt"
+		 * \brief Default = "Megaelectronovolt"
 		 */
 		UNIT_MEGA_ELECTRONO_VOLT = DEFAULT_UNIT_MEGA_ELECTRONO_VOLT;
 		/**
-		 * Default = "Gigaelectronovolt"
+		 * \brief Default = "Gigaelectronovolt"
 		 */
 		UNIT_GIGA_ELECTRONO_VOLT = DEFAULT_UNIT_GIGA_ELECTRONO_VOLT;
 		/**
-		 * Default = "Teraelectronovolt"
+		 * \brief Default = "Teraelectronovolt"
 		 */
 		UNIT_TERA_ELECTRONO_VOLT = DEFAULT_UNIT_TERA_ELECTRONO_VOLT;
 		/**
-		 * Default = "Meter per second"
+		 * \brief Default = "Meter per second"
 		 */
 		UNIT_METRE_PER_SECOND = DEFAULT_UNIT_METRE_PER_SECOND;
 		/**
-		 * Default = "Kilometer per hour"
+		 * \brief Default = "Kilometer per hour"
 		 */
 		UNIT_KILOMETRE_PER_HOUR = DEFAULT_UNIT_KILOMETRE_PER_HOUR;
 		/**
-		 * Default = "Mile per hour"
+		 * \brief Default = "Mile per hour"
 		 */
 		UNIT_MILE_PER_HOUR = DEFAULT_UNIT_MILE_PER_HOUR;
 		/**
-		 * Default = "Knot"
+		 * \brief Default = "Knot"
 		 */
 		UNIT_KNOT = DEFAULT_UNIT_KNOT;
 		/**
-		 * Default = "Meter per square second"
+		 * \brief Default = "Meter per square second"
 		 */
 		UNIT_METRE_PER_SECOND2 = DEFAULT_UNIT_METRE_PER_SECOND2;
 		/**
-		 * Default = "Kilometer per square hour"
+		 * \brief Default = "Kilometer per square hour"
 		 */
 		UNIT_KILOMETRE_PER_HOUR2 = DEFAULT_UNIT_KILOMETRE_PER_HOUR2;
 		/**
-		 * Default = "Mile per square hour"
+		 * \brief Default = "Mile per square hour"
 		 */
 		UNIT_MILE_PER_HOUR2 = DEFAULT_UNIT_MILE_PER_HOUR2;
 		/**
-		 * Default = "Radian"
+		 * \brief Default = "Radian"
 		 */
 		UNIT_RADIAN_ARC = DEFAULT_UNIT_RADIAN_ARC;
 		/**
-		 * Default = "Degree of arc"
+		 * \brief Default = "Degree of arc"
 		 */
 		UNIT_DEGREE_ARC = DEFAULT_UNIT_DEGREE_ARC;
 		/**
-		 * Default = "Minute of arc"
+		 * \brief Default = "Minute of arc"
 		 */
 		UNIT_MINUTE_ARC = DEFAULT_UNIT_MINUTE_ARC;
 		/**
-		 * Default = "Second of arc"
+		 * \brief Default = "Second of arc"
 		 */
 		UNIT_SECOND_ARC = DEFAULT_UNIT_SECOND_ARC;
 	}

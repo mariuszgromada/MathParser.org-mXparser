@@ -1,5 +1,5 @@
 /*
- * @(#)StringModel.cpp        6.1.0    2024-10-06
+ * @(#)StringModel.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -270,16 +270,6 @@ namespace org::mariuszgromada::math::mxparser {
 	);
 
 
-	/**
-	 * Sets a user-specific text resource object.
-	 * Using this object, you can provide your own text model or your own translations.
-	 * If the provided string resources object is null, no change will be done
-	 * and the current object will still be used.
-	 *
-	 * @param stringResources A user-specific text resource object
-	 *
-	 * @see StringResources
-	 */
 	API_VISIBLE void StringModel::setStringResources(const StringResourcesPtr &stringResources) {
 		if (stringResources == nullptr) return;
 		if (STRING_RESOURCES != nullptr && STRING_RESOURCES == stringResources) return;
@@ -287,11 +277,6 @@ namespace org::mariuszgromada::math::mxparser {
 		setLanguageSpecificDescriptions();
 	}
 
-	/**
-	 * Sets default string resources.
-	 *
-	 * @see StringResources
-	 */
 	API_VISIBLE void StringModel::setDefaultStringResources() {
 		if (mXparser::selectBestMatchingLanguage) {
 			if (STRING_RESOURCES != nullptr && STRING_RESOURCES == DEFAULT_STRING_RESOURCES) return;
@@ -305,7 +290,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Forces to use default string resources
+	 * \brief Forces to use default string resources
 	 */
 	API_VISIBLE void StringModel::forceDefaultStringResources() {
 		if (STRING_RESOURCES != nullptr && STRING_RESOURCES == DEFAULT_STRING_RESOURCES) return;
@@ -313,22 +298,12 @@ namespace org::mariuszgromada::math::mxparser {
 		setLanguageSpecificDescriptions();
 	}
 
-	/**
-	 * Sets default english string resources.
-	 *
-	 * @see StringResources
-	 */
 	API_VISIBLE void StringModel::setDefaultEnglishStringResources() {
 		if (STRING_RESOURCES != nullptr && STRING_RESOURCES == DEFAULT_ENGLISH_STRING_RESOURCES) return;
 		STRING_RESOURCES = DEFAULT_ENGLISH_STRING_RESOURCES;
 		setLanguageSpecificDescriptions();
 	}
 
-	/**
-	 * Gets currently used user-specific text resource object.
-	 *
-	 * @return Currently used StringResources
-	 */
 	API_VISIBLE StringResourcesPtr StringModel::getStringResources() {
 		return STRING_RESOURCES;
 	}
@@ -1870,28 +1845,11 @@ namespace org::mariuszgromada::math::mxparser {
 		return true;
 	}
 
-	/**
-	 * Displays the user-defined text resources used
-	 * and the effect of their use to generate descriptions
-	 * of the parser elements on the console.
-	 *
-	 * @see StringResources
-	 * @see StringResources#print()
-	 * @see #printDescriptions()
-	 */
 	API_VISIBLE void StringModel::print() {
 		STRING_RESOURCES->print();
 		printDescriptions();
 	}
 
-	/**
-	 * Prints to the console the result of applying user-specific text resources
-	 * to generate parser description and objects. The method can help with
-	 * debugging when creating your own translations.
-	 *
-	 * @see StringResources
-	 * @see #setStringResources(StringResources)
-	 */
 	API_VISIBLE void StringModel::printDescriptions() {
 		StringUtils::consolePrintln(UTF("// -------------------------------------------------"));
 		StringUtils::consolePrintln(UTF("BitwiseOperator::TYPE_DESC = \"") + BinaryRelation::TYPE_DESC + UTF("\";"));

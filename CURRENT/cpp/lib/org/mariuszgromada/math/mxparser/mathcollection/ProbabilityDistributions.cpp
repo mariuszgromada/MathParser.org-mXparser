@@ -262,15 +262,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		qntSolveStud = createSolveExpression(pp, vv);
 	);
 
-	/**
-	 * Random number from Uniform Continuous distribution over interval [a, b).
-	 *
-	 * @param a       Interval limit - left / lower.
-	 * @param b       Interval limit - right / upper.
-	 * @param rnd     Random number generator.
-	 * @return        Double::NaN if a or b is nullptr, or b is lower than a -
-	 *                otherwise returns random number.
-	 */
 	API_VISIBLE double ProbabilityDistributions::rndUniformContinuous(double a, double b, const RandomPtr &rnd) {
 		if (Double::isNaN(a)) return Double::NaN;
 		if (Double::isNaN(b)) return Double::NaN;
@@ -280,47 +271,19 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return a + rnd->nextDouble() * (b - a);
 	}
 
-	/**
-	 * Random number from dUniform Continuous distribution over interval [a, b).
-	 * @param a       Interval limit - left / lower.
-	 * @param b       Interval limit - right / upper.
-	 * @return        Double::NaN if a or b is nullptr, or b is lower than a -
-	 *                otherwise returns random number.
-	 */
 	API_VISIBLE double ProbabilityDistributions::rndUniformContinuous(double a, double b) {
 		return rndUniformContinuous(a, b, randomGenerator);
 	}
 
-	/**
-	 * Random number from Uniform Continuous distribution over interval [0, 1).
-	 *
-	 * @param rnd     Random number generator.
-	 * @return        Random number.
-	 */
 	API_VISIBLE double ProbabilityDistributions::rndUniformContinuous(const RandomPtr &rnd) {
 		if (rnd == nullptr) throw std::invalid_argument("ProbabilityDistributions.rndUniformContinuous requires a non-null random generator");
 		return rnd->nextDouble();
 	}
 
-	/**
-	 * Random number from Uniform Continuous distribution over interval [0, 1).
-	 *
-	 * @return        Random number.
-	 */
 	API_VISIBLE double ProbabilityDistributions::randomUniformContinuous() {
 		return rndUniformContinuous(randomGenerator);
 	}
 
-	/**
-	 * PDF - Probability Distribution Function - Uniform Continuous distribution
-	 * over interval [a, b).
-	 *
-	 * @param x       Point to evaluate pdf function->
-	 * @param a       Interval limit - left / lower.
-	 * @param b       Interval limit - right / upper.
-	 * @return        Double::NaN if a or b is nullptr, or b is lower than a -
-	 *                otherwise function value.
-	 */
 	API_VISIBLE double ProbabilityDistributions::pdfUniformContinuous(double x, double a, double b) {
 		if (Double::isNaN(x)) return Double::NaN;
 		if (Double::isNaN(a)) return Double::NaN;
@@ -336,16 +299,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return 1.0 / (b - a);
 	}
 
-	/**
-	 * CDF - Cumulative Distribution Function - Uniform Continuous distribution
-	 * over interval [a, b).
-	 *
-	 * @param x       Point to evaluate cdf function->
-	 * @param a       Interval limit - left / lower.
-	 * @param b       Interval limit - right / upper.
-	 * @return        Double::NaN if a or b is nullptr, or b is lower than a -
-	 *                otherwise function value.
-	 */
 	API_VISIBLE double ProbabilityDistributions::cdfUniformContinuous(double x, double a, double b) {
 		if (Double::isNaN(x)) return Double::NaN;
 		if (Double::isNaN(a)) return Double::NaN;
@@ -362,17 +315,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return (x - a) / (b - a);
 	}
 
-	/**
-	 * QNT - Quantile Function - Uniform Continuous distribution over interval [a, b).
-	 * (Inverse of Cumulative Distribution Function).
-	 *
-	 * @param q       Quantile.
-	 * @param a       Interval limit - left / lower.
-	 * @param b       Interval limit - right / upper.
-	 * @return        Double::NaN if a or b is nullptr, or b is lower than a
-	 *                or q is lower than 0 or q is greater than 1 -
-	 *                otherwise function value.
-	 */
 	API_VISIBLE double ProbabilityDistributions::qntUniformContinuous(double q, double a, double b) {
 		if (Double::isNaN(q)) return Double::NaN;
 		if (Double::isNaN(a)) return Double::NaN;
@@ -388,16 +330,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return a + q * (b - a);
 	}
 
-	/**
-	 * Random number from Uniform Discrete distribution.
-	 * over set interval (a, a+1, ..., b-1, b).
-	 *
-	 * @param a       Interval limit - left / lower.
-	 * @param b       Interval limit - right / upper.
-	 * @param rnd     Random number generator.
-	 * @return        Double::NaN if a or b is nullptr, or b is lower than a -
-	 *                otherwise returns random number.
-	 */
 	API_VISIBLE double ProbabilityDistributions::rndInteger(int a, int b, const RandomPtr &rnd) {
 		Long la = CAST_LONG(a);
 		Long lb = CAST_LONG(b);
@@ -408,16 +340,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return CAST_DOUBLE(la + rnd->nextInt(n));
 	}
 
-	/**
-	 * Random number from Uniform Discrete distribution.
-	 * over set interval (a, a+1, ..., b-1, b).
-	 *
-	 * @param a       Interval limit - left / lower.
-	 * @param b       Interval limit - right / upper.
-	 * @param rnd     Random number generator.
-	 * @return        Double::NaN if a or b is nullptr, or b is lower than a -
-	 *                otherwise returns random number.
-	 */
 	API_VISIBLE double ProbabilityDistributions::rndInteger(double a, double b, const RandomPtr &rnd) {
 		if (Double::isNaN(a)) return Double::NaN;
 		if (Double::isNaN(b)) return Double::NaN;
@@ -425,73 +347,30 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		                  native_numeric_detail::checkedNativeInt(b, "ProbabilityDistributions.rndInteger"), rnd);
 	}
 
-	/**
-	 * Random number from Uniform Discrete distribution.
-	 * over set interval (a, a+1, ..., b-1, b).
-	 *
-	 * @param a       Interval limit - left / lower.
-	 * @param b       Interval limit - right / upper.
-	 * @return        Double::NaN if a or b is nullptr, or b is lower than a -
-	 *                otherwise returns random number.
-	 */
 	API_VISIBLE double ProbabilityDistributions::rndInteger(int a, int b) {
 		return rndInteger(a, b, randomGenerator);
 	}
 
-	/**
-	 * Random integer.
-	 *
-	 * @param rnd     Random number generator.
-	 * @return        Returns random number.
-	 */
 	API_VISIBLE double ProbabilityDistributions::rndInteger(const RandomPtr &rnd) {
 		return rndInteger(Integer::MIN_VALUE, Integer::MAX_VALUE, rnd);
 	}
 
-	/**
-	 * Random index from 0 to n-1,
-	 *
-	 * @param n          Bound.
-	 * @param rnd        Random number generator.
-	 * @return           if n &lt; 0 returns -1, otherwise random index->
-	 */
 	int API_VISIBLE ProbabilityDistributions::rndIndex(int n, const RandomPtr &rnd) {
 		if (n < 0) return -1;
 		if (rnd == nullptr) throw std::invalid_argument("ProbabilityDistributions.rndIndex requires a non-null random generator");
 		return CAST_INT(rnd->nextInt(n));
 	}
 
-	/**
-	 * Random index from 0 to n-1,
-	 *
-	 * @param n          Bound.
-	 * @return           if n &lt; 0 returns -1, otherwise random index->
-	 */
 	int API_VISIBLE ProbabilityDistributions::rndIndex(int n) {
 		if (n < 0) return -1;
 		if (randomGenerator == nullptr) throw std::invalid_argument("ProbabilityDistributions.rndIndex requires a non-null random generator");
 		return CAST_INT(randomGenerator->nextInt(n));
 	}
 
-	/**
-	 * Random integer.
-	 *
-	 * @return        Double::NaN if a or b is nullptr, or b is lower than a -
-	 *                otherwise returns random number.
-	 */
 	API_VISIBLE double ProbabilityDistributions::rndInteger() {
 		return rndInteger(randomGenerator);
 	}
 
-	/**
-	 * Random number from normal distribution N(mean, stddev).
-	 *
-	 * @param mean              Mean value.
-	 * @param stddev            Standard deviation.
-	 * @param rnd               Random number generator.
-	 * @return                  Double::NaN if mean or stddev or rnd is nullptr or stddev is lower than 0 -
-	 *                          otherwise random number.
-	 */
 	API_VISIBLE double ProbabilityDistributions::rndNormal(double mean, double stddev, const RandomPtr &rnd) {
 		return rndNormalWithCancel(mean, stddev, rnd, 0);
 	}
@@ -527,27 +406,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return mean + (stddev * x);
 	}
 
-	/**
-	 * Random number from normal distribution N(mean, stddev).
-	 *
-	 * @param mean              Mean value.
-	 * @param stddev            Standard deviation.
-	 * @return                  Double::NaN if mean or stddev is nullptr or stddev is lower than 0 -
-	 *                          otherwise random number.
-	 */
 	API_VISIBLE double ProbabilityDistributions::rndNormal(double mean, double stddev) {
 		return rndNormal(mean, stddev, randomGenerator);
 	}
 
-	/**
-	 * PDF - Probability Distribution Function - Normal distribution N(mean, stddev).
-	 *
-	 * @param x                 Point to evaluate pdf function->
-	 * @param mean              Mean value.
-	 * @param stddev            Standard deviation.
-	 * @return                  Double::NaN if mean or stddev is nullptr or stddev is lower than 0 -
-	 *                          otherwise function value.
-	 */
 	 API_VISIBLE double ProbabilityDistributions::pdfNormal(double x, double mean, double stddev) {
 		if (Double::isNaN(x)) return Double::NaN;
 		if (Double::isNaN(mean)) return Double::NaN;
@@ -563,15 +425,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return MathFunctions::exp(-0.5 * d * d) / (MathConstants::SQRT2Pi * stddev);
 	}
 
-	/**
-	 * CDF - Cumulative Distribution Function - Normal distribution N(mean, stddev).
-	 *
-	 * @param x                 Point to evaluate pdf function->
-	 * @param mean              Mean value.
-	 * @param stddev            Standard deviation.
-	 * @return                  Double::NaN if mean or stddev is nullptr or stddev is lower than 0 -
-	 *                          otherwise function value.
-	 */
 	 API_VISIBLE double ProbabilityDistributions::cdfNormal(double x, double mean, double stddev) {
 		if (Double::isNaN(x)) return Double::NaN;
 		if (Double::isNaN(mean)) return Double::NaN;
@@ -586,17 +439,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return 0.5 * SpecialFunctions::erfc((mean - x) / (stddev * MathConstants::SQRT2));
 	}
 
-	/**
-	 * QNT - Quantile Function - Normal distribution N(mean, stddev).
-	 * (Inverse of Cumulative Distribution Function).
-	 *
-	 * @param q                 Quantile.
-	 * @param mean              Mean value.
-	 * @param stddev            Standard deviation.
-	 * @return                  Double::NaN if mean or stddev is nullptr or stddev is lower than 0
-	 *                          or q is lower than 0 or q is greater than 1 -
-	 *                          otherwise function value.
-	 */
 	 API_VISIBLE double ProbabilityDistributions::qntNormal(double q, double mean, double stddev) {
 		if (Double::isNaN(q)) return Double::NaN;
 		if (Double::isNaN(mean)) return Double::NaN;
@@ -612,13 +454,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return mean - (stddev * MathConstants::SQRT2 * SpecialFunctions::erfcInv(2.0 * q));
 	}
 
-	/**
-	 * Probability distribution function - Student's t-distribution
-	 *
-	 * @param x   Given point.
-	 * @param v   Number of degrees of freedom.
-	 * @return    Returns the PDF of Student's t-distribution.
-	 */
 	 API_VISIBLE double ProbabilityDistributions::pdfStudentT(double x, double v) {
 		return pdfStudentTWithCancel(x, v, 0);
 	}
@@ -656,12 +491,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * Cumulative distribution function - Student's t-distribution
+	 * \brief Cumulative distribution function - Student's t-distribution
 	 * for positive arguments
-	 *
-	 * @param x   Given point.
-	 * @param v   Number of degrees of freedom.
-	 * @return    Returns the CDF of Student's t-distribution.
+	 * \param x   Given point.
+	 * \param v   Number of degrees of freedom.
+	 * \return Returns the CDF of Student's t-distribution.
+	 * \param cancelId The cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID.
 	 */
 	 API_VISIBLE double ProbabilityDistributions::cdfStudentTPositiveXWithCancel(double x, double v, int cancelId) {
 		if (BinaryRelations::isEqualOrAlmost(v, 1.0))
@@ -690,13 +525,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			       1e-14, cancelId) / (Math::sqrt(MathConstants::PI * v) * SpecialFunctions::gammaWithCancel(v / 2.0, cancelId));
 	}
 
-	/**
-	 * Cumulative distribution function - Student's t-distribution
-	 *
-	 * @param x   Given point.
-	 * @param v   Number of degrees of freedom.
-	 * @return    Returns the CDF of Student's t-distribution.
-	 */
 	 API_VISIBLE double ProbabilityDistributions::cdfStudentT(double x, double v) {
 		return cdfStudentTWithCancel(x, v, 0);
 	}
@@ -718,14 +546,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return 1.0 - cdfStudentTPositiveXWithCancel(-x, v, cancelId);
 	}
 
-	/**
-	 * Quantile function (Inverse cumulative distribution function)
-	 * - Student's t-distribution
-	 *
-	 * @param p   Probability
-	 * @param v   Number of degrees of freedom.
-	 * @return    Returns the quantile of Student's t-distribution
-	 */
 	 API_VISIBLE double ProbabilityDistributions::qntStudentT(double p, double v) {
 		return qntStudentTWithCancel(p, v, 0);
 	}
@@ -786,12 +606,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return p >= 0.5 ? x : -x;
 	}
 
-	/**
-	 * Pseudo-random number from Student's t-distribution
-	 *
-	 * @param v   Number of degrees of freedom.
-	 * @return    returns Pseudo-random number from Student's t-distribution
-	 */
 	 API_VISIBLE double ProbabilityDistributions::rndStudentT(double v) {
 		return rndStudentTWithCancel(v, 0);
 	}
@@ -884,13 +698,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return q;
 	}
 
-	/**
-	 * Probability distribution function - Chi-Squared distribution
-	 *
-	 * @param x   Given point.
-	 * @param k   Number of degrees of freedom.
-	 * @return    Returns the PDF of Chi-Squared t-distribution.
-	 */
 	 API_VISIBLE double ProbabilityDistributions::pdfChiSquared(double x, double k) {
 		return pdfChiSquaredWithCancel(x, k, 0);
 	}
@@ -908,13 +715,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			       Math::pow(2, k / 2.0) * SpecialFunctions::gammaWithCancel(k / 2.0, cancelId));
 	}
 
-	/**
-	 * Cumulative distribution function - Chi-Squared distribution
-	 *
-	 * @param x   Given point.
-	 * @param k   Number of degrees of freedom.
-	 * @return    Returns the CDF of Chi-Squared distribution.
-	 */
 	 API_VISIBLE double ProbabilityDistributions::cdfChiSquared(double x, double k) {
 		return cdfChiSquaredWithCancel(x, k, 0);
 	}
@@ -931,14 +731,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return SpecialFunctions::regularizedGammaLowerPWithCancel(k / 2.0, x / 2.0, cancelId);
 	}
 
-	/**
-	 * Quantile function (Inverse cumulative distribution function)
-	 * - Chi-Squared distribution
-	 *
-	 * @param p   Probability
-	 * @param k   Number of degrees of freedom.
-	 * @return    Returns the quantile of Chi-Squared distribution
-	 */
 	 API_VISIBLE double ProbabilityDistributions::qntChiSquared(double p, double k) {
 		return qntChiSquaredWithCancel(p, k, 0);
 	}
@@ -956,12 +748,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return 2.0 * SpecialFunctions::inverseRegularizedGammaLowerPWithCancel(k / 2.0, p, cancelId);
 	}
 
-	/**
-	 * Pseudo-random number from Chi-Squared distribution
-	 *
-	 * @param k   Number of degrees of freedom.
-	 * @return    returns Pseudo-random number from Chi-Squared distribution
-	 */
 	 API_VISIBLE double ProbabilityDistributions::rndChiSquared(double k) {
 		return rndChiSquaredWithCancel(k, 0);
 	}
@@ -976,16 +762,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return qntChiSquaredWithCancel(randomGenerator->nextDouble(), k, cancelId);
 	}
 
-	/**
-	 * Probability distribution function - Snedecor's F distribution (F-distribution or F-ratio,
-	 * also known as Fisher–Snedecor distribution)
-	 *
-	 * @param x     Real value
-	 * @param d1    Number of degrees of freedom - 1
-	 * @param d2    Number of degrees of freedom - 2
-	 * @return      Returns the PDF of Snedecor's F distribution (F-distribution or F-ratio,
-	 * also known as Fisher–Snedecor distribution)
-	 */
 	 API_VISIBLE double ProbabilityDistributions::pdfSnedecordF(double x, double d1, double d2) {
 		return pdfSnedecordFWithCancel(x, d1, d2, 0);
 	}
@@ -1012,16 +788,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			       x * SpecialFunctions::betaWithCancel(d1div2, d2div2, cancelId));
 	}
 
-	/**
-	 * Cumulative distribution function - Snedecor's F distribution (F-distribution or F-ratio,
-	 * also known as Fisher–Snedecor distribution)
-	 *
-	 * @param x     Real value
-	 * @param d1    Number of degrees of freedom - 1
-	 * @param d2    Number of degrees of freedom - 2
-	 * @return      Returns the CDF of Snedecor's F distribution (F-distribution or F-ratio,
-	 *              also known as Fisher–Snedecor distribution)
-	 */
 	 API_VISIBLE double ProbabilityDistributions::cdfSnedecordF(double x, double d1, double d2) {
 		return cdfSnedecordFWithCancel(x, d1, d2, 0);
 	}
@@ -1045,16 +811,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return SpecialFunctions::regularizedBetaWithCancel(d1 / 2.0, d2 / 2.0, (d1 * x) / (d1 * x + d2), cancelId);
 	}
 
-	/**
-	 * Quantile function (Inverse cumulative distribution function) - Snedecor's F distribution (F-distribution
-	 * or F-ratio, also known as Fisher–Snedecor distribution)
-	 *
-	 * @param p     Probability
-	 * @param d1    Number of degrees of freedom - 1
-	 * @param d2    Number of degrees of freedom - 2
-	 * @return      Returns the quantile of Snedecor's F distribution (F-distribution or F-ratio,
-	 *              also known as Fisher–Snedecor distribution)
-	 */
 	 API_VISIBLE double ProbabilityDistributions::qntSnedecordF(double p, double d1, double d2) {
 		return qntSnedecordFWithCancel(p, d1, d2, 0);
 	}
@@ -1079,15 +835,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return (d2 * regBetaInv) / (d1 * (1 - regBetaInv));
 	}
 
-	/**
-	 * Pseudo-random number from Snedecor's F distribution (F-distribution or F-ratio,
-	 * also known as Fisher–Snedecor distribution)
-	 *
-	 * @param d1    Number of degrees of freedom - 1
-	 * @param d2    Number of degrees of freedom - 2
-	 * @return      Returns Pseudo-random number from Snedecor's F distribution (F-distribution
-	 *              or F-ratio, also known as Fisher–Snedecor distribution)
-	 */
 	 API_VISIBLE double ProbabilityDistributions::rndSnedecordF(double d1, double d2) {
 		return rndSnedecordFWithCancel(d1, d2, 0);
 	}
@@ -1107,15 +854,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return qntSnedecordFWithCancel(randomGenerator->nextDouble(), d1, d2, cancelId);
 	}
 
-	/**
-	 * Returns random variable value, where random variable is represented by the
-	 * token id in the RandomVariable class
-	 *
-	 * @param randomVariableId Please refer to RandomVariable class.
-	 * @return Returns random variable value if id is known, otherwise Double::NaN is returned.
-	 *
-	 * @see RandomVariable
-	 */
 	 API_VISIBLE double ProbabilityDistributions::getRandomVariableValue(int randomVariableId) {
 		return getRandomVariableValueWithCancel(randomVariableId, 0);
 	}

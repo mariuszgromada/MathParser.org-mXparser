@@ -1,5 +1,5 @@
 /*
- * @(#)LaTeXSupport.hpp        6.2.0    2026-11-11
+ * @(#)LaTeXSupport.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -230,7 +230,9 @@
 namespace org::mariuszgromada::math::mxparser::latex_detail {
 using namespace stringutils;
 using namespace wrapper;
-/** @version        6.2.0 */
+/**
+ * \version 6.2.0
+ */
 class Text {
     Ptr<const String> value;
 public:
@@ -286,7 +288,9 @@ public:
 inline std::logic_error logicError(const Text& message) { return std::logic_error(UTF16toUTF8(message.str())); }
 inline std::invalid_argument invalidArgument(const Text& message) { return std::invalid_argument(UTF16toUTF8(message.str())); }
 inline bool operator==(const StringPtr& a, const Text& b) { return Text(a).equals(b); }
-/** @version        6.2.0 */
+/**
+ * \version 6.2.0
+ */
 class TextBuilder {
     String value;
 public:
@@ -305,18 +309,26 @@ public:
     TextBuilder& append(int n) { value.append(std::to_wstring(n)); return *this; }
     TextBuilder& append(const std::any& text) { return append(std::any_cast<Text>(text)); }
 };
-/** @version        6.2.0 */
+/**
+ * \version 6.2.0
+ */
 class Pattern {
     std::wregex expression;
 public:
     explicit Pattern(const Text& text) : expression(UTF("^(") + text.str() + UTF(")$")) { }
     bool matches(const Text& source) const { return std::regex_match(source.str(), expression); }
 };
-/** @version        6.2.0 */
+/**
+ * \version 6.2.0
+ */
 template<class T> struct Hash : std::hash<T> { };
-/** @version        6.2.0 */
+/**
+ * \version 6.2.0
+ */
 template<> struct Hash<Text> { size_t operator()(const Text& t) const { return std::hash<String>{}(t.str()); } };
-/** @version        6.2.0 */
+/**
+ * \version 6.2.0
+ */
 template<class K, class V> class Map {
     std::unordered_map<K, V, Hash<K>> values;
 public:
@@ -325,7 +337,9 @@ public:
     void putIfAbsent(const K& key, const V& value) { values.emplace(key,value); }
     V put(const K& key, const V& value) { V previous = get(key); values[key] = value; return previous; }
 };
-/** @version        6.2.0 */
+/**
+ * \version 6.2.0
+ */
 template<class T> class Set {
     std::unordered_set<T, Hash<T>> values;
 public:
@@ -333,7 +347,9 @@ public:
     bool add(const T& value) { return values.insert(value).second; }
     bool contains(const T& value) const { return values.find(value) != values.end(); }
 };
-/** @version        6.2.0 */
+/**
+ * \version 6.2.0
+ */
 template<class T> class Stack {
     StackPtr<T> values = new_Stack<T>();
 public:
@@ -352,7 +368,9 @@ inline bool isDigit(Char c) { return c >= UTF('0') && c <= UTF('9'); }
 inline bool isLetter(Char c) { return c >= UTF('a') && c <= UTF('z') || c >= UTF('A') && c <= UTF('Z'); }
 // Reference-counted trees can be very deep. Flatten only their destruction,
 // using nonowning links after refcount zero, with no allocation or GC/registry.
-/** @version        6.2.0 */
+/**
+ * \version 6.2.0
+ */
 template<class T> struct IterativeDelete {
     void operator()(T* node) const noexcept {
         static thread_local T** pending = nullptr;

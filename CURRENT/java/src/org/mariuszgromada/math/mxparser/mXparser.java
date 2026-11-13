@@ -1700,6 +1700,11 @@ public final class mXparser {
 			CONSOLE_OUTPUT.append(o);
 		}
 	}
+	/**
+	 * Prints the current parser settings and Java version to the mXparser console.
+	 *
+	 * @param prefix Text prepended to each settings line.
+	 */
 	public static void consolePrintSettings(String prefix) {
 		mXparser.consolePrintln(prefix + "mXparser.VERSION = " + mXparser.VERSION);
 		mXparser.consolePrintln(prefix + "mXparser.BUIT_FOR = " + mXparser.BUIT_FOR);
@@ -1718,6 +1723,9 @@ public final class mXparser {
 		mXparser.consolePrintln(prefix + "checkIfSpecialValues = " + mXparser.checkIfSpecialCases());
 		mXparser.consolePrintln(prefix + "Java version = " + System.getProperty("java.version"));
 	}
+	/**
+	 * Prints the current parser settings and Java version without an additional prefix.
+	 */
 	public static void consolePrintSettings() {
 		consolePrintSettings(StringInvariant.EMPTY);
 	}

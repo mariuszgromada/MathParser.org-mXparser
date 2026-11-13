@@ -220,176 +220,117 @@ using System;
 using System.Collections.Generic;
 
 namespace org.mariuszgromada.math.mxparser {
-	/**
-	 * Argument class enables to declare the argument
-	 * (variable) which can be used in further processing
-	 * (in expressions, functions and dependent / recursive arguments).
-	 * <br><br>
-	 *
-	 * For example:
-	 * <ul>
-	 * <li>'x' - argument in expression 'sin(x)'
-	 * <li>'x' and 'y' - arguments in expression 'sin(x)+cos(y)'.
-	 * <li> 'x=2*t' - dependent argument (dependent from 't') in expression 'cos(x)'
-	 * </ul>
-	 * <p>
-	 * Using Argument class you can define two argument types:
-	 * <ul>
-	 * <li><b>free argument</b> - when value of argument 'x' is directly given
-	 * by a number (for example 'x=5')
-	 * <li><b>dependent argument</b> - when value of argument 'x' is given by
-	 * expression (for example: 'x=2*a+b' - argument 'x' depends from
-	 * argument/constant 'a' and argument/constant 'b' or any other
-	 * possible option like function, etc...)
-	 * </ul>
-	 * <p>
-	 * When creating an argument you should avoid names reserved as
-	 * parser keywords, in general words known in mathematical language
-	 * as function names, operators (for example:
-	 * sin, cos, +, -, etc...). Please be informed that after associating
-	 * the argument with the expression, function or dependent/recursive argument
-	 * its name will be recognized by the parser as reserved key word.
-	 * It means that it could not be the same as any other key word known
-	 * by the parser for this particular expression. Parser is case-sensitive.
-	 *
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        6.2.0
-	 *
-	 * @see RecursiveArgument
-	 * @see Expression
-	 * @see Function
-	 * @see Constant
-	 */
+	/// <summary>Argument class enables to declare the argument
+	/// (variable) which can be used in further processing
+	/// (in expressions, functions and dependent / recursive arguments).
+	/// <br/><br/>
+	///
+	/// For example:
+	/// <list type="bullet">
+	/// <item><description>'x' - argument in expression 'sin(x)'
+	/// </description></item><item><description>'x' and 'y' - arguments in expression 'sin(x)+cos(y)'.
+	/// </description></item><item><description> 'x=2*t' - dependent argument (dependent from 't') in expression 'cos(x)'
+	/// </description></item></list>
+	/// <para>
+	/// Using Argument class you can define two argument types:
+	/// <list type="bullet">
+	/// <item><description><b>free argument</b> - when value of argument 'x' is directly given
+	/// by a number (for example 'x=5')
+	/// </description></item><item><description><b>dependent argument</b> - when value of argument 'x' is given by
+	/// expression (for example: 'x=2*a+b' - argument 'x' depends from
+	/// argument/constant 'a' and argument/constant 'b' or any other
+	/// possible option like function, etc...)
+	/// </description></item></list>
+	/// </para><para>
+	/// When creating an argument you should avoid names reserved as
+	/// parser keywords, in general words known in mathematical language
+	/// as function names, operators (for example:
+	/// sin, cos, +, -, etc...). Please be informed that after associating
+	/// the argument with the expression, function or dependent/recursive argument
+	/// its name will be recognized by the parser as reserved key word.
+	/// It means that it could not be the same as any other key word known
+	/// by the parser for this particular expression. Parser is case-sensitive.</para></summary>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true), Serializable]
 	public class Argument : PrimitiveElement {
-        /**
-		 * Status of the syntax - no syntax error
-		 */
+        /// <summary>Status of the syntax - no syntax error</summary>
         public const bool NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
-        /**
-		 * Status of the syntax - syntax error or syntax status unknown
-		 */
+        /// <summary>Status of the syntax - syntax error or syntax status unknown</summary>
         public const bool SYNTAX_ERROR = Expression.SYNTAX_ERROR;
-        /**
-		 * Status of the syntax - syntax error or syntax status unknown
-		 *
-		 * @deprecated Planned to be removed, use {@link #SYNTAX_ERROR} instead
-		 */
+        /// <summary>Status of the syntax - syntax error or syntax status unknown</summary>
+        /// <remarks><para>Deprecated: Planned to be removed, use <see cref="org.mariuszgromada.math.mxparser.Argument.SYNTAX_ERROR"/> instead</para></remarks>
         [Obsolete("Planned to be removed, use SYNTAX_ERROR instead")]
         public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = SYNTAX_ERROR;
         private const bool SYNTAX_STATUS_UNKNOWN = SYNTAX_ERROR;
-		/**
-		 * Double.NaN as initial value of the argument.
-		 */
+		/// <summary>Double.NaN as initial value of the argument.</summary>
 		public const double ARGUMENT_INITIAL_VALUE = Double.NaN;
-		/**
-		 * When argument was not found
-		 */
+		/// <summary>When argument was not found</summary>
 		public const int NOT_FOUND = Expression.NOT_FOUND;
-		/**
-		 * Type indicator for free argument.
-		 */
+		/// <summary>Type indicator for free argument.</summary>
 		public const int FREE_ARGUMENT = 1;
-		/**
-		 * Type indicator for dependent argument.
-		 */
+		/// <summary>Type indicator for dependent argument.</summary>
 		public const int DEPENDENT_ARGUMENT = 2;
-		/**
-		 * Type indicator for recursive argument.
-		 */
+		/// <summary>Type indicator for recursive argument.</summary>
 		public const int RECURSIVE_ARGUMENT = 3;
-		/**
-		 * Argument type id for the definition of key words
-		 * known by the parser.
-		 */
+		/// <summary>Argument type id for the definition of key words
+		/// known by the parser.</summary>
 		public const int TYPE_ID = 101;
 		public static String TYPE_DESC = ParserSymbol.NA;
-		/**
-		 * Argument with body based on the value or expression string.
-		 *
-		 * @see Argument#getArgumentBodyType()
-		 */
+		/// <summary>Argument with body based on the value or expression string.</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument.getArgumentBodyType()"/>
 		public const int BODY_RUNTIME = 1;
-		/**
-		 * Argument with body based on the extended code.
-		 *
-		 * @see ArgumentExtension
-		 * @see Argument#getArgumentBodyType()
-		 */
+		/// <summary>Argument with body based on the extended code.</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.ArgumentExtension"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument.getArgumentBodyType()"/>
 		public const int BODY_EXTENDED = 2;
-		/**
-		 * Argument body type.
-		 *
-		 * @see Argument#BODY_RUNTIME
-		 * @see Argument#BODY_EXTENDED
-		 * @see Argument#getArgumentBodyType()
-		 */
+		/// <summary>Argument body type.</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument.BODY_RUNTIME"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument.BODY_EXTENDED"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument.getArgumentBodyType()"/>
 		private int argumentBodyType = BODY_RUNTIME;
-		/**
-		 * Argument extension (body based in code)
-		 *
-		 * @see ArgumentExtension
-		 * @see Argument#Argument(String, ArgumentExtension)
-		 */
+		/// <summary>Argument extension (body based in code)</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.ArgumentExtension"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument(string,ArgumentExtension)"/>
 		private ArgumentExtension argumentExtension = null;
-		/**
-		 * Description of the argument.
-		 */
+		/// <summary>Description of the argument.</summary>
 		private String description = StringInvariant.EMPTY;
-		/**
-		 * Argument expression for dependent and recursive
-		 * arguments.
-		 */
+		/// <summary>Argument expression for dependent and recursive
+		/// arguments.</summary>
 		internal Expression argumentExpression = null;
-		/**
-		 * Argument name (x, y, arg1, my_argument, etc...)
-		 */
+		/// <summary>Argument name (x, y, arg1, my_argument, etc...)</summary>
 		private String argumentName = StringInvariant.EMPTY;
-        /**
-		 * Syntax status registered on argument definition:
-		 * - constructor, set name, ...
-		 */
+        /// <summary>Syntax status registered on argument definition:
+        /// - constructor, set name, ...</summary>
         protected bool syntaxStatusDefinition = SYNTAX_STATUS_UNKNOWN;
-		/**
-		 * Error Message registered on argument definition:
-		 * - constructor, set name, ...
-		 */
+		/// <summary>Error Message registered on argument definition:
+		/// - constructor, set name, ...</summary>
 		private String errorMessageDefinition = StringInvariant.EMPTY;
-		/**
-		 * Argument type (free, dependent)
-		 */
+		/// <summary>Argument type (free, dependent)</summary>
 		internal int argumentType = FREE_ARGUMENT;
-		/**
-		 * Argument value (for free arguments).
-		 */
+		/// <summary>Argument value (for free arguments).</summary>
 		internal double argumentValue = ARGUMENT_INITIAL_VALUE;
-		/**
-		 * Index argument.
-		 *
-		 * @see RecursiveArgument
-		 */
+		/// <summary>Index argument.</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		protected Argument n = null;
-        /**
-         * Internal counter to avoid infinite loops while calculating
-         * expression defined in the way showed by below examples
-         *
-         * Argument x = new Argument("x = 2*x");
-         * x.addDefinitions(x);
-         */
+        /// <summary>Internal counter to avoid infinite loops while calculating
+        /// expression defined in the way showed by below examples
+        ///
+        /// Argument x = new Argument("x = 2*x");
+        /// x.addDefinitions(x);</summary>
         private int recursionCallsCounter = 0;
-		/**
-		 * Keeps computing time
-		 */
+		/// <summary>Keeps computing time</summary>
 		double computingTime = 0;
 		// 2 more vs Expression as to reach Expression.calculate()
 		// from Argument.getArgumentValue() requires additional steps
@@ -426,59 +367,44 @@ namespace org.mariuszgromada.math.mxparser {
 			if (argumentExpression == null)
 				argumentExpression = new Expression();
 		}
-		/**
-		 * Default constructor - creates argument based on the argument definition string.
-		 *
-		 * @param      argumentDefinitionString        Argument definition string, i.e.:
-		 *                                             <ul>
-		 *                                                <li>'x' - only argument name
-		 *                                                <li>'x=5' - argument name and argument value
-		 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
-		 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
-		 *                                             </ul>
-		 *
-		 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions
-		 */
+		/// <summary>Default constructor - creates argument based on the argument definition string.</summary>
+		/// <param name="argumentDefinitionString">Argument definition string, i.e.:
+		///                                             <list type="bullet">
+		///                                                <item><description>'x' - only argument name
+		///                                                </description></item><item><description>'x=5' - argument name and argument value
+		///                                                </description></item><item><description>'x=2*5' - argument name and argument value given as simple expression
+		///                                                </description></item><item><description>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+		///                                             </description></item></list></param>
+		/// <param name="elements">Optional parameters (comma separated) such as Arguments, Constants, Functions</param>
 		public Argument(String argumentDefinitionString, params PrimitiveElement[] elements) : base(Argument.TYPE_ID) {
             analyzeArgumentDefinitionString(false, false, argumentDefinitionString, elements);
         }
-		/**
-		 * Default constructor - creates argument based on the argument definition string.
-		 *
-		 * @param      argumentDefinitionString        Argument definition string, i.e.:
-		 *                                             <ul>
-		 *                                                <li>'x' - only argument name
-		 *                                                <li>'x=5' - argument name and argument value
-		 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
-		 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
-		 *                                             </ul>
-		 *
-		 * @param      forceDependent   If true parser will try to create dependent argument
-		 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions
-		 */
+		/// <summary>Default constructor - creates argument based on the argument definition string.</summary>
+		/// <param name="argumentDefinitionString">Argument definition string, i.e.:
+		///                                             <list type="bullet">
+		///                                                <item><description>'x' - only argument name
+		///                                                </description></item><item><description>'x=5' - argument name and argument value
+		///                                                </description></item><item><description>'x=2*5' - argument name and argument value given as simple expression
+		///                                                </description></item><item><description>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+		///                                             </description></item></list></param>
+		/// <param name="forceDependent">If true parser will try to create dependent argument</param>
+		/// <param name="elements">Optional parameters (comma separated) such as Arguments, Constants, Functions</param>
 		public Argument(String argumentDefinitionString, bool forceDependent, params PrimitiveElement[] elements) : base(Argument.TYPE_ID) {
             analyzeArgumentDefinitionString(false, forceDependent, argumentDefinitionString, elements);
         }
-		/**
-		 * Package level  constructor used by RecursiveArgument class
-		 *
-		 * @param isRecursive
-		 * @param argumentDefinitionString
-		 * @param elements
-		 *
-		 * @see RecursiveArgument
-		 */
+		/// <summary>Package level  constructor used by RecursiveArgument class</summary>
+		/// <param name="isRecursive"></param>
+		/// <param name="argumentDefinitionString"></param>
+		/// <param name="elements"></param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		internal Argument(bool isRecursive, String argumentDefinitionString, params PrimitiveElement[] elements) : base(Argument.TYPE_ID) {
 			analyzeArgumentDefinitionString(isRecursive, false, argumentDefinitionString, elements);
 		}
-		/**
-		 * Argument definition in one string logic
-		 *
-		 * @param isRecursive
-		 * @param forceDependent
-		 * @param argumentDefinitionString
-		 * @param elements
-		 */
+		/// <summary>Argument definition in one string logic</summary>
+		/// <param name="isRecursive"></param>
+		/// <param name="forceDependent"></param>
+		/// <param name="argumentDefinitionString"></param>
+		/// <param name="elements"></param>
 		private void analyzeArgumentDefinitionString(bool isRecursive, bool forceDependent, String argumentDefinitionString, params PrimitiveElement[] elements) {
 			if (argumentDefinitionString == null) {
 				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
@@ -531,12 +457,9 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			registerSyntaxErrorInDefinition(buildErrorMessageInvalidArgumentDefinition(argumentDefinitionStringTrim));
 		}
-		/**
-		 * Constructor - creates free argument.
-		 *
-		 * @param      argumentName   the argument name
-		 * @param      argumentValue  the argument value
-		 */
+		/// <summary>Constructor - creates free argument.</summary>
+		/// <param name="argumentName">the argument name</param>
+		/// <param name="argumentValue">the argument value</param>
 		public Argument(String argumentName, double argumentValue) : base(Argument.TYPE_ID) {
 			if (argumentName == null) {
 				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
@@ -551,14 +474,11 @@ namespace org.mariuszgromada.math.mxparser {
 			this.argumentValue = argumentValue;
 			registerNoSyntaxErrorInDefinition();
 		}
-		/**
-		 * Constructor for argument definition based on
-		 * your own source code - this is via implementation
-		 * of ArgumentExtension interface.
-		 *
-		 * @param argumentName       Argument name
-		 * @param argumentExtension  Your own source code
-		 */
+		/// <summary>Constructor for argument definition based on
+		/// your own source code - this is via implementation
+		/// of ArgumentExtension interface.</summary>
+		/// <param name="argumentName">Argument name</param>
+		/// <param name="argumentExtension">Your own source code</param>
 		public Argument(String argumentName, ArgumentExtension argumentExtension) : base(Argument.TYPE_ID) {
 			if (argumentName == null) {
 				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
@@ -578,18 +498,14 @@ namespace org.mariuszgromada.math.mxparser {
 			argumentBodyType = BODY_EXTENDED;
 			registerNoSyntaxErrorInDefinition();
 		}
-		/**
-		 * Constructor - creates dependent argument(with hidden
-		 * argument expression).
-		 *
-		 * @param      argumentName                  the argument name
-		 * @param      argumentExpressionString      the argument expression string
-		 * @param      elements                      Optional parameters (comma separated)
-		 *                                           such as Arguments, Constants, Functions
-		 *
-		 * @see        Expression
-		 * @see        PrimitiveElement
-		 */
+		/// <summary>Constructor - creates dependent argument(with hidden
+		/// argument expression).</summary>
+		/// <param name="argumentName">the argument name</param>
+		/// <param name="argumentExpressionString">the argument expression string</param>
+		/// <param name="elements">Optional parameters (comma separated)
+		///                                           such as Arguments, Constants, Functions</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.PrimitiveElement"/>
 		public Argument(String argumentName, String argumentExpressionString, params PrimitiveElement[] elements) : base(Argument.TYPE_ID) {
 			if (argumentName == null || argumentExpressionString == null) {
 				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
@@ -638,72 +554,51 @@ namespace org.mariuszgromada.math.mxparser {
 			argumentExpression = argumentToClone.argumentExpression;
 			n = argumentToClone.n;
 		}
-		/**
-		 * Sets argument description.
-		 *
-		 * @param      description         the argument description.
-		 */
+		/// <summary>Sets argument description.</summary>
+		/// <param name="description">the argument description.</param>
 		public void setDescription(String description) {
 			if (description == null)
 				return;
 			this.description = description;
 		}
-		/**
-		 * Gets argument description.
-		 *
-		 * @return     The argument description string.
-		 */
+		/// <summary>Gets argument description.</summary>
+		/// <returns>The argument description string.</returns>
 		public String getDescription() {
 			return description;
 		}
-		/**
-		 * Enables argument verbose mode
-		 */
+		/// <summary>Enables argument verbose mode</summary>
 		public void setVerboseMode() {
 			argumentExpression.setVerboseMode();
 		}
-		/**
-		 * Disables argument verbose mode (sets default silent mode)
-		 */
+		/// <summary>Disables argument verbose mode (sets default silent mode)</summary>
 		public void setSilentMode() {
 			argumentExpression.setSilentMode();
 		}
-		/**
-		 * Returns verbose mode status
-		 *
-		 * @return     true if verbose mode is on,
-		 *             otherwise returns false.
-		 */
+		/// <summary>Returns verbose mode status</summary>
+		/// <returns>true if verbose mode is on,
+		///             otherwise returns false.</returns>
 		public bool getVerboseMode() {
 			return argumentExpression.getVerboseMode();
 		}
-        /**
-		 * Gets recursive mode status
-		 *
-		 * @return      true if recursive mode is enabled (RecursiveArgument),
-		 *              otherwise returns false
-		 */
+        /// <summary>Gets recursive mode status</summary>
+        /// <returns>true if recursive mode is enabled (RecursiveArgument),
+        ///              otherwise returns false</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
         public bool getRecursiveMode() {
 			if (argumentType == RECURSIVE_ARGUMENT)
 				return true;
 			return false;
 		}
-		/**
-		 * Gets computing time
-		 *
-		 * @return     Computing time in seconds.
-		 */
+		/// <summary>Gets computing time</summary>
+		/// <returns>Computing time in seconds.</returns>
 		public double getComputingTime() {
             return computingTime;
         }
-		/**
-		 * Sets (modifies) argument name.
-		 * Each expression / function / dependent argument associated
-		 * with this argument will be marked as modified
-		 * (requires new syntax checking).
-		 *
-		 * @param      argumentName        the argument name
-		 */
+		/// <summary>Sets (modifies) argument name.
+		/// Each expression / function / dependent argument associated
+		/// with this argument will be marked as modified
+		/// (requires new syntax checking).</summary>
+		/// <param name="argumentName">the argument name</param>
 		public void setArgumentName(String argumentName) {
 			if (argumentName == null) {
 				if (!syntaxStatusDefinition)
@@ -722,17 +617,13 @@ namespace org.mariuszgromada.math.mxparser {
 			setExpressionModifiedFlags();
 			registerNoSyntaxErrorInDefinition();
         }
-		/**
-		 * Sets argument expression string.
-		 * Each expression / function / dependent argument associated
-		 * with this argument will be marked as modified
-		 * (requires new syntax checking).
-		 * If BODY_EXTENDED argument then BODY_RUNTIME is set.
-		 *
-		 * @param      argumentExpressionString      the argument expression string
-		 *
-		 * @see        Expression
-		 */
+		/// <summary>Sets argument expression string.
+		/// Each expression / function / dependent argument associated
+		/// with this argument will be marked as modified
+		/// (requires new syntax checking).
+		/// If BODY_EXTENDED argument then BODY_RUNTIME is set.</summary>
+		/// <param name="argumentExpressionString">the argument expression string</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
 		public void setArgumentExpressionString(String argumentExpressionString) {
 			if (argumentExpressionString == null) {
 				if (!syntaxStatusDefinition)
@@ -744,39 +635,27 @@ namespace org.mariuszgromada.math.mxparser {
 			argumentType = DEPENDENT_ARGUMENT;
 			argumentBodyType = BODY_RUNTIME;
 		}
-		/**
-		 * Gets argument name
-		 *
-		 * @return     the argument name as string
-		 */
+		/// <summary>Gets argument name</summary>
+		/// <returns>the argument name as string</returns>
 		public String getArgumentName() {
 			return argumentName;
 		}
-		/**
-		 * Gets argument expression string
-		 *
-		 * @return the argument expression string
-		 */
+		/// <summary>Gets argument expression string</summary>
+		/// <returns>the argument expression string</returns>
 		public String getArgumentExpressionString() {
 			return argumentExpression.getExpressionString();
 		}
-		/**
-		 * Gets argument type
-		 *
-		 * @return     Argument type: Argument.FREE_ARGUMENT,
-		 *                            Argument.DEPENDENT_ARGUMENT,
-		 *                            Argument.RECURSIVE_ARGUMENT
-		 */
+		/// <summary>Gets argument type</summary>
+		/// <returns>Argument type: Argument.FREE_ARGUMENT,
+		///                            Argument.DEPENDENT_ARGUMENT,
+		///                            Argument.RECURSIVE_ARGUMENT</returns>
 		public int getArgumentType() {
 			return argumentType;
 		}
-		/**
-		 * Sets argument value, if DEPENDENT_ARGUMENT then argument type
-		 * is set to FREE_ARGUMENT.
-		 * If BODY_EXTENDED argument the BODY_RUNTIME argument is set.
-		 *
-		 * @param  argumentValue       the value of argument
-		 */
+		/// <summary>Sets argument value, if DEPENDENT_ARGUMENT then argument type
+		/// is set to FREE_ARGUMENT.
+		/// If BODY_EXTENDED argument the BODY_RUNTIME argument is set.</summary>
+		/// <param name="argumentValue">the value of argument</param>
 		public void setArgumentValue(double argumentValue) {
 			argumentType = FREE_ARGUMENT;
 			argumentBodyType = BODY_RUNTIME;
@@ -788,19 +667,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
-		/**
-		 * Returns argument body type: {@link Argument#BODY_RUNTIME} {@link Argument#BODY_EXTENDED}
-		 * @return Returns argument body type: {@link Argument#BODY_RUNTIME} {@link Argument#BODY_EXTENDED}
-		 */
+		/// <summary>Returns argument body type: <see cref="org.mariuszgromada.math.mxparser.Argument.BODY_RUNTIME"/> <see cref="org.mariuszgromada.math.mxparser.Argument.BODY_EXTENDED"/></summary>
+		/// <returns>Returns argument body type: <see cref="org.mariuszgromada.math.mxparser.Argument.BODY_RUNTIME"/> <see cref="org.mariuszgromada.math.mxparser.Argument.BODY_EXTENDED"/></returns>
 		public int getArgumentBodyType() {
 			return argumentBodyType;
 		}
-		/**
-		 * Checks argument syntax
-		 *
-		 * @return    syntax status: Argument.NO_SYNTAX_ERRORS,
-		 *            Argument.SYNTAX_ERROR
-		 */
+		/// <summary>Checks argument syntax</summary>
+		/// <returns>syntax status: Argument.NO_SYNTAX_ERRORS,
+		///            Argument.SYNTAX_ERROR</returns>
 		public bool checkSyntax() {
 			if (!syntaxStatusDefinition)
 				return SYNTAX_ERROR;
@@ -815,11 +689,8 @@ namespace org.mariuszgromada.math.mxparser {
 				return NO_SYNTAX_ERRORS;
 			return argumentExpression.checkSyntax();
 		}
-		/**
-		 * Returns error message after checking the syntax
-		 *
-		 * @return     Error message as string.
-		 */
+		/// <summary>Returns error message after checking the syntax</summary>
+		/// <returns>Error message as string.</returns>
 		public String getErrorMessage() {
 			if (!syntaxStatusDefinition)
 				return errorMessageDefinition;
@@ -834,53 +705,43 @@ namespace org.mariuszgromada.math.mxparser {
 				return errorMessageDefinition;
 			return argumentExpressionErrorMessage;
 		}
-		/**
-		 * Gets argument value.
-		 *
-		 * @return     direct argument value for free argument,
-		 *             otherwise returns calculated argument value
-		 *             based on the argument expression.
-		 */
+		/// <summary>Gets argument value.</summary>
+		/// <returns>direct argument value for free argument,
+		///             otherwise returns calculated argument value
+		///             based on the argument expression.</returns>
 		public double getArgumentValue() {
 			return getArgumentValue(null);
 		}
-		/**
-		 * Gets argument value and registers all the calculation steps
-		 *
-		 * @param calcStepsRegister A collection to store list of calculation steps,
-		 *                          steps registered as strings.
-		 *
-		 * @return     direct argument value for free argument,
-		 *             otherwise returns calculated argument value
-		 *             based on the argument expression.
-		 */
+		/// <summary>Gets argument value and registers all the calculation steps</summary>
+		/// <param name="calcStepsRegister">A collection to store list of calculation steps,
+		///                          steps registered as strings.</param>
+		/// <returns>direct argument value for free argument,
+		///             otherwise returns calculated argument value
+		///             based on the argument expression.</returns>
 		public double getArgumentValue(CalcStepsRegister calcStepsRegister) {
 			return getArgumentValueCoreWithCancel(calcStepsRegister, 0);
 		}
-		/**
-		 * Gets argument value and registers all the calculation steps
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * @param calcStepsRegister A collection to store list of calculation steps,
-		 *                          steps registered as strings.
-		 *
-		 * @return     direct argument value for free argument,
-		 *             otherwise returns calculated argument value
-		 *             based on the argument expression.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see getArgumentValue(CalcStepsRegister)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Gets argument value and registers all the calculation steps
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.</para></summary>
+		/// <param name="calcStepsRegister">A collection to store list of calculation steps,
+		///                          steps registered as strings.</param>
+		/// <returns>direct argument value for free argument,
+		///             otherwise returns calculated argument value
+		///             based on the argument expression.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument.getArgumentValue(CalcStepsRegister)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public double getArgumentValueWithCancel(CalcStepsRegister calcStepsRegister, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -917,27 +778,19 @@ namespace org.mariuszgromada.math.mxparser {
 			computingTime = argumentExpression.computingTime;
 			return value;
         }
-		/**
-		 * Adds user defined elements (such as: Arguments, Constants, Functions)
-		 * to the argument expressions.
-		 *
-		 * @param elements Elements list (variadic - comma separated) of types: Argument, Constant, Function
-		 *
-		 * @see PrimitiveElement
-		 */
+		/// <summary>Adds user defined elements (such as: Arguments, Constants, Functions)
+		/// to the argument expressions.</summary>
+		/// <param name="elements">Elements list (variadic - comma separated) of types: Argument, Constant, Function</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.PrimitiveElement"/>
 		public void addDefinitions(params PrimitiveElement[] elements) {
 			if (elements == null)
 				return;
 			argumentExpression.addDefinitions(elements);
 		}
-		/**
-		 * Removes user defined elements (such as: Arguments, Constants, Functions)
-		 * from the argument expressions.
-		 *
-		 * @param elements Elements list (variadic - comma separated) of types: Argument, Constant, Function
-		 *
-		 * @see PrimitiveElement
-		 */
+		/// <summary>Removes user defined elements (such as: Arguments, Constants, Functions)
+		/// from the argument expressions.</summary>
+		/// <param name="elements">Elements list (variadic - comma separated) of types: Argument, Constant, Function</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.PrimitiveElement"/>
 		public void removeDefinitions(params PrimitiveElement[] elements) {
 			if (elements == null)
 				return;
@@ -950,149 +803,107 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
-		/**
-		 * Adds arguments (variadic) to the argument expression definition.
-		 *
-		 * @param      arguments           the arguments list
-		 *                                 (comma separated list)
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Adds arguments (variadic) to the argument expression definition.</summary>
+		/// <param name="arguments">the arguments list
+		///                                 (comma separated list)</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public void addArguments(params Argument[] arguments) {
 			if (arguments == null)
 				return;
 			argumentExpression.addArguments(arguments);
 		}
-		/**
-		 * Enables to define the arguments (associated with
-		 * the argument expression) based on the given arguments names.
-		 *
-		 * @param      argumentsNames      the arguments names (variadic)
-		 *                                 comma separated list
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Enables to define the arguments (associated with
+		/// the argument expression) based on the given arguments names.</summary>
+		/// <param name="argumentsNames">the arguments names (variadic)
+		///                                 comma separated list</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public void defineArguments(params String[] argumentsNames) {
 			if (argumentsNames == null)
 				return;
 			argumentExpression.defineArguments(argumentsNames);
 		}
-		/**
-		 * Enables to define the argument (associated with the argument expression)
-		 * based on the argument name and the argument value.
-		 *
-		 * @param      argumentName        the argument name
-		 * @param      argumentValue       the argument value
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Enables to define the argument (associated with the argument expression)
+		/// based on the argument name and the argument value.</summary>
+		/// <param name="argumentName">the argument name</param>
+		/// <param name="argumentValue">the argument value</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public void defineArgument(String argumentName, double argumentValue) {
 			if (argumentName == null)
 				return;
 			argumentExpression.defineArgument(argumentName, argumentValue);
 		}
-		/**
-		 * Gets argument index from the argument expression.
-		 *
-		 * @param      argumentName        the argument name
-		 *
-		 * @return     The argument index if the argument name was found,
-		 *             otherwise returns Argument.NOT_FOUND
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Gets argument index from the argument expression.</summary>
+		/// <param name="argumentName">the argument name</param>
+		/// <returns>The argument index if the argument name was found,
+		///             otherwise returns Argument.NOT_FOUND</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public int getArgumentIndex(String argumentName) {
 			if (argumentName == null)
 				return NOT_FOUND;
 			return argumentExpression.getArgumentIndex(argumentName);
 		}
-		/**
-		 * Gets argument from the argument expression.
-		 *
-		 *
-		 * @param      argumentName        the argument name
-		 *
-		 * @return     The argument if the argument name was found,
-		 *             otherwise returns null.
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Gets argument from the argument expression.</summary>
+		/// <param name="argumentName">the argument name</param>
+		/// <returns>The argument if the argument name was found,
+		///             otherwise returns null.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public Argument getArgument(String argumentName) {
 			if (argumentName == null)
 				return null;
 			return argumentExpression.getArgument(argumentName);
 		}
-		/**
-		 * Gets argument from the argument expression.
-		 *
-		 * @param      argumentIndex       the argument index
-		 *
-		 * @return     Argument if the argument index is between 0 and
-		 *             the last available argument index (getArgumentsNumber()-1),
-		 *             otherwise returns null.
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Gets argument from the argument expression.</summary>
+		/// <param name="argumentIndex">the argument index</param>
+		/// <returns>Argument if the argument index is between 0 and
+		///             the last available argument index (getArgumentsNumber()-1),
+		///             otherwise returns null.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public Argument getArgument(int argumentIndex) {
 			if (argumentIndex < 0)
 				return null;
 			return argumentExpression.getArgument(argumentIndex);
 		}
-		/**
-		 * Gets number of arguments associated with the argument expression.
-		 *
-		 * @return     The number of arguments (int >= 0)
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Gets number of arguments associated with the argument expression.</summary>
+		/// <returns>The number of arguments (int &gt;= 0)</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public int getArgumentsNumber() {
 			if (argumentType != DEPENDENT_ARGUMENT)
 				return 0;
 			return argumentExpression.getArgumentsNumber();
 		}
-		/**
-		 * Removes first occurrences of the arguments
-		 * associated with the argument expression.
-		 *
-		 * @param      argumentsNames      the arguments names
-		 *                                 (variadic parameters) comma separated
-		 *                                 list
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Removes first occurrences of the arguments
+		/// associated with the argument expression.</summary>
+		/// <param name="argumentsNames">the arguments names
+		///                                 (variadic parameters) comma separated
+		///                                 list</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public void removeArguments(params String[] argumentsNames) {
 			if (argumentsNames == null)
 				return;
 			argumentExpression.removeArguments(argumentsNames);
 		}
-		/**
-		 * Removes first occurrences of the arguments
-		 * associated with the argument expression.
-		 *
-		 * @param      arguments           the arguments (variadic parameters)
-		 *                                 comma separated list
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Removes first occurrences of the arguments
+		/// associated with the argument expression.</summary>
+		/// <param name="arguments">the arguments (variadic parameters)
+		///                                 comma separated list</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public void removeArguments(params Argument[] arguments) {
 			if (arguments == null)
 				return;
 			argumentExpression.removeArguments(arguments);
 		}
-		/**
-		 * Removes all arguments associated with the argument expression.
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Removes all arguments associated with the argument expression.</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public void removeAllArguments() {
 			argumentExpression.removeAllArguments();
 		}
@@ -1103,139 +914,97 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
-		/**
-		 * Adds constants (variadic parameters) to the argument expression definition.
-		 *
-		 * @param      constants           the constants
-		 *                                 (comma separated list)
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Adds constants (variadic parameters) to the argument expression definition.</summary>
+		/// <param name="constants">the constants
+		///                                 (comma separated list)</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public void addConstants(params Constant[] constants) {
 			if (constants == null)
 				return;
 			argumentExpression.addConstants(constants);
 		}
-		/**
-		 * Adds constants to the argument expression definition.
-		 *
-		 * @param      constantsList       the list of constants
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Adds constants to the argument expression definition.</summary>
+		/// <param name="constantsList">the list of constants</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public void addConstants(List<Constant> constantsList) {
 			if (constantsList == null)
 				return;
 			argumentExpression.addConstants(constantsList);
 		}
-		/**
-		 * Enables to define the constant (associated with
-		 * the argument expression) based on the constant name and
-		 * constant value.
-		 *
-		 * @param      constantName        the constant name
-		 * @param      constantValue       the constant value
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Enables to define the constant (associated with
+		/// the argument expression) based on the constant name and
+		/// constant value.</summary>
+		/// <param name="constantName">the constant name</param>
+		/// <param name="constantValue">the constant value</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public void defineConstant(String constantName, double constantValue) {
 			if (constantName == null)
 				return;
 			argumentExpression.defineConstant(constantName, constantValue);
 		}
-		/**
-		 * Gets constant index associated with the argument expression.
-		 *
-		 * @param      constantName        the constant name
-		 *
-		 * @return     Constant index if constant name was found,
-		 *             otherwise return Constant.NOT_FOUND.
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Gets constant index associated with the argument expression.</summary>
+		/// <param name="constantName">the constant name</param>
+		/// <returns>Constant index if constant name was found,
+		///             otherwise return Constant.NOT_FOUND.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public int getConstantIndex(String constantName) {
 			if (constantName == null)
 				return NOT_FOUND;
 			return argumentExpression.getConstantIndex(constantName);
 		}
-		/**
-		 * Gets constant associated with the argument expression.
-		 *
-		 * @param      constantName        the constant name
-		 *
-		 * @return     Constant if constant name was found,
-		 *             otherwise return null.
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Gets constant associated with the argument expression.</summary>
+		/// <param name="constantName">the constant name</param>
+		/// <returns>Constant if constant name was found,
+		///             otherwise return null.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public Constant getConstant(String constantName) {
 			if (constantName == null)
 				return null;
 			return argumentExpression.getConstant(constantName);
 		}
-		/**
-		 * Gets constant associated with the argument expression.
-		 *
-		 * @param      constantIndex       the constant index
-		 *
-		 * @return     Constant if the constantIndex is between
-		 *             0 and the last available constant index
-		 *             (getConstantsNumber() - 1),
-		 *             otherwise it returns null.
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Gets constant associated with the argument expression.</summary>
+		/// <param name="constantIndex">the constant index</param>
+		/// <returns>Constant if the constantIndex is between
+		///             0 and the last available constant index
+		///             (getConstantsNumber() - 1),
+		///             otherwise it returns null.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public Constant getConstant(int constantIndex) {
 			if (constantIndex < 0)
 				return null;
 			return argumentExpression.getConstant(constantIndex);
 		}
-		/**
-		 * Gets number of constants associated with the argument expression.
-		 *
-		 * @return     number of constants (int >= 0)
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Gets number of constants associated with the argument expression.</summary>
+		/// <returns>number of constants (int &gt;= 0)</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public int getConstantsNumber() {
 			if (argumentType != DEPENDENT_ARGUMENT)
 				return 0;
 			return argumentExpression.getConstantsNumber();
 		}
-		/**
-		 * Removes first occurrences of the constants
-		 * associated with the argument expression.
-		 *
-		 * @param      constantsNames      the constants names (variadic parameters)
-		 *                                 comma separated list
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Removes first occurrences of the constants
+		/// associated with the argument expression.</summary>
+		/// <param name="constantsNames">the constants names (variadic parameters)
+		///                                 comma separated list</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public void removeConstants(params String[] constantsNames) {
 			if (constantsNames == null)
 				return;
 			argumentExpression.removeConstants(constantsNames);
 		}
-		/**
-		 * Removes first occurrences of the constants
-		 * associated with the argument expression
-		 *
-		 * @param      constants           the constants (variadic parameters)
-		 *                                 comma separated list
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Removes first occurrences of the constants
+		/// associated with the argument expression</summary>
+		/// <param name="constants">the constants (variadic parameters)
+		///                                 comma separated list</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public void removeConstants(params Constant[] constants) {
 			if (constants == null)
 				return;
 			argumentExpression.removeConstants(constants);
 		}
-		/**
-		 * Removes all constants
-		 * associated with the argument expression
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Removes all constants
+		/// associated with the argument expression</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public void removeAllConstants() {
 			argumentExpression.removeAllConstants();
 		}
@@ -1246,129 +1015,91 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
-		/**
-		 * Adds functions (variadic parameters) to the argument expression definition.
-		 *
-		 * @param      functions           the functions
-		 *                                 (variadic parameters) comma separated list
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Adds functions (variadic parameters) to the argument expression definition.</summary>
+		/// <param name="functions">the functions
+		///                                 (variadic parameters) comma separated list</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public void addFunctions(params Function[] functions) {
 			if (functions == null)
 				return;
 			argumentExpression.addFunctions(functions);
 		}
-		/**
-		 * Enables to define the function (associated with
-		 * the argument expression) based on the function name,
-		 * function expression string and arguments names (variadic parameters).
-		 *
-		 * @param      functionName                  the function name
-		 * @param      functionExpressionString      the expression string
-		 * @param      argumentsNames                the function arguments names
-		 *                                           (variadic parameters)
-		 *                                           comma separated list
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Enables to define the function (associated with
+		/// the argument expression) based on the function name,
+		/// function expression string and arguments names (variadic parameters).</summary>
+		/// <param name="functionName">the function name</param>
+		/// <param name="functionExpressionString">the expression string</param>
+		/// <param name="argumentsNames">the function arguments names
+		///                                           (variadic parameters)
+		///                                           comma separated list</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public void defineFunction(String functionName, String  functionExpressionString, params String[] argumentsNames) {
 			if (functionName == null || functionExpressionString == null || argumentsNames == null)
 				return;
 			argumentExpression.defineFunction(functionName, functionExpressionString, argumentsNames);
 		}
-		/**
-		 * Gets index of function associated with the argument expression.
-		 *
-		 * @param      functionName        the function name
-		 *
-		 * @return     Function index if function name was found,
-		 *             otherwise returns Function.NOT_FOUND
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Gets index of function associated with the argument expression.</summary>
+		/// <param name="functionName">the function name</param>
+		/// <returns>Function index if function name was found,
+		///             otherwise returns Function.NOT_FOUND</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public int getFunctionIndex(String functionName) {
 			if (functionName == null)
 				return -1;
 			return argumentExpression.getFunctionIndex(functionName);
 		}
-		/**
-		 * Gets function associated with the argument expression.
-		 *
-		 * @param      functionName        the function name
-		 *
-		 * @return     Function if function name was found,
-		 *             otherwise returns null.
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Gets function associated with the argument expression.</summary>
+		/// <param name="functionName">the function name</param>
+		/// <returns>Function if function name was found,
+		///             otherwise returns null.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public Function getFunction(String functionName) {
 			if (functionName == null)
 				return null;
 			return argumentExpression.getFunction(functionName);
 		}
-		/**
-		 * Gets function associated with the argument expression.
-		 *
-		 * @param      functionIndex the function index
-		 *
-		 * @return     Function if function index is between 0 and
-		 *             the last available function index (getFunctionsNumber()-1),
-		 *             otherwise returns null.
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Gets function associated with the argument expression.</summary>
+		/// <param name="functionIndex">the function index</param>
+		/// <returns>Function if function index is between 0 and
+		///             the last available function index (getFunctionsNumber()-1),
+		///             otherwise returns null.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public Function getFunction(int functionIndex) {
 			if (functionIndex < 0)
 				return null;
 			return argumentExpression.getFunction(functionIndex);
 		}
-		/**
-		 * Gets number of functions associated with the argument expression.
-		 *
-		 * @return     number of functions (int >= 0)
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Gets number of functions associated with the argument expression.</summary>
+		/// <returns>number of functions (int &gt;= 0)</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public int getFunctionsNumber() {
 			if (argumentType != DEPENDENT_ARGUMENT)
 				return 0;
 			return argumentExpression.getFunctionsNumber();
 		}
-		/**
-		 * Removes first occurrences of the functions
-		 * associated with the argument expression.
-		 *
-		 * @param      functionsNames      the functions names (variadic parameters)
-		 *                                 comma separated list
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Removes first occurrences of the functions
+		/// associated with the argument expression.</summary>
+		/// <param name="functionsNames">the functions names (variadic parameters)
+		///                                 comma separated list</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public void removeFunctions(params String[] functionsNames) {
 			if (functionsNames == null)
 				return;
 			argumentExpression.removeFunctions(functionsNames);
 		}
-		/**
-		 * Removes first occurrences of the functions
-		 * associated with the argument expression.
-		 *
-		 * @param      functions           the functions (variadic parameters)
-		 *                                 comma separated list.
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Removes first occurrences of the functions
+		/// associated with the argument expression.</summary>
+		/// <param name="functions">the functions (variadic parameters)
+		///                                 comma separated list.</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public void removeFunctions(params Function[] functions) {
 			if (functions == null)
 				return;
 			argumentExpression.removeFunctions(functions);
 		}
-		/**
-		 * Removes all functions
-		 * associated with the argument expression.
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Removes all functions
+		/// associated with the argument expression.</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public void removeAllFunctions() {
 			argumentExpression.removeAllFunctions();
 		}
@@ -1378,43 +1109,30 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
-		/**
-		 * Adds related expression to the argumentExpression
-		 *
-		 * @param      expression          the related expression
-		 * @see        Expression
-		 */
+		/// <summary>Adds related expression to the argumentExpression</summary>
+		/// <param name="expression">the related expression</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
 		internal void addRelatedExpression(Expression expression) {
 			if (expression == null)
 				return;
 			argumentExpression.addRelatedExpression(expression);
 		}
-		/**
-		 * Adds related expression form the argumentExpression
-		 *
-		 * @param      expression          related expression
-		 *
-		 * @see        Expression
-		 */
+		/// <summary>Adds related expression form the argumentExpression</summary>
+		/// <param name="expression">related expression</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
 		internal void removeRelatedExpression(Expression expression) {
 			if (expression == null)
 				return;
 			argumentExpression.removeRelatedExpression(expression);
 		}
-		/**
-		 * Sets expression was modified flag to all related expressions
-		 * to the argumentExpression.
-		 *
-		 * @see        Expression
-		 */
+		/// <summary>Sets expression was modified flag to all related expressions
+		/// to the argumentExpression.</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
 		internal void setExpressionModifiedFlags() {
 			argumentExpression.setExpressionModifiedFlag();
 		}
-		/**
-		 * Creates cloned object of this argument.
-		 *
-		 * @return     clone of the argument.
-		 */
+		/// <summary>Creates cloned object of this argument.</summary>
+		/// <returns>clone of the argument.</returns>
 		public Argument clone() {
 			return new Argument(this, false, null);
 		}
@@ -1433,16 +1151,13 @@ namespace org.mariuszgromada.math.mxparser {
 			argumentClone.addRelatedExpression(relatedExpressionThatInitiatedClone);
 			return argumentClone;
 		}
-		/**
-		 * Creates a completely independent 1-1 clone that can be safely used
-		 * by a separate thread. If the cloned element contains references
-		 * to other elements (e.g. arguments, functions, constants),
-		 * then they will also be cloned and the newly created element will
-		 * contain references to the corresponding clones.
-		 * Important - the API allows you to extract all these clones.
-		 *
-		 * @return Cloned object.
-		 */
+		/// <summary>Creates a completely independent 1-1 clone that can be safely used
+		/// by a separate thread. If the cloned element contains references
+		/// to other elements (e.g. arguments, functions, constants),
+		/// then they will also be cloned and the newly created element will
+		/// contain references to the corresponding clones.
+		/// Important - the API allows you to extract all these clones.</summary>
+		/// <returns>Cloned object.</returns>
 		public Argument cloneForThreadSafe() {
 			CloneCache cloneCache = new CloneCache();
 			Argument argumentClone = cloneForThreadSafeInternal(cloneCache);
@@ -1451,28 +1166,25 @@ namespace org.mariuszgromada.math.mxparser {
 			return argumentClone;
 		}
 	
-		/**
-		 * Gets argument value and registers all the calculation steps
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-	
-		 * @return     direct argument value for free argument,
-		 *             otherwise returns calculated argument value
-		 *             based on the argument expression.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see getArgumentValue()
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Gets argument value and registers all the calculation steps
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.</para></summary>
+		/// <returns>direct argument value for free argument,
+		///             otherwise returns calculated argument value
+		///             based on the argument expression.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument.getArgumentValue()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public double getArgumentValueWithCancel(int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");

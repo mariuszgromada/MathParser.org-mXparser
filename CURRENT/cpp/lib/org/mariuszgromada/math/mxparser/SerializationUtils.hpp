@@ -1,5 +1,5 @@
 /*
- * @(#)SerializationUtils.hpp        6.1.0    2024-10-06
+ * @(#)SerializationUtils.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -241,19 +241,8 @@ namespace org::mariuszgromada::math::mxparser {
 
 		// ***********************************************************
 
-		static void enableBinarySerializationIamAwareOfSecurityRisks();
-		static void disableBinarySerialization();
-		static bool isBinarySerializationEnabled();
-
-		// ***********************************************************
-
-		static bool checkLastOperationWasSuccessful();
-		static StringPtr getLastOperationMessage();
-
-		// ***********************************************************
-
 		/**
-		 * Serialization of an object to String data.
+		 * \brief Enables binary serialization done by the SerializationUtils.
 		 *
 		 * Important - using binary serialization you confirm that
 		 * you understand the security risks.
@@ -272,12 +261,133 @@ namespace org::mariuszgromada::math::mxparser {
 		 * Be very mindful of these attack scenarios; many projects and companies
 		 * and users of serialization libraries in general have been bitten by
 		 * untrusted deserialization of user data in the past.
+		 */
+		static void enableBinarySerializationIamAwareOfSecurityRisks();
+		/**
+		 * \brief Disables binary serialization done by the SerializationUtils.
 		 *
-		 * @param objectToSerialize The object for which serialization is possible.
+		 * Important - using binary serialization you confirm that
+		 * you understand the security risks.
 		 *
-		 * @return The data string if the operation was successful, otherwise it returns null.
-		 * @see #getLastOperationMessage()
-		 * @see #checkLastOperationWasSuccessful()
+		 * WARNING: Deserializing data from an untrusted source can introduce
+		 * security vulnerabilities to your application. Depending on the settings
+		 * used during deserialization, untrusted data may be able to execute
+		 * arbitrary code or cause a denial of service attack. Untrusted data
+		 * can come from over the network from an untrusted source
+		 * (e.g. any network client), or it can be manipulated/tampered by
+		 * an intermediary while in transit over an unauthenticated connection,
+		 * or from local storage where it may have been compromised/tampered,
+		 * or from many other sources. MathParser.org-mXparser does not provide
+		 * any means to authenticate data or secure it from tampering.
+		 * Use an appropriate data authentication method before deserializing.
+		 * Be very mindful of these attack scenarios; many projects and companies
+		 * and users of serialization libraries in general have been bitten by
+		 * untrusted deserialization of user data in the past.
+		 */
+		static void disableBinarySerialization();
+		/**
+		 * \brief Returns whether binary serialization done by SerializationUtils is enabled by.
+		 *
+		 * Important - using binary serialization you confirm that
+		 * you understand the security risks.
+		 *
+		 * WARNING: Deserializing data from an untrusted source can introduce
+		 * security vulnerabilities to your application. Depending on the settings
+		 * used during deserialization, untrusted data may be able to execute
+		 * arbitrary code or cause a denial of service attack. Untrusted data
+		 * can come from over the network from an untrusted source
+		 * (e.g. any network client), or it can be manipulated/tampered by
+		 * an intermediary while in transit over an unauthenticated connection,
+		 * or from local storage where it may have been compromised/tampered,
+		 * or from many other sources. MathParser.org-mXparser does not provide
+		 * any means to authenticate data or secure it from tampering.
+		 * Use an appropriate data authentication method before deserializing.
+		 * Be very mindful of these attack scenarios; many projects and companies
+		 * and users of serialization libraries in general have been bitten by
+		 * untrusted deserialization of user data in the past.
+		 * \return True if enabled, false if disabled.
+		 */
+		static bool isBinarySerializationEnabled();
+
+		// ***********************************************************
+
+		/**
+		 * \brief Information whether the last ordered operation under
+		 * any serialization or deserialization method was correctly
+		 * performed.
+		 *
+		 * Important - using binary serialization you confirm that
+		 * you understand the security risks.
+		 *
+		 * WARNING: Deserializing data from an untrusted source can introduce
+		 * security vulnerabilities to your application. Depending on the settings
+		 * used during deserialization, untrusted data may be able to execute
+		 * arbitrary code or cause a denial of service attack. Untrusted data
+		 * can come from over the network from an untrusted source
+		 * (e.g. any network client), or it can be manipulated/tampered by
+		 * an intermediary while in transit over an unauthenticated connection,
+		 * or from local storage where it may have been compromised/tampered,
+		 * or from many other sources. MathParser.org-mXparser does not provide
+		 * any means to authenticate data or secure it from tampering.
+		 * Use an appropriate data authentication method before deserializing.
+		 * Be very mindful of these attack scenarios; many projects and companies
+		 * and users of serialization libraries in general have been bitten by
+		 * untrusted deserialization of user data in the past.
+		 * \return true if the operation was performed correctly, otherwise false.
+		 */
+		static bool checkLastOperationWasSuccessful();
+		/**
+		 * \brief Text information about the last operation performed
+		 * by any serialization or deserialization method.
+		 *
+		 * Important - using binary serialization you confirm that
+		 * you understand the security risks.
+		 *
+		 * WARNING: Deserializing data from an untrusted source can introduce
+		 * security vulnerabilities to your application. Depending on the settings
+		 * used during deserialization, untrusted data may be able to execute
+		 * arbitrary code or cause a denial of service attack. Untrusted data
+		 * can come from over the network from an untrusted source
+		 * (e.g. any network client), or it can be manipulated/tampered by
+		 * an intermediary while in transit over an unauthenticated connection,
+		 * or from local storage where it may have been compromised/tampered,
+		 * or from many other sources. MathParser.org-mXparser does not provide
+		 * any means to authenticate data or secure it from tampering.
+		 * Use an appropriate data authentication method before deserializing.
+		 * Be very mindful of these attack scenarios; many projects and companies
+		 * and users of serialization libraries in general have been bitten by
+		 * untrusted deserialization of user data in the past.
+		 * \return The content of the error in case of failure, information
+		 * about the operation performed in case of success.
+		 */
+		static StringPtr getLastOperationMessage();
+
+		// ***********************************************************
+
+		/**
+		 * \brief Serialization of an object to String data.
+		 *
+		 * Important - using binary serialization you confirm that
+		 * you understand the security risks.
+		 *
+		 * WARNING: Deserializing data from an untrusted source can introduce
+		 * security vulnerabilities to your application. Depending on the settings
+		 * used during deserialization, untrusted data may be able to execute
+		 * arbitrary code or cause a denial of service attack. Untrusted data
+		 * can come from over the network from an untrusted source
+		 * (e.g. any network client), or it can be manipulated/tampered by
+		 * an intermediary while in transit over an unauthenticated connection,
+		 * or from local storage where it may have been compromised/tampered,
+		 * or from many other sources. MathParser.org-mXparser does not provide
+		 * any means to authenticate data or secure it from tampering.
+		 * Use an appropriate data authentication method before deserializing.
+		 * Be very mindful of these attack scenarios; many projects and companies
+		 * and users of serialization libraries in general have been bitten by
+		 * untrusted deserialization of user data in the past.
+		 * \param objectToSerialize The object for which serialization is possible.
+		 * \return The data string if the operation was successful, otherwise it returns null.
+		 * \sa org::mariuszgromada::math::mxparser::SerializationUtils::getLastOperationMessage()
+		 * \sa org::mariuszgromada::math::mxparser::SerializationUtils::checkLastOperationWasSuccessful()
 		 */
 		template<typename SerializableType>
 		static StdStringPtr serializeToString(const Ptr<SerializableType> &objectToSerialize) {
@@ -313,7 +423,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 
 		/**
-		 * Serialization of an object to byte data.
+		 * \brief Serialization of an object to byte data.
 		 *
 		 * Important - using binary serialization you confirm that
 		 * you understand the security risks.
@@ -332,12 +442,10 @@ namespace org::mariuszgromada::math::mxparser {
 		 * Be very mindful of these attack scenarios; many projects and companies
 		 * and users of serialization libraries in general have been bitten by
 		 * untrusted deserialization of user data in the past.
-		 *
-		 * @param objectToSerialize The object for which serialization is possible.
-		 *
-		 * @return The data object if the operation was successful, otherwise it returns null.
-		 * @see #getLastOperationMessage()
-		 * @see #checkLastOperationWasSuccessful()
+		 * \param objectToSerialize The object for which serialization is possible.
+		 * \return The data object if the operation was successful, otherwise it returns null.
+		 * \sa org::mariuszgromada::math::mxparser::SerializationUtils::getLastOperationMessage()
+		 * \sa org::mariuszgromada::math::mxparser::SerializationUtils::checkLastOperationWasSuccessful()
 		 */
 		template<typename SerializableType>
 		static VectorPtr<char> serializeToBytes(const Ptr<SerializableType> &objectToSerialize) {
@@ -347,7 +455,7 @@ namespace org::mariuszgromada::math::mxparser {
 			return std::make_shared<std::vector<char>>(data->begin(), data->end());
 		}
 	    /**
-	     * Serialization of an object to a file.
+	     * \brief Serialization of an object to a file.
 	     *
 	     * Important - using binary serialization you confirm that
 	     * you understand the security risks.
@@ -366,13 +474,11 @@ namespace org::mariuszgromada::math::mxparser {
 	     * Be very mindful of these attack scenarios; many projects and companies
 	     * and users of serialization libraries in general have been bitten by
 	     * untrusted deserialization of user data in the past.
-	     *
-	     * @param objectToSerialize The object for which serialization is possible.
-	     * @param filePath  File path
-	     *
-	     * @return true if the operation was successful, otherwise it returns false.
-	     * @see #getLastOperationMessage()
-	     * @see #checkLastOperationWasSuccessful()
+	     * \param objectToSerialize The object for which serialization is possible.
+	     * \param filePath  File path
+	     * \return true if the operation was successful, otherwise it returns false.
+	     * \sa org::mariuszgromada::math::mxparser::SerializationUtils::getLastOperationMessage()
+	     * \sa org::mariuszgromada::math::mxparser::SerializationUtils::checkLastOperationWasSuccessful()
 	     */
 		template<typename SerializableType>
 	    static bool serializeToFile(const Ptr<SerializableType> &objectToSerialize, const StdStringPtr &filePath) {
@@ -408,12 +514,8 @@ namespace org::mariuszgromada::math::mxparser {
 	            return false;
 	        }
 	    }
-		template<typename SerializableType>
-		static bool serializeToFile(const Ptr<SerializableType> &objectToSerialize, const std::string &filePath) {
-			return serializeToFile<SerializableType>(objectToSerialize, new_StdString(filePath));
-		}
 		/**
-		 * Deserializes an object from string data.
+		 * \brief Serialization of an object to a file.
 		 *
 		 * Important - using binary serialization you confirm that
 		 * you understand the security risks.
@@ -432,11 +534,39 @@ namespace org::mariuszgromada::math::mxparser {
 		 * Be very mindful of these attack scenarios; many projects and companies
 		 * and users of serialization libraries in general have been bitten by
 		 * untrusted deserialization of user data in the past.
+		 * \param objectToSerialize The object for which serialization is possible.
+		 * \param filePath  File path
+		 * \return true if the operation was successful, otherwise it returns false.
+		 * \sa org::mariuszgromada::math::mxparser::SerializationUtils::getLastOperationMessage()
+		 * \sa org::mariuszgromada::math::mxparser::SerializationUtils::checkLastOperationWasSuccessful()
+		 */
+		template<typename SerializableType>
+		static bool serializeToFile(const Ptr<SerializableType> &objectToSerialize, const std::string &filePath) {
+			return serializeToFile<SerializableType>(objectToSerialize, new_StdString(filePath));
+		}
+		/**
+		 * \brief Deserializes an object from string data.
 		 *
-		 * @param data Data object.
-		 * @param {SerializableType} Resulting class type.
+		 * Important - using binary serialization you confirm that
+		 * you understand the security risks.
 		 *
-		 * @return The deserialized object if operation was successful, otherwise it returns null.
+		 * WARNING: Deserializing data from an untrusted source can introduce
+		 * security vulnerabilities to your application. Depending on the settings
+		 * used during deserialization, untrusted data may be able to execute
+		 * arbitrary code or cause a denial of service attack. Untrusted data
+		 * can come from over the network from an untrusted source
+		 * (e.g. any network client), or it can be manipulated/tampered by
+		 * an intermediary while in transit over an unauthenticated connection,
+		 * or from local storage where it may have been compromised/tampered,
+		 * or from many other sources. MathParser.org-mXparser does not provide
+		 * any means to authenticate data or secure it from tampering.
+		 * Use an appropriate data authentication method before deserializing.
+		 * Be very mindful of these attack scenarios; many projects and companies
+		 * and users of serialization libraries in general have been bitten by
+		 * untrusted deserialization of user data in the past.
+		 * \param data Data object.
+		 * \tparam SerializableType Resulting class type.
+		 * \return The deserialized object if operation was successful, otherwise it returns null.
 		 */
 		template<typename SerializableType>
 		static Ptr<SerializableType> deserializeFromString(const StdStringPtr &data) {
@@ -477,7 +607,7 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 
 		/**
-		 * Deserializes an object from byte data.
+		 * \brief Deserializes an object from byte data.
 		 *
 		 * Important - using binary serialization you confirm that
 		 * you understand the security risks.
@@ -496,11 +626,9 @@ namespace org::mariuszgromada::math::mxparser {
 		 * Be very mindful of these attack scenarios; many projects and companies
 		 * and users of serialization libraries in general have been bitten by
 		 * untrusted deserialization of user data in the past.
-		 *
-		 * @param data Data object.
-		 * @param {T} Resulting class type.
-		 *
-		 * @return The deserialized object if operation was successful, otherwise it returns null.
+		 * \param data Data object.
+		 * \tparam SerializableType Resulting class type.
+		 * \return The deserialized object if operation was successful, otherwise it returns null.
 		 */
 		template<typename SerializableType>
 		static Ptr<SerializableType> deserializeFromBytes(const VectorPtr<char> &data) {
@@ -519,7 +647,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 
 	    /**
-	     * Deserializes an object from byte data.
+	     * \brief Deserializes an object from byte data.
 	     *
 	     * Important - using binary serialization you confirm that
 	     * you understand the security risks.
@@ -538,11 +666,9 @@ namespace org::mariuszgromada::math::mxparser {
 	     * Be very mindful of these attack scenarios; many projects and companies
 	     * and users of serialization libraries in general have been bitten by
 	     * untrusted deserialization of user data in the past.
-	     *
-	     * @param filePath File path.
-	     * @param {T} Resulting class type.
-	     *
-	     * @return The deserialized object if operation was successful, otherwise it returns null.
+	     * \param filePath File path.
+	     * \tparam SerializableType Resulting class type.
+	     * \return The deserialized object if operation was successful, otherwise it returns null.
 	     */
 		template<typename SerializableType>
 	    static Ptr<SerializableType> deserializeFromFile(const StdStringPtr &filePath) {
@@ -595,6 +721,30 @@ namespace org::mariuszgromada::math::mxparser {
 	        }
 	    }
 
+		/**
+		 * \brief Deserializes an object from byte data.
+		 *
+		 * Important - using binary serialization you confirm that
+		 * you understand the security risks.
+		 *
+		 * WARNING: Deserializing data from an untrusted source can introduce
+		 * security vulnerabilities to your application. Depending on the settings
+		 * used during deserialization, untrusted data may be able to execute
+		 * arbitrary code or cause a denial of service attack. Untrusted data
+		 * can come from over the network from an untrusted source
+		 * (e.g. any network client), or it can be manipulated/tampered by
+		 * an intermediary while in transit over an unauthenticated connection,
+		 * or from local storage where it may have been compromised/tampered,
+		 * or from many other sources. MathParser.org-mXparser does not provide
+		 * any means to authenticate data or secure it from tampering.
+		 * Use an appropriate data authentication method before deserializing.
+		 * Be very mindful of these attack scenarios; many projects and companies
+		 * and users of serialization libraries in general have been bitten by
+		 * untrusted deserialization of user data in the past.
+		 * \param filePath File path.
+		 * \tparam SerializableType Resulting class type.
+		 * \return The deserialized object if operation was successful, otherwise it returns null.
+		 */
 		template<typename SerializableType>
 		static Ptr<SerializableType> deserializeFromFile(const std::string &filePath) {
 			return deserializeFromFile<SerializableType>(new_StdString(filePath));

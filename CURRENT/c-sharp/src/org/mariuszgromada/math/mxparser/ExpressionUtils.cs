@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.cs        6.1.0    2024-10-06
+ * @(#)ExpressionUtils.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -221,23 +221,17 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace org.mariuszgromada.math.mxparser {
-    /**
-	 * Utility methods used in Expression class
-     *
-     * @author         <b>Mariusz Gromada</b><br>
-     *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-     *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-     *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-     *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-     *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-     *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-     *
-     * @see            Expression
-     *
-     * @version        6.1.0
-     */
+    /// <summary>Utility methods used in Expression class</summary>
+    /// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+    /// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+    ///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+    ///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+    ///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+    ///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+    ///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+    ///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
     internal sealed class ExpressionUtils {
         internal static readonly bool LANGUAGE_SPECIFIC_DESCRIPTIONS_SET = StringModel.LANGUAGE_SPECIFIC_DESCRIPTIONS_SET;
         static void addUDFSpecificParserKeyWords(List<KeyWord> keyWordsList) {
@@ -913,16 +907,11 @@ namespace org.mariuszgromada.math.mxparser {
             addKeyWord(ParserSymbol.NUMBER_LITERAL_STR, ParserSymbol.NUMBER_LITERAL_DESC, ParserSymbol.NUMBER_ID, ParserSymbol.NUMBER_SYN, ParserSymbol.NUMBER_SINCE, ParserSymbol.NUMBER_TYPE_ID, keyWordsList);
             addKeyWord(ParserSymbol.BLANK_STR, ParserSymbol.BLANK_DESC, ParserSymbol.BLANK_ID, ParserSymbol.BLANK_SYN, ParserSymbol.BLANK_SINCE, ParserSymbol.TYPE_ID, keyWordsList);
         }
-        /**
-		 * Returns list of the functions parameters.
-		 *
-		 * @param      pos                 the function position
-		 * @param      tokensList          the tokens checkSYnt
-		 *
-		 * @return     the list of function parameters
-		 *
-		 * @see        FunctionParameter
-		 */
+        /// <summary>Returns list of the functions parameters.</summary>
+        /// <param name="pos">the function position</param>
+        /// <param name="tokensList">the tokens checkSYnt</param>
+        /// <returns>the list of function parameters</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.FunctionParameter"/>
         internal static List<FunctionParameter> getFunctionParameters(int pos, List<Token> tokensList) {
 			List<FunctionParameter> functionParameters = new List<FunctionParameter>();
 			int cPos = pos+2;
@@ -963,10 +952,8 @@ namespace org.mariuszgromada.math.mxparser {
 			} while (!end);
 			return functionParameters;
 		}
-        /**
-         * Cleans "--" case
-         * considering defined parser keywords "-->", "<--"
-         */
+        /// <summary>Cleans "--" case
+        /// considering defined parser keywords "--&gt;", "&lt;--"</summary>
         private static String cleanMinusMinus(String expressionString) {
             String expressionStringCleaned = expressionString;
             if (expressionStringCleaned.Length >= 2) {
@@ -1006,9 +993,7 @@ namespace org.mariuszgromada.math.mxparser {
 			}
             return expressionStringCleaned;
         }
-        /**
-         * Cleans blanks and other cases like "++', "+-", "-+"", "--"
-         */
+        /// <summary>Cleans blanks and other cases like "++', "+-", "-+"", "--"</summary>
         internal static String cleanExpressionString(String expressionString, bool attemptToFixExpStrEnabled) {
             StringBuilder expressionStringCleanedBuilder = new StringBuilder();
 			if (expressionString == null) return StringInvariant.EMPTY;
@@ -1068,15 +1053,11 @@ namespace org.mariuszgromada.math.mxparser {
 		private const String ARGUMENT = "argument";
 		private const String UNITCONST = "unit/const";
 		private const String ERROR = "error";
-		/**
-		 * Tokenizes expression string and returns tokens list,
-		 * including: string, type, level.
-		 *
-		 * @return Copy of initial tokens.
-		 *
-		 * @see Token
-		 * @see mXparser#consolePrintTokens(ArrayList)
-		 */
+		/// <summary>Tokenizes expression string and returns tokens list,
+		/// including: string, type, level.</summary>
+		/// <returns>Copy of initial tokens.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.Token"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.consolePrintTokens(List{Token})"/>
 		internal static List<Token> getCopyOfInitialTokens(String expressionString, List<Token> initialTokens) {
 			List<Token> tokensListCopy = new List<Token>();
 			if (expressionString.Length == 0) return tokensListCopy;
@@ -1102,14 +1083,11 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			return tokensListCopy;
 		}
-		/**
-		 * Returns missing user defined arguments names, i.e.
-		 * sin(x) + cos(y) where x and y are not defined
-		 * function will return x and y.
-		 *
-		 * @return Array of missing user defined arguments names
-		 * - distinct strings.
-		 */
+		/// <summary>Returns missing user defined arguments names, i.e.
+		/// sin(x) + cos(y) where x and y are not defined
+		/// function will return x and y.</summary>
+		/// <returns>Array of missing user defined arguments names
+		/// - distinct strings.</returns>
 		internal static String[] getMissingUserDefinedArguments(List<Token> tokens) {
 			List<String> missingArguments = new List<String>();
 			foreach (Token t in tokens)
@@ -1122,14 +1100,11 @@ namespace org.mariuszgromada.math.mxparser {
 				missArgs[i] = missingArguments[i];
 			return missArgs;
 		}
-        /**
-		 * Returns missing user defined units names, i.e.
-		 * 2*[w] + [q] where [w] and [q] are not defined
-		 * function will return [w] and [q].
-		 *
-		 * @return Array of missing user defined units names
-		 * - distinct strings.
-		 */
+        /// <summary>Returns missing user defined units names, i.e.
+        /// 2*[w] + [q] where [w] and [q] are not defined
+        /// function will return [w] and [q].</summary>
+        /// <returns>Array of missing user defined units names
+        /// - distinct strings.</returns>
         internal static String[] getMissingUserDefinedUnits(List<Token> tokens) {
 			List<String> missingUnits = new List<String>();
 			foreach (Token t in tokens)
@@ -1142,14 +1117,11 @@ namespace org.mariuszgromada.math.mxparser {
 				missUnits[i] = missingUnits[i];
 			return missUnits;
 		}
-        /**
-		 * Returns missing user defined functions names, i.e.
-		 * sin(x) + fun(x,y) where fun is not defined
-		 * function will return fun.
-		 *
-		 * @return Array of missing user defined functions names
-		 * - distinct strings.
-		 */
+        /// <summary>Returns missing user defined functions names, i.e.
+        /// sin(x) + fun(x,y) where fun is not defined
+        /// function will return fun.</summary>
+        /// <returns>Array of missing user defined functions names
+        /// - distinct strings.</returns>
         internal static String[] getMissingUserDefinedFunctions(List<Token> tokens) {
 			List<String> missingFunctions = new List<String>();
 			foreach (Token t in tokens)
@@ -1162,9 +1134,7 @@ namespace org.mariuszgromada.math.mxparser {
 				missFun[i] = missingFunctions[i];
 			return missFun;
 		}
-		/**
-		 * shows known keywords
-		 */
+		/// <summary>shows known keywords</summary>
 		internal static void showKeyWords(List<KeyWord> keyWordsList) {
 			int keyWordsNumber = keyWordsList.Count;
 			String maxStr = "KEY_WORD";
@@ -1489,20 +1459,15 @@ namespace org.mariuszgromada.math.mxparser {
 
             return false;
         }
-        /**
-	     * Returns list of keywords known to the parser
-	     *
-	     * @param query Give any string to filter list of keywords against this string.
-	     *              User more precise syntax: str=tokenString, desc=tokenDescription,
-	     *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
-	     *              to narrow the result.
-	     *
-	     * @return      List of keywords known to the parser filter against query string.
-	     *
-	     * @see KeyWord
-	     * @see KeyWord#wordTypeId
-	     * @see Expression#getHelp(String)
-	     */
+        /// <summary>Returns list of keywords known to the parser</summary>
+        /// <returns>List of keywords known to the parser filter against query string.</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.KeyWord"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.KeyWord.wordTypeId"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.Expression.getHelp(string)"/>
+        /// <remarks><para>Parameter <c>query</c>: Give any string to filter list of keywords against this string.
+        ///              User more precise syntax: str=tokenString, desc=tokenDescription,
+        ///              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
+        ///              to narrow the result.</para></remarks>
         internal static List<KeyWord> getKeyWords(String query, List<KeyWord> keyWordsList) {
             List<KeyWord> kwyWordsToReturn = new List<KeyWord>();
             keyWordsList.Sort(new KwTypeComparator());
@@ -1523,10 +1488,7 @@ namespace org.mariuszgromada.math.mxparser {
         /*
          * =============================================================
          */
-        /**
-		 * Shows parsing (verbose mode purposes).
-		 *
-		 */
+        /// <summary>Shows parsing (verbose mode purposes).</summary>
         internal static void showParsing(int lPos, int rPos, List<Token> tokensList) {
 			mXparser.consolePrint(StringInvariant.LONG_RIGHT_ARROW_SPACE);
 			for (int i=lPos; i<=rPos; i++) {
@@ -1607,9 +1569,7 @@ namespace org.mariuszgromada.math.mxparser {
 
 			return result.ToString();
 		}
-		/**
-		 * Evaluates tokens levels
-		 */
+		/// <summary>Evaluates tokens levels</summary>
 		internal static void evaluateTokensLevels(List<Token> initialTokens) {
 			int tokenLevel = 0;
 			Stack<TokenStackElement> tokenStack =  new Stack<TokenStackElement>();

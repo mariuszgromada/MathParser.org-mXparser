@@ -1,5 +1,5 @@
 /*
- * @(#)Token.cs        6.1.1    2026-05-17
+ * @(#)Token.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -218,63 +218,39 @@
 using System;
 
 namespace org.mariuszgromada.math.mxparser.parsertokens {
-	/**
-	 * Token recognized by mXparser after string tokenization process.
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        6.1.1
-	 */
+	/// <summary>Token recognized by mXparser after string tokenization process.</summary>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true), Serializable]
 	public class Token {
-		/**
-		 * Indicator that token was not matched
-		 */
+		/// <summary>Indicator that token was not matched</summary>
 		public const int NOT_MATCHED = KeyWord.NO_DEFINITION;
-		/**
-		 * String token
-		 */
+		/// <summary>String token</summary>
 		public String tokenStr;
-		/**
-		 * Key word string (if matched)
-		 */
+		/// <summary>Key word string (if matched)</summary>
 		public String keyWord;
-		/**
-		 * Token identifier
-		 */
+		/// <summary>Token identifier</summary>
 		public int tokenId;
-		/**
-		 * Token type
-		 */
+		/// <summary>Token type</summary>
 		public int tokenTypeId;
-		/**
-		 * Token level
-		 */
+		/// <summary>Token level</summary>
 		public int tokenLevel;
-		/**
-		 * Token value if number
-		 */
+		/// <summary>Token value if number</summary>
 		public double tokenValue;
-		/**
-		 * If token was not matched then
-		 * looksLike functionality is trying asses
-		 * the kind of token
-		 */
+		/// <summary>If token was not matched then
+		/// looksLike functionality is trying asses
+		/// the kind of token</summary>
 		public String looksLike;
-		/**
-		 * Verification if the token is a left unary operator.
-		 *
-		 * @return true in case token is unary left operator,
-		 * otherwise returns false
-		 */
+		/// <summary>Tests whether the token is a prefix unary operator.</summary>
+		/// <param name="token">The token to inspect (not null).</param>
+		/// <returns>true for a prefix unary operator; false otherwise.</returns>
 		public static bool isUnaryLeftOperator(Token token) {
 			if (token.tokenTypeId == Operator.TYPE_ID) {
 				if (token.tokenId == Operator.SQUARE_ROOT_ID) return true;
@@ -289,13 +265,12 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
             }
 			return false;
 		}
+        /// <summary>Tests whether this token is a prefix unary operator.</summary>
+        /// <returns>true for a prefix unary operator; false otherwise.</returns>
         public bool isUnaryLeftOperator() { return isUnaryLeftOperator(this); }
-        /**
-		 * Verification if the token is a right unary operator.
-		 *
-		 * @return true in case token is unary right operator,
-		 * otherwise returns false
-		 */
+        /// <summary>Tests whether the token is a postfix unary operator.</summary>
+        /// <param name="token">The token to inspect (not null).</param>
+        /// <returns>true for a postfix unary operator; false otherwise.</returns>
         public static bool isUnaryRightOperator(Token token) {
 			if (token.tokenTypeId == Operator.TYPE_ID) {
 				if (token.tokenId == Operator.FACT_ID) return true;
@@ -303,46 +278,42 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 			}
 			return false;
 		}
+		/// <summary>Tests whether this token is a postfix unary operator.</summary>
+		/// <returns>true for a postfix unary operator; false otherwise.</returns>
 		public bool isUnaryRightOperator() { return isUnaryRightOperator(this); }
-		/**
-		 * Verification if the token is a left parenthesis.
-		 *
-		 * @return true in case token is a left parenthesis,
-		 * otherwise returns false
-		 */
+		/// <summary>Tests whether the token is a left parenthesis.</summary>
+		/// <param name="token">The token to inspect (not null).</param>
+		/// <returns>true for a left parenthesis; false otherwise.</returns>
 		public static bool isLeftParenthesis(Token token) {
             return token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.LEFT_PARENTHESES_ID;
         }
+		/// <summary>Tests whether this token is a left parenthesis.</summary>
+		/// <returns>true for a left parenthesis; false otherwise.</returns>
 		public bool isLeftParenthesis() { return isLeftParenthesis(this); }
-		/**
-		 * Verification if the token is a right parenthesis.
-		 *
-		 * @return true in case token is a right parenthesis,
-		 * otherwise returns false
-		 */
+		/// <summary>Tests whether the token is a right parenthesis.</summary>
+		/// <param name="token">The token to inspect (not null).</param>
+		/// <returns>true for a right parenthesis; false otherwise.</returns>
 		public static bool isRightParenthesis(Token token) {
             return token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID;
         }
+		/// <summary>Tests whether this token is a right parenthesis.</summary>
+		/// <returns>true for a right parenthesis; false otherwise.</returns>
 		public bool isRightParenthesis() { return isRightParenthesis(this); }
-		/**
-		 * Verification if the token is an identifier.
-		 *
-		 * @return true in case token is an identifier,
-		 * otherwise returns false
-		 */
+		/// <summary>Tests whether the token represents an argument, constant or unit.</summary>
+		/// <param name="token">The token to inspect (not null).</param>
+		/// <returns>true for an argument, constant or unit; false otherwise.</returns>
 		public static bool isIdentifier(Token token) {
 			return token.tokenTypeId == Constant.TYPE_ID ||
                     token.tokenTypeId == ConstantValue.TYPE_ID ||
                     token.tokenTypeId == Unit.TYPE_ID ||
                     token.tokenTypeId == Argument.TYPE_ID;
 		}
+        /// <summary>Tests whether this token represents an argument, constant or unit.</summary>
+        /// <returns>true for an argument, constant or unit; false otherwise.</returns>
         public bool isIdentifier() { return isIdentifier(this); }
-        /**
-		 * Verification if the token is a binary operator.
-		 *
-		 * @return true in case token is a binary operator,
-		 * otherwise returns false
-		 */
+        /// <summary>Tests whether the token is a binary operator.</summary>
+        /// <param name="token">The token to inspect (not null).</param>
+        /// <returns>true for a binary operator; false otherwise.</returns>
         public static bool isBinaryOperator(Token token) {
 			if (isUnaryLeftOperator(token)) return false;
 			if (isUnaryRightOperator(token)) return false;
@@ -358,44 +329,40 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 			}
 			return false;
 		}
+        /// <summary>Tests whether this token is a binary operator.</summary>
+        /// <returns>true for a binary operator; false otherwise.</returns>
         public bool isBinaryOperator() { return isBinaryOperator(this); }
-        /**
-		 * Verification if the token is a parameter separator.
-		 *
-		 * @return true in case token is a parameter separator,
-		 * otherwise returns false
-		 */
+        /// <summary>Tests whether the token separates parameters.</summary>
+        /// <param name="token">The token to inspect (not null).</param>
+        /// <returns>true for a comma token; false otherwise.</returns>
         public static bool isParameterSeparator(Token token) {
 			return token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.COMMA_ID;
         }
+        /// <summary>Tests whether this token separates parameters.</summary>
+        /// <returns>true for a comma token; false otherwise.</returns>
         public bool isParameterSeparator() { return isParameterSeparator(this); }
-        /**
-		 * Verification if the token is a number.
-		 *
-		 * @return true in case token is a number,
-		 * otherwise returns false
-		 */
+        /// <summary>Tests whether the token represents a number.</summary>
+        /// <param name="token">The token to inspect (not null).</param>
+        /// <returns>true for a number token; false otherwise.</returns>
         public static bool isNumber(Token token) {
             return token.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID && token.tokenId == ParserSymbol.NUMBER_ID;
         }
+        /// <summary>Tests whether this token represents a number.</summary>
+        /// <returns>true for a number token; false otherwise.</returns>
         public bool isNumber() { return isNumber(this); }
-        /**
-		 * Verification if the token is represented by a special name in the form [...].
-		 *
-		 * @return true in case token is represented by a special name in the form [...],
-		 * otherwise returns false
-		 */
+        /// <summary>Tests whether the token text starts with <c>[</c>.</summary>
+        /// <param name="token">The token to inspect (not null).</param>
+        /// <returns>true if the text starts with a left square bracket; false otherwise.</returns>
         public static bool isSpecialTokenName(Token token) {
 			if (token.tokenStr.Length == 0) return false;
 			return token.tokenStr[0] == '[';
 		}
+        /// <summary>Tests whether this token text starts with <c>[</c>.</summary>
+        /// <returns>true if the text starts with a left square bracket; false otherwise.</returns>
         public bool isSpecialTokenName() { return isSpecialTokenName(this); }
-        /**
-		 * Verification if the token represents unicode root operator
-		 *
-		 * @return true in case token represents unicode root operator
-		 * otherwise returns false
-		 */
+        /// <summary>Tests whether the token is a Unicode square, cube or fourth root operator.</summary>
+        /// <param name="token">The token to inspect (not null).</param>
+        /// <returns>true for a supported Unicode root operator; false otherwise.</returns>
         public static bool isUnicodeRootOperator(Token token) {
 			if (token.tokenTypeId == Operator.TYPE_ID) {
 				if (token.tokenId == Operator.SQUARE_ROOT_ID) return true;
@@ -404,12 +371,11 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 			}
 			return false;
 		}
+        /// <summary>Tests whether this token is a Unicode square, cube or fourth root operator.</summary>
+        /// <returns>true for a supported Unicode root operator; false otherwise.</returns>
         public bool isUnicodeRootOperator() { return isUnicodeRootOperator(this); }
-        /**
-		 * Creates token representing multiplication operator.
-		 *
-		 * @return token representing multiplication operator.
-		 */
+        /// <summary>Creates token representing multiplication operator.</summary>
+        /// <returns>token representing multiplication operator.</returns>
         public static Token makeMultiplyToken() {
 			Token multiplyToken = new Token();
 			multiplyToken.tokenTypeId = Operator.TYPE_ID;
@@ -417,23 +383,18 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 			multiplyToken.tokenStr = Operator.MULTIPLY_STR;
 			return multiplyToken;
 		}
-		/**
-		 * Creates token representing number.
-		 *
-		 * @return token representing number.
-		 */
+		/// <summary>Creates token representing number.</summary>
+		/// <returns>token representing number.</returns>
 		public static Token makeNumberToken() {
 			Token numberToken = new Token();
 			numberToken.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
 			numberToken.tokenId = ParserSymbol.NUMBER_ID;
 			return numberToken;
 		}
-		/**
-		 * Creates token representing number.
-		 *
-		 * @param number Number
-		 * @return token representing number.
-		 */
+		/// <summary>Creates a number token with the specified value and nesting level.</summary>
+		/// <param name="number">The numeric value.</param>
+		/// <param name="tokenLevel">The token nesting level.</param>
+		/// <returns>The new number token.</returns>
 		public static Token makeNumberToken(double number, int tokenLevel) {
 			Token numberToken = makeNumberToken();
 			numberToken.tokenValue = number;
@@ -441,11 +402,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 			numberToken.tokenLevel = tokenLevel;
 			return numberToken;
 		}
-		/**
-		 * Creates token representing comma parser symbol.
-		 *
-		 * @return token representing comma parser symbol.
-		 */
+		/// <summary>Creates token representing comma parser symbol.</summary>
+		/// <returns>token representing comma parser symbol.</returns>
 		public static Token makeCommaToken() {
 			Token commaToken = new Token();
 			commaToken.tokenTypeId = ParserSymbol.TYPE_ID;
@@ -454,22 +412,16 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 			commaToken.keyWord = ParserSymbol.COMMA_STR;
 			return commaToken;
 		}
-		/**
-		 * Creates token representing comma parser symbol.
-		 *
-		 * @param tokenLevel Level of token in the token lists.
-		 * @return token representing comma parser symbol.
-		 */
+		/// <summary>Creates token representing comma parser symbol.</summary>
+		/// <param name="tokenLevel">Level of token in the token lists.</param>
+		/// <returns>token representing comma parser symbol.</returns>
 		public static Token makeCommaToken(int tokenLevel) {
 			Token commaToken = makeCommaToken();
 			commaToken.tokenLevel = tokenLevel;
 			return commaToken;
 		}
-		/**
-		 * Creates token representing left parenthesis parser symbol.
-		 *
-		 * @return token representing left parenthesis parser symbol.
-		 */
+		/// <summary>Creates token representing left parenthesis parser symbol.</summary>
+		/// <returns>token representing left parenthesis parser symbol.</returns>
 		public static Token makeLeftParenthesisToken() {
 			Token leftParenthesisToken = new Token();
 			leftParenthesisToken.tokenTypeId = ParserSymbol.TYPE_ID;
@@ -478,22 +430,16 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 			leftParenthesisToken.keyWord = ParserSymbol.LEFT_PARENTHESES_STR;
 			return leftParenthesisToken;
 		}
-		/**
-		 * Creates token representing left parenthesis parser symbol.
-		 *
-		 * @param tokenLevel Level of token in the token lists.
-		 * @return token representing left parenthesis parser symbol.
-		 */
+		/// <summary>Creates token representing left parenthesis parser symbol.</summary>
+		/// <param name="tokenLevel">Level of token in the token lists.</param>
+		/// <returns>token representing left parenthesis parser symbol.</returns>
 		public static Token makeLeftParenthesisToken(int tokenLevel) {
 			Token leftParenthesisToken = makeLeftParenthesisToken();
 			leftParenthesisToken.tokenLevel = tokenLevel;
 			return leftParenthesisToken;
 		}
-		/**
-		 * Creates token representing right parenthesis parser symbol.
-		 *
-		 * @return token representing right parenthesis parser symbol.
-		 */
+		/// <summary>Creates token representing right parenthesis parser symbol.</summary>
+		/// <returns>token representing right parenthesis parser symbol.</returns>
 		public static Token makeRightParenthesisToken() {
 			Token rightParenthesisToken = new Token();
 			rightParenthesisToken.tokenTypeId = ParserSymbol.TYPE_ID;
@@ -502,22 +448,16 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 			rightParenthesisToken.keyWord = ParserSymbol.RIGHT_PARENTHESES_STR;
 			return rightParenthesisToken;
 		}
-		/**
-		 * Creates token representing right parenthesis parser symbol.
-		 *
-		 * @param tokenLevel Level of token in the token lists.
-		 * @return token representing right parenthesis parser symbol.
-		 */
+		/// <summary>Creates token representing right parenthesis parser symbol.</summary>
+		/// <param name="tokenLevel">Level of token in the token lists.</param>
+		/// <returns>token representing right parenthesis parser symbol.</returns>
 		public static Token makeRightParenthesisToken(int tokenLevel) {
 			Token rightParenthesisToken = makeRightParenthesisToken();
 			rightParenthesisToken.tokenLevel = tokenLevel;
 			return rightParenthesisToken;
 		}
-		/**
-		 * Creates token representing derivative calculus operator.
-		 *
-		 * @return token representing derivative calculus operator.
-		 */
+		/// <summary>Creates token representing derivative calculus operator.</summary>
+		/// <returns>token representing derivative calculus operator.</returns>
 		public static Token makeDerToken() {
 			Token derToken = new Token();
 			derToken.tokenTypeId = CalculusOperator.TYPE_ID;
@@ -526,22 +466,20 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 			derToken.keyWord = CalculusOperator.DER_STR;
 			return derToken;
 		}
-		/**
-		 * Creates token representing derivative calculus operator.
-		 *
-		 * @param tokenLevel Level of token in the token lists.
-		 * @return token representing derivative calculus operator.
-		 */
+		/// <summary>Creates token representing derivative calculus operator.</summary>
+		/// <param name="tokenLevel">Level of token in the token lists.</param>
+		/// <returns>token representing derivative calculus operator.</returns>
 		public static Token makeDerToken(int tokenLevel) {
 			Token derToken = makeDerToken();
 			derToken.tokenLevel = tokenLevel;
 			return derToken;
 		}
-		/**
-		 * Creates token representing user argument token.
-		 *
-		 * @return token representing user argument token.
-		 */
+		/// <summary>Creates a token for an argument at the specified nesting level.</summary>
+		/// <param name="argumentName">The argument name.</param>
+		/// <param name="argumentIndex">The argument index in the expression.</param>
+		/// <param name="tokenLevel">The token nesting level.</param>
+		/// <param name="initialValue">The initial numeric value.</param>
+		/// <returns>The new argument token.</returns>
 		public static Token makeArgumentToken(String argumentName, int argumentIndex, int tokenLevel, double initialValue) {
 			Token argumentToken = new Token();
 			argumentToken.tokenTypeId = Argument.TYPE_ID;
@@ -552,12 +490,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 			argumentToken.tokenValue = initialValue;
 			return argumentToken;
 		}
-		/**
-		 * Returns token type description.
-		 *
-		 * @param tokenTypeId Token type id
-		 * @return String representing token type description.
-		 */
+		/// <summary>Returns token type description.</summary>
+		/// <param name="tokenTypeId">Token type id</param>
+		/// <returns>String representing token type description.</returns>
 		public static String getTokenTypeDescription(int tokenTypeId) {
 			switch (tokenTypeId) {
 				case ParserSymbol.TYPE_ID: return ParserSymbol.TYPE_DESC;
@@ -581,9 +516,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 			}
 			return "";
 		}
-		/**
-		 * Default constructor
-		 */
+		/// <summary>Default constructor</summary>
 		public Token() {
 			tokenStr = ParserSymbol.EMPTY;
 			keyWord = ParserSymbol.EMPTY;
@@ -593,9 +526,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 			tokenValue = Double.NaN;
 			looksLike = ParserSymbol.EMPTY;
 		}
-		/**
-		 * Token cloning.
-		 */
+		/// <summary>Copies the fields of the specified token into a new token.</summary>
+		/// <param name="token">The token to copy (not null).</param>
+		/// <returns>A new token with the same field values.</returns>
 		public Token clone(Token token) {
 			Token tokenClone = new Token();
             tokenClone.keyWord = token.keyWord;
@@ -607,6 +540,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
             tokenClone.looksLike = token.looksLike;
 			return tokenClone;
 		}
+        /// <summary>Returns a copy of this token.</summary>
+        /// <returns>A new token with the same field values.</returns>
         public Token clone() { return clone(this); }
     }
 }

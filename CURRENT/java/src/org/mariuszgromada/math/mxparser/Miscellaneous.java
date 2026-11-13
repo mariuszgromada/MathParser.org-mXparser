@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.java        6.1.0    2024-10-14
+ * @(#)Miscellaneous.java        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -371,7 +371,11 @@ class KwStrComparator implements Comparator<KeyWord>, Serializable {
 	private static final int serialClassID = 85;
 	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	/**
+	 * Compares keyword strings in their natural lexicographic order.
 	 *
+	 * @param kw1 The first keyword.
+	 * @param kw2 The second keyword.
+	 * @return A negative value, zero or a positive value if the first string sorts before, equals or follows the second.
 	 */
 	public int compare(KeyWord kw1, KeyWord kw2) {
 		String s1 = kw1.wordString;
@@ -390,7 +394,11 @@ class DescKwLenComparator implements Comparator<KeyWord>, Serializable {
 	private static final int serialClassID = 86;
 	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	/**
+	 * Compares keywords by descending string length.
 	 *
+	 * @param kw1 The first keyword.
+	 * @param kw2 The second keyword.
+	 * @return A negative value for a longer first keyword, zero for equal lengths, or a positive value otherwise.
 	 */
 	public int compare(KeyWord kw1, KeyWord kw2) {
 		int l1 = kw1.wordString.length();
@@ -406,7 +414,11 @@ class KwTypeComparator implements Comparator<KeyWord>, Serializable {
 	private static final int serialClassID = 87;
 	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	/**
+	 * Compares keyword ordering keys formed from token type, token ID and string length.
 	 *
+	 * @param kw1 The first keyword.
+	 * @param kw2 The second keyword.
+	 * @return The difference between the computed ordering keys.
 	 */
 	public int compare(KeyWord kw1, KeyWord kw2) {
 		int t1 = kw1.wordTypeId * 1000000 + kw1.wordId * 1000 + kw1.wordString.length();

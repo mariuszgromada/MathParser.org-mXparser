@@ -1,5 +1,5 @@
 /*
- * @(#)License.cs        6.1.0    2024-10-06
+ * @(#)License.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -218,30 +218,24 @@
 using System;
 
 namespace org.mariuszgromada.math.mxparser {
-	/**
-	 * A class that provides commercial and non-commercial use mode registration.
-	 * The execution of methods in this class does not affect the operation
-	 * of the MathParser.org-mXparser software, but is required by the terms of the
-	 * License.geTermsOfAgreement().
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        6.1.0
-	 *
-	 * @see #iConfirmNonCommercialUse(String)
-	 * @see #iConfirmCommercialUse(String)
-	 * @see #geTermsOfAgreement()
-	 * @see #checkIfUseTypeConfirmed()
-	 * @see #getUseTypeConfirmationMessage()
-	 */
+	/// <summary>A class that provides commercial and non-commercial use mode registration.
+	/// The execution of methods in this class does not affect the operation
+	/// of the MathParser.org-mXparser software, but is required by the terms of the
+	/// License.geTermsOfAgreement().</summary>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.License.iConfirmNonCommercialUse(string)"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.License.iConfirmCommercialUse(string)"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.License.geTermsOfAgreement()"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.License.checkIfUseTypeConfirmed()"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.License.getUseTypeConfirmationMessage()"/>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	public class License {
 		private static UseType typeOfUse = UseType.Null;
 		private static String signature = null;
@@ -318,24 +312,20 @@ namespace org.mariuszgromada.math.mxparser {
 			setErrorMessage(MessageType.WARNING, "You cannot change a previously signed confirmation. " + message + " If you want to modify the confirmed use type, you should identify the previous call and change it.");
 			return false;
 		}
-		/**
-		 * By successfully calling this method, you confirm and sign that you use MathParser.org-mXparser
-		 * commercially according to the License.geTermsOfAgreement(). The confirmation can only be
-		 * called once. The method call takes place only internally for logging purposes and there is no
-		 * connection with other external services and no data is sent or collected. The lack of a method
-		 * call (or its successful call) does not affect the operation of the PRODUCT in any way.
-		 *
-		 * @param mySignature    Your first and last name or your e-mail address or your company name.
-		 *                       At least 5 non-blank characters.
-		 * @return   Logs commercial use and returns true if this was the first attempt to register
-		 *           a use type and the signature met the conditions specified for it. Otherwise, returns
-		 *           false and does not log use type.
-		 *
-		 * @see #iConfirmNonCommercialUse(String)
-		 * @see #getUseTypeConfirmationMessage()
-		 * @see #checkIfUseTypeConfirmed()
-		 * @see #geTermsOfAgreement()
-		 */
+		/// <summary>By successfully calling this method, you confirm and sign that you use MathParser.org-mXparser
+		/// commercially according to the License.geTermsOfAgreement(). The confirmation can only be
+		/// called once. The method call takes place only internally for logging purposes and there is no
+		/// connection with other external services and no data is sent or collected. The lack of a method
+		/// call (or its successful call) does not affect the operation of the PRODUCT in any way.</summary>
+		/// <param name="mySignature">Your first and last name or your e-mail address or your company name.
+		///                       At least 5 non-blank characters.</param>
+		/// <returns>Logs commercial use and returns true if this was the first attempt to register
+		///           a use type and the signature met the conditions specified for it. Otherwise, returns
+		///           false and does not log use type.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.License.iConfirmNonCommercialUse(string)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.License.getUseTypeConfirmationMessage()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.License.checkIfUseTypeConfirmed()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.License.geTermsOfAgreement()"/>
 		public static bool iConfirmCommercialUse(String mySignature) {
 			if (!checkLackOfPreviousConfirmation())
 				return false;
@@ -349,24 +339,20 @@ namespace org.mariuszgromada.math.mxparser {
 			setMessageConfirmedCommercial();
 			return true;
 		}
-		/**
-		 * By successfully calling this method, you confirm and sign that you use MathParser.org-mXparser
-		 * non-commercially according to the License.geTermsOfAgreement(). The confirmation can only be
-		 * called once. The method call takes place only internally for logging purposes and there is no
-		 * connection with other external services and no data is sent or collected. The lack of a method
-		 * call (or its successful call) does not affect the operation of the PRODUCT in any way.
-		 *
-		 * @param mySignature    Your first and last name or your e-mail address or your company name.
-		 *                       At least 5 non-blank characters.
-		 * @return   Logs non-commercial use and returns true if this was the first attempt to register
-		 *           a use type and the signature met the conditions specified for it. Otherwise, returns
-		 *           false and does not log use type.
-		 *
-		 * @see #iConfirmNonCommercialUse(String)
-		 * @see #getUseTypeConfirmationMessage()
-		 * @see #checkIfUseTypeConfirmed()
-		 * @see #geTermsOfAgreement()
-		 */
+		/// <summary>By successfully calling this method, you confirm and sign that you use MathParser.org-mXparser
+		/// non-commercially according to the License.geTermsOfAgreement(). The confirmation can only be
+		/// called once. The method call takes place only internally for logging purposes and there is no
+		/// connection with other external services and no data is sent or collected. The lack of a method
+		/// call (or its successful call) does not affect the operation of the PRODUCT in any way.</summary>
+		/// <param name="mySignature">Your first and last name or your e-mail address or your company name.
+		///                       At least 5 non-blank characters.</param>
+		/// <returns>Logs non-commercial use and returns true if this was the first attempt to register
+		///           a use type and the signature met the conditions specified for it. Otherwise, returns
+		///           false and does not log use type.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.License.iConfirmNonCommercialUse(string)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.License.getUseTypeConfirmationMessage()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.License.checkIfUseTypeConfirmed()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.License.geTermsOfAgreement()"/>
 		public static bool iConfirmNonCommercialUse(String mySignature) {
 			if (!checkLackOfPreviousConfirmation())
 				return false;
@@ -380,12 +366,9 @@ namespace org.mariuszgromada.math.mxparser {
 			setMessageConfirmedNonCommercial();
 			return true;
 		}
-		/**
-		 * Verifies whether the use type has been successfully confirmed and signed.
-		 *
-		 * @return   True in case commercial or non-commercial user type has been confirmed and signed.
-		 *           Otherwise, returns false.
-		 */
+		/// <summary>Verifies whether the use type has been successfully confirmed and signed.</summary>
+		/// <returns>True in case commercial or non-commercial user type has been confirmed and signed.
+		///           Otherwise, returns false.</returns>
 		public static bool checkIfUseTypeConfirmed() {
 			if (numberOfConfirmationAttempts == 0) {
 				setErrorMessage(MessageType.WARNING, ERROR_NOT_CONFIRMED);
@@ -401,52 +384,37 @@ namespace org.mariuszgromada.math.mxparser {
 				setMessageConfirmedCommercial();
 			return true;
 		}
-		/**
-		 * Verifies whether the use type has been successfully confirmed and signed.
-		 *
-		 * @return   Confirmation message in case commercial or non-commercial user type has been
-		 *           confirmed and signed. Otherwise, returns error / warning message.
-		 *
-		 * @see #iConfirmNonCommercialUse(String)
-		 * @see #iConfirmNonCommercialUse(String)
-		 */
+		/// <summary>Verifies whether the use type has been successfully confirmed and signed.</summary>
+		/// <returns>Confirmation message in case commercial or non-commercial user type has been
+		///           confirmed and signed. Otherwise, returns error / warning message.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.License.iConfirmNonCommercialUse(string)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.License.iConfirmNonCommercialUse(string)"/>
 		public static String getUseTypeConfirmationMessage() {
 			if (!checkIfUseTypeConfirmed())
 				return errorMessage;
 			return message;
 		}
-		/**
-		 * Information about the problem encountered when calling methods:
-		 * License.iConfirmNonCommercialUse(...), License.iConfirmCommercialUse(...)
-		 *
-		 * @return Error message if an error occurred,
-		 *         empty string if no error.
-		 *
-		 * @see #iConfirmNonCommercialUse(String)
-		 * @see #iConfirmNonCommercialUse(String)
-		 */
+		/// <summary>Information about the problem encountered when calling methods:
+		/// License.iConfirmNonCommercialUse(...), License.iConfirmCommercialUse(...)</summary>
+		/// <returns>Error message if an error occurred,
+		///         empty string if no error.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.License.iConfirmNonCommercialUse(string)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.License.iConfirmNonCommercialUse(string)"/>
 		public static String getErrorMessage() {
 			return errorMessage;
 		}
-		/**
-		 * Return the terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT.
-		 *
-		 * @return   The terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT as string.
-		 */
+		/// <summary>Return the terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT.</summary>
+		/// <returns>The terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT as string.</returns>
 		public static String geTermsOfAgreement() {
 			return MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT;
 		}
-		/**
-		 * Prints to the console the terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT
-		 */
+		/// <summary>Prints to the console the terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT</summary>
 		public static void consolePrintLicense() {
 			mXparser.consolePrint("\n\n");
 			mXparser.consolePrint(MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT);
 			mXparser.consolePrintln();
 		}
-		/**
-		 * The terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT
-		 */
+		/// <summary>The terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT</summary>
 		public static readonly String MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT =
 			"MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19\n"
 			+ "The most up-to-date license is available at the below link:\n"

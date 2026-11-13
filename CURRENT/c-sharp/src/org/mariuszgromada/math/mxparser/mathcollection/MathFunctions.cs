@@ -219,25 +219,20 @@ using System;
 using System.Globalization;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
-	 * MathFunctions - the most popular math functions. Many of function implemented by this class
-	 * could be found in java Math package (in fact functions from MathFunctions typically calls
-	 * original functions from the Math package). The reason why it was "re-implemented" is:
-	 * if you decide to implement your own function you do not need to change anything in the parser,
-	 * jut modify function implementation in this class.
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        6.2.0
-	 */
+	/// <summary>MathFunctions - the most popular math functions. Many of function implemented by this class
+	/// could be found in java Math package (in fact functions from MathFunctions typically calls
+	/// original functions from the Math package). The reason why it was "re-implemented" is:
+	/// if you decide to implement your own function you do not need to change anything in the parser,
+	/// jut modify function implementation in this class.</summary>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true)]
 	public sealed class MathFunctions {
 		private static readonly double DECIMAL_MIN_VALUE = (double)Decimal.MinValue / 1e17;
@@ -256,6 +251,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (x <= DECIMAL_MIN_VALUE || x >= DECIMAL_MAX_VALUE) return true;
 			return false;
 		}
+		/// <summary>Converts the value through its invariant-culture decimal representation.</summary>
+		/// <param name="x">The value to convert.</param>
+		/// <returns>The parsed value; NaN and infinities are returned unchanged.</returns>
 		public static double canonicalRound(double x) {
 			if (Double.IsNaN(x)) return Double.NaN;
 			if (Double.IsInfinity(x)) return x;
@@ -265,19 +263,19 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsInfinity(nx)) return x;
 			return nx;
 		}
+		/// <summary>Converts a decimal value to double through its invariant-culture representation.</summary>
+		/// <param name="x">The decimal value.</param>
+		/// <returns>The parsed double value.</returns>
 		public static double canonicalRound(decimal x) {
 			String sx = x.ToString(CultureInfo.InvariantCulture);
 			double nx = Double.Parse(sx, NumberStyles.Float, CultureInfo.InvariantCulture);
 			return nx;
 		}
-		/**
-		 * Addition a + b applying canonical rounding if canonical
-		 * rounding is enabled
-		 *
-		 * @param a  The a parameter
-		 * @param b  The b parameter
-		 * @return   The result of addition
-		 */
+		/// <summary>Addition a + b applying canonical rounding if canonical
+		/// rounding is enabled</summary>
+		/// <param name="a">The a parameter</param>
+		/// <param name="b">The b parameter</param>
+		/// <returns>The result of addition</returns>
 		public static double plus(double a, double b) {
 			if (Double.IsNaN(a)) return Double.NaN;
 			if (Double.IsNaN(b)) return Double.NaN;
@@ -293,14 +291,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			decimal dr = da + db;
 			return (double) dr;
 		}
-		/**
-		 * Subtraction a - b applying canonical rounding if canonical
-		 * rounding is enabled
-		 *
-		 * @param a  The a parameter
-		 * @param b  The b parameter
-		 * @return   The result of subtraction
-		 */
+		/// <summary>Subtraction a - b applying canonical rounding if canonical
+		/// rounding is enabled</summary>
+		/// <param name="a">The a parameter</param>
+		/// <param name="b">The b parameter</param>
+		/// <returns>The result of subtraction</returns>
 		public static double minus(double a, double b) {
 			if (Double.IsNaN(a)) return Double.NaN;
 			if (Double.IsNaN(b)) return Double.NaN;
@@ -316,14 +311,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			decimal dr = da - db;
 			return (double)dr;
 		}
-		/**
-		 * Multiplication a * b applying canonical rounding if canonical
-		 * rounding is enabled
-		 *
-		 * @param a  The a parameter
-		 * @param b  The b parameter
-		 * @return   The result of multiplication
-		 */
+		/// <summary>Multiplication a * b applying canonical rounding if canonical
+		/// rounding is enabled</summary>
+		/// <param name="a">The a parameter</param>
+		/// <param name="b">The b parameter</param>
+		/// <returns>The result of multiplication</returns>
 		public static double multiply(double a, double b) {
 			if (Double.IsNaN(a)) return Double.NaN;
 			if (Double.IsNaN(b)) return Double.NaN;
@@ -339,14 +331,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			decimal dr = da * db;
 			return (double)dr;
 		}
-		/**
-		 * Division a / b applying canonical rounding if canonical
-		 * rounding is enabled
-		 *
-		 * @param a  The a parameter
-		 * @param b  The b parameter
-		 * @return   The result of division
-		 */
+		/// <summary>Division a / b applying canonical rounding if canonical
+		/// rounding is enabled</summary>
+		/// <param name="a">The a parameter</param>
+		/// <param name="b">The b parameter</param>
+		/// <returns>The result of division</returns>
 		public static double div(double a, double b) {
 			if (b == 0) return Double.NaN;
 			if (Double.IsNaN(a)) return Double.NaN;
@@ -366,58 +355,48 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (rErr <= drErr) return r;
 			else return (double)dr;
 		}
-		/**
-		 * Integer division (also called quotient) a / b applying canonical rounding if canonical
-		 * rounding is enabled
-		 *
-		 * @param a  The a parameter
-		 * @param b  The b parameter
-		 * @return   The result of integer division
-		 */
+		/// <summary>Integer division (also called quotient) a / b applying canonical rounding if canonical
+		/// rounding is enabled</summary>
+		/// <param name="a">The a parameter</param>
+		/// <param name="b">The b parameter</param>
+		/// <returns>The result of integer division</returns>
 		public static double divQuotient(double a, double b) {
 			double result = div(a, b);
 			if (Double.IsNaN(result) || Double.IsInfinity(result)) return result;
 			if (isAlmostInt(result)) return Math.Round(result);
 			return Math.Floor(result);
 		}
-		/**
-		 * Bell Numbers
-		 *
-		 * @param      n                   the n
-		 *
-		 * @return     if n >= 0 returns Bell numbers,
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Bell Numbers</summary>
+		/// <param name="n">the n</param>
+		/// <returns>if n &gt;= 0 returns Bell numbers,
+		///             otherwise returns Double.NaN.</returns>
 		public static double bellNumber(int n) {
 			return bellNumberWithCancel(n, 0);
 		}
-		/**
-		 * Bell Numbers
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n
-		 *
-		 * @return     if n &gt;= 0 returns Bell numbers,
-		 *             otherwise returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see bellNumber(int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Bell Numbers
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n</param>
+		/// <returns>if n &gt;= 0 returns Bell numbers,
+		///             otherwise returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.bellNumber(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double bellNumberWithCancel(int n, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -440,41 +419,35 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				result = 1;
 			return result;
 		}
-		/**
-		 * Bell number
-		 * @param      n                   the n
-		 *
-		 * @return     if n is within the int range return bellNumber( (int)Math.Round(n) ),
-		 *             otherwise return Double.NaN.
-		 */
+		/// <summary>Bell number</summary>
+		/// <param name="n">the n</param>
+		/// <returns>if n is within the int range return bellNumber( (int)Math.round(n) ),
+		///             otherwise return Double.NaN.</returns>
 		public static double bellNumber(double n) {
 			return bellNumberWithCancel(n, 0);
 		}
-		/**
-		 * Bell number
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n
-		 *
-		 * @return     if n is within the int range return bellNumber( (int)Math.round(n) ),
-		 *             otherwise return Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see bellNumber(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Bell number
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n</param>
+		/// <returns>if n is within the int range return bellNumber( (int)Math.round(n) ),
+		///             otherwise return Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.bellNumber(double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double bellNumberWithCancel(double n, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -482,55 +455,46 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return bellNumberWithCancel( (int)Math.Round(n) , cancelId);
 		}
-		/**
-		 * Euler numbers
-		 *
-		 * @param      n                   the n function param
-		 * @param      k                   the k function param
-		 *
-		 * @return     if n >=0 returns Euler number,
-		 *             otherwise return Double.NaN.
-		 *             Returns also Double.NaN when MAX RECURSION CALLS
-		 *             is exceeded.
-		 *             
-		 * @see mXparser#getMaxAllowedRecursionDepth() 
-		 * @see mXparser#setMaxAllowedRecursionDepth(int) 
-		 */
+		/// <summary>Euler numbers</summary>
+		/// <param name="n">the n function param</param>
+		/// <param name="k">the k function param</param>
+		/// <returns>if n &gt;=0 returns Euler number,
+		///             otherwise return Double.NaN.
+		///             Returns also Double.NaN when MAX RECURSION CALLS
+		///             is exceeded.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.getMaxAllowedRecursionDepth()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.setMaxAllowedRecursionDepth(int)"/>
 		public static double eulerNumber(int n, int k) {
 			return eulerNumberWithCancel(n, k, 0);
 		}
-		/**
-		 * Euler numbers
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function param
-		 * @param      k                   the k function param
-		 *
-		 * @return     if n &gt;=0 returns Euler number,
-		 *             otherwise return Double.NaN.
-		 *             Returns also Double.NaN when MAX RECURSION CALLS
-		 *             is exceeded.
-		 *
-		 * @see mXparser#getMaxAllowedRecursionDepth()
-		 * @see mXparser#setMaxAllowedRecursionDepth(int)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see eulerNumber(int,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Euler numbers
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function param</param>
+		/// <param name="k">the k function param</param>
+		/// <returns>if n &gt;=0 returns Euler number,
+		///             otherwise return Double.NaN.
+		///             Returns also Double.NaN when MAX RECURSION CALLS
+		///             is exceeded.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.getMaxAllowedRecursionDepth()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.setMaxAllowedRecursionDepth(int)"/>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.eulerNumber(int,int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double eulerNumberWithCancel(int n, int k, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -558,45 +522,38 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return (k + 1) * e1 + (n - k) * e2;
 		}
-		/**
-		 * Euler numbers
-		 *
-		 * @param      n                   the n function param
-		 * @param      k                   the k function param
-		 *
-		 * @return     if n, k <> Double.NaN returns eulerNumber( (int)Math.round(n), (int)Math.round(k) ),
-		 *             otherwise return Double.NaN.
-		 */
+		/// <summary>Euler numbers</summary>
+		/// <param name="n">the n function param</param>
+		/// <param name="k">the k function param</param>
+		/// <returns>if n, k &lt;&gt; Double.NaN returns eulerNumber( (int)Math.round(n), (int)Math.round(k) ),
+		///             otherwise return Double.NaN.</returns>
 		public static double eulerNumber(double n, double k) {
 			return eulerNumberWithCancel(n, k, 0);
 		}
-		/**
-		 * Euler numbers
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function param
-		 * @param      k                   the k function param
-		 *
-		 * @return     if n, k &lt;&gt; Double.NaN returns eulerNumber( (int)Math.round(n), (int)Math.round(k) ),
-		 *             otherwise return Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see eulerNumber(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Euler numbers
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function param</param>
+		/// <param name="k">the k function param</param>
+		/// <returns>if n, k &lt;&gt; Double.NaN returns eulerNumber( (int)Math.round(n), (int)Math.round(k) ),
+		///             otherwise return Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.eulerNumber(double,double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double eulerNumberWithCancel(double n, double k, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -604,42 +561,35 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return eulerNumberWithCancel( (int)Math.Round(n), (int)Math.Round(k) , cancelId);
 		}
-		/**
-		 * Factorial
-		 *
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     Factorial if n >=0, otherwise returns Double.NaN.
-		 */
+		/// <summary>Factorial</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>Factorial if n &gt;=0, otherwise returns Double.NaN.</returns>
 		public static double factorial(int n) {
 			return factorialWithCancel(n, 0);
 		}
-		/**
-		 * Factorial
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     Factorial if n &gt;=0, otherwise returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see factorial(int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Factorial
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>Factorial if n &gt;=0, otherwise returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.factorial(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double factorialWithCancel(int n, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -655,43 +605,36 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				}
 			return f;
 		}
-		/**
-		 * Factorial
-		 *
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n <> Double.NaN return factorial( (int)Math.round(n) ),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Factorial</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n &lt;&gt; Double.NaN return factorial( (int)Math.round(n) ),
+		///             otherwise returns Double.NaN.</returns>
 		public static double factorial(double n) {
 			return factorialWithCancel(n, 0);
 		}
-		/**
-		 * Factorial
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n &lt;&gt; Double.NaN return factorial( (int)Math.round(n) ),
-		 *             otherwise returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see factorial(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Factorial
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n &lt;&gt; Double.NaN return factorial( (int)Math.round(n) ),
+		///             otherwise returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.factorial(double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double factorialWithCancel(double n, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -699,40 +642,36 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return factorialWithCancel( (int)Math.Round(n) , cancelId);
 		}
-		/**
-		 * Falling factorial polynomial
-		 * @param x  Argument
-		 * @param n  Polynomial degree
-		 * @return   Falling factorial polynomial of degree n at point x
-		 */
+		/// <summary>Falling factorial polynomial</summary>
+		/// <param name="x">Argument</param>
+		/// <param name="n">Polynomial degree</param>
+		/// <returns>Falling factorial polynomial of degree n at point x</returns>
 		public static double factorialFalling(double x, double n){
 			return factorialFallingWithCancel(x, n, 0);
 		}
-		/**
-		 * Falling factorial polynomial
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param x  Argument
-		 * @param n  Polynomial degree
-		 * @return   Falling factorial polynomial of degree n at point x
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see factorialFalling(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Falling factorial polynomial
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="x">Argument</param>
+		/// <param name="n">Polynomial degree</param>
+		/// <returns>Falling factorial polynomial of degree n at point x</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.factorialFalling(double,double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double factorialFallingWithCancel(double x, double n, int cancelId){
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -748,40 +687,36 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return y;
 		}
-		/**
-		 * Rising factorial polynomial
-		 * @param x  Argument
-		 * @param n  Polynomial degree
-		 * @return   Rising factorial polynomial of degree n at point x
-		 */
+		/// <summary>Rising factorial polynomial</summary>
+		/// <param name="x">Argument</param>
+		/// <param name="n">Polynomial degree</param>
+		/// <returns>Rising factorial polynomial of degree n at point x</returns>
 		public static double factorialRising(double x, double n){
 			return factorialRisingWithCancel(x, n, 0);
 		}
-		/**
-		 * Rising factorial polynomial
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param x  Argument
-		 * @param n  Polynomial degree
-		 * @return   Rising factorial polynomial of degree n at point x
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see factorialRising(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Rising factorial polynomial
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="x">Argument</param>
+		/// <param name="n">Polynomial degree</param>
+		/// <returns>Rising factorial polynomial of degree n at point x</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.factorialRising(double,double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double factorialRisingWithCancel(double x, double n, int cancelId){
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -798,46 +733,39 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			return y;
 		}
 
-		/**
-		 * Generalized binomial coefficient
-		 *
-		 * @param      n                   the n function parameter
-		 * @param k    k                   the k function parameter
-		 *
-		 * @return     Generalized binomial coefficient, if
-		 *             n = Double.NaN or k<0 returns Double.NaN.
-		 */
+		/// <summary>Generalized binomial coefficient</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">k                   the k function parameter</param>
+		/// <returns>Generalized binomial coefficient, if
+		///             n = Double.NaN or k &lt; 0 returns Double.NaN.</returns>
 		public static double binomCoeff(double n, long k) {
 			return binomCoeffWithCancel(n, k, 0);
 		}
-		/**
-		 * Generalized binomial coefficient
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 * @param k    k                   the k function parameter
-		 *
-		 * @return     Generalized binomial coefficient, if
-		 *             n = Double.NaN or k &lt; 0 returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see binomCoeff(double,long)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Generalized binomial coefficient
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">k                   the k function parameter</param>
+		/// <returns>Generalized binomial coefficient, if
+		///             n = Double.NaN or k &lt; 0 returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.binomCoeff(double,long)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double binomCoeffWithCancel(double n, long k, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -861,45 +789,38 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return result;
 		}
-		/**
-		 * Generalized binomial coefficient
-		 *
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return     if n, k <> Double.NaN returns binomCoeff(n, (int)Math.round(k) ),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Generalized binomial coefficient</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>if n, k &lt;&gt; Double.NaN returns binomCoeff(n, (int)Math.round(k) ),
+		///             otherwise returns Double.NaN.</returns>
 		public static double binomCoeff(double n, double k) {
 			return binomCoeffWithCancel(n, k, 0);
 		}
-		/**
-		 * Generalized binomial coefficient
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return     if n, k &lt;&gt; Double.NaN returns binomCoeff(n, (int)Math.round(k) ),
-		 *             otherwise returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see binomCoeff(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Generalized binomial coefficient
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>if n, k &lt;&gt; Double.NaN returns binomCoeff(n, (int)Math.round(k) ),
+		///             otherwise returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.binomCoeff(double,double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double binomCoeffWithCancel(double n, double k, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -907,48 +828,41 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return binomCoeffWithCancel(n, (long)Math.Round(k) , cancelId);
 		}
-		/**
-		 * Generalized coefficient returning number of k permutations
-		 * that can be drawn for n elements set.
-		 *
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return   For k greater than 0 return number of permutations, otherwise
-		 *           returns Double.NaN
-		 */
+		/// <summary>Generalized coefficient returning number of k permutations
+		/// that can be drawn for n elements set.</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>For k greater than 0 return number of permutations, otherwise
+		///           returns Double.NaN</returns>
 		public static double numberOfPermutations(double n, long k) {
 			return numberOfPermutationsWithCancel(n, k, 0);
 		}
-		/**
-		 * Generalized coefficient returning number of k permutations
-		 * that can be drawn for n elements set.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return   For k greater than 0 return number of permutations, otherwise
-		 *           returns Double.NaN
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see numberOfPermutations(double,long)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Generalized coefficient returning number of k permutations
+		/// that can be drawn for n elements set.
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>For k greater than 0 return number of permutations, otherwise
+		///           returns Double.NaN</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.numberOfPermutations(double,long)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double numberOfPermutationsWithCancel(double n, long k, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -966,47 +880,40 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return result;
 		}
-		/**
-		 * Generalized coefficient returning number of k permutations
-		 * that can be drawn for n elements set.
-		 *
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return   For k greater than 0 return number of permutations, otherwise
-		 *           returns Double.NaN
-		 */
+		/// <summary>Generalized coefficient returning number of k permutations
+		/// that can be drawn for n elements set.</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>For k greater than 0 return number of permutations, otherwise
+		///           returns Double.NaN</returns>
 		public static double numberOfPermutations(double n, double k) {
 			return numberOfPermutationsWithCancel(n, k, 0);
 		}
-		/**
-		 * Generalized coefficient returning number of k permutations
-		 * that can be drawn for n elements set.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return   For k greater than 0 return number of permutations, otherwise
-		 *           returns Double.NaN
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see numberOfPermutations(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Generalized coefficient returning number of k permutations
+		/// that can be drawn for n elements set.
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>For k greater than 0 return number of permutations, otherwise
+		///           returns Double.NaN</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.numberOfPermutations(double,double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double numberOfPermutationsWithCancel(double n, double k, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1014,46 +921,39 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return numberOfPermutationsWithCancel(n, (long)Math.Round(k) , cancelId);
 		}
-		/**
-		 * Bernoulli numbers
-		 *
-		 * @param      m                   the m function parameter
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n, m >= 0 returns Bernoulli number,
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Bernoulli numbers</summary>
+		/// <param name="m">the m function parameter</param>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n, m &gt;= 0 returns Bernoulli number,
+		///             otherwise returns Double.NaN.</returns>
 		public static double bernoulliNumber(int m, int n) {
 			return bernoulliNumberWithCancel(m, n, 0);
 		}
-		/**
-		 * Bernoulli numbers
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      m                   the m function parameter
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n, m &gt;= 0 returns Bernoulli number,
-		 *             otherwise returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see bernoulliNumber(int,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Bernoulli numbers
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="m">the m function parameter</param>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n, m &gt;= 0 returns Bernoulli number,
+		///             otherwise returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.bernoulliNumber(int,int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double bernoulliNumberWithCancel(int m, int n, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1069,45 +969,38 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return result;
 		}
-		/**
-		 * Bernoulli numbers
-		 *
-		 * @param      m                   the m function parameter
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n, m <> Double.NaN returns bernoulliNumber( (int)Math.round(m), (int)Math.round(n) ),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Bernoulli numbers</summary>
+		/// <param name="m">the m function parameter</param>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n, m &lt;&gt; Double.NaN returns bernoulliNumber( (int)Math.round(m), (int)Math.round(n) ),
+		///             otherwise returns Double.NaN.</returns>
 		public static double bernoulliNumber(double m, double n) {
 			return bernoulliNumberWithCancel(m, n, 0);
 		}
-		/**
-		 * Bernoulli numbers
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      m                   the m function parameter
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n, m &lt;&gt; Double.NaN returns bernoulliNumber( (int)Math.round(m), (int)Math.round(n) ),
-		 *             otherwise returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see bernoulliNumber(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Bernoulli numbers
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="m">the m function parameter</param>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n, m &lt;&gt; Double.NaN returns bernoulliNumber( (int)Math.round(m), (int)Math.round(n) ),
+		///             otherwise returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.bernoulliNumber(double,double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double bernoulliNumberWithCancel(double m, double n, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1115,53 +1008,44 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return bernoulliNumberWithCancel( (int)Math.Round(m), (int)Math.Round(n) , cancelId);
 		}
-		/**
-		 * Stirling numbers of the first kind
-		 *
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return     Stirling numbers of the first kind
-		 *             Returns also Double.NaN when MAX RECURSION CALLS
-		 *             is exceeded.
-		 *             
-		 * @see mXparser#getMaxAllowedRecursionDepth() 
-		 * @see mXparser#setMaxAllowedRecursionDepth(int) 
-		 */
+		/// <summary>Stirling numbers of the first kind</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>Stirling numbers of the first kind
+		///             Returns also Double.NaN when MAX RECURSION CALLS
+		///             is exceeded.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.getMaxAllowedRecursionDepth()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.setMaxAllowedRecursionDepth(int)"/>
 		public static double Stirling1Number(int n, int k) {
 			return Stirling1NumberWithCancel(n, k, 0);
 		}
-		/**
-		 * Stirling numbers of the first kind
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return     Stirling numbers of the first kind
-		 *             Returns also Double.NaN when MAX RECURSION CALLS
-		 *             is exceeded.
-		 *
-		 * @see mXparser#getMaxAllowedRecursionDepth()
-		 * @see mXparser#setMaxAllowedRecursionDepth(int)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see Stirling1Number(int,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Stirling numbers of the first kind
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>Stirling numbers of the first kind
+		///             Returns also Double.NaN when MAX RECURSION CALLS
+		///             is exceeded.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.getMaxAllowedRecursionDepth()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.setMaxAllowedRecursionDepth(int)"/>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.Stirling1Number(int,int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double Stirling1NumberWithCancel(int n, int k, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1186,45 +1070,38 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return (n - 1) * s1 + s2;
 		}
-		/**
-		 * Stirling numbers of the first kind
-		 *
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return     if n, k <> Doube.NaN returns Stirling1Number( (int)Math.round(n), (int)Math.round(k) ),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Stirling numbers of the first kind</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>if n, k &lt;&gt; Doube.NaN returns Stirling1Number( (int)Math.round(n), (int)Math.round(k) ),
+		///             otherwise returns Double.NaN.</returns>
 		public static double Stirling1Number(double n, double k) {
 			return Stirling1NumberWithCancel(n, k, 0);
 		}
-		/**
-		 * Stirling numbers of the first kind
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return     if n, k &lt;&gt; Doube.NaN returns Stirling1Number( (int)Math.round(n), (int)Math.round(k) ),
-		 *             otherwise returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see Stirling1Number(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Stirling numbers of the first kind
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>if n, k &lt;&gt; Doube.NaN returns Stirling1Number( (int)Math.round(n), (int)Math.round(k) ),
+		///             otherwise returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.Stirling1Number(double,double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double Stirling1NumberWithCancel(double n, double k, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1232,53 +1109,44 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return Stirling1NumberWithCancel( (int)Math.Round(n), (int)Math.Round(k) , cancelId);
 		}
-		/**
-		 * Stirling numbers of the second kind
-		 *
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return     Stirling numbers of the second kind
-		 *             Returns also Double.NaN when MAX RECURSION CALLS
-		 *             is exceeded.
-		 *             
-		 * @see mXparser#getMaxAllowedRecursionDepth() 
-		 * @see mXparser#setMaxAllowedRecursionDepth(int) 
-		 */
+		/// <summary>Stirling numbers of the second kind</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>Stirling numbers of the second kind
+		///             Returns also Double.NaN when MAX RECURSION CALLS
+		///             is exceeded.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.getMaxAllowedRecursionDepth()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.setMaxAllowedRecursionDepth(int)"/>
 		public static double Stirling2Number(int n, int k) {
 			return Stirling2NumberWithCancel(n, k, 0);
 		}
-		/**
-		 * Stirling numbers of the second kind
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return     Stirling numbers of the second kind
-		 *             Returns also Double.NaN when MAX RECURSION CALLS
-		 *             is exceeded.
-		 *
-		 * @see mXparser#getMaxAllowedRecursionDepth()
-		 * @see mXparser#setMaxAllowedRecursionDepth(int)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see Stirling2Number(int,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Stirling numbers of the second kind
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>Stirling numbers of the second kind
+		///             Returns also Double.NaN when MAX RECURSION CALLS
+		///             is exceeded.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.getMaxAllowedRecursionDepth()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.setMaxAllowedRecursionDepth(int)"/>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.Stirling2Number(int,int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double Stirling2NumberWithCancel(int n, int k, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1304,45 +1172,38 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			return k * s1 + s2;
 
 		}
-		/**
-		 * Stirling numbers of the second kind
-		 *
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return     if n, k <> Doube.NaN returns Stirling2Number( (int)Math.round(n), (int)Math.round(k) ),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Stirling numbers of the second kind</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>if n, k &lt;&gt; Doube.NaN returns Stirling2Number( (int)Math.round(n), (int)Math.round(k) ),
+		///             otherwise returns Double.NaN.</returns>
 		public static double Stirling2Number(double n, double k) {
 			return Stirling2NumberWithCancel(n, k, 0);
 		}
-		/**
-		 * Stirling numbers of the second kind
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return     if n, k &lt;&gt; Doube.NaN returns Stirling2Number( (int)Math.round(n), (int)Math.round(k) ),
-		 *             otherwise returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see Stirling2Number(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Stirling numbers of the second kind
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>if n, k &lt;&gt; Doube.NaN returns Stirling2Number( (int)Math.round(n), (int)Math.round(k) ),
+		///             otherwise returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.Stirling2Number(double,double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double Stirling2NumberWithCancel(double n, double k, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1350,46 +1211,39 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return Stirling2NumberWithCancel( (int)Math.Round(n), (int)Math.Round(k) , cancelId);
 		}
-		/**
-		 * Worpitzky numbers
-		 *
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return     if n,k>=0 and k<=n return Worpitzky number,
-		 *             otherwise return Double.NaN.
-		 */
+		/// <summary>Worpitzky numbers</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>if n,k &gt;= 0 and k &lt;= n return Worpitzky number,
+		///             otherwise return Double.NaN.</returns>
 		public static double worpitzkyNumber(int n, int k) {
 			return worpitzkyNumberWithCancel(n, k, 0);
 		}
-		/**
-		 * Worpitzky numbers
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return     if n,k &gt;= 0 and k &lt;= n return Worpitzky number,
-		 *             otherwise return Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see worpitzkyNumber(int,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Worpitzky numbers
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>if n,k &gt;= 0 and k &lt;= n return Worpitzky number,
+		///             otherwise return Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.worpitzkyNumber(int,int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double worpitzkyNumberWithCancel(int n, int k, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1403,45 +1257,38 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return result;
 		}
-		/**
-		 * Worpitzky numbers
-		 *
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return     if n,k<> Double.NaN returns worpitzkyNumber( (int)Math.round(n), (int)Math.round(k) ),
-		 *             otherwise return Double.NaN.
-		 */
+		/// <summary>Worpitzky numbers</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>if n,k &lt;&gt; Double.NaN returns worpitzkyNumber( (int)Math.round(n), (int)Math.round(k) ),
+		///             otherwise return Double.NaN.</returns>
 		public static double worpitzkyNumber(double n, double k) {
 			return worpitzkyNumberWithCancel(n, k, 0);
 		}
-		/**
-		 * Worpitzky numbers
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 * @param      k                   the k function parameter
-		 *
-		 * @return     if n,k &lt;&gt; Double.NaN returns worpitzkyNumber( (int)Math.round(n), (int)Math.round(k) ),
-		 *             otherwise return Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see worpitzkyNumber(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Worpitzky numbers
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <param name="k">the k function parameter</param>
+		/// <returns>if n,k &lt;&gt; Double.NaN returns worpitzkyNumber( (int)Math.round(n), (int)Math.round(k) ),
+		///             otherwise return Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.worpitzkyNumber(double,double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double worpitzkyNumberWithCancel(double n, double k, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1449,44 +1296,37 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return worpitzkyNumberWithCancel( (int)Math.Round(n), (int)Math.Round(k) , cancelId);
 		}
-		/**
-		 * Harmonic numer
-		 *
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n>0 returns harmonic number, otherwise returns 0
-		 *             (empty summation operator)
-		 */
+		/// <summary>Harmonic numer</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n &gt; 0 returns harmonic number, otherwise returns 0
+		///             (empty summation operator)</returns>
 		public static double harmonicNumber(int n) {
 			return ordinaryHarmonicNumberWithCancel(n, 0);
 		}
-		/**
-		 * Harmonic numer
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n &gt; 0 returns harmonic number, otherwise returns 0
-		 *             (empty summation operator)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see harmonicNumber(int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Harmonic numer
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n &gt; 0 returns harmonic number, otherwise returns 0
+		///             (empty summation operator)</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.harmonicNumber(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double ordinaryHarmonicNumberWithCancel(int n, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1501,43 +1341,36 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return h;
 		}
-		/**
-		 * Harmonic number
-		 *
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n <> Double.NaN returns harmonicNumber( (int)Math.round(n) ),
-		 *             otherwise returns Double.NaN
-		 */
+		/// <summary>Harmonic number</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n &lt;&gt; Double.NaN returns harmonicNumber( (int)Math.round(n) ),
+		///             otherwise returns Double.NaN</returns>
 		public static double harmonicNumber(double n) {
 			return ordinaryHarmonicNumberWithCancel(n, 0);
 		}
-		/**
-		 * Harmonic number
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n &lt;&gt; Double.NaN returns harmonicNumber( (int)Math.round(n) ),
-		 *             otherwise returns Double.NaN
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see harmonicNumber(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Harmonic number
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n &lt;&gt; Double.NaN returns harmonicNumber( (int)Math.round(n) ),
+		///             otherwise returns Double.NaN</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.harmonicNumber(double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double ordinaryHarmonicNumberWithCancel(double n, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1545,46 +1378,39 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return ordinaryHarmonicNumberWithCancel( (int)Math.Round(n) , cancelId);
 		}
-		/**
-		 * Harmonic number 1/1 + 1/2^x + ... + 1/n^x
-		 *
-		 * @param      x                   the x function parameter
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if x<> Double.NaN and x>=0 Harmonic number,
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Harmonic number 1/1 + 1/2^x + ... + 1/n^x</summary>
+		/// <param name="x">the x function parameter</param>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if x &lt;&gt; Double.NaN and x &gt;= 0 Harmonic number,
+		///             otherwise returns Double.NaN.</returns>
 		public static double harmonicNumber(double x, int n) {
 			return generalizedHarmonicNumberWithCancel(x, n, 0);
 		}
-		/**
-		 * Harmonic number 1/1 + 1/2^x + ... + 1/n^x
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      x                   the x function parameter
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if x &lt;&gt; Double.NaN and x &gt;= 0 Harmonic number,
-		 *             otherwise returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see harmonicNumber(double,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Harmonic number 1/1 + 1/2^x + ... + 1/n^x
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="x">the x function parameter</param>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if x &lt;&gt; Double.NaN and x &gt;= 0 Harmonic number,
+		///             otherwise returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.harmonicNumber(double,int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double generalizedHarmonicNumberWithCancel(double x, int n, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1601,45 +1427,38 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return h;
 		}
-		/**
-		 * Harmonic number 1/1 + 1/2^x + ... + 1/n^x
-		 *
-		 * @param      x                   the x function parameter
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if x,n <> Double.NaN returns harmonicNumber( x, (int)Math.round(n) ),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Harmonic number 1/1 + 1/2^x + ... + 1/n^x</summary>
+		/// <param name="x">the x function parameter</param>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if x,n &lt;&gt; Double.NaN returns harmonicNumber( x, (int)Math.round(n) ),
+		///             otherwise returns Double.NaN.</returns>
 		public static double harmonicNumber(double x, double n) {
 			return generalizedHarmonicNumberWithCancel(x, n, 0);
 		}
-		/**
-		 * Harmonic number 1/1 + 1/2^x + ... + 1/n^x
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      x                   the x function parameter
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if x,n &lt;&gt; Double.NaN returns harmonicNumber( x, (int)Math.round(n) ),
-		 *             otherwise returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see harmonicNumber(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Harmonic number 1/1 + 1/2^x + ... + 1/n^x
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="x">the x function parameter</param>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if x,n &lt;&gt; Double.NaN returns harmonicNumber( x, (int)Math.round(n) ),
+		///             otherwise returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.harmonicNumber(double,double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double generalizedHarmonicNumberWithCancel(double x, double n, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1647,77 +1466,59 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return generalizedHarmonicNumberWithCancel( x, (int)Math.Round(n) , cancelId);
 		}
-		/**
-		 * Catalan numbers
-		 *
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     Catalan numbers
-		 */
+		/// <summary>Catalan numbers</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>Catalan numbers</returns>
 		public static double catalanNumber(int n) {
 			return binomCoeff(2*n, n) * div(1, n+1);
 		}
-		/**
-		 * Catalan numbers
-		 *
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n <> Double.NaN returns catalanNumber( (int)Math.round(n) ),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Catalan numbers</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n &lt;&gt; Double.NaN returns catalanNumber( (int)Math.round(n) ),
+		///             otherwise returns Double.NaN.</returns>
 		public static double catalanNumber(double n) {
 			if (Double.IsNaN(n))
 				return Double.NaN;
 			return catalanNumber( (int)Math.Round(n) );
 		}
-		/**
-		 * Fibonacci numbers
-		 *
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n >= 0 returns fibonacci numbers,
-		 *             otherwise returns Double.NaN.
-		 *             
-		 *             Returns also Double.NaN when MAX RECURSION CALLS
-		 *             is exceeded.
-		 *             
-		 * @see mXparser#getMaxAllowedRecursionDepth() 
-		 * @see mXparser#setMaxAllowedRecursionDepth(int) 
-		 */
+		/// <summary>Fibonacci numbers</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n &gt;= 0 returns fibonacci numbers,
+		///             otherwise returns Double.NaN.
+		///             Returns also Double.NaN when MAX RECURSION CALLS
+		///             is exceeded.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.getMaxAllowedRecursionDepth()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.setMaxAllowedRecursionDepth(int)"/>
 		public static double fibonacciNumber(int n) {
 			return fibonacciNumberWithCancel(n, 0);
 		}
-		/**
-		 * Fibonacci numbers
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n &gt;= 0 returns fibonacci numbers,
-		 *             otherwise returns Double.NaN.
-		 *             Returns also Double.NaN when MAX RECURSION CALLS
-		 *             is exceeded.
-		 *
-		 * @see mXparser#getMaxAllowedRecursionDepth()
-		 * @see mXparser#setMaxAllowedRecursionDepth(int)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see fibonacciNumber(int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Fibonacci numbers
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n &gt;= 0 returns fibonacci numbers,
+		///             otherwise returns Double.NaN.
+		///             Returns also Double.NaN when MAX RECURSION CALLS
+		///             is exceeded.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.getMaxAllowedRecursionDepth()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.setMaxAllowedRecursionDepth(int)"/>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.fibonacciNumber(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double fibonacciNumberWithCancel(int n, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1742,43 +1543,36 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return f1 + f2;
 		}
-		/**
-		 * Fibonacci numbers
-		 *
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n <> Double.NaN returns fibonacciNumber( (int)Math.round(n) ),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Fibonacci numbers</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n &lt;&gt; Double.NaN returns fibonacciNumber( (int)Math.round(n) ),
+		///             otherwise returns Double.NaN.</returns>
 		public static double fibonacciNumber(double n) {
 			return fibonacciNumberWithCancel(n, 0);
 		}
-		/**
-		 * Fibonacci numbers
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n &lt;&gt; Double.NaN returns fibonacciNumber( (int)Math.round(n) ),
-		 *             otherwise returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see fibonacciNumber(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Fibonacci numbers
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n &lt;&gt; Double.NaN returns fibonacciNumber( (int)Math.round(n) ),
+		///             otherwise returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.fibonacciNumber(double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double fibonacciNumberWithCancel(double n, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1786,53 +1580,44 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return fibonacciNumberWithCancel( (int)Math.Round(n) , cancelId);
 		}
-		/**
-		 * Lucas numebrs
-		 *
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n >=0 returns Lucas numbers,
-		 *             otherwise returns Double.NaN.
-		 *             Returns also Double.NaN when MAX RECURSION CALLS
-		 *             is exceeded.
-		 *             
-		 * @see mXparser#getMaxAllowedRecursionDepth() 
-		 * @see mXparser#setMaxAllowedRecursionDepth(int) 
-		 */
+		/// <summary>Lucas numebrs</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n &gt;= 0 returns Lucas numbers,
+		///             otherwise returns Double.NaN.
+		///             Returns also Double.NaN when MAX RECURSION CALLS
+		///             is exceeded.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.getMaxAllowedRecursionDepth()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.setMaxAllowedRecursionDepth(int)"/>
 		public static double lucasNumber(int n) {
 			return lucasNumberWithCancel(n, 0);
 		}
-		/**
-		 * Lucas numebrs
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n &gt;= 0 returns Lucas numbers,
-		 *             otherwise returns Double.NaN.
-		 *             Returns also Double.NaN when MAX RECURSION CALLS
-		 *             is exceeded.
-		 *
-		 * @see mXparser#getMaxAllowedRecursionDepth()
-		 * @see mXparser#setMaxAllowedRecursionDepth(int)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see lucasNumber(int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Lucas numebrs
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n &gt;= 0 returns Lucas numbers,
+		///             otherwise returns Double.NaN.
+		///             Returns also Double.NaN when MAX RECURSION CALLS
+		///             is exceeded.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.getMaxAllowedRecursionDepth()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.setMaxAllowedRecursionDepth(int)"/>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.lucasNumber(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double lucasNumberWithCancel(int n, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1857,43 +1642,36 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return l1 + l2;
 		}
-		/**
-		 * Lucas numebrs
-		 *
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n <> Double.NaN returns lucasNumber( (int)Math.round(n) ),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Lucas numebrs</summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n &lt;&gt; Double.NaN returns lucasNumber( (int)Math.round(n) ),
+		///             otherwise returns Double.NaN.</returns>
 		public static double lucasNumber(double n) {
 			return lucasNumberWithCancel(n, 0);
 		}
-		/**
-		 * Lucas numebrs
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      n                   the n function parameter
-		 *
-		 * @return     if n &lt;&gt; Double.NaN returns lucasNumber( (int)Math.round(n) ),
-		 *             otherwise returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see lucasNumber(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Lucas numebrs
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="n">the n function parameter</param>
+		/// <returns>if n &lt;&gt; Double.NaN returns lucasNumber( (int)Math.round(n) ),
+		///             otherwise returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.lucasNumber(double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double lucasNumberWithCancel(double n, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1901,15 +1679,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return lucasNumberWithCancel( (int)Math.Round(n) , cancelId);
 		}
-		/**
-		 * Kronecker delta
-		 *
-		 * @param      i                   the i function parameter
-		 * @param      j                   the j function parameter
-		 *
-		 * @return     if i,j <> Double.NaN returns Kronecker delta,
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Kronecker delta</summary>
+		/// <param name="i">the i function parameter</param>
+		/// <param name="j">the j function parameter</param>
+		/// <returns>if i,j &lt;&gt; Double.NaN returns Kronecker delta,
+		///             otherwise returns Double.NaN.</returns>
 		public static double kroneckerDelta(double i, double j) {
 			if (Double.IsNaN(i) || Double.IsNaN(j))
 				return Double.NaN;
@@ -1918,61 +1692,50 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			else
 				return 0;
 		}
-		/**
-		 * Kronecker delta
-		 *
-		 * @param      i                   the i function parameter
-		 * @param      j                   the j function parameter
-		 *
-		 * @return     Kronecker delta
-		 */
+		/// <summary>Kronecker delta</summary>
+		/// <param name="i">the i function parameter</param>
+		/// <param name="j">the j function parameter</param>
+		/// <returns>Kronecker delta</returns>
 		public static double kroneckerDelta(int i, int j) {
 			if (i == j)
 				return 1;
 			else
 				return 0;
 		}
-		/**
-		 * Continued fraction
-		 *
-		 * @param      sequence            the numbers
-		 *
-		 * @return     if each number form the sequence <> Double.NaN and
-		 *             there is no division by 0 while computing returns continued fraction
-		 *             value, otherwise returns Double.NaN.
-		 */
+		/// <summary>Continued fraction</summary>
+		/// <param name="sequence">the numbers</param>
+		/// <returns>if each number form the sequence &lt;&gt; Double.NaN and
+		///             there is no division by 0 while computing returns continued fraction
+		///             value, otherwise returns Double.NaN.</returns>
 		public static double continuedFraction(params double[] sequence) {
 			return continuedFractionWithCancel(sequence, 0);
 		}
-		/**
-		 * Continued fraction
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      sequence            the numbers
-		 *
-		 * @return     if each number form the sequence &lt;&gt; Double.NaN and
-		 *             there is no division by 0 while computing returns continued fraction
-		 *             value, otherwise returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see continuedFraction(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Continued fraction
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// Array parameters are fixed arrays, not token-bearing varargs.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="sequence">the numbers</param>
+		/// <returns>if each number form the sequence &lt;&gt; Double.NaN and
+		///             there is no division by 0 while computing returns continued fraction
+		///             value, otherwise returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.continuedFraction(double[])"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double continuedFractionWithCancel(double[] sequence, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -1998,15 +1761,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return cf;
 		}
-		/**
-		 * Private function calculating continued polynomial
-		 * recursively.
-		 *
-		 * @param      n         the polynomial order
-		 * @param      x         the x values
-		 *
-		 * @return     continued polynomial value
-		 */
+		/// <summary>Private function calculating continued polynomial
+		/// recursively.</summary>
+		/// <returns>continued polynomial value</returns>
+		/// <remarks><para>Parameter <c>n</c>: the polynomial order</para><para>Parameter <c>x</c>: the x values</para></remarks>
 		private static double continuedPolynomialWithCancel(int n, double[] x, int cancelId) {
 			if (x == null) return Double.NaN;
 			if (x.Length == 0) return Double.NaN;
@@ -2017,47 +1775,40 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 			return x[n-1] * continuedPolynomialWithCancel(n-1, x, cancelId) + continuedPolynomialWithCancel(n-2, x, cancelId);
 		}
-		/**
-		 * Continued polynomial
-		 *
-		 * @param      x         the x values
-		 *
-		 * @return     if each number for x is different the Double.NaN
-		 *             returns continued polynomial, otherwise returns
-		 *             Double.NaN.
-		 */
+		/// <summary>Continued polynomial</summary>
+		/// <param name="x">the x values</param>
+		/// <returns>if each number for x is different the Double.NaN
+		///             returns continued polynomial, otherwise returns
+		///             Double.NaN.</returns>
 		public static double continuedPolynomial(params double[] x) {
 			return continuedPolynomialWithCancel(x, 0);
 		}
-		/**
-		 * Continued polynomial
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      x         the x values
-		 *
-		 * @return     if each number for x is different the Double.NaN
-		 *             returns continued polynomial, otherwise returns
-		 *             Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see continuedPolynomial(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Continued polynomial
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// Array parameters are fixed arrays, not token-bearing varargs.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="x">the x values</param>
+		/// <returns>if each number for x is different the Double.NaN
+		///             returns continued polynomial, otherwise returns
+		///             Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.continuedPolynomial(double[])"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double continuedPolynomialWithCancel(double[] x, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -2070,46 +1821,39 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return continuedPolynomialWithCancel(x.Length, x, cancelId);
 		}
-		/**
-		 * Euler polynomial
-		 *
-		 * @param      m                   the m parameter
-		 * @param      x                   the x parameter
-		 *
-		 * @return     if x <> Double.NaN and m>=0 returns polynomial value,
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Euler polynomial</summary>
+		/// <param name="m">the m parameter</param>
+		/// <param name="x">the x parameter</param>
+		/// <returns>if x &lt;&gt; Double.NaN and m &gt;= 0 returns polynomial value,
+		///             otherwise returns Double.NaN.</returns>
 		public static double eulerPolynomial(int m, double x) {
 			return eulerPolynomialWithCancel(m, x, 0);
 		}
-		/**
-		 * Euler polynomial
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      m                   the m parameter
-		 * @param      x                   the x parameter
-		 *
-		 * @return     if x &lt;&gt; Double.NaN and m &gt;= 0 returns polynomial value,
-		 *             otherwise returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see eulerPolynomial(int,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Euler polynomial
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="m">the m parameter</param>
+		/// <param name="x">the x parameter</param>
+		/// <returns>if x &lt;&gt; Double.NaN and m &gt;= 0 returns polynomial value,
+		///             otherwise returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.eulerPolynomial(int,double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double eulerPolynomialWithCancel(int m, double x, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -2130,45 +1874,38 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return sumTotal;
 		}
-		/**
-		 * Euler polynomial
-		 *
-		 * @param      m                   the m parameter
-		 * @param      x                   the x parameter
-		 *
-		 * @return     if x,m <> Double.NaN returns eulerPolynomial( (int)Math.round(m), (int)Math.round(x) ),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Euler polynomial</summary>
+		/// <param name="m">the m parameter</param>
+		/// <param name="x">the x parameter</param>
+		/// <returns>if x,m &lt;&gt; Double.NaN returns eulerPolynomial( (int)Math.round(m), (int)Math.round(x) ),
+		///             otherwise returns Double.NaN.</returns>
 		public static double eulerPolynomial(double m, double x) {
 			return eulerPolynomialWithCancel(m, x, 0);
 		}
-		/**
-		 * Euler polynomial
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      m                   the m parameter
-		 * @param      x                   the x parameter
-		 *
-		 * @return     if x,m &lt;&gt; Double.NaN returns eulerPolynomial( (int)Math.round(m), (int)Math.round(x) ),
-		 *             otherwise returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see eulerPolynomial(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Euler polynomial
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="m">the m parameter</param>
+		/// <param name="x">the x parameter</param>
+		/// <returns>if x,m &lt;&gt; Double.NaN returns eulerPolynomial( (int)Math.round(m), (int)Math.round(x) ),
+		///             otherwise returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.eulerPolynomial(double,double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double eulerPolynomialWithCancel(double m, double x, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -2176,16 +1913,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			return eulerPolynomialWithCancel( (int)Math.Round(m), x, cancelId);
 		}
-		/**
-		 * Characteristic function x in (a,b)
-		 *
-		 * @param      x                   the x value
-		 * @param      a                   the left (lower) limit
-		 * @param      b                   the right (upper) limit
-		 *
-		 * @return     if x, a, b <> Double.NaN returns
-		 * 			   characteristic function value on the (a,b) range.
-		 */
+		/// <summary>Characteristic function x in (a,b)</summary>
+		/// <param name="x">the x value</param>
+		/// <param name="a">the left (lower) limit</param>
+		/// <param name="b">the right (upper) limit</param>
+		/// <returns>if x, a, b &lt;&gt; Double.NaN returns
+		/// 			   characteristic function value on the (a,b) range.</returns>
 		public static double chi(double x, double a, double b) {
 			if (Double.IsNaN(x) || Double.IsNaN(a) || Double.IsNaN(b))
 				return Double.NaN;
@@ -2197,16 +1930,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					result = 0;
 			return result;
 		}
-		/**
-		 * Characteristic function x in [a,b]
-		 *
-		 * @param      x                   the x value
-		 * @param      a                   the left (lower) limit
-		 * @param      b                   the right (upper) limit
-		 *
-		 * @return     if x, a, b <> Double.NaN returns
-		 * 			   characteristic function value on the [a,b] range.
-		 */
+		/// <summary>Characteristic function x in [a,b]</summary>
+		/// <param name="x">the x value</param>
+		/// <param name="a">the left (lower) limit</param>
+		/// <param name="b">the right (upper) limit</param>
+		/// <returns>if x, a, b &lt;&gt; Double.NaN returns
+		/// 			   characteristic function value on the [a,b] range.</returns>
 		public static double chi_LR(double x, double a, double b) {
 			if (Double.IsNaN(x) || Double.IsNaN(a) || Double.IsNaN(b))
 				return Double.NaN;
@@ -2218,16 +1947,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					result = 0;
 			return result;
 		}
-		/**
-		 * Characteristic function x in [a,b)
-		 *
-		 * @param      x                   the x value
-		 * @param      a                   the left (lower) limit
-		 * @param      b                   the right (upper) limit
-		 *
-		 * @return     if x, a, b <> Double.NaN returns
-		 * 			   characteristic function value on the [a,b) range.
-		 */
+		/// <summary>Characteristic function x in [a,b)</summary>
+		/// <param name="x">the x value</param>
+		/// <param name="a">the left (lower) limit</param>
+		/// <param name="b">the right (upper) limit</param>
+		/// <returns>if x, a, b &lt;&gt; Double.NaN returns
+		/// 			   characteristic function value on the [a,b) range.</returns>
 		public static double chi_L(double x, double a, double b) {
 			if (Double.IsNaN(x) || Double.IsNaN(a) || Double.IsNaN(b))
 				return Double.NaN;
@@ -2239,16 +1964,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					result = 0;
 			return result;
 		}
-		/**
-		 * Characteristic function x in (a,b]
-		 *
-		 * @param      x                   the x value
-		 * @param      a                   the left (lower) limit
-		 * @param      b                   the right (upper) limit
-		 *
-		 * @return     if x, a, b <> Double.NaN returns
-		 * 			   characteristic function value on the (a,b] range.
-		 */
+		/// <summary>Characteristic function x in (a,b]</summary>
+		/// <param name="x">the x value</param>
+		/// <param name="a">the left (lower) limit</param>
+		/// <param name="b">the right (upper) limit</param>
+		/// <returns>if x, a, b &lt;&gt; Double.NaN returns
+		/// 			   characteristic function value on the (a,b] range.</returns>
 		public static double chi_R(double x, double a, double b) {
 			if (Double.IsNaN(x) || Double.IsNaN(a) || Double.IsNaN(b))
 				return Double.NaN;
@@ -2260,15 +1981,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					result = 0;
 			return result;
 		}
-		/**
-		 * Verifies whether provided number is almost integer
-		 *
-		 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
-		 *
-		 * @param a  The number to be verified
-		 * @return   True if the number is almost integer according to the default epsilon,
-		 *           otherwise returns false.
-		 */
+		/// <summary>Verifies whether provided number is almost integer</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations.DEFAULT_COMPARISON_EPSILON"/>
+		/// <param name="a">The number to be verified</param>
+		/// <returns>True if the number is almost integer according to the default epsilon,
+		///           otherwise returns false.</returns>
 		public static bool isAlmostInt(double a) {
 			double aint = Math.Round(a);
 			return abs(a - aint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON;
@@ -2298,13 +2015,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (sres.Length - sresround.Length >= 4) return resround;
 			else return res;
 		}
-		/**
-		 * Applies the integer exponent to the base a
-		 *
-		 * @param a   The base
-		 * @param n   The integer exponent
-		 * @return    Return a to the power of n, if canonical rounding is enable, the it operates on big numbers
-		 */
+		/// <summary>Applies the integer exponent to the base a</summary>
+		/// <param name="a">The base</param>
+		/// <param name="n">The integer exponent</param>
+		/// <returns>Return a to the power of n, if canonical rounding is enable, the it operates on big numbers</returns>
 		private static double powInt(double a, int n) {
 			if (Double.IsNaN(a)) return Double.NaN;
 			double r = Math.Pow(a, n);
@@ -2385,15 +2099,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return r;
 			}
 		}
-		/**
-		 * Power function a^b
-		 *
-		 * @param      a                   the a function parameter
-		 * @param      b                   the b function parameter
-		 *
-		 * @return     if a,b &lt;&gt; Double.NaN returns Math.pow(a, b),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Power function a^b</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <param name="b">the b function parameter</param>
+		/// <returns>if a,b &lt;&gt; Double.NaN returns Math.pow(a, b),
+		///             otherwise returns Double.NaN.</returns>
 		public static double power(double a, double b) {
 			if (Double.IsNaN(a) || Double.IsNaN(b))
 				return Double.NaN;
@@ -2425,13 +2135,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				} else return Double.NaN;
 			}
 		}
-		/**
-		 * Nth order root of a number
-		 *
-		 * @param n   Root order
-		 * @param x   Number
-		 * @return    Returns root of a number. If calculation is not possible Double.NaN is returned.
-		 */
+		/// <summary>Nth order root of a number</summary>
+		/// <param name="n">Root order</param>
+		/// <param name="x">Number</param>
+		/// <returns>Returns root of a number. If calculation is not possible Double.NaN is returned.</returns>
 		public static double root(double n, double x) {
 			if (Double.IsNaN(n) || Double.IsNaN(x)) return Double.NaN;
 			if (Double.IsInfinity(n) || Double.IsInfinity(x)) return Double.NaN;
@@ -2453,42 +2160,37 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				else return Double.NaN;
 			}
 		}
-		/**
-		 * Tetration, exponential power, power series
-		 *
-		 * @param a   base
-		 * @param n   exponent
-		 * @return    Tetration result.
-		 */
+		/// <summary>Tetration, exponential power, power series</summary>
+		/// <param name="a">base</param>
+		/// <param name="n">exponent</param>
+		/// <returns>Tetration result.</returns>
 		public static double tetration(double a, double n) {
 			return tetrationWithCancel(a, n, 0);
 		}
-		/**
-		 * Tetration, exponential power, power series
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param a   base
-		 * @param n   exponent
-		 * @return    Tetration result.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see tetration(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Tetration, exponential power, power series
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="a">base</param>
+		/// <param name="n">exponent</param>
+		/// <returns>Tetration result.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.tetration(double,double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double tetrationWithCancel(double a, double n, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -2528,20 +2230,16 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return r;
 		}
-		/**
-		 * Modulo operator a % b
-		 *
-		 * @param      a                   the a function parameter
-		 * @param      b                   the b function parameter
-		 *
-		 * @return     if a,b <> Double.NaN returns a % b.
-		 */
+		/// <summary>Modulo operator a % b</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <param name="b">the b function parameter</param>
+		/// <returns>if a,b &lt;&gt; Double.NaN returns a % b.</returns>
 		public static double mod(double a, double b) {
 			if (Double.IsNaN(a) || Double.IsNaN(b))
 				return Double.NaN;
 			return a % b;
 		}
-		/**
+		/*
 		 * Division a/b
 		 *
 		 * @param      a                   the a function parameter
@@ -2560,14 +2258,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			return result;
 		}
 		*/
-		/**
-		 * Sine trigonometric function
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN return Math.sin(a),
-		 *             otherwise return Double.NaN.
-		 */
+		/// <summary>Sine trigonometric function</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN return Math.sin(a),
+		///             otherwise return Double.NaN.</returns>
 		public static double sin(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -2578,14 +2272,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return sv.sin;
 			return Math.Sin(a);
 		}
-		/**
-		 * Cosine trigonometric function
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.cos(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Cosine trigonometric function</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.cos(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double cos(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -2596,14 +2286,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return sv.cos;
 			return Math.Cos(a);
 		}
-		/**
-		 * Tangent trigonometric function
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.tan(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Tangent trigonometric function</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.tan(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double tan(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -2614,14 +2300,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return sv.tan;
 			return Math.Tan(a);
 		}
-		/**
-		 * Cotangent trigonometric function
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN and tan(a) <> 0 returns 1 / Math.tan(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Cotangent trigonometric function</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN and tan(a) &lt;&gt; 0 returns 1 / Math.tan(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double ctan(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -2636,14 +2318,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				result = 1.0 / tg;
 			return result;
 		}
-		/**
-		 * Secant trigonometric function
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN and cos(a) <> 0 returns 1 / Math.cos(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Secant trigonometric function</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN and cos(a) &lt;&gt; 0 returns 1 / Math.cos(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double sec(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -2658,14 +2336,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				result = 1.0 / cos;
 			return result;
 		}
-		/**
-		 * Cosecant trigonometric function
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN and sin(a) <> 0 returns 1 / Math.sin(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Cosecant trigonometric function</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN and sin(a) &lt;&gt; 0 returns 1 / Math.sin(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double cosec(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -2680,24 +2354,18 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				result = 1.0 / sin;
 			return result;
 		}
-		/**
-		 * If double is almost integer returns the closes integer, otherwise original value
-		 * @param val   Parameter
-		 * @return      f double is almost integer returns the closest integer, otherwise original value
-		 */
+		/// <summary>If double is almost integer returns the closes integer, otherwise original value</summary>
+		/// <param name="val">Parameter</param>
+		/// <returns>f double is almost integer returns the closest integer, otherwise original value</returns>
 		private static double intIfAlmostIntOtherwiseOrig(double val) {
 			double valint = Math.Round(val);
 			if (Math.Abs(val - valint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return valint;
 			return val;
 		}
-		/**
-		 * Arcus sine - inverse trigonometric sine function
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.asin(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Arcus sine - inverse trigonometric sine function</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.asin(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double asin(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -2710,14 +2378,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return intIfAlmostIntOtherwiseOrig(div(r, Units.DEGREE_ARC));
 			} else return r;
 		}
-		/**
-		 * Arcus cosine - inverse trigonometric cosine function
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.acos(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Arcus cosine - inverse trigonometric cosine function</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.acos(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double acos(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -2731,14 +2395,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			else return r;
 		}
-		/**
-		 * Arcus tangent - inverse trigonometric tangent function
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.atan(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Arcus tangent - inverse trigonometric tangent function</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.atan(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double atan(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -2752,14 +2412,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			else return r;
 		}
-		/**
-		 * Arcus cotangent - inverse trigonometric cotangent function
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN and a <> 0 returns Math.atan(1/a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Arcus cotangent - inverse trigonometric cotangent function</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN and a &lt;&gt; 0 returns Math.atan(1/a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double actan(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -2777,12 +2433,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			else return r;
 		}
-		/**
-		 * Arcus secant - inverse trigonometric secant function
-		 *
-		 * @param      a                   the a function parameter
-		 * @return     Inverse trigonometric secant function
-		 */
+		/// <summary>Arcus secant - inverse trigonometric secant function</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>Inverse trigonometric secant function</returns>
 		public static double asec(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -2796,12 +2449,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			else return r;
 		}
-		/**
-		 * Arcus cosecant - inverse trigonometric cosecant function
-		 *
-		 * @param      a                   the a function parameter
-		 * @return     Inverse trigonometric cosecant function
-		 */
+		/// <summary>Arcus cosecant - inverse trigonometric cosecant function</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>Inverse trigonometric cosecant function</returns>
 		public static double acosec(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -2815,131 +2465,91 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			else return r;
 		}
-		/**
-		 * Natural logarithm
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.log(1/a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Natural logarithm</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.log(1/a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double ln(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
 			return Math.Log(a);
 		}
-		/**
-		 * Binary logarithm
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.log(a)/Math.log(2.0),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Binary logarithm</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.log(a)/Math.log(2.0),
+		///             otherwise returns Double.NaN.</returns>
 		public static double log2(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
 			return Math.Log(a)/Math.Log(2.0);
 		}
-		/**
-		 * Common logarithm
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.log10(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Common logarithm</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.log10(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double log10(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
 			return Math.Log10(a);
 		}
-		/**
-		 * Degrees to radius translation.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.toRadians(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Degrees to radius translation.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.toRadians(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double rad(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
 			return a * (MathConstants.PI / 180.0);
 		}
-		/**
-		 * Exponential function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.exp(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Exponential function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.exp(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double exp(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
 			return Math.Exp(a);
 		}
-		/**
-		 * Square root.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.sqrt(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Square root.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.sqrt(a),
+		///             otherwise returns Double.NaN.</returns>
 		 public static double sqrt(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
 			return Math.Sqrt(a);
 		}
-		/**
-		 * Hyperbolic sine function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.sinh(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Hyperbolic sine function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.sinh(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double sinh(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
 			return Math.Sinh(a);
 		}
-		/**
-		 * Hyperbolic cosine function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.cosh(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Hyperbolic cosine function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.cosh(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double cosh(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
 			return Math.Cosh(a);
 		}
-		/**
-		 * Hyperbolic tangent function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.tanh(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Hyperbolic tangent function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.tanh(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double tanh(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
 			return Math.Tanh(a);
 		}
-		/**
-		 * Hyperbolic cotangent function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN and tanh(a) <> 0 returns 1 / Math.tanh(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Hyperbolic cotangent function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN and tanh(a) &lt;&gt; 0 returns 1 / Math.tanh(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double coth(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -2949,14 +2559,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				result = 1.0 / tanh;
 			return result;
 		}
-		/**
-		 * Hyperbolic secant function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN and cosh(a) <> 0 returns 1 / Math.cosh(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Hyperbolic secant function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN and cosh(a) &lt;&gt; 0 returns 1 / Math.cosh(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double sech(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -2966,14 +2572,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				result = 1.0 / cosh;
 			return result;
 		}
-		/**
-		 * Hyperbolic cosecant function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN and sinh(a) <> 0 returns 1 / Math.sinh(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Hyperbolic cosecant function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN and sinh(a) &lt;&gt; 0 returns 1 / Math.sinh(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double csch(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -2983,105 +2585,73 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				result = 1.0 / sinh;
 			return result;
 		}
-		/**
-		 * Radius to degrees translation.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.toDegrees(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Radius to degrees translation.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.toDegrees(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double deg(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
 			return a * (180.0 / MathConstants.PI);
 		}
-		/**
-		 * Absolute value.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.abs(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Absolute value.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.abs(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double abs(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
 			return Math.Abs(a);
 		}
-		/**
-		 * Signum function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.signum(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Signum function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.signum(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double sgn(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
 			return Math.Sign(a);
 		}
-		/**
-		 * Floor function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.floor(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Floor function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.floor(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double floor(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
 			return Math.Floor(a);
 		}
-		/**
-		 * Ceiling function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.ceil(a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Ceiling function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.ceil(a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double ceil(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
 			return Math.Ceiling(a);
 		}
-		/**
-		 * Arcus hyperbolic sine - inverse hyperbolic sine function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.log(a + Math.sqrt(a*a+1)),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Arcus hyperbolic sine - inverse hyperbolic sine function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.log(a + Math.sqrt(a*a+1)),
+		///             otherwise returns Double.NaN.</returns>
 		public static double arsinh(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
 			return Math.Log(a + Math.Sqrt(a*a+1));
 		}
-		/**
-		 * Arcus hyperbolic cosine - inverse hyperbolic cosine function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN returns Math.log(a + Math.sqrt(a*a-1)),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Arcus hyperbolic cosine - inverse hyperbolic cosine function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN returns Math.log(a + Math.sqrt(a*a-1)),
+		///             otherwise returns Double.NaN.</returns>
 		public static double arcosh(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
 			return Math.Log(a + Math.Sqrt(a*a-1));
 		}
-		/**
-		 * Arcus hyperbolic tangent - inverse hyperbolic tangent function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN and 1-a <> 0 returns 0.5*Math.log( (1+a)/(1-a) ),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Arcus hyperbolic tangent - inverse hyperbolic tangent function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN and 1-a &lt;&gt; 0 returns 0.5*Math.log( (1+a)/(1-a) ),
+		///             otherwise returns Double.NaN.</returns>
 		public static double artanh(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -3090,14 +2660,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				result = 0.5*Math.Log( (1+a)/(1-a) );
 			return result;
 		}
-		/**
-		 * Arcus hyperbolic tangent - inverse hyperbolic tangent function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN and a-1 <> 0 returns 0.5*Math.log( (a+1)/(a-1) );,
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Arcus hyperbolic tangent - inverse hyperbolic tangent function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN and a-1 &lt;&gt; 0 returns 0.5*Math.log( (a+1)/(a-1) );,
+		///             otherwise returns Double.NaN.</returns>
 		public static double arcoth(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -3106,14 +2672,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				result = 0.5*Math.Log( (a+1)/(a-1) );
 			return result;
 		}
-		/**
-		 * Arcus hyperbolic secant - inverse hyperbolic secant function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN and a <> 0 returns Math.log( (1+Math.sqrt(1-a*a))/a);,
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Arcus hyperbolic secant - inverse hyperbolic secant function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN and a &lt;&gt; 0 returns Math.log( (1+Math.sqrt(1-a*a))/a);,
+		///             otherwise returns Double.NaN.</returns>
 		public static double arsech(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -3122,14 +2684,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				result = Math.Log( (1+Math.Sqrt(1-a*a))/a);
 			return result;
 		}
-		/**
-		 * Arcus hyperbolic cosecant - inverse hyperbolic cosecant function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN and a <> 0 returns Math.log( (1+Math.sqrt(1-a*a))/a);,
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Arcus hyperbolic cosecant - inverse hyperbolic cosecant function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN and a &lt;&gt; 0 returns Math.log( (1+Math.sqrt(1-a*a))/a);,
+		///             otherwise returns Double.NaN.</returns>
 		public static double arcsch(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -3138,14 +2696,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				result = Math.Log( 1/a + Math.Sqrt(1+a*a)/Math.Abs(a) );
 			return result;
 		}
-		/**
-		 * Normalized sinc function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN and a <> 0 returns Math.sin(PI*a) / (PI*a);,
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Normalized sinc function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN and a &lt;&gt; 0 returns Math.sin(PI*a) / (PI*a);,
+		///             otherwise returns Double.NaN.</returns>
 		public static double sa(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -3155,14 +2709,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				result = Math.Sin(x) / (x);
 			return result;
 		}
-		/**
-		 * Sinc function.
-		 *
-		 * @param      a                   the a function parameter
-		 *
-		 * @return     if a <> Double.NaN and a <> 0 returns Math.sin(a) / (a),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Sinc function.</summary>
+		/// <param name="a">the a function parameter</param>
+		/// <returns>if a &lt;&gt; Double.NaN and a &lt;&gt; 0 returns Math.sin(a) / (a),
+		///             otherwise returns Double.NaN.</returns>
 		public static double sinc(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
@@ -3176,15 +2726,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				result = 1.0;
 			return result;
 		}
-		/**
-		 * General logarithm.
-		 *
-		 * @param      a                   the a function parameter (base)
-		 * @param      b                   the b function parameter (number)
-		 *
-		 * @return     if a,b <> Double.NaN and log(b) <> 0 returns Math.log(a) / Math.log(b),
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>General logarithm.</summary>
+		/// <param name="a">the a function parameter (base)</param>
+		/// <param name="b">the b function parameter (number)</param>
+		/// <returns>if a,b &lt;&gt; Double.NaN and log(b) &lt;&gt; 0 returns Math.log(a) / Math.log(b),
+		///             otherwise returns Double.NaN.</returns>
 		public static double log(double a, double b) {
 			if (Double.IsNaN(a) || Double.IsNaN(b))
 				return Double.NaN;
@@ -3194,42 +2740,36 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				result = Math.Log(a) / logb;
 			return result;
 		}
-		/**
-		 * Double rounding
-		 *
-		 * @param value    double value to be rounded
-		 * @param places   decimal places
-		 * @return         If conversion from double to Decimal possible
-		 *                 returns rounded value, otherwise Double.NaN.
-		 */
+		/// <summary>Double rounding</summary>
+		/// <param name="value">double value to be rounded</param>
+		/// <param name="places">decimal places</param>
+		/// <returns>Rounded value</returns>
 		public static double round(double value, int places) {
 			return roundWithCancel(value, places, 0);
 		}
-		/**
-		 * Double rounding
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param value    double value to be rounded
-		 * @param places   decimal places
-		 * @return         Rounded value
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see round(double,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Double rounding
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="value">double value to be rounded</param>
+		/// <param name="places">decimal places</param>
+		/// <returns>Rounded value</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.round(double,int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double roundWithCancel(double value, int places, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -3244,42 +2784,37 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return value;
 			}
 		}
-		/**
-		 * Double half up rounding
-		 *
-		 * @param value    double value to be rounded
-		 * @param places   decimal places
-		 * @return         Rounded value
-		 */
+		/// <summary>Double half up rounding</summary>
+		/// <param name="value">double value to be rounded</param>
+		/// <param name="places">decimal places</param>
+		/// <returns>Rounded value</returns>
 		public static double roundHalfUp(double value, int places) {
 			return roundHalfUpWithCancel(value, places, 0);
 		}
-		/**
-		 * Double half up rounding
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param value    double value to be rounded
-		 * @param places   decimal places
-		 * @return         Rounded value
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see roundHalfUp(double,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Double half up rounding
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="value">double value to be rounded</param>
+		/// <param name="places">decimal places</param>
+		/// <returns>Rounded value</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.roundHalfUp(double,int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double roundHalfUpWithCancel(double value, int places, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -3307,42 +2842,37 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Math.Abs(valueMultiplied - valueFloor) >= 0.5) valueFloor = Math.Floor(valueFloor + 1);
 			return Math.Floor(sign * valueFloor) / multiplier;
 		}
-		/**
-		 * Double down rounding
-		 *
-		 * @param value    double value to be rounded
-		 * @param places   decimal places
-		 * @return         Rounded value
-		 */
+		/// <summary>Double down rounding</summary>
+		/// <param name="value">double value to be rounded</param>
+		/// <param name="places">decimal places</param>
+		/// <returns>Rounded value</returns>
  		public static double roundDown(double value, int places) {
 			return roundDownWithCancel(value, places, 0);
 		}
-		/**
-		 * Double down rounding
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param value    double value to be rounded
-		 * @param places   decimal places
-		 * @return         Rounded value
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see roundDown(double,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Double down rounding
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="value">double value to be rounded</param>
+		/// <param name="places">decimal places</param>
+		/// <returns>Rounded value</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.roundDown(double,int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double roundDownWithCancel(double value, int places, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -3369,17 +2899,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
  			double valueFloor = Math.Floor(valueMultiplied);
  			return Math.Floor(sign * valueFloor) / multiplier;
  		}
- 		/**
- 		 * Unit in the last place rounding, see
- 		 * 0.1 + 0.1 + 0.1 vs roundUlp(0.1 + 0.1 + 0.1)
- 		 *
- 		 * @param number   Double number that is to be rounded
- 		 *
- 		 * @return    Double number with rounded ulp
- 		 *
- 		 * @see MathFunctions#decimalDigitsBefore(double)
- 		 * @see MathFunctions#ulp(double)
- 		 */
+		/// <summary>Unit in the last place rounding, see
+		/// 0.1 + 0.1 + 0.1 vs roundUlp(0.1 + 0.1 + 0.1)</summary>
+		/// <param name="number">Double number that is to be rounded</param>
+		/// <returns>Double number with rounded ulp</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.decimalDigitsBefore(double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.ulp(double)"/>
 		public static double roundUlp(double number) {
 			if ( (Double.IsNaN(number) ) || (Double.IsInfinity(number)) || (number == 0) )
 				return number;
@@ -3392,24 +2917,19 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				else return number;
 			}
 		}
- 		/**
- 		 * Returns integer part of a doube value.
- 		 * @param x   Number
- 		 * @return For non-negative x returns Math.floor(x),
- 		 *         otherwise returns -Math.floor(-x)
- 		 */
+		/// <summary>Returns integer part of a double value.</summary>
+		/// <param name="x">Number</param>
+		/// <returns>For non-negative x returns Math.floor(x),
+		///         otherwise returns -Math.floor(-x)</returns>
  		public static double integerPart(double x) {
  			if (x > 0) return Math.Floor(x);
  			else if (x < 0) return -Math.Floor(-x);
  			else return 0;
  		}
-		/**
- 		 * For very small number returns the position of
- 		 * first significant digit, ie 0.1 = 1, 0.01 = 2
-		 *
-		 * @param value Double value, small one.
-		 * @return Number of digits, number of places.
-		 */
+		/// <summary>For very small number returns the position of
+		/// first significant digit, ie 0.1 = 1, 0.01 = 2</summary>
+		/// <param name="anyValue">Double value, small one.</param>
+		/// <returns>Number of digits, number of places.</returns>
 		public static int decimalDigitsBefore(double anyValue) {
             double value;
 
@@ -3761,45 +3281,38 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 
 			return -1;
 		}
-		/**
-		 * Unit in the last place(ULP) for double
-		 * @return ULP for a given double.
-		 */
+		/// <summary>Unit in the last place(ULP) for double</summary>
+		/// <param name="value">Double number</param>
+		/// <returns>ULP for a given double.</returns>
 		public static double ulp(double value) {
 			double v = abs(value);
 			long bits = BitConverter.DoubleToInt64Bits(v) & 0x7FFFFFFFFFFFFFFFL;
 			double nextValue = BitConverter.Int64BitsToDouble(bits + 1);
 			return nextValue - v;
 		}
-		/**
-		 * Unit in The Last Place - number of decimal digits before
-		 * @param value   Double number
-		 * @return        Positive number of digits N for ulp = 1e-{N+1},
-		 *                if ulp is &gt; 1 then -1 is returned.
-		 *                Returned proper value is always between -1 and +322.
-		 *                If value is NaN then -2 is returned.
-		 */
+		/// <summary>Unit in The Last Place - number of decimal digits before</summary>
+		/// <param name="value">Double number</param>
+		/// <returns>Positive number of digits N for ulp = 1e-{N+1},
+		///                if ulp is &gt; 1 then -1 is returned.
+		///                Returned proper value is always between -1 and +322.
+		///                If value is NaN then -2 is returned.</returns>
 		public static int ulpDecimalDigitsBefore(double value) {
 			if (Double.IsNaN(value)) return -2;
 			double u = ulp(value);
 			return decimalDigitsBefore(u);
 		}
-		/**
-		 * Length of a number represented in a standard decimal format
-		 * @param value   A given number
-		 * @return        Length of a number represented in a standard decimal format
-		 *                including decimal separator, excluding leading zeros (integer part),
-		 *                excluding trailing zeros (fractional part)
-		 */
+		/// <summary>Length of a number represented in a standard decimal format</summary>
+		/// <param name="value">A given number</param>
+		/// <returns>Length of a number represented in a standard decimal format
+		///                including decimal separator, excluding leading zeros (integer part),
+		///                excluding trailing zeros (fractional part)</returns>
 		public static int decimalNumberLength(double value) {
 			return value.ToString(CultureInfo.InvariantCulture).Length;
 		}
-		/**
-		 * Fractional part length of a number represented in a standard decimal format
-		 * @param value   A given number
-		 * @return        Fractional part length of a number represented in a standard decimal
-		 *                format excluding decimal separator, excluding trailing zeros (fractional part)
-		 */
+		/// <summary>Fractional part length of a number represented in a standard decimal format</summary>
+		/// <param name="value">A given number</param>
+		/// <returns>Fractional part length of a number represented in a standard decimal
+		///                format excluding decimal separator, excluding trailing zeros (fractional part)</returns>
 		public static int fractionalPartLength(double value) {
 			if (Double.IsNaN(value)) return 0;
 			if (Double.IsInfinity(value)) return 0;
@@ -3813,49 +3326,45 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (dotPos >= 0) return valueStr.Length - 1 - dotPos;
 			return 0;
 		}
-		/**
-		 * Intelligent rounding of a number within the decimal position of the ULP (Unit in the Last Place),
-		 * provided that the result is significantly shortened in the standard decimal notation. Examples:
-		 * 30.499999999999992 is rounded to 30.5, but 30.499999999999122 will not be rounded. Rounding is
-		 * made to the decimal position of the ULP minus 2 on condition that the resulted number is shortened
-		 * by at least 9 places.
-		 * @param value   A given number
-		 * @return        Returns an intelligently rounded number when the decimal position of ULP
-		 *                is a minimum of 11 and when rounded to the position of ULP - 2, shortens
-		 *                the number by a minimum of 9 places. Otherwise, returns original number.
-		 */
+		/// <summary>Intelligent rounding of a number within the decimal position of the ULP (Unit in the Last Place),
+		/// provided that the result is significantly shortened in the standard decimal notation. Examples:
+		/// 30.499999999999992 is rounded to 30.5, but 30.499999999999122 will not be rounded. Rounding is
+		/// made to the decimal position of the ULP minus 2 on condition that the resulted number is shortened
+		/// by at least 9 places.</summary>
+		/// <param name="value">A given number</param>
+		/// <returns>Returns an intelligently rounded number when the decimal position of ULP
+		///                is a minimum of 11 and when rounded to the position of ULP - 2, shortens
+		///                the number by a minimum of 9 places. Otherwise, returns original number.</returns>
 		public static double lengthRound(double value) {
 			return lengthRoundWithCancel(value, 0);
 		}
-		/**
-		 * Intelligent rounding of a number within the decimal position of the ULP (Unit in the Last Place),
-		 * provided that the result is significantly shortened in the standard decimal notation. Examples:
-		 * 30.499999999999992 is rounded to 30.5, but 30.499999999999122 will not be rounded. Rounding is
-		 * made to the decimal position of the ULP minus 2 on condition that the resulted number is shortened
-		 * by at least 9 places.
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param value   A given number
-		 * @return        Returns an intelligently rounded number when the decimal position of ULP
-		 *                is a minimum of 11 and when rounded to the position of ULP - 2, shortens
-		 *                the number by a minimum of 9 places. Otherwise, returns original number.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see lengthRound(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Intelligent rounding of a number within the decimal position of the ULP (Unit in the Last Place),
+		/// provided that the result is significantly shortened in the standard decimal notation. Examples:
+		/// 30.499999999999992 is rounded to 30.5, but 30.499999999999122 will not be rounded. Rounding is
+		/// made to the decimal position of the ULP minus 2 on condition that the resulted number is shortened
+		/// by at least 9 places.
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="value">A given number</param>
+		/// <returns>Returns an intelligently rounded number when the decimal position of ULP
+		///                is a minimum of 11 and when rounded to the position of ULP - 2, shortens
+		///                the number by a minimum of 9 places. Otherwise, returns original number.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.lengthRound(double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double lengthRoundWithCancel(double value, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -3873,45 +3382,40 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (decPartLen - decPartLenRound >= 9) return valueRound;
 			return value;
 		}
-		/**
-		 * Returns the first non-NaN value
-		 *
-		 * @param values   List of values
-		 * @return         Returns the first non-NaN value, if list is null
-		 *                 then returns Double.NaN, if list contains no elements
-		 *                 then returns Double.NaN.
-		 */
+		/// <summary>Returns the first non-NaN value</summary>
+		/// <param name="values">List of values</param>
+		/// <returns>Returns the first non-NaN value, if list is null
+		///                 then returns Double.NaN, if list contains no elements
+		///                 then returns Double.NaN.</returns>
 		public static double coalesce(double[] values) {
 			return coalesceWithCancel(values, 0);
 		}
-		/**
-		 * Returns the first non-NaN value
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double.NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param values   List of values
-		 * @return         Returns the first non-NaN value, if list is null
-		 *                 then returns Double.NaN, if list contains no elements
-		 *                 then returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see coalesce(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Returns the first non-NaN value
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// Array parameters are fixed arrays, not token-bearing varargs.
+		/// At this method's existing cancellation checks it returns Double.NaN.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="values">List of values</param>
+		/// <returns>Returns the first non-NaN value, if list is null
+		///                 then returns Double.NaN, if list contains no elements
+		///                 then returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.coalesce(double[])"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double coalesceWithCancel(double[] values, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -3922,14 +3426,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return Double.NaN;
 		}
-		/**
-		 * Check whether double value is almost integer.
-		 * @param x
-		 * @return True if double value is almost integer, otherwise false.
-		 *         {@link BinaryRelations#DEFAULT_COMPARISON_EPSILON}
-		 *
-		 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
-		 */
+		/// <summary>Check whether double value is almost integer.</summary>
+		/// <param name="x">Number</param>
+		/// <returns>True if double value is almost integer, otherwise false.
+		///         <see cref="org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations.DEFAULT_COMPARISON_EPSILON"/></returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations.DEFAULT_COMPARISON_EPSILON"/>
 		public static bool isInteger(double x) {
 			if (Double.IsNaN(x)) return false;
 			if (Double.IsPositiveInfinity(x)) return false;
@@ -3938,15 +3439,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double round = Math.Round(x);
 			return Math.Abs(x - round) < BinaryRelations.DEFAULT_COMPARISON_EPSILON;
 		}
-		/**
-		 * Check whether two double values are almost equal.
-		 * @param a   First number
-		 * @param b   Second number
-		 * @return True if double values are almost equal, otherwise false.
-		 *         {@link BinaryRelations#DEFAULT_COMPARISON_EPSILON}
-		 *
-		 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
-		 */
+		/// <summary>Check whether two double values are almost equal.</summary>
+		/// <param name="a">First number</param>
+		/// <param name="b">Second number</param>
+		/// <returns>True if double values are almost equal, otherwise false.
+		///         <see cref="org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations.DEFAULT_COMPARISON_EPSILON"/></returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations.DEFAULT_COMPARISON_EPSILON"/>
 		public static bool almostEqual(double a, double b) {
 			if (Double.IsNaN(a)) return false;
 			if (Double.IsNaN(b)) return false;
@@ -3954,50 +3452,41 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			return Math.Abs(a - b) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON;
 		}
 
-		/**
-		 * Calculates function f(x0) (given as expression) assigning Argument x = x0;
-		 *
-		 *
-		 * @param      f                   the expression
-		 * @param      x                   the argument
-		 * @param      x0                  the argument value
-		 *
-		 * @return     f.calculate()
-		 *
-		 * @see        Expression
-		 */
+		/// <summary>Calculates function f(x0) (given as expression) assigning Argument x = x0;</summary>
+		/// <param name="f">the expression</param>
+		/// <param name="x">the argument</param>
+		/// <param name="x0">the argument value</param>
+		/// <returns>f.calculate()</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
 		public static double getFunctionValue(Expression f, Argument x, double x0) {
 			return getFunctionValueWithCancel(f, x, x0, 0);
 		}
-		/**
-		 * Calculates function f(x0) (given as expression) assigning Argument x = x0;
-		 *
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      x                   the argument
-		 * @param      x0                  the argument value
-		 *
-		 * @return the result of f.calculateWithCancel(cancelId) after setting x to x0
-		 * @see        Expression
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see getFunctionValue(Expression,Argument,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Calculates function f(x0) (given as expression) assigning Argument x = x0;
+		///
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="f">the expression</param>
+		/// <param name="x">the argument</param>
+		/// <param name="x0">the argument value</param>
+		/// <returns>the result of f.calculateWithCancel(cancelId) after setting x to x0</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.getFunctionValue(Expression,Argument,double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double getFunctionValueWithCancel(Expression f, Argument x, double x0, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -4005,50 +3494,45 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			return f.calculateWithCancel(cancelId);
 		}
 
-		/**
-		 * Returns array of double values of the function f(i)
-		 * calculated on the range: i = from to i = to by step = delta
-		 *
-		 * @param f            Function expression
-		 * @param index        Index argument
-		 * @param from         'from' value
-		 * @param to           'to' value
-		 * @param delta        'delta' step definition
-		 * @return             Array of function values
-		 */
+		/// <summary>Returns array of double values of the function f(i)
+		/// calculated on the range: i = from to i = to by step = delta</summary>
+		/// <param name="f">Function expression</param>
+		/// <param name="index">Index argument</param>
+		/// <param name="from">'from' value</param>
+		/// <param name="to">'to' value</param>
+		/// <param name="delta">'delta' step definition</param>
+		/// <returns>Array of function values</returns>
 		public static double[] getFunctionValues(Expression f, Argument index, double from, double to, double delta) {
 			return getFunctionValuesWithCancel(f, index, from, to, delta, 0);
 		}
-		/**
-		 * Returns array of double values of the function f(i)
-		 * calculated on the range: i = from to i = to by step = delta
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param f            Function expression
-		 * @param index        Index argument
-		 * @param from         'from' value
-		 * @param to           'to' value
-		 * @param delta        'delta' step definition
-		 * @return             Array of function values
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see getFunctionValues(Expression,Argument,double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Returns array of double values of the function f(i)
+		/// calculated on the range: i = from to i = to by step = delta
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.
+		/// Array parameters are fixed arrays, not token-bearing varargs.
+		/// </para><para>There is no uniform cancellation result across the WithCancel family.
+		/// The existing returns of this method remain in effect; a caller using a
+		/// sentinel may throw an exception. Querying the signal does not establish
+		/// whether this particular call observed cancellation.</para></summary>
+		/// <param name="f">Function expression</param>
+		/// <param name="index">Index argument</param>
+		/// <param name="from">'from' value</param>
+		/// <param name="to">'to' value</param>
+		/// <param name="delta">'delta' step definition</param>
+		/// <returns>Array of function values</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions.getFunctionValues(Expression,Argument,double,double,double)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static double[] getFunctionValuesWithCancel(Expression f, Argument index, double from, double to, double delta, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");

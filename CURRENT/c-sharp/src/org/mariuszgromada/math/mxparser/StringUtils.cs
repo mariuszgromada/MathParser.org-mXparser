@@ -1,5 +1,5 @@
 /*
- * @(#)StringUtils.cs        6.1.0    2024-10-06
+ * @(#)StringUtils.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -223,31 +223,22 @@ using org.mariuszgromada.math.mxparser;
 
 namespace org.mariuszgromada.math.mxparser {
 
-    /**
-     * A class containing all string utils.
-     *
-     * @author         <b>Mariusz Gromada</b><br>
-     *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-     *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-     *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-     *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-     *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-     *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-     *
-     * @version        6.1.0
-     */
+    /// <summary>A class containing all string utils.</summary>
+    /// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+    ///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+    ///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+    ///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+    ///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+    ///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+    ///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
     public sealed class StringUtils {
-		/**
-		 * Function used to introduce some compatibility
-		 * between JAVA and C# while regexp matching.
-		 *
-		 * @param str         String
-		 * @param pattern     Pattern (regexp)
-		 *
-		 * @return            True if pattern matches entirely, False otherwise
-		 */
+		/// <summary>Function used to introduce some compatibility
+		/// between JAVA and C# while regexp matching.</summary>
+		/// <param name="str">String</param>
+		/// <param name="pattern">Pattern (regexp)</param>
+		/// <returns>True if pattern matches entirely, False otherwise</returns>
 		public static bool regexMatch(String str, String pattern){
 			return Regex.IsMatch(str, "^(" + pattern + ")$");
 		}
@@ -747,40 +738,28 @@ namespace org.mariuszgromada.math.mxparser {
 
             return str;
         }
-		/**
-		 * Converts integer number to hex string (plain text)
-		 *
-		 * @param number   Integer number
-		 * @return         Hex string (i.e. FF23)
-		 */
+		/// <summary>Converts integer number to hex string (plain text)</summary>
+		/// <param name="number">Integer number</param>
+		/// <returns>Hex string (i.e. FF23)</returns>
 		public static String numberToHexString(int number) {
 			return number.ToString("X");
 		}
-		/**
-		 * Converts long number to hex string (plain text)
-		 *
-		 * @param number   Long number
-		 * @return         Hex string (i.e. FF23)
-		 */
+		/// <summary>Converts long number to hex string (plain text)</summary>
+		/// <param name="number">Long number</param>
+		/// <returns>Hex string (i.e. FF23)</returns>
 		public static String numberToHexString(long number) {
 			return number.ToString("X");
 		}
-		/**
-		 * Converts (long)double number to hex string (plain text)
-		 *
-		 * @param number   Double number
-		 * @return         Hex string (i.e. FF23)
-		 */
+		/// <summary>Converts (long)double number to hex string (plain text)</summary>
+		/// <param name="number">Double number</param>
+		/// <returns>Hex string (i.e. FF23)</returns>
 		public static String numberToHexString(double number) {
 			return numberToHexString((long)number);
 		}
-		/**
-		 * Converts hex string into ASCII string, where each letter is
-		 * represented by two hex digits (byte) from the hex string.
-		 *
-		 * @param hexString   Hex string (i.e. 48656C6C6F)
-		 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
-		 */
+		/// <summary>Converts hex string into ASCII string, where each letter is
+		/// represented by two hex digits (byte) from the hex string.</summary>
+		/// <param name="hexString">Hex string (i.e. 48656C6C6F)</param>
+		/// <returns>ASCII string (i.e. '48656C6C6F' = 'Hello')</returns>
 		public static String hexString2AsciiString(String hexString) {
 			String hexByteStr;
 			int hexByteInt;
@@ -792,39 +771,34 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			return asciiString;
 		}
-		/**
-		 * Converts number into ASCII string, where each letter is
-		 * represented by two hex digits (byte) from the hex representation
-		 * of the original number
-		 *
-		 * @param number   Integer number (i.e. 310939249775 = '48656C6C6F')
-		 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
-		 */
+		/// <summary>Converts number into ASCII string, where each letter is
+		/// represented by two hex digits (byte) from the hex representation
+		/// of the original number</summary>
+		/// <param name="number">Integer number (i.e. 310939249775 = '48656C6C6F')</param>
+		/// <returns>ASCII string (i.e. '48656C6C6F' = 'Hello')</returns>
 		public static String numberToAsciiString(int number) {
 			return hexString2AsciiString(numberToHexString(number));
 		}
-		/**
-		 * Converts number into ASCII string, where each letter is
-		 * represented by two hex digits (byte) from the hex representation
-		 * of the original number
-		 *
-		 * @param number   Long number (i.e. 310939249775 = '48656C6C6F')
-		 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
-		 */
+		/// <summary>Converts number into ASCII string, where each letter is
+		/// represented by two hex digits (byte) from the hex representation
+		/// of the original number</summary>
+		/// <param name="number">Long number (i.e. 310939249775 = '48656C6C6F')</param>
+		/// <returns>ASCII string (i.e. '48656C6C6F' = 'Hello')</returns>
 		public static String numberToAsciiString(long number) {
 			return hexString2AsciiString(numberToHexString(number));
 		}
-		/**
-		 * Converts (long)double number into ASCII string, where each letter is
-		 * represented by two hex digits (byte) from the hex representation
-		 * of the original number casted to long type.
-		 *
-		 * @param number   Double number (i.e. 310939249775 = '48656C6C6F')
-		 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
-		 */
+		/// <summary>Converts (long)double number into ASCII string, where each letter is
+		/// represented by two hex digits (byte) from the hex representation
+		/// of the original number cast to long type.</summary>
+		/// <param name="number">Double number (i.e. 310939249775 = '48656C6C6F')</param>
+		/// <returns>ASCII string (i.e. '48656C6C6F' = 'Hello')</returns>
 		public static String numberToAsciiString(double number) {
 			return hexString2AsciiString(numberToHexString(number));
 		}
+        /// <summary>Counts non-overlapping, case-sensitive occurrences of a substring.</summary>
+        /// <param name="str">The text to search.</param>
+        /// <param name="toFind">The literal substring to count.</param>
+        /// <returns>The count; -1 if either input is null, or 0 for an empty input or substring.</returns>
         public static int countOccurrences(String str, String toFind) {
             if (str == null || toFind == null) return -1;
             int strLen = str.Length;
@@ -832,6 +806,9 @@ namespace org.mariuszgromada.math.mxparser {
             if (strLen == 0 || toFindLen == 0 || toFindLen > strLen) return 0;
             return (strLen - str.Replace(toFind, StringInvariant.EMPTY).Length) / toFindLen;
         }
+        /// <summary>Counts lines separated by a newline character, including an empty trailing line.</summary>
+        /// <param name="text">The text to inspect.</param>
+        /// <returns>The line count; 0 for empty text, or -1 for null.</returns>
         public static int countLines(String text) {
             if (text == null) return -1;
             if (text.Length == 0) return 0;

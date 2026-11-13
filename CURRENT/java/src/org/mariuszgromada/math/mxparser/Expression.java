@@ -7241,7 +7241,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @return A mathematical LaTeX fragment, or an empty string for empty input.
 	 * @throws IllegalStateException If the token structure, builtin arity or an
 	 *         identifier is invalid, or a rendering resource budget is exceeded.
-	 * @since 6.1.2
+	 * @since 6.2.0
 	 */
 	public String getExpressionAsLaTeX() {
 		return LaTeXExporter.format(getCopyOfInitialTokens());

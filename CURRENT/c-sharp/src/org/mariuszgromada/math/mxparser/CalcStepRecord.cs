@@ -1,5 +1,5 @@
 /*
- * @(#)CalcStepRecord.cs        6.1.0    2024-10-06
+ * @(#)CalcStepRecord.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -218,78 +218,56 @@
 using System;
 
 namespace org.mariuszgromada.math.mxparser {
-    /**
-     * Calculation is a multistep process and this class
-     * provides a container to store a single calculation step.
-     *
-     * @author         <b>Mariusz Gromada</b><br>
-     *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-     *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-     *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-     *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-     *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-     *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-     *
-     * @version        5.1.0
-     *
-     * @see CalcStepRecord
-     * @see Expression
-     * @see Argument
-     * @see Function
-     */
+    /// <summary>Calculation is a multistep process and this class
+    /// provides a container to store a single calculation step.</summary>
+    /// <seealso cref="org.mariuszgromada.math.mxparser.CalcStepRecord"/>
+    /// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+    /// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+    /// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
+    /// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+    ///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+    ///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+    ///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+    ///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+    ///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+    ///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
     [CLSCompliant(true), Serializable]
     public class CalcStepRecord {
-        /**
-         * Calculation step type.
-         * 1. If an expression string refers (at some point) to a dependent argument
-         * then calculation step handling this dependent argument calculation
-         * will be marked as type Argument.
-         * 2. If an expression string refers (at some point) to a user  function
-         * then calculation step handling this function calculation
-         * will be marked as type Function.
-         * 3. if a calculation step handles just a part related to a typical expression
-         * then this step will be marked as type Expression.
-         */
+        /// <summary>Calculation step type.
+        /// 1. If an expression string refers (at some point) to a dependent argument
+        /// then calculation step handling this dependent argument calculation
+        /// will be marked as type Argument.
+        /// 2. If an expression string refers (at some point) to a user  function
+        /// then calculation step handling this function calculation
+        /// will be marked as type Function.
+        /// 3. if a calculation step handles just a part related to a typical expression
+        /// then this step will be marked as type Expression.</summary>
         public enum StepType {
             Expression
             ,Argument
             ,Function
             ,Unknown
         }
-        /**
-         * If an expression makes a reference to a dependent argument or a user function then
-         * the calculation process will be done based on the calculation tree, where each group
-         * will be a marker of a particular (different) leaf of this tree.
-         */
+        /// <summary>If an expression makes a reference to a dependent argument or a user function then
+        /// the calculation process will be done based on the calculation tree, where each group
+        /// will be a marker of a particular (different) leaf of this tree.</summary>
         public int numberGroup = 0;
-        /**
-         * Marker of a step in a process of calculation of a given expression pointed by
-         * a particular leaf in a calculation tree.
-         */
+        /// <summary>Marker of a step in a process of calculation of a given expression pointed by
+        /// a particular leaf in a calculation tree.</summary>
         public int numberGroupWithin = 0;
-        /**
-         * Calculation step type
-         * @see StepType
-         */
+        /// <summary>Calculation step type</summary>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.CalcStepRecord.StepType"/>
         public StepType type;
-        /**
-         * Calculation step description - can be ana argument name, function name and or
-         * an expression string
-         */
+        /// <summary>Calculation step description - can be ana argument name, function name and or
+        /// an expression string</summary>
         public String description;
-        /**
-         * Calculation step content - so what is really happening in this step
-         */
+        /// <summary>Calculation step content - so what is really happening in this step</summary>
         public String content;
-        /**
-         * True if this is a first step in a given group.
-         */
+        /// <summary>True if this is a first step in a given group.</summary>
         public bool firstInGroup = false;
-        /**
-         * True if this is a last step in a given group.
-         */
+        /// <summary>True if this is a last step in a given group.</summary>
         public bool lastInGroup = false;
     }
 }

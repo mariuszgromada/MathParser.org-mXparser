@@ -1,5 +1,5 @@
 /*
- * @(#)FunctionExtension.hpp        6.1.0    2024-10-06
+ * @(#)FunctionExtension.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -226,10 +226,34 @@ namespace org::mariuszgromada::math::mxparser {
 	class API_VISIBLE FunctionExtension {
 	public:
 		virtual ~FunctionExtension() = default;
+		/**
+		 * \brief Gets parameters number.
+		 * \return Returns parameters number.
+		 */
 		virtual int getParametersNumber() = 0;
+		/**
+		 * \brief Sets value of function parameter
+		 * \param parameterIndex    - parameter index (from 0 to n-1)
+		 * \param parameterValue    - parameter value
+		 */
 		virtual void setParameterValue(int parameterIndex, double parameterValue) = 0;
+		/**
+		 * \brief Gets parameter name
+		 * \param parameterIndex    - parameter index (from 0 to n-1)
+		 * \return Returns parameter name
+		 */
 		virtual StringPtr getParameterName(int parameterIndex) = 0;
+		/**
+		 * \brief Actual algorithm implementation.
+		 * \return Function Extension value.
+		 */
 		virtual double calculate() = 0;
+		/**
+		 * \brief Cloning in case of usage in Expression
+		 * with recursive statements.
+		 * \return Returns FunctionExtension object that was cloned.
+		 * \sa org::mariuszgromada::math::mxparser::Expression::getRecursiveMode()
+		 */
 		virtual FunctionExtensionPtr clone() = 0;
 	};
 } // namespace org::mariuszgromada::math::mxparser

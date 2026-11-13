@@ -233,11 +233,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser::wrapper;
 	using namespace org::mariuszgromada::math::mxparser::parsertokens;
 
-	/**
-	 * Exponential integral function Ei(x)
-	 * @param x    Point at which function will be evaluated.
-	 * @return Exponential integral function Ei(x)
-	 */
 	API_VISIBLE double SpecialFunctions::exponentialIntegralEi(double x) {
 		return exponentialIntegralEiWithCancel(x, 0);
 	}
@@ -259,12 +254,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * Constants for Exponential integral function Ei(x) calculation
+	 * \brief Constants for Exponential integral function Ei(x) calculation
 	 */
 	const API_VISIBLE double SpecialFunctions::EI_DBL_EPSILON = Double::ulp(1.0);
 	const API_VISIBLE double SpecialFunctions::EI_EPSILON = 10.0 * EI_DBL_EPSILON;
 	/**
-	 * Supporting function
+	 * \brief Supporting function
 	 * while Exponential integral function Ei(x) calculation
 	 */
 	API_VISIBLE double SpecialFunctions::continuedFractionEiWithCancel(double x, int cancelId) {
@@ -301,7 +296,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * Supporting function
+	 * \brief Supporting function
 	 * while Exponential integral function Ei(x) calculation
 	 */
 	API_VISIBLE double SpecialFunctions::powerSeriesEiWithCancel(double x, int cancelId) {
@@ -327,7 +322,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * Supporting function
+	 * \brief Supporting function
 	 * while Exponential integral function Ei(x) calculation
 	 */
 	API_VISIBLE double SpecialFunctions::argumentAdditionSeriesEiWithCancel(double x, int cancelId) {
@@ -355,11 +350,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return Coefficients::EI(k - 7) + Sn * Math::exp(xx);
 	}
 
-	/**
-	 * Logarithmic integral function li(x)
-	 * @param x   Point at which function will be evaluated.
-	 * @return Logarithmic integral function li(x)
-	 */
 	API_VISIBLE double SpecialFunctions::logarithmicIntegralLi(double x) {
 		return logarithmicIntegralLiWithCancel(x, 0);
 	}
@@ -378,11 +368,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return exponentialIntegralEiWithCancel(MathFunctions::ln(x), cancelId);
 	}
 
-	/**
-	 * Offset logarithmic integral function Li(x)
-	 * @param x   Point at which function will be evaluated.
-	 * @return Offset logarithmic integral function Li(x)
-	 */
 	API_VISIBLE double SpecialFunctions::offsetLogarithmicIntegralLi(double x) {
 		return offsetLogarithmicIntegralLiWithCancel(x, 0);
 	}
@@ -399,11 +384,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return logarithmicIntegralLiWithCancel(x, cancelId) - MathConstants::LI2;
 	}
 
-	/**
-	 * Calculates the error function
-	 * @param x   Point at which function will be evaluated.
-	 * @return    Error function erf(x)
-	 */
 	API_VISIBLE double SpecialFunctions::erf(double x) {
 		if (Double::isNaN(x)) return Double::NaN;
 		if (x == 0) return 0;
@@ -412,11 +392,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return erfImp(x, false);
 	}
 
-	/**
-	 * Calculates the complementary error function->
-	 * @param x   Point at which function will be evaluated.
-	 * @return    Complementary error function erfc(x)
-	 */
 	API_VISIBLE double SpecialFunctions::erfc(double x) {
 		if (Double::isNaN(x)) return Double::NaN;
 		if (x == 0) return 1;
@@ -425,11 +400,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return erfImp(x, true);
 	}
 
-	/**
-	 * Calculates the inverse error function evaluated at x->
-	 * @param x   Point at which function will be evaluated.
-	 * @return    Inverse error function erfInv(x)
-	 */
 	API_VISIBLE double SpecialFunctions::erfInv(double x) {
 		if (x == 0.0) return 0;
 		if (x >= 1.0) return Double::POSITIVE_INFINITY;
@@ -448,10 +418,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * Calculates the inverse error function evaluated at x->
-	 * @param z
-	 * @param invert
-	 * @return
+	 * \brief Calculates the inverse error function evaluated at x->
+	 * \param z
+	 * \param invert
+	 * \return
 	 */
 	API_VISIBLE double SpecialFunctions::erfImp(double z, bool invert) {
 		if (z < 0) {
@@ -530,11 +500,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Calculates the complementary inverse error function evaluated at x->
-	 * @param z   Point at which function will be evaluated.
-	 * @return    Inverse of complementary inverse error function erfcInv(x)
-	 */
 	API_VISIBLE double SpecialFunctions::erfcInv(double z) {
 		if (z <= 0.0) return Double::POSITIVE_INFINITY;
 		if (z >= 2.0) return Double::NEGATIVE_INFINITY;
@@ -552,11 +517,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * The implementation of the inverse error function->
-	 * @param p
-	 * @param q
-	 * @param s
-	 * @return
+	 * \brief The implementation of the inverse error function->
+	 * \param p
+	 * \param q
+	 * \param s
+	 * \return
 	 */
 	API_VISIBLE double SpecialFunctions::erfInvImpl(double p, double q, double s) {
 		double result;
@@ -611,9 +576,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * Gamma function for the integers
-	 * @param n Integer number
-	 * @return  Returns Gamma function for the integers.
+	 * \brief Gamma function for the integers
+	 * \param n Integer number
+	 * \return Returns Gamma function for the integers.
+	 * \param cancelId The cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID.
 	 */
 	API_VISIBLE double SpecialFunctions::gammaIntWithCancel(Long n, int cancelId) {
 		if (n == 0) return MathConstants::EULER_MASCHERONI;
@@ -638,12 +604,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return Double::NaN;
 	}
 
-	/**
-	 * Real valued Gamma function
-	 *
-	 * @param x   Argument value
-	 * @return  Returns gamma function value.
-	 */
 	API_VISIBLE double SpecialFunctions::gamma(double x) {
 		return gammaWithCancel(x, 0);
 	}
@@ -664,13 +624,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return lanchosGammaWithCancel(x, cancelId);
 	}
 
-	/**
-	 * Gamma function implementation based on
-	 * Lanchos approximation algorithm
-	 *
-	 * @param x    Function parameter
-	 * @return     Gamma function value (Lanchos approx).
-	 */
 	API_VISIBLE double SpecialFunctions::lanchosGamma(double x) {
 		return lanchosGammaWithCancel(x, 0);
 	}
@@ -701,11 +654,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return Math::sqrt(2.0 * MathConstants::PI) * Math::pow(t, x + 0.5) * Math::exp(-t) * a;
 	}
 
-	/**
-	 * Real valued log gamma function->
-	 * @param x  Argument value
-	 * @return  Returns log value from gamma function->
-	 */
 	API_VISIBLE double SpecialFunctions::logGamma(double x) {
 		return logGammaWithCancel(x, 0);
 	}
@@ -766,11 +714,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return q;
 	}
 
-	/**
-	 * Signum from the real valued gamma function->
-	 * @param x Argument value
-	 * @return  Returns signum of the gamma(x)
-	 */
 	API_VISIBLE double SpecialFunctions::sgnGamma(double x) {
 		return sgnGammaWithCancel(x, 0);
 	}
@@ -790,12 +733,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		else return 1;
 	}
 
-	/**
-	 * Regularized lower gamma function 'P'
-	 * @param s  Argument value
-	 * @param x  Argument value
-	 * @return Value of the regularized lower gamma function 'P'.
-	 */
 	API_VISIBLE double SpecialFunctions::regularizedGammaLowerP(double s, double x) {
 		return regularizedGammaLowerPWithCancel(s, x, 0);
 	}
@@ -890,12 +827,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return 1 - (Math::exp(ax) * ans);
 	}
 
-	/**
-	 * Inverse of regularized lower gamma function 'P'
-	 * @param a  Argument value
-	 * @param p  Argument value
-	 * @return Value of the inverse regularized lower gamma function 'P'.
-	 */
 	API_VISIBLE double SpecialFunctions::inverseRegularizedGammaLowerP(double a, double p) {
 		return inverseRegularizedGammaLowerPWithCancel(a, p, 0);
 	}
@@ -951,12 +882,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return x;
 	}
 
-	/**
-	 * Incomplete lower gamma function
-	 * @param s   Argument value
-	 * @param x   Argument value
-	 * @return Value of the incomplete lower gamma function->
-	 */
 	API_VISIBLE double SpecialFunctions::incompleteGammaLower(double s, double x) {
 		return incompleteGammaLowerWithCancel(s, x, 0);
 	}
@@ -967,12 +892,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return gammaWithCancel(s, cancelId) * regularizedGammaLowerPWithCancel(s, x, cancelId);
 	}
 
-	/**
-	 * Regularized upper gamma function 'Q'
-	 * @param s  Argument value
-	 * @param x  Argument value
-	 * @return Value of the regularized upper gamma function 'Q'.
-	 */
 	API_VISIBLE double SpecialFunctions::regularizedGammaUpperQ(double s, double x) {
 		return regularizedGammaUpperQWithCancel(s, x, 0);
 	}
@@ -1047,12 +966,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return ans * ax;
 	}
 
-	/**
-	 * Incomplete upper gamma function
-	 * @param s   Argument value
-	 * @param x   Argument value
-	 * @return Value of the incomplete upper gamma function->
-	 */
 	API_VISIBLE double SpecialFunctions::incompleteGammaUpper(double s, double x) {
 		return incompleteGammaUpperWithCancel(s, x, 0);
 	}
@@ -1063,11 +976,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return gammaWithCancel(s, cancelId) * regularizedGammaUpperQWithCancel(s, x, cancelId);
 	}
 
-	/**
-	 * Digamma function as the logarithmic derivative of the Gamma special function
-	 * @param x   Argument value
-	 * @return Approximated value of the digamma function->
-	 */
 	API_VISIBLE double SpecialFunctions::diGamma(double x) {
 		return diGammaWithCancel(x, 0);
 	}
@@ -1116,12 +1024,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE const int SpecialFunctions::doubleWidth = 53;
 	API_VISIBLE const double SpecialFunctions::doublePrecision = Math::pow(2, -doubleWidth);
 
-	/**
-	 * Log Beta special function
-	 * @param x   Argument value
-	 * @param y   Argument value
-	 * @return  Return logBeta special function (for positive x and positive y)
-	 */
 	API_VISIBLE double SpecialFunctions::logBeta(double x, double y) {
 		return logBetaWithCancel(x, y, 0);
 	}
@@ -1147,12 +1049,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		else return Double::NaN;
 	}
 
-	/**
-	 * Beta special function
-	 * @param x   Argument value
-	 * @param y   Argument value
-	 * @return  Return Beta special function (for positive x and positive y)
-	 */
 	API_VISIBLE double SpecialFunctions::beta(double x, double y) {
 		return betaWithCancel(x, y, 0);
 	}
@@ -1167,15 +1063,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return gammaWithCancel(x, cancelId) * gammaWithCancel(y, cancelId) / gammaWithCancel(x + y, cancelId);
 	}
 
-	/**
-	 * Log Incomplete Beta special function
-	 * @param a   Argument value
-	 * @param b   Argument value
-	 * @param x   Argument value
-	 * @return  Return incomplete Beta special function
-	 * for positive a and positive b and x between 0 and 1
-	 *
-	 */
 	API_VISIBLE double SpecialFunctions::incompleteBeta(double a, double b, double x) {
 		return incompleteBetaWithCancel(a, b, x, 0);
 	}
@@ -1249,14 +1136,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return regularizedBetaWithCancel(a, b, x, cancelId) * betaWithCancel(a, b, cancelId);
 	}
 
-	/**
-	 * Regularized incomplete Beta special function
-	 * @param a   Argument value
-	 * @param b   Argument value
-	 * @param x   Argument value
-	 * @return  Return incomplete Beta special function
-	 * for positive a and positive b and x between 0 and 1
-	 */
 	API_VISIBLE double SpecialFunctions::regularizedBeta(double a, double b, double x) {
 		return regularizedBetaWithCancel(a, b, x, 0);
 	}
@@ -1351,14 +1230,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return symmetryTransformation ? 1.0 - (bt * h / a) : bt * h / a;
 	}
 
-	/**
-	 * Inerse regularized incomplete Beta special function
-	 * @param a   Argument value
-	 * @param b   Argument value
-	 * @param p   Argument value
-	 * @return  Return inverse incomplete Beta special function
-	 * for positive a and positive b and x between 0 and 1
-	 */
 	API_VISIBLE double SpecialFunctions::inverseRegularizedBeta(double a, double b, double p) {
 		return inverseRegularizedBetaWithCancel(a, b, p, 0);
 	}
@@ -1424,11 +1295,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	const API_VISIBLE double SpecialFunctions::GSL_DBL_EPSILON = 2.2204460492503131e-16;
 	/**
-	 * Halley's iteration used in Lambert-W approximation
-	 * @param x         Point at which Halley iteration will be calculated
-	 * @param wInitial  Starting point
-	 * @param maxIter   Maximum number of iteration
-	 * @return          Halley's iteration value if successful, otherwise Double::NaN
+	 * \brief Halley's iteration used in Lambert-W approximation
+	 * \param x         Point at which Halley iteration will be calculated
+	 * \param wInitial  Starting point
+	 * \param maxIter   Maximum number of iteration
+	 * \return Halley's iteration value if successful, otherwise Double::NaN
+	 * \param cancelId The cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID.
 	 */
 	API_VISIBLE double SpecialFunctions::halleyIterationWithCancel(double x, double wInitial, int maxIter, int cancelId) {
 		double w = wInitial;
@@ -1451,9 +1323,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * Private method used in Lambert-W approximation - near zero
-	 * @param r
-	 * @return Ner zero approximation
+	 * \brief Private method used in Lambert-W approximation - near zero
+	 * \param r
+	 * \return Ner zero approximation
 	 */
 	API_VISIBLE double SpecialFunctions::seriesEval(double r) {
 		double t8 = Coefficients::lambertWqNearZero(8) + r * (
@@ -1468,9 +1340,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * W0 - Principal branch of Lambert-W function
-	 * @param x
-	 * @return Approximation of principal branch of Lambert-W function
+	 * \brief W0 - Principal branch of Lambert-W function
+	 * \param x
+	 * \return Approximation of principal branch of Lambert-W function
+	 * \param cancelId The cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID.
 	 */
 	API_VISIBLE double SpecialFunctions::lambertW0WithCancel(double x, int cancelId) {
 		if (Math::abs(x) <= BinaryRelations::DEFAULT_COMPARISON_EPSILON) return 0;
@@ -1495,11 +1368,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * Minus 1 branch of Lambert-W function
+	 * \brief Minus 1 branch of Lambert-W function
 	 * Analytical approximations for real values of the Lambert W-function - D.A. Barry
 	 * Mathematics and Computers in Simulation 53 (2000) 95–103
-	 * @param x
-	 * @return Approxmiation of minus 1 branch of Lambert-W function
+	 * \param x
+	 * \return Approxmiation of minus 1 branch of Lambert-W function
 	 */
 	API_VISIBLE double SpecialFunctions::lambertW1(double x) {
 		if (x >= -BinaryRelations::DEFAULT_COMPARISON_EPSILON) return Double::NaN;
@@ -1517,13 +1390,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			       1.0 - 1.0 / (1.0 + ((M1 * Math::sqrt(s / 2.0)) / (1.0 + M2 * s * Math::exp(M3 * Math::sqrt(s))))));
 	}
 
-	/**
-	 * Real-valued Lambert-W function approximation.
-	 * @param x      Point at which function will be approximated
-	 * @param branch Branch id, 0 for principal branch, -1 for the other branch
-	 * @return       Principal branch for x greater or equal than -1/e, otherwise Double::NaN.
-	 *               Minus 1 branch for x greater or equal than -1/e and lower than 0, otherwise Double::NaN.
-	 */
 	API_VISIBLE double SpecialFunctions::lambertW(double x, double branch) {
 		return lambertWWithCancel(x, branch, 0);
 	}
@@ -1538,16 +1404,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return Double::NaN;
 	}
 
-	/**
-	 * The Gaussian or ordinary hypergeometric special function
-	 * @param a    Argument value
-	 * @param b    Argument value
-	 * @param c    Argument value
-	 * @param z    Argument value
-	 * @param maxIterations   Stop condition
-	 * @param precision   Stop condition
-	 * @return   Returns hypergeometric special function approximation
-	 */
 	API_VISIBLE double SpecialFunctions::hypergeometricF(double a, double b, double c, double z, double maxIterations,
 	                                         double precision) {
 		return hypergeometricFWithCancel(a, b, c, z, maxIterations, precision, 0);
@@ -1574,14 +1430,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * The Gaussian or ordinary hypergeometric special function - direct
-	 * @param a    Argument value
-	 * @param b    Argument value
-	 * @param c    Argument value
-	 * @param z    Argument value
-	 * @param maxIterations   Stop condition
-	 * @param precision   Stop condition
-	 * @return   Returns hypergeometric special function approximation - direct
+	 * \brief The Gaussian or ordinary hypergeometric special function - direct
+	 * \param a    Argument value
+	 * \param b    Argument value
+	 * \param c    Argument value
+	 * \param z    Argument value
+	 * \param maxIterations   Stop condition
+	 * \param precision   Stop condition
+	 * \return Returns hypergeometric special function approximation - direct
+	 * \param cancelId The cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID.
 	 */
 	API_VISIBLE double SpecialFunctions::hypergeometricFDirectWithCancel(double a, double b, double c, double z, double maxIterations,
 	                                               double precision, int cancelId) {

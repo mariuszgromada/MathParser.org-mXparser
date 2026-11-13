@@ -1,5 +1,5 @@
 /*
- * @(#)Coefficients.cpp        6.1.0    2024-10-06
+ * @(#)Coefficients.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -227,7 +227,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * --------------------------------------
 	*/
 	/**
-	 * Polynomial coefficients for a numerator of erfImp
+	 * \brief Polynomial coefficients for a numerator of erfImp
 	 * calculation for erf(x) in the interval [1e-10, 0.5].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpAn = {
@@ -236,7 +236,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		-0.00495091255982435110337458, 0.000871646599037922480317225
 	};
 	/**
-	 * Polynomial coefficients for  adenominator of erfImp
+	 * \brief Polynomial coefficients for  adenominator of erfImp
 	 * calculation for erf(x) in the interval [1e-10, 0.5].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpAd = {
@@ -245,7 +245,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		-0.000615900721557769691924509
 	};
 	/**
-	 * Polynomial coefficients for a numerator in erfImp
+	 * \brief Polynomial coefficients for a numerator in erfImp
 	 * calculation for erfc(x) in the interval [0.5, 0.75].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpBn = {
@@ -253,7 +253,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.125610208862766947294894, 0.0274135028268930549240776, 0.00250839672168065762786937
 	};
 	/**
-	 * Polynomial coefficients for a denominator in erfImp
+	 * \brief Polynomial coefficients for a denominator in erfImp
 	 * calculation for erfc(x) in the interval [0.5, 0.75].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpBd = {
@@ -261,7 +261,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.0113724176546353285778481
 	};
 	/**
-	 * Polynomial coefficients for a numerator in erfImp
+	 * \brief Polynomial coefficients for a numerator in erfImp
 	 * calculation for erfc(x) in the interval [0.75, 1.25].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpCn = {
@@ -269,7 +269,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.029637090615738836726027, 0.0046093486780275489468812, 0.000307607820348680180548455
 	};
 	/**
-	 * Polynomial coefficients for a denominator in erfImp
+	 * \brief Polynomial coefficients for a denominator in erfImp
 	 * calculation for erfc(x) in the interval [0.75, 1.25].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpCd = {
@@ -277,7 +277,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.0319569316899913392596356, 0.00213363160895785378615014
 	};
 	/**
-	 * Polynomial coefficients for a numerator in erfImp
+	 * \brief Polynomial coefficients for a numerator in erfImp
 	 * calculation for erfc(x) in the interval [1.25, 2.25].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpDn = {
@@ -286,7 +286,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.778087599782504251917881e-4
 	};
 	/**
-	 * Polynomial coefficients for a denominator in erfImp
+	 * \brief Polynomial coefficients for a denominator in erfImp
 	 * calculation for erfc(x) in the interval [1.25, 2.25].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpDd = {
@@ -294,7 +294,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.0179509645176280768640766, 0.00104712440019937356634038, -0.106640381820357337177643e-7
 	};
 	/**
-	 * Polynomial coefficients for a numerator in erfImp
+	 * \brief Polynomial coefficients for a numerator in erfImp
 	 * calculation for erfc(x) in the interval [2.25, 3.5].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpEn = {
@@ -303,7 +303,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.120534912219588189822126e-4
 	};
 	/**
-	 * Polynomial coefficients for a denominator in erfImp
+	 * \brief Polynomial coefficients for a denominator in erfImp
 	 * calculation for erfc(x) in the interval [2.25, 3.5].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpEd = {
@@ -311,7 +311,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.0689740649541569716897427, 0.00771060262491768307365526, 0.000371421101531069302990367
 	};
 	/**
-	 * Polynomial coefficients for a numerator in erfImp
+	 * \brief Polynomial coefficients for a numerator in erfImp
 	 * calculation for erfc(x) in the interval [3.5, 5.25].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpFn = {
@@ -320,7 +320,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.135485897109932323253786e-5
 	};
 	/**
-	 * Polynomial coefficients for a denominator in erfImp
+	 * \brief Polynomial coefficients for a denominator in erfImp
 	 * calculation for erfc(x) in the interval [3.5, 5.25].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpFd = {
@@ -329,7 +329,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		-0.465528836283382684461025e-11
 	};
 	/**
-	 * Polynomial coefficients for a numerator in erfImp
+	 * \brief Polynomial coefficients for a numerator in erfImp
 	 * calculation for erfc(x) in the interval [5.25, 8].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpGn = {
@@ -337,7 +337,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.00027849619811344664248235, 0.267822988218331849989363e-4, 0.923043672315028197865066e-6
 	};
 	/**
-	 * Polynomial coefficients for a denominator in erfImp
+	 * \brief Polynomial coefficients for a denominator in erfImp
 	 * calculation for erfc(x) in the interval [5.25, 8].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpGd = {
@@ -345,7 +345,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.00381759663320248459168994, 0.000131571897888596914350697, 0.404815359675764138445257e-11
 	};
 	/**
-	 * Polynomial coefficients for a numerator in erfImp
+	 * \brief Polynomial coefficients for a numerator in erfImp
 	 * calculation for erfc(x) in the interval [8, 11.5].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpHn = {
@@ -353,7 +353,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.465293770646659383436343e-4, 0.320955425395767463401993e-5, 0.778286018145020892261936e-7
 	};
 	/**
-	 * Polynomial coefficients for a denominator in erfImp
+	 * \brief Polynomial coefficients for a denominator in erfImp
 	 * calculation for erfc(x) in the interval [8, 11.5].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpHd = {
@@ -361,7 +361,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.00100023921310234908642639, 0.24254837521587225125068e-4
 	};
 	/**
-	 * Polynomial coefficients for a numerator in erfImp
+	 * \brief Polynomial coefficients for a numerator in erfImp
 	 * calculation for erfc(x) in the interval [11.5, 17].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpIn = {
@@ -369,7 +369,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.382819312231928859704678e-5, 0.824989931281894431781794e-7
 	};
 	/**
-	 * Polynomial coefficients for a denominator in erfImp
+	 * \brief Polynomial coefficients for a denominator in erfImp
 	 * calculation for erfc(x) in the interval [11.5, 17].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpId = {
@@ -377,7 +377,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.535633305337152900549536e-4, -0.117490944405459578783846e-12
 	};
 	/**
-	 * Polynomial coefficients for a numerator in erfImp
+	 * \brief Polynomial coefficients for a numerator in erfImp
 	 * calculation for erfc(x) in the interval [17, 24].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpJn = {
@@ -385,7 +385,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.581762134402593739370875e-6, 0.853971555085673614607418e-8
 	};
 	/**
-	 * Polynomial coefficients for a denominator in erfImp
+	 * \brief Polynomial coefficients for a denominator in erfImp
 	 * calculation for erfc(x) in the interval [17, 24].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpJd = {
@@ -393,7 +393,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.117019281670172327758019e-4
 	};
 	/**
-	 * Polynomial coefficients for a numerator in erfImp
+	 * \brief Polynomial coefficients for a numerator in erfImp
 	 * calculation for erfc(x) in the interval [24, 38].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpKn = {
@@ -401,7 +401,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.979584479468091935086972e-7, 0.101994647625723465722285e-8
 	};
 	/**
-	 * Polynomial coefficients for a denominator in erfImp
+	 * \brief Polynomial coefficients for a denominator in erfImp
 	 * calculation for erfc(x) in the interval [24, 38].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpKd = {
@@ -409,7 +409,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.298401570840900340874568e-5
 	};
 	/**
-	 * Polynomial coefficients for a numerator in erfImp
+	 * \brief Polynomial coefficients for a numerator in erfImp
 	 * calculation for erfc(x) in the interval [38, 60].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpLn = {
@@ -417,7 +417,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.993365155590013193345569e-8, 0.653480510020104699270084e-10
 	};
 	/**
-	 * Polynomial coefficients for a denominator in erfImp
+	 * \brief Polynomial coefficients for a denominator in erfImp
 	 * calculation for erfc(x) in the interval [38, 60].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpLd = {
@@ -425,7 +425,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.477818471047398785369849e-6
 	};
 	/**
-	 * Polynomial coefficients for a numerator in erfImp
+	 * \brief Polynomial coefficients for a numerator in erfImp
 	 * calculation for erfc(x) in the interval [60, 85].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpMn = {
@@ -433,7 +433,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.317472492369117710852685e-9
 	};
 	/**
-	 * Polynomial coefficients for a denominator in erfImp
+	 * \brief Polynomial coefficients for a denominator in erfImp
 	 * calculation for erfc(x) in the interval [60, 85].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpMd = {
@@ -441,7 +441,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.535093845803642394908747e-15
 	};
 	/**
-	 * Polynomial coefficients for a numerator in erfImp
+	 * \brief Polynomial coefficients for a numerator in erfImp
 	 * calculation for erfc(x) in the interval [85, 110].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpNn = {
@@ -449,7 +449,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.603715505542715364529243e-10
 	};
 	/**
-	 * Polynomial coefficients for a denominator in erfImp
+	 * \brief Polynomial coefficients for a denominator in erfImp
 	 * calculation for erfc(x) in the interval [85, 110].
 	 */
 	API_VISIBLE const Array<double> Coefficients::erfImpNd = {
@@ -462,7 +462,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * 	--------------------------------------
 	 */
 	/**
-	 * Polynomial coefficients for a numerator of erfInvImp
+	 * \brief Polynomial coefficients for a numerator of erfInvImp
 	 * calculation for erf^-1(z) in the interval [0, 0.5].
 	 */
 	API_VISIBLE const Array<double> Coefficients::ervInvImpAn = {
@@ -470,7 +470,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		-0.0365637971411762664006, 0.0219878681111168899165, 0.00822687874676915743155, -0.00538772965071242932965
 	};
 	/**
-	 * Polynomial coefficients for a denominator of erfInvImp
+	 * \brief Polynomial coefficients for a denominator of erfInvImp
 	 * calculation for erf^-1(z) in the interval [0, 0.5].
 	 */
 	API_VISIBLE const Array<double> Coefficients::ervInvImpAd = {
@@ -479,7 +479,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.000886216390456424707504
 	};
 	/**
-	 * Polynomial coefficients for a numerator of erfInvImp
+	 * \brief Polynomial coefficients for a numerator of erfInvImp
 	 * calculation for erf^-1(z) in the interval [0.5, 0.75].
 	 */
 	API_VISIBLE const Array<double> Coefficients::ervInvImpBn = {
@@ -488,7 +488,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		-3.67192254707729348546
 	};
 	/**
-	 * Polynomial coefficients for a denominator of erfInvImp
+	 * \brief Polynomial coefficients for a denominator of erfInvImp
 	 * calculation for erf^-1(z) in the interval [0.5, 0.75].
 	 */
 	API_VISIBLE const Array<double> Coefficients::ervInvImpBd = {
@@ -496,7 +496,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		48.5609213108739935468, 10.8268667355460159008, -22.6436933413139721736, 1.72114765761200282724
 	};
 	/**
-	 * Polynomial coefficients for a numerator of erfInvImp
+	 * \brief Polynomial coefficients for a numerator of erfInvImp
 	 * calculation for erf^-1(z) in the interval [0.75, 1] with x less than 3.
 	 */
 	API_VISIBLE const Array<double> Coefficients::ervInvImpCn = {
@@ -505,7 +505,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		-0.679465575181126350155e-6, 0.285225331782217055858e-7, -0.681149956853776992068e-9
 	};
 	/**
-	 * Polynomial coefficients for a denominator of erfInvImp
+	 * \brief Polynomial coefficients for a denominator of erfInvImp
 	 * calculation for erf^-1(z) in the interval [0.75, 1] with x less than 3.
 	 */
 	API_VISIBLE const Array<double> Coefficients::ervInvImpCd = {
@@ -513,7 +513,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.848854343457902036425, 0.152264338295331783612, 0.01105924229346489121
 	};
 	/**
-	 * Polynomial coefficients for a numerator of erfInvImp
+	 * \brief Polynomial coefficients for a numerator of erfInvImp
 	 * calculation for erf^-1(z) in the interval [0.75, 1] with x between 3 and 6.
 	 */
 	API_VISIBLE const Array<double> Coefficients::ervInvImpDn = {
@@ -522,7 +522,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.266339227425782031962e-11
 	};
 	/**
-	 * Polynomial coefficients for a denominator of erfInvImp
+	 * \brief Polynomial coefficients for a denominator of erfInvImp
 	 * calculation for erf^-1(z) in the interval [0.75, 1] with x between 3 and 6.
 	 */
 	API_VISIBLE const Array<double> Coefficients::ervInvImpDd = {
@@ -530,7 +530,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.00263861676657015992959, 0.764675292302794483503e-4
 	};
 	/**
-	 * Polynomial coefficients for a numerator of erfInvImp
+	 * \brief Polynomial coefficients for a numerator of erfInvImp
 	 * calculation for erf^-1(z) in the interval [0.75, 1] with x between 6 and 18.
 	 */
 	API_VISIBLE const Array<double> Coefficients::ervInvImpEn = {
@@ -539,7 +539,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		-0.281128735628831791805e-13, 0.99055709973310326855e-16
 	};
 	/**
-	 * Polynomial coefficients for a denominator of erfInvImp
+	 * \brief Polynomial coefficients for a denominator of erfInvImp
 	 * calculation for erf^-1(z) in the interval [0.75, 1] with x between 6 and 18.
 	 */
 	API_VISIBLE const Array<double> Coefficients::ervInvImpEd = {
@@ -547,7 +547,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.275335474764726041141e-4, 0.282243172016108031869e-6
 	};
 	/**
-	 * Polynomial coefficients for a numerator of erfInvImp
+	 * \brief Polynomial coefficients for a numerator of erfInvImp
 	 * calculation for erf^-1(z) in the interval [0.75, 1] with x between 18 and 44.
 	 */
 	API_VISIBLE const Array<double> Coefficients::ervInvImpFn = {
@@ -556,7 +556,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		-0.116765012397184275695e-17
 	};
 	/**
-	 * Polynomial coefficients for a denominator of erfInvImp
+	 * \brief Polynomial coefficients for a denominator of erfInvImp
 	 * calculation for erf^-1(z) in the interval [0.75, 1] with x between 18 and 44.
 	 */
 	API_VISIBLE const Array<double> Coefficients::ervInvImpFd = {
@@ -564,7 +564,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.144437756628144157666e-6, 0.509761276599778486139e-9
 	};
 	/**
-	 * Polynomial coefficients for a numerator of erfInvImp
+	 * \brief Polynomial coefficients for a numerator of erfInvImp
 	 * calculation for erf^-1(z) in the interval [0.75, 1] with x greater than 44.
 	 */
 	API_VISIBLE const Array<double> Coefficients::ervInvImpGn = {
@@ -573,7 +573,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		-0.348890393399948882918e-21
 	};
 	/**
-	 * Polynomial coefficients for a denominator of erfInvImp
+	 * \brief Polynomial coefficients for a denominator of erfInvImp
 	 * calculation for erf^-1(z) in the interval [0.75, 1] with x greater than 44.
 	 */
 	API_VISIBLE const Array<double> Coefficients::ervInvImpGd = {
@@ -581,7 +581,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		0.161809290887904476097e-8, 0.231558608310259605225e-11
 	};
 	/**
-	 * Supporting function
+	 * \brief Supporting function
 	 * while Exponential integral function Ei(x) calculation
 	 */
 	API_VISIBLE const Array<double> Coefficients::EI = {
@@ -598,35 +598,35 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		5.614329680810343111535e18, 1.493630213112993142255e19, 3.975442747903744836007e19, 1.058563689713169096306e20
 	};
 	/**
-	 * Coefficients for Lanchos Gamma function approximation
+	 * \brief Coefficients for Lanchos Gamma function approximation
 	 */
 	API_VISIBLE const Array<double> Coefficients::lanchosGamma = {
 		0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059,
 		12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7
 	};
 	/**
-	 * Coefficients for Log Gamma function approximation - A
+	 * \brief Coefficients for Log Gamma function approximation - A
 	 */
 	API_VISIBLE const Array<double> Coefficients::logGammaA = {
 		8.11614167470508450300E-4, -5.95061904284301438324E-4, 7.93650340457716943945E-4, -2.77777777730099687205E-3,
 		8.33333333333331927722E-2
 	};
 	/**
-	 * Coefficients for Log Gamma function approximation - B
+	 * \brief Coefficients for Log Gamma function approximation - B
 	 */
 	API_VISIBLE const Array<double> Coefficients::logGammaB = {
 		-1.37825152569120859100E3, -3.88016315134637840924E4, -3.31612992738871184744E5, -1.16237097492762307383E6,
 		-1.72173700820839662146E6, -8.53555664245765465627E5
 	};
 	/**
-	 * Coefficients for Log Gamma function approximation - C
+	 * \brief Coefficients for Log Gamma function approximation - C
 	 */
 	API_VISIBLE const Array<double> Coefficients::logGammaC = {
 		-3.51815701436523470549E2, -1.70642106651881159223E4, -2.20528590553854454839E5, -1.13933444367982507207E6,
 		-2.53252307177582951285E6, -2.01889141433532773231E6
 	};
 	/**
-	 * Coefficients for Lambert W function, series for q near zero
+	 * \brief Coefficients for Lambert W function, series for q near zero
 	 */
 	API_VISIBLE const Array<double> Coefficients::lambertWqNearZero = {
 		-1.0, 2.331643981597124203363536062168, -1.812187885639363490240191647568, 1.936631114492359755363277457668,

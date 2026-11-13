@@ -1,5 +1,5 @@
 /*
- * @(#)LaTeXParser.hpp        6.2.0    2026-11-11
+ * @(#)LaTeXParser.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -222,33 +222,33 @@
 #include "wrapper/ReadOnlyList.hpp"
 namespace org::mariuszgromada::math::mxparser {
 namespace latex_detail { template<class T> struct IterativeDelete; }
-/** Experimental arithmetic LaTeX parser, not a complete importer or TeX processor.
+/**
+ * \brief Experimental arithmetic LaTeX parser, not a complete importer or TeX processor.
  * Same subset, limits and closed alphabet as canonical Java. Offsets are UTF-16
  * code units even when wchar_t is32-bit. No evaluation or definition lookup.
  * API, supported subset and metadata may evolve before stabilization.
  * This documented experimental status does not apply to the export API.
- *
- * @version        6.2.0
+ * \version 6.2.0
  */
 class API_VISIBLE LaTeXParser {
     class Parser;
 public:
     LaTeXParser() = delete;
-    /** Experimental mathematical operations supported by this parser.
-     *
-     * @version        6.2.0
+    /**
+     * \brief Experimental mathematical operations supported by this parser.
+     * \version 6.2.0
      */
     enum class Kind { NUMBER, SYMBOL, POSITIVE, NEGATIVE, ADD, SUBTRACT, MULTIPLY, DIVIDE, POWER, FACTORIAL, PERCENT, FLOOR, REMAINDER };
-    /** Experimental source typography; not a constant/unit interpretation.
-     *
-     * @version        6.2.0
+    /**
+     * \brief Experimental source typography; not a constant/unit interpretation.
+     * \version 6.2.0
      */
     enum class SymbolStyle { DEFAULT, ITALIC, UPRIGHT };
     class Node;
     using NodePtr = Ptr<Node>;
-    /** Experimental immutable structure, source spelling and UTF-16 range.
-     *
-     * @version        6.2.0
+    /**
+     * \brief Experimental immutable structure, source spelling and UTF-16 range.
+     * \version 6.2.0
      */
     class API_VISIBLE Node {
         friend class LaTeXParser;
@@ -262,22 +262,73 @@ public:
         Node* deleteNext = nullptr;
         Node(Kind kind, Ptr<const String> text, SymbolStyle style, Ptr<const String> source, int start, int end, const std::vector<NodePtr>& children);
     public:
+        /**
+         * \brief Returns the mathematical operation represented by this node.
+         * \return The operation kind; no numerical value is computed.
+         */
         Kind getKind() const;
+        /**
+         * \brief Returns the number spelling or decoded symbol name.
+         * \return The original number spelling, decoded symbol name, or an empty string for an operation.
+         */
         StringPtr getText() const;
+        /**
+         * \brief Returns the source typography of a symbol.
+         * \return The typography for a SYMBOL node, or DEFAULT for other kinds; no constant or unit meaning is inferred.
+         */
         SymbolStyle getSymbolStyle() const;
+        /**
+         * \brief Returns the operands in mathematical order.
+         * \return An immutable list of child nodes.
+         */
         wrapper::ReadOnlyListPtr<NodePtr> getChildren() const;
+        /**
+         * \brief Returns the inclusive start of this node in the source.
+         * \return The zero-based UTF-16 start offset.
+         */
         int getStartOffset() const;
+        /**
+         * \brief Returns the exclusive end of this node in the source.
+         * \return The zero-based UTF-16 end offset.
+         */
         int getEndOffset() const;
+        /**
+         * \brief Returns the exact source text covered by this node.
+         * \return The original source spelling, including any enclosing grouping.
+         */
         StringPtr getSourceText() const;
     };
-    /** Parse a nonempty mathematical fragment, without delimiters or evaluation.
-     * @throws std::invalid_argument Null, malformed, unsupported or oversized input;
-     * message contains a zero-based UTF-16 offset. Returned nodes own their source. */
+    /**
+     * \brief Parses one nonempty mathematical fragment into an immutable structure.
+     * Delimiters such as $...$ and full documents are outside this subset.
+     * \param latex Mathematical LaTeX fragment.
+     * \return The symbolic structure, without calculation or simplification.
+     * \exception std::invalid_argument Null, malformed, unsupported or oversized input;
+     * message contains a zero-based UTF-16 offset. Returned nodes own their source.
+     */
     static NodePtr parse(const StringPtr& latex);
+    /**
+     * \copydoc org::mariuszgromada::math::mxparser::LaTeXParser::parse(const StringPtr &)
+     */
     static NodePtr parse(const String& latex) { return parse(S(latex)); }
+    /**
+     * \copydoc org::mariuszgromada::math::mxparser::LaTeXParser::parse(const StringPtr &)
+     */
     static NodePtr parse(const Char* latex) { return latex ? parse(S(latex)) : parse(StringPtr{}); }
+    /**
+     * \copydoc org::mariuszgromada::math::mxparser::LaTeXParser::parse(const StringPtr &)
+     */
     static NodePtr parse(const std::string& latex) { return parse(S(latex)); }
+    /**
+     * \copydoc org::mariuszgromada::math::mxparser::LaTeXParser::parse(const StringPtr &)
+     */
     static NodePtr parse(const char* latex) { return latex ? parse(S(latex)) : parse(StringPtr{}); }
+    /**
+     * \brief Reports null input as an invalid mathematical fragment.
+     * \return This overload always throws.
+     * \exception std::invalid_argument For null/empty input, unsupported syntax,
+     *         malformed input or a resource limit; message includes a UTF-16 offset.
+     */
     static NodePtr parse(std::nullptr_t) { return parse(StringPtr{}); }
 private:
     static constexpr int MAX_INPUT = 1000000;

@@ -1,5 +1,5 @@
 /*
- * @(#)StringModel.cs        6.1.0    2024-10-06
+ * @(#)StringModel.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -221,47 +221,35 @@ using System;
 using System.Text;
 
 namespace org.mariuszgromada.math.mxparser {
-    /**
-     * A class containing definitions of text strings that are with respect to the user's language.
-     *
-     * @author         <b>Mariusz Gromada</b><br>
-     *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-     *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-     *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-     *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-     *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-     *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-     *
-     * @version        6.1.0
-     */
+    /// <summary>A class containing definitions of text strings that are with respect to the user's language.</summary>
+    /// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+    ///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+    ///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+    ///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+    ///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+    ///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+    ///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
     public sealed class StringModel {
         internal static readonly StringResources DEFAULT_ENGLISH_STRING_RESOURCES = new StringResources();
         internal static readonly StringResources DEFAULT_STRING_RESOURCES = StringResources.bestMatchingLanguage();
         internal static StringResources STRING_RESOURCES = DEFAULT_STRING_RESOURCES;
         internal static readonly bool LANGUAGE_SPECIFIC_DESCRIPTIONS_SET = StringModel.setLanguageSpecificDescriptions();
-        /**
-         * Sets a user-specific text resource object.
-         * Using this object, you can provide your own text model or your own translations.
-         * If the provided string resources object is null, no change will be done
-         * and the current object will still be used.
-         *
-         * @param stringResources A user-specific text resource object
-         *
-         * @see StringResources
-         */
+        /// <summary>Sets a user-specific text resource object.
+        /// Using this object, you can provide your own text model or your own translations.
+        /// If the provided string resources object is null, no change will be done
+        /// and the current object will still be used.</summary>
+        /// <param name="stringResources">A user-specific text resource object</param>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringResources"/>
         public static void setStringResources(StringResources stringResources) {
             if (stringResources == null) return;
             if (STRING_RESOURCES != null && STRING_RESOURCES == stringResources) return;
             STRING_RESOURCES = stringResources;
             setLanguageSpecificDescriptions();
         }
-        /**
-         * Sets default string resources.
-         *
-         * @see StringResources
-         */
+        /// <summary>Sets default string resources.</summary>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringResources"/>
         public static void setDefaultStringResources() {
             if (mXparser.selectBestMatchingLanguage) {
                 if (STRING_RESOURCES != null && STRING_RESOURCES == DEFAULT_STRING_RESOURCES) return;
@@ -273,29 +261,21 @@ namespace org.mariuszgromada.math.mxparser {
             STRING_RESOURCES = DEFAULT_ENGLISH_STRING_RESOURCES;
             setLanguageSpecificDescriptions();
         }
-        /**
-         * Forces to use default string resources
-         */
+        /// <summary>Forces to use default string resources</summary>
         internal static void forceDefaultStringResources() {
             if (STRING_RESOURCES != null && STRING_RESOURCES == DEFAULT_STRING_RESOURCES) return;
             STRING_RESOURCES = DEFAULT_STRING_RESOURCES;
             setLanguageSpecificDescriptions();
         }
-        /**
-         * Sets default english string resources.
-         *
-         * @see StringResources
-         */
+        /// <summary>Sets default english string resources.</summary>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringResources"/>
         public static void setDefaultEnglishStringResources() {
             if (STRING_RESOURCES != null && STRING_RESOURCES == DEFAULT_ENGLISH_STRING_RESOURCES) return;
             STRING_RESOURCES = DEFAULT_ENGLISH_STRING_RESOURCES;
             setLanguageSpecificDescriptions();
         }
-        /**
-         * Gets currently used user-specific text resource object.
-         *
-         * @return Currently used StringResources
-         */
+        /// <summary>Gets currently used user-specific text resource object.</summary>
+        /// <returns>Currently used StringResources</returns>
         public static StringResources getStringResources() {
             return STRING_RESOURCES;
         }
@@ -828,27 +808,21 @@ namespace org.mariuszgromada.math.mxparser {
             return true;
         }
 
-        /**
-         * Displays the user-defined text resources used
-         * and the effect of their use to generate descriptions
-         * of the parser elements on the console.
-         *
-         * @see StringResources
-         * @see StringResources#print()
-         * @see #printDescriptions()
-         */
+        /// <summary>Displays the user-defined text resources used
+        /// and the effect of their use to generate descriptions
+        /// of the parser elements on the console.</summary>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringResources"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringResources.print()"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.printDescriptions()"/>
         public static void print() {
             STRING_RESOURCES.print();
             printDescriptions();
         }
-        /**
-         * Prints to the console the result of applying user-specific text resources
-         * to generate parser description and objects. The method can help with
-         * debugging when creating your own translations.
-         *
-         * @see StringResources
-         * @see #setStringResources(StringResources)
-         */
+        /// <summary>Prints to the console the result of applying user-specific text resources
+        /// to generate parser description and objects. The method can help with
+        /// debugging when creating your own translations.</summary>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringResources"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.StringModel.setStringResources(StringResources)"/>
         public static void printDescriptions() {
             StringUtils.consolePrintln("// -------------------------------------------------");
             StringUtils.consolePrintln("BitwiseOperator.TYPE_DESC = \"" + BinaryRelation.TYPE_DESC + "\";");

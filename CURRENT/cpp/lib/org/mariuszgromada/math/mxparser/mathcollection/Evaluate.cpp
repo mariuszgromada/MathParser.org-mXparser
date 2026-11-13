@@ -1,5 +1,5 @@
 /*
- * @(#)Evaluate.cpp        6.1.0    2024-10-06
+ * @(#)Evaluate.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -223,12 +223,6 @@
 namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser::wrapper;
 
-	/**
-	 * Polynomial evaluation based on provided coefficients.
-	 * @param x                  Point at which polynomial will be evaluated
-	 * @param coefficients       Polynomial coefficients
-	 * @return                   Polynomial value
-	 */
 	API_VISIBLE double Evaluate::polynomial(double x, const Array<double> &coefficients) {
 		if (Double::isNaN(x)) return Double::NaN;
 		if (coefficients.data == nullptr) return Double::NaN;
@@ -244,13 +238,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return sum;
 	}
 
-	/**
-	 * Polynomial evaluation for the {SpecialFunctions.logGamma(double)}
-	 * @param x      Argument value
-	 * @param coef   List of polynomial coefficients
-	 * @param n      Polynomial degree
-	 * @return Polynomial value
-	 */
 	API_VISIBLE double Evaluate::p1evl(double x, const Array<double> &coef, int n) {
 		double ans;
 		ans = x + coef(0);
@@ -258,13 +245,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return ans;
 	}
 
-	/**
-	 * Polynomial evaluation for the {SpecialFunctions.logGamma(double)}
-	 * @param x      Argument value
-	 * @param coef   List of polynomial coefficients
-	 * @param n      Polynomial degree
-	 * @return Polynomial value
-	 */
 	API_VISIBLE double Evaluate::polevl(double x, const Array<double> &coef, int n) {
 		double ans;
 		ans = coef(0);

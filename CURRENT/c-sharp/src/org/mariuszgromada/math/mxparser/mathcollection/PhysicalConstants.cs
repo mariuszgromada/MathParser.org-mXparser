@@ -1,5 +1,5 @@
 /*
- * @(#)PhysicalConstants.cs        6.1.0    2024-10-06
+ * @(#)PhysicalConstants.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -218,103 +218,58 @@
 using System;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
-	 * PhysicalConstants - class representing the most important physical constants.
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        5.0.0
-	 */
+	/// <summary>PhysicalConstants - class representing the most important physical constants.</summary>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true)]
 	public sealed class PhysicalConstants {
-		/**
-		 * Light speed
-		 */
+		/// <summary>Light speed</summary>
 		public const double LIGHT_SPEED = 299792458.0 * Units.METRE_PER_SECOND;
-		/**
-		 * Gravitational constant
-		 */
+		/// <summary>Gravitational constant</summary>
 		public const double GRAVITATIONAL_CONSTANT = 6.67408E-11 * Units.METRE3 * (1.0 / Units.KILOGRAM) * (1.0 / (Units.SECOND * Units.SECOND));
-		/**
-		 * Gravitational acceleration - Earth (normal)
-		 */
+		/// <summary>Gravitational acceleration - Earth (normal)</summary>
 		public const double GRAVIT_ACC_EARTH = 9.80665 * Units.METRE_PER_SECOND2;
-		/**
-		 * Planck constant
-		 */
+		/// <summary>Planck constant</summary>
 		public const double PLANCK_CONSTANT = 6.626070040E-34 * Units.METRE2 * Units.KILOGRAM / Units.SECOND;
-		/**
-		 * Reduced Planck constant
-		 */
+		/// <summary>Reduced Planck constant</summary>
 		public const double PLANCK_CONSTANT_REDUCED = PLANCK_CONSTANT / (2 * MathConstants.PI);
-		/**
-		 * Planck length
-		 */
+		/// <summary>Planck length</summary>
 		public const double PLANCK_LENGTH = 1.616229E-35 * Units.METRE;
-		/**
-		 * Planck mass
-		 */
+		/// <summary>Planck mass</summary>
 		public const double PLANCK_MASS = 2.176470E-8 * Units.KILOGRAM;
-		/**
-		 * Planck time
-		 */
+		/// <summary>Planck time</summary>
 		public const double PLANCK_TIME = 5.39116E-44 * Units.SECOND;
-		/**
-		 * Avagadro's constant
-		 */
+		/// <summary>Avagadro's constant</summary>
 		public const double N_A = 6.022140857E23 / Units.MOLE;
-		/**
-		 * Gas constant
-		 */
+		/// <summary>Gas constant</summary>
 		public const double R = 8.3144598 * Units.JOULE / (Units.KELVIN * Units.MOLE);
-		/**
-		 * Boltzmann constant
-		 */
+		/// <summary>Boltzmann constant</summary>
 		public const double BOLTZMANN_CONSTANT = R / N_A;
-		/**
-		 * Neutron rest mass
-		 */
+		/// <summary>Neutron rest mass</summary>
 		public const double NEUTRON_REST_MASS = 1.674927471E-27 * Units.KILOGRAM;
-		/**
-		 * Neutron equivalent rest mass
-		 */
+		/// <summary>Neutron equivalent rest mass</summary>
 		public const double NEUTRON_EQUIVALENT_REST_MASS = 939.5654133 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
-		/**
-		 * Proton rest mass
-		 */
+		/// <summary>Proton rest mass</summary>
 		public const double PROTON_REST_MASS = 1.672621898E-27 * Units.KILOGRAM;
-		/**
-		 * Proton equivalent rest mass
-		 */
+		/// <summary>Proton equivalent rest mass</summary>
 		public const double PROTON_EQUIVALENT_REST_MASS = 938.2720813 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
-		/**
-		 * Elementary charge
-		 */
+		/// <summary>Elementary charge</summary>
 		public const double ELEMENTARY_CHARGE = 1.6021766208E-19*Units.COULOMB;
 
-		/**
-		 * Electron rest mass
-		 */
+		/// <summary>Electron rest mass</summary>
 		public const double ELECTRON_REST_MASS = 9.10938356E-31 * Units.KILOGRAM;
-		/**
-		 * Electron equivalent rest mass
-		 */
+		/// <summary>Electron equivalent rest mass</summary>
 		public const double ELECTRON_EQUIVALENT_REST_MASS = 0.5109989461 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
-		/**
-		 * Vacuum permittivity
-		 */
+		/// <summary>Vacuum permittivity</summary>
 		public const double VACUUM_PERMITTIVITY = 8.854187817E-12 * Units.AMPERE * Units.AMPERE * Units.SECOND * Units.SECOND * Units.SECOND * Units.SECOND / (Units.METRE3 * Units.KILOGRAM);
-		/**
-		 * Vacuum permeability
-		 */
+		/// <summary>Vacuum permeability</summary>
 		public const double VACUUM_PERMEABILITY = 4.0E-7 * Math.PI * Units.KILOGRAM * Units.METRE / (Units.SECOND * Units.SECOND * Units.AMPERE * Units.AMPERE);
 	}
 }

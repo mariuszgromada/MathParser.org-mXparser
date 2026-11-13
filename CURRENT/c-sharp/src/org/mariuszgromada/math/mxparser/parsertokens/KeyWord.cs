@@ -1,5 +1,5 @@
 /*
- * @(#)KeyWord.cs        6.1.0    2024-10-06
+ * @(#)KeyWord.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -218,21 +218,16 @@
 using System;
 
 namespace org.mariuszgromada.math.mxparser.parsertokens {
-    /**
-     * Class representing key words knowon to the parser
-     *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        5.2.0
-     */
+    /// <summary>Class representing key words knowon to the parser</summary>
+    /// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+    ///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+    ///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+    ///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+    ///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+    ///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+    ///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+    ///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
     [CLSCompliant(true), Serializable]
     public class KeyWord {
 		public const int NO_DEFINITION = ConstantValue.NaN;
@@ -242,6 +237,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
         public String description;
         public String syntax;
         public String since;
+        /// <summary>Creates an empty keyword with no assigned token or token type.</summary>
         public KeyWord() {
             wordString = "";
             wordId = NO_DEFINITION;
@@ -250,17 +246,14 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
             syntax = "";
             since = "";
         }
-        /**
-		 * Constructor - creates key words form wordString wordId
-		 * wordTypId syntax since
-		 *
-		 * @param wordString   the word string (refers to below interfaces)
-		 * @param wordId       the word identifier (refers to below interfaces)
-		 * @param wordTypeId   the word type (refers to below interfaces)
-		 * @param description  the word description
-		 * @param syntax       the word syntax
-		 * @param since        the word version since
-		 */
+        /// <summary>Constructor - creates key words form wordString wordId
+        /// wordTypId syntax since</summary>
+        /// <param name="wordString">the word string (refers to below interfaces)</param>
+        /// <param name="wordId">the word identifier (refers to below interfaces)</param>
+        /// <param name="wordTypeId">the word type (refers to below interfaces)</param>
+        /// <param name="description">the word description</param>
+        /// <param name="syntax">the word syntax</param>
+        /// <param name="since">the word version since</param>
         public KeyWord(String wordString, String description, int wordId, String syntax, String since, int wordTypeId) {
             this.wordString = wordString;
             this.wordId = wordId;
@@ -269,19 +262,16 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
             this.syntax = syntax;
             this.since = since;
         }
-		/**
-		 * Checks whether the specified keyword is in the form of a function.
-		 * 
-		 * @param kw Provided key word.
-		 * @return True in case kw is Function1Arg, Function2Arg, Function3Arg, FunctionVariadic, Function, RecursiveArgument
-		 *         otherwise returns false.
-		 * @see Function1Arg
-		 * @see Function2Arg
-		 * @see Function3Arg
-		 * @see FunctionVariadic
-		 * @see Function
-		 * @see RecursiveArgument
-		 */
+		/// <summary>Checks whether the specified keyword is in the form of a function.</summary>
+		/// <param name="kw">Provided key word.</param>
+		/// <returns>True in case kw is Function1Arg, Function2Arg, Function3Arg, FunctionVariadic, Function, RecursiveArgument
+		///         otherwise returns false.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.Function1Arg"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.Function2Arg"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.Function3Arg"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.FunctionVariadic"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public static bool isFunctionForm(KeyWord kw) {
 			if (kw == null) return false;
 			switch (kw.wordTypeId) {

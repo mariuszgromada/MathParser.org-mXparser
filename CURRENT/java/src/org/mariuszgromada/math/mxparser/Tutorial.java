@@ -1,5 +1,5 @@
 /*
- * @(#)Tutorial.java        6.1.0    2024-10-06
+ * @(#)Tutorial.java        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -230,7 +230,7 @@ package org.mariuszgromada.math.mxparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        6.2.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -243,6 +243,11 @@ public class Tutorial {
 		return "------ >>>>>>> " + str;
 	}
 
+	/**
+	 * Runs the bundled examples and prints their results to the mXparser console.
+	 *
+	 * @param args Command-line arguments (unused).
+	 */
 	public static void main(String[] args) {
 
 		/*

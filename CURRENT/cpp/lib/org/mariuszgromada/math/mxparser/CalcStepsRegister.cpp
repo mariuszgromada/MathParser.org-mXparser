@@ -1,5 +1,5 @@
 /*
- * @(#)CalcStepsRegister.cpp        6.1.0    2024-10-06
+ * @(#)CalcStepsRegister.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -234,21 +234,21 @@ namespace org::mariuszgromada::math::mxparser {
 
 	API_VISIBLE CalcStepsRegister::CalcStepsRegister() {
 		/**
-		 * List that stores all the calculation steps
+		 * \brief List that stores all the calculation steps
 		 */
 		calcStepRecords = new_List<CalcStepRecordPtr>();
 		/**
-		 * If a root of the calculation tree is an argument
+		 * \brief If a root of the calculation tree is an argument
 		 * then argument name is provided here
 		 */
 		argumentNameStart = StringInvariant::EMPTY;
 		/**
-		 * If a root of the calculation tree is a function
+		 * \brief If a root of the calculation tree is a function
 		 * then function name is provided here
 		 */
 		functionNameStart = StringInvariant::EMPTY;
 		/**
-		 * 1. If a root of the calculation tree is an expression
+		 * \brief 1. If a root of the calculation tree is an expression
 		 * then expression string is provided here.
 		 * 2. If a root of the calculation tree is an argument
 		 * then argument expression string is provided here.
@@ -258,15 +258,15 @@ namespace org::mariuszgromada::math::mxparser {
 		 */
 		expressionStringStart = StringInvariant::EMPTY;
 		/**
-		 * Final result of calculation
+		 * \brief Final result of calculation
 		 */
 		result = Double::NaN;
 		/**
-		 * Duration of calculation process - in seconds
+		 * \brief Duration of calculation process - in seconds
 		 */
 		computingTime = Double::NaN;
 		/**
-		 * Information on error or lack of error
+		 * \brief Information on error or lack of error
 		 * while performing calculation process
 		 */
 		errorMessage = StringInvariant::EMPTY;
@@ -275,9 +275,6 @@ namespace org::mariuszgromada::math::mxparser {
 		stepType = CalcStepRecord::StepType::Expression;
 	}
 
-	/**
-	 * Prints this step register to the console.
-	 */
 	API_VISIBLE void CalcStepsRegister::consolePrint() const {
 		consolePrint(*this);
 	}

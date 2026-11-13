@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.cpp        6.1.0    2024-10-14
+ * @(#)ExpressionUtils.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -1682,14 +1682,11 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Returns list of the functions parameters.
-	 *
-	 * @param      pos                 the function position
-	 * @param      tokensList          the tokens list
-	 *
-	 * @return     the list of function parameters
-	 *
-	 * @see        FunctionParameter
+	 * \brief Returns list of the functions parameters.
+	 * \param pos                 the function position
+	 * \param tokensList          the tokens list
+	 * \return the list of function parameters
+	 * \sa org::mariuszgromada::math::mxparser::miscellaneous::FunctionParameter
 	 */
 	ListPtr<FunctionParameterPtr> ExpressionUtils::getFunctionParameters(int pos, const ListPtr<TokenPtr> &tokensList) {
 		ListPtr<FunctionParameterPtr> functionParameters = new_List<FunctionParameterPtr>();
@@ -1733,7 +1730,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Cleans "--" case
+	 * \brief Cleans "--" case
 	 * considering defined parser keywords "-->", "<--"
 	 */
 	API_VISIBLE StringPtr ExpressionUtils::cleanMinusMinus(const StringPtr &expressionString) {
@@ -1777,7 +1774,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Cleans blanks and other cases like "++', "+-", "-+", "--"
+	 * \brief Cleans blanks and other cases like "++', "+-", "-+", "--"
 	 */
 	API_VISIBLE StringPtr ExpressionUtils::cleanExpressionString(const StringPtr &expressionString,
 	                                                 bool attemptToFixExpStrEnabled) {
@@ -1847,13 +1844,11 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE const StringPtr ExpressionUtils::UNITCONST = S(UTF("unit/const"));
 	API_VISIBLE const StringPtr ExpressionUtils::ERROR = S(UTF("error"));
 	/**
-	 * Tokenizes expression string and returns tokens list,
+	 * \brief Tokenizes expression string and returns tokens list,
 	 * including: string, type, level.
-	 *
-	 * @return Copy of initial tokens.
-	 *
-	 * @see Token
-	 * @see mXparser#consolePrintTokens(List)
+	 * \return Copy of initial tokens.
+	 * \sa org::mariuszgromada::math::mxparser::parsertokens::Token
+	 * \sa org::mariuszgromada::math::mxparser::mXparser::consolePrintTokens(const ListPtr< TokenPtr > &)
 	 */
 	ListPtr<TokenPtr> ExpressionUtils::getCopyOfInitialTokens(const StringPtr &expressionString,
 	                                                          const ListPtr<TokenPtr> &initialTokens) {
@@ -1884,11 +1879,10 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Returns missing user defined arguments names, i.e.
+	 * \brief Returns missing user defined arguments names, i.e.
 	 * sin(x) + cos(y) where x and y are not defined
 	 * function will return x and y.
-	 *
-	 * @return Array of missing user defined arguments names
+	 * \return Array of missing user defined arguments names
 	 * - distinct strings.
 	 */
 	ArrayPtr<StringPtr> ExpressionUtils::getMissingUserDefinedArguments(const ListPtr<TokenPtr> &tokens) {
@@ -1905,11 +1899,10 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Returns missing user defined units names, i.e.
+	 * \brief Returns missing user defined units names, i.e.
 	 * 2*[w] + [q] where [w] and [q] are not defined
 	 * function will return [w] and [q].
-	 *
-	 * @return Array of missing user defined units names
+	 * \return Array of missing user defined units names
 	 * - distinct strings.
 	 */
 	ArrayPtr<StringPtr> ExpressionUtils::getMissingUserDefinedUnits(const ListPtr<TokenPtr> &tokens) {
@@ -1926,11 +1919,10 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Returns missing user defined functions names, i.e.
+	 * \brief Returns missing user defined functions names, i.e.
 	 * sin(x) + fun(x,y) where fun is not defined
 	 * function will return fun.
-	 *
-	 * @return Array of missing user defined functions names
+	 * \return Array of missing user defined functions names
 	 * - distinct strings.
 	 */
 	ArrayPtr<StringPtr> ExpressionUtils::getMissingUserDefinedFunctions(const ListPtr<TokenPtr> &tokens) {
@@ -2317,18 +2309,16 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Returns list of keywords known to the parser
-	 *
-	 * @param query Give any string to filter list of keywords against this string.
+	 * \brief Returns list of keywords known to the parser
+	 * \param query Give any string to filter list of keywords against this string.
 	 *              User more precise syntax: str=tokenString, desc=tokenDescription,
 	 *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
 	 *              to narrow the result.
-	 *
-	 * @return      List of keywords known to the parser filter against query string.
-	 *
-	 * @see KeyWord
-	 * @see KeyWord#wordTypeId
-	 * @see Expression#getHelp(String)
+	 * \return List of keywords known to the parser filter against query string.
+	 * \sa org::mariuszgromada::math::mxparser::parsertokens::KeyWord
+	 * \sa org::mariuszgromada::math::mxparser::parsertokens::KeyWord::wordTypeId
+	 * \sa org::mariuszgromada::math::mxparser::Expression::getHelp(const StringPtr &)
+	 * \param keyWordsList The keyword list to search.
 	 */
 	API_VISIBLE ListPtr<KeyWordPtr> ExpressionUtils::getKeyWords(const StringPtr &query, const ListPtr<KeyWordPtr> &keyWordsList) {
 		ListPtr<KeyWordPtr> kwyWordsToReturn = new_List<KeyWordPtr>();
@@ -2351,8 +2341,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 * =============================================================
 	 */
 	/**
-	 * Shows parsing (verbose mode purposes).
-	 *
+	 * \brief Shows parsing (verbose mode purposes).
 	 */
 	API_VISIBLE void ExpressionUtils::showParsing(int lPos, int rPos, const ListPtr<TokenPtr> &tokensList) {
 		mXparser::consolePrint(StringInvariant::LONG_RIGHT_ARROW_SPACE);
@@ -2448,7 +2437,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Evaluates tokens levels
+	 * \brief Evaluates tokens levels
 	 */
 	API_VISIBLE void ExpressionUtils::evaluateTokensLevels(const ListPtr<TokenPtr> &initialTokens) {
 		int tokenLevel = 0;

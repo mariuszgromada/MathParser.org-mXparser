@@ -1,5 +1,5 @@
 /*
- * @(#)License.cpp        6.1.0    2024-10-06
+ * @(#)License.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -561,24 +561,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return false;
 	}
 
-	/**
-	 * By successfully calling this method, you confirm and sign that you use MathParser.org-mXparser
-	 * commercially according to the License::geTermsOfAgreement(). The confirmation can only be
-	 * called once. The method call takes place only internally for logging purposes and there is no
-	 * connection with other external services and no data is sent or collected. The lack of a method
-	 * call (or its successful call) does not affect the operation of the PRODUCT in any way.
-	 *
-	 * @param mySignature    Your first and last name or your e-mail address or your company name.
-	 *                       At least 5 non-blank characters.
-	 * @return   Logs commercial use and returns true if this was the first attempt to register
-	 *           a use type and the signature met the conditions specified for it. Otherwise, returns
-	 *           false and does not log use type.
-	 *
-	 * @see #iConfirmNonCommercialUse(String)
-	 * @see #getUseTypeConfirmationMessage()
-	 * @see #checkIfUseTypeConfirmed()
-	 * @see #geTermsOfAgreement()
-	 */
 	API_VISIBLE bool License::iConfirmCommercialUse(const StringPtr &mySignature) {
 		if (!checkLackOfPreviousConfirmation())
 			return false;
@@ -593,24 +575,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return true;
 	}
 
-	/**
-	 * By successfully calling this method, you confirm and sign that you use MathParser.org-mXparser
-	 * non-commercially according to the License::geTermsOfAgreement(). The confirmation can only be
-	 * called once. The method call takes place only internally for logging purposes and there is no
-	 * connection with other external services and no data is sent or collected. The lack of a method
-	 * call (or its successful call) does not affect the operation of the PRODUCT in any way.
-	 *
-	 * @param mySignature    Your first and last name or your e-mail address or your company name.
-	 *                       At least 5 non-blank characters.
-	 * @return   Logs non-commercial use and returns true if this was the first attempt to register
-	 *           a use type and the signature met the conditions specified for it. Otherwise, returns
-	 *           false and does not log use type.
-	 *
-	 * @see #iConfirmNonCommercialUse(String)
-	 * @see #getUseTypeConfirmationMessage()
-	 * @see #checkIfUseTypeConfirmed()
-	 * @see #geTermsOfAgreement()
-	 */
 	API_VISIBLE bool License::iConfirmNonCommercialUse(const StringPtr &mySignature) {
 		if (!checkLackOfPreviousConfirmation())
 			return false;
@@ -625,12 +589,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return true;
 	}
 
-	/**
-	 * Verifies whether the use type has been successfully confirmed and signed.
-	 *
-	 * @return   True in case commercial or non-commercial user type has been confirmed and signed.
-	 *           Otherwise, returns false.
-	 */
 	API_VISIBLE bool License::checkIfUseTypeConfirmed() {
 		if (numberOfConfirmationAttempts == 0) {
 			setErrorMessage(MessageType::WARNING, ERROR_NOT_CONFIRMED);
@@ -647,47 +605,20 @@ namespace org::mariuszgromada::math::mxparser {
 		return true;
 	}
 
-	/**
-	 * Verifies whether the use type has been successfully confirmed and signed.
-	 *
-	 * @return   Confirmation message in case commercial or non-commercial user type has been
-	 *           confirmed and signed. Otherwise, returns error / warning message.
-	 *
-	 * @see #iConfirmNonCommercialUse(String)
-	 * @see #iConfirmNonCommercialUse(String)
-	 */
 	API_VISIBLE StringPtr License::getUseTypeConfirmationMessage() {
 		if (!checkIfUseTypeConfirmed())
 			return errorMessage;
 		return message;
 	}
 
-	/**
-	 * Information about the problem encountered when calling methods:
-	 * License::iConfirmNonCommercialUse(...), License::iConfirmCommercialUse(...)
-	 *
-	 * @return Error message if an error occurred,
-	 *         empty string if no error.
-	 *
-	 * @see #iConfirmNonCommercialUse(String)
-	 * @see #iConfirmNonCommercialUse(String)
-	 */
 	API_VISIBLE StringPtr License::getErrorMessage() {
 		return errorMessage;
 	}
 
-	/**
-	 * Return the terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT.
-	 *
-	 * @return   The terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT as string.
-	 */
 	API_VISIBLE StringPtr License::geTermsOfAgreement() {
 		return MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT;
 	}
 
-	/**
-	 * Prints to the console the terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT
-	 */
 	API_VISIBLE void License::consolePrintLicense() {
 		mXparser::consolePrint(UTF("\n\n"));
 		mXparser::consolePrint(MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT);

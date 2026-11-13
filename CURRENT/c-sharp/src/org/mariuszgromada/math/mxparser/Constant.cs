@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.cs        6.1.0    2024-10-06
+ * @(#)Constant.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -220,92 +220,62 @@ using System;
 using System.Collections.Generic;
 
 namespace org.mariuszgromada.math.mxparser {
-	/**
-	 * Constant class provides ability to declare constants.
-	 * Constants can be used in further processing by any expression,
-	 * dependent or recursive argument, function, etc...
-	 * <p>
-	 * When creating a constant you should avoid names reserved as
-	 * parser keywords, in general words known in mathematical language
-	 * as function names, operators (for example:
-	 * sin, cos, +, -, pi, e, etc...). Please be informed that after associating
-	 * the constant with the expression, function or dependent/recursive argument
-	 * its name will be recognized by the parser as reserved key word.
-	 * It means that it could not be the same as any other key word known
-	 * by the parser for this particular expression.
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        6.1.0
-	 *
-	 * @see RecursiveArgument
-	 * @see Expression
-	 * @see Function
-	 * @see Argument
-	 *
-	 */
+	/// <summary>Constant class provides ability to declare constants.
+	/// Constants can be used in further processing by any expression,
+	/// dependent or recursive argument, function, etc...
+	/// <para>
+	/// When creating a constant you should avoid names reserved as
+	/// parser keywords, in general words known in mathematical language
+	/// as function names, operators (for example:
+	/// sin, cos, +, -, pi, e, etc...). Please be informed that after associating
+	/// the constant with the expression, function or dependent/recursive argument
+	/// its name will be recognized by the parser as reserved key word.
+	/// It means that it could not be the same as any other key word known
+	/// by the parser for this particular expression.</para></summary>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Expression"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true), Serializable]
 	public class Constant : PrimitiveElement {
-		/**
-		 * When constant could not be found
-		 */
+		/// <summary>When constant could not be found</summary>
 		public const int NOT_FOUND = Expression.NOT_FOUND;
-		/**
-		 * Type identifier for constants
-		 */
+		/// <summary>Type identifier for constants</summary>
 		public const int TYPE_ID = 104;
 		public static String TYPE_DESC = ParserSymbol.NA;
-        /**
-		 * Status of the syntax - no syntax error
-		 */
+        /// <summary>Status of the syntax - no syntax error</summary>
         public const bool NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
-		/**
-		 * Status of the syntax - syntax error
-		 */
+		/// <summary>Status of the syntax - syntax error</summary>
         public const bool SYNTAX_ERROR = Expression.SYNTAX_ERROR;
-		/**
-		 * Status of the syntax - syntax error
-		 *
-		 * @deprecated Planned to be removed, use {@link #SYNTAX_ERROR} instead
-		 */
+		/// <summary>Status of the syntax - syntax error</summary>
+		/// <remarks><para>Deprecated: Planned to be removed, use <see cref="org.mariuszgromada.math.mxparser.Constant.SYNTAX_ERROR"/> instead</para></remarks>
         [Obsolete("Planned to be removed, use SYNTAX_ERROR instead")]
         public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = SYNTAX_ERROR;
-        /**
-		 * Name of the constant
-		 */
+        /// <summary>Name of the constant</summary>
         private String constantName = StringInvariant.EMPTY;
-		/**
-		 * Constant value
-		 */
+		/// <summary>Constant value</summary>
 		private double constantValue = Double.NaN;
-		/**
-		 * Constant description
-		 */
+		/// <summary>Constant description</summary>
 		private String description = StringInvariant.EMPTY;
-		/**
-		 * Dependent expression list
-		 */
+		/// <summary>Dependent expression list</summary>
 		private List<Expression> relatedExpressionsList = null;
-        /**
-		 * Status of the expression syntax
-		 *
-		 * Please referet to the:
-		 *    - NO_SYNTAX_ERRORS
-		 *    - SYNTAX_ERROR
-		 *    - SYNTAX_STATUS_UNKNOWN
-		 */
+        /// <summary>Status of the expression syntax
+        ///
+        /// Please referet to the:
+        ///    - NO_SYNTAX_ERRORS
+        ///    - SYNTAX_ERROR
+        ///    - SYNTAX_STATUS_UNKNOWN</summary>
         private bool syntaxStatus = SYNTAX_ERROR;
-        /**
-		 * Message after checking the syntax
-		 */
+        /// <summary>Message after checking the syntax</summary>
         private String errorMessage = StringInvariant.EMPTY;
 		private static String buildErrorMessageInvalidConstantName(String constantName) {
 			return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(constantName, StringModel.STRING_RESOURCES.INVALID_CONSTANT_NAME, StringInvariant.CONSTANT_NAME_EXAMPLES);
@@ -321,13 +291,9 @@ namespace org.mariuszgromada.math.mxparser {
 			syntaxStatus = SYNTAX_ERROR;
 			this.errorMessage = errorMessage;
 		}
-		/**
-		 * Constructor - creates constant with a given name and given value
-		 *
-		 *
-		 * @param      constantName        the constant name
-		 * @param      constantValue       the constant value
-		 */
+		/// <summary>Constructor - creates constant with a given name and given value</summary>
+		/// <param name="constantName">the constant name</param>
+		/// <param name="constantValue">the constant value</param>
 		public Constant(String constantName, double constantValue) : base(Constant.TYPE_ID) {
 			relatedExpressionsList = new List<Expression>();
 			if (constantName == null) {
@@ -343,14 +309,11 @@ namespace org.mariuszgromada.math.mxparser {
 			this.constantValue = constantValue;
 			registerNoSyntaxErrorInDefinition();
 		}
-		/**
-		 * Constructor - creates constant with a given name and given value.
-		 * Additionally, description is being set.
-		 *
-		 * @param      constantName        the constant name
-		 * @param      constantValue       the constant value
-		 * @param      description         the constant description
-		 */
+		/// <summary>Constructor - creates constant with a given name and given value.
+		/// Additionally, description is being set.</summary>
+		/// <param name="constantName">the constant name</param>
+		/// <param name="constantValue">the constant value</param>
+		/// <param name="description">the constant description</param>
 		public Constant(String constantName, double constantValue, String description) : base(Constant.TYPE_ID) {
 			relatedExpressionsList = new List<Expression>();
 			if (constantName == null || description == null) {
@@ -367,16 +330,9 @@ namespace org.mariuszgromada.math.mxparser {
 			this.description = description;
 			registerNoSyntaxErrorInDefinition();
 		}
-		/**
-		 * Constructor for function definition in natural math language,
-		 * for instance providing on string "f(x,y) = sin(x) + cos(x)"
-		 * is enough to define function "f" with parameters "x and y"
-		 * and function body "sin(x) + cos(x)".
-		 *
-		 * @param constantDefinitionString      Constant definition in the form
-		 *                                      of one String, ie "c = 2" or "c = 2*sin(pi/3)"
-		 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions
-		 */
+		/// <summary>Constructs a constant by evaluating a definition such as <c>c = 2*sin(pi/3)</c>.</summary>
+		/// <param name="constantDefinitionString">The constant name and expression, separated by <c>=</c>.</param>
+		/// <param name="elements">Definitions available while evaluating the expression.</param>
 		public Constant(String constantDefinitionString, params PrimitiveElement[] elements) : base(Constant.TYPE_ID) {
 			description = StringInvariant.EMPTY;
 			relatedExpressionsList = new List<Expression>();
@@ -411,20 +367,14 @@ namespace org.mariuszgromada.math.mxparser {
 			errorMessage = constantToClone.errorMessage;
 			relatedExpressionsList = new List<Expression>();
 		}
-		/**
-		 * Gets constant name
-		 *
-		 * @return     the constant name as string.
-		 */
+		/// <summary>Gets constant name</summary>
+		/// <returns>the constant name as string.</returns>
 		public String getConstantName() {
 			return constantName;
 		}
-		/**
-		 * Sets constant name. If constant is associated with any expression
-		 * then this operation will set modified flag to each related expression.
-		 *
-		 * @param      constantName        the constant name
-		 */
+		/// <summary>Sets constant name. If constant is associated with any expression
+		/// then this operation will set modified flag to each related expression.</summary>
+		/// <param name="constantName">the constant name</param>
 		public void setConstantName(String constantName) {
 			if (constantName == null) {
 				if (!syntaxStatus)
@@ -443,80 +393,53 @@ namespace org.mariuszgromada.math.mxparser {
 			setExpressionModifiedFlags();
 			registerNoSyntaxErrorInDefinition();
 		}
-		/**
-		 * Sets constant value
-		 * @param value   constant value
-		 */
+		/// <summary>Sets constant value</summary>
+		/// <param name="constantValue">constant value</param>
 		public void setConstantValue(double constantValue) {
 			this.constantValue = constantValue;
 		}
-		/**
-		 * Gets constant value.
-		 *
-		 * @return     constant value as double
-		 */
+		/// <summary>Gets constant value.</summary>
+		/// <returns>constant value as double</returns>
 		public double getConstantValue() {
 			return constantValue;
 		}
-		/**
-		 * Gets constant description.
-		 *
-		 * @return     constant description as string.
-		 */
+		/// <summary>Gets constant description.</summary>
+		/// <returns>constant description as string.</returns>
 		public String getDescription() {
 			return description;
 		}
-		/**
-		 * Sets constant description.
-		 *
-		 * @param      description         the constant description
-		 */
+		/// <summary>Sets constant description.</summary>
+		/// <param name="description">the constant description</param>
 		public void setDescription(String description) {
 			if (description == null)
 				return;
 			this.description = description;
 		}
-		/**
-		 * Method return error message after
-		 *
-		 * @return     Error message as string.
-		 */
+		/// <summary>Returns the diagnostic message for this constant's definition.</summary>
+		/// <returns>The definition validation message.</returns>
 		public String getErrorMessage() {
 			return errorMessage;
 		}
-		/**
-		 * Gets syntax status of the expression.
-		 *
-		 * @return     Constant.NO_SYNTAX_ERRORS if there are no syntax errors,
-		 *             ConstantValue.SYNTAX_ERROR when syntax error was found or
-		 *             syntax status is unknown
-		 */
+		/// <summary>Returns the syntax status of the constant definition.</summary>
+		/// <returns>true if the definition has no syntax errors; false otherwise.</returns>
 		public bool getSyntaxStatus() {
 			return this.syntaxStatus;
 		}
-		/**
-		 * Adds related expression.
-		 *
-		 * @param      expression          the related expression.
-		 */
+		/// <summary>Adds related expression.</summary>
+		/// <param name="expression">the related expression.</param>
 		internal void addRelatedExpression(Expression expression) {
 			if (expression == null)
 				return;
 			if (!relatedExpressionsList.Contains(expression))
 				relatedExpressionsList.Add(expression);
 		}
-		/**
-		 * Removes related expression.
-		 *
-		 * @param      expression          the related expression.
-		 */
+		/// <summary>Removes related expression.</summary>
+		/// <param name="expression">the related expression.</param>
 		internal void removeRelatedExpression(Expression expression) {
 			if (expression != null)
 				relatedExpressionsList.Remove(expression);
 		}
-		/**
-		 * Sets expression modified flag to each related expression.
-		 */
+		/// <summary>Sets expression modified flag to each related expression.</summary>
 		void setExpressionModifiedFlags() {
 			foreach (Expression e in relatedExpressionsList)
 				e.setExpressionModifiedFlag();
@@ -536,16 +459,13 @@ namespace org.mariuszgromada.math.mxparser {
 			constantClone.addRelatedExpression(relatedExpressionThatInitiatedClone);
 			return constantClone;
 		}
-		/**
-		 * Creates a completely independent 1-1 clone that can be safely used
-		 * by a separate thread. If the cloned element contains references
-		 * to other elements (e.g. arguments, functions, constants),
-		 * then they will also be cloned and the newly created element will
-		 * contain references to the corresponding clones.
-		 * Important - the API allows you to extract all these clones.
-		 *
-		 * @return Cloned object.
-		 */
+		/// <summary>Creates a completely independent 1-1 clone that can be safely used
+		/// by a separate thread. If the cloned element contains references
+		/// to other elements (e.g. arguments, functions, constants),
+		/// then they will also be cloned and the newly created element will
+		/// contain references to the corresponding clones.
+		/// Important - the API allows you to extract all these clones.</summary>
+		/// <returns>Cloned object.</returns>
 		public Constant cloneForThreadSafe() {
 			CloneCache cloneCache = new CloneCache();
 			Constant constantClone = cloneForThreadSafeInternal(cloneCache);

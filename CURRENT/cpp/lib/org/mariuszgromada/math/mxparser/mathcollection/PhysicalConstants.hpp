@@ -1,5 +1,5 @@
 /*
- * @(#)PhysicalConstants.hpp        6.1.0    2024-10-06
+ * @(#)PhysicalConstants.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -231,89 +231,89 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		PhysicalConstants() = delete;
 
 		/**
-		 * Light speed
+		 * \brief Light speed
 		 */
 		static constexpr double LIGHT_SPEED = 299792458.0 * Units::METRE_PER_SECOND;
 		/**
-		 * Gravitational constant
+		 * \brief Gravitational constant
 		 */
 		static constexpr double GRAVITATIONAL_CONSTANT =
 				6.67408E-11 * Units::METRE3 * (1.0 / Units::KILOGRAM) * (1.0 / (Units::SECOND * Units::SECOND));
 		/**
-		 * Gravitational acceleration - Earth (normal)
+		 * \brief Gravitational acceleration - Earth (normal)
 		 */
 		static constexpr double GRAVIT_ACC_EARTH = 9.80665 * Units::METRE_PER_SECOND2;
 		/**
-		 * Planck constant
+		 * \brief Planck constant
 		 */
 		static constexpr double PLANCK_CONSTANT = 6.626070040E-34 * Units::METRE2 * Units::KILOGRAM / Units::SECOND;
 		/**
-		 * Reduced Planck constant
+		 * \brief Reduced Planck constant
 		 */
 		static constexpr double PLANCK_CONSTANT_REDUCED = PLANCK_CONSTANT / (2 * Math::PI);
 		/**
-		 * Planck length
+		 * \brief Planck length
 		 */
 		static constexpr double PLANCK_LENGTH = 1.616229E-35 * Units::METRE;
 		/**
-		 * Planck mass
+		 * \brief Planck mass
 		 */
 		static constexpr double PLANCK_MASS = 2.176470E-8 * Units::KILOGRAM;
 		/**
-		 * Planck time
+		 * \brief Planck time
 		 */
 		static constexpr double PLANCK_TIME = 5.39116E-44 * Units::SECOND;
 		/**
-		 * Avagadro's constant
+		 * \brief Avagadro's constant
 		 */
 		static constexpr double N_A = 6.022140857E23 / Units::MOLE;
 		/**
-		 * Gas constant
+		 * \brief Gas constant
 		 */
 		static constexpr double R = 8.3144598 * Units::JOULE / (Units::KELVIN * Units::MOLE);
 		/**
-		 * Boltzmann constant
+		 * \brief Boltzmann constant
 		 */
 		static constexpr double BOLTZMANN_CONSTANT = R / N_A;
 		/**
-		 * Neutron rest mass
+		 * \brief Neutron rest mass
 		 */
 		static constexpr double NEUTRON_REST_MASS = 1.674927471E-27 * Units::KILOGRAM;
 		/**
-		 * Neutron equivalent rest mass
+		 * \brief Neutron equivalent rest mass
 		 */
 		static constexpr double NEUTRON_EQUIVALENT_REST_MASS =
 				939.5654133 * Units::MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
 		/**
-		 * Proton rest mass
+		 * \brief Proton rest mass
 		 */
 		static constexpr double PROTON_REST_MASS = 1.672621898E-27 * Units::KILOGRAM;
 		/**
-		 * Proton equivalent rest mass
+		 * \brief Proton equivalent rest mass
 		 */
 		static constexpr double PROTON_EQUIVALENT_REST_MASS =
 				938.2720813 * Units::MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
 		/**
-		 * Elementary charge
+		 * \brief Elementary charge
 		 */
 		static constexpr double ELEMENTARY_CHARGE = 1.6021766208E-19 * Units::COULOMB;
 		/**
-		 * Electron rest mass
+		 * \brief Electron rest mass
 		 */
 		static constexpr double ELECTRON_REST_MASS = 9.10938356E-31 * Units::KILOGRAM;
 		/**
-		 * Electron equivalent rest mass
+		 * \brief Electron equivalent rest mass
 		 */
 		static constexpr double ELECTRON_EQUIVALENT_REST_MASS =
 				0.5109989461 * Units::MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
 		/**
-		 * Vacuum permittivity
+		 * \brief Vacuum permittivity
 		 */
 		static constexpr double VACUUM_PERMITTIVITY =
 				8.854187817E-12 * Units::AMPERE * Units::AMPERE * Units::SECOND * Units::SECOND * Units::SECOND *
 				Units::SECOND / (Units::METRE3 * Units::KILOGRAM);
 		/**
-		 * Vacuum permeability
+		 * \brief Vacuum permeability
 		 */
 		static constexpr double VACUUM_PERMEABILITY =
 				4.0E-7 * Math::PI * Units::KILOGRAM * Units::METRE / (

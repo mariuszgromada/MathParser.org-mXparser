@@ -259,9 +259,12 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 
 	public:
-		/** Retains the inherited no-index (id) and (CSR,id) getters.
+		/**
+		 * \brief Retains the inherited no-index (id) and (CSR,id) getters.
 		 * Use (double index,int id) for indexed recursion. In C++, a lone2.5
-		 * implicitly converts to ID2; it is not an indexed request. @since 6.2.0 */
+		 * implicitly converts to ID2; it is not an indexed request.
+		 * \since 6.2.0
+		 */
 		using Argument::getArgumentValueWithCancel;
 
 		// ***********************************************************
@@ -274,11 +277,10 @@ namespace org::mariuszgromada::math::mxparser {
 		// ***********************************************************
 
 		/**
-		 * Constructor - creates recursive argument->
-		 *
-		 * @param      argumentName                  the argument name
-		 * @param      recursiveExpressionString     the recursive expression string
-		 * @param      indexName                     index argument name
+		 * \brief Constructor - creates recursive argument.
+		 * \param argumentName                  the argument name
+		 * \param recursiveExpressionString     the recursive expression string
+		 * \param indexName                     index argument name
 		 */
 		RecursiveArgument(const StringPtr &argumentName, const StringPtr &recursiveExpressionString,
 		                  const StringPtr &indexName) : Argument(argumentName, recursiveExpressionString) {
@@ -288,11 +290,7 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 
 		/**
-		 * Constructor - creates recursive argument->
-		 *
-		 * @param      argumentName                  the argument name
-		 * @param      recursiveExpressionString     the recursive expression string
-		 * @param      indexName                     index argument name
+		 * \copydoc org::mariuszgromada::math::mxparser::RecursiveArgument::RecursiveArgument(const StringPtr &,const StringPtr &,const StringPtr &)
 		 */
 		RecursiveArgument(const String &argumentName, const String &recursiveExpressionString,
 		                  const String &indexName) : Argument(argumentName, recursiveExpressionString) {
@@ -302,11 +300,7 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 
 		/**
-		 * Constructor - creates recursive argument->
-		 *
-		 * @param      argumentName                  the argument name
-		 * @param      recursiveExpressionString     the recursive expression string
-		 * @param      indexName                     index argument name
+		 * \copydoc org::mariuszgromada::math::mxparser::RecursiveArgument::RecursiveArgument(const StringPtr &,const StringPtr &,const StringPtr &)
 		 */
 		RecursiveArgument(const std::string &argumentName, const std::string &recursiveExpressionString,
 		                  const std::string &indexName) : Argument(argumentName, recursiveExpressionString) {
@@ -316,11 +310,7 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 
 		/**
-		 * Constructor - creates recursive argument->
-		 *
-		 * @param      argumentName                  the argument name
-		 * @param      recursiveExpressionString     the recursive expression string
-		 * @param      indexName                     index argument name
+		 * \copydoc org::mariuszgromada::math::mxparser::RecursiveArgument::RecursiveArgument(const StringPtr &,const StringPtr &,const StringPtr &)
 		 */
 		RecursiveArgument(std::string &argumentName, std::string &recursiveExpressionString,
 		                  std::string &indexName) : Argument(argumentName, recursiveExpressionString) {
@@ -330,11 +320,7 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 
 		/**
-		 * Constructor - creates recursive argument->
-		 *
-		 * @param      argumentName                  the argument name
-		 * @param      recursiveExpressionString     the recursive expression string
-		 * @param      indexName                     index argument name
+		 * \copydoc org::mariuszgromada::math::mxparser::RecursiveArgument::RecursiveArgument(const StringPtr &,const StringPtr &,const StringPtr &)
 		 */
 		RecursiveArgument(const Char *argumentName, const Char *recursiveExpressionString,
 		                  const Char *indexName) : Argument(argumentName, recursiveExpressionString) {
@@ -344,11 +330,7 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 
 		/**
-		 * Constructor - creates recursive argument->
-		 *
-		 * @param      argumentName                  the argument name
-		 * @param      recursiveExpressionString     the recursive expression string
-		 * @param      indexName                     index argument name
+		 * \copydoc org::mariuszgromada::math::mxparser::RecursiveArgument::RecursiveArgument(const StringPtr &,const StringPtr &,const StringPtr &)
 		 */
 		RecursiveArgument(const char *argumentName, const char *recursiveExpressionString,
 		                  const char *indexName) : Argument(argumentName, recursiveExpressionString) {
@@ -358,16 +340,15 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 
 		/**
-		 * Constructor - creates recursive argument->
-		 *
-		 * @param      argumentName                  the argument name
-		 * @param      recursiveExpressionString     the recursive expression string
-		 * @param      n                             the index argument
-		 * @param      elements                      Optional elements list (variadic - comma
+		 * \brief Constructor - creates recursive argument.
+		 * \param argumentName                  the argument name
+		 * \param recursiveExpressionString     the recursive expression string
+		 * \param n                             the index argument
+		 * \param elements                      Optional elements list (variadic - comma
 		 *                                           separated) of types: Argument, Constant, Function
-		 *
-		 * @see        PrimitiveElement
-		 * @see        Argument
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
 		 */
 		template<typename... PrimitiveElements>
 		RecursiveArgument(const StringPtr &argumentName, const StringPtr &recursiveExpressionString,
@@ -378,6 +359,17 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates recursive argument.
+		 * \param argumentName                  the argument name
+		 * \param recursiveExpressionString     the recursive expression string
+		 * \param n                             the index argument
+		 * \param elements                      Optional elements list (variadic - comma
+		 *                                           separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		RecursiveArgument(const String &argumentName, const String &recursiveExpressionString, const ArgumentPtr &n,
 		                  PrimitiveElements &&... elements) : Argument(argumentName, recursiveExpressionString) {
@@ -386,6 +378,17 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates recursive argument.
+		 * \param argumentName                  the argument name
+		 * \param recursiveExpressionString     the recursive expression string
+		 * \param n                             the index argument
+		 * \param elements                      Optional elements list (variadic - comma
+		 *                                           separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		RecursiveArgument(const std::string &argumentName, const std::string &recursiveExpressionString,
 		                  const ArgumentPtr &n, PrimitiveElements &&... elements) : Argument(
@@ -395,6 +398,17 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates recursive argument.
+		 * \param argumentName                  the argument name
+		 * \param recursiveExpressionString     the recursive expression string
+		 * \param n                             the index argument
+		 * \param elements                      Optional elements list (variadic - comma
+		 *                                           separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		RecursiveArgument(std::string &argumentName, std::string &recursiveExpressionString, const ArgumentPtr &n,
 		                  PrimitiveElements &&... elements) : Argument(argumentName, recursiveExpressionString) {
@@ -403,6 +417,17 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates recursive argument.
+		 * \param argumentName                  the argument name
+		 * \param recursiveExpressionString     the recursive expression string
+		 * \param n                             the index argument
+		 * \param elements                      Optional elements list (variadic - comma
+		 *                                           separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		RecursiveArgument(const Char *argumentName, const Char *recursiveExpressionString, const ArgumentPtr &n,
 		                  PrimitiveElements &&... elements) : Argument(argumentName, recursiveExpressionString) {
@@ -411,6 +436,17 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates recursive argument.
+		 * \param argumentName                  the argument name
+		 * \param recursiveExpressionString     the recursive expression string
+		 * \param n                             the index argument
+		 * \param elements                      Optional elements list (variadic - comma
+		 *                                           separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		RecursiveArgument(const char *argumentName, const char *recursiveExpressionString, const ArgumentPtr &n,
 		                  PrimitiveElements &&... elements) : Argument(argumentName, recursiveExpressionString) {
@@ -419,6 +455,17 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates recursive argument.
+		 * \param argumentName                  the argument name
+		 * \param recursiveExpressionString     the recursive expression string
+		 * \param n                             the index argument
+		 * \param elements                      Optional elements list (variadic - comma
+		 *                                           separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		RecursiveArgument(const StringPtr &argumentName, const StringPtr &recursiveExpressionString, ArgumentPtr &n,
 		                  PrimitiveElements &&... elements) : Argument(argumentName, recursiveExpressionString) {
@@ -427,6 +474,17 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates recursive argument.
+		 * \param argumentName                  the argument name
+		 * \param recursiveExpressionString     the recursive expression string
+		 * \param n                             the index argument
+		 * \param elements                      Optional elements list (variadic - comma
+		 *                                           separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		RecursiveArgument(const String &argumentName, const String &recursiveExpressionString, ArgumentPtr &n,
 		                  PrimitiveElements &&... elements) : Argument(argumentName, recursiveExpressionString) {
@@ -435,6 +493,17 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates recursive argument.
+		 * \param argumentName                  the argument name
+		 * \param recursiveExpressionString     the recursive expression string
+		 * \param n                             the index argument
+		 * \param elements                      Optional elements list (variadic - comma
+		 *                                           separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		RecursiveArgument(const std::string &argumentName, const std::string &recursiveExpressionString, ArgumentPtr &n,
 		                  PrimitiveElements &&... elements) : Argument(argumentName, recursiveExpressionString) {
@@ -443,6 +512,17 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates recursive argument.
+		 * \param argumentName                  the argument name
+		 * \param recursiveExpressionString     the recursive expression string
+		 * \param n                             the index argument
+		 * \param elements                      Optional elements list (variadic - comma
+		 *                                           separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		RecursiveArgument(std::string &argumentName, std::string &recursiveExpressionString, ArgumentPtr &n,
 		                  PrimitiveElements &&... elements) : Argument(argumentName, recursiveExpressionString) {
@@ -451,6 +531,17 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates recursive argument.
+		 * \param argumentName                  the argument name
+		 * \param recursiveExpressionString     the recursive expression string
+		 * \param n                             the index argument
+		 * \param elements                      Optional elements list (variadic - comma
+		 *                                           separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		RecursiveArgument(const Char *argumentName, const Char *recursiveExpressionString, ArgumentPtr &n,
 		                  PrimitiveElements &&... elements) : Argument(argumentName, recursiveExpressionString) {
@@ -459,6 +550,17 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates recursive argument.
+		 * \param argumentName                  the argument name
+		 * \param recursiveExpressionString     the recursive expression string
+		 * \param n                             the index argument
+		 * \param elements                      Optional elements list (variadic - comma
+		 *                                           separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		RecursiveArgument(const char *argumentName, const char *recursiveExpressionString, ArgumentPtr &n,
 		                  PrimitiveElements &&... elements) : Argument(argumentName, recursiveExpressionString) {
@@ -467,6 +569,23 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates argument based on the argument definition string.
+		 * \param argumentDefinitionString        Argument definition string, i.e.:
+		 *                                             <ul>
+		 *                                                <li>'x' - only argument name
+		 *                                                <li>'x=5' - argument name and argument value
+		 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
+		 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+		 *                                                <li>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)
+		 *                                             </ul>
+		 * \param elements                       Optional elements list
+		 *                                            (variadic - comma separated) of types: Argument,
+		 *                                            Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		explicit RecursiveArgument(const StringPtr &argumentDefinitionString,
 		                           PrimitiveElements &&... elements) : Argument(true, argumentDefinitionString) {
@@ -475,6 +594,23 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates argument based on the argument definition string.
+		 * \param argumentDefinitionString        Argument definition string, i.e.:
+		 *                                             <ul>
+		 *                                                <li>'x' - only argument name
+		 *                                                <li>'x=5' - argument name and argument value
+		 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
+		 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+		 *                                                <li>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)
+		 *                                             </ul>
+		 * \param elements                       Optional elements list
+		 *                                            (variadic - comma separated) of types: Argument,
+		 *                                            Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		explicit RecursiveArgument(const String &argumentDefinitionString, PrimitiveElements &&... elements) : Argument(
 			true, S(argumentDefinitionString)) {
@@ -483,6 +619,23 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates argument based on the argument definition string.
+		 * \param argumentDefinitionString        Argument definition string, i.e.:
+		 *                                             <ul>
+		 *                                                <li>'x' - only argument name
+		 *                                                <li>'x=5' - argument name and argument value
+		 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
+		 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+		 *                                                <li>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)
+		 *                                             </ul>
+		 * \param elements                       Optional elements list
+		 *                                            (variadic - comma separated) of types: Argument,
+		 *                                            Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		explicit RecursiveArgument(const std::string &argumentDefinitionString,
 		                           PrimitiveElements &&... elements) : Argument(true, S(argumentDefinitionString)) {
@@ -491,6 +644,23 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates argument based on the argument definition string.
+		 * \param argumentDefinitionString        Argument definition string, i.e.:
+		 *                                             <ul>
+		 *                                                <li>'x' - only argument name
+		 *                                                <li>'x=5' - argument name and argument value
+		 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
+		 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+		 *                                                <li>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)
+		 *                                             </ul>
+		 * \param elements                       Optional elements list
+		 *                                            (variadic - comma separated) of types: Argument,
+		 *                                            Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		explicit RecursiveArgument(std::string &argumentDefinitionString, PrimitiveElements &&... elements) : Argument(
 			true, S(argumentDefinitionString)) {
@@ -499,6 +669,23 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates argument based on the argument definition string.
+		 * \param argumentDefinitionString        Argument definition string, i.e.:
+		 *                                             <ul>
+		 *                                                <li>'x' - only argument name
+		 *                                                <li>'x=5' - argument name and argument value
+		 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
+		 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+		 *                                                <li>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)
+		 *                                             </ul>
+		 * \param elements                       Optional elements list
+		 *                                            (variadic - comma separated) of types: Argument,
+		 *                                            Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		explicit RecursiveArgument(const Char *argumentDefinitionString, PrimitiveElements &&... elements) : Argument(
 			true, S(argumentDefinitionString)) {
@@ -507,6 +694,23 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates argument based on the argument definition string.
+		 * \param argumentDefinitionString        Argument definition string, i.e.:
+		 *                                             <ul>
+		 *                                                <li>'x' - only argument name
+		 *                                                <li>'x=5' - argument name and argument value
+		 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
+		 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+		 *                                                <li>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)
+		 *                                             </ul>
+		 * \param elements                       Optional elements list
+		 *                                            (variadic - comma separated) of types: Argument,
+		 *                                            Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		explicit RecursiveArgument(const char *argumentDefinitionString, PrimitiveElements &&... elements) : Argument(
 			true, S(argumentDefinitionString)) {
@@ -517,37 +721,58 @@ namespace org::mariuszgromada::math::mxparser {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Adds base case
+		 * \param index               the base case index
+		 * \param value               the base case value
+		 */
 		void addBaseCase(int index, double value) const;
+		/**
+		 * \brief Clears all based cases and stored calculated values
+		 */
 		void resetAllCases();
 
 		// ***********************************************************
 
+		/**
+		 * \brief Gets recursive argument value
+		 * \param index               the index
+		 * \return value as double
+		 */
 		double getArgumentValue(double index);
 		/**
-		 * Gets recursive argument value
+		 * \brief Gets recursive argument value
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * @param      index               the index
-		 *
-		 * @return     value as double
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see getArgumentValue(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param index               the index
+		 * \return value as double
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument::getArgumentValue(double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		double getArgumentValueWithCancel(double index, int cancelId);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Creates a completely independent 1-1 clone that can be safely used
+		 * by a separate thread. If the cloned element contains references
+		 * to other elements (e.g. arguments, functions, constants),
+		 * then they will also be cloned and the newly created element will
+		 * contain references to the corresponding clones.
+		 * Important - the API allows you to extract all these clones.
+		 * \return Cloned object.
+		 */
 		ArgumentPtr cloneForThreadSafe() override;
 
 	public: /* should be private */
@@ -598,6 +823,13 @@ namespace org::mariuszgromada::math::mxparser {
 
 	// =====================================
 
+	/**
+	 * \brief Constructor - creates recursive argument.
+	 * \param argumentName                  the argument name
+	 * \param recursiveExpressionString     the recursive expression string
+	 * \param indexName                     index argument name
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 */
 	inline RecursiveArgumentPtr new_RecursiveArgument(const StringPtr &argumentName,
 	                                                  const StringPtr &recursiveExpressionString,
 	                                                  const StringPtr &indexName) {
@@ -606,6 +838,9 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_RecursiveArgument(const StringPtr &,const StringPtr &,const StringPtr &)
+	 */
 	inline RecursiveArgumentPtr new_RecursiveArgument(const String &argumentName,
 	                                                  const String &recursiveExpressionString,
 	                                                  const String &indexName) {
@@ -614,6 +849,9 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_RecursiveArgument(const StringPtr &,const StringPtr &,const StringPtr &)
+	 */
 	inline RecursiveArgumentPtr new_RecursiveArgument(const std::string &argumentName,
 	                                                  const std::string &recursiveExpressionString,
 	                                                  const std::string &indexName) {
@@ -622,6 +860,9 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_RecursiveArgument(const StringPtr &,const StringPtr &,const StringPtr &)
+	 */
 	inline RecursiveArgumentPtr new_RecursiveArgument(std::string &argumentName, std::string &recursiveExpressionString,
 	                                                  std::string &indexName) {
 		RecursiveArgumentPtr argument = std::make_shared<RecursiveArgument>(argumentName, recursiveExpressionString, indexName);
@@ -629,6 +870,9 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_RecursiveArgument(const StringPtr &,const StringPtr &,const StringPtr &)
+	 */
 	inline RecursiveArgumentPtr new_RecursiveArgument(const Char *argumentName, const Char *recursiveExpressionString,
 	                                                  const Char *indexName) {
 		RecursiveArgumentPtr argument = std::make_shared<RecursiveArgument>(argumentName, recursiveExpressionString, indexName);
@@ -636,6 +880,9 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_RecursiveArgument(const StringPtr &,const StringPtr &,const StringPtr &)
+	 */
 	inline RecursiveArgumentPtr new_RecursiveArgument(const char *argumentName, const char *recursiveExpressionString,
 	                                                  const char *indexName) {
 		RecursiveArgumentPtr argument = std::make_shared<RecursiveArgument>(argumentName, recursiveExpressionString, indexName);
@@ -644,6 +891,18 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 
+	/**
+	 * \brief Constructor - creates recursive argument.
+	 * \param argumentName                  the argument name
+	 * \param recursiveExpressionString     the recursive expression string
+	 * \param n                             the index argument
+	 * \param elements                      Optional elements list (variadic - comma
+	 *                                           separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr new_RecursiveArgument(const StringPtr &argumentName,
 	                                           const StringPtr &recursiveExpressionString, const ArgumentPtr &n,
@@ -653,6 +912,18 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \brief Constructor - creates recursive argument.
+	 * \param argumentName                  the argument name
+	 * \param recursiveExpressionString     the recursive expression string
+	 * \param n                             the index argument
+	 * \param elements                      Optional elements list (variadic - comma
+	 *                                           separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr new_RecursiveArgument(const String &argumentName, const String &recursiveExpressionString,
 	                                           const ArgumentPtr &n, PrimitiveElements &&... elements) {
@@ -661,6 +932,18 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \brief Constructor - creates recursive argument.
+	 * \param argumentName                  the argument name
+	 * \param recursiveExpressionString     the recursive expression string
+	 * \param n                             the index argument
+	 * \param elements                      Optional elements list (variadic - comma
+	 *                                           separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr new_RecursiveArgument(const std::string &argumentName,
 	                                           const std::string &recursiveExpressionString, const ArgumentPtr &n,
@@ -670,6 +953,18 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \brief Constructor - creates recursive argument.
+	 * \param argumentName                  the argument name
+	 * \param recursiveExpressionString     the recursive expression string
+	 * \param n                             the index argument
+	 * \param elements                      Optional elements list (variadic - comma
+	 *                                           separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr new_RecursiveArgument(std::string &argumentName, std::string &recursiveExpressionString,
 	                                           const ArgumentPtr &n, PrimitiveElements &&... elements) {
@@ -678,6 +973,18 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \brief Constructor - creates recursive argument.
+	 * \param argumentName                  the argument name
+	 * \param recursiveExpressionString     the recursive expression string
+	 * \param n                             the index argument
+	 * \param elements                      Optional elements list (variadic - comma
+	 *                                           separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr new_RecursiveArgument(const Char *argumentName, const Char *recursiveExpressionString,
 	                                           const ArgumentPtr &n, PrimitiveElements &&... elements) {
@@ -686,6 +993,18 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \brief Constructor - creates recursive argument.
+	 * \param argumentName                  the argument name
+	 * \param recursiveExpressionString     the recursive expression string
+	 * \param n                             the index argument
+	 * \param elements                      Optional elements list (variadic - comma
+	 *                                           separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr new_RecursiveArgument(const char *argumentName, const char *recursiveExpressionString,
 	                                           const ArgumentPtr &n, PrimitiveElements &&... elements) {
@@ -694,6 +1013,18 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \brief Constructor - creates recursive argument.
+	 * \param argumentName                  the argument name
+	 * \param recursiveExpressionString     the recursive expression string
+	 * \param n                             the index argument
+	 * \param elements                      Optional elements list (variadic - comma
+	 *                                           separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr new_RecursiveArgument(const StringPtr &argumentName,
 	                                           const StringPtr &recursiveExpressionString, ArgumentPtr &n,
@@ -703,6 +1034,18 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \brief Constructor - creates recursive argument.
+	 * \param argumentName                  the argument name
+	 * \param recursiveExpressionString     the recursive expression string
+	 * \param n                             the index argument
+	 * \param elements                      Optional elements list (variadic - comma
+	 *                                           separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr new_RecursiveArgument(const String &argumentName, const String &recursiveExpressionString,
 	                                           ArgumentPtr &n, PrimitiveElements &&... elements) {
@@ -711,6 +1054,18 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \brief Constructor - creates recursive argument.
+	 * \param argumentName                  the argument name
+	 * \param recursiveExpressionString     the recursive expression string
+	 * \param n                             the index argument
+	 * \param elements                      Optional elements list (variadic - comma
+	 *                                           separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr new_RecursiveArgument(const std::string &argumentName,
 	                                           const std::string &recursiveExpressionString, ArgumentPtr &n,
@@ -720,6 +1075,18 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \brief Constructor - creates recursive argument.
+	 * \param argumentName                  the argument name
+	 * \param recursiveExpressionString     the recursive expression string
+	 * \param n                             the index argument
+	 * \param elements                      Optional elements list (variadic - comma
+	 *                                           separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr new_RecursiveArgument(std::string &argumentName, std::string &recursiveExpressionString,
 	                                           ArgumentPtr &n, PrimitiveElements &&... elements) {
@@ -728,6 +1095,18 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \brief Constructor - creates recursive argument.
+	 * \param argumentName                  the argument name
+	 * \param recursiveExpressionString     the recursive expression string
+	 * \param n                             the index argument
+	 * \param elements                      Optional elements list (variadic - comma
+	 *                                           separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr new_RecursiveArgument(const Char *argumentName, const Char *recursiveExpressionString,
 	                                           ArgumentPtr &n, PrimitiveElements &&... elements) {
@@ -736,6 +1115,18 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \brief Constructor - creates recursive argument.
+	 * \param argumentName                  the argument name
+	 * \param recursiveExpressionString     the recursive expression string
+	 * \param n                             the index argument
+	 * \param elements                      Optional elements list (variadic - comma
+	 *                                           separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr new_RecursiveArgument(const char *argumentName, const char *recursiveExpressionString,
 	                                           ArgumentPtr &n, PrimitiveElements &&... elements) {
@@ -744,6 +1135,24 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \brief Constructor - creates argument based on the argument definition string.
+	 * \param argumentDefinitionString        Argument definition string, i.e.:
+	 *                                             <ul>
+	 *                                                <li>'x' - only argument name
+	 *                                                <li>'x=5' - argument name and argument value
+	 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
+	 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+	 *                                                <li>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)
+	 *                                             </ul>
+	 * \param elements                       Optional elements list
+	 *                                            (variadic - comma separated) of types: Argument,
+	 *                                            Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr new_RecursiveArgument(const StringPtr &argumentDefinitionString,
 	                                           PrimitiveElements &&... elements) {
@@ -752,6 +1161,24 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \brief Constructor - creates argument based on the argument definition string.
+	 * \param argumentDefinitionString        Argument definition string, i.e.:
+	 *                                             <ul>
+	 *                                                <li>'x' - only argument name
+	 *                                                <li>'x=5' - argument name and argument value
+	 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
+	 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+	 *                                                <li>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)
+	 *                                             </ul>
+	 * \param elements                       Optional elements list
+	 *                                            (variadic - comma separated) of types: Argument,
+	 *                                            Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr new_RecursiveArgument(const String &argumentDefinitionString,
 	                                           PrimitiveElements &&... elements) {
@@ -768,6 +1195,24 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \brief Constructor - creates argument based on the argument definition string.
+	 * \param argumentDefinitionString        Argument definition string, i.e.:
+	 *                                             <ul>
+	 *                                                <li>'x' - only argument name
+	 *                                                <li>'x=5' - argument name and argument value
+	 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
+	 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+	 *                                                <li>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)
+	 *                                             </ul>
+	 * \param elements                       Optional elements list
+	 *                                            (variadic - comma separated) of types: Argument,
+	 *                                            Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr new_RecursiveArgument(const std::string &argumentDefinitionString,
 	                                           PrimitiveElements &&... elements) {
@@ -778,12 +1223,48 @@ namespace org::mariuszgromada::math::mxparser {
 
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr
+	/**
+	 * \brief Constructor - creates argument based on the argument definition string.
+	 * \param argumentDefinitionString        Argument definition string, i.e.:
+	 *                                             <ul>
+	 *                                                <li>'x' - only argument name
+	 *                                                <li>'x=5' - argument name and argument value
+	 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
+	 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+	 *                                                <li>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)
+	 *                                             </ul>
+	 * \param elements                       Optional elements list
+	 *                                            (variadic - comma separated) of types: Argument,
+	 *                                            Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	new_RecursiveArgument(std::string &argumentDefinitionString, PrimitiveElements &&... elements) {
 		RecursiveArgumentPtr argument = std::make_shared<RecursiveArgument>(argumentDefinitionString, FORWARD_PRIMITIVE(elements)...);
 		argument->postConstructorSync();
 		return argument;
 	}
 
+	/**
+	 * \brief Constructor - creates argument based on the argument definition string.
+	 * \param argumentDefinitionString        Argument definition string, i.e.:
+	 *                                             <ul>
+	 *                                                <li>'x' - only argument name
+	 *                                                <li>'x=5' - argument name and argument value
+	 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
+	 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+	 *                                                <li>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)
+	 *                                             </ul>
+	 * \param elements                       Optional elements list
+	 *                                            (variadic - comma separated) of types: Argument,
+	 *                                            Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr new_RecursiveArgument(const Char *argumentDefinitionString, PrimitiveElements &&... elements) {
 		RecursiveArgumentPtr argument = std::make_shared<RecursiveArgument>(argumentDefinitionString, FORWARD_PRIMITIVE(elements)...);
@@ -791,6 +1272,24 @@ namespace org::mariuszgromada::math::mxparser {
 		return argument;
 	}
 
+	/**
+	 * \brief Constructor - creates argument based on the argument definition string.
+	 * \param argumentDefinitionString        Argument definition string, i.e.:
+	 *                                             <ul>
+	 *                                                <li>'x' - only argument name
+	 *                                                <li>'x=5' - argument name and argument value
+	 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
+	 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+	 *                                                <li>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)
+	 *                                             </ul>
+	 * \param elements                       Optional elements list
+	 *                                            (variadic - comma separated) of types: Argument,
+	 *                                            Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \sa org::mariuszgromada::math::mxparser::Argument
+	 * \return A shared pointer to the new RecursiveArgument instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	RecursiveArgumentPtr new_RecursiveArgument(const char *argumentDefinitionString, PrimitiveElements &&... elements) {
 		RecursiveArgumentPtr argument = std::make_shared<RecursiveArgument>(argumentDefinitionString, FORWARD_PRIMITIVE(elements)...);

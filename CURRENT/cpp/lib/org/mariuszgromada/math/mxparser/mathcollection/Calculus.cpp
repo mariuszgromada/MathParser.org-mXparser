@@ -231,20 +231,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser;
 	using namespace org::mariuszgromada::math::mxparser::wrapper;
 
-	/**
-	 * Trapezoid numerical integration
-	 *
-	 * @param      f                   the expression
-	 * @param      x                   the argument
-	 * @param      a                   form a ...
-	 * @param      b                   ... to b
-	 * @param      eps                 the epsilon (error)
-	 * @param      maxSteps            the maximum number of steps
-	 *
-	 * @return     Integral value as double.
-	 *
-	 * @see        Expression
-	 */
 	API_VISIBLE double Calculus::integralTrapezoid(const ExpressionPtr &f, const ArgumentPtr &x, double a, double b,
 	                                   double eps, int maxSteps) {
 		return integralTrapezoidWithCancel(f, x, a, b, eps, maxSteps, 0);
@@ -281,21 +267,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return intF;
 	}
 
-	/**
-	 * Numerical derivative at x = x0
-	 *
-	 * @param      f                   the expression
-	 * @param      x                   the argument
-	 * @param      x0                  at point x = x0
-	 * @param      derType             derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
-	 *                                 GENERAL_DERIVATIVE
-	 * @param      eps                 the epsilon (error)
-	 * @param      maxSteps            the maximum number of steps
-	 *
-	 * @return     Derivative value as double.
-	 *
-	 * @see        Expression
-	 */
 	API_VISIBLE double Calculus::derivative(const ExpressionPtr &f, const ArgumentPtr &x, double x0,
 	                            int derType, double eps, int maxSteps) {
 		return derivativeWithCancel(f, x, x0, derType, eps, maxSteps, 0);
@@ -340,23 +311,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return derF;
 	}
 
-	/**
-	 * Numerical n-th derivative at x = x0 (you should avoid calculation
-	 * of derivatives with order higher than 2).
-	 *
-	 * @param      f                   the expression
-	 * @param      n                   the deriviative order
-	 * @param      x                   the argument
-	 * @param      x0                  at point x = x0
-	 * @param      derType             derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
-	 *                                 GENERAL_DERIVATIVE
-	 * @param      eps                 the epsilon (error)
-	 * @param      maxSteps            the maximum number of steps
-	 *
-	 * @return     Derivative value as double.
-	 *
-	 * @see        Expression
-	 */
 	API_VISIBLE double Calculus::derivativeNth(const ExpressionPtr &f, double n, const ArgumentPtr &x,
 	                               double x0, int derType, double eps, int maxSteps) {
 		return derivativeNthWithCancel(f, n, x, x0, derType, eps, maxSteps, 0);
@@ -401,18 +355,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return derF;
 	}
 
-	/**
-	 * Forward difference(1) operator (at x = x0)
-	 *
-	 * @param      f                   the expression
-	 * @param      x                   the argument name
-	 * @param      x0                  x = x0
-	 *
-	 * @return     Forward difference(1) value calculated at x0.
-	 *
-	 * @see        Expression
-	 * @see        Argument
-	 */
 	API_VISIBLE double Calculus::forwardDifference(const ExpressionPtr &f, const ArgumentPtr &x, double x0) {
 		if (Double::isNaN(x0))
 			return Double::NaN;
@@ -423,17 +365,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return delta;
 	}
 
-	/**
-	 * Forward difference(1) operator (at current value of argument x)
-	 *
-	 * @param      f                   the expression
-	 * @param      x                   the argument name
-	 *
-	 * @return     Forward difference(1) value calculated at the current value of argument x.
-	 *
-	 * @see        Expression
-	 * @see        Argument
-	 */
 	API_VISIBLE double Calculus::forwardDifference(const ExpressionPtr &f, const ArgumentPtr &x) {
 		if (x == nullptr) throw std::invalid_argument("Calculus difference requires a non-null argument");
 		double xb = x->getArgumentValue();
@@ -447,18 +378,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return delta;
 	}
 
-	/**
-	 * Backward difference(1) operator (at x = x0).
-	 *
-	 * @param      f                   the expression
-	 * @param      x                   the argument name
-	 * @param      x0                  x = x0
-	 *
-	 * @return     Backward difference value calculated at x0.
-	 *
-	 * @see        Expression
-	 * @see        Argument
-	 */
 	API_VISIBLE double Calculus::backwardDifference(const ExpressionPtr &f, const ArgumentPtr &x, double x0) {
 		if (Double::isNaN(x0))
 			return Double::NaN;
@@ -469,17 +388,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return delta;
 	}
 
-	/**
-	 * Backward difference(1) operator (at current value of argument x)
-	 *
-	 * @param      f                   the expression
-	 * @param      x                   the argument name
-	 *
-	 * @return     Backward difference(1) value calculated at the current value of argument x.
-	 *
-	 * @see        Expression
-	 * @see        Argument
-	 */
 	API_VISIBLE double Calculus::backwardDifference(const ExpressionPtr &f, const ArgumentPtr &x) {
 		if (x == nullptr) throw std::invalid_argument("Calculus difference requires a non-null argument");
 		double xb = x->getArgumentValue();
@@ -493,19 +401,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return delta;
 	}
 
-	/**
-	 * Forward difference(h) operator (at x = x0)
-	 *
-	 * @param      f                   the expression
-	 * @param      h                   the difference
-	 * @param      x                   the argument name
-	 * @param      x0                  x = x0
-	 *
-	 * @return     Forward difference(h) value calculated at x0.
-	 *
-	 * @see        Expression
-	 * @see        Argument
-	 */
 	API_VISIBLE double Calculus::forwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x, double x0) {
 		if (Double::isNaN(x0))
 			return Double::NaN;
@@ -516,18 +411,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return delta;
 	}
 
-	/**
-	 * Forward difference(h) operator (at the current value of the argument x)
-	 *
-	 * @param      f                   the expression
-	 * @param      h                   the difference
-	 * @param      x                   the argument name
-	 *
-	 * @return     Forward difference(h) value calculated at the current value of the argument x.
-	 *
-	 * @see        Expression
-	 * @see        Argument
-	 */
 	API_VISIBLE double Calculus::forwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x) {
 		return forwardDifferenceWithCancel(f, h, x, 0);
 	}
@@ -547,19 +430,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return delta;
 	}
 
-	/**
-	 * Backward difference(h) operator (at x = x0)
-	 *
-	 * @param      f                   the expression
-	 * @param      h                   the difference
-	 * @param      x                   the argument name
-	 * @param      x0                  x = x0
-	 *
-	 * @return     Backward difference(h) value calculated at x0.
-	 *
-	 * @see        Expression
-	 * @see        Argument
-	 */
 	API_VISIBLE double Calculus::backwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x, double x0) {
 		if (Double::isNaN(x0))
 			return Double::NaN;
@@ -570,18 +440,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return delta;
 	}
 
-	/**
-	 * Backward difference(h) operator (at the current value of the argument x)
-	 *
-	 * @param      f                   the expression
-	 * @param      h                   the difference
-	 * @param      x                   the argument name
-	 *
-	 * @return     Backward difference(h) value calculated at the current value of the argument x.
-	 *
-	 * @see        Expression
-	 * @see        Argument
-	 */
 	API_VISIBLE double Calculus::backwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x) {
 		return backwardDifferenceWithCancel(f, h, x, 0);
 	}
@@ -601,17 +459,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return delta;
 	}
 
-	/**
-	 * Brent solver (Brent root finder)
-	 *
-	 * @param f  Function given in the Expression form
-	 * @param x  Argument
-	 * @param a  Left limit
-	 * @param b  Right limit
-	 * @param eps      Epsilon value (accuracy)
-	 * @param maxSteps Maximum number of iterations
-	 * @return   Function root - if found, otherwise Double::NaN.
-	 */
 	API_VISIBLE double Calculus::solveBrent(const ExpressionPtr &f, const ArgumentPtr &x, double a, double b, double eps,
 	                            double maxSteps) {
 		return solveBrentWithCancel(f, x, a, b, eps, maxSteps, 0);

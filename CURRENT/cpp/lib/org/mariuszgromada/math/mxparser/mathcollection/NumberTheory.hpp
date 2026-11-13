@@ -237,141 +237,104 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		// ***********************************************************
 
 		static constexpr Long DEFAULT_TO_FRACTION_INIT_SEARCH_SIZE = 10000;
+		/**
+		 * \brief Sets initial search size for the toFraction method
+		 * \param n initial search size, has to be non-zero positive.
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::toFraction(double)
+		 */
 		static void setToFractionInitSearchSize(Long n);
+		/**
+		 * \brief Gets initial search size used by the toFraction method
+		 * \return initial search size used by the toFraction method
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::toFraction(double)
+		 */
 		static Long getToFractionInitSearchSize();
 
 		// ***********************************************************
 
+		/**
+		 * \brief Minimum function.
+		 * \param a                   the a function parameter
+		 * \param b                   the b function parameter
+		 * \return if a,b &lt;&gt; Double.NaN returns Math.min(a, b),
+		 *             otherwise returns Double.NaN.
+		 */
 		static double min(double a, double b);
 
+		/**
+		 * \brief Minimum function.
+		 * \param numbers             the a function parameter
+		 * \return if each number form numbers &lt;&gt; Double.NaN returns the smallest number,
+		 *             otherwise returns Double.NaN.
+		 * \tparam Doubles Types of the forwarded arguments.
+		 */
 		template<typename... Doubles>
 		static double min(Doubles &&... numbers) {
 			VariadicProcessorDouble vp;
 			vp.processArgs(std::forward<Doubles>(numbers)...);
 			return min(vp.paramsDouble);
 		}
+		/**
+		 * \brief Minimum function.
+		 * \param numbers             the a function parameter
+		 * \return if each number form numbers &lt;&gt; Double.NaN returns the smallest number,
+		 *             otherwise returns Double.NaN.
+		 */
 		static double min(const ListPtr<double> &numbers);
 		/**
-		 * Minimum function.
+		 * \brief Minimum function.
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * Array parameters are fixed arrays, not token-bearing varargs.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     if each number form numbers &lt;&gt; Double::NaN returns the smallest number,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see min(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param numbers             the a function parameter
+		 * \return if each number form numbers &lt;&gt; Double.NaN returns the smallest number,
+		 *             otherwise returns Double.NaN.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::min(ArrayPtr< double > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double minWithCancel(const ListPtr<double> &numbers, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::min(const ListPtr< double > &)
+		 */
 		static double min(ListPtr<double> &numbers) { return min(CONST_LIST_DOUBLE(numbers)); }
 		/**
-		 * Minimum function.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     if each number form numbers &lt;&gt; Double::NaN returns the smallest number,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see min(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::minWithCancel(const ListPtr< double > &,int)
 		 */
 		static double minWithCancel(ListPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return minWithCancel(CONST_LIST_DOUBLE(numbers), cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::min(const ListPtr< double > &)
+		 */
 		static double min(const ArrayPtr<double> &numbers);
 		/**
-		 * Minimum function.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     if each number form numbers &lt;&gt; Double::NaN returns the smallest number,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see min(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::minWithCancel(const ListPtr< double > &,int)
 		 */
 		static double minWithCancel(const ArrayPtr<double> &numbers, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::min(const ListPtr< double > &)
+		 */
 		static double min(ArrayPtr<double> &numbers) { return min(CONST_ARRAY_DOUBLE(numbers)); }
 		/**
-		 * Minimum function.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     if each number form numbers &lt;&gt; Double::NaN returns the smallest number,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see min(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::minWithCancel(const ListPtr< double > &,int)
 		 */
 		static double minWithCancel(ArrayPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -381,134 +344,80 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Arg-Min function.
+		 * \param numbers             the a function parameter
+		 * \return Returns the index of the first smallest number,
+		 *             otherwise returns Double.NaN.
+		 * \tparam Doubles Types of the forwarded arguments.
+		 */
 		template<typename... Doubles>
 		static double argmin(Doubles &&... numbers) {
 			VariadicProcessorDouble vp;
 			vp.processArgs(std::forward<Doubles>(numbers)...);
 			return argmin(vp.paramsDouble);
 		}
+		/**
+		 * \brief Arg-Min function.
+		 * \param numbers             the a function parameter
+		 * \return Returns the index of the first smallest number,
+		 *             otherwise returns Double.NaN.
+		 */
 		static double argmin(const ListPtr<double> &numbers);
 		/**
-		 * Arg-Min function.
+		 * \brief Arg-Min function.
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * Array parameters are fixed arrays, not token-bearing varargs.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     Returns the index of the first smallest number,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see argmin(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param numbers             the a function parameter
+		 * \return Returns the index of the first smallest number,
+		 *             otherwise returns Double.NaN.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::argmin(ArrayPtr< double > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double argminWithCancel(const ListPtr<double> &numbers, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::argmin(const ListPtr< double > &)
+		 */
 		static double argmin(ListPtr<double> &numbers) { return argmin(CONST_LIST_DOUBLE(numbers)); }
 		/**
-		 * Arg-Min function.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     Returns the index of the first smallest number,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see argmin(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::argminWithCancel(const ListPtr< double > &,int)
 		 */
 		static double argminWithCancel(ListPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return argminWithCancel(CONST_LIST_DOUBLE(numbers), cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::argmin(const ListPtr< double > &)
+		 */
 		static double argmin(const ArrayPtr<double> &numbers);
 		/**
-		 * Arg-Min function.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     Returns the index of the first smallest number,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see argmin(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::argminWithCancel(const ListPtr< double > &,int)
 		 */
 		static double argminWithCancel(const ArrayPtr<double> &numbers, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::argmin(const ListPtr< double > &)
+		 */
 		static double argmin(ArrayPtr<double> &numbers) { return argmin(CONST_ARRAY_DOUBLE(numbers)); }
 		/**
-		 * Arg-Min function.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     Returns the index of the first smallest number,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see argmin(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::argminWithCancel(const ListPtr< double > &,int)
 		 */
 		static double argminWithCancel(ArrayPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -518,136 +427,89 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Maximum function.
+		 * \param a                   the a function parameter
+		 * \param b                   the b function parameter
+		 * \return if a,b &lt;&gt; Double.NaN returns Math.max(a, b),
+		 *             otherwise returns Double.NaN.
+		 */
 		static double max(double a, double b);
 
+		/**
+		 * \brief Maximum function.
+		 * \param numbers             the a function parameter
+		 * \return if each number form numbers &lt;&gt; Double.NaN returns the highest number,
+		 *             otherwise returns Double.NaN.
+		 * \tparam Doubles Types of the forwarded arguments.
+		 */
 		template<typename... Doubles>
 		static double max(Doubles &&... numbers) {
 			VariadicProcessorDouble vp;
 			vp.processArgs(std::forward<Doubles>(numbers)...);
 			return max(vp.paramsDouble);
 		}
+		/**
+		 * \brief Maximum function.
+		 * \param numbers             the a function parameter
+		 * \return if each number form numbers &lt;&gt; Double.NaN returns the highest number,
+		 *             otherwise returns Double.NaN.
+		 */
 		static double max(const ListPtr<double> &numbers);
 		/**
-		 * Maximum function.
+		 * \brief Maximum function.
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * Array parameters are fixed arrays, not token-bearing varargs.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     if each number form numbers &lt;&gt; Double::NaN returns the highest number,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see max(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param numbers             the a function parameter
+		 * \return if each number form numbers &lt;&gt; Double.NaN returns the highest number,
+		 *             otherwise returns Double.NaN.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::max(ArrayPtr< double > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double maxWithCancel(const ListPtr<double> &numbers, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::max(const ListPtr< double > &)
+		 */
 		static double max(ListPtr<double> &numbers) { return max(CONST_LIST_DOUBLE(numbers)); }
 		/**
-		 * Maximum function.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     if each number form numbers &lt;&gt; Double::NaN returns the highest number,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see max(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::maxWithCancel(const ListPtr< double > &,int)
 		 */
 		static double maxWithCancel(ListPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return maxWithCancel(CONST_LIST_DOUBLE(numbers), cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::max(const ListPtr< double > &)
+		 */
 		static double max(const ArrayPtr<double> &numbers);
 		/**
-		 * Maximum function.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     if each number form numbers &lt;&gt; Double::NaN returns the highest number,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see max(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::maxWithCancel(const ListPtr< double > &,int)
 		 */
 		static double maxWithCancel(const ArrayPtr<double> &numbers, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::max(const ListPtr< double > &)
+		 */
 		static double max(ArrayPtr<double> &numbers) { return max(CONST_ARRAY_DOUBLE(numbers)); }
 		/**
-		 * Maximum function.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     if each number form numbers &lt;&gt; Double::NaN returns the highest number,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see max(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::maxWithCancel(const ListPtr< double > &,int)
 		 */
 		static double maxWithCancel(ArrayPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -657,134 +519,80 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Arg-Max function.
+		 * \param numbers             the a function parameter
+		 * \return Returns the index of the first biggest number,
+		 *             otherwise returns Double.NaN.
+		 * \tparam Doubles Types of the forwarded arguments.
+		 */
 		template<typename... Doubles>
 		static double argmax(Doubles &&... numbers) {
 			VariadicProcessorDouble vp;
 			vp.processArgs(std::forward<Doubles>(numbers)...);
 			return argmax(vp.paramsDouble);
 		}
+		/**
+		 * \brief Arg-Max function.
+		 * \param numbers             the a function parameter
+		 * \return Returns the index of the first biggest number,
+		 *             otherwise returns Double.NaN.
+		 */
 		static double argmax(const ListPtr<double> &numbers);
 		/**
-		 * Arg-Max function.
+		 * \brief Arg-Max function.
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * Array parameters are fixed arrays, not token-bearing varargs.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     Returns the index of the first biggest number,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see argmax(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param numbers             the a function parameter
+		 * \return Returns the index of the first biggest number,
+		 *             otherwise returns Double.NaN.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::argmax(ArrayPtr< double > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double argmaxWithCancel(const ListPtr<double> &numbers, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::argmax(const ListPtr< double > &)
+		 */
 		static double argmax(ListPtr<double> &numbers) { return argmax(CONST_LIST_DOUBLE(numbers)); }
 		/**
-		 * Arg-Max function.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     Returns the index of the first biggest number,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see argmax(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::argmaxWithCancel(const ListPtr< double > &,int)
 		 */
 		static double argmaxWithCancel(ListPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return argmaxWithCancel(CONST_LIST_DOUBLE(numbers), cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::argmax(const ListPtr< double > &)
+		 */
 		static double argmax(const ArrayPtr<double> &numbers);
 		/**
-		 * Arg-Max function.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     Returns the index of the first biggest number,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see argmax(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::argmaxWithCancel(const ListPtr< double > &,int)
 		 */
 		static double argmaxWithCancel(const ArrayPtr<double> &numbers, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::argmax(const ListPtr< double > &)
+		 */
 		static double argmax(ArrayPtr<double> &numbers) { return argmax(CONST_ARRAY_DOUBLE(numbers)); }
 		/**
-		 * Arg-Max function.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     Returns the index of the first biggest number,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see argmax(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::argmaxWithCancel(const ListPtr< double > &,int)
 		 */
 		static double argmaxWithCancel(ArrayPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -794,9 +602,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Array sort - ascending - quick sort algorithm.
+		 * \param doubleArray  Array to be sorted
+		 * \return Sorts array and additionally returns
+		 *               initial ordering swapped according to sort order.
+		 */
 		static ArrayPtr<int> sortAsc(const ArrayPtr<double> &doubleArray);
 		/**
-		 * Array sort - ascending - quick sort algorithm.
+		 * \brief Array sort - ascending - quick sort algorithm.
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
@@ -808,23 +622,31 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param doubleArray  Array to be sorted
-		 * @return       Sorts array and additionally returns
+		 * \param doubleArray  Array to be sorted
+		 * \return Sorts array and additionally returns
 		 *               initial ordering swapped according to sort order.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see sortAsc(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::sortAsc(const ArrayPtr< double > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static ArrayPtr<int> sortAscWithCancel(const ArrayPtr<double> &doubleArray, int cancelId);
+		/**
+		 * \brief Returns list of distinct values found in a given array.
+		 * \param doubleArray The array
+		 * \param returnOrderByDescFreqAndAscOrigPos Indicator whether to apply final ordering based
+		 *                                           on descending value frequency and ascending initial position.
+		 * \return List of values in the form of: first index - value index, second index: 0 - value, 1 - value count,
+		 *                                        2 - minimal value position in original array
+		 */
 		static ArrayPtr<double> getDistValues(const ArrayPtr<double> &doubleArray, bool returnOrderByDescFreqAndAscOrigPos);
 		/**
-		 * Returns list of distinct values found in a given array.
+		 * \brief Returns list of distinct values found in a given array.
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
@@ -836,60 +658,73 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param doubleArray The array
-		 * @param returnOrderByDescFreqAndAscOrigPos Indicator whether to apply final ordering based
+		 * \param doubleArray The array
+		 * \param returnOrderByDescFreqAndAscOrigPos Indicator whether to apply final ordering based
 		 *                                           on descending value frequency and ascending initial position.
-		 * @return List of values in the form of: first index - value index, second index: 0 - value, 1 - value count,
+		 * \return List of values in the form of: first index - value index, second index: 0 - value, 1 - value count,
 		 *                                        2 - minimal value position in original array
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see getDistValues(double[],boolean)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::getDistValues(const ArrayPtr< double > &,bool)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static ArrayPtr<double> getDistValuesWithCancel(const ArrayPtr<double> &doubleArray, bool returnOrderByDescFreqAndAscOrigPos, int cancelId);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Returns number of unique values found the list of numbers
+		 * \param numbers    The list of numbers
+		 * \return Number of unique values. If list is null or any Double.NaN
+		 *                   is found then Double.NaN is returned.
+		 * \tparam Doubles Types of the forwarded arguments.
+		 */
 		template<typename... Doubles>
 		static double numberOfDistValues(Doubles &&... numbers) {
 			VariadicProcessorDouble vp;
 			vp.processArgs(std::forward<Doubles>(numbers)...);
 			return numberOfDistValues(vp.paramsDouble);
 		}
+		/**
+		 * \brief Returns number of unique values found the list of numbers
+		 * \param numbers    The list of numbers
+		 * \return Number of unique values. If list is null or any Double.NaN
+		 *                   is found then Double.NaN is returned.
+		 */
 		static double numberOfDistValues(const ListPtr<double> &numbers) {
 			ArrayPtr<double> arrayNumbers = Array<double>::toArray(numbers);
 			return numberOfDistValues(arrayNumbers);
 		}
 		/**
-		 * Returns number of unique values found the list of numbers
+		 * \brief Returns number of unique values found the list of numbers
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * Array parameters are fixed arrays, not token-bearing varargs.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param numbers    The list of numbers
-		 * @return           Number of unique values. If list is null or any Double::NaN
-		 *                   is found then Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see numberOfDistValues(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param numbers    The list of numbers
+		 * \return Number of unique values. If list is null or any Double.NaN
+		 *                   is found then Double.NaN is returned.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::numberOfDistValues(ArrayPtr< double > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double numberOfDistValuesWithCancel(const ListPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -897,92 +732,32 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			ArrayPtr<double> arrayNumbers = Array<double>::toArray(numbers);
 			return numberOfDistValuesWithCancel(arrayNumbers, cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::numberOfDistValues(const ListPtr< double > &)
+		 */
 		static double numberOfDistValues(ListPtr<double> &numbers) { return numberOfDistValues(CONST_LIST_DOUBLE(numbers)); }
 		/**
-		 * Returns number of unique values found the list of numbers
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param numbers    The list of numbers
-		 * @return           Number of unique values. If list is null or any Double::NaN
-		 *                   is found then Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see numberOfDistValues(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::numberOfDistValuesWithCancel(const ListPtr< double > &,int)
 		 */
 		static double numberOfDistValuesWithCancel(ListPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return numberOfDistValuesWithCancel(CONST_LIST_DOUBLE(numbers), cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::numberOfDistValues(const ListPtr< double > &)
+		 */
 		static double numberOfDistValues(const ArrayPtr<double> &numbers);
 		/**
-		 * Returns number of unique values found the list of numbers
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param numbers    The list of numbers
-		 * @return           Number of unique values. If list is null or any Double::NaN
-		 *                   is found then Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see numberOfDistValues(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::numberOfDistValuesWithCancel(const ListPtr< double > &,int)
 		 */
 		static double numberOfDistValuesWithCancel(const ArrayPtr<double> &numbers, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::numberOfDistValues(const ListPtr< double > &)
+		 */
 		static double numberOfDistValues(ArrayPtr<double> &numbers) { return numberOfDistValues(CONST_ARRAY_DOUBLE(numbers)); }
 		/**
-		 * Returns number of unique values found the list of numbers
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param numbers    The list of numbers
-		 * @return           Number of unique values. If list is null or any Double::NaN
-		 *                   is found then Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see numberOfDistValues(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::numberOfDistValuesWithCancel(const ListPtr< double > &,int)
 		 */
 		static double numberOfDistValuesWithCancel(ArrayPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -992,68 +767,85 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Greatest common divisor (GCD)
+		 * \param a                   the a function parameter
+		 * \param b                   the b function parameter
+		 * \return GCD(a,b)
+		 */
 		static Long gcd(Long a, Long b);
 		/**
-		 * Greatest common divisor (GCD)
+		 * \brief Greatest common divisor (GCD)
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns 0 (the canonical integral cancellation sentinel).
+		 * At this method's existing cancellation checks it returns 0L (the canonical integral cancellation sentinel).
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      a                   the a function parameter
-		 * @param      b                   the b function parameter
-		 * @return     GCD(a,b)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see gcd(long,long)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param a                   the a function parameter
+		 * \param b                   the b function parameter
+		 * \return GCD(a,b)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::gcd(Long,Long)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static Long gcdWithCancel(Long a, Long b, int cancelId);
+		/**
+		 * \brief Greatest common divisor (GCD)
+		 * \param a                   the a function parameter
+		 * \param b                   the b function parameter
+		 * \return if a, b &lt;&gt; Double.NaN returns gcd( (int)Math.round(a),(int)Math.round(b) ),
+		 *             otherwise returns Double.NaN.
+		 */
 		static double gcd(double a, double b);
 		/**
-		 * Greatest common divisor (GCD)
+		 * \brief Greatest common divisor (GCD)
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      a                   the a function parameter
-		 * @param      b                   the b function parameter
-		 *
-		 * @return     if a, b &lt;&gt; Double::NaN returns gcd( (int)Math.round(a),(int)Math.round(b) ),
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see gcd(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param a                   the a function parameter
+		 * \param b                   the b function parameter
+		 * \return if a, b &lt;&gt; Double.NaN returns gcd( (int)Math.round(a),(int)Math.round(b) ),
+		 *             otherwise returns Double.NaN.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::gcd(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double gcdWithCancel(double a, double b, int cancelId);
 		//static Long gcd(const ListPtr<Long> &numbers);
+		/**
+		 * \brief Greatest common divisor (GCD)
+		 * \param numbers             the numbers
+		 * \return GCD(a_1,...,a_n) a_1,...,a_n in numbers
+		 */
 		static Long gcd(const ArrayPtr<Long> &numbers);
 		/**
-		 * Greatest common divisor (GCD)
+		 * \brief Greatest common divisor (GCD)
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -1061,64 +853,77 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
 		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns 0 (the canonical integral cancellation sentinel).
+		 * At this method's existing cancellation checks it returns 0L (the canonical integral cancellation sentinel).
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     GCD(a_1,...,a_n) a_1,...,a_n in numbers
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see gcd(long[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param numbers             the numbers
+		 * \return GCD(a_1,...,a_n) a_1,...,a_n in numbers
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::gcd(const ArrayPtr< Long > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static Long gcdWithCancel(const ArrayPtr<Long> &numbers, int cancelId);
 		
+		/**
+		 * \brief Greatest common divisor (GCD)
+		 * \param numbers             the numbers
+		 * \return if each number form numbers &lt;&gt; Double.NaN returns
+		 *             GCD(a_1,...,a_n) a_1,...,a_n in numbers,
+		 *             otherwise returns Double.NaN.
+		 * \tparam Doubles Types of the forwarded arguments.
+		 */
 		template<typename... Doubles>
 		static double gcd(Doubles &&... numbers) {
 			VariadicProcessorDouble vp;
 			vp.processArgs(std::forward<Doubles>(numbers)...);
 			return gcd(vp.paramsDouble);
 		}
+		/**
+		 * \brief Greatest common divisor (GCD)
+		 * \param numbers             the numbers
+		 * \return if each number form numbers &lt;&gt; Double.NaN returns
+		 *             GCD(a_1,...,a_n) a_1,...,a_n in numbers,
+		 *             otherwise returns Double.NaN.
+		 */
 		static double gcd(const ListPtr<double> &numbers) {
 			ArrayPtr<double> arrayNumbers = Array<double>::toArray(numbers);
 			return gcd(arrayNumbers);
 		}
 		/**
-		 * Greatest common divisor (GCD)
+		 * \brief Greatest common divisor (GCD)
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * Array parameters are fixed arrays, not token-bearing varargs.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number form numbers &lt;&gt; Double::NaN returns
+		 * \param numbers             the numbers
+		 * \return if each number form numbers &lt;&gt; Double.NaN returns
 		 *             GCD(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see gcd(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 *             otherwise returns Double.NaN.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::gcd(ArrayPtr< double > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double gcdWithCancel(const ListPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -1126,101 +931,32 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			ArrayPtr<double> arrayNumbers = Array<double>::toArray(numbers);
 			return gcdWithCancel(arrayNumbers, cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::gcd(const ListPtr< double > &)
+		 */
 		static double gcd(ListPtr<double> &numbers) { return gcd(CONST_LIST_DOUBLE(numbers)); }
 		/**
-		 * Greatest common divisor (GCD)
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number form numbers &lt;&gt; Double::NaN returns
-		 *             GCD(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see gcd(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::gcdWithCancel(const ListPtr< double > &,int)
 		 */
 		static double gcdWithCancel(ListPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return gcdWithCancel(CONST_LIST_DOUBLE(numbers), cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::gcd(const ListPtr< double > &)
+		 */
 		static double gcd(const ArrayPtr<double> &numbers);
 		/**
-		 * Greatest common divisor (GCD)
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number form numbers &lt;&gt; Double::NaN returns
-		 *             GCD(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see gcd(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::gcdWithCancel(const ListPtr< double > &,int)
 		 */
 		static double gcdWithCancel(const ArrayPtr<double> &numbers, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::gcd(const ListPtr< double > &)
+		 */
 		static double gcd(ArrayPtr<double> &numbers) { return gcd(CONST_ARRAY_DOUBLE(numbers)); }
 		/**
-		 * Greatest common divisor (GCD)
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number form numbers &lt;&gt; Double::NaN returns
-		 *             GCD(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see gcd(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::gcdWithCancel(const ListPtr< double > &,int)
 		 */
 		static double gcdWithCancel(ArrayPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -1230,9 +966,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Latest common multiply (LCM)
+		 * \param a                   the a function parameter
+		 * \param b                   the b function parameter
+		 * \return LCM(a,b)
+		 */
 		static Long lcm(Long a, Long b);
 		/**
-		 * Latest common multiply (LCM)
+		 * \brief Latest common multiply (LCM)
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -1243,25 +985,31 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      a                   the a function parameter
-		 * @param      b                   the b function parameter
-		 *
-		 * @return     LCM(a,b)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @throws std::invalid_argument if a cancelled gcd supplies a zero divisor
-		 * @since 6.2.0
-		 * @see lcm(long,long)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param a                   the a function parameter
+		 * \param b                   the b function parameter
+		 * \return LCM(a,b)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::lcm(Long,Long)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
+		 * \exception std::invalid_argument if a cancelled gcd supplies a zero divisor
 		 */
 		static Long lcmWithCancel(Long a, Long b, int cancelId);
+		/**
+		 * \brief Latest common multiply (LCM)
+		 * \param a                   the a function parameter
+		 * \param b                   the b function parameter
+		 * \return if a, b &lt;&gt; Double.NaN returns lcm( (int)Math.round(a), (int)Math.round(b) ),
+		 *             otherwise returns Double.NaN.
+		 */
 		static double lcm(double a, double b);
 		/**
-		 * Latest common multiply (LCM)
+		 * \brief Latest common multiply (LCM)
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -1272,26 +1020,30 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      a                   the a function parameter
-		 * @param      b                   the b function parameter
-		 *
-		 * @return     if a, b &lt;&gt; Double::NaN returns lcm( (int)Math.round(a), (int)Math.round(b) ),
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see lcm(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param a                   the a function parameter
+		 * \param b                   the b function parameter
+		 * \return if a, b &lt;&gt; Double.NaN returns lcm( (int)Math.round(a), (int)Math.round(b) ),
+		 *             otherwise returns Double.NaN.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::lcm(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double lcmWithCancel(double a, double b, int cancelId);
 		//static Long lcm(const ListPtr<Long> &numbers);
+		/**
+		 * \brief Latest common multiply (LCM)
+		 * \param numbers             the numbers
+		 * \return LCM(a_1,...,a_n) a_1,...,a_n in numbers
+		 */
 		static Long lcm(const ArrayPtr<Long> &numbers);
 		/**
-		 * Latest common multiply (LCM)
+		 * \brief Latest common multiply (LCM)
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -1299,65 +1051,78 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
 		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns 0 (the canonical integral cancellation sentinel).
+		 * At this method's existing cancellation checks it returns 0L (the canonical integral cancellation sentinel).
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     LCM(a_1,...,a_n) a_1,...,a_n in numbers
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @throws std::invalid_argument if a cancelled gcd supplies a zero divisor
-		 * @since 6.2.0
-		 * @see lcm(long[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param numbers             the numbers
+		 * \return LCM(a_1,...,a_n) a_1,...,a_n in numbers
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::lcm(const ArrayPtr< Long > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
+		 * \exception std::invalid_argument if a cancelled gcd supplies a zero divisor
 		 */
 		static Long lcmWithCancel(const ArrayPtr<Long> &numbers, int cancelId);
 		
+		/**
+		 * \brief Latest common multiply (LCM)
+		 * \param numbers             the numbers
+		 * \return if each number form numbers &lt;&gt; Double.NaN returns
+		 *             LCM(a_1,...,a_n) a_1,...,a_n in numbers,
+		 *             otherwise returns Double.NaN.
+		 * \tparam Doubles Types of the forwarded arguments.
+		 */
 		template<typename... Doubles>
 		static double lcm(Doubles &&... numbers) {
 			VariadicProcessorDouble vp;
 			vp.processArgs(std::forward<Doubles>(numbers)...);
 			return lcm(vp.paramsDouble);
 		}
+		/**
+		 * \brief Latest common multiply (LCM)
+		 * \param numbers             the numbers
+		 * \return if each number form numbers &lt;&gt; Double.NaN returns
+		 *             LCM(a_1,...,a_n) a_1,...,a_n in numbers,
+		 *             otherwise returns Double.NaN.
+		 */
 		static double lcm(const ListPtr<double> &numbers) {
 			ArrayPtr<double> arrayNumbers = Array<double>::toArray(numbers);
 			return lcm(arrayNumbers);
 		}
 		/**
-		 * Latest common multiply (LCM)
+		 * \brief Latest common multiply (LCM)
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * Array parameters are fixed arrays, not token-bearing varargs.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number form numbers &lt;&gt; Double::NaN returns
+		 * \param numbers             the numbers
+		 * \return if each number form numbers &lt;&gt; Double.NaN returns
 		 *             LCM(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see lcm(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 *             otherwise returns Double.NaN.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::lcm(ArrayPtr< double > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double lcmWithCancel(const ListPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -1365,101 +1130,32 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			ArrayPtr<double> arrayNumbers = Array<double>::toArray(numbers);
 			return lcmWithCancel(arrayNumbers, cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::lcm(const ListPtr< double > &)
+		 */
 		static double lcm(ListPtr<double> &numbers) { return lcm(CONST_LIST_DOUBLE(numbers)); }
 		/**
-		 * Latest common multiply (LCM)
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number form numbers &lt;&gt; Double::NaN returns
-		 *             LCM(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see lcm(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::lcmWithCancel(const ListPtr< double > &,int)
 		 */
 		static double lcmWithCancel(ListPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return lcmWithCancel(CONST_LIST_DOUBLE(numbers), cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::lcm(const ListPtr< double > &)
+		 */
 		static double lcm(const ArrayPtr<double> &numbers);
 		/**
-		 * Latest common multiply (LCM)
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number form numbers &lt;&gt; Double::NaN returns
-		 *             LCM(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see lcm(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::lcmWithCancel(const ListPtr< double > &,int)
 		 */
 		static double lcmWithCancel(const ArrayPtr<double> &numbers, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::lcm(const ListPtr< double > &)
+		 */
 		static double lcm(ArrayPtr<double> &numbers) { return lcm(CONST_ARRAY_DOUBLE(numbers)); }
 		/**
-		 * Latest common multiply (LCM)
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number form numbers &lt;&gt; Double::NaN returns
-		 *             LCM(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see lcm(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::lcmWithCancel(const ListPtr< double > &,int)
 		 */
 		static double lcmWithCancel(ArrayPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -1469,44 +1165,58 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Adding numbers.
+		 * \param numbers             the numbers
+		 * \return if each number from numbers &lt;&gt; Double.NaN returns
+		 *             sum(a_1,...,a_n) a_1,...,a_n in numbers,
+		 *             otherwise returns Double.NaN.
+		 * \tparam Doubles Types of the forwarded arguments.
+		 */
 		template<typename... Doubles>
 		static double sum(Doubles &&... numbers) {
 			VariadicProcessorDouble vp;
 			vp.processArgs(std::forward<Doubles>(numbers)...);
 			return sum(vp.paramsDouble);
 		}
+		/**
+		 * \brief Adding numbers.
+		 * \param numbers             the numbers
+		 * \return if each number from numbers &lt;&gt; Double.NaN returns
+		 *             sum(a_1,...,a_n) a_1,...,a_n in numbers,
+		 *             otherwise returns Double.NaN.
+		 */
 		static double sum(const ListPtr<double> &numbers) {
 			ArrayPtr<double> arrayNumbers = Array<double>::toArray(numbers);
 			return sum(arrayNumbers);
 		}
 		/**
-		 * Adding numbers.
+		 * \brief Adding numbers.
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * Array parameters are fixed arrays, not token-bearing varargs.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number from numbers &lt;&gt; Double::NaN returns
+		 * \param numbers             the numbers
+		 * \return if each number from numbers &lt;&gt; Double.NaN returns
 		 *             sum(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see sum(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 *             otherwise returns Double.NaN.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::sum(ArrayPtr< double > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double sumWithCancel(const ListPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -1514,101 +1224,32 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			ArrayPtr<double> arrayNumbers = Array<double>::toArray(numbers);
 			return sumWithCancel(arrayNumbers, cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::sum(const ListPtr< double > &)
+		 */
 		static double sum(ListPtr<double> &numbers) { return sum(CONST_LIST_DOUBLE(numbers)); }
 		/**
-		 * Adding numbers.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number from numbers &lt;&gt; Double::NaN returns
-		 *             sum(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see sum(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::sumWithCancel(const ListPtr< double > &,int)
 		 */
 		static double sumWithCancel(ListPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return sumWithCancel(CONST_LIST_DOUBLE(numbers), cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::sum(const ListPtr< double > &)
+		 */
 		static double sum(const ArrayPtr<double> &numbers);
 		/**
-		 * Adding numbers.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number from numbers &lt;&gt; Double::NaN returns
-		 *             sum(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see sum(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::sumWithCancel(const ListPtr< double > &,int)
 		 */
 		static double sumWithCancel(const ArrayPtr<double> &numbers, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::sum(const ListPtr< double > &)
+		 */
 		static double sum(ArrayPtr<double> &numbers) { return sum(CONST_ARRAY_DOUBLE(numbers)); }
 		/**
-		 * Adding numbers.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number from numbers &lt;&gt; Double::NaN returns
-		 *             sum(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see sum(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::sumWithCancel(const ListPtr< double > &,int)
 		 */
 		static double sumWithCancel(ArrayPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -1618,44 +1259,58 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Numbers multiplication.
+		 * \param numbers             the numbers
+		 * \return if each number from numbers &lt;&gt; Double.NaN returns
+		 *             prod(a_1,...,a_n) a_1,...,a_n in numbers,
+		 *             otherwise returns Double.NaN.
+		 * \tparam Doubles Types of the forwarded arguments.
+		 */
 		template<typename... Doubles>
 		static double prod(Doubles &&... numbers) {
 			VariadicProcessorDouble vp;
 			vp.processArgs(std::forward<Doubles>(numbers)...);
 			return prod(vp.paramsDouble);
 		}
+		/**
+		 * \brief Numbers multiplication.
+		 * \param numbers             the numbers
+		 * \return if each number from numbers &lt;&gt; Double.NaN returns
+		 *             prod(a_1,...,a_n) a_1,...,a_n in numbers,
+		 *             otherwise returns Double.NaN.
+		 */
 		static double prod(const ListPtr<double> &numbers) {
 			ArrayPtr<double> arrayNumbers = Array<double>::toArray(numbers);
 			return prod(arrayNumbers);
 		}
 		/**
-		 * Numbers multiplication.
+		 * \brief Numbers multiplication.
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * Array parameters are fixed arrays, not token-bearing varargs.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number from numbers &lt;&gt; Double::NaN returns
+		 * \param numbers             the numbers
+		 * \return if each number from numbers &lt;&gt; Double.NaN returns
 		 *             prod(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see prod(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 *             otherwise returns Double.NaN.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::prod(ArrayPtr< double > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double prodWithCancel(const ListPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -1663,101 +1318,32 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			ArrayPtr<double> arrayNumbers = Array<double>::toArray(numbers);
 			return prodWithCancel(arrayNumbers, cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::prod(const ListPtr< double > &)
+		 */
 		static double prod(ListPtr<double> &numbers) { return prod(CONST_LIST_DOUBLE(numbers)); }
 		/**
-		 * Numbers multiplication.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number from numbers &lt;&gt; Double::NaN returns
-		 *             prod(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see prod(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::prodWithCancel(const ListPtr< double > &,int)
 		 */
 		static double prodWithCancel(ListPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return prodWithCancel(CONST_LIST_DOUBLE(numbers), cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::prod(const ListPtr< double > &)
+		 */
 		static double prod(const ArrayPtr<double> &numbers);
 		/**
-		 * Numbers multiplication.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number from numbers &lt;&gt; Double::NaN returns
-		 *             prod(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see prod(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::prodWithCancel(const ListPtr< double > &,int)
 		 */
 		static double prodWithCancel(const ArrayPtr<double> &numbers, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::prod(const ListPtr< double > &)
+		 */
 		static double prod(ArrayPtr<double> &numbers) { return prod(CONST_ARRAY_DOUBLE(numbers)); }
 		/**
-		 * Numbers multiplication.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number from numbers &lt;&gt; Double::NaN returns
-		 *             prod(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see prod(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::prodWithCancel(const ListPtr< double > &,int)
 		 */
 		static double prodWithCancel(ArrayPtr<double> &numbers, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -1767,9 +1353,14 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Prime test
+		 * \param n           The number to be tested.
+		 * \return true if number is prime, otherwise false
+		 */
 		static bool primeTest(Long n);
 		/**
-		 * Prime test
+		 * \brief Prime test
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -1781,23 +1372,27 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param n           The number to be tested.
-		 *
-		 * @return true if number is prime, otherwise false
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see primeTest(long)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param n           The number to be tested.
+		 * \return true if number is prime, otherwise false
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::primeTest(Long)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static bool primeTestWithCancel(Long n, int cancelId);
+		/**
+		 * \brief Prime test
+		 * \param n        The number to be tested.
+		 * \return true if number is prime, otherwise false
+		 */
 		static double primeTest(double n);
 		/**
-		 * Prime test
+		 * \brief Prime test
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -1808,51 +1403,59 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param n        The number to be tested.
-		 *
-		 * @return true if number is prime, otherwise false
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see primeTest(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param n        The number to be tested.
+		 * \return true if number is prime, otherwise false
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::primeTest(double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double primeTestWithCancel(double n, int cancelId);
+		/**
+		 * \brief Prime counting function
+		 * \param n number
+		 * \return Number of primes below or equal x
+		 */
 		static Long primeCount(Long n);
 		/**
-		 * Prime counting function
+		 * \brief Prime counting function
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns 0 (the canonical integral cancellation sentinel).
+		 * At this method's existing cancellation checks it returns 0L (the canonical integral cancellation sentinel).
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param n number
-		 *
-		 * @return Number of primes below or equal x
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see primeCount(long)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param n number
+		 * \return Number of primes below or equal x
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::primeCount(Long)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static Long primeCountWithCancel(Long n, int cancelId);
+		/**
+		 * \brief Prime counting function
+		 * \param n number
+		 * \return Number of primes below or equal x
+		 */
 		static double primeCount(double n);
 		/**
-		 * Prime counting function
+		 * \brief Prime counting function
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -1863,87 +1466,70 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param n number
-		 *
-		 * @return Number of primes below or equal x
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see primeCount(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param n number
+		 * \return Number of primes below or equal x
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::primeCount(double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double primeCountWithCancel(double n, int cancelId);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Summation operator (SIGMA FROM i = a, to b,  f(i) by delta
+		 * \param f                   the expression
+		 * \param index               the name of index argument
+		 * \param from                FROM index = form
+		 * \param to                  TO index = to
+		 * \param delta               BY delta
+		 * \return summation operation (for empty summation operations returns 0).
+		 */
 		static double sigmaSummation(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta);
 		/**
-		 * Summation operator (SIGMA FROM i = a, to b,  f(i) by delta
+		 * \brief Summation operator (SIGMA FROM i = a, to b,  f(i) by delta
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      index               the name of index argument
-		 * @param      from                FROM index = form
-		 * @param      to                  TO index = to
-		 * @param      delta               BY delta
-		 *
-		 * @return     summation operation (for empty summation operations returns 0).
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see sigmaSummation(org.mariuszgromada.math.mxparser.Expression,org.mariuszgromada.math.mxparser.Argument,double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param f                   the expression
+		 * \param index               the name of index argument
+		 * \param from                FROM index = form
+		 * \param to                  TO index = to
+		 * \param delta               BY delta
+		 * \return summation operation (for empty summation operations returns 0).
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::sigmaSummation
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double sigmaSummationWithCancel(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::sigmaSummation(const ExpressionPtr &,const ArgumentPtr &,double,double,double)
+		 */
 		static double sigmaSummation(ExpressionPtr &f, ArgumentPtr &index, double from, double to, double delta) {
 			return sigmaSummation(CONST_EXPRESSION(f), CONST_ARGUMENT(index), from, to, delta);
 		}
 		/**
-		 * Summation operator (SIGMA FROM i = a, to b,  f(i) by delta
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      index               the name of index argument
-		 * @param      from                FROM index = form
-		 * @param      to                  TO index = to
-		 * @param      delta               BY delta
-		 *
-		 * @return     summation operation (for empty summation operations returns 0).
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see sigmaSummation(org.mariuszgromada.math.mxparser.Expression,org.mariuszgromada.math.mxparser.Argument,double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::sigmaSummationWithCancel(const ExpressionPtr &,const ArgumentPtr &,double,double,double,int)
 		 */
 		static double sigmaSummationWithCancel(ExpressionPtr &f, ArgumentPtr &index, double from, double to, double delta, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -1953,76 +1539,58 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Product operator
+		 * \param f                   the expression
+		 * \param index               the name of index argument
+		 * \param from                FROM index = form
+		 * \param to                  TO index = to
+		 * \param delta               BY delta
+		 * \return product operation (for empty product operations returns 1).
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 */
 		static double piProduct(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta);
 		/**
-		 * Product operator
+		 * \brief Product operator
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      index               the name of index argument
-		 * @param      from                FROM index = form
-		 * @param      to                  TO index = to
-		 * @param      delta               BY delta
-		 *
-		 * @return     product operation (for empty product operations returns 1).
-		 *
-		 * @see        Expression
-		 * @see        Argument
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see piProduct(org.mariuszgromada.math.mxparser.Expression,org.mariuszgromada.math.mxparser.Argument,double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param f                   the expression
+		 * \param index               the name of index argument
+		 * \param from                FROM index = form
+		 * \param to                  TO index = to
+		 * \param delta               BY delta
+		 * \return product operation (for empty product operations returns 1).
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::piProduct
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double piProductWithCancel(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::piProduct(const ExpressionPtr &,const ArgumentPtr &,double,double,double)
+		 */
 		static double piProduct(ExpressionPtr &f, ArgumentPtr &index, double from, double to, double delta) {
 			return piProduct(CONST_EXPRESSION(f), CONST_ARGUMENT(index), from, to, delta);
 		}
 		/**
-		 * Product operator
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      index               the name of index argument
-		 * @param      from                FROM index = form
-		 * @param      to                  TO index = to
-		 * @param      delta               BY delta
-		 *
-		 * @return     product operation (for empty product operations returns 1).
-		 *
-		 * @see        Expression
-		 * @see        Argument
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see piProduct(org.mariuszgromada.math.mxparser.Expression,org.mariuszgromada.math.mxparser.Argument,double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::piProductWithCancel(const ExpressionPtr &,const ArgumentPtr &,double,double,double,int)
 		 */
 		static double piProductWithCancel(ExpressionPtr &f, ArgumentPtr &index, double from, double to, double delta, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -2032,74 +1600,58 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Minimum value - iterative operator.
+		 * \param f                   the expression
+		 * \param index               the name of index argument
+		 * \param from                FROM index = form
+		 * \param to                  TO index = to
+		 * \param delta               BY delta
+		 * \return product operation (for empty product operations returns 1).
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 */
 		static double min(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta);
 		/**
-		 * Minimum value - iterative operator.
+		 * \brief Minimum value - iterative operator.
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      index               the name of index argument
-		 * @param      from                FROM index = form
-		 * @param      to                  TO index = to
-		 * @param      delta               BY delta
-		 *
-		 * @return the minimum sampled value, positive infinity if no comparable sample is retained, or the existing NaN error/cancellation result
-		 * @see        Expression
-		 * @see        Argument
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see min(org.mariuszgromada.math.mxparser.Expression,org.mariuszgromada.math.mxparser.Argument,double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param f                   the expression
+		 * \param index               the name of index argument
+		 * \param from                FROM index = form
+		 * \param to                  TO index = to
+		 * \param delta               BY delta
+		 * \return the minimum sampled value, positive infinity if no comparable sample is retained, or the existing NaN error/cancellation result
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::min
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double minWithCancel(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::min(const ExpressionPtr &,const ArgumentPtr &,double,double,double)
+		 */
 		static double min(ExpressionPtr &f, ArgumentPtr &index, double from, double to, double delta) {
 			return min(CONST_EXPRESSION(f), CONST_ARGUMENT(index), from, to, delta);
 		}
 		/**
-		 * Minimum value - iterative operator.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      index               the name of index argument
-		 * @param      from                FROM index = form
-		 * @param      to                  TO index = to
-		 * @param      delta               BY delta
-		 *
-		 * @return the minimum sampled value, positive infinity if no comparable sample is retained, or the existing NaN error/cancellation result
-		 * @see        Expression
-		 * @see        Argument
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see min(org.mariuszgromada.math.mxparser.Expression,org.mariuszgromada.math.mxparser.Argument,double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::minWithCancel(const ExpressionPtr &,const ArgumentPtr &,double,double,double,int)
 		 */
 		static double minWithCancel(ExpressionPtr &f, ArgumentPtr &index, double from, double to, double delta, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -2109,74 +1661,58 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Maximum value - iterative operator.
+		 * \param f                   the expression
+		 * \param index               the name of index argument
+		 * \param from                FROM index = form
+		 * \param to                  TO index = to
+		 * \param delta               BY delta
+		 * \return product operation (for empty product operations returns 1).
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 */
 		static double max(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta);
 		/**
-		 * Maximum value - iterative operator.
+		 * \brief Maximum value - iterative operator.
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      index               the name of index argument
-		 * @param      from                FROM index = form
-		 * @param      to                  TO index = to
-		 * @param      delta               BY delta
-		 *
-		 * @return the maximum sampled value, negative infinity if no comparable sample is retained, or the existing NaN error/cancellation result
-		 * @see        Expression
-		 * @see        Argument
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see max(org.mariuszgromada.math.mxparser.Expression,org.mariuszgromada.math.mxparser.Argument,double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param f                   the expression
+		 * \param index               the name of index argument
+		 * \param from                FROM index = form
+		 * \param to                  TO index = to
+		 * \param delta               BY delta
+		 * \return the maximum sampled value, negative infinity if no comparable sample is retained, or the existing NaN error/cancellation result
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::max
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double maxWithCancel(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::max(const ExpressionPtr &,const ArgumentPtr &,double,double,double)
+		 */
 		static double max(ExpressionPtr &f, ArgumentPtr &index, double from, double to, double delta) {
 			return max(CONST_EXPRESSION(f), CONST_ARGUMENT(index), from, to, delta);
 		}
 		/**
-		 * Maximum value - iterative operator.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      index               the name of index argument
-		 * @param      from                FROM index = form
-		 * @param      to                  TO index = to
-		 * @param      delta               BY delta
-		 *
-		 * @return the maximum sampled value, negative infinity if no comparable sample is retained, or the existing NaN error/cancellation result
-		 * @see        Expression
-		 * @see        Argument
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see max(org.mariuszgromada.math.mxparser.Expression,org.mariuszgromada.math.mxparser.Argument,double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::maxWithCancel(const ExpressionPtr &,const ArgumentPtr &,double,double,double,int)
 		 */
 		static double maxWithCancel(ExpressionPtr &f, ArgumentPtr &index, double from, double to, double delta, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -2186,280 +1722,265 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Digit index based on digit character for numeral systems with
+		 * base between 1 and 36.
+		 * \param digitChar   Digit character (lower or upper case) representing digit in numeral
+		 *                    systems with base between 1 and 36. Digits:
+		 *                    0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8,
+		 *                    9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G,
+		 *                    17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O,
+		 *                    25:P, 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W,
+		 *                    33:X, 34:Y, 35:Z
+		 * \return Returns digit index if digit char was recognized,
+		 *                    otherwise returns -1.
+		 */
 		static int digitIndex(Char digitChar);
+		/**
+		 * \brief Character representing digit for numeral systems with base
+		 * between 1 and 36.
+		 * \param digitIndex   Digit index between 0 and 35
+		 * \return Digit character representing digit
+		 *                     for numeral systems with base between 1 and 36.
+		 *                     Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7,
+		 *                     8:8, 9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F,
+		 *                     16:G, 17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N,
+		 *                     24:O, 25:P, 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V,
+		 *                     32:W, 33:X, 34:Y, 35:Z. If digit index is put of range
+		 *                     '?' is returned.
+		 */
 		static Char digitChar(int digitIndex);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Recognition of numeral system base in which number literal represents
+		 * number.
+		 * Examples: 2 for b2.1001 or b.1001, 1 for b1.111, 23 for b23.123afg
+		 * 16 for b16.123acdf or h.123acdf.
+		 * \param numberLiteral Number literal string.
+		 *
+		 * Base format: b1. b2. b. b3. b4. b5. b6. b7. b8. o. b9. b10. b11. b12.
+		 * b13. b14. b15. b16. h. b17. b18. b19. b20. b21. b22. b23. b24. b25. b26.
+		 * b27. b28. b29. b30. b31. b32. b33. b34. b35. b36.
+		 *
+		 * Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:A, 11:B, 12:C,
+		 * 13:D, 14:E, 15:F, 16:G, 17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P,
+		 * 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
+		 * \return If number literal fits numeral system definition then numeral
+		 *          system base is returned (base between 1 and 36), otherwise
+		 *          -1 is returned.
+		 */
 		static int getNumeralSystemBase(const StringPtr &numberLiteral);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::getNumeralSystemBase(const StringPtr &)
+		 */
 		static int getNumeralSystemBase(StringPtr &numberLiteral) { return getNumeralSystemBase(CONST_STRING_PTR(numberLiteral)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::getNumeralSystemBase(const StringPtr &)
+		 */
 		static int getNumeralSystemBase(const String &numberLiteral) { return getNumeralSystemBase(S(numberLiteral)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::getNumeralSystemBase(const StringPtr &)
+		 */
 		static int getNumeralSystemBase(const std::string &numberLiteral) { return getNumeralSystemBase(S(numberLiteral)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::getNumeralSystemBase(const StringPtr &)
+		 */
 		static int getNumeralSystemBase(const Char* numberLiteral) { return getNumeralSystemBase(S(numberLiteral)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::getNumeralSystemBase(const StringPtr &)
+		 */
 		static int getNumeralSystemBase(const char* numberLiteral) { return getNumeralSystemBase(S(numberLiteral)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Other base (base between 1 and 36) number literal conversion to decimal number.
+		 * \param numberLiteral    Number literal in given numeral system with base between
+		 *                         1 and 36. Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7,
+		 *                         8:8, 9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G, 17:H,
+		 *                         18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P, 26:Q, 27:R,
+		 *                         28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
+		 * \param numeralSystemBase             Numeral system base, between 1 and 36
+		 * \return Decimal number after conversion. If conversion was not
+		 *                         possible the Double.NaN is returned.
+		 */
 		static double convOthBase2Decimal(const StringPtr &numberLiteral, int numeralSystemBase);
 		/**
-		 * Other base (base between 1 and 36) number literal conversion to decimal number.
+		 * \brief Other base (base between 1 and 36) number literal conversion to decimal number.
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param numberLiteral    Number literal in given numeral system with base between
+		 * \param numberLiteral    Number literal in given numeral system with base between
 		 *                         1 and 36. Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7,
 		 *                         8:8, 9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G, 17:H,
 		 *                         18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P, 26:Q, 27:R,
 		 *                         28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
-		 * @param numeralSystemBase             Numeral system base, between 1 and 36
-		 * @return                 Decimal number after conversion. If conversion was not
-		 *                         possible the Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(StringPtr,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param numeralSystemBase             Numeral system base, between 1 and 36
+		 * \return Decimal number after conversion. If conversion was not
+		 *                         possible the Double.NaN is returned.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double convOthBase2DecimalWithCancel(const StringPtr &numberLiteral, int numeralSystemBase, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(const StringPtr &,int)
+		 */
 		static double convOthBase2Decimal(StringPtr &numberLiteral, int numeralSystemBase) { return convOthBase2Decimal(CONST_STRING_PTR(numberLiteral), numeralSystemBase); }
 		/**
-		 * Other base (base between 1 and 36) number literal conversion to decimal number.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param numberLiteral    Number literal in given numeral system with base between
-		 *                         1 and 36. Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7,
-		 *                         8:8, 9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G, 17:H,
-		 *                         18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P, 26:Q, 27:R,
-		 *                         28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
-		 * @param numeralSystemBase             Numeral system base, between 1 and 36
-		 * @return                 Decimal number after conversion. If conversion was not
-		 *                         possible the Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(StringPtr,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2DecimalWithCancel(const StringPtr &,int,int)
 		 */
 		static double convOthBase2DecimalWithCancel(StringPtr &numberLiteral, int numeralSystemBase, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return convOthBase2DecimalWithCancel(CONST_STRING_PTR(numberLiteral), numeralSystemBase, cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(const StringPtr &,int)
+		 */
 		static double convOthBase2Decimal(const String &numberLiteral, int numeralSystemBase) { return convOthBase2Decimal(S(numberLiteral), numeralSystemBase); }
 		/**
-		 * Other base (base between 1 and 36) number literal conversion to decimal number.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param numberLiteral    Number literal in given numeral system with base between
-		 *                         1 and 36. Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7,
-		 *                         8:8, 9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G, 17:H,
-		 *                         18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P, 26:Q, 27:R,
-		 *                         28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
-		 * @param numeralSystemBase             Numeral system base, between 1 and 36
-		 * @return                 Decimal number after conversion. If conversion was not
-		 *                         possible the Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(StringPtr,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2DecimalWithCancel(const StringPtr &,int,int)
 		 */
 		static double convOthBase2DecimalWithCancel(const String &numberLiteral, int numeralSystemBase, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return convOthBase2DecimalWithCancel(S(numberLiteral), numeralSystemBase, cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(const StringPtr &,int)
+		 */
 		static double convOthBase2Decimal(const std::string &numberLiteral, int numeralSystemBase) { return convOthBase2Decimal(S(numberLiteral), numeralSystemBase); }
 		/**
-		 * Other base (base between 1 and 36) number literal conversion to decimal number.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param numberLiteral    Number literal in given numeral system with base between
-		 *                         1 and 36. Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7,
-		 *                         8:8, 9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G, 17:H,
-		 *                         18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P, 26:Q, 27:R,
-		 *                         28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
-		 * @param numeralSystemBase             Numeral system base, between 1 and 36
-		 * @return                 Decimal number after conversion. If conversion was not
-		 *                         possible the Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(StringPtr,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2DecimalWithCancel(const StringPtr &,int,int)
 		 */
 		static double convOthBase2DecimalWithCancel(const std::string &numberLiteral, int numeralSystemBase, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return convOthBase2DecimalWithCancel(S(numberLiteral), numeralSystemBase, cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(const StringPtr &,int)
+		 */
 		static double convOthBase2Decimal(const Char* numberLiteral, int numeralSystemBase) { return convOthBase2Decimal(S(numberLiteral), numeralSystemBase); }
 		/**
-		 * Other base (base between 1 and 36) number literal conversion to decimal number.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param numberLiteral    Number literal in given numeral system with base between
-		 *                         1 and 36. Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7,
-		 *                         8:8, 9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G, 17:H,
-		 *                         18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P, 26:Q, 27:R,
-		 *                         28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
-		 * @param numeralSystemBase             Numeral system base, between 1 and 36
-		 * @return                 Decimal number after conversion. If conversion was not
-		 *                         possible the Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(StringPtr,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2DecimalWithCancel(const StringPtr &,int,int)
 		 */
 		static double convOthBase2DecimalWithCancel(const Char* numberLiteral, int numeralSystemBase, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return convOthBase2DecimalWithCancel(S(numberLiteral), numeralSystemBase, cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(const StringPtr &,int)
+		 */
 		static double convOthBase2Decimal(const char* numberLiteral, int numeralSystemBase) { return convOthBase2Decimal(S(numberLiteral), numeralSystemBase); }
 		/**
-		 * Other base (base between 1 and 36) number literal conversion to decimal number.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param numberLiteral    Number literal in given numeral system with base between
-		 *                         1 and 36. Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7,
-		 *                         8:8, 9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G, 17:H,
-		 *                         18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P, 26:Q, 27:R,
-		 *                         28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
-		 * @param numeralSystemBase             Numeral system base, between 1 and 36
-		 * @return                 Decimal number after conversion. If conversion was not
-		 *                         possible the Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(StringPtr,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2DecimalWithCancel(const StringPtr &,int,int)
 		 */
 		static double convOthBase2DecimalWithCancel(const char* numberLiteral, int numeralSystemBase, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return convOthBase2DecimalWithCancel(S(numberLiteral), numeralSystemBase, cancelId);
 		}
+		/**
+		 * \brief Other base (base between 1 and 36) number literal conversion to decimal number.
+		 * Base specification included in number literal.
+		 *
+		 * Examples: 2 for b2.1001 or b.1001, 1 for b1.111, 23 for b23.123afg
+		 * 16 for b16.123acdf or h.123acdf.
+		 * \param numberLiteral Number literal string.
+		 *
+		 * Base format: b1. b2. b. b3. b4. b5. b6. b7. b8. o. b9. b10. b11. b12.
+		 * b13. b14. b15. b16. h. b17. b18. b19. b20. b21. b22. b23. b24. b25. b26.
+		 * b27. b28. b29. b30. b31. b32. b33. b34. b35. b36.
+		 *
+		 * Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:A, 11:B, 12:C,
+		 * 13:D, 14:E, 15:F, 16:G, 17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P,
+		 * 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
+		 * \return Decimal number after conversion. If conversion was not
+		 *             possible the Double.NaN is returned.
+		 */
 		static double convOthBase2Decimal(const StringPtr &numberLiteral);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(const StringPtr &)
+		 */
 		static double convOthBase2Decimal(StringPtr &numberLiteral) { return convOthBase2Decimal(CONST_STRING_PTR(numberLiteral)); }
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(const StringPtr &)
+		 */
 		static double convOthBase2Decimal(const String &numberLiteral) { return convOthBase2Decimal(S(numberLiteral)); }
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(const StringPtr &)
+		 */
 		static double convOthBase2Decimal(const std::string &numberLiteral) { return convOthBase2Decimal(S(numberLiteral)); }
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(const StringPtr &)
+		 */
 		static double convOthBase2Decimal(const Char* numberLiteral) { return convOthBase2Decimal(S(numberLiteral)); }
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(const StringPtr &)
+		 */
 		static double convOthBase2Decimal(const char* numberLiteral) { return convOthBase2Decimal(S(numberLiteral)); }
 
+		/**
+		 * \brief Other base to decimal conversion.
+		 * \param numeralSystemBase   Numeral system base has to be above 0.
+		 * \param digits              List of digits
+		 * \return Number after conversion. If conversion is not possible then
+		 *                            Double.NaN is returned.
+		 */
 		static double convOthBase2Decimal(int numeralSystemBase, const ListPtr<int> &digits) {
 			const ArrayPtr<int> digitsArray = digits == nullptr ? nullptr : Array<int>::toArray(digits);
 			return convOthBase2Decimal(numeralSystemBase, digitsArray);
 		}
 		/**
-		 * Other base to decimal conversion.
+		 * \brief Other base to decimal conversion.
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * Array parameters are fixed arrays, not token-bearing varargs.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param numeralSystemBase   Numeral system base has to be above 0.
-		 * @param digits              List of digits
-		 * @return                    Number after conversion. If conversion is not possible then
-		 *                            Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(int,int[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param numeralSystemBase   Numeral system base has to be above 0.
+		 * \param digits              List of digits
+		 * \return Number after conversion. If conversion is not possible then
+		 *                            Double.NaN is returned.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(int,ArrayPtr< int > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double convOthBase2DecimalWithCancel(int numeralSystemBase, const ListPtr<int> &digits, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -2467,98 +1988,32 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			const ArrayPtr<int> digitsArray = digits == nullptr ? nullptr : Array<int>::toArray(digits);
 			return convOthBase2DecimalWithCancel(numeralSystemBase, digitsArray, cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(int,const ListPtr< int > &)
+		 */
 		static double convOthBase2Decimal(int numeralSystemBase, ListPtr<int> &digits) { return convOthBase2Decimal(numeralSystemBase, static_cast<const ListPtr<int> &>(digits)); }
 		/**
-		 * Other base to decimal conversion.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param numeralSystemBase   Numeral system base has to be above 0.
-		 * @param digits              List of digits
-		 * @return                    Number after conversion. If conversion is not possible then
-		 *                            Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(int,int[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2DecimalWithCancel(int,const ListPtr< int > &,int)
 		 */
 		static double convOthBase2DecimalWithCancel(int numeralSystemBase, ListPtr<int> &digits, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return convOthBase2DecimalWithCancel(numeralSystemBase, static_cast<const ListPtr<int> &>(digits), cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(int,const ListPtr< int > &)
+		 */
 		static double convOthBase2Decimal(int numeralSystemBase, const ArrayPtr<int> &digits);
 		/**
-		 * Other base to decimal conversion.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param numeralSystemBase   Numeral system base has to be above 0.
-		 * @param digits              List of digits
-		 * @return                    Number after conversion. If conversion is not possible then
-		 *                            Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(int,int[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2DecimalWithCancel(int,const ListPtr< int > &,int)
 		 */
 		static double convOthBase2DecimalWithCancel(int numeralSystemBase, const ArrayPtr<int> &digits, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(int,const ListPtr< int > &)
+		 */
 		static double convOthBase2Decimal(int numeralSystemBase, ArrayPtr<int> &digits) { return convOthBase2Decimal(numeralSystemBase, static_cast<const ArrayPtr<int> &>(digits)); }
 		/**
-		 * Other base to decimal conversion.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param numeralSystemBase   Numeral system base has to be above 0.
-		 * @param digits              List of digits
-		 * @return                    Number after conversion. If conversion is not possible then
-		 *                            Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(int,int[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2DecimalWithCancel(int,const ListPtr< int > &,int)
 		 */
 		static double convOthBase2DecimalWithCancel(int numeralSystemBase, ArrayPtr<int> &digits, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -2566,43 +2021,58 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return convOthBase2DecimalWithCancel(numeralSystemBase, static_cast<const ArrayPtr<int> &>(digits), cancelId);
 		}
 
+		/**
+		 * \brief Other base to decimal conversion.
+		 * \param numeralSystemBase   Numeral system base has to be above 0.
+		 * \param numbers              List of digits
+		 * \return Number after conversion. If conversion is not possible then
+		 *                            Double.NaN is returned.
+		 * \tparam Doubles Types of the forwarded arguments.
+		 */
 		template<typename... Doubles>
 		static double convOthBase2Decimal(double numeralSystemBase, Doubles &&... numbers) {
 			VariadicProcessorDouble vp;
 			vp.processArgs(std::forward<Doubles>(numbers)...);
 			return convOthBase2Decimal(numeralSystemBase, vp.paramsDouble);
 		}
+		/**
+		 * \brief Other base to decimal conversion.
+		 * \param numeralSystemBase   Numeral system base has to be above 0.
+		 * \param digits              List of digits
+		 * \return Number after conversion. If conversion is not possible then
+		 *                            Double.NaN is returned.
+		 */
 		static double convOthBase2Decimal(double numeralSystemBase, const ListPtr<double> &digits) {
 			ArrayPtr<double> arrayDigits = digits == nullptr ? nullptr : Array<double>::toArray(digits);
 			return convOthBase2Decimal(numeralSystemBase, arrayDigits);
 		}
 		/**
-		 * Other base to decimal conversion.
+		 * \brief Other base to decimal conversion.
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * Array parameters are fixed arrays, not token-bearing varargs.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param numeralSystemBase   Numeral system base has to be above 0.
-		 * @param digits              List of digits
-		 * @return                    Number after conversion. If conversion is not possible then
-		 *                            Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(double,double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param numeralSystemBase   Numeral system base has to be above 0.
+		 * \param digits              List of digits
+		 * \return Number after conversion. If conversion is not possible then
+		 *                            Double.NaN is returned.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(double,ArrayPtr< double > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double convOthBase2DecimalWithCancel(double numeralSystemBase, const ListPtr<double> &digits, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -2610,107 +2080,50 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			ArrayPtr<double> arrayDigits = digits == nullptr ? nullptr : Array<double>::toArray(digits);
 			return convOthBase2DecimalWithCancel(numeralSystemBase, arrayDigits, cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(double,const ListPtr< double > &)
+		 */
 		static double convOthBase2Decimal(double numeralSystemBase, ListPtr<double> &digits) { return convOthBase2Decimal(numeralSystemBase, CONST_LIST_DOUBLE(digits)); }
 		/**
-		 * Other base to decimal conversion.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed lists, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param numeralSystemBase   Numeral system base has to be above 0.
-		 * @param digits              List of digits
-		 * @return                    Number after conversion. If conversion is not possible then
-		 *                            Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(double,double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2DecimalWithCancel(double,const ListPtr< double > &,int)
 		 */
 		static double convOthBase2DecimalWithCancel(double numeralSystemBase, ListPtr<double> &digits, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return convOthBase2DecimalWithCancel(numeralSystemBase, CONST_LIST_DOUBLE(digits), cancelId);
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(double,const ListPtr< double > &)
+		 */
 		static double convOthBase2Decimal(double numeralSystemBase, const ArrayPtr<double> &digits);
 		/**
-		 * Other base to decimal conversion.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param numeralSystemBase   Numeral system base has to be above 0.
-		 * @param digits              List of digits
-		 * @return                    Number after conversion. If conversion is not possible then
-		 *                            Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(double,double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2DecimalWithCancel(double,const ListPtr< double > &,int)
 		 */
 		static double convOthBase2DecimalWithCancel(double numeralSystemBase, const ArrayPtr<double> &digits, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(double,const ListPtr< double > &)
+		 */
 		static double convOthBase2Decimal(double numeralSystemBase, ArrayPtr<double> &digits) { return convOthBase2Decimal(numeralSystemBase, CONST_ARRAY_DOUBLE(digits)); }
 		/**
-		 * Other base to decimal conversion.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param numeralSystemBase   Numeral system base has to be above 0.
-		 * @param digits              List of digits
-		 * @return                    Number after conversion. If conversion is not possible then
-		 *                            Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(double,double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2DecimalWithCancel(double,const ListPtr< double > &,int)
 		 */
 		static double convOthBase2DecimalWithCancel(double numeralSystemBase, ArrayPtr<double> &digits, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return convOthBase2DecimalWithCancel(numeralSystemBase, CONST_ARRAY_DOUBLE(digits), cancelId);
 		}
+		/**
+		 * \brief Other base to decimal conversion.
+		 * \param baseAndDigits   Numeral system base and digits specification.
+		 *                        Numeral system base is placed at index 0, rest of
+		 *                        array is interpreted as digits. Numeral system base
+		 *                        has to be above 0.
+		 * \return Number after conversion. If conversion is not possible then
+		 *                        Double.NaN is returned.
+		 */
 		static double convOthBase2Decimal(const ArrayPtr<int> &baseAndDigits);
 		/**
-		 * Other base to decimal conversion.
+		 * \brief Other base to decimal conversion.
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -2718,67 +2131,52 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
 		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param baseAndDigits   Numeral system base and digits specification.
+		 * \param baseAndDigits   Numeral system base and digits specification.
 		 *                        Numeral system base is placed at index 0, rest of
 		 *                        array is interpreted as digits. Numeral system base
 		 *                        has to be above 0.
-		 * @return                Number after conversion. If conversion is not possible then
-		 *                        Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(int[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \return Number after conversion. If conversion is not possible then
+		 *                        Double.NaN is returned.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(ArrayPtr< int > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double convOthBase2DecimalWithCancel(const ArrayPtr<int> &baseAndDigits, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(const ArrayPtr< int > &)
+		 */
 		static double convOthBase2Decimal(ArrayPtr<int> &baseAndDigits) { return convOthBase2Decimal(static_cast<const ArrayPtr<int> &>(baseAndDigits)); }
 		/**
-		 * Other base to decimal conversion.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param baseAndDigits   Numeral system base and digits specification.
-		 *                        Numeral system base is placed at index 0, rest of
-		 *                        array is interpreted as digits. Numeral system base
-		 *                        has to be above 0.
-		 * @return                Number after conversion. If conversion is not possible then
-		 *                        Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(int[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2DecimalWithCancel(const ArrayPtr< int > &,int)
 		 */
 		static double convOthBase2DecimalWithCancel(ArrayPtr<int> &baseAndDigits, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return convOthBase2DecimalWithCancel(static_cast<const ArrayPtr<int> &>(baseAndDigits), cancelId);
 		}
+		/**
+		 * \brief Other base to decimal conversion.
+		 * \param baseAndDigits   Numeral system base and digits specification.
+		 *                        Numeral system base is placed at index 0, rest of
+		 *                        array is interpreted as digits. Numeral system base
+		 *                        has to be above 0.
+		 * \return Number after conversion. If conversion is not possible then
+		 *                        Double.NaN is returned.
+		 */
 		static double convOthBase2Decimal(const ArrayPtr<double> &baseAndDigits);
 		/**
-		 * Other base to decimal conversion.
+		 * \brief Other base to decimal conversion.
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -2786,67 +2184,57 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
 		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param baseAndDigits   Numeral system base and digits specification.
+		 * \param baseAndDigits   Numeral system base and digits specification.
 		 *                        Numeral system base is placed at index 0, rest of
 		 *                        array is interpreted as digits. Numeral system base
 		 *                        has to be above 0.
-		 * @return                Number after conversion. If conversion is not possible then
-		 *                        Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \return Number after conversion. If conversion is not possible then
+		 *                        Double.NaN is returned.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(ArrayPtr< double > &)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double convOthBase2DecimalWithCancel(const ArrayPtr<double> &baseAndDigits, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2Decimal(const ArrayPtr< double > &)
+		 */
 		static double convOthBase2Decimal(ArrayPtr<double> &baseAndDigits) { return convOthBase2Decimal(CONST_ARRAY_DOUBLE(baseAndDigits)); }
 		/**
-		 * Other base to decimal conversion.
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * Array parameters are fixed arrays, not token-bearing varargs.
-		 * At this method's existing cancellation checks it returns Double::NaN.
-		 * <p>There is no uniform cancellation result across the WithCancel family.
-		 * The existing returns of this method remain in effect; a caller using a
-		 * sentinel may throw an exception. Querying the signal does not establish
-		 * whether this particular call observed cancellation.
-		 * @param baseAndDigits   Numeral system base and digits specification.
-		 *                        Numeral system base is placed at index 0, rest of
-		 *                        array is interpreted as digits. Numeral system base
-		 *                        has to be above 0.
-		 * @return                Number after conversion. If conversion is not possible then
-		 *                        Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convOthBase2Decimal(double[])
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convOthBase2DecimalWithCancel(const ArrayPtr< double > &,int)
 		 */
 		static double convOthBase2DecimalWithCancel(ArrayPtr<double> &baseAndDigits, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 				throw std::invalid_argument("cancelId out of range");
 			return convOthBase2DecimalWithCancel(CONST_ARRAY_DOUBLE(baseAndDigits), cancelId);
 		}
+		/**
+		 * \brief Decimal number to other numeral system conversion with base
+		 * between 1 and 36.
+		 * \param decimalNumber    Decimal number
+		 * \param numeralSystemBase       Numeral system base between 1 and 36
+		 * \return Number literal representing decimal number in
+		 *                   given numeral system. Digits
+		 *                   0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8,
+		 *                   9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G,
+		 *                   17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O,
+		 *                   25:P, 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W,
+		 *                   33:X, 34:Y, 35:Z. If conversion was not possible
+		 *                   the "NaN" string is returned.
+		 */
 		static StringPtr convDecimal2OthBase(double decimalNumber, int numeralSystemBase);
 		/**
-		 * Decimal number to other numeral system conversion with base
+		 * \brief Decimal number to other numeral system conversion with base
 		 * between 1 and 36.
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
@@ -2859,9 +2247,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param decimalNumber    Decimal number
-		 * @param numeralSystemBase       Numeral system base between 1 and 36
-		 * @return           Number literal representing decimal number in
+		 * \param decimalNumber    Decimal number
+		 * \param numeralSystemBase       Numeral system base between 1 and 36
+		 * \return Number literal representing decimal number in
 		 *                   given numeral system. Digits
 		 *                   0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8,
 		 *                   9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G,
@@ -2869,87 +2257,144 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 *                   25:P, 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W,
 		 *                   33:X, 34:Y, 35:Z. If conversion was not possible
 		 *                   the "NaN" string is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see convDecimal2OthBase(double,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::convDecimal2OthBase(double,int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static StringPtr formatNumberInBaseWithCancel(double decimalNumber, int numeralSystemBase, int cancelId);
+		/**
+		 * \brief Decimal number to other numeral system conversion with base
+		 * between 1 and 36.
+		 * \param decimalNumber    Decimal number
+		 * \param numeralSystemBase       Numeral system base between 1 and 36
+		 * \param format     If 1 then always bxx. is used, i.e. b1. or b16.
+		 *                   If 2 then for binary b. is used, for octal o. is used,
+		 *                   for hexadecimal h. is used, otherwise bxx. is used
+		 *                   where xx is the numeral system base specification.
+		 * \return Number literal representing decimal number in
+		 *                   given numeral system.
+		 *
+		 * Base format: b1. b2. b. b3. b4. b5. b6. b7. b8. o. b9. b10. b11. b12.
+		 * b13. b14. b15. b16. h. b17. b18. b19. b20. b21. b22. b23. b24. b25. b26.
+		 * b27. b28. b29. b30. b31. b32. b33. b34. b35. b36.
+		 *
+		 * Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:A, 11:B, 12:C,
+		 * 13:D, 14:E, 15:F, 16:G, 17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P,
+		 * 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
+		 *
+		 * If conversion was not possible the "NaN" string is returned.
+		 */
 		static StringPtr convDecimal2OthBase(double decimalNumber, int numeralSystemBase, int format);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Number of digits needed to represent given number in base 10 numeral system.
+		 * \param number   The number
+		 * \return Number of digits needed to represent given number in base 10 numeral system.
+		 */
 		static int numberOfDigits(Long number);
+		/**
+		 * \brief Number of digits needed to represent given number in base 10 numeral system.
+		 * \param number   The number
+		 * \return Number of digits needed to represent given number in base 10 numeral system.
+		 *                 If number is NaN the NaN is returned. If number is infinite then
+		 *                 Double.POSITIVE_INFINITY is returned.
+		 */
 		static double numberOfDigits(double number);
+		/**
+		 * \brief Number of digits needed to represent given number in numeral system with given base.
+		 * \param number              The number
+		 * \param numeralSystemBase   Numeral system base above 0
+		 * \return Returns number of digits. In case when numeralSystemBase is lower than
+		 *                            1 then -1 is returned.
+		 */
 		static Long numberOfDigits(Long number, Long numeralSystemBase);
 		/**
-		 * Number of digits needed to represent given number in numeral system with given base.
+		 * \brief Number of digits needed to represent given number in numeral system with given base.
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns 0 (the canonical integral cancellation sentinel).
+		 * At this method's existing cancellation checks it returns 0L (the canonical integral cancellation sentinel).
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param number              The number
-		 * @param numeralSystemBase   Numeral system base above 0
-		 * @return                    Returns number of digits. In case when numeralSystemBase is lower than
+		 * \param number              The number
+		 * \param numeralSystemBase   Numeral system base above 0
+		 * \return Returns number of digits. In case when numeralSystemBase is lower than
 		 *                            1 then -1 is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see numberOfDigits(long,long)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::numberOfDigits(Long,Long)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static Long numberOfDigitsWithCancel(Long number, Long numeralSystemBase, int cancelId);
+		/**
+		 * \brief Number of digits needed to represent given number (its integer part) in numeral system with given base.
+		 * \param number              The number
+		 * \param numeralSystemBase   Numeral system base above 0
+		 * \return Returns number of digits. In case when numeralSystemBase is lower than
+		 *                            1 then Double.NaN is returned. If number or numeralSystemBase is Double.NaN
+		 *                            then Double.NaN is returned. If numeralSystemBase is infinite then Double.NaN
+		 *                            is returned.
+		 */
 		static double numberOfDigits(double number, double numeralSystemBase);
 		/**
-		 * Number of digits needed to represent given number (its integer part) in numeral system with given base.
+		 * \brief Number of digits needed to represent given number (its integer part) in numeral system with given base.
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param number              The number
-		 * @param numeralSystemBase   Numeral system base above 0
-		 * @return                    Returns number of digits. In case when numeralSystemBase is lower than
-		 *                            1 then Double::NaN is returned. If number or numeralSystemBase is Double::NaN
-		 *                            then Double::NaN is returned. If numeralSystemBase is infinite then Double::NaN
+		 * \param number              The number
+		 * \param numeralSystemBase   Numeral system base above 0
+		 * \return Returns number of digits. In case when numeralSystemBase is lower than
+		 *                            1 then Double.NaN is returned. If number or numeralSystemBase is Double.NaN
+		 *                            then Double.NaN is returned. If numeralSystemBase is infinite then Double.NaN
 		 *                            is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see numberOfDigits(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::numberOfDigits(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double numberOfDigitsWithCancel(double number, double numeralSystemBase, int cancelId);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Digit at position - numeral system with given base
+		 * \param number              The number
+		 * \param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
+		 * \param numeralSystemBase   Base of numeral system - above 0
+		 * \return Return digit at given position. If digit finding was not possible then -1 is returned.
+		 */
 		static int digitAtPosition(Long number, int position, int numeralSystemBase);
 		/**
-		 * Digit at position - numeral system with given base
+		 * \brief Digit at position - numeral system with given base
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -2961,54 +2406,73 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param number              The number
-		 * @param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
-		 * @param numeralSystemBase   Base of numeral system - above 0
-		 * @return                    Return digit at given position. If digit finding was not possible then -1 is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see digitAtPosition(long,int,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param number              The number
+		 * \param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
+		 * \param numeralSystemBase   Base of numeral system - above 0
+		 * \return Return digit at given position. If digit finding was not possible then -1 is returned.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::digitAtPosition(Long,int,int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static int digitAtPositionWithCancel(Long number, int position, int numeralSystemBase, int cancelId);
+		/**
+		 * \brief Digit at position - numeral system with base 10
+		 * \param number              The number
+		 * \param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
+		 * \return Return digit at given position. If digit finding was not possible then -1 is returned.
+		 */
 		static int digitAtPosition(Long number, int position);
+		/**
+		 * \brief Digit at position - numeral system with given base
+		 * \param number              The number
+		 * \param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
+		 * \param numeralSystemBase   Base of numeral system - above 0
+		 * \return Return digit at given position. If digit finding was not possible then Double.NaN is returned.
+		 */
 		static double digitAtPosition(double number, double position, double numeralSystemBase);
 		/**
-		 * Digit at position - numeral system with given base
+		 * \brief Digit at position - numeral system with given base
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param number              The number
-		 * @param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
-		 * @param numeralSystemBase   Base of numeral system - above 0
-		 * @return                    Return digit at given position. If digit finding was not possible then Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see digitAtPosition(double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param number              The number
+		 * \param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
+		 * \param numeralSystemBase   Base of numeral system - above 0
+		 * \return Return digit at given position. If digit finding was not possible then Double.NaN is returned.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::digitAtPosition(double,double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double digitAtPositionWithCancel(double number, double position, double numeralSystemBase, int cancelId);
+		/**
+		 * \brief Digit at position - numeral system with base 10
+		 * \param number              The number
+		 * \param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
+		 * \return Return digit at given position. If digit finding was not possible then Double.NaN is returned.
+		 */
 		static double digitAtPosition(double number, double position);
 		/**
-		 * Digit at position - numeral system with base 10
+		 * \brief Digit at position - numeral system with base 10
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -3019,26 +2483,31 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param number              The number
-		 * @param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
-		 * @return                    Return digit at given position. If digit finding was not possible then Double::NaN is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see digitAtPosition(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param number              The number
+		 * \param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
+		 * \return Return digit at given position. If digit finding was not possible then Double.NaN is returned.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::digitAtPosition(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double decimalDigitAtPositionWithCancel(double number, double position, int cancelId);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Prime decomposition (prime factorization)
+		 * \param number     Number to be decomposed
+		 * \return List of prime factors (non-distinct)
+		 */
 		static ArrayPtr<Long> primeFactors(Long number);
 		/**
-		 * Prime decomposition (prime factorization)
+		 * \brief Prime decomposition (prime factorization)
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -3051,22 +2520,27 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param number     Number to be decomposed
-		 * @return           List of prime factors (non-distinct)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see primeFactors(long)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param number     Number to be decomposed
+		 * \return List of prime factors (non-distinct)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::primeFactors(Long)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static ArrayPtr<Long> primeFactorsWithCancel(Long number, int cancelId);
+		/**
+		 * \brief Prime decomposition (prime factorization)
+		 * \param number     Number to be decomposed
+		 * \return List of prime factors (non-distinct)
+		 */
 		static ArrayPtr<double> primeFactors(double number);
 		/**
-		 * Prime decomposition (prime factorization)
+		 * \brief Prime decomposition (prime factorization)
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -3079,22 +2553,27 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param number     Number to be decomposed
-		 * @return           List of prime factors (non-distinct)
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see primeFactors(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param number     Number to be decomposed
+		 * \return List of prime factors (non-distinct)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::primeFactors(double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static ArrayPtr<double> primeFactorsWithCancel(double number, int cancelId);
+		/**
+		 * \brief Prime decomposition (prime factorization) - returns number of distinct prime factors
+		 * \param number     Number to be decomposed
+		 * \return Number of distinct prime factors
+		 */
 		static double numberOfPrimeFactors(double number);
 		/**
-		 * Prime decomposition (prime factorization) - returns number of distinct prime factors
+		 * \brief Prime decomposition (prime factorization) - returns number of distinct prime factors
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -3105,22 +2584,30 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param number     Number to be decomposed
-		 * @return           Number of distinct prime factors
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see numberOfPrimeFactors(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param number     Number to be decomposed
+		 * \return Number of distinct prime factors
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::numberOfPrimeFactors(double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double numberOfPrimeFactorsWithCancel(double number, int cancelId);
+		/**
+		 * \brief Prime decomposition (prime factorization) - returns prime factor value
+		 * \param number     Number to be decomposed
+		 * \param id         Factor id
+		 * \return Factor value if factor id between 1 and numberOfPrimeFactors, otherwise 1 is returned.
+		 *                   For NaN of infinite parameters Double NaN is returned. For number eq 0 Double.NaN
+		 *                   is returned.
+		 */
 		static double primeFactorValue(double number, double id);
 		/**
-		 * Prime decomposition (prime factorization) - returns prime factor value
+		 * \brief Prime decomposition (prime factorization) - returns prime factor value
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -3131,25 +2618,33 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param number     Number to be decomposed
-		 * @param id         Factor id
-		 * @return           Factor value if factor id between 1 and numberOfPrimeFactors, otherwise 1 is returned.
-		 *                   For NaN of infinite parameters Double NaN is returned. For number eq 0 Double::NaN
+		 * \param number     Number to be decomposed
+		 * \param id         Factor id
+		 * \return Factor value if factor id between 1 and numberOfPrimeFactors, otherwise 1 is returned.
+		 *                   For NaN of infinite parameters Double NaN is returned. For number eq 0 Double.NaN
 		 *                   is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see primeFactorValue(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::primeFactorValue(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double primeFactorValueWithCancel(double number, double id, int cancelId);
+		/**
+		 * \brief Prime decomposition (prime factorization) - returns prime factor exponent
+		 * \param number     Number to be decomposed
+		 * \param id         Factor id
+		 * \return Factor exponent if factor id between 1 and numberOfPrimeFactors, otherwise 0 is returned.
+		 *                   For NaN of infinite parameters Double NaN is returned. For number eq 0 Double.NaN
+		 *                   is returned.
+		 */
 		static double primeFactorExponent(double number, double id);
 		/**
-		 * Prime decomposition (prime factorization) - returns prime factor exponent
+		 * \brief Prime decomposition (prime factorization) - returns prime factor exponent
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -3160,28 +2655,36 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param number     Number to be decomposed
-		 * @param id         Factor id
-		 * @return           Factor exponent if factor id between 1 and numberOfPrimeFactors, otherwise 0 is returned.
-		 *                   For NaN of infinite parameters Double NaN is returned. For number eq 0 Double::NaN
+		 * \param number     Number to be decomposed
+		 * \param id         Factor id
+		 * \return Factor exponent if factor id between 1 and numberOfPrimeFactors, otherwise 0 is returned.
+		 *                   For NaN of infinite parameters Double NaN is returned. For number eq 0 Double.NaN
 		 *                   is returned.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see primeFactorExponent(double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::primeFactorExponent(double,double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double primeFactorExponentWithCancel(double number, double id, int cancelId);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Converts double value to its fraction representation.
+		 * \param value Value to be converted
+		 * \return Array representing fraction. Sign at index 0,
+		 * numerator at index 1, denominator at index 2.
+		 * If conversion is not possible then Double.NaN is
+		 * assigned to all the fields.
+		 */
 		static ArrayPtr<double> toFraction(double value);
 		/**
-		 * Converts double value to its fraction representation.
+		 * \brief Converts double value to its fraction representation.
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -3194,34 +2697,66 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param value Value to be converted
-		 *
-		 * @return Array representing fraction. Sign at index 0,
+		 * \param value Value to be converted
+		 * \return Array representing fraction. Sign at index 0,
 		 * numerator at index 1, denominator at index 2.
-		 * If conversion is not possible then Double::NaN is
+		 * If conversion is not possible then Double.NaN is
 		 * assigned to all the fields.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see toFraction(double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::toFraction(double)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static ArrayPtr<double> toFractionWithCancel(double value, int cancelId);
+		/**
+		 * \brief Converts double value to its mixed fraction representation.
+		 * \param value Value to be converted
+		 * \return Array representing fraction.
+		 * Sign at index 0, whole number at index 1,
+		 * numerator at index 2, denominator at index 3.
+		 * If conversion is not possible then Double.NaN is
+		 * assigned to both numerator and denominator.
+		 */
 		static ArrayPtr<double> toMixedFraction(double value);
 
+		/**
+		 * \brief Converts array representing fraction to fraction string representation.
+		 * \param fraction    Array representing fraction (including mix fractions)
+		 * \return String representation of fraction.
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::toFraction(double)
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::toMixedFraction(double)
+		 */
 		static StringPtr fractionToString(const ArrayPtr<double> &fraction);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::fractionToString(const ArrayPtr< double > &)
+		 */
 		static StringPtr fractionToString(ArrayPtr<double> &fraction) { return fractionToString(CONST_ARRAY_DOUBLE(fraction)); }
+		/**
+		 * \brief Converts number to its fraction string representation.
+		 * \param value   Given number
+		 * \return String representation of fraction.
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::toFraction(double)
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::fractionToString(ArrayPtr< double > &)
+		 */
 		static StringPtr toFractionString(double value);
+		/**
+		 * \brief Converts number to its mixed fraction string representation.
+		 * \param value   Given number
+		 * \return String representation of fraction.
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::toMixedFraction(double)
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::fractionToString(ArrayPtr< double > &)
+		 */
 		static StringPtr toMixedFractionString(double value);
 
 	private:
 		/**
-		 * Initial search size 1 ... n for the toFraction method
-		 * @see NumberTheory#toFraction(double)
+		 * \brief Initial search size 1 ... n for the toFraction method
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::NumberTheory::toFraction(double)
 		 */
 		static inline Long TO_FRACTION_INIT_SEARCH_SIZE = DEFAULT_TO_FRACTION_INIT_SEARCH_SIZE;
 		static void sortAscWithCancel(const ArrayPtr<double> &doubleArray, const ArrayPtr<int> &initOrder, int leftIndex, int rightIndex, int cancelId);

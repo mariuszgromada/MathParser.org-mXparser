@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialValue.cpp        6.1.0    2024-10-06
+ * @(#)SpecialValue.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -225,7 +225,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 
 	/**
-	 * double x: The x value from f(x)
+	 * \brief double x: The x value from f(x)
 	 * double xFrom: The start of the interval where the function value is considered to be by fv and fvdeg
 	 * double xTo: The end of the interval where the function value is considered to be by fv and fvdeg
 	 * double fv: The function value in main unit
@@ -234,11 +234,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 	API_VISIBLE bool SpecialValue::specialCasesDisabled = false;
 
-	/**
-	 * Main constructor - functions only with main unit
-	 * @param x  The value of x from f(x)
-	 * @param fv The value of f(x) for a given x
-	 */
 	API_VISIBLE SpecialValue::SpecialValue(double x, double fv) {
 		this->x = x;
 		this->fv = fv;
@@ -247,12 +242,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		xTo = x + EPSILON;
 	}
 
-	/**
-	 * Constructor - functions only with values in radians and degrees
-	 * @param x       The value of x from f(x)
-	 * @param fv      The value of f(x) in radians for a given x
-	 * @param fvdeg   The value of f(x) in degrees for a given x
-	 */
 	API_VISIBLE SpecialValue::SpecialValue(double x, double fv, double fvdeg) {
 		this->x = x;
 		this->fv = fv;

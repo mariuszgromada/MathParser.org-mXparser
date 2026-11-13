@@ -1,5 +1,5 @@
 /*
- * @(#)Evaluate.cs        6.1.0    2024-10-06
+ * @(#)Evaluate.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -218,29 +218,22 @@
 using System;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
-	 * Evaluate - currently only polynomial evaluation based on provided coefficients.
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        5.0.0
-	 */
+	/// <summary>Evaluate - currently only polynomial evaluation based on provided coefficients.</summary>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true)]
 	public sealed class Evaluate {
-		/**
-		 * Polynomial evaluation based on provided coefficients.
-		 * @param x                  Point at which polynomial will be evaluated
-		 * @param coefficients       Polynomial coefficients
-		 * @return                   Polynomial value
-		 */
+		/// <summary>Polynomial evaluation based on provided coefficients.</summary>
+		/// <param name="x">Point at which polynomial will be evaluated</param>
+		/// <param name="coefficients">Polynomial coefficients</param>
+		/// <returns>Polynomial value</returns>
 		public static double polynomial(double x, double[] coefficients) {
 			if (Double.IsNaN(x)) return Double.NaN;
 			if (coefficients == null) return Double.NaN;
@@ -255,26 +248,22 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return sum;
 		}
-		/**
-		 * Polynomial evaluation for the {@link SpecialFunctions#logGamma(double)}
-		 * @param x      Argument value
-		 * @param coef   List of polynomial coefficients
-		 * @param n      Polynomial degree
-		 * @return Polynomial value
-		 */
+		/// <summary>Polynomial evaluation for the <see cref="org.mariuszgromada.math.mxparser.mathcollection.SpecialFunctions.logGamma(double)"/></summary>
+		/// <param name="x">Argument value</param>
+		/// <param name="coef">List of polynomial coefficients</param>
+		/// <param name="n">Polynomial degree</param>
+		/// <returns>Polynomial value</returns>
 		public static double p1evl(double x, double[] coef, int n) {
 			double ans;
 			ans = x + coef[0];
 			for(int i=1; i<n; i++) { ans = ans*x+coef[i]; }
 			return ans;
 		}
-		/**
-		 * Polynomial evaluation for the {@link SpecialFunctions#logGamma(double)}
-		 * @param x      Argument value
-		 * @param coef   List of polynomial coefficients
-		 * @param n      Polynomial degree
-		 * @return Polynomial value
-		 */
+		/// <summary>Polynomial evaluation for the <see cref="org.mariuszgromada.math.mxparser.mathcollection.SpecialFunctions.logGamma(double)"/></summary>
+		/// <param name="x">Argument value</param>
+		/// <param name="coef">List of polynomial coefficients</param>
+		/// <param name="n">Polynomial degree</param>
+		/// <returns>Polynomial value</returns>
 		public static double polevl(double x, double[] coef, int n) {
 			double ans;
 			ans = coef[0];

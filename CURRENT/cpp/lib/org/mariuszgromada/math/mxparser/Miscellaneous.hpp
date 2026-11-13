@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.hpp        6.1.0    2024-10-06
+ * @(#)Miscellaneous.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -229,7 +229,7 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	// =====================================================
 
 	/**
-	 * Package level class API_VISIBLE for handling function parameters.
+	 * \brief Package level class API_VISIBLE for handling function parameters.
 	 */
 	class API_VISIBLE FunctionParameter {
 	public:
@@ -263,8 +263,8 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	// =====================================================
 
 	/**
-	* Package level class API_VISIBLE for generating iterative operator parameters
-	*/
+	 * \brief Package level class API_VISIBLE for generating iterative operator parameters
+	 */
 	class API_VISIBLE IterativeOperatorParameters {
 	public:
 		explicit IterativeOperatorParameters(const ListPtr<FunctionParameterPtr> &functionParameters);
@@ -315,8 +315,8 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	// =====================================================
 
 	/**
-	* Handling argument parameters
-	*/
+	 * \brief Handling argument parameters
+	 */
 	class API_VISIBLE ArgumentParameter {
 	public:
 		ArgumentParameter();
@@ -348,10 +348,10 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	// =====================================================
 
 	/**
-	* Internal token class
-	* which is used with stack while
-	* evaluation of tokens levels
-	*/
+	 * \brief Internal token class
+	 * which is used with stack while
+	 * evaluation of tokens levels
+	 */
 	class API_VISIBLE TokenStackElement {
 	public:
 		TokenStackElement();
@@ -409,10 +409,10 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	// =====================================================
 
 	/**
-	* Comparator for key word list sorting by key word string.
-	* This king of sorting is used while checking the syntax
-	* (duplicated key word error)
-	*/
+	 * \brief Comparator for key word list sorting by key word string.
+	 * This king of sorting is used while checking the syntax
+	 * (duplicated key word error)
+	 */
 	class API_VISIBLE KwStrComparator {
 	public:
 		bool operator()(const KeyWordPtr &kw1, const KeyWordPtr &kw2) const;
@@ -427,12 +427,11 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 
 
 	/**
-	* Comparator for key word list sorting by
-	* descending key word length
-	* .
-	* This king of sorting is used while tokenizing
-	* (best match)
-	*/
+	 * \brief Comparator for key word list sorting by
+	 * descending key word length.
+	 * This king of sorting is used while tokenizing
+	 * (best match)
+	 */
 	class API_VISIBLE DescKwLenComparator {
 	public:
 		bool operator()(const KeyWordPtr &kw1, const KeyWordPtr &kw2) const;
@@ -446,9 +445,9 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	// =====================================================
 
 	/**
-	* Comparator for key word list sorting by
-	* type of the key word
-	*/
+	 * \brief Comparator for key word list sorting by
+	 * type of the key word
+	 */
 
 	class API_VISIBLE KwTypeComparator {
 	public:
@@ -504,7 +503,7 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	// =====================================================
 
 	/**
-	 * Data structure used internally for token to be modified list
+	 * \brief Data structure used internally for token to be modified list
 	 */
 	class API_VISIBLE TokenModification {
 	public:
@@ -533,7 +532,7 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	// =====================================================
 
 	/**
-	 * Data structure used in tokenization
+	 * \brief Data structure used in tokenization
 	 * searching for implied multiplication
 	 * in case of a token i a form of one name
 	 * for instance x2x2 = x2*x2

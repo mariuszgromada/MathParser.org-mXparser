@@ -226,310 +226,220 @@ using org.mariuszgromada.math.mxparser.mathcollection;
 using org.mariuszgromada.math.mxparser.parsertokens;
 
 namespace org.mariuszgromada.math.mxparser {
-	/**
-	 * Expression - base class for real expression definition.
-	 *
-	 * Examples:
-	 * <ul>
-	 * <li>'1+2'
-	 * <li>'sin(x)+1'
-	 * <li>'asin(3*x)^10-log(4,8)'
-	 * <li>in general 'f(x1,x2,...,xn)' where x1,...,xn are real
-	 * arguments
-	 * </ul>
-	 * <p>
-	 * Class provides easy way to define multivariate arithmetic expression.
-	 *
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        6.2.0
-	 *
-	 * @see            Argument
-	 * @see            RecursiveArgument
-	 * @see            Constant
-	 * @see            Function
-	 */
+	/// <summary>Expression - base class for real expression definition.
+	///
+	/// Examples:
+	/// <list type="bullet">
+	/// <item><description>'1+2'
+	/// </description></item><item><description>'sin(x)+1'
+	/// </description></item><item><description>'asin(3*x)^10-log(4,8)'
+	/// </description></item><item><description>in general 'f(x1,x2,...,xn)' where x1,...,xn are real
+	/// arguments
+	/// </description></item></list>
+	/// <para>
+	/// Class provides easy way to define multivariate arithmetic expression.</para></summary>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true), Serializable]
 	public class Expression : PrimitiveElement {
 		[NonSerialized]
 		private int activeCancelId = 0;
 
-		/**
-		 * Expression type id
-		 */
+		/// <summary>Expression type id</summary>
 		public const int TYPE_ID = 100;
 		public static String TYPE_DESC = ParserSymbol.NA;
-        /**
-		 * FOUND / NOT_FOUND
-		 * used for matching purposes
-		 */
+        /// <summary>FOUND / NOT_FOUND
+        /// used for matching purposes</summary>
         internal const int NOT_FOUND = mXparser.NOT_FOUND;
 		internal const int FOUND = mXparser.FOUND;
-		/**
-		 * Marker for internal processing
-		 */
+		/// <summary>Marker for internal processing</summary>
 		internal const bool INTERNAL = true;
-		/**
-		 * For verbose mode purposes
-		 */
+		/// <summary>For verbose mode purposes</summary>
 		private const bool WITH_EXP_STR = true;
 		private const bool NO_EXP_STR = false;
-        /**
-		 * Status of the syntax - no syntax error
-		 */
+        /// <summary>Status of the syntax - no syntax error</summary>
         public const bool NO_SYNTAX_ERRORS = true;
-        /**
-         * Status of the syntax - syntax error or syntax status unknown
-         */
+        /// <summary>Status of the syntax - syntax error or syntax status unknown</summary>
         public const bool SYNTAX_ERROR = false;
-		/**
-		 * Status of the syntax - syntax error or syntax status unknown
-		 *
-		 * @deprecated Planned to be removed, use {@link #SYNTAX_ERROR} instead
-		 */
+		/// <summary>Status of the syntax - syntax error or syntax status unknown</summary>
+		/// <remarks><para>Deprecated: Planned to be removed, use <see cref="org.mariuszgromada.math.mxparser.Expression.SYNTAX_ERROR"/> instead</para></remarks>
 		[Obsolete("Planned to be removed, use SYNTAX_ERROR instead")]
         public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = false;
         private const bool SYNTAX_STATUS_UNKNOWN = SYNTAX_ERROR;
-        /**
-		 * Expression string (for example: "sin(x)+cos(y)")
-		 */
+        /// <summary>Expression string (for example: "sin(x)+cos(y)")</summary>
         internal String expressionString = StringInvariant.EMPTY;
-        /**
-		 * Expression string after attempt to clean
-		 */
+        /// <summary>Expression string after attempt to clean</summary>
         private String expressionStringCleaned = StringInvariant.EMPTY;
-		/**
-		 * Expression description
-		 */
+		/// <summary>Expression description</summary>
 		private String description = StringInvariant.EMPTY;
-		/**
-		 * List of arguments
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>List of arguments</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		internal List<Argument> argumentsList = null;
-		/**
-		 * List of user defined functions
-		 *
-		 * @see        Function
-		 */
+		/// <summary>List of user defined functions</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		internal List<Function> functionsList = null;
-		/**
-		 * List of user defined constants
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>List of user defined constants</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		internal List<Constant> constantsList = null;
-		/**
-		 * List of keywords known by the parser
-		 */
+		/// <summary>List of keywords known by the parser</summary>
 		private List<KeyWord> keyWordsList = null;
-		/**
-		 * List of expression tokens (words).
-		 * Token class defines all needed
-		 * attributes for recognizing the structure of
-		 * arithmetic expression. This is the key result when
-		 * initial parsing is finished (tokenizeExpressionString() - method).
-		 * Token keeps information about:
-		 *    - token type (for example: function, operator, argument, number, etc...)
-		 *    - token identifier within given type (sin, cos, operaotr, etc...)
-		 *    - token value (if token is a number)
-		 *    - token level - key information regarding sequence (order) of further parsing
-		 */
+		/// <summary>List of expression tokens (words).
+		/// Token class defines all needed
+		/// attributes for recognizing the structure of
+		/// arithmetic expression. This is the key result when
+		/// initial parsing is finished (tokenizeExpressionString() - method).
+		/// Token keeps information about:
+		///    - token type (for example: function, operator, argument, number, etc...)
+		///    - token identifier within given type (sin, cos, operaotr, etc...)
+		///    - token value (if token is a number)
+		///    - token level - key information regarding sequence (order) of further parsing</summary>
 		internal List<Token> initialTokens = null;
         private CompilationDetails initialCompilationDetails = null;
-		/**
-		 * List of string tokens that should not be considered
-		 * while seeking for optional implied multiplication.
-		 *
-		 * Example: sum( x2y, 1, 10, 2*x2y)
-		 *
-		 * Here x2y should always stay as x2y
-		 */
+		/// <summary>List of string tokens that should not be considered
+		/// while seeking for optional implied multiplication.
+		///
+		/// Example: sum( x2y, 1, 10, 2*x2y)
+		///
+		/// Here x2y should always stay as x2y</summary>
 		private HashSet<String> neverParseForImpliedMultiplication = null;
-		/**
-		 * the initialTokens list keeps unchanged information about
-		 * found tokens.
-		 *
-		 * While parsing the tokensList is used. The tokensList is the same
-		 * as initialTokens list at the beginning of the calculation process.
-		 * Each math operation changes tokens list - it means that
-		 * tokens are parameters when performing math operation
-		 * and the result is also presented as token (usually as a number token)
-		 * At the end of the calculation the tokensList should contain only one
-		 * element - the result of all calculations.
-		 */
+		/// <summary>the initialTokens list keeps unchanged information about
+		/// found tokens.
+		///
+		/// While parsing the tokensList is used. The tokensList is the same
+		/// as initialTokens list at the beginning of the calculation process.
+		/// Each math operation changes tokens list - it means that
+		/// tokens are parameters when performing math operation
+		/// and the result is also presented as token (usually as a number token)
+		/// At the end of the calculation the tokensList should contain only one
+		/// element - the result of all calculations.</summary>
 		private List<Token> tokensList = null;
         private CompilationDetails compilationDetails = null;
-		/**
-		 * List of related expressions, for example when
-		 * user defined function is used in the expression
-		 * or dependent argument was defined. Modification of
-		 * function expression calls the method expression modified
-		 * flag method to all related expressions.
-		 *
-		 * Related expression usually are used for
-		 * - dependent arguments
-		 * - recursive arguments
-		 * - user functions
-		 */
+		/// <summary>List of related expressions, for example when
+		/// user defined function is used in the expression
+		/// or dependent argument was defined. Modification of
+		/// function expression calls the method expression modified
+		/// flag method to all related expressions.
+		///
+		/// Related expression usually are used for
+		/// - dependent arguments
+		/// - recursive arguments
+		/// - user functions</summary>
 		internal List<Expression> relatedExpressionsList = null;
-		/**
-		 * Keeps computing time
-		 */
+		/// <summary>Keeps computing time</summary>
 		internal double computingTime;
-		/**
-		 * if true then new tokenizing is required
-		 * (the initialTokens list needs to be updated)
-		 */
+		/// <summary>if true then new tokenizing is required
+		/// (the initialTokens list needs to be updated)</summary>
 		internal bool expressionWasModified = false;
-		/**
-		 * If recursive mode is on the recursive calls are permitted.
-		 * It mean there will be no null pointer exceptions
-		 * due to expression, and functions cloning.
-		 */
+		/// <summary>If recursive mode is on the recursive calls are permitted.
+		/// It mean there will be no null pointer exceptions
+		/// due to expression, and functions cloning.</summary>
 		internal bool recursiveMode = false;
-		/**
-		 * Verbose mode prints processing info
-		 * calls System.out.print* methods
-		 */
+		/// <summary>Verbose mode prints processing info
+		/// calls System.out.print* methods</summary>
 		private bool verboseMode = false;
-		/**
-		 * Implied multiplication mode
-		 */
+		/// <summary>Implied multiplication mode</summary>
 		private bool impliedMultiplicationMode = mXparser.impliedMultiplicationMode;
-		/**
-		 * Fires an error when impliedMultiplicationMode is on
-		 * and there is a missing multiplication operator
-		 */
+		/// <summary>Fires an error when impliedMultiplicationMode is on
+		/// and there is a missing multiplication operator</summary>
 		private bool impliedMultiplicationError = false;
-		/**
-		 * Internal parameter for calculus expressions
-		 * to avoid decrease in accuracy.
-		 */
+		/// <summary>Internal parameter for calculus expressions
+		/// to avoid decrease in accuracy.</summary>
 		internal bool disableRounding = false;
 		internal const bool DISABLE_ROUNDING = true;
 		internal const bool KEEP_ROUNDING_SETTINGS = false;
-        /**
-		 * Status of the expression syntax
-		 *
-		 * Please referet to the:
-		 *    - NO_SYNTAX_ERRORS
-		 *    - SYNTAX_ERROR
-		 *    - SYNTAX_STATUS_UNKNOWN
-		 */
+        /// <summary>Status of the expression syntax
+        ///
+        /// Please referet to the:
+        ///    - NO_SYNTAX_ERRORS
+        ///    - SYNTAX_ERROR
+        ///    - SYNTAX_STATUS_UNKNOWN</summary>
         private bool syntaxStatus = SYNTAX_ERROR;
 		private bool isFullyCompiled = false;
-        /**
-		 * Message after checking the syntax
-		 */
+        /// <summary>Message after checking the syntax</summary>
         private String errorMessage = StringInvariant.EMPTY;
-        /**
-         * Optional message from calculate method
-         */
+        /// <summary>Optional message from calculate method</summary>
         private String errorMessageCalculate = StringInvariant.EMPTY;
         private const int ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH = mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH / 5;
-        /**
-		 * Flag used internally to mark started recursion
-		 * call on the current object, necessary to
-		 * avoid infinite loops while recursive syntax
-		 * checking (i.e. f -> g and g -> f)
-		 * or marking modified flags on the expressions
-		 * related to this expression.
-		 *
-		 * @see #setExpressionModifiedFlag()
-		 * @see #checkSyntax()
-		 */
+        /// <summary>Flag used internally to mark started recursion
+        /// call on the current object, necessary to
+        /// avoid infinite loops while recursive syntax
+        /// checking (i.e. f -&gt; g and g -&gt; f)
+        /// or marking modified flags on the expressions
+        /// related to this expression.</summary>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.Expression.setExpressionModifiedFlag()"/>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.Expression.checkSyntax()"/>
         private bool recursionCallPending = false;
-		/**
-		 * Internal counter to avoid infinite loops while calculating
-		 * expression defined in the way showed by below examples
-		 *
-		 * Argument x = new Argument("x = 2*y");
-		 * Argument y = new Argument("y = 2*x");
-		 * x.addDefinitions(y);
-		 * y.addDefinitions(x);
-		 *
-		 * Function f = new Function("f(x) = 2*g(x)");
-		 * Function g = new Function("g(x) = 2*f(x)");
-		 * f.addDefinitions(g);
-		 * g.addDefinitions(f);
-		 */
+		/// <summary>Internal counter to avoid infinite loops while calculating
+		/// expression defined in the way showed by below examples
+		///
+		/// Argument x = new Argument("x = 2*y");
+		/// Argument y = new Argument("y = 2*x");
+		/// x.addDefinitions(y);
+		/// y.addDefinitions(x);
+		///
+		/// Function f = new Function("f(x) = 2*g(x)");
+		/// Function g = new Function("g(x) = 2*f(x)");
+		/// f.addDefinitions(g);
+		/// g.addDefinitions(f);</summary>
 		private int recursionCallsCounter = 0;
-		/**
-		 * Internal indicator for tokenization process
-		 * if true, then keywords such as constants
-		 * functions etc.. will not be recognized
-		 * during tokenization
-		 */
+		/// <summary>Internal indicator for tokenization process
+		/// if true, then keywords such as constants
+		/// functions etc.. will not be recognized
+		/// during tokenization</summary>
 		private bool parserKeyWordsOnly = false;
-		/**
-		 * Internal indicator informing hte parser
-		 * that unicode know keywords are enabled
-		 * and will be recognized by the parser
-		 * as built-in functions or operators
-		 */
+		/// <summary>Internal indicator informing hte parser
+		/// that unicode know keywords are enabled
+		/// and will be recognized by the parser
+		/// as built-in functions or operators</summary>
 		private bool unicodeKeyWordsEnabled = mXparser.unicodeKeyWordsEnabled;
-		/**
-		 * Internal indicator informing the parser
-		 * whether to try to fix the expression String.
-		 * For example, situations such as:
-		 * "++" change to "+",
-		 * "+-" changed to "-"
-		 * "-+" changed to "-"
-		 * "--" changed to "+"
-		 */
+		/// <summary>Internal indicator informing the parser
+		/// whether to try to fix the expression String.
+		/// For example, situations such as:
+		/// "++" change to "+",
+		/// "+-" changed to "-"
+		/// "-+" changed to "-"
+		/// "--" changed to "+"</summary>
 		private bool attemptToFixExpStrEnabled = mXparser.attemptToFixExpStrEnabled;
-		/**
-		 * Indicator whether expression was
-		 * automatically built for user defined
-		 * functions purpose
-		 *
-		 * @see Function
-		 */
+		/// <summary>Indicator whether expression was
+		/// automatically built for user defined
+		/// functions purpose</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		internal bool UDFExpression = false;
-		/**
-		 * List of parameters provided by the user at run-time
-		 *
-		 * @see Function
-		 */
+		/// <summary>List of parameters provided by the user at run-time</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		internal List<Double> UDFVariadicParamsAtRunTime = null;
-		/**
-		 * Internal indicator for calculation process
-		 * Expression.Calculate() method
-		 * It shows whether to build again tokens list
-		 * if clone - build again
-		 * if not clone - build only at the beginning
-		 *
-		 * Indicator helps to solve the problem with
-		 * above definitions
-		 *
-		 * Function f = new Function("f(x) = 2*g(x)");
-		 * Function g = new Function("g(x) = 2*f(x)");
-		 * f.addDefinitions(g);
-		 * g.addDefinitions(f);
-		 */
+		/// <summary>Internal indicator for calculation process
+		/// Expression.Calculate() method
+		/// It shows whether to build again tokens list
+		/// if clone - build again
+		/// if not clone - build only at the beginning
+		///
+		/// Indicator helps to solve the problem with
+		/// above definitions
+		///
+		/// Function f = new Function("f(x) = 2*g(x)");
+		/// Function g = new Function("g(x) = 2*f(x)");
+		/// f.addDefinitions(g);
+		/// g.addDefinitions(f);</summary>
 		private bool internalClone = false;
-        /**
-         * An indicator of whether an error message
-         * should be passed from the current expression
-         * to the expression that called it.
-         */
+        /// <summary>An indicator of whether an error message
+        /// should be passed from the current expression
+        /// to the expression that called it.</summary>
         private bool forwardErrorMessage = true;
-        /**
-		 * mXparser options changeset
-		 * used in checkSyntax() method
-		 */
+        /// <summary>mXparser options changeset
+        /// used in checkSyntax() method</summary>
         private int optionsChangesetNumber = -1;
 		/*=================================================
 		 *
@@ -537,66 +447,48 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
-		/**
-		 * Adds related expression
-		 * The same expression could be added more than once
-		 * For example when
-		 *
-		 * @param      expression          the expression
-		 */
+		/// <summary>Adds related expression
+		/// The same expression could be added more than once
+		/// For example when</summary>
+		/// <param name="expression">the expression</param>
 		internal void addRelatedExpression(Expression expression) {
 			if (expression == null || expression == this)
 				return;
 			if (!relatedExpressionsList.Contains(expression))
 				relatedExpressionsList.Add(expression);
 		}
-		/**
-		 * Removes related expression
-		 *
-		 * @param      expression          the expression
-		 */
+		/// <summary>Removes related expression</summary>
+		/// <param name="expression">the expression</param>
 		internal void removeRelatedExpression(Expression expression) {
 			relatedExpressionsList.Remove(expression);
 		}
-		/**
-		 * Prints related expression list
-		 */
+		/// <summary>Prints related expression list</summary>
 		internal void showRelatedExpressions() {
 			mXparser.consolePrintln();
             mXparser.consolePrintln(description + StringInvariant.SPACE_EQUAL_SPACE + expressionString + StringInvariant.COLON);
             foreach (Expression e in relatedExpressionsList)
                 mXparser.consolePrintln(StringInvariant.RIGHT_ARROW_SPACE + e.description + StringInvariant.SPACE_EQUAL_SPACE + e.expressionString);
         }
-		/**
-		 * Method return error message after
-		 * calling checkSyntax() method or
-		 * calculate().
-		 *
-		 * @return     Error message as string.
-		 */
+		/// <summary>Method return error message after
+		/// calling checkSyntax() method or
+		/// calculate().</summary>
+		/// <returns>Error message as string.</returns>
 		public String getErrorMessage() {
 			return StringUtils.cleanNewLineAtTheEnd(errorMessage);
 		}
-		/**
-		 * Gets syntax status of the expression.
-		 *
-		 * @return     true if there are no syntax errors,
-		 *             false when syntax error was found or
-		 *             syntax status is unknown
-		 */
+		/// <summary>Gets syntax status of the expression.</summary>
+		/// <returns>true if there are no syntax errors,
+		///             false when syntax error was found or
+		///             syntax status is unknown</returns>
 		public bool getSyntaxStatus() {
 			return this.syntaxStatus;
 		}
-		/**
-		 * Package level method for passing
-		 * information about errors identified
-		 * on the constructors level
-		 *
-		 * @param syntaxStatus Syntax status
-		 * @param errorMessage Error message
-		 *
-		 * @see Function
-		 */
+		/// <summary>Package level method for passing
+		/// information about errors identified
+		/// on the constructors level</summary>
+		/// <param name="syntaxStatus">Syntax status</param>
+		/// <param name="errorMessage">Error message</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		internal void setSyntaxStatus(bool syntaxStatus, String errorMessage) {
 			this.syntaxStatus = syntaxStatus;
 			this.errorMessage = errorMessage;
@@ -607,11 +499,9 @@ namespace org.mariuszgromada.math.mxparser {
 			isFullyCompiled = false;
 			initialCompilationDetails = null;
 		}
-		/**
-		 * Sets expression status to modified
-		 * Calls setExpressionModifiedFlag() method
-		 * to all related expressions.
-		 */
+		/// <summary>Sets expression status to modified
+		/// Calls setExpressionModifiedFlag() method
+		/// to all related expressions.</summary>
 		internal void setExpressionModifiedFlag() {
 			if (recursionCallPending)
 				return;
@@ -626,9 +516,7 @@ namespace org.mariuszgromada.math.mxparser {
 				e.setExpressionModifiedFlag();
 			recursionCallPending = false;
 		}
-		/**
-		 * Common variables while expression initializing
-		 */
+		/// <summary>Common variables while expression initializing</summary>
 		private void expressionInternalVarsInit() {
 			description = StringInvariant.EMPTY;
 			errorMessage = StringInvariant.EMPTY;
@@ -647,9 +535,7 @@ namespace org.mariuszgromada.math.mxparser {
 			attemptToFixExpStrEnabled = mXparser.attemptToFixExpStrEnabled;
 			disableRounding = KEEP_ROUNDING_SETTINGS;
 		}
-		/**
-		 * Common elements while expression initializing
-		 */
+		/// <summary>Common elements while expression initializing</summary>
 		private void expressionInit() {
 			/*
 			 * New lists
@@ -673,58 +559,40 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
-		/**
-		 * Default constructor - empty expression
-		 *
-		 * @param  elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
-		 *
-		 * @see    PrimitiveElement
-		 */
+		/// <summary>Default constructor - empty expression</summary>
+		/// <param name="elements">Optional elements list (variadic - comma separated) of types: Argument, Constant, Function</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.PrimitiveElement"/>
 		public Expression(params PrimitiveElement[] elements) : base(Expression.TYPE_ID) {
 			expressionString = StringInvariant.EMPTY;
 			expressionInit();
 			setExpressionModifiedFlag();
 			addDefinitions(elements);
 		}
-		/**
-		 * Constructor - creates new expression from expression string.
-		 *
-		 * @param      expressionString    definition of the expression
-		 * @param      elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
-		 *
-		 * @see    PrimitiveElement
-		 *
-		 */
+		/// <summary>Constructor - creates new expression from expression string.</summary>
+		/// <param name="expressionString">definition of the expression</param>
+		/// <param name="elements">Optional elements list (variadic - comma separated) of types: Argument, Constant, Function</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.PrimitiveElement"/>
 		public Expression(String expressionString, params PrimitiveElement[] elements) : base(Expression.TYPE_ID) {
 			expressionInit();
 			this.expressionString = expressionString;
 			setExpressionModifiedFlag();
 			addDefinitions(elements);
 		}
-		/**
-		 * Constructor - creates new expression from expression string.
-		 * @param expressionString    definition of the expression
-		 * @param parserKeyWordsOnly  if true then all keywords such as functions,
-		 *                            constants, arguments will not be recognized.
-		 */
+		/// <summary>Constructor - creates new expression from expression string.</summary>
+		/// <param name="expressionString">definition of the expression</param>
+		/// <param name="parserKeyWordsOnly">if true then all keywords such as functions,
+		///                            constants, arguments will not be recognized.</param>
 		internal Expression(String expressionString, bool parserKeyWordsOnly) : base(Expression.TYPE_ID) {
 			expressionInit();
 			this.expressionString = expressionString;
 			setExpressionModifiedFlag();
 			this.parserKeyWordsOnly = parserKeyWordsOnly;
 		}
-		/**
-		 * Package level constructor - creates new expression from subexpression
-		 * (sublist of the tokens list), arguments list, functions list and
-		 * constants list (used by the internal calculus operations, etc...).
-		 *
-		 * @param      expressionString    the expression string
-		 * @param      initialTokens       the tokens list (starting point - no tokenizing,
-		 *                                 no syntax checking)
-		 * @param      argumentsList       the arguments list
-		 * @param      functionsList       the functions list
-		 * @param      constantsList       the constants list
-		 */
+		/// <summary>Package level constructor - creates new expression from subexpression
+		/// (sublist of the tokens list), arguments list, functions list and
+		/// constants list (used by the internal calculus operations, etc...).</summary>
+		/// <remarks><para>Parameter <c>expressionString</c>: the expression string</para><para>Parameter <c>initialTokens</c>: the tokens list (starting point - no tokenizing,
+		///                                 no syntax checking)</para><para>Parameter <c>argumentsList</c>: the arguments list</para><para>Parameter <c>functionsList</c>: the functions list</para><para>Parameter <c>constantsList</c>: the constants list</para></remarks>
 		internal Expression(
 			String expressionString
 			,List<Token> initialTokens
@@ -765,24 +633,16 @@ namespace org.mariuszgromada.math.mxparser {
 			setSilentMode();
 			disableRecursiveMode();
 		}
-		/**
-		 * Package level constructor - creates new expression from expression string,
-		 * arguments list, functions list and constants list (used by the
-		 * RecursiveArgument class).
-		 *
-		 * No related expressions at the beginning.
-		 *
-		 * @param      expressionString    the expression string
-		 * @param      argumentsList       the arguments list
-		 * @param      functionsList       the functions list
-		 * @param      constantsList       the constants list
-		 * @param      internal            the marker for internal processing
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 * @see        Function
-		 * @see        Constant
-		 */
+		/// <summary>Package level constructor - creates new expression from expression string,
+		/// arguments list, functions list and constants list (used by the
+		/// RecursiveArgument class).
+		///
+		/// No related expressions at the beginning.</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
+		/// <remarks><para>Parameter <c>expressionString</c>: the expression string</para><para>Parameter <c>argumentsList</c>: the arguments list</para><para>Parameter <c>functionsList</c>: the functions list</para><para>Parameter <c>constantsList</c>: the constants list</para><para>Parameter <c>internal</c>: the marker for internal processing</para></remarks>
 		internal Expression(String expressionString, List<Argument> argumentsList,
 				List<Function> functionsList, List<Constant> constantsList
 				,bool i, bool UDFExpression, List<Double> UDFVariadicParamsAtRunTime) : base(Expression.TYPE_ID) {
@@ -843,203 +703,148 @@ namespace org.mariuszgromada.math.mxparser {
 			constantsList = expressionToClone.constantsList;
 			relatedExpressionsList = expressionToClone.relatedExpressionsList;
 		}
-		/**
-		 * Sets (modifies expression) expression string.
-		 *
-		 * @param      expressionString    the expression string
-		 */
+		/// <summary>Sets (modifies expression) expression string.</summary>
+		/// <param name="expressionString">the expression string</param>
 		public void setExpressionString(String expressionString) {
 			this.expressionString = expressionString;
 			expressionStringCleaned = StringInvariant.EMPTY;
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Returns expression string
-		 */
+		/// <summary>Returns expression string</summary>
+		/// <returns>Expression string definition.</returns>
 		public String getExpressionString() {
 			return expressionString;
 		}
-		/**
-		 * Returns expression string
-		 *
-		 * @return Expression string definition.
-		 */
+		/// <summary>Returns expression string</summary>
+		/// <returns>Expression string definition.</returns>
 		public String getCanonicalExpressionString() {
 			StringBuilder canonicalExpression = new StringBuilder();
 			foreach (Token t in getCopyOfInitialTokens())
 				canonicalExpression.Append(t.tokenStr);
 			return canonicalExpression.ToString();
 		}
-		/**
-		 * Clears expression string
-		 */
+		/// <summary>Clears expression string</summary>
 		public void clearExpressionString() {
 			expressionString = StringInvariant.EMPTY;
             expressionStringCleaned = StringInvariant.EMPTY;
             setExpressionModifiedFlag();
 		}
-		/**
-		 * Sets expression description.
-		 *
-		 * @param      description         the description string
-		 */
+		/// <summary>Sets expression description.</summary>
+		/// <param name="description">the description string</param>
 		public void setDescription(String description) {
 			this.description = description;
 		}
-		/**
-		 * Gets expression description.
-		 *
-		 * @return     String description.
-		 */
+		/// <summary>Gets expression description.</summary>
+		/// <returns>String description.</returns>
 		public String getDescription() {
 			return description;
 		}
-		/**
-		 * Clears expression description
-		 */
+		/// <summary>Clears expression description</summary>
 		public void clearDescription() {
 			this.description = StringInvariant.EMPTY;
 		}
-		/**
-		 * Enables verbose mode.
-		 */
+		/// <summary>Enables verbose mode.</summary>
 		public void setVerboseMode() {
 			verboseMode = true;
 		}
-		/**
-		 * Disables verbose mode (default silent mode).
-		 */
+		/// <summary>Disables verbose mode (default silent mode).</summary>
 		public void setSilentMode() {
 			verboseMode = false;
 		}
-		/**
-		 * Returns verbose mode status.
-		 *
-		 * @return     true if verbose mode is on,
-		 *             otherwise returns false.
-		 */
+		/// <summary>Returns verbose mode status.</summary>
+		/// <returns>true if verbose mode is on,
+		///             otherwise returns false.</returns>
 		public bool getVerboseMode() {
 			return verboseMode;
 		}
-		/**
-		 * Sets implied multiplication
-		 */
+		/// <summary>Sets implied multiplication</summary>
 		public void enableImpliedMultiplicationMode() {
 			if (impliedMultiplicationMode) return;
 			impliedMultiplicationMode = true;
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Disables implied multiplication
-		 */
+		/// <summary>Disables implied multiplication</summary>
 		public void disableImpliedMultiplicationMode() {
 			if (!impliedMultiplicationMode) return;
 			impliedMultiplicationMode = false;
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Gets implied multiplication status
-		 *
-		 * @return     true if implied multiplication is enabled,
-		 *             otherwise returns false.
-		 */
+		/// <summary>Gets implied multiplication status</summary>
+		/// <returns>true if implied multiplication is enabled,
+		///             otherwise returns false.</returns>
 		public bool checkIfImpliedMultiplicationMode() {
 			return impliedMultiplicationMode;
 		}
-		/**
-		 * Enables unicode built-in parser keywords, this flag
-		 * informs the parser that built-in unicode keywords
-		 * are supported and will be recognized as functions or
-		 * operators.
-		 */
+		/// <summary>Enables unicode built-in parser keywords, this flag
+		/// informs the parser that built-in unicode keywords
+		/// are supported and will be recognized as functions or
+		/// operators.</summary>
 		public void enableUnicodeBuiltinKeyWordsMode() {
 			if (unicodeKeyWordsEnabled) return;
 			unicodeKeyWordsEnabled = true;
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Disables unicode built-in parser keywords, this flag
-		 * informs the parser that built-in unicode keywords
-		 * are not supported and will not be recognized as functions or
-		 * operators.
-		 */
+		/// <summary>Disables unicode built-in parser keywords, this flag
+		/// informs the parser that built-in unicode keywords
+		/// are not supported and will not be recognized as functions or
+		/// operators.</summary>
 		public void disableUnicodeBuiltinKeyWordsMode() {
 			if (!unicodeKeyWordsEnabled) return;
 			unicodeKeyWordsEnabled = false;
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Gets unicode built-in parser keywords mode
-		 *
-		 * @return     true if unicode built-in parser keywords is enabled,
-		 *             otherwise returns false.
-		 */
+		/// <summary>Gets unicode built-in parser keywords mode</summary>
+		/// <returns>true if unicode built-in parser keywords is enabled,
+		///             otherwise returns false.</returns>
 		public bool checkIfUnicodeBuiltinKeyWordsMode() {
 			return unicodeKeyWordsEnabled;
 		}
-		/**
-		 * Enables attempt to fix the expression String.
-		 * For example, situations such as:
-		 * "++" change to "+",
-		 * "+-" changed to "-"
-		 * "-+" changed to "-"
-		 * "--" changed to "+"
-		 */
+		/// <summary>Enables attempt to fix the expression String.
+		/// For example, situations such as:
+		/// "++" change to "+",
+		/// "+-" changed to "-"
+		/// "-+" changed to "-"
+		/// "--" changed to "+"</summary>
 		public void enableAttemptToFixExpStrMode() {
 			if (attemptToFixExpStrEnabled) return;
 			attemptToFixExpStrEnabled = true;
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Disables attempt to fix the expression String.
-		 * For example, situations such as:
-		 * "++" change to "+",
-		 * "+-" changed to "-"
-		 * "-+" changed to "-"
-		 * "--" changed to "+"
-		 */
+		/// <summary>Disables attempt to fix the expression String.
+		/// For example, situations such as:
+		/// "++" change to "+",
+		/// "+-" changed to "-"
+		/// "-+" changed to "-"
+		/// "--" changed ro "+"</summary>
 		public void disableAttemptToFixExpStrMode() {
 			if (!attemptToFixExpStrEnabled) return;
 			attemptToFixExpStrEnabled = false;
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Gets attempt to fix expression string mode
-		 *
-		 * @return     true attempt to fix expression string mode is enabled,
-		 *             otherwise returns false.
-		 */
+		/// <summary>Gets attempt to fix expression string mode</summary>
+		/// <returns>true attempt to fix expression string mode is enabled,
+		///             otherwise returns false.</returns>
 		public bool checkIfAttemptToFixExpStrMode() {
 			return attemptToFixExpStrEnabled;
 		}
-		/**
-		 * Sets recursive mode
-		 */
+		/// <summary>Sets recursive mode</summary>
 		internal void setRecursiveMode() {
 			recursiveMode = true;
 		}
-		/**
-		 * Disables recursive mode
-		 */
+		/// <summary>Disables recursive mode</summary>
 		internal void disableRecursiveMode() {
 			recursiveMode = false;
 		}
-		/**
-		 * Gets recursive mode status
-		 *
-		 * @return     true if recursive mode is enabled,
-		 *             otherwise returns false.
-		 */
+		/// <summary>Gets recursive mode status</summary>
+		/// <returns>true if recursive mode is enabled,
+		///             otherwise returns false.</returns>
 		public bool getRecursiveMode() {
 			return recursiveMode;
 		}
-		/**
-		 * An indicator of whether an error message
-		 * should be passed from the current expression
-		 * to the expression that called it.
-		 *
-		 * @param forward If true then message is being forwarded.
-		 */
+		/// <summary>An indicator of whether an error message
+		/// should be passed from the current expression
+		/// to the expression that called it.</summary>
+		/// <param name="forward">If true then message is being forwarded.</param>
 		internal void setForwardErrorMessage(bool forward) {
 			if (forward == forwardErrorMessage)
 				return;
@@ -1047,23 +852,16 @@ namespace org.mariuszgromada.math.mxparser {
 			errorMessageCalculate = StringInvariant.EMPTY;
 			forwardErrorMessage = forward;
 		}
-		/**
-		 * Gets computing time.
-		 *
-		 * @return     computing time in seconds.
-		 */
+		/// <summary>Gets computing time.</summary>
+		/// <returns>computing time in seconds.</returns>
 		public double getComputingTime() {
 			return computingTime;
 		}
-		/**
-		 * Adds user defined elements (such as: Arguments, Constants, Functions)
-		 * to the expressions.
-		 *
-		 * @param elements Elements list (variadic), where Argument, Constant, Function
-		 *                 extend the same class PrimitiveElement
-		 *
-		 * @see PrimitiveElement
-		 */
+		/// <summary>Adds user defined elements (such as: Arguments, Constants, Functions)
+		/// to the expressions.</summary>
+		/// <param name="elements">Elements list (variadic), where Argument, Constant, Function
+		///                 extend the same class PrimitiveElement</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.PrimitiveElement"/>
 		public void addDefinitions(params PrimitiveElement[] elements) {
 			foreach (PrimitiveElement e in elements) {
 				if (e == null) continue;
@@ -1081,15 +879,11 @@ namespace org.mariuszgromada.math.mxparser {
 				}
 			}
 		}
-		/**
-		 * Removes user defined elements (such as: Arguments, Constants, Functions)
-		 * to the expressions.
-		 *
-		 * @param elements Elements list (variadic), where Argument, Constant, Function
-		 *                 extend the same class PrimitiveElement
-		 *
-		 * @see PrimitiveElement
-		 */
+		/// <summary>Removes user defined elements (such as: Arguments, Constants, Functions)
+		/// to the expressions.</summary>
+		/// <param name="elements">Elements list (variadic), where Argument, Constant, Function
+		///                 extend the same class PrimitiveElement</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.PrimitiveElement"/>
 		public void removeDefinitions(params PrimitiveElement[] elements) {
 			foreach (PrimitiveElement e in elements) {
 				if (e == null) continue;
@@ -1113,14 +907,11 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
-		/**
-		 * Adds arguments (variadic) to the expression definition.
-		 *
-		 * @param      arguments           the arguments list
-		 *                                 (comma separated list)
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Adds arguments (variadic) to the expression definition.</summary>
+		/// <param name="arguments">the arguments list
+		///                                 (comma separated list)</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public void addArguments(params Argument[] arguments) {
 			foreach (Argument arg in arguments) {
                 if (arg == null) continue;
@@ -1130,16 +921,12 @@ namespace org.mariuszgromada.math.mxparser {
             }
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Enables to define the arguments (associated with
-		 * the expression) based on the given arguments names.
-		 *
-		 * @param      argumentsNames      the arguments names (variadic)
-		 *                                 comma separated list
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Enables to define the arguments (associated with
+		/// the expression) based on the given arguments names.</summary>
+		/// <param name="argumentsNames">the arguments names (variadic)
+		///                                 comma separated list</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public void defineArguments(params String[] argumentsNames) {
 			foreach (String argName in argumentsNames) {
 				Argument arg = new Argument(argName);
@@ -1148,33 +935,24 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Enables to define the argument (associated with the expression)
-		 * based on the argument name and the argument value.
-		 *
-		 * @param      argumentName        the argument name
-		 * @param      argumentValue       the argument value
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Enables to define the argument (associated with the expression)
+		/// based on the argument name and the argument value.</summary>
+		/// <param name="argumentName">the argument name</param>
+		/// <param name="argumentValue">the argument value</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public void defineArgument(String argumentName, double argumentValue) {
 			Argument arg = new Argument(argumentName, argumentValue);
 			arg.addRelatedExpression(this);
 			argumentsList.Add(arg);
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Gets argument index from the expression.
-		 *
-		 * @param      argumentName        the argument name
-		 *
-		 * @return     The argument index if the argument name was found,
-		 *             otherwise returns Argument.NOT_FOUND
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Gets argument index from the expression.</summary>
+		/// <param name="argumentName">the argument name</param>
+		/// <returns>The argument index if the argument name was found,
+		///             otherwise returns Argument.NOT_FOUND</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public int getArgumentIndex(String argumentName) {
 			int argumentsNumber = argumentsList.Count;
 			if (argumentsNumber == 0)
@@ -1186,88 +964,62 @@ namespace org.mariuszgromada.math.mxparser {
 
 			return NOT_FOUND;
 		}
-		/**
-		 * Gets argument from the expression.
-		 *
-		 *
-		 * @param      argumentName        the argument name
-		 *
-		 * @return     The argument if the argument name was found,
-		 *             otherwise returns null.
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Gets argument from the expression.</summary>
+		/// <param name="argumentName">the argument name</param>
+		/// <returns>The argument if the argument name was found,
+		///             otherwise returns null.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public Argument getArgument(String argumentName) {
 			int argumentIndex = getArgumentIndex(argumentName);
 			if (argumentIndex == NOT_FOUND)
 				return null;
 			return argumentsList[argumentIndex];
 		}
-		/**
-		 * Gets argument from the expression.
-		 *
-		 * @param      argumentIndex       the argument index
-		 *
-		 * @return     Argument if the argument index is between 0 and
-		 *             the last available argument index (getArgumentsNumber()-1),
-		 *             otherwise returns null.
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Gets argument from the expression.</summary>
+		/// <param name="argumentIndex">the argument index</param>
+		/// <returns>Argument if the argument index is between 0 and
+		///             the last available argument index (getArgumentsNumber()-1),
+		///             otherwise returns null.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public Argument getArgument(int argumentIndex) {
 			if (argumentIndex < 0 || argumentIndex >= argumentsList.Count)
 				return null;
 			return argumentsList[argumentIndex];
 		}
-		/**
-		 * Gets number of arguments associated with the expression.
-		 *
-		 * @return     The number of arguments (int >= 0)
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Gets number of arguments associated with the expression.</summary>
+		/// <returns>The number of arguments (int &gt;= 0)</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public int getArgumentsNumber() {
 			return argumentsList.Count;
 		}
-		/**
-		 * Sets argument value.
-		 *
-		 * @param      argumentName        the argument name
-		 * @param      argumentValue       the argument value
-		 */
+		/// <summary>Sets argument value.</summary>
+		/// <param name="argumentName">the argument name</param>
+		/// <param name="argumentValue">the argument value</param>
 		public void setArgumentValue(String argumentName, double argumentValue) {
 			int argumentIndex = getArgumentIndex(argumentName);
 			if (argumentIndex != NOT_FOUND)
 				argumentsList[argumentIndex].setArgumentValue(argumentValue);
 		}
-		/**
-		 * Gets argument vale.
-		 *
-		 * @param      argumentName        the argument name
-		 *
-		 * @return     Argument value if argument name was found,
-		 *             otherwise return Double.NaN.
-		 */
+		/// <summary>Gets argument vale.</summary>
+		/// <param name="argumentName">the argument name</param>
+		/// <returns>Argument value if argument name was found,
+		///             otherwise return Double.NaN.</returns>
 		public double getArgumentValue(String argumentName) {
 			int argumentIndex = getArgumentIndex(argumentName);
 			if (argumentIndex == NOT_FOUND)
                 return Double.NaN;
 			return argumentsList[argumentIndex].getArgumentValueWithCancel(activeCancelId);
 		}
-		/**
-		 * Removes first occurrences of the arguments
-		 * associated with the expression.
-		 *
-		 * @param      argumentsNames      the arguments names
-		 *                                 (variadic parameters) comma separated
-		 *                                 list
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Removes first occurrences of the arguments
+		/// associated with the expression.</summary>
+		/// <param name="argumentsNames">the arguments names
+		///                                 (variadic parameters) comma separated
+		///                                 list</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public void removeArguments(params String[] argumentsNames) {
 			foreach (String argumentName in argumentsNames) {
 				int argumentIndex = getArgumentIndex(argumentName);
@@ -1279,16 +1031,12 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Removes first occurrences of the arguments
-		 * associated with the expression.
-		 *
-		 * @param      arguments           the arguments (variadic parameters)
-		 *                                 comma separated list
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Removes first occurrences of the arguments
+		/// associated with the expression.</summary>
+		/// <param name="arguments">the arguments (variadic parameters)
+		///                                 comma separated list</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public void removeArguments(params Argument[] arguments) {
 			foreach (Argument argument in arguments) {
 				if (argument == null)
@@ -1298,12 +1046,9 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Removes all arguments associated with the expression.
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Removes all arguments associated with the expression.</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.RecursiveArgument"/>
 		public void removeAllArguments() {
 			foreach (Argument arg in argumentsList)
 				arg.removeRelatedExpression(this);
@@ -1316,14 +1061,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
-		/**
-		 * Adds constants (variadic parameters) to the expression definition.
-		 *
-		 * @param      constants           the constants
-		 *                                 (comma separated list)
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Adds constants (variadic parameters) to the expression definition.</summary>
+		/// <param name="constants">the constants
+		///                                 (comma separated list)</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public void addConstants(params Constant[] constants) {
 			foreach (Constant constant in constants) {
 				if (constant == null)
@@ -1333,13 +1074,9 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Adds constants to the expression definition.
-		 *
-		 * @param      constantsList       the list of constants
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Adds constants to the expression definition.</summary>
+		/// <param name="constantsList">the list of constants</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public void addConstants(List<Constant> constantsList) {
 			foreach (Constant c in constantsList) {
                 this.constantsList.Add(c);
@@ -1347,32 +1084,23 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Enables to define the constant (associated with
-		 * the expression) based on the constant name and
-		 * constant value.
-		 *
-		 * @param      constantName        the constant name
-		 * @param      constantValue       the constant value
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Enables to define the constant (associated with
+		/// the expression) based on the constant name and
+		/// constant value.</summary>
+		/// <param name="constantName">the constant name</param>
+		/// <param name="constantValue">the constant value</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public void defineConstant(String constantName, double constantValue) {
 			Constant c = new Constant(constantName, constantValue);
 			c.addRelatedExpression(this);
 			constantsList.Add(c);
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Gets constant index associated with the expression.
-		 *
-		 * @param      constantName        the constant name
-		 *
-		 * @return     Constant index if constant name was found,
-		 *             otherwise return Constant.NOT_FOUND.
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Gets constant index associated with the expression.</summary>
+		/// <param name="constantName">the constant name</param>
+		/// <returns>Constant index if constant name was found,
+		///             otherwise return Constant.NOT_FOUND.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public int getConstantIndex(String constantName) {
 			int constantsNumber = constantsList.Count;
 			if (constantsNumber == 0)
@@ -1384,58 +1112,40 @@ namespace org.mariuszgromada.math.mxparser {
 
 			return NOT_FOUND;
 		}
-		/**
-		 * Gets constant associated with the expression.
-		 *
-		 * @param      constantName        the constant name
-		 *
-		 * @return     Constant if constant name was found,
-		 *             otherwise return null.
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Gets constant associated with the expression.</summary>
+		/// <param name="constantName">the constant name</param>
+		/// <returns>Constant if constant name was found,
+		///             otherwise return null.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public Constant getConstant(String constantName) {
 			int constantIndex = getConstantIndex(constantName);
 			if (constantIndex == NOT_FOUND)
 				return null;
 			return constantsList[constantIndex];
 		}
-		/**
-		 * Gets constant associated with the expression.
-		 *
-		 * @param      constantIndex       the constant index
-		 *
-		 * @return     Constant if the constantIndex is between
-		 *             0 and the last available constant index
-		 *             (getConstantsNumber() - 1),
-		 *             otherwise it returns null.
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Gets constant associated with the expression.</summary>
+		/// <param name="constantIndex">the constant index</param>
+		/// <returns>Constant if the constantIndex is between
+		///             0 and the last available constant index
+		///             (getConstantsNumber() - 1),
+		///             otherwise it returns null.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public Constant getConstant(int constantIndex) {
 			if (constantIndex < 0 || constantIndex >= constantsList.Count)
 				return null;
 			return constantsList[constantIndex];
 		}
-		/**
-		 * Gets number of constants associated with the expression.
-		 *
-		 * @return     number of constants (int >= 0)
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Gets number of constants associated with the expression.</summary>
+		/// <returns>number of constants (int &gt;= 0)</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public int getConstantsNumber() {
 			return constantsList.Count;
 		}
-		/**
-		 * Removes first occurrences of the constants
-		 * associated with the expression.
-		 *
-		 * @param      constantsNames      the constants names (variadic parameters)
-		 *                                 comma separated list
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Removes first occurrences of the constants
+		/// associated with the expression.</summary>
+		/// <param name="constantsNames">the constants names (variadic parameters)
+		///                                 comma separated list</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public void removeConstants(params String[] constantsNames) {
 			foreach (String constantName in constantsNames) {
 				int constantIndex = getConstantIndex(constantName);
@@ -1447,15 +1157,11 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Removes first occurrences of the constants
-		 * associated with the expression
-		 *
-		 * @param      constants           the constants (variadic parameters)
-		 *                                 comma separated list
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Removes first occurrences of the constants
+		/// associated with the expression</summary>
+		/// <param name="constants">the constants (variadic parameters)
+		///                                 comma separated list</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public void removeConstants(params Constant[] constants) {
 			foreach (Constant constant in constants) {
 				if (constant == null)
@@ -1465,12 +1171,9 @@ namespace org.mariuszgromada.math.mxparser {
 				setExpressionModifiedFlag();
 			}
 		}
-		/**
-		 * Removes all constants
-		 * associated with the expression
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Removes all constants
+		/// associated with the expression</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Constant"/>
 		public void removeAllConstants() {
 			foreach (Constant c in constantsList)
 				c.removeRelatedExpression(this);
@@ -1483,14 +1186,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
-		/**
-		 * Adds functions (variadic parameters) to the expression definition.
-		 *
-		 * @param      functions           the functions
-		 *                                 (variadic parameters) comma separated list
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Adds functions (variadic parameters) to the expression definition.</summary>
+		/// <param name="functions">the functions
+		///                                 (variadic parameters) comma separated list</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public void addFunctions(params Function[] functions) {
 			foreach (Function f in functions) {
 				if (f == null)
@@ -1501,19 +1200,15 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Enables to define the function (associated with
-		 * the expression) based on the function name,
-		 * function expression string and arguments names (variadic parameters).
-		 *
-		 * @param      functionName                  the function name
-		 * @param      functionExpressionString      the expression string
-		 * @param      argumentsNames                the function arguments names
-		 *                                           (variadic parameters)
-		 *                                           comma separated list
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Enables to define the function (associated with
+		/// the expression) based on the function name,
+		/// function expression string and arguments names (variadic parameters).</summary>
+		/// <param name="functionName">the function name</param>
+		/// <param name="functionExpressionString">the expression string</param>
+		/// <param name="argumentsNames">the function arguments names
+		///                                           (variadic parameters)
+		///                                           comma separated list</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public void defineFunction(String functionName, String  functionExpressionString,
 				params String[] argumentsNames) {
 			Function f = new Function(functionName, functionExpressionString, argumentsNames);
@@ -1521,16 +1216,11 @@ namespace org.mariuszgromada.math.mxparser {
 			f.addRelatedExpression(this);
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Gets index of function associated with the expression.
-		 *
-		 * @param      functionName        the function name
-		 *
-		 * @return     Function index if function name was found,
-		 *             otherwise returns Function.NOT_FOUND
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Gets index of function associated with the expression.</summary>
+		/// <param name="functionName">the function name</param>
+		/// <returns>Function index if function name was found,
+		///             otherwise returns Function.NOT_FOUND</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public int getFunctionIndex(String functionName) {
 			int functionsNumber = functionsList.Count;
 			if (functionsNumber == 0)
@@ -1542,57 +1232,39 @@ namespace org.mariuszgromada.math.mxparser {
 
 			return NOT_FOUND;
 		}
-		/**
-		 * Gets function associated with the expression.
-		 *
-		 * @param      functionName        the function name
-		 *
-		 * @return     Function if function name was found,
-		 *             otherwise returns null.
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Gets function associated with the expression.</summary>
+		/// <param name="functionName">the function name</param>
+		/// <returns>Function if function name was found,
+		///             otherwise returns null.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public Function getFunction(String functionName) {
 			int functionIndex = getFunctionIndex(functionName);
 			if (functionIndex == NOT_FOUND)
 				return null;
 			return functionsList[functionIndex];
 		}
-		/**
-		 * Gets function associated with the expression.
-		 *
-		 * @param      functionIndex the function index
-		 *
-		 * @return     Function if function index is between 0 and
-		 *             the last available function index (getFunctionsNumber()-1),
-		 *             otherwise returns null.
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Gets function associated with the expression.</summary>
+		/// <param name="functionIndex">the function index</param>
+		/// <returns>Function if function index is between 0 and
+		///             the last available function index (getFunctionsNumber()-1),
+		///             otherwise returns null.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public Function getFunction(int functionIndex) {
 			if (functionIndex < 0 || functionIndex >= functionsList.Count)
 				return null;
 			return functionsList[functionIndex];
 		}
-		/**
-		 * Gets number of functions associated with the expression.
-		 *
-		 * @return     number of functions (int >= 0)
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Gets number of functions associated with the expression.</summary>
+		/// <returns>number of functions (int &gt;= 0)</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public int getFunctionsNumber() {
 			return functionsList.Count;
 		}
-		/**
-		 * Removes first occurrences of the functions
-		 * associated with the expression.
-		 *
-		 * @param      functionsNames      the functions names (variadic parameters)
-		 *                                 comma separated list
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Removes first occurrences of the functions
+		/// associated with the expression.</summary>
+		/// <param name="functionsNames">the functions names (variadic parameters)
+		///                                 comma separated list</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public void removeFunctions(params String[] functionsNames) {
 			foreach (String functionName in functionsNames) {
 				int functionIndex = getFunctionIndex(functionName);
@@ -1604,15 +1276,11 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Removes first occurrences of the functions
-		 * associated with the expression.
-		 *
-		 * @param      functions           the functions (variadic parameters)
-		 *                                 comma separated list.
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Removes first occurrences of the functions
+		/// associated with the expression.</summary>
+		/// <param name="functions">the functions (variadic parameters)
+		///                                 comma separated list.</param>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public void removeFunctions(params Function[] functions) {
 			foreach (Function function in functions) {
 				if (function == null)
@@ -1622,12 +1290,9 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			setExpressionModifiedFlag();
 		}
-		/**
-		 * Removes all functions
-		 * associated with the expression.
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Removes all functions
+		/// associated with the expression.</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		public void removeAllFunctions() {
 			foreach (Function f in functionsList)
 				f.removeRelatedExpression(this);
@@ -1640,16 +1305,13 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
-		/**
-		 * Sets given token to the number type / value.
-		 * Method should be called only by the SetDecreaseRemove like methods
-		 *
-		 * @param      pos                 the position on which token
-		 *                                 should be updated to the given number
-		 * @param      number              the number
-		 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
-		 *                                 intelligent ULP rounding is applied.
-		 */
+		/// <summary>Sets given token to the number type / value.
+		/// Method should be called only by the SetDecreaseRemove like methods</summary>
+		/// <param name="pos">the position on which token
+		///                                 should be updated to the given number</param>
+		/// <param name="number">the number</param>
+		/// <param name="ulpRound">If true, then if <see cref="org.mariuszgromada.math.mxparser.mXparser.ulpRounding"/> = true
+		///                                 intelligent ULP rounding is applied.</param>
 		private void setToNumber(int pos, double number, bool ulpRound) {
 			Token token = tokensList[pos];
             token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
@@ -1675,59 +1337,56 @@ namespace org.mariuszgromada.math.mxparser {
 		private void setToNumber(int pos, double number) {
 			setToNumber(pos, number, false);
 		}
-		/**
-		 * SetDecreaseRemove for 1 arg functions
-		 *
-		 * SetDecreaseRemove like methods are called by the methods
-		 * calculating values of the unary operation, binary relations
-		 * and functions.
-		 *
-		 * 3 things are done by this type of methods
-		 * 1) Set token type to number type / value
-		 * 2) Decrease level of the token
-		 * 3) Remove no longer needed tokens
-		 *
-		 * For example:
-		 *
-		 * Expression string: 1+cos(0)
-		 * will be tokened as follows:
-		 *
-		 *   idx   :  0   1    2    3   4   5
-		 *   token :  1   +   cos   (   0   )
-		 *   level :  0   0    1    2   2   2
-		 *
-		 * Partitions with the highest level will be handled first.
-		 * In the case presented above, it means, that the parenthesis will be removed
-		 *
-		 *   idx   :  0   1    2    3
-		 *   token :  1   +   cos   0
-		 *   level :  0   0    1    2
-		 *
-		 * Next step is to calculate cos(0) = 1
-		 *
-		 * SetDecreaseRemove like methods
-		 *
-		 * 1) Set cos token to 1 (pos=2, result=1):
-		 *   idx   :  0   1    2    3
-		 *   token :  1   +    1    0
-		 *   level :  0   0    1    2
-		 *
-		 * 2) Decrease level (pos=2):
-		 *   idx   :  0   1    2    3
-		 *   token :  1   +    1    0
-		 *   level :  0   0    0    2
-		 *
-		 * 3) Remove no longer needed tokens (pos+1=3):
-		 *   idx   :  0   1    2
-		 *   token :  1   +    1
-		 *   level :  0   0    0
-		 *
-		 * @param      pos                 the position on which token
-		 *                                 should be updated to the given number
-		 * @param      result              the number
-		 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
-		 *                                 intelligent ULP rounding is applied.
-		 */
+		/// <summary>SetDecreaseRemove for 1 arg functions
+		///
+		/// SetDecreaseRemove like methods are called by the methods
+		/// calculating values of the unary operation, binary relations
+		/// and functions.
+		///
+		/// 3 things are done by this type of methods
+		/// 1) Set token type to number type / value
+		/// 2) Decrease level of the token
+		/// 3) Remove no longer needed tokens
+		///
+		/// For example:
+		///
+		/// Expression string: 1+cos(0)
+		/// will be tokened as follows:
+		///
+		///   idx   :  0   1    2    3   4   5
+		///   token :  1   +   cos   (   0   )
+		///   level :  0   0    1    2   2   2
+		///
+		/// Partitions with the highest level will be handled first.
+		/// In the case presented above, it means, that the parenthesis will be removed
+		///
+		///   idx   :  0   1    2    3
+		///   token :  1   +   cos   0
+		///   level :  0   0    1    2
+		///
+		/// Next step is to calculate cos(0) = 1
+		///
+		/// SetDecreaseRemove like methods
+		///
+		/// 1) Set cos token to 1 (pos=2, result=1):
+		///   idx   :  0   1    2    3
+		///   token :  1   +    1    0
+		///   level :  0   0    1    2
+		///
+		/// 2) Decrease level (pos=2):
+		///   idx   :  0   1    2    3
+		///   token :  1   +    1    0
+		///   level :  0   0    0    2
+		///
+		/// 3) Remove no longer needed tokens (pos+1=3):
+		///   idx   :  0   1    2
+		///   token :  1   +    1
+		///   level :  0   0    0</summary>
+		/// <param name="pos">the position on which token
+		///                                 should be updated to the given number</param>
+		/// <param name="result">the number</param>
+		/// <param name="ulpRound">If true, then if <see cref="org.mariuszgromada.math.mxparser.mXparser.ulpRounding"/> = true
+		///                                 intelligent ULP rounding is applied.</param>
 		private void f1SetDecreaseRemove(int pos, double result, bool ulpRound) {
 			setToNumber(pos, result, ulpRound);
 			tokensList[pos].tokenLevel--;
@@ -1736,18 +1395,15 @@ namespace org.mariuszgromada.math.mxparser {
 		private void f1SetDecreaseRemove(int pos, double result) {
 			f1SetDecreaseRemove(pos, result, false);
 		}
-		/**
-		 * SetDecreaseRemove for 2-args functions
-		 *
-		 * For detailed specification refer to the
-		 *    f1SetDecreaseRemove()
-		 *
-		 * @param      pos                 the position on which token
-		 *                                 should be updated to the given number
-		 * @param      result              the number
-		 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
-		 *                                 intelligent ULP rounding is applied.
-		 */
+		/// <summary>SetDecreaseRemove for 2-args functions
+		///
+		/// For detailed specification refer to the
+		///    f1SetDecreaseRemove()</summary>
+		/// <param name="pos">the position on which token
+		///                                 should be updated to the given number</param>
+		/// <param name="result">the number</param>
+		/// <param name="ulpRound">If true, then if <see cref="org.mariuszgromada.math.mxparser.mXparser.ulpRounding"/> = true
+		///                                 intelligent ULP rounding is applied.</param>
 		private void f2SetDecreaseRemove(int pos, double result, bool ulpRound) {
 			setToNumber(pos, result, ulpRound);
 			tokensList[pos].tokenLevel--;
@@ -1757,18 +1413,15 @@ namespace org.mariuszgromada.math.mxparser {
 		private void f2SetDecreaseRemove(int pos, double result) {
 			f2SetDecreaseRemove(pos, result, false);
 		}
-		/**
-		 * SetDecreaseRemove for 3-args functions
-		 *
-		 * For detailed specification refer to the
-		 *    f1SetDecreaseRemove()
-		 *
-		 * @param      pos                 the position on which token
-		 *                                 should be updated to the given number
-		 * @param      result              the number
-		 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
-		 *                                 intelligent ULP rounding is applied.
-		 */
+		/// <summary>SetDecreaseRemove for 3-args functions
+		///
+		/// For detailed specification refer to the
+		///    f1SetDecreaseRemove()</summary>
+		/// <param name="pos">the position on which token
+		///                                 should be updated to the given number</param>
+		/// <param name="result">the number</param>
+		/// <param name="ulpRound">If true, then if <see cref="org.mariuszgromada.math.mxparser.mXparser.ulpRounding"/> = true
+		///                                 intelligent ULP rounding is applied.</param>
 		private void f3SetDecreaseRemove(int pos, double result, bool ulpRound) {
 			setToNumber(pos, result, ulpRound);
 			tokensList[pos].tokenLevel--;
@@ -1779,18 +1432,15 @@ namespace org.mariuszgromada.math.mxparser {
 		private void f3SetDecreaseRemove(int pos, double result) {
 			f3SetDecreaseRemove(pos, result, false);
 		}
-		/**
-		 * SetDecreaseRemove for operators
-		 *
-		 * For detailed specification refer to the
-		 *    f1SetDecreaseRemove()
-		 *
-		 * @param      pos                 the position on which token
-		 *                                 should be updated to the given number
-		 * @param      result              the number
-		 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
-		 *                                 intelligent ULP rounding is applied.
-		 */
+		/// <summary>SetDecreaseRemove for operators
+		///
+		/// For detailed specification refer to the
+		///    f1SetDecreaseRemove()</summary>
+		/// <param name="pos">the position on which token
+		///                                 should be updated to the given number</param>
+		/// <param name="result">the number</param>
+		/// <param name="ulpRound">If true, then if <see cref="org.mariuszgromada.math.mxparser.mXparser.ulpRounding"/> = true
+		///                                 intelligent ULP rounding is applied.</param>
 		private void opSetDecreaseRemove(int pos, double result, bool ulpRound) {
 			setToNumber(pos, result, ulpRound);
 			tokensList.RemoveAt(pos+1);
@@ -1799,18 +1449,15 @@ namespace org.mariuszgromada.math.mxparser {
 		private void opSetDecreaseRemove(int pos, double result) {
 			opSetDecreaseRemove(pos, result, false);
 		}
-		/**
-		 * SetDecreaseRemove for calculus operators.
-		 *
-		 * For detailed specification refer to the
-		 *    f1SetDecreaseRemove()
-		 *
-		 * @param      pos                 the position on which token
-		 *                                 should be updated to the given number
-		 * @param      result              the number
-		 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
-		 *                                 intelligent ULP rounding is applied.
-		 */
+		/// <summary>SetDecreaseRemove for calculus operators.
+		///
+		/// For detailed specification refer to the
+		///    f1SetDecreaseRemove()</summary>
+		/// <param name="pos">the position on which token
+		///                                 should be updated to the given number</param>
+		/// <param name="result">the number</param>
+		/// <param name="ulpRound">If true, then if <see cref="org.mariuszgromada.math.mxparser.mXparser.ulpRounding"/> = true
+		///                                 intelligent ULP rounding is applied.</param>
 		private void calcSetDecreaseRemove(int pos, double result, bool ulpRound) {
 			setToNumber(pos, result, ulpRound);
 			tokensList[pos].tokenLevel--;
@@ -1832,19 +1479,16 @@ namespace org.mariuszgromada.math.mxparser {
 		private void calcSetDecreaseRemove(int pos, double result) {
 			calcSetDecreaseRemove(pos, result, false);
 		}
-		/**
-		 * SetDecreaseRemove for special functions.
-		 *
-		 * For detailed specification refer to the
-		 *    f1SetDecreaseRemove()
-		 *
-		 * @param      pos                 the position on which token
-		 *                                 should be updated to the given number
-		 * @param      value              the number
-		 * @param      length              the special function range
-		 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
-		 *                                 intelligent ULP rounding is applied.
-		 */
+		/// <summary>SetDecreaseRemove for special functions.
+		///
+		/// For detailed specification refer to the
+		///    f1SetDecreaseRemove()</summary>
+		/// <param name="pos">the position on which token
+		///                                 should be updated to the given number</param>
+		/// <param name="value">the number</param>
+		/// <param name="length">the special function range</param>
+		/// <param name="ulpRound">If true, then if <see cref="org.mariuszgromada.math.mxparser.mXparser.ulpRounding"/> = true
+		///                                 intelligent ULP rounding is applied.</param>
 		private void variadicSetDecreaseRemove(int pos, double value, int length, bool ulpRound) {
 			setToNumber(pos, value, ulpRound);
 			tokensList[pos].tokenLevel--;
@@ -1853,14 +1497,11 @@ namespace org.mariuszgromada.math.mxparser {
 		private void variadicSetDecreaseRemove(int pos, double value, int length) {
 			variadicSetDecreaseRemove(pos, value, length, false);
 		}
-		/**
-		 * If set remove method for the if function.
-		 *
-		 * @param      pos                 the position
-		 * @param      ifCondition         the result of if condition
-		 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
-		 *                                 intelligent ULP rounding is applied.
-		 */
+		/// <summary>If set remove method for the if function.</summary>
+		/// <param name="pos">the position</param>
+		/// <param name="ifCondition">the result of if condition</param>
+		/// <param name="ulpRound">If true, then if <see cref="org.mariuszgromada.math.mxparser.mXparser.ulpRounding"/> = true
+		///                                 intelligent ULP rounding is applied.</param>
 		private void ifSetRemove(int pos, double ifCondition, bool ulpRound) {
 			/*
 			 * left parethesis position
@@ -1923,14 +1564,9 @@ namespace org.mariuszgromada.math.mxparser {
 		private void ifSetRemove(int pos, double ifCondition) {
 			ifSetRemove(pos, ifCondition, false);
 		}
-		/**
-		 * Creates string tokens list from the subexpression.
-		 *
-		 * @param      startPos            start position (index)
-		 * @param      endPos              end position   (index)
-		 *
-		 * @return     tokens list representing requested subexpression.
-		 */
+		/// <summary>Creates string tokens list from the subexpression.</summary>
+		/// <returns>tokens list representing requested subexpression.</returns>
+		/// <remarks><para>Parameter <c>startPos</c>: start position (index)</para><para>Parameter <c>endPos</c>: end position   (index)</para></remarks>
 		private static List<Token> createInitialTokens(int startPos, int endPos, List<Token> tokensList) {
 			List<Token> tokens = new List<Token>();
 			Token t;
@@ -1940,11 +1576,8 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			return tokens;
 		}
-		/**
-		 * Return number of functions parameters.
-		 *
-		 * @param      pos                 the function position
-		 */
+		/// <summary>Return number of functions parameters.</summary>
+		/// <param name="pos">the function position</param>
 		private int getParametersNumber(int pos) {
 			int lPpos = pos+1;
 			if (lPpos == initialTokens.Count)
@@ -1975,20 +1608,14 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			return numberOfCommas + 1;
 		}
-		/**
-		 * Gets / returns argument representing given argument name. If
-		 * argument name exists on the list of known arguments
-		 * the initial status of the found argument is remembered, otherwise new
-		 * argument will be created.
-		 *
-		 * @param      argumentName        the argument name
-		 *
-		 * @return     Argument parameter representing given argument name:
-		 *
-		 *
-		 * @see        ArgumentParameter
-		 * @see        Argument
-		 */
+		/// <summary>Gets / returns argument representing given argument name. If
+		/// argument name exists on the list of known arguments
+		/// the initial status of the found argument is remembered, otherwise new
+		/// argument will be created.</summary>
+		/// <param name="argumentName">the argument name</param>
+		/// <returns>Argument parameter representing given argument name:</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.ArgumentParameter"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
 		private ArgumentParameter getParamArgument(String argumentName) {
 			ArgumentParameter argParam = new ArgumentParameter();
 			argParam.index = getArgumentIndex(argumentName);
@@ -2007,11 +1634,8 @@ namespace org.mariuszgromada.math.mxparser {
 			argParam.argument.argumentType = Argument.FREE_ARGUMENT;
 			return argParam;
 		}
-		/**
-		 * Clears argument parameter.
-		 *
-		 * @param      argParam            the argument parameter.
-		 */
+		/// <summary>Clears argument parameter.</summary>
+		/// <param name="argParam">the argument parameter.</param>
 		private void clearParamArgument(ArgumentParameter argParam) {
 			if (argParam.presence == NOT_FOUND) {
 				argumentsList.RemoveAt(argParam.index);
@@ -2026,11 +1650,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
-		/**
-		 * Free Arguments handling.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Free Arguments handling.</summary>
+		/// <param name="pos">the token position</param>
 		private void FREE_ARGUMENT(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.FREE_ARGUMENT, pos);
 			Argument argument = argumentsList[ tokensList[pos].tokenId ];
@@ -2041,12 +1662,9 @@ namespace org.mariuszgromada.math.mxparser {
 			if (!argumentVerboseMode)
 				argument.setSilentMode();
 		}
-		/**
-		 * Dependent Arguments handling.
-		 *
-		 * @param      pos                 the token position
-		 * @param      calcStepsRegister   steps register
-		 */
+		/// <summary>Dependent Arguments handling.</summary>
+		/// <param name="pos">the token position</param>
+		/// <param name="calcStepsRegister">steps register</param>
 		private void DEPENDENT_ARGUMENT(int pos, CalcStepsRegister calcStepsRegister) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.DEPENDENT_ARGUMENT, pos);
 			Argument argument = argumentsList[ tokensList[pos].tokenId ];
@@ -2080,12 +1698,9 @@ namespace org.mariuszgromada.math.mxparser {
 			if (!argumentVerboseMode)
 				argument.setSilentMode();
 		}
-		/**
-		 * User functions handling.
-		 *
-		 * @param      pos                 the token position
-		 * @param      calcStepsRegister   steps register
-		 */
+		/// <summary>User functions handling.</summary>
+		/// <param name="pos">the token position</param>
+		/// <param name="calcStepsRegister">steps register</param>
 		private void USER_FUNCTION(int pos, CalcStepsRegister calcStepsRegister) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.USER_FUNCTION, pos);
 			Function function;
@@ -2140,21 +1755,15 @@ namespace org.mariuszgromada.math.mxparser {
 			if (!functionVerboseMode)
 				function.setSilentMode();
 		}
-		/**
-		 * User constants handling.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>User constants handling.</summary>
+		/// <param name="pos">the token position</param>
 		private void USER_CONSTANT(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.USER_CONSTANT, pos);
 			Constant constant = constantsList[ tokensList[pos].tokenId ];
 			setToNumber(pos, constant.getConstantValue());
 		}
-		/**
-		 * Recursive arguments handling.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Recursive arguments handling.</summary>
+		/// <param name="pos">the token position</param>
 		private void RECURSIVE_ARGUMENT(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.RECURSIVE_ARGUMENT, pos);
 			double index = tokensList[pos+1].tokenValue;
@@ -2171,11 +1780,8 @@ namespace org.mariuszgromada.math.mxparser {
 			if (!argumentVerboseMode)
 				argument.setSilentMode();
 		}
-		/**
-		 * Constants handling.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Constants handling.</summary>
+		/// <param name="pos">the token position</param>
 		private void CONSTANT(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.CONSTANT, pos);
 			double constValue = Double.NaN;
@@ -2186,71 +1792,50 @@ namespace org.mariuszgromada.math.mxparser {
                 constValue = MathConstants.getConstantValue(constantValueId);
             setToNumber(pos, constValue);
 		}
-		/**
-		 * Constants handling.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Constants handling.</summary>
+		/// <param name="pos">the token position</param>
 		private void UNIT(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.UNIT, pos);
             setToNumber(pos, Units.getUnitValue(tokensList[pos].tokenId));
         }
-		/**
-		 * Random Variables handling.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Random Variables handling.</summary>
+		/// <param name="pos">the token position</param>
 		private void RANDOM_VARIABLE(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.RANDOM_VARIABLE, pos);
 			setToNumber(pos, ProbabilityDistributions.getRandomVariableValueWithCancel(tokensList[pos].tokenId, activeCancelId));
         }
-		/**
-		 * Gets token value
-		 * @param      tokenIndex          the token index
-		 *
-		 * @return     the token value
-		 */
+		/// <summary>Gets token value</summary>
+		/// <param name="tokenIndex">the token index</param>
+		/// <returns>the token value</returns>
 		private double getTokenValue(int tokenIndex) {
 			return tokensList[tokenIndex].tokenValue;
 		}
-		/**
-		 * Tetration handling.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Tetration handling.</summary>
+		/// <param name="pos">the token position</param>
 		private void TETRATION(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.TETRATION, pos);
 			double a = getTokenValue(pos - 1);
 			double n = getTokenValue(pos + 1);
 			opSetDecreaseRemove(pos, MathFunctions.tetrationWithCancel(a, n, activeCancelId), true);
 		}
-		/**
-		 * Power handling.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Power handling.</summary>
+		/// <param name="pos">the token position</param>
 		private void POWER(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.POWER, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, MathFunctions.power(a, b), true);
 		}
-		/**
-		 * Modulo handling.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Modulo handling.</summary>
+		/// <param name="pos">the token position</param>
 		private void MODULO(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.MODULO, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, MathFunctions.mod(a, b) );
 		}
-		/**
-		 * Division handling.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Division handling.</summary>
+		/// <param name="pos">the token position</param>
 		private void DIVIDE(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.DIVIDE, pos);
 			double a = getTokenValue(pos-1);
@@ -2262,22 +1847,16 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			else opSetDecreaseRemove(pos, MathFunctions.div(a, b), true);
 		}
-		/**
-		 * Integer division handling.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Integer division handling.</summary>
+		/// <param name="pos">the token position</param>
 		private void DIVIDE_QUOTIENT(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.DIVIDE_QUOTIENT, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, MathFunctions.divQuotient(a, b), true);
 		}
-		/**
-		 * Multiplication handling.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Multiplication handling.</summary>
+		/// <param name="pos">the token position</param>
 		private void MULTIPLY(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.MULTIPLY, pos);
 			double a = getTokenValue(pos-1);
@@ -2285,11 +1864,8 @@ namespace org.mariuszgromada.math.mxparser {
 			if (disableRounding) opSetDecreaseRemove(pos, a * b, true);
 			else opSetDecreaseRemove(pos, MathFunctions.multiply(a, b), true);
 		}
-		/**
-		 * Addition handling.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Addition handling.</summary>
+		/// <param name="pos">the token position</param>
 		private void PLUS(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.PLUS, pos);
 			Token b = tokensList[pos+1];
@@ -2311,11 +1887,8 @@ namespace org.mariuszgromada.math.mxparser {
 				tokensList.RemoveAt(pos+1);
 			}
 		}
-		/**
-		 * Subtraction handling
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Subtraction handling</summary>
+		/// <param name="pos">the token position</param>
 		private void MINUS(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.MINUS, pos);
 			Token b = tokensList[pos+1];
@@ -2337,820 +1910,572 @@ namespace org.mariuszgromada.math.mxparser {
 				tokensList.RemoveAt(pos+1);
 			}
 		}
-		/**
-		 * Logical AND
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Logical AND</summary>
+		/// <param name="pos">the token position</param>
 		private void AND(int pos) {
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BooleanAlgebra.and(a, b) );
 		}
-		/**
-		 * Logical OR
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Logical OR</summary>
+		/// <param name="pos">the token position</param>
 		private void OR(int pos) {
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BooleanAlgebra.or(a, b) );
 		}
-		/**
-		 * Logical NAND
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Logical NAND</summary>
+		/// <param name="pos">the token position</param>
 		private void NAND(int pos) {
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BooleanAlgebra.nand(a, b) );
 		}
-		/**
-		 * Logical NOR
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Logical NOR</summary>
+		/// <param name="pos">the token position</param>
 		private void NOR(int pos) {
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BooleanAlgebra.nor(a, b) );
 		}
-		/**
-		 * Logical XOR
-		 *
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Logical XOR</summary>
+		/// <param name="pos">the token position</param>
 		private void XOR(int pos) {
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BooleanAlgebra.xor(a, b) );
 		}
-		/**
-		 * Logical IMP
-		 *
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Logical IMP</summary>
+		/// <param name="pos">the token position</param>
 		private void IMP(int pos) {
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BooleanAlgebra.imp(a, b) );
 		}
-		/**
-		 * Logical CIMP
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Logical CIMP</summary>
+		/// <param name="pos">the token position</param>
 		private void CIMP(int pos) {
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BooleanAlgebra.cimp(a, b) );
 		}
-		/**
-		 * Logical NIMP
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Logical NIMP</summary>
+		/// <param name="pos">the token position</param>
 		private void NIMP(int pos) {
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BooleanAlgebra.nimp(a, b) );
 		}
-		/**
-		 * Logical CNIMP
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Logical CNIMP</summary>
+		/// <param name="pos">the token position</param>
 		private void CNIMP(int pos) {
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BooleanAlgebra.cnimp(a, b) );
 		}
-		/**
-		 * Logical EQV
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Logical EQV</summary>
+		/// <param name="pos">the token position</param>
 		private void EQV(int pos) {
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BooleanAlgebra.eqv(a, b) );
 		}
-		/**
-		 * Logical negation
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Logical negation</summary>
+		/// <param name="pos">the token position</param>
 		private void NEG(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.NEG, pos);
 			double a = getTokenValue(pos+1);
 			setToNumber(pos, BooleanAlgebra.not(a) );
 			tokensList.RemoveAt(pos+1);
 		}
-		/**
-		 * Equality relation.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Equality relation.</summary>
+		/// <param name="pos">the token position</param>
 		private void EQ(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.EQ, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BinaryRelations.eq(a, b) );
 		}
-		/**
-		 * Not equals.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Not equals.</summary>
+		/// <param name="pos">the token position</param>
 		private void NEQ(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.NEQ, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BinaryRelations.neq(a, b) );
 		}
-		/**
-		 * Lower than.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Lower than.</summary>
+		/// <param name="pos">the token position</param>
 		private void LT(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.LT, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BinaryRelations.lt(a, b) );
 		}
-		/**
-		 * Greater than.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Greater than.</summary>
+		/// <param name="pos">the token position</param>
 		private void GT(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.GT, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BinaryRelations.gt(a, b) );
 		}
-		/**
-		 * Lower or equal.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Lower or equal.</summary>
+		/// <param name="pos">the token position</param>
 		private void LEQ(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.LEQ, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BinaryRelations.leq(a, b) );
 		}
-		/**
-		 * Greater or equal
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Greater or equal</summary>
+		/// <param name="pos">the token position</param>
 		private void GEQ(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.GEQ, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BinaryRelations.geq(a, b) );
 		}
-		/**
-		 * Square root as unary left operator
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Square root as unary left operator</summary>
+		/// <param name="pos">the token position</param>
 		private void SQUARE_ROOT_OPERATOR(int pos) {
 			double a = getTokenValue(pos+1);
 			setToNumber(pos, MathFunctions.sqrt(a) );
 			tokensList.RemoveAt(pos+1);
 		}
-		/**
-		 * Cube root as unary left operator
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Cube root as unary left operator</summary>
+		/// <param name="pos">the token position</param>
 		private void CUBE_ROOT_OPERATOR(int pos) {
 			double a = getTokenValue(pos+1);
 			setToNumber(pos, MathFunctions.root(3, a) );
 			tokensList.RemoveAt(pos+1);
 		}
-		/**
-		 * Fourth root as unary left operator
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Fourth root as unary left operator</summary>
+		/// <param name="pos">the token position</param>
 		private void FOURTH_ROOT_OPERATOR(int pos) {
 			double a = getTokenValue(pos+1);
 			setToNumber(pos, MathFunctions.root(4, a) );
 			tokensList.RemoveAt(pos+1);
 		}
-		/**
-		 * Bitwise COMPL
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Bitwise COMPL</summary>
+		/// <param name="pos">the token position</param>
 		private void BITWISE_COMPL(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.BITWISE_COMPL, pos);
 			long a = (long)getTokenValue(pos + 1);
 			setToNumber(pos, ~a);
 			tokensList.RemoveAt(pos + 1);
 		}
-		/**
-		 * Bitwise AND
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Bitwise AND</summary>
+		/// <param name="pos">the token position</param>
 		private void BITWISE_AND(int pos) {
 			long a = (long)getTokenValue(pos - 1);
 			long b = (long)getTokenValue(pos + 1);
 			opSetDecreaseRemove(pos, a & b);
 		}
-		/**
-		 * Bitwise OR
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Bitwise OR</summary>
+		/// <param name="pos">the token position</param>
 		private void BITWISE_OR(int pos) {
 			long a = (long)getTokenValue(pos - 1);
 			long b = (long)getTokenValue(pos + 1);
 			opSetDecreaseRemove(pos, a | b);
 		}
-		/**
-		 * Bitwise XOR
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Bitwise XOR</summary>
+		/// <param name="pos">the token position</param>
 		private void BITWISE_XOR(int pos) {
 			long a = (long)getTokenValue(pos - 1);
 			long b = (long)getTokenValue(pos + 1);
 			opSetDecreaseRemove(pos, a ^ b);
 		}
-		/**
-		 * Bitwise NAND
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Bitwise NAND</summary>
+		/// <param name="pos">the token position</param>
 		private void BITWISE_NAND(int pos) {
 			long a = (long)getTokenValue(pos-1);
 			long b = (long)getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, ~(a & b));
 		}
-		/**
-		 * Bitwise NOR
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Bitwise NOR</summary>
+		/// <param name="pos">the token position</param>
 		private void BITWISE_NOR(int pos) {
 			long a = (long)getTokenValue(pos-1);
 			long b = (long)getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, ~(a | b));
 		}
-		/**
-		 * Bitwise NOR
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Bitwise NOR</summary>
+		/// <param name="pos">the token position</param>
 		private void BITWISE_XNOR(int pos) {
 			long a = (long)getTokenValue(pos-1);
 			long b = (long)getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, ~(a ^ b));
 		}
-		/**
-		 * Bitwise LEFT SHIFT
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Bitwise LEFT SHIFT</summary>
+		/// <param name="pos">the token position</param>
 		private void BITWISE_LEFT_SHIFT(int pos) {
 			int a = (int)getTokenValue(pos - 1);
             int b = (int)getTokenValue(pos + 1);
 			opSetDecreaseRemove(pos, a << b);
 		}
-		/**
-		 * Bitwise RIGHT SHIFT
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Bitwise RIGHT SHIFT</summary>
+		/// <param name="pos">the token position</param>
 		private void BITWISE_RIGHT_SHIFT(int pos) {
             int a = (int)getTokenValue(pos - 1);
             int b = (int)getTokenValue(pos + 1);
 			opSetDecreaseRemove(pos, a >> b);
 		}
-		/**
-		 * Sine function
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Sine function</summary>
+		/// <param name="pos">the token position</param>
 		private void SIN(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.sin(a) );
 		}
-		/**
-		 * Cosine / Trigonometric functions
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Cosine / Trigonometric functions
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void COS(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.cos(a) );
 		}
-		/**
-		 * Tangent / Trigonometric functions
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Tangent / Trigonometric functions
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void TAN(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.tan(a) );
 		}
-		/**
-		 * Cotangent / Trigonometric functions
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Cotangent / Trigonometric functions
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void CTAN(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.ctan(a) );
 		}
-		/**
-		 * Secant / Trigonometric functions
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Secant / Trigonometric functions
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void SEC(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.sec(a) );
 		}
-		/**
-		 * Cosecant / Trigonometric functions
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Cosecant / Trigonometric functions
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void COSEC(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.cosec(a) );
 		}
-		/**
-		 * Arcus sine / Inverse trigonometric functions
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Arcus sine / Inverse trigonometric functions
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void ASIN(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.asin(a) );
 		}
-		/**
-		 * Arcus cosine / Inverse trigonometric functions
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Arcus cosine / Inverse trigonometric functions
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void ACOS(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.acos(a) );
 		}
-		/**
-		 * Arcus tangent / Inverse trigonometric functions
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Arcus tangent / Inverse trigonometric functions
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void ATAN(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.atan(a) );
 		}
-		/**
-		 * Arcus cotangent / Inverse trigonometric functions
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Arcus cotangent / Inverse trigonometric functions
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void ACTAN(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.actan(a) );
 		}
-		/**
-		 * Natural logarithm (base e)
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Natural logarithm (base e)
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void LN(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.ln(a) );
 		}
-		/**
-		 * Logarithm - base 2
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Logarithm - base 2
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void LOG2(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.log2(a) );
 		}
-		/**
-		 * Logarithm - base 10
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Logarithm - base 10
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void LOG10(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.log10(a) );
 		}
-		/**
-		 * Converts degrees to radius
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Converts degrees to radius
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void RAD(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.rad(a) );
 		}
-		/**
-		 * Exponential function
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Exponential function
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void EXP(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.exp(a) );
 		}
-		/**
-		 * Square root
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Square root
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void SQRT(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.sqrt(a) );
 		}
-		/**
-		 * Hyperbolic sine
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Hyperbolic sine
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void SINH(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.sinh(a) );
 		}
-		/**
-		 * Hyperbolic cosine
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Hyperbolic cosine
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void COSH(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.cosh(a) );
 		}
-		/**
-		 * Hyperbolic tangent
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Hyperbolic tangent
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void TANH(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.tanh(a) );
 		}
-		/**
-		 * Hyperbolic cotangent
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Hyperbolic cotangent
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void COTH(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.coth(a) );
 		}
-		/**
-		 * Hyperbolic secant
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Hyperbolic secant
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void SECH(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.sech(a) );
 		}
-		/**
-		 * Hyperbolic cosecant
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Hyperbolic cosecant
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void CSCH(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.csch(a) );
 		}
-		/**
-		 * Converts radians to degrees
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Converts radians to degrees
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void DEG(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.deg(a) );
 		}
-		/**
-		 * Absolut value
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Absolut value
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void ABS(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.abs(a) );
 		}
-		/**
-		 * Signum function
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Signum function
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void SGN(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.sgn(a) );
 		}
-		/**
-		 * Floor function
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Floor function
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void FLOOR(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.floor(a) );
 		}
-		/**
-		 * Ceil function
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Ceil function
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void CEIL(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.ceil(a) );
 		}
-		/**
-		 * Arcus hyperbolic sine
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Arcus hyperbolic sine
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void ARSINH(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.arsinh(a) );
 		}
-		/**
-		 * Arcus hyperbolic cosine
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Arcus hyperbolic cosine
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void ARCOSH(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.arcosh(a) );
 		}
-		/**
-		 * Arcus hyperbolic tangent
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Arcus hyperbolic tangent
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void ARTANH(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.artanh(a) );
 		}
-		/**
-		 * Arcus hyperbolic cotangent
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Arcus hyperbolic cotangent
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void ARCOTH(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.arcoth(a) );
 		}
-		/**
-		 * Arcus hyperbolic secant
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Arcus hyperbolic secant
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void ARSECH(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.arsech(a) );
 		}
-		/**
-		 * Arcus hyperbolic cosecant
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Arcus hyperbolic cosecant
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void ARCSCH(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.arcsch(a) );
 		}
-		/**
-		 * SA / sinc normalized
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>SA / sinc normalized</summary>
+		/// <param name="pos">the token position</param>
 		private void SA(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.sa(a) );
 		}
-		/**
-		 * Sinc unnormalized
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Sinc unnormalized</summary>
+		/// <param name="pos">the token position</param>
 		private void SINC(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.sinc(a) );
 		}
-		/**
-		 * Bell numbers
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Bell numbers</summary>
+		/// <param name="pos">the token position</param>
 		private void BELL_NUMBER(int pos) {
 			double n = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.bellNumberWithCancel(n, activeCancelId) );
 		}
-		/**
-		 * Lucas numbers
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Lucas numbers</summary>
+		/// <param name="pos">the token position</param>
 		private void LUCAS_NUMBER(int pos) {
 			double n = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.lucasNumberWithCancel(n, activeCancelId) );
 		}
-		/**
-		 * Fibonacci numbers
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Fibonacci numbers</summary>
+		/// <param name="pos">the token position</param>
 		private void FIBONACCI_NUMBER(int pos) {
 			double n = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.fibonacciNumberWithCancel(n, activeCancelId) );
 		}
-		/**
-		 * Harmonic numbers
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Harmonic numbers</summary>
+		/// <param name="pos">the token position</param>
 		private void HARMONIC_NUMBER(int pos) {
 			double n = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, MathFunctions.ordinaryHarmonicNumberWithCancel(n, activeCancelId) );
 		}
-		/**
-		 * Prime test
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Prime test</summary>
+		/// <param name="pos">the token position</param>
 		private void IS_PRIME(int pos) {
 			double n = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, NumberTheory.primeTestWithCancel(n, activeCancelId));
 		}
-		/**
-		 * Prime counting
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Prime counting</summary>
+		/// <param name="pos">the token position</param>
 		private void PRIME_COUNT(int pos) {
 			double n = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, NumberTheory.primeCountWithCancel(n, activeCancelId));
 		}
-		/**
-		 * Exponential integral function
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Exponential integral function</summary>
+		/// <param name="pos">the token position</param>
 		private void EXP_INT(int pos) {
 			double x = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, SpecialFunctions.exponentialIntegralEiWithCancel(x, activeCancelId));
 		}
-		/**
-		 * Logarithmic exponential integral function
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Logarithmic exponential integral function</summary>
+		/// <param name="pos">the token position</param>
 		private void LOG_INT(int pos) {
 			double x = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, SpecialFunctions.logarithmicIntegralLiWithCancel(x, activeCancelId));
 		}
-		/**
-		 * Offset logarithmic exponential integral function
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Offset logarithmic exponential integral function</summary>
+		/// <param name="pos">the token position</param>
 		private void OFF_LOG_INT(int pos) {
 			double x = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, SpecialFunctions.offsetLogarithmicIntegralLiWithCancel(x, activeCancelId));
 		}
-		/**
-		 * Factorilal function
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Factorilal function
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void FACT(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.FACT, pos);
 			double a = getTokenValue(pos-1);
 			setToNumber(pos, MathFunctions.factorialWithCancel(a, activeCancelId));
 			tokensList.RemoveAt(pos-1);
 		}
-		/**
-		 * Percentage
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Percentage
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void PERC(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.PERC, pos);
 			double a = getTokenValue(pos - 1);
 			setToNumber(pos, MathFunctions.multiply(a, Units.PERC));
 			tokensList.RemoveAt(pos - 1);
 		}
-		/**
-		 * Negation
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Negation
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void NOT(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, BooleanAlgebra.not(a) );
 		}
-		/**
-		 * Gauss error function
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Gauss error function</summary>
+		/// <param name="pos">the token position</param>
 		private void GAUSS_ERF(int pos) {
 			double x = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, SpecialFunctions.erf(x));
 		}
-		/**
-		 * Gauss complementary error function
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Gauss complementary error function</summary>
+		/// <param name="pos">the token position</param>
 		private void GAUSS_ERFC(int pos) {
 			double x = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, SpecialFunctions.erfc(x));
 		}
-		/**
-		 * Inverse of Gauss error function
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Inverse of Gauss error function</summary>
+		/// <param name="pos">the token position</param>
 		private void GAUSS_ERF_INV(int pos) {
 			double x = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, SpecialFunctions.erfInv(x));
 		}
-		/**
-		 * Inverse of Gauss complementary error function
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Inverse of Gauss complementary error function</summary>
+		/// <param name="pos">the token position</param>
 		private void GAUSS_ERFC_INV(int pos) {
 			double x = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, SpecialFunctions.erfcInv(x));
 		}
-		/**
-		 * Unit in The Last Place
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Unit in The Last Place
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void ULP(int pos) {
 			double x = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, MathFunctions.ulp(x));
 		}
-		/**
-		 * Is Not-a-Number
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Is Not-a-Number
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void ISNAN(int pos) {
 			double x = getTokenValue(pos + 1);
 			if (Double.IsNaN(x))
@@ -3158,112 +2483,79 @@ namespace org.mariuszgromada.math.mxparser {
 			else
 				f1SetDecreaseRemove(pos, BooleanAlgebra.FALSE);
 		}
-		/**
-		 * Number of digits in base 10
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Number of digits in base 10
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void NDIG10(int pos) {
 			double x = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, NumberTheory.numberOfDigits(x));
 		}
-		/**
-		 * Number of prime factors - distinct
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Number of prime factors - distinct
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void NFACT(int pos) {
 			double n = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, NumberTheory.numberOfPrimeFactorsWithCancel(n, activeCancelId));
 		}
-		/**
-		 * Arcuus secant
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Arcuus secant
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void ARCSEC(int pos) {
 			double x = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, MathFunctions.asec(x));
 		}
-		/**
-		 * Arcuus cosecant
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Arcuus cosecant
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void ARCCSC(int pos) {
 			double x = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, MathFunctions.acosec(x));
 		}
-		/**
-		 * Gamma special function
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Gamma special function
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void GAMMA(int pos) {
 			double x = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, SpecialFunctions.gammaWithCancel(x, activeCancelId));
 		}
-		/**
-		 * Lambert-W special function, principal branch 0
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Lambert-W special function, principal branch 0
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void LAMBERT_W0(int pos) {
 			double x = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, SpecialFunctions.lambertWWithCancel(x, 0, activeCancelId));
 		}
-		/**
-		 * Lambert-W special function, branch = -1
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Lambert-W special function, branch = -1
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void LAMBERT_W1(int pos) {
 			double x = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, SpecialFunctions.lambertWWithCancel(x, -1, activeCancelId));
 		}
-		/**
-		 * Signum of Gamma special function
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Signum of Gamma special function
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void SGN_GAMMA(int pos) {
 			double x = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, SpecialFunctions.sgnGammaWithCancel(x, activeCancelId) );
 		}
-		/**
-		 * Log Gamma special function
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Log Gamma special function
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void LOG_GAMMA(int pos) {
 			double x = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, SpecialFunctions.logGammaWithCancel(x, activeCancelId) );
 		}
-		/**
-		 * Digamma special function
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Digamma special function
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void DI_GAMMA(int pos) {
 			double x = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, SpecialFunctions.diGammaWithCancel(x, activeCancelId) );
 		}
-		/**
-		 * User Defined Variadic function param value
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>User Defined Variadic function param value
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void UDF_PARAM(int pos) {
 			double value = Double.NaN;
             if (UDFVariadicParamsAtRunTime != null) {
@@ -3292,24 +2584,17 @@ namespace org.mariuszgromada.math.mxparser {
 			double k = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, ProbabilityDistributions.rndChiSquaredWithCancel(k, activeCancelId) );
 		}
-		/**
-		 * Logarithm
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Logarithm
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void LOG(int pos) {
 			double b = getTokenValue(pos+1);
 			double a = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, MathFunctions.log(a, b) );
 		}
-		/**
-		 * Creates ArraList<Double> containing function parameters
-		 *
-		 * @param      pos                 the function position
-		 *
-		 * @return     List of function parameters.
-		 */
+		/// <summary>Creates ArraList&lt;Double&gt; containing function parameters</summary>
+		/// <param name="pos">the function position</param>
+		/// <returns>List of function parameters.</returns>
 		private List<Double> getNumbers(int pos) {
 			List<Double> numbers = new List<Double>();
 			int pn = pos;
@@ -3329,50 +2614,37 @@ namespace org.mariuszgromada.math.mxparser {
 			} while (!end);
 			return numbers;
 		}
-		/**
-		 * Modulo
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Modulo
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void MOD(int pos) {
 			double a = getTokenValue(pos+1);
 			double b = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, MathFunctions.mod(a, b) );
 		}
-		/**
-		 * Binomial Coefficient
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Binomial Coefficient</summary>
+		/// <param name="pos">the token position</param>
 		private void BINOM_COEFF(int pos) {
 			double n = getTokenValue(pos+1);
 			double k = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, MathFunctions.binomCoeffWithCancel(n,k, activeCancelId) );
 		}
-		/**
-		 * Number of permutations
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Number of permutations</summary>
+		/// <param name="pos">the token position</param>
 		private void PERMUTATIONS(int pos) {
 			double n = getTokenValue(pos+1);
 			double k = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, MathFunctions.numberOfPermutationsWithCancel(n, k, activeCancelId) );
 		}
-		/**
-		 * Beta special function
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Beta special function</summary>
+		/// <param name="pos">the token position</param>
 		private void BETA(int pos) {
 			double x = getTokenValue(pos+1);
 			double y = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, SpecialFunctions.betaWithCancel(x, y, activeCancelId) );
 		}
-		/**
-		 * Log beta special function
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Log beta special function</summary>
+		/// <param name="pos">the token position</param>
 		private void LOG_BETA(int pos) {
 			double x = getTokenValue(pos+1);
 			double y = getTokenValue(pos+2);
@@ -3408,232 +2680,162 @@ namespace org.mariuszgromada.math.mxparser {
 			double k = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, ProbabilityDistributions.qntChiSquaredWithCancel(p, k, activeCancelId) );
 		}
-	/**
-		/**
-		 * Bernoulli Number
-		 *
-		 * @param      pos                 the token position
-		 */
+	/// <summary>Bernoulli Number</summary>
+	/// <param name="pos">the token position</param>
 		private void BERNOULLI_NUMBER(int pos) {
 			double m = getTokenValue(pos+1);
 			double n = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, MathFunctions.bernoulliNumberWithCancel(m, n, activeCancelId) );
 		}
-		/**
-		 * Stirling number of the first kind
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Stirling number of the first kind</summary>
+		/// <param name="pos">the token position</param>
 		private void STIRLING1_NUMBER(int pos) {
 			double n = getTokenValue(pos+1);
 			double k = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, MathFunctions.Stirling1NumberWithCancel(n, k, activeCancelId) );
 		}
-		/**
-		 * Stirling number of the second kind.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Stirling number of the second kind.</summary>
+		/// <param name="pos">the token position</param>
 		private void STIRLING2_NUMBER(int pos) {
 			double n = getTokenValue(pos+1);
 			double k = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, MathFunctions.Stirling2NumberWithCancel(n, k, activeCancelId) );
 		}
-		/**
-		 * Worpitzky number.
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Worpitzky number.</summary>
+		/// <param name="pos">the token position</param>
 		private void WORPITZKY_NUMBER(int pos) {
 			double n = getTokenValue(pos+1);
 			double k = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, MathFunctions.worpitzkyNumberWithCancel(n, k, activeCancelId) );
 		}
-		/**
-		 * Euler number
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Euler number</summary>
+		/// <param name="pos">the token position</param>
 		private void EULER_NUMBER(int pos) {
 			double n = getTokenValue(pos+1);
 			double k = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, MathFunctions.eulerNumberWithCancel(n, k, activeCancelId) );
 		}
-		/**
-		 * Kronecker delta
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Kronecker delta</summary>
+		/// <param name="pos">the token position</param>
 		private void KRONECKER_DELTA(int pos) {
 			double i = getTokenValue(pos+1);
 			double j = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, MathFunctions.kroneckerDelta(i, j) );
 		}
-		/**
-		 * Euler polynomial
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Euler polynomial</summary>
+		/// <param name="pos">the token position</param>
 		private void EULER_POLYNOMIAL(int pos) {
 			double m = getTokenValue(pos+1);
 			double x = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, MathFunctions.eulerPolynomialWithCancel(m, x, activeCancelId) );
 		}
-		/**
-		 * Harmonic numbers
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Harmonic numbers</summary>
+		/// <param name="pos">the token position</param>
 		private void HARMONIC2_NUMBER(int pos) {
 			double x = getTokenValue(pos+1);
 			double n = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, MathFunctions.generalizedHarmonicNumberWithCancel(x, n, activeCancelId) );
 		}
-		/**
-		 * Decimal rounding
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Decimal rounding</summary>
+		/// <param name="pos">the token position</param>
 		private void ROUND(int pos) {
 			double value = getTokenValue(pos + 1);
 			int places = (int)getTokenValue(pos + 2);
 			f2SetDecreaseRemove(pos, MathFunctions.roundWithCancel(value, places, activeCancelId));
 		}
-		/**
-		 * Random number - Uniform Continuous distribution
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Random number - Uniform Continuous distribution</summary>
+		/// <param name="pos">the token position</param>
 		private void RND_VAR_UNIFORM_CONT(int pos) {
 			double a = getTokenValue(pos + 1);
 			double b = getTokenValue(pos + 2);
 			f2SetDecreaseRemove(pos, ProbabilityDistributions.rndUniformContinuous(a, b, ProbabilityDistributions.randomGenerator));
 		}
-		/**
-		 * Random number - Uniform Discrete distribution
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Random number - Uniform Discrete distribution</summary>
+		/// <param name="pos">the token position</param>
 		private void RND_VAR_UNIFORM_DISCR(int pos) {
 			double a = getTokenValue(pos + 1);
 			double b = getTokenValue(pos + 2);
 			f2SetDecreaseRemove(pos, ProbabilityDistributions.rndInteger(a, b, ProbabilityDistributions.randomGenerator));
 		}
-		/**
-		 * Random number - Normal distribution
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Random number - Normal distribution</summary>
+		/// <param name="pos">the token position</param>
 		private void RND_NORMAL(int pos) {
 			double mean = getTokenValue(pos + 1);
 			double stddev = getTokenValue(pos + 2);
 			f2SetDecreaseRemove(pos, ProbabilityDistributions.rndNormalWithCancel(mean, stddev, ProbabilityDistributions.randomGenerator, activeCancelId));
 		}
-		/**
-		 * Random number - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Random number - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)</summary>
+		/// <param name="pos">the token position</param>
 		private void RND_F_SNEDECOR(int pos) {
 			double d1 = getTokenValue(pos+1);
 			double d2 = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, ProbabilityDistributions.rndSnedecordFWithCancel(d1, d2, activeCancelId) );
 		}
-		/**
-		 * Number of digits in given numeral system
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Number of digits in given numeral system</summary>
+		/// <param name="pos">the token position</param>
 		private void NDIG(int pos) {
 			double number = getTokenValue(pos + 1);
 			double numeralSystemBase = getTokenValue(pos + 2);
 			f2SetDecreaseRemove(pos, NumberTheory.numberOfDigitsWithCancel(number, numeralSystemBase, activeCancelId));
 		}
-		/**
-		 * Digit at position - base 10 numeral system
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Digit at position - base 10 numeral system</summary>
+		/// <param name="pos">the token position</param>
 		private void DIGIT10(int pos) {
 			double number = getTokenValue(pos + 1);
 			double position = getTokenValue(pos + 2);
 			f2SetDecreaseRemove(pos, NumberTheory.decimalDigitAtPositionWithCancel(number, position, activeCancelId));
 		}
-		/**
-		 * Prime factor value
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Prime factor value</summary>
+		/// <param name="pos">the token position</param>
 		private void FACTVAL(int pos) {
 			double number = getTokenValue(pos + 1);
 			double id = getTokenValue(pos + 2);
 			f2SetDecreaseRemove(pos, NumberTheory.primeFactorValueWithCancel(number, id, activeCancelId));
 		}
-		/**
-		 * Prime factor value exponent
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Prime factor value exponent</summary>
+		/// <param name="pos">the token position</param>
 		private void FACTEXP(int pos) {
 			double number = getTokenValue(pos + 1);
 			double id = getTokenValue(pos + 2);
 			f2SetDecreaseRemove(pos, NumberTheory.primeFactorExponentWithCancel(number, id, activeCancelId));
 		}
-		/**
-		 * Nth order root
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Nth order root</summary>
+		/// <param name="pos">the token position</param>
 		private void ROOT(int pos) {
 			double n = getTokenValue(pos + 1);
 			double x = getTokenValue(pos + 2);
 			f2SetDecreaseRemove(pos, MathFunctions.root(n, x));
 		}
-		/**
-		 * Lower incomplete special Gamma function
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Lower incomplete special Gamma function</summary>
+		/// <param name="pos">the token position</param>
 		private void INC_GAMMA_LOWER(int pos) {
 			double s = getTokenValue(pos+1);
 			double x = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, SpecialFunctions.incompleteGammaLowerWithCancel(s, x, activeCancelId) );
 		}
-		/**
-		 * Upper incomplete special Gamma function
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Upper incomplete special Gamma function</summary>
+		/// <param name="pos">the token position</param>
 		private void INC_GAMMA_UPPER(int pos) {
 			double s = getTokenValue(pos+1);
 			double x = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, SpecialFunctions.incompleteGammaUpperWithCancel(s, x, activeCancelId) );
 		}
-		/**
-		 * Lower regularized special Gamma function
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Lower regularized special Gamma function</summary>
+		/// <param name="pos">the token position</param>
 		private void REG_GAMMA_LOWER(int pos) {
 			double s = getTokenValue(pos+1);
 			double x = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, SpecialFunctions.regularizedGammaLowerPWithCancel(s, x, activeCancelId) );
 		}
-		/**
-		 * Lower regularized special Gamma function
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Lower regularized special Gamma function</summary>
+		/// <param name="pos">the token position</param>
 		private void REG_GAMMA_UPPER(int pos) {
 			double s = getTokenValue(pos+1);
 			double x = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, SpecialFunctions.regularizedGammaUpperQWithCancel(s, x, activeCancelId) );
 		}
-		/**
-		 * IF function
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>IF function</summary>
+		/// <param name="pos">the token position</param>
 		private void IF_CONDITION(int pos) {
             if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.IF_CONDITION, pos);
             /*
@@ -3651,11 +2853,8 @@ namespace org.mariuszgromada.math.mxparser {
 				ifExp.setVerboseMode();
 			ifSetRemove(pos, ifExp.calculateWithCancel(activeCancelId));
 		}
-		/**
-		 * IFF function
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>IFF function</summary>
+		/// <param name="pos">the token position</param>
 		private void IFF(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.IFF, pos);
 			/*
@@ -3717,12 +2916,9 @@ namespace org.mariuszgromada.math.mxparser {
 				tokensList[pos].tokenLevel--;
 			}
 		}
-		/**
-		 * IF
-		 * Sets tokens to number token
-		 *
-		 * @param pos token index (position)
-		 */
+		/// <summary>IF
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">token index (position)</param>
 		private void IF(int pos) {
 			double ifCondition = tokensList[pos+1].tokenValue;
 			double ifTrue = tokensList[pos+2].tokenValue;
@@ -3734,143 +2930,104 @@ namespace org.mariuszgromada.math.mxparser {
 				result = Double.NaN;
 			f3SetDecreaseRemove(pos, result );
 		}
-		/**
-		 * Characteristic function (a,b)
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Characteristic function (a,b)</summary>
+		/// <param name="pos">the token position</param>
 		private void CHI(int pos) {
 			double x = getTokenValue(pos+1);
 			double a = getTokenValue(pos+2);
 			double b = getTokenValue(pos+3);
 			f3SetDecreaseRemove(pos, MathFunctions.chi(x, a, b) );
 		}
-		/**
-		 * Characteristic function [a,b]
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Characteristic function [a,b]</summary>
+		/// <param name="pos">the token position</param>
 		private void CHI_LR(int pos) {
 			double x = getTokenValue(pos+1);
 			double a = getTokenValue(pos+2);
 			double b = getTokenValue(pos+3);
 			f3SetDecreaseRemove(pos, MathFunctions.chi_LR(x, a, b) );
 		}
-		/**
-		 * Characteristic function [a,b)
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Characteristic function [a,b)</summary>
+		/// <param name="pos">the token position</param>
 		private void CHI_L(int pos) {
 			double x = getTokenValue(pos+1);
 			double a = getTokenValue(pos+2);
 			double b = getTokenValue(pos+3);
 			f3SetDecreaseRemove(pos, MathFunctions.chi_L(x, a, b) );
 		}
-		/**
-		 * Characteristic function (a,b]
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Characteristic function (a,b]</summary>
+		/// <param name="pos">the token position</param>
 		private void CHI_R(int pos) {
 			double x = getTokenValue(pos + 1);
 			double a = getTokenValue(pos + 2);
 			double b = getTokenValue(pos + 3);
 			f3SetDecreaseRemove(pos, MathFunctions.chi_R(x, a, b));
 		}
-		/**
-		 * Probability Distribution Function - Uniform Continuous distribution
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Probability Distribution Function - Uniform Continuous distribution</summary>
+		/// <param name="pos">the token position</param>
 		private void PDF_UNIFORM_CONT(int pos) {
 			double x = getTokenValue(pos + 1);
 			double a = getTokenValue(pos + 2);
 			double b = getTokenValue(pos + 3);
 			f3SetDecreaseRemove(pos, ProbabilityDistributions.pdfUniformContinuous(x, a, b));
 		}
-		/**
-		 * Cumulative Distribution Function - Uniform Continuous distribution
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Cumulative Distribution Function - Uniform Continuous distribution</summary>
+		/// <param name="pos">the token position</param>
 		private void CDF_UNIFORM_CONT(int pos) {
 			double x = getTokenValue(pos + 1);
 			double a = getTokenValue(pos + 2);
 			double b = getTokenValue(pos + 3);
 			f3SetDecreaseRemove(pos, ProbabilityDistributions.cdfUniformContinuous(x, a, b));
 		}
-		/**
-		 * Quantile Function - Uniform Continuous distribution
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Quantile Function - Uniform Continuous distribution</summary>
+		/// <param name="pos">the token position</param>
 		private void QNT_UNIFORM_CONT(int pos) {
 			double q = getTokenValue(pos + 1);
 			double a = getTokenValue(pos + 2);
 			double b = getTokenValue(pos + 3);
 			f3SetDecreaseRemove(pos, ProbabilityDistributions.qntUniformContinuous(q, a, b));
 		}
-		/**
-		 * Probability Distribution Function - Normal distribution
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Probability Distribution Function - Normal distribution</summary>
+		/// <param name="pos">the token position</param>
 		private void PDF_NORMAL(int pos) {
 			double x = getTokenValue(pos + 1);
 			double mean = getTokenValue(pos + 2);
 			double stddev = getTokenValue(pos + 3);
 			f3SetDecreaseRemove(pos, ProbabilityDistributions.pdfNormal(x, mean, stddev));
 		}
-		/**
-		 * Cumulative Distribution Function - Normal distribution
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Cumulative Distribution Function - Normal distribution</summary>
+		/// <param name="pos">the token position</param>
 		private void CDF_NORMAL(int pos) {
 			double x = getTokenValue(pos + 1);
 			double mean = getTokenValue(pos + 2);
 			double stddev = getTokenValue(pos + 3);
 			f3SetDecreaseRemove(pos, ProbabilityDistributions.cdfNormal(x, mean, stddev));
 		}
-		/**
-		 * Quantile Function - Normal distribution
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Quantile Function - Normal distribution</summary>
+		/// <param name="pos">the token position</param>
 		private void QNT_NORMAL(int pos) {
 			double q = getTokenValue(pos + 1);
 			double mean = getTokenValue(pos + 2);
 			double stddev = getTokenValue(pos + 3);
 			f3SetDecreaseRemove(pos, ProbabilityDistributions.qntNormal(q, mean, stddev));
 		}
-		/**
-		 * Probability Distribution Function - Snedecor's F distribution
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Probability Distribution Function - Snedecor's F distribution</summary>
+		/// <param name="pos">the token position</param>
 		private void PDF_F_SNEDECOR(int pos) {
 			double x = getTokenValue(pos+1);
 			double d1 = getTokenValue(pos+2);
 			double d2 = getTokenValue(pos+3);
 			f3SetDecreaseRemove(pos, ProbabilityDistributions.pdfSnedecordFWithCancel(x, d1, d2, activeCancelId) );
 		}
-		/**
-		 * Cumulative Distribution Function - Snedecor's F distribution
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Cumulative Distribution Function - Snedecor's F distribution</summary>
+		/// <param name="pos">the token position</param>
 		private void CDF_F_SNEDECOR(int pos) {
 			double x = getTokenValue(pos+1);
 			double d1 = getTokenValue(pos+2);
 			double d2 = getTokenValue(pos+3);
 			f3SetDecreaseRemove(pos, ProbabilityDistributions.cdfSnedecordFWithCancel(x, d1, d2, activeCancelId) );
 		}
-		/**
-		 * Quantile Function - Snedecor's F distribution
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Quantile Function - Snedecor's F distribution</summary>
+		/// <param name="pos">the token position</param>
 		private void QNT_F_SNEDECOR(int pos) {
 			double p = getTokenValue(pos+1);
 			double d1 = getTokenValue(pos+2);
@@ -3880,11 +3037,8 @@ namespace org.mariuszgromada.math.mxparser {
         private readonly double PP = Math.Round(MathConstants.PI * 1e8);
         private readonly double EE = Math.Round(MathConstants.E * 1e8);
         private readonly double GG = Math.Round(MathConstants.GOLDEN_RATIO * 1e8);
-        /**
-		 * Digit at position - numeral system with given base
-		 *
-		 * @param      pos                 the token position
-		 */
+        /// <summary>Digit at position - numeral system with given base</summary>
+        /// <param name="pos">the token position</param>
         private void DIGIT(int pos) {
 			double number = getTokenValue(pos + 1);
 			double position = getTokenValue(pos + 2);
@@ -3896,36 +3050,28 @@ namespace org.mariuszgromada.math.mxparser {
 				value = NumberTheory.digitAtPositionWithCancel(number, position, numeralSystemBase, activeCancelId);
 			f3SetDecreaseRemove(pos, value);
 		}
-		/**
-		 * Incomplete beta special function
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Incomplete beta special function</summary>
+		/// <param name="pos">the token position</param>
 		private void INC_BETA(int pos) {
 			double x = getTokenValue(pos+1);
 			double a = getTokenValue(pos+2);
 			double b = getTokenValue(pos+3);
 			f3SetDecreaseRemove(pos, SpecialFunctions.incompleteBetaWithCancel(a, b, x, activeCancelId) );
 		}
-		/**
-		 * Regularized incomplete beta special function
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Regularized incomplete beta special function</summary>
+		/// <param name="pos">the token position</param>
 		private void REG_BETA(int pos) {
 			double x = getTokenValue(pos+1);
 			double a = getTokenValue(pos+2);
 			double b = getTokenValue(pos+3);
 			f3SetDecreaseRemove(pos, SpecialFunctions.regularizedBetaWithCancel(a, b, x, activeCancelId) );
 		}
-		/**
-		 * Updating missing tokens (i.e. indexes i sum operator). Used when creating
-		 * internal expressions based on the sublist of tokens.
-		 *
-		 *
-		 * @param      tokens              the tokens list
-		 * @param      keyWord             missing keyword
-		 * @param      tokenId             missing token id
-		 * @param      tokenTypeId         missing token type id
-		 */
+		/// <summary>Updating missing tokens (i.e. indexes i sum operator). Used when creating
+		/// internal expressions based on the sublist of tokens.</summary>
+		/// <param name="tokens">the tokens list</param>
+		/// <param name="keyWord">missing keyword</param>
+		/// <param name="tokenId">missing token id</param>
+		/// <param name="tokenTypeId">missing token type id</param>
 		private static void updateMissingTokens(List<Token> tokens, String keyWord, int tokenId, int tokenTypeId) {
 			foreach (Token t in tokens)
 				if ( (t.tokenTypeId == ConstantValue.NaN) && (t.tokenStr.Equals(keyWord))) {
@@ -3934,13 +3080,10 @@ namespace org.mariuszgromada.math.mxparser {
 					t.tokenTypeId = tokenTypeId;
 				}
 		}
-		/**
-		 * Update missing tokens in expression related
-		 * to iterative operators.
-		 *
-		 * @param index      Index parameter of the iterative operator
-		 * @param iterParams     Parameters list of the iterative operator
-		 */
+		/// <summary>Update missing tokens in expression related
+		/// to iterative operators.</summary>
+		/// <param name="index">Index parameter of the iterative operator</param>
+		/// <param name="iterParams">Parameters list of the iterative operator</param>
 		private static void updateMissingTokens(ArgumentParameter index, IterativeOperatorParameters iterParams) {
 			if (index.presence == Argument.NOT_FOUND) {
 				updateMissingTokens(iterParams.indexParam.tokens, iterParams.indexParam.paramStr, index.index, Argument.TYPE_ID);
@@ -3949,12 +3092,9 @@ namespace org.mariuszgromada.math.mxparser {
 				updateMissingTokens(iterParams.funParam.tokens, iterParams.indexParam.paramStr, index.index, Argument.TYPE_ID);
 			}
 		}
-		/**
-		 * Evaluates ranges 'from', 'to', 'delta' for the iterative operator
-		 *
-		 * @param index      Index parameter of the iterative operator
-		 * @param iterParams     Parameters list of the iterative operator
-		 */
+		/// <summary>Evaluates ranges 'from', 'to', 'delta' for the iterative operator</summary>
+		/// <param name="index">Index parameter of the iterative operator</param>
+		/// <param name="iterParams">Parameters list of the iterative operator</param>
 		private void evalFromToDeltaParameters(ArgumentParameter index, IterativeOperatorParameters iterParams) {
 			/*
 			 * Create from, to, fun expression
@@ -3988,16 +3128,13 @@ namespace org.mariuszgromada.math.mxparser {
 				iterParams.delta = iterParams.deltaExp.calculateWithCancel(activeCancelId);
 			}
 		}
-		/**
-		 * Summation operator (SIGMA by)
-		 * sum(i,m,n,f(i),b) --> sum f(i) from i=m to i=n by delta
-		 * i - index (argument)
-		 * m, n - numbers or expressions
-		 * f(i) - function string
-		 * by delta
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Summation operator (SIGMA by)
+		/// sum(i,m,n,f(i),b) --&gt; sum f(i) from i=m to i=n by delta
+		/// i - index (argument)
+		/// m, n - numbers or expressions
+		/// f(i) - function string
+		/// by delta</summary>
+		/// <param name="pos">the token position</param>
 		private void SUM(int pos) {
 			IterativeOperatorParameters iterParams = new IterativeOperatorParameters(ExpressionUtils.getFunctionParameters(pos, tokensList));
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
@@ -4007,16 +3144,13 @@ namespace org.mariuszgromada.math.mxparser {
 			clearParamArgument(index);
 			calcSetDecreaseRemove(pos, sigma, true);
 		}
-		/**
-		 * Product operator (SIGMA by)
-		 * pord(i,m,n,f(i),b) --> prod f(i) from i=m to i=n by delta
-		 * i - index (argument)
-		 * m, n - numbers or expressions
-		 * f(i) - function string
-		 * by delta
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Product operator (SIGMA by)
+		/// pord(i,m,n,f(i),b) --&gt; prod f(i) from i=m to i=n by delta
+		/// i - index (argument)
+		/// m, n - numbers or expressions
+		/// f(i) - function string
+		/// by delta</summary>
+		/// <param name="pos">the token position</param>
 		private void PROD(int pos) {
 			IterativeOperatorParameters iterParams = new IterativeOperatorParameters(ExpressionUtils.getFunctionParameters(pos, tokensList));
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
@@ -4026,16 +3160,13 @@ namespace org.mariuszgromada.math.mxparser {
 			clearParamArgument(index);
 			calcSetDecreaseRemove(pos, product, true);
 		}
-		/**
-		 * Minimum value - iterative operator
-		 * mini(i,m,n,f(i),b) --> min f(i) from i=m to i=n by delta
-		 * i - index (argument)
-		 * m, n - numbers or expressions
-		 * f(i) - function string
-		 * by delta
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Minimum value - iterative operator
+		/// mini(i,m,n,f(i),b) --&gt; min f(i) from i=m to i=n by delta
+		/// i - index (argument)
+		/// m, n - numbers or expressions
+		/// f(i) - function string
+		/// by delta</summary>
+		/// <param name="pos">the token position</param>
 		private void MIN(int pos) {
 			IterativeOperatorParameters iterParams = new IterativeOperatorParameters(ExpressionUtils.getFunctionParameters(pos, tokensList));
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
@@ -4045,16 +3176,13 @@ namespace org.mariuszgromada.math.mxparser {
 			clearParamArgument(index);
 			calcSetDecreaseRemove(pos, min);
 		}
-		/**
-		 * Maximum value - iterative operator
-		 * maxi(i,m,n,f(i),b) --> max f(i) from i=m to i=n by delta
-		 * i - index (argument)
-		 * m, n - numbers or expressions
-		 * f(i) - function string
-		 * by delta
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Maximum value - iterative operator
+		/// maxi(i,m,n,f(i),b) --&gt; max f(i) from i=m to i=n by delta
+		/// i - index (argument)
+		/// m, n - numbers or expressions
+		/// f(i) - function string
+		/// by delta</summary>
+		/// <param name="pos">the token position</param>
 		private void MAX(int pos) {
 			IterativeOperatorParameters iterParams = new IterativeOperatorParameters(ExpressionUtils.getFunctionParameters(pos, tokensList));
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
@@ -4064,16 +3192,13 @@ namespace org.mariuszgromada.math.mxparser {
 			clearParamArgument(index);
 			calcSetDecreaseRemove(pos, max);
 		}
-		/**
-		 * Average function value - iterative operator
-		 * avg(i,m,n,f(i),b) --> avg f(i) from i=m to i=n by delta
-		 * i - index (argument)
-		 * m, n - numbers or expressions
-		 * f(i) - function string
-		 * by delta
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Average function value - iterative operator
+		/// avg(i,m,n,f(i),b) --&gt; avg f(i) from i=m to i=n by delta
+		/// i - index (argument)
+		/// m, n - numbers or expressions
+		/// f(i) - function string
+		/// by delta</summary>
+		/// <param name="pos">the token position</param>
 		private void AVG(int pos) {
 			IterativeOperatorParameters iterParams = new IterativeOperatorParameters(ExpressionUtils.getFunctionParameters(pos, tokensList));
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
@@ -4083,16 +3208,13 @@ namespace org.mariuszgromada.math.mxparser {
 			clearParamArgument(index);
 			calcSetDecreaseRemove(pos, avg, true);
 		}
-		/**
-		 * Variance from sample function values - iterative operator
-		 * vari(i,m,n,f(i),b) --> var f(i) from i=m to i=n by delta
-		 * i - index (argument)
-		 * m, n - numbers or expressions
-		 * f(i) - function string
-		 * by delta
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Variance from sample function values - iterative operator
+		/// vari(i,m,n,f(i),b) --&gt; var f(i) from i=m to i=n by delta
+		/// i - index (argument)
+		/// m, n - numbers or expressions
+		/// f(i) - function string
+		/// by delta</summary>
+		/// <param name="pos">the token position</param>
 		private void VAR(int pos) {
 			IterativeOperatorParameters iterParams = new IterativeOperatorParameters(ExpressionUtils.getFunctionParameters(pos, tokensList));
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
@@ -4102,16 +3224,13 @@ namespace org.mariuszgromada.math.mxparser {
 			clearParamArgument(index);
 			calcSetDecreaseRemove(pos, var, true);
 		}
-		/**
-		 * Standard deviation from sample function values - iterative operator
-		 * stdi(i,m,n,f(i),b) --> std f(i) from i=m to i=n by delta
-		 * i - index (argument)
-		 * m, n - numbers or expressions
-		 * f(i) - function string
-		 * by delta
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Standard deviation from sample function values - iterative operator
+		/// stdi(i,m,n,f(i),b) --&gt; std f(i) from i=m to i=n by delta
+		/// i - index (argument)
+		/// m, n - numbers or expressions
+		/// f(i) - function string
+		/// by delta</summary>
+		/// <param name="pos">the token position</param>
 		private void STD(int pos) {
 			IterativeOperatorParameters iterParams = new IterativeOperatorParameters(ExpressionUtils.getFunctionParameters(pos, tokensList));
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
@@ -4214,12 +3333,9 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			clearParamArgument(x);
 		}
-		/**
-		 * Function derivative
-		 *
-		 * @param      pos                 the token position
-		 * @param      derivativeType      the type of derivative (left, right, etc...)
-		 */
+		/// <summary>Function derivative</summary>
+		/// <param name="pos">the token position</param>
+		/// <param name="derivativeType">the type of derivative (left, right, etc...)</param>
 		private void DERIVATIVE_NTH(int pos, int derivativeType) {
 			const double DEF_EPS		= 1E-8;
 			/*
@@ -4330,13 +3446,10 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			clearParamArgument(x);
 		}
-		/**
-		 * Function integral
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Function integral</summary>
+		/// <param name="pos">the token position</param>
 		private void INTEGRAL(int pos) {
-			/**
+			/*
 			 * Default epsilon
 			 */
 			const double DEF_EPS		= 1E-6
@@ -4377,13 +3490,10 @@ namespace org.mariuszgromada.math.mxparser {
 			calcSetDecreaseRemove(pos, Calculus.integralTrapezoidWithCancel(funExp, x.argument, aExp.calculateWithCancel(activeCancelId), bExp.calculateWithCancel(activeCancelId), eps, maxSteps, activeCancelId) );
 			clearParamArgument(x);
 		}
-		/**
-		 * Function SOLVE
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Function SOLVE</summary>
+		/// <param name="pos">the token position</param>
 		private void SOLVE(int pos) {
-			/**
+			/*
 			 * Default epsilon
 			 */
 			const double DEF_EPS = 1E-9;
@@ -4423,11 +3533,8 @@ namespace org.mariuszgromada.math.mxparser {
 			calcSetDecreaseRemove(pos, Calculus.solveBrentWithCancel(funExp, x.argument, aExp.calculateWithCancel(activeCancelId), bExp.calculateWithCancel(activeCancelId), eps, maxSteps, activeCancelId));
 			clearParamArgument(x);
 		}
-		/**
-		 * Forward difference operator
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Forward difference operator</summary>
+		/// <param name="pos">the token position</param>
 		private void FORWARD_DIFFERENCE(int pos) {
 			List<FunctionParameter> parameters = ExpressionUtils.getFunctionParameters(pos, tokensList);
 			FunctionParameter funParam = parameters[0];
@@ -4447,11 +3554,8 @@ namespace org.mariuszgromada.math.mxparser {
 			calcSetDecreaseRemove(pos, Calculus.forwardDifferenceWithCancel(funExp, h, x.argument, activeCancelId) );
 			clearParamArgument(x);
 		}
-		/**
-		 * Backward diffrence operator
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Backward diffrence operator</summary>
+		/// <param name="pos">the token position</param>
 		private void BACKWARD_DIFFERENCE(int pos) {
 			List<FunctionParameter> parameters = ExpressionUtils.getFunctionParameters(pos, tokensList);
 			FunctionParameter funParam = parameters[0];
@@ -4471,230 +3575,158 @@ namespace org.mariuszgromada.math.mxparser {
 			calcSetDecreaseRemove(pos, Calculus.backwardDifferenceWithCancel(funExp, h, x.argument, activeCancelId) );
 			clearParamArgument(x);
 		}
-		/**
-		 * Minimum variadic
-		 * Sets tokens to number token
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Minimum variadic
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">the token position</param>
 		private void MIN_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, NumberTheory.minWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
-		/**
-		 * Maximum variadic
-		 * Sets tokens to number token
-		 *
-		 * @param pos token index (position)
-		 */
+		/// <summary>Maximum variadic
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">token index (position)</param>
 		private void MAX_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, NumberTheory.maxWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
-		/**
-		 * Sum variadic
-		 * Sets tokens to number token
-		 *
-		 * @param pos token index (position)
-		 */
+		/// <summary>Sum variadic
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">token index (position)</param>
 		private void SUM_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, NumberTheory.sumWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count, true);
 		}
-		/**
-		 * Sum variadic
-		 * Sets tokens to number token
-		 *
-		 * @param pos token index (position)
-		 */
+		/// <summary>Sum variadic
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">token index (position)</param>
 		private void PROD_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, NumberTheory.prodWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count, true);
 		}
-		/**
-		 * Average variadic
-		 * Sets tokens to number token
-		 *
-		 * @param pos token index (position)
-		 */
+		/// <summary>Average variadic
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">token index (position)</param>
 		private void AVG_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, Statistics.avgWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count, true);
 		}
-		/**
-		 * Variance variadic
-		 * Sets tokens to number token
-		 *
-		 * @param pos token index (position)
-		 */
+		/// <summary>Variance variadic
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">token index (position)</param>
 		private void VAR_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, Statistics.varWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count, true);
 		}
-		/**
-		 * Standard deviation variadic
-		 * Sets tokens to number token
-		 *
-		 * @param pos token index (position)
-		 */
+		/// <summary>Standard deviation variadic
+		/// Sets tokens to number token</summary>
+		/// <param name="pos">token index (position)</param>
 		private void STD_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, Statistics.stdWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count, true);
 		}
-		/**
-		 * Continued fraction
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Continued fraction</summary>
+		/// <param name="pos">the token position</param>
 		private void CONTINUED_FRACTION(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, MathFunctions.continuedFractionWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
-		/**
-		 * Continued polynomial
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Continued polynomial</summary>
+		/// <param name="pos">the token position</param>
 		private void CONTINUED_POLYNOMIAL(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, MathFunctions.continuedPolynomialWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
-		/**
-		 * Greates Common Divisor
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Greates Common Divisor</summary>
+		/// <param name="pos">the token position</param>
 		private void GCD(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, NumberTheory.gcdWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
-		/**
-		 * Lowest Common Multiply
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Lowest Common Multiply</summary>
+		/// <param name="pos">the token position</param>
 		private void LCM(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, NumberTheory.lcmWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
-		/**
-		 * Random number from list
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Random number from list</summary>
+		/// <param name="pos">the token position</param>
 		private void RND_LIST(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			int n = numbers.Count;
 			int i = ProbabilityDistributions.rndIndex(n, ProbabilityDistributions.randomGenerator);
 			variadicSetDecreaseRemove(pos, numbers[i], numbers.Count);
 		}
-		/**
-		 * Coalesce
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>Coalesce</summary>
+		/// <param name="pos">the token position</param>
 		private void COALESCE(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, MathFunctions.coalesceWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count);
 		}
-		/**
-		 * OR_VARIADIC
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>OR_VARIADIC</summary>
+		/// <param name="pos">the token position</param>
 		private void OR_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, BooleanAlgebra.orVariadicWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
-		/**
-		 * AND_VARIADIC
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>AND_VARIADIC</summary>
+		/// <param name="pos">the token position</param>
 		private void AND_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, BooleanAlgebra.andVariadicWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
-		/**
-		 * XOR_VARIADIC
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>XOR_VARIADIC</summary>
+		/// <param name="pos">the token position</param>
 		private void XOR_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, BooleanAlgebra.xorVariadicWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
-		/**
-		 * ARGMIN_VARIADIC
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>ARGMIN_VARIADIC</summary>
+		/// <param name="pos">the token position</param>
 		private void ARGMIN_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, NumberTheory.argminWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
 		}
-		/**
-		 * ARGMAX_VARIADIC
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>ARGMAX_VARIADIC</summary>
+		/// <param name="pos">the token position</param>
 		private void ARGMAX_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, NumberTheory.argmaxWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
 		}
-		/**
-		 * MEDIAN_VARIADIC
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>MEDIAN_VARIADIC</summary>
+		/// <param name="pos">the token position</param>
 		private void MEDIAN_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, Statistics.medianWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
 		}
-		/**
-		 * MODE_VARIADIC
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>MODE_VARIADIC</summary>
+		/// <param name="pos">the token position</param>
 		private void MODE_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, Statistics.modeWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
 		}
-		/**
-		 * BASE_VARIADIC
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>BASE_VARIADIC</summary>
+		/// <param name="pos">the token position</param>
 		private void BASE_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, NumberTheory.convOthBase2DecimalWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
 		}
-		/**
-		 * NDIST_VARIADIC
-		 *
-		 * @param      pos                 the token position
-		 */
+		/// <summary>NDIST_VARIADIC</summary>
+		/// <param name="pos">the token position</param>
 		private void NDIST_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
 			variadicSetDecreaseRemove(pos, NumberTheory.numberOfDistValuesWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
 		}
-		/**
-		 * Parser symbols
-		 * Removes comma
-		 *
-		 * @param pos token index (position)
-		 */
+		/// <summary>Parser symbols
+		/// Removes comma</summary>
+		/// <param name="pos">token index (position)</param>
 		private void COMMA(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.COMMA, pos);
 			tokensList.RemoveAt(pos);
 		}
-		/**
-		 * Parser symbols
-		 * Removes parenthesis
-		 *
-		 * @param lPos    left token index (position)
-		 * @param rPos    roght token index (position)
-		 */
+		/// <summary>Parser symbols
+		/// Removes parenthesis</summary>
+		/// <param name="lPos">left token index (position)</param>
+		/// <param name="rPos">roght token index (position)</param>
 		private void PARENTHESES(int lPos, int rPos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.PARENTHESES, lPos, rPos);
 			for (int p = lPos; p <= rPos; p++)
@@ -4708,11 +3740,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
-		/**
-		 * Checks syntax of the expression string.
-		 *
-		 * @return     true if syntax is ok
-		 */
+		/// <summary>Checks syntax of the expression string.</summary>
+		/// <returns>true if syntax is ok</returns>
 		public bool checkLexSyntax() {
 			bool syntax = NO_SYNTAX_ERRORS;
 			recursionCallsCounter = 0;
@@ -4733,25 +3762,17 @@ namespace org.mariuszgromada.math.mxparser {
             registerFinalSyntax(StringInvariant.EMPTY, syntax);
             return syntax;
 		}
-		/**
-		 * Cleans blanks and other cases like "++', "+-", "-+"", "--" 
-		 */
+		/// <summary>Cleans blanks and other cases like "++', "+-", "-+"", "--"</summary>
 		private void cleanExpressionString() {
             expressionStringCleaned = ExpressionUtils.cleanExpressionString(expressionString, attemptToFixExpStrEnabled);
         }
-		/**
-		 * Checks syntax of the expression string.
-		 *
-		 * @return     true if syntax is ok
-		 */
+		/// <summary>Checks syntax of the expression string.</summary>
+		/// <returns>true if syntax is ok</returns>
 		public bool checkSyntax() {
 			return checkSyntax(ExpressionUtils.createExpressionDescription(description, expressionString), false);
 		}
-		/**
-		 * Checks syntax of the calculus parameter
-		 *
-		 * @return     true if syntax is ok
-		 */
+		/// <summary>Checks syntax of the calculus parameter</summary>
+		/// <returns>true if syntax is ok</returns>
 		private int checkCalculusParameter(String param) {
 			int errors = 0;
 			foreach (KeyWord kw in keyWordsList)
@@ -4760,29 +3781,21 @@ namespace org.mariuszgromada.math.mxparser {
 						errors++;
 			return errors;
 		}
-		/**
-		 * Checks if argument given in the function parameter is known
-		 * in the expression.
-		 *
-		 * @param      param               the function parameter
-		 *
-		 * @return     true if argument is known,
-		 *             otherwise returns false.
-		 */
+		/// <summary>Checks if argument given in the function parameter is known
+		/// in the expression.</summary>
+		/// <param name="param">the function parameter</param>
+		/// <returns>true if argument is known,
+		///             otherwise returns false.</returns>
 		private static bool checkIfKnownArgument(FunctionParameter param) {
 			if (param.tokens.Count > 1)
 				return false;
 			Token t = param.tokens[0];
             return t.tokenTypeId == Argument.TYPE_ID;
         }
-		/**
-		 * Checks if token is uknown
-		 *
-		 * @param      param               the function parameter
-		 *
-		 * @return     true if there is only 1 token with unknown type,
-		 *             otherwise returns false.
-		 */
+		/// <summary>Checks if token is uknown</summary>
+		/// <param name="param">the function parameter</param>
+		/// <returns>true if there is only 1 token with unknown type,
+		///             otherwise returns false.</returns>
 		private static bool checkIfUnknownToken(FunctionParameter param) {
 			if (param.tokens.Count > 1)
 				return false;
@@ -5179,13 +4192,10 @@ namespace org.mariuszgromada.math.mxparser {
 					if (token.tokenLevel == syntaxStack.Peek().tokenLevel)
 						syntaxStack.Pop();
 		}
-        /**
-		 * Checking the syntax (recursively).
-		 *
-		 * @param      recursionInfoLevel               string representing the recursion level.
-		 * @return     true if syntax was correct,
-		 *             otherwise returns false.
-		 */
+        /// <summary>Checking the syntax (recursively).</summary>
+        /// <returns>true if syntax was correct,
+        ///             otherwise returns false.</returns>
+        /// <remarks><para>Parameter <c>recursionInfoLevel</c>: string representing the recursion level.</para></remarks>
         private bool checkSyntax(String recursionInfoLevel, bool functionWithBodyExt) {
 			if (syntaxIsAlreadyCheckedNorErrors()) {
                 registerFinalSyntaxAlreadyCheckedNorErrors(recursionInfoLevel);
@@ -5239,12 +4249,9 @@ namespace org.mariuszgromada.math.mxparser {
 			registerFinalSyntax(recursionInfoLevel, syntax);
 			return syntax;
 		}
-		/**
-		 * Calculates the expression value
-		 *
-		 * @return     The expression value if syntax was ok,
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Calculates the expression value and registers all the calculation steps</summary>
+		/// <returns>The expression value if syntax was ok,
+		///             otherwise returns Double.NaN.</returns>
 		public double calculate() {
 			return calculate(null);
 		}
@@ -5252,41 +4259,34 @@ namespace org.mariuszgromada.math.mxparser {
 			errorMessage = StringModel.addErrorMassageNoLevel(errorMessage, errorMessageToAdd, description, expressionString);
 			errorMessageCalculate = StringModel.addErrorMassageNoLevel(errorMessageCalculate, errorMessageToAdd, description, expressionString);
 		}
-		/**
-		 * Calculates the expression value and registers all the calculation steps
-		 *
-		 * @param calcStepsRegister  A collection to store list of calculation steps,
-		 *                           steps registered as strings.
-		 *
-		 * @return     The expression value if syntax was ok,
-		 *             otherwise returns Double.NaN.
-		 */
+		/// <summary>Calculates the expression value</summary>
+		/// <param name="calcStepsRegister">A collection to store list of calculation steps,
+		///                          steps registered as strings.</param>
+		/// <returns>The expression value if syntax was ok,
+		///             otherwise returns Double.NaN.</returns>
 		public double calculate(CalcStepsRegister calcStepsRegister) {
 			return calculateCoreWithCancel(calcStepsRegister, 0);
 		}
-		/**
-		 * Calculates the expression value
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * @param calcStepsRegister A collection to store list of calculation steps,
-		 *                          steps registered as strings.
-		 *
-		 * @return     The expression value if syntax was ok,
-		 *             otherwise returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see calculate(CalcStepsRegister)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Calculates the expression value
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.</para></summary>
+		/// <param name="calcStepsRegister">A collection to store list of calculation steps,
+		///                          steps registered as strings.</param>
+		/// <returns>The expression value if syntax was ok,
+		///             otherwise returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression.calculate(CalcStepsRegister)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public double calculateWithCancel(CalcStepsRegister calcStepsRegister, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
@@ -5902,10 +4902,8 @@ namespace org.mariuszgromada.math.mxparser {
 			compiledElement.position2 = position2;
 			initialCompilationDetails.compiledElements.Add(compiledElement);
 		}
-		/**
-		 * Calculates unary function
-		 * @param pos    token position
-		 */
+		/// <summary>Calculates unary function</summary>
+		/// <param name="pos">token position</param>
 		private void f1ArgCalc(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.f1ArgCalc, pos);
 			switch (tokensList[pos].tokenId) {
@@ -5975,10 +4973,8 @@ namespace org.mariuszgromada.math.mxparser {
 			case Function1Arg.RND_CHI2_ID: RND_CHI2(pos); break;
 			}
 		}
-		/**
-		 * Calculates binary function
-		 * @param pos   Token position
-		 */
+		/// <summary>Calculates binary function</summary>
+		/// <param name="pos">Token position</param>
 		private void f2ArgCalc(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.f2ArgCalc, pos);
 			switch (tokensList[pos].tokenId) {
@@ -6018,10 +5014,8 @@ namespace org.mariuszgromada.math.mxparser {
 			case Function2Arg.RND_F_SNEDECOR_ID: RND_F_SNEDECOR(pos); break;
             }
 		}
-		/**
-		 * Calculates function with 3 arguments
-		 * @param pos   Token position
-		 */
+		/// <summary>Calculates function with 3 arguments</summary>
+		/// <param name="pos">Token position</param>
 		private void f3ArgCalc(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.f3ArgCalc, pos);
 			switch (tokensList[pos].tokenId) {
@@ -6044,10 +5038,8 @@ namespace org.mariuszgromada.math.mxparser {
 			case Function3Arg.QNT_F_SNEDECOR_ID: QNT_F_SNEDECOR(pos); break;
 			}
 		}
-		/**
-		 * Calculates Variadic function
-		 * @param pos   Token position
-		 */
+		/// <summary>Calculates Variadic function</summary>
+		/// <param name="pos">Token position</param>
 		private void variadicFunCalc(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.variadicFunCalc, pos);
 			switch (tokensList[pos].tokenId) {
@@ -6076,10 +5068,8 @@ namespace org.mariuszgromada.math.mxparser {
 			case FunctionVariadic.NDIST_ID: NDIST_VARIADIC(pos); break;
 			}
 		}
-		/**
-		 * Calculates calculus operators
-		 * @param pos
-		 */
+		/// <summary>Calculates calculus operators</summary>
+		/// <param name="pos"></param>
 		private void calculusCalc(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.calculusCalc, pos);
 			switch (tokensList[pos].tokenId) {
@@ -6100,10 +5090,8 @@ namespace org.mariuszgromada.math.mxparser {
 			case CalculusOperator.BACKW_DIFF_ID: BACKWARD_DIFFERENCE(pos); break;
 			}
 		}
-		/**
-		 * Unicode root operators
-		 * @param pos
-		 */
+		/// <summary>Unicode root operators</summary>
+		/// <param name="pos"></param>
 		private void rootOperCalc(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.rootOperCalc, pos);
 			switch (tokensList[pos].tokenId) {
@@ -6112,10 +5100,8 @@ namespace org.mariuszgromada.math.mxparser {
 				case Operator.FOURTH_ROOT_ID: FOURTH_ROOT_OPERATOR(pos); break;
 			}
 		}
-		/**
-		 * Calculates bool operators
-		 * @param pos
-		 */
+		/// <summary>Calculates bool operators</summary>
+		/// <param name="pos"></param>
 		private void bolCalc(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.bolCalc, pos);
 			switch (tokensList[pos].tokenId) {
@@ -6131,10 +5117,8 @@ namespace org.mariuszgromada.math.mxparser {
 			case BooleanOperator.XOR_ID: XOR(pos); break;
 			}
 		}
-		/**
-		 * Calculates Bitwise operators
-		 * @param pos
-		 */
+		/// <summary>Calculates Bitwise operators</summary>
+		/// <param name="pos"></param>
 		private void bitwiseCalc(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.bitwiseCalc, pos);
 			switch (tokensList[pos].tokenId) {
@@ -6154,9 +5138,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
-		/**
-		 * Creates parser keywords list
-		 */
+		/// <summary>Creates parser keywords list</summary>
 		private void initParserKeyWords() {
 			keyWordsList = new List<KeyWord>();
 			ExpressionUtils.addParserKeyWords(parserKeyWordsOnly, UDFExpression, unicodeKeyWordsEnabled, keyWordsList);
@@ -6214,9 +5196,7 @@ namespace org.mariuszgromada.math.mxparser {
 					keyWordsList.Remove(kw);
 		}
 
-		/**
-		 * Final validation of keywords
-		 */
+		/// <summary>Final validation of keywords</summary>
 		private void validateParserKeyWords() {
 			if (!mXparser.overrideBuiltinTokens)
 				return;
@@ -6253,16 +5233,13 @@ namespace org.mariuszgromada.math.mxparser {
 				keyWordsList.Remove(kw);
 		}
 
-		/**
-		 * Method used in case of implied multiplication, where x2x can be understood as x2*x
-		 *
-		 * sum( x2x, 1, 20, 2*x2x)
-		 *
-		 * x2x is not known and it will be prevented from split into x2*x
-		 *
-		 * @param token The token
-		 * @return Returns true in case calculus argument was found
-		 */
+		/// <summary>Method used in case of implied multiplication, where x2x can be understood as x2*x
+		///
+		/// sum( x2x, 1, 20, 2*x2x)
+		///
+		/// x2x is not known and it will be prevented from split into x2*x</summary>
+		/// <param name="token">The token</param>
+		/// <returns>Returns true in case calculus argument was found</returns>
 		private bool checkArgumentNameInCalculusOperator(Token token) {
 			if (neverParseForImpliedMultiplication.Contains(token.tokenStr)) {
 				initialTokens.Add(token);
@@ -6313,13 +5290,10 @@ namespace org.mariuszgromada.math.mxparser {
 
 			return argumentNameFound;
 		}
-		/**
-		 * Check whether we have a case of '[abc]'
-		 *
-		 * @param token  The token
-		 * @return Returns true in case token is in a form of '[abc]'
-		 * otherwise returns false.
-		 */
+		/// <summary>Check whether we have a case of '[abc]'</summary>
+		/// <param name="token">The token</param>
+		/// <returns>Returns true in case token is in a form of '[abc]'
+		/// otherwise returns false.</returns>
 		private bool checkSpecialConstantName(Token token) {
 			int tokenStrLenght = token.tokenStr.Length;
 			if (tokenStrLenght < 2) return false;
@@ -6328,13 +5302,10 @@ namespace org.mariuszgromada.math.mxparser {
 			initialTokensAdd(token);
 			return true;
 		}
-		/**
-		 * Checks whether unknown token represents number literal
-		 * provided in different numeral base system, where
-		 * base is between 1 and 36.
-		 *
-		 * @param token   The token not know to the parser
-		 */
+		/// <summary>Checks whether unknown token represents number literal
+		/// provided in different numeral base system, where
+		/// base is between 1 and 36.</summary>
+		/// <param name="token">The token not know to the parser</param>
 		private bool checkOtherNumberBases(Token token) {
 			int dotPos = 0;
 			int tokenStrLength = token.tokenStr.Length;
@@ -6370,10 +5341,8 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			return false;
 		}
-		/**
-		 * Adds fraction token to the tokens list
-		 * @param token The token
-		 */
+		/// <summary>Adds fraction token to the tokens list</summary>
+		/// <param name="token">The token</param>
 		private void addFractionToken(Token token) {
 			int underscore1stPos = token.tokenStr.IndexOf('_');
 			int underscore2ndPos = token.tokenStr.IndexOf('_', underscore1stPos + 1);
@@ -6408,24 +5377,19 @@ namespace org.mariuszgromada.math.mxparser {
 			token.tokenValue = fractionValue;
 			initialTokensAdd(token);
 		}
-		/**
-		 * Checks whether unknown token represents fraction
-		 * provided as fraction or mixed fraction
-		 *
-		 * @param token   The token not know to the parser
-		 */
+		/// <summary>Checks whether unknown token represents fraction
+		/// provided as fraction or mixed fraction</summary>
+		/// <param name="token">The token not know to the parser</param>
 		private bool checkFraction(Token token) {
 			if (token.tokenStr.Length < 3) return false;
 			if (findFractionLiteralEnd(token.tokenStr, 0) != token.tokenStr.Length - 1) return false;
 			addFractionToken(token);
 			return true;
 		}
-		/**
-		 * Finds the longest decimal prefix without copying or rechecking prefixes.
-		 * Returns its inclusive end, or -1. An unfinished fraction/exponent keeps
-		 * the last complete prefix. allowTrailingDot preserves the .NET tokenizer's
-		 * NumberStyles.Float spelling; regex-based callers require fractional digits.
-		 */
+		/// <summary>Finds the longest decimal prefix without copying or rechecking prefixes.
+		/// Returns its inclusive end, or -1. An unfinished fraction/exponent keeps
+		/// the last complete prefix. allowTrailingDot preserves the .NET tokenizer's
+		/// NumberStyles.Float spelling; regex-based callers require fractional digits.</summary>
 		private static int findDecimalLiteralEnd(String str, int start, bool allowTrailingDot) {
 			int length = str.Length;
 			int pos = start;
@@ -6450,7 +5414,7 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			return numEnd;
 		}
-		/** Finds the longest INTEGER_INTEGER or INTEGER_INTEGER_INTEGER prefix. */
+		/// <summary>Finds the longest INTEGER_INTEGER or INTEGER_INTEGER_INTEGER prefix.</summary>
 		private static int findFractionLiteralEnd(String str, int start) {
 			int length = str.Length;
 			int pos = start;
@@ -6467,11 +5431,9 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			return numEnd;
 		}
-		/**
-		 * Handles implied multiplication while adding single token to the tokens list
-		 * is checking preceding token
-		 * @param token The token
-		 */
+		/// <summary>Handles implied multiplication while adding single token to the tokens list
+		/// is checking preceding token</summary>
+		/// <param name="token">The token</param>
 		private void initialTokensAdd(Token token) {
 			if (initialTokens.Count == 0) {
 				initialTokens.Add(token);
@@ -6584,25 +5546,19 @@ namespace org.mariuszgromada.math.mxparser {
 			/* End: Implied Multiplication related part*/
 			initialTokens.Add(token);
 		}
-		/**
-		 * Assign found known keyword to the token
-		 *
-		 * @param token   The token
-		 * @param keyWord  The keyword
-		 */
+		/// <summary>Assign found known keyword to the token</summary>
+		/// <param name="token">The token</param>
+		/// <param name="keyWord">The keyword</param>
 		private void assignKnownKeyword(Token token, KeyWord keyWord) {
 			token.tokenTypeId = keyWord.wordTypeId;
 			token.tokenId = keyWord.wordId;
 			if (token.tokenTypeId == Argument.TYPE_ID)
 				token.tokenValue = argumentsList[token.tokenId].argumentValue;
 		}
-		/**
-		 * Tries to find known keyword for a given token
-		 * via string matching
-		 *
-		 * @param tokenStr  Token string
-		 * @return known keyword if match found, otherwise not matched keyword
-		 */
+		/// <summary>Tries to find known keyword for a given token
+		/// via string matching</summary>
+		/// <param name="tokenStr">Token string</param>
+		/// <returns>known keyword if match found, otherwise not matched keyword</returns>
 		private KeyWord tryFindKnownKeyword(String tokenStr) {
 			foreach (KeyWord kw in keyWordsList) {
 				if (kw.wordString.Equals(tokenStr))
@@ -6610,13 +5566,10 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			return new KeyWord();
 		}
-		/**
-		 * Tries to find known keyword for a given token
-		 * via string matching
-		 *
-		 * @param token The token
-		 * @return  true if keyword matched, otherwise false
-		 */
+		/// <summary>Tries to find known keyword for a given token
+		/// via string matching</summary>
+		/// <param name="token">The token</param>
+		/// <returns>true if keyword matched, otherwise false</returns>
 		private bool tryAssignKnownKeyword(Token token) {
 			KeyWord keyWord = tryFindKnownKeyword(token.tokenStr);
 			if (keyWord.wordTypeId != KeyWord.NO_DEFINITION) {
@@ -6625,12 +5578,9 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			return false;
 		}
-		/**
-		 * Handles adding token part after single token split
-		 * in the proces of parsing implied multiplication.
-		 *
-		 * @param tokenPart  The token part to be added to the token list
-		 */
+		/// <summary>Handles adding token part after single token split
+		/// in the proces of parsing implied multiplication.</summary>
+		/// <param name="tokenPart">The token part to be added to the token list</param>
 		private void initialTokensAddTokenPart(TokenPart tokenPart) {
 			Token token = new Token();
 			token.tokenStr = tokenPart.str;
@@ -6657,13 +5607,10 @@ namespace org.mariuszgromada.math.mxparser {
 					break;
 			}
 		}
-		/**
-		 * Handles implied multiplication logic in case of a single
-		 * continuous string, e.g. no brackets
-		 *
-		 * @param token The token
-		 * @return  returns true in case there was a reason to parse, otherwise returns false
-		 */
+		/// <summary>Handles implied multiplication logic in case of a single
+		/// continuous string, e.g. no brackets</summary>
+		/// <returns>returns true in case there was a reason to parse, otherwise returns false</returns>
+		/// <remarks><para>Parameter <c>token</c>: The token</para></remarks>
 		private bool checkNumberNameManyImpliedMultiplication(Token token, bool parenthesisIsOnTheRight) {
 			int tokenStrLength = token.tokenStr.Length;
 			if (tokenStrLength < 2) return false;
@@ -6835,14 +5782,10 @@ namespace org.mariuszgromada.math.mxparser {
 			return true;
 		}
 
-		/**
-		 * Adds expression token
-		 * Method is called by the tokenExpressionString()
-		 * while parsing string expression
-		 *
-		 * @param      tokenStr            the token string
-		 * @param      keyWord             the keyword
-		 */
+		/// <summary>Adds expression token
+		/// Method is called by the tokenExpressionString()
+		/// while parsing string expression</summary>
+		/// <remarks><para>Parameter <c>tokenStr</c>: the token string</para><para>Parameter <c>keyWord</c>: the keyword</para></remarks>
 		private void addToken(String tokenStr, KeyWord keyWord, bool parenthesisIsOnTheRight) {
 			Token token = new Token();
 			token.tokenStr = tokenStr;
@@ -6877,9 +5820,7 @@ namespace org.mariuszgromada.math.mxparser {
 			ExpressionUtils.addConstantsKeyWords(constantsList, keyWordsList);
 		}
 
-		/**
-		 * Tokenizing expressiong string
-		 */
+		/// <summary>Tokenizing expressiong string</summary>
 		private void tokenizeExpressionString() {
 			impliedMultiplicationError = false;
             /*
@@ -7169,9 +6110,7 @@ namespace org.mariuszgromada.math.mxparser {
 			ExpressionUtils.evaluateTokensLevels(initialTokens);
 		}
 
-        /**
-		 * copy initial tokens list to tokens list and prepares initial compilation details
-		 */
+        /// <summary>copy initial tokens list to tokens list and prepares initial compilation details</summary>
         private void copyInitialTokens() {
 			bool prepareInitialTokensListInfo = false;
 			if (initialCompilationDetails == null) {
@@ -7204,444 +6143,323 @@ namespace org.mariuszgromada.math.mxparser {
 			compilationDetails.containsIf = initialCompilationDetails.containsIf;
 			compilationDetails.compiledElements = initialCompilationDetails.compiledElements;
 		}
-		/**
-		 * Tokenizes expression string and returns tokens list,
-		 * including: string, type, level.
-		 *
-		 * @return Copy of initial tokens.
-		 *
-		 * @see Token
-		 * @see mXparser#consolePrintTokens(ArrayList)
-		 */
+		/// <summary>Tokenizes expression string and returns tokens list,
+		/// including: string, type, level.</summary>
+		/// <returns>Copy of initial tokens.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.Token"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.consolePrintTokens(List{Token})"/>
 		public List<Token> getCopyOfInitialTokens() {
             tokenizeExpressionString();
             return ExpressionUtils.getCopyOfInitialTokens(expressionString, initialTokens);
         }
-		/**
-		 * Returns this expression in classical mathematical LaTeX notation, without
-		 * math-mode delimiters. Values, user function bodies and numerical algorithm
-		 * settings are not evaluated. Undefined symbols with unambiguous structure
-		 * are supported. This method uses {@link #getCopyOfInitialTokens()} and has
-		 * the same tokenization/cache and extension-metadata behavior as that method.
-		 * The returned notation describes the formula, not numerical implementation
-		 * details such as rounding, angular mode or special values at singularities.
-		 *
-		 * @return A mathematical LaTeX fragment, or an empty string for empty input.
-		 * @throws InvalidOperationException If the token structure, builtin arity or an
-		 *         identifier is invalid, or a rendering resource budget is exceeded.
-		 * @since 6.1.2
-		 */
-		/// <summary>Returns the formula in classical mathematical LaTeX without math-mode delimiters.
-		/// Does not evaluate values or user function bodies. Uses getCopyOfInitialTokens() with the same
-		/// tokenization/cache and extension-metadata behavior; numerical implementation details are omitted.</summary>
-		/// <returns>A mathematical fragment, or an empty string for empty input.</returns>
-		/// <exception cref="InvalidOperationException">Invalid structure, builtin arity, identifier or rendering resource budget.</exception>
+		/// <summary>Returns this expression in classical mathematical LaTeX notation, without
+		/// math-mode delimiters. Values, user function bodies and numerical algorithm
+		/// settings are not evaluated. Undefined symbols with unambiguous structure
+		/// are supported. This method uses <see cref="org.mariuszgromada.math.mxparser.Expression.getCopyOfInitialTokens()"/> and has
+		/// the same tokenization/cache and extension-metadata behavior as that method.
+		/// The returned notation describes the formula, not numerical implementation
+		/// details such as rounding, angular mode or special values at singularities.</summary>
+		/// <returns>A mathematical LaTeX fragment, or an empty string for empty input.</returns>
+		/// <exception cref="InvalidOperationException">If the token structure, builtin arity or an
+		///         identifier is invalid, or a rendering resource budget is exceeded.</exception>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public String getExpressionAsLaTeX() {
 			return LaTeXExporter.format(getCopyOfInitialTokens());
 		}
-        /**
-		 * Prints to the console copy of initial tokens. Presents how
-		 * expression string is interpreted by the parser.
-		 *
-		 * @see #getCopyOfInitialTokens()
-		 */
+        /// <summary>Prints to the console copy of initial tokens. Presents how
+        /// expression string is interpreted by the parser.</summary>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.Expression.getCopyOfInitialTokens()"/>
         public void consolePrintCopyOfInitialTokens() {
 			mXparser.consolePrintTokens(getCopyOfInitialTokens());
 		}
 
-		/**
-		 * Returns missing user defined arguments names, i.e.
-		 * sin(x) + cos(y) where x and y are not defined
-		 * function will return x and y.
-		 *
-		 * @return Array of missing user defined arguments names
-		 * - distinct strings.
-		 */
+		/// <summary>Returns missing user defined arguments names, i.e.
+		/// sin(x) + cos(y) where x and y are not defined
+		/// function will return x and y.</summary>
+		/// <returns>Array of missing user defined arguments names
+		/// - distinct strings.</returns>
 		public String[] getMissingUserDefinedArguments() {
             return ExpressionUtils.getMissingUserDefinedArguments(getCopyOfInitialTokens());
         }
-		/**
-		 * Returns missing user defined units names, i.e.
-		 * 2*[w] + [q] where [w] and [q] are not defined
-		 * function will return [w] and [q].
-		 *
-		 * @return Array of missing user defined units names
-		 * - distinct strings.
-		 */
+		/// <summary>Returns missing user defined units names, i.e.
+		/// 2*[w] + [q] where [w] and [q] are not defined
+		/// function will return [w] and [q].</summary>
+		/// <returns>Array of missing user defined units names
+		/// - distinct strings.</returns>
 		public String[] getMissingUserDefinedUnits() {
             return ExpressionUtils.getMissingUserDefinedUnits(getCopyOfInitialTokens());
         }
-		/**
-		 * Returns missing user defined functions names, i.e.
-		 * sin(x) + fun(x,y) where fun is not defined
-		 * function will return fun.
-		 *
-		 * @return Array of missing user defined functions names
-		 * - distinct strings.
-		 */
+		/// <summary>Returns missing user defined functions names, i.e.
+		/// sin(x) + fun(x,y) where fun is not defined
+		/// function will return fun.</summary>
+		/// <returns>Array of missing user defined functions names
+		/// - distinct strings.</returns>
 		public String[] getMissingUserDefinedFunctions() {
             return ExpressionUtils.getMissingUserDefinedFunctions(getCopyOfInitialTokens());
         }
-		/**
-		 * Gets initial tokens and returns copied list
-		 *
-		 * @see Function
-		 */
+		/// <summary>Gets initial tokens and returns copied list</summary>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Function"/>
 		internal List<Token> getInitialTokens() {
 			return initialTokens;
 		}
-		/**
-		 * Shows parsing (verbose mode purposes).
-		 *
-		 */
+		/// <summary>Shows parsing (verbose mode purposes).</summary>
 		private void showParsing(int lPos, int rPos) {
             ExpressionUtils.showParsing(lPos, rPos, tokensList);
         }
-		/**
-		 * shows known keywords
-		 */
+		/// <summary>shows known keywords</summary>
 		void showKeyWords() {
             ExpressionUtils.showKeyWords(keyWordsList);
         }
-		/**
-		 * Returns detailed user help on the syntax of mathematical expressions.
-		 *
-		 * @return One string value containing all the help.
-		 */
+		/// <summary>Returns detailed user help on the syntax of mathematical expressions.</summary>
+		/// <returns>One string value containing all the help.</returns>
 		public String getHelp() {
 			return getHelp(StringInvariant.EMPTY);
 		}
-		/**
-		 * Returns detailed user help on the syntax of mathematical expressions.
-		 * Allows simple and advanced searches.
-		 *
-		 * @param query For a simple search, simply enter a word (e.g.: "sine").
-		 * Advanced search is also possible, please use one of the tags below:
-		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-		 * Only one tag can be used per search.
-		 *
-		 * @return One string value containing all the help.
-		 */
+		/// <summary>Returns detailed user help on the syntax of mathematical expressions.
+		/// Allows simple and advanced searches.</summary>
+		/// <param name="query">For a simple search, simply enter a word (e.g.: "sine").
+		/// Advanced search is also possible, please use one of the tags below:
+		/// "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		///  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		/// "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		/// (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		/// Only one tag can be used per search.</param>
+		/// <returns>One string value containing all the help.</returns>
 		public String getHelp(String query) {
 			initParserKeyWords();
 			return ExpressionUtils.getHelp(query, keyWordsList);
 		}
-		/**
-		 * Returns detailed user help on the syntax of mathematical expressions.
-		 * Allows simple and advanced searches.
-		 *
-		 * @param addHeader Indicator whether to add a header.
-		 * @param addCaption Indicator whether to add caption.
-		 * @param caption If a non-standard caption is to be added, any string other than ""
-		 * will replace the standard caption with the one specified by the user.
-		 *
-		 * @return One string value containing all the help.
-		 */
+		/// <summary>Returns detailed user help on the syntax of mathematical expressions.
+		/// Allows simple and advanced searches.</summary>
+		/// <param name="addHeader">Indicator whether to add a header.</param>
+		/// <param name="addCaption">Indicator whether to add caption.</param>
+		/// <param name="caption">If a non-standard caption is to be added, any string other than ""
+		/// will replace the standard caption with the one specified by the user.</param>
+		/// <returns>One string value containing all the help.</returns>
 		public String getHelp(bool addHeader, bool addCaption, String caption) {
 			initParserKeyWords();
 			return ExpressionUtils.getHelp(StringInvariant.EMPTY, keyWordsList, addHeader, addCaption, caption);
 		}
-		/**
-		 * Returns detailed user help on the syntax of mathematical expressions.
-		 * Allows simple and advanced searches.
-		 *
-		 * @param query For a simple search, simply enter a word (e.g.: "sine").
-		 * Advanced search is also possible, please use one of the tags below:
-		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-		 * Only one tag can be used per search.
-		 *
-		 * @param addHeader Indicator whether to add a header.
-		 * @param addCaption Indicator whether to add caption.
-		 * @param caption If a non-standard caption is to be added, any string other than ""
-		 *
-		 * @return One string value containing all the help.
-		 */
+		/// <summary>Returns detailed user help on the syntax of mathematical expressions.
+		/// Allows simple and advanced searches.</summary>
+		/// <param name="query">For a simple search, simply enter a word (e.g.: "sine").
+		/// Advanced search is also possible, please use one of the tags below:
+		/// "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		///  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		/// "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		/// (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		/// Only one tag can be used per search.</param>
+		/// <param name="addHeader">Indicator whether to add a header.</param>
+		/// <param name="addCaption">Indicator whether to add caption.</param>
+		/// <param name="caption">If a non-standard caption is to be added, any string other than ""</param>
+		/// <returns>One string value containing all the help.</returns>
 		public String getHelp(String query, bool addHeader, bool addCaption, String caption) {
 			initParserKeyWords();
 			return ExpressionUtils.getHelp(query, keyWordsList, addHeader, addCaption, caption);
 		}
-		/**
-		 * Returns (as CSV) detailed user help on the syntax of mathematical expressions.
-		 *
-		 * @return One string value in CSV format containing all the help.
-		 */
+		/// <summary>Returns (as CSV) detailed user help on the syntax of mathematical expressions.</summary>
+		/// <returns>One string value in CSV format containing all the help.</returns>
 		public String getHelpAsCsv() {
 			initParserKeyWords();
 			return ExpressionUtils.getHelpAsCsv(keyWordsList, StringInvariant.QUOTE, StringInvariant.SEMICOLON, true, StringInvariant.EMPTY);
 		}
-		/**
-		 * Returns (as CSV) detailed user help on the syntax of mathematical expressions.
-		 * Allows simple and advanced searches.
-		 *
-		 * @param query For a simple search, simply enter a word (e.g.: "sine").
-		 * Advanced search is also possible, please use one of the tags below:
-		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-		 * Only one tag can be used per search.
-		 *
-		 * @return One string value in CSV format containing all the help.
-		 */
+		/// <summary>Returns (as CSV) detailed user help on the syntax of mathematical expressions.
+		/// Allows simple and advanced searches.</summary>
+		/// <param name="query">For a simple search, simply enter a word (e.g.: "sine").
+		/// Advanced search is also possible, please use one of the tags below:
+		/// "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		///  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		/// "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		/// (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		/// Only one tag can be used per search.</param>
+		/// <returns>One string value in CSV format containing all the help.</returns>
 		public String getHelpAsCsv(String query) {
 			initParserKeyWords();
 			return ExpressionUtils.getHelpAsCsv(keyWordsList, StringInvariant.QUOTE, StringInvariant.SEMICOLON, true, query);
 		}
-		/**
-		 * Returns (as CSV) detailed user help on the syntax of mathematical expressions.
-		 *
-		 * @param quote Text qualifier.
-		 * @param delimiter Delimiter.
-		 * @param addHeader Indicator whether to add a header.
-		 *
-		 * @return One string value in CSV format containing all the help.
-		 */
+		/// <summary>Returns (as CSV) detailed user help on the syntax of mathematical expressions.</summary>
+		/// <param name="quote">Text qualifier.</param>
+		/// <param name="delimiter">Delimiter.</param>
+		/// <param name="addHeader">Indicator whether to add a header.</param>
+		/// <returns>One string value in CSV format containing all the help.</returns>
 		public String getHelpAsCsv(String quote, String delimiter, bool addHeader) {
 			initParserKeyWords();
 			return ExpressionUtils.getHelpAsCsv(keyWordsList, quote, delimiter, addHeader, StringInvariant.EMPTY);
 		}
-		/**
-		 * Returns (as CSV) detailed user help on the syntax of mathematical expressions.
-		 * Allows simple and advanced searches.
-		 *
-		 * @param query For a simple search, simply enter a word (e.g.: "sine").
-		 * Advanced search is also possible, please use one of the tags below:
-		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-		 * Only one tag can be used per search.
-		 *
-		 * @param quote Text qualifier.
-		 * @param delimiter Delimiter.
-		 * @param addHeader Indicator whether to add a header.
-		 *
-		 * @return One string value in CSV format containing all the help.
-		 */
+		/// <summary>Returns (as CSV) detailed user help on the syntax of mathematical expressions.
+		/// Allows simple and advanced searches.</summary>
+		/// <param name="query">For a simple search, simply enter a word (e.g.: "sine").
+		/// Advanced search is also possible, please use one of the tags below:
+		/// "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		///  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		/// "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		/// (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		/// Only one tag can be used per search.</param>
+		/// <param name="quote">Text qualifier.</param>
+		/// <param name="delimiter">Delimiter.</param>
+		/// <param name="addHeader">Indicator whether to add a header.</param>
+		/// <returns>One string value in CSV format containing all the help.</returns>
 		public String getHelpAsCsv(String query, String quote, String delimiter, bool addHeader) {
 			initParserKeyWords();
 			return ExpressionUtils.getHelpAsCsv(keyWordsList, quote, delimiter, addHeader, query);
 		}
-		/**
-		 * Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
-		 *
-		 * @return One string value containing all the help. String in HTML table format.
-		 */
+		/// <summary>Returns (as HTML table) detailed user help on the syntax of mathematical expressions.</summary>
+		/// <returns>One string value containing all the help. String in HTML table format.</returns>
 		public String getHelpAsHtmlTable() {
 			initParserKeyWords();
 			return ExpressionUtils.getHelpAsHtmlTable(keyWordsList, true, StringInvariant.EMPTY);
 		}
-		/**
-		 * Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
-		 *
-		 * @param query For a simple search, simply enter a word (e.g.: "sine").
-		 * Advanced search is also possible, please use one of the tags below:
-		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-		 * Only one tag can be used per search.
-		 *
-		 * @return One string value containing all the help. String in HTML table format.
-		 */
+		/// <summary>Returns (as HTML table) detailed user help on the syntax of mathematical expressions.</summary>
+		/// <param name="query">For a simple search, simply enter a word (e.g.: "sine").
+		/// Advanced search is also possible, please use one of the tags below:
+		/// "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		///  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		/// "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		/// (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		/// Only one tag can be used per search.</param>
+		/// <returns>One string value containing all the help. String in HTML table format.</returns>
 		public String getHelpAsHtmlTable(String query) {
 			initParserKeyWords();
 			return ExpressionUtils.getHelpAsHtmlTable(keyWordsList, true, query);
 		}
-		/**
-		 * Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
-		 *
-		 * @param addHeader Indicator whether to add a header.
-		 * @param addCaption Indicator whether to add caption.
-		 * @param addFigure Indicator whether to add a FIGURE tag.
-		 * @param caption If a non-standard caption is to be added, use any string other than "".
-		 * @param cssClass If CSS class is to be added, use any string other than "".
-		 *
-		 * @return One string value containing all the help. String in HTML table format.
-		 */
+		/// <summary>Returns (as HTML table) detailed user help on the syntax of mathematical expressions.</summary>
+		/// <param name="addHeader">Indicator whether to add a header.</param>
+		/// <param name="addCaption">Indicator whether to add caption.</param>
+		/// <param name="addFigure">Indicator whether to add a FIGURE tag.</param>
+		/// <param name="caption">If a non-standard caption is to be added, use any string other than "".</param>
+		/// <param name="cssClass">If CSS class is to be added, use any string other than "".</param>
+		/// <returns>One string value containing all the help. String in HTML table format.</returns>
 		public String getHelpAsHtmlTable(bool addHeader, bool addCaption, bool addFigure, String caption, String cssClass) {
 			initParserKeyWords();
 			return ExpressionUtils.getHelpAsHtmlTable(keyWordsList, addHeader, addCaption, addFigure, StringInvariant.EMPTY, caption, cssClass);
 		}
-		/**
-		 * Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
-		 * Allows simple and advanced searches.
-		 *
-		 * @param query For a simple search, simply enter a word (e.g.: "sine").
-		 * Advanced search is also possible, please use one of the tags below:
-		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-		 * Only one tag can be used per search.
-		 *
-		 * @param addHeader Indicator whether to add a header.
-		 * @param addCaption Indicator whether to add caption.
-		 * @param addFigure Indicator whether to add a FIGURE tag.
-		 * @param caption If a non-standard caption is to be added, use any string other than "".
-		 * @param cssClass If CSS class is to be added, use any string other than "".
-		 *
-		 * @return One string value containing all the help. String in HTML table format.
-		 */
+		/// <summary>Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
+		/// Allows simple and advanced searches.</summary>
+		/// <param name="query">For a simple search, simply enter a word (e.g.: "sine").
+		/// Advanced search is also possible, please use one of the tags below:
+		/// "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		///  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		/// "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		/// (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		/// Only one tag can be used per search.</param>
+		/// <param name="addHeader">Indicator whether to add a header.</param>
+		/// <param name="addCaption">Indicator whether to add caption.</param>
+		/// <param name="addFigure">Indicator whether to add a FIGURE tag.</param>
+		/// <param name="caption">If a non-standard caption is to be added, use any string other than "".</param>
+		/// <param name="cssClass">If CSS class is to be added, use any string other than "".</param>
+		/// <returns>One string value containing all the help. String in HTML table format.</returns>
 		public String getHelpAsHtmlTable(String query, bool addHeader, bool addCaption, bool addFigure, String caption, String cssClass) {
 			initParserKeyWords();
 			return ExpressionUtils.getHelpAsHtmlTable(keyWordsList, addHeader, addCaption, addFigure, query, caption, cssClass);
 		}
-		/**
-		 * Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
-		 *
-		 * @return One string value containing all the help. String in Markdown table format.
-		 */
+		/// <summary>Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.</summary>
+		/// <returns>One string value containing all the help. String in Markdown table format.</returns>
 		public String getHelpAsMarkdownTable() {
 			initParserKeyWords();
 			return ExpressionUtils.getHelpAsMarkdownTable(keyWordsList, StringInvariant.EMPTY);
 		}
-		/**
-		 * Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
-		 * Allows simple and advanced searches.
-		 *
-		 * @param query For a simple search, simply enter a word (e.g.: "sine").
-		 * Advanced search is also possible, please use one of the tags below:
-		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-		 * Only one tag can be used per search.
-
-		 * @return One string value containing all the help. String in Markdown table format.
-		 */
+		/// <summary>Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
+		/// Allows simple and advanced searches.</summary>
+		/// <param name="query">For a simple search, simply enter a word (e.g.: "sine").
+		/// Advanced search is also possible, please use one of the tags below:
+		/// "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		///  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		/// "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		/// (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		/// Only one tag can be used per search.</param>
+		/// <returns>One string value containing all the help. String in Markdown table format.</returns>
 		public String getHelpAsMarkdownTable(String query) {
 			initParserKeyWords();
 			return ExpressionUtils.getHelpAsMarkdownTable(keyWordsList, query);
 		}
-		/**
-		 * Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
-		 *
-		 * @param addHeader Indicator whether to add a header.
-		 * @param addCaption Indicator whether to add caption.
-		 * @param caption If a non-standard caption is to be added, use any string other than "".
-		 *
-		 * @return One string value containing all the help. String in Markdown table format.
-		 */
+		/// <summary>Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.</summary>
+		/// <param name="addHeader">Indicator whether to add a header.</param>
+		/// <param name="addCaption">Indicator whether to add caption.</param>
+		/// <param name="caption">If a non-standard caption is to be added, use any string other than "".</param>
+		/// <returns>One string value containing all the help. String in Markdown table format.</returns>
 		public String getHelpAsMarkdownTable(bool addHeader, bool addCaption, String caption) {
 			initParserKeyWords();
 			return ExpressionUtils.getHelpAsMarkdownTable(keyWordsList, addHeader, addCaption, StringInvariant.EMPTY, caption);
 		}
-		/**
-		 * Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
-		 * Allows simple and advanced searches.
-		 *
-		 * @param query For a simple search, simply enter a word (e.g.: "sine").
-		 * Advanced search is also possible, please use one of the tags below:
-		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-		 * Only one tag can be used per search.
-		 *
-		 * @param addHeader Indicator whether to add a header.
-		 * @param addCaption Indicator whether to add caption.
-		 * @param caption If a non-standard caption is to be added, use any string other than "".
-		 *
-		 * @return One string value containing all the help. String in Markdown table format.
-		 */
+		/// <summary>Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
+		/// Allows simple and advanced searches.</summary>
+		/// <param name="query">For a simple search, simply enter a word (e.g.: "sine").
+		/// Advanced search is also possible, please use one of the tags below:
+		/// "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		///  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		/// "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		/// (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		/// Only one tag can be used per search.</param>
+		/// <param name="addHeader">Indicator whether to add a header.</param>
+		/// <param name="addCaption">Indicator whether to add caption.</param>
+		/// <param name="caption">If a non-standard caption is to be added, use any string other than "".</param>
+		/// <returns>One string value containing all the help. String in Markdown table format.</returns>
 		public String getHelpAsMarkdownTable(String query, bool addHeader, bool addCaption, String caption) {
 			initParserKeyWords();
 			return ExpressionUtils.getHelpAsMarkdownTable(keyWordsList, addHeader, addCaption, query, caption);
 		}
-		/**
-		 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
-		 *
-		 * @return One string value containing all the help. String in Json format.
-		 */
+		/// <summary>Returns (as Json) detailed user help on the syntax of mathematical expressions.</summary>
+		/// <returns>One string value containing all the help. String in Json format.</returns>
 		public String getHelpAsJson() {
 			return getHelpAsJson(StringInvariant.EMPTY);
 		}
-		/**
-		 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
-		 * Allows simple and advanced searches.
-		 *
-		 * @param query For a simple search, simply enter a word (e.g.: "sine").
-		 * Advanced search is also possible, please use one of the tags below:
-		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-		 * Only one tag can be used per search.
-		 *
-		 * @return One string value containing all the help. String in Json format.
-		 */
+		/// <summary>Returns (as Json) detailed user help on the syntax of mathematical expressions.
+		/// Allows simple and advanced searches.</summary>
+		/// <param name="query">For a simple search, simply enter a word (e.g.: "sine").
+		/// Advanced search is also possible, please use one of the tags below:
+		/// "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		///  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		/// "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		/// (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		/// Only one tag can be used per search.</param>
+		/// <returns>One string value containing all the help. String in Json format.</returns>
 		public String getHelpAsJson(String query) {
 			return getHelpAsJson(query, true, StringInvariant.EMPTY);
 		}
-		/**
-		 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
-		 *
-		 * @param addCaption Indicator whether to add caption.
-		 * @param caption If a non-standard caption is to be added, use any string other than "".
-		 *
-		 * @return One string value containing all the help. String in Json format.
-		 */
+		/// <summary>Returns (as Json) detailed user help on the syntax of mathematical expressions.</summary>
+		/// <param name="addCaption">Indicator whether to add caption.</param>
+		/// <param name="caption">If a non-standard caption is to be added, use any string other than "".</param>
+		/// <returns>One string value containing all the help. String in Json format.</returns>
 		public String getHelpAsJson(bool addCaption, String caption) {
 			initParserKeyWords();
 			return ExpressionUtils.getHelpAsJson(keyWordsList, addCaption, StringInvariant.EMPTY, caption);
 		}
-		/**
-		 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
-		 * Allows simple and advanced searches.
-		 *
-		 * @param query For a simple search, simply enter a word (e.g.: "sine").
-		 * Advanced search is also possible, please use one of the tags below:
-		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-		 * Only one tag can be used per search.
-		 *
-		 * @param addCaption Indicator whether to add caption.
-		 * @param caption If a non-standard caption is to be added, use any string other than "".
-		 *
-		 * @return One string value containing all the help. String in Json format.
-		 */
+		/// <summary>Returns (as Json) detailed user help on the syntax of mathematical expressions.
+		/// Allows simple and advanced searches.</summary>
+		/// <param name="query">For a simple search, simply enter a word (e.g.: "sine").
+		/// Advanced search is also possible, please use one of the tags below:
+		/// "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		///  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		/// "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		/// (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		/// Only one tag can be used per search.</param>
+		/// <param name="addCaption">Indicator whether to add caption.</param>
+		/// <param name="caption">If a non-standard caption is to be added, use any string other than "".</param>
+		/// <returns>One string value containing all the help. String in Json format.</returns>
 		public String getHelpAsJson(String query, bool addCaption, String caption) {
 			initParserKeyWords();
 			return ExpressionUtils.getHelpAsJson(keyWordsList, addCaption, query, caption);
 		}
-		/**
-		 * Returns list of keywords known to the parser
-		 *
-		 * @return      List of keywords known to the parser.
-		 *
-		 * @see KeyWord
-		 * @see KeyWord#wordTypeId
-		 * @see Expression#getHelp()
-		 */
+		/// <summary>Returns list of keywords known to the parser</summary>
+		/// <returns>List of keywords known to the parser.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.KeyWord"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.KeyWord.wordTypeId"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression.getHelp()"/>
 		public List<KeyWord> getKeyWords() {
 			return getKeyWords(StringInvariant.EMPTY);
 		}
-		/**
-		 * Returns list of keywords known to the parser. Allows simple and advanced searches.
-		 *
-		 * @param query For a simple search, simply enter a word (e.g.: "sine").
-		 * Advanced search is also possible, please use one of the tags below:
-		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-		 * Only one tag can be used per search.
-		 *
-		 * @return      List of keywords known to the parser filter against query string.
-		 *
-		 * @see KeyWord
-		 * @see KeyWord#wordTypeId
-		 * @see Expression#getHelp(String)
-		 */
+		/// <summary>Returns list of keywords known to the parser. Allows simple and advanced searches.</summary>
+		/// <param name="query">For a simple search, simply enter a word (e.g.: "sine").
+		/// Advanced search is also possible, please use one of the tags below:
+		/// "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		///  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		/// "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		/// (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		/// Only one tag can be used per search.</param>
+		/// <returns>List of keywords known to the parser filter against query string.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.KeyWord"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.KeyWord.wordTypeId"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression.getHelp(string)"/>
 		public List<KeyWord> getKeyWords(String query) {
 			initParserKeyWords();
 			return ExpressionUtils.getKeyWords(query, keyWordsList);
@@ -7658,9 +6476,7 @@ namespace org.mariuszgromada.math.mxparser {
 		internal static void showTokens(List<Token> tokensList) {
             ExpressionUtils.showTokens(tokensList);
         }
-		/**
-		 * shows initial tokens
-		 */
+		/// <summary>shows initial tokens</summary>
 		void showInitialTokens() {
 			showTokens(initialTokens);
 		}
@@ -7676,20 +6492,15 @@ namespace org.mariuszgromada.math.mxparser {
 					a.setVerboseMode();
 			}
 		}
-		/**
-		 *
-		 * @param info
-		 * @param withExpressionString
-		 */
+		/// <param name="info"></param>
+		/// <param name="withExpressionString"></param>
 		private void printSystemInfo(String info, bool withExpressionString) {
 			if (withExpressionString)
                 mXparser.consolePrint(StringUtils.surroundSquareBrackets(description) + StringUtils.surroundSquareBracketsAddSpace(expressionString) + info);
             else
                 mXparser.consolePrint(info);
         }
-		/**
-		 * Expression cloning.
-		 */
+		/// <summary>Expression cloning.</summary>
 		internal Expression clone() {
 			Expression newExp = new Expression(this, false, null);
             if (initialTokens != null && initialTokens.Count > 0) {
@@ -7712,16 +6523,13 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			return expressionClone;
 		}
-		/**
-		 * Creates a completely independent 1-1 clone that can be safely used
-		 * by a separate thread. If the cloned element contains references
-		 * to other elements (e.g. arguments, functions, constants),
-		 * then they will also be cloned and the newly created element will
-		 * contain references to the corresponding clones.
-		 * Important - the API allows you to extract all these clones.
-		 *
-		 * @return Cloned object.
-		 */
+		/// <summary>Creates a completely independent 1-1 clone that can be safely used
+		/// by a separate thread. If the cloned element contains references
+		/// to other elements (e.g. arguments, functions, constants),
+		/// then they will also be cloned and the newly created element will
+		/// contain references to the corresponding clones.
+		/// Important - the API allows you to extract all these clones.</summary>
+		/// <returns>Cloned object.</returns>
 		public Expression cloneForThreadSafe() {
 			CloneCache cloneCache = new CloneCache();
 			Expression expressionClone = cloneForThreadSafeInternal(cloneCache);
@@ -7737,27 +6545,24 @@ namespace org.mariuszgromada.math.mxparser {
 			finally { activeCancelId = previousCancelId; }
 		}
 
-		/**
-		 * Calculates the expression value
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-	
-		 * @return     The expression value if syntax was ok,
-		 *             otherwise returns Double.NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see calculate()
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
-		 */
+		/// <summary>Calculates the expression value
+		///
+		/// <para>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		/// cancellation; positive IDs combine the global signal with the domain signal.
+		/// This method does not clear either signal. Cached values and fast returns
+		/// may complete normally despite a pending signal. Separate IDs do not make
+		/// a shared mutable expression graph safe for concurrent calculations.</para></summary>
+		/// <returns>The expression value if syntax was ok,
+		///             otherwise returns Double.NaN.</returns>
+		/// <param name="cancelId">cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">if cancelId is outside the supported range</exception>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression.calculate()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.cancelCalculation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.resetCalculationCancellation(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.acquireCancellationTokenId()"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.reserveCancellationTokenId(int)"/>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
+		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public double calculateWithCancel(int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");

@@ -1,5 +1,5 @@
 /*
- * @(#)PrimesCache.cpp        6.1.0    2024-10-06
+ * @(#)PrimesCache.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -274,7 +274,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * Counting found primes
+	 * \brief Counting found primes
 	 */
 	API_VISIBLE void PrimesCache::countPrimes() {
 		for (int i = 0; i <= maxNumInCache; i++) {
@@ -283,9 +283,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		}
 	}
 
-	/**
-	 * Default constructor - setting prime cache for a default range if integers
-	 */
 	API_VISIBLE PrimesCache::PrimesCache() {
 		initSuccessful = false;
 		cacheStatus = CACHE_EMPTY;
@@ -301,10 +298,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		}
 	}
 
-	/**
-	 * Constructor - setting prime cache for a given range if integers
-	 * @param maxNumInCache Range of integers to be stored in prime cache
-	 */
 	API_VISIBLE PrimesCache::PrimesCache(int maxNumInCache) {
 		if (maxNumInCache > 2)
 			this->maxNumInCache = Math::min(maxNumInCache, Integer::MAX_VALUE - 1);
@@ -324,43 +317,22 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		}
 	}
 
-	/**
-	 * Returns computing time of Eratosthenes Sieve
-	 * @return Computing time in seconds
-	 */
 	API_VISIBLE double PrimesCache::getComputingTime() const {
 		return computingTime;
 	}
 
-	/**
-	 * Returns cache status
-	 * @return PrimesCache.CACHE_EMPTY or PrimesCache.CACHING_FINISHED;
-	 */
 	API_VISIBLE bool PrimesCache::getCacheStatus() const {
 		return cacheStatus;
 	}
 
-	/**
-	 * Returns number of found primes.
-	 * @return Number of found primes.
-	 */
 	API_VISIBLE int PrimesCache::getNumberOfPrimes() const {
 		return numberOfPrimes;
 	}
 
-	/**
-	 * Returns cache range.
-	 * @return Maximum integera number in cache/
-	 */
 	API_VISIBLE int PrimesCache::getMaxNumInCache() const {
 		return maxNumInCache;
 	}
 
-	/**
-	 * Check whether given number is prime
-	 * @param n Given integer number.
-	 * @return PrimesCache.IS_PRIME or PrimesCache.IS_NOT_PRIME or PrimesCache.NOT_IN_CACHE
-	 */
 	API_VISIBLE int PrimesCache::primeTest(int n) const {
 		if (n <= 1) return IS_NOT_PRIME;
 		if ((n <= maxNumInCache) && (cacheStatus == CACHING_FINISHED))
@@ -372,20 +344,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return NOT_IN_CACHE;
 	}
 
-	/**
-	 * Returns true in case when primes cache initialization was successful,
-	 * otherwise returns false.
-	 *
-	 * @return Returns true in case when primes cache initialization was successful,
-	 * otherwise returns false.
-	 */
 	API_VISIBLE bool PrimesCache::isInitSuccessful() const {
 		return initSuccessful;
 	}
 
 	/**
-	 * Gets underlying primes cache bool table
-	 * @return Underlying primes cache bool table
+	 * \brief Gets underlying primes cache bool table
+	 * \return Underlying primes cache bool table
 	 */
 	API_VISIBLE ArrayPtr<bool> PrimesCache::getPrimes() {
 		return isPrime;

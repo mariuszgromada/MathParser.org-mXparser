@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialValueTrigonometric.cs        6.1.0    2024-10-06
+ * @(#)SpecialValueTrigonometric.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -218,27 +218,20 @@
 using System;
 using System.Collections.Generic;
 namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
-	 * SpecialValueTrigonometric - stores special values for trigonometric and inverse trigonometric functions.
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        6.1.0
-	 */
+	/// <summary>SpecialValueTrigonometric - stores special values for trigonometric and inverse trigonometric functions.</summary>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true)]
 	public class SpecialValueTrigonometric {
 
-		/**
-		 * Epsilon is used to compare the x value with regards to some given small interval
-		 */
+		/// <summary>Epsilon is used to compare the x value with regards to some given small interval</summary>
 		public static readonly double EPSILON = 10 * BinaryRelations.DEFAULT_COMPARISON_EPSILON;
 		/* 0 DEGREES ------- */
 		public static readonly double SIN_0 = 0.0;
@@ -360,9 +353,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static readonly double SEC_360 = SEC_0;
 		public static readonly double CSC_360 = CSC_0;
 
-		/**
-		 * List of special values for all main trigonometric functions
-		 */
+		/// <summary>List of special values for all main trigonometric functions</summary>
 		public static SpecialValueTrigonometric[] valuesListTrig = {
 			/* 0 degrees ------- */
 			new SpecialValueTrigonometric( 0.0, SIN_0, COS_0, TAN_0, CTAN_0, SEC_0, CSC_0 )
@@ -464,86 +455,50 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			,new SpecialValueTrigonometric( 6.0, SIN_360, COS_360, TAN_360, CTAN_360, SEC_360, CSC_360 )
 	};
 
-		/**
-		 * List of special values of inverse sine function
-		 */
+		/// <summary>List of special values of inverse sine function</summary>
 		public static List<SpecialValue> valuesListAsin;
-		/**
-		 * List of special values of inverse cosine function
-		 */
+		/// <summary>List of special values of inverse cosine function</summary>
 		public static List<SpecialValue> valuesListAcos;
-		/**
-		 * List of special values of inverse tangent function
-		 */
+		/// <summary>List of special values of inverse tangent function</summary>
 		public static List<SpecialValue> valuesListAtan;
-		/**
-		 * List of special values of inverse cotangent function
-		 */
+		/// <summary>List of special values of inverse cotangent function</summary>
 		public static List<SpecialValue> valuesListActan;
-		/**
-		 * List of special values of inverse secant function
-		 */
+		/// <summary>List of special values of inverse secant function</summary>
 		public static List<SpecialValue> valuesListAsec;
-		/**
-		 * List of special values of inverse cosecant function
-		 */
+		/// <summary>List of special values of inverse cosecant function</summary>
 		public static List<SpecialValue> valuesListAcsc;
 
-		/**
-		 * Angle factor in Pi radians
-		 */
+		/// <summary>Angle factor in Pi radians</summary>
 		public double factor;
-		/**
-		 * Angle in radians
-		 */
+		/// <summary>Angle in radians</summary>
 		public double xrad;
-		/**
-		 * Angle in degrees
-		 */
+		/// <summary>Angle in degrees</summary>
 		public double xdeg;
-		/**
-		 * Angle in radians - the start of the interval where the function value is given
-		 */
+		/// <summary>Angle in radians - the start of the interval where the function value is given</summary>
 		public double xradFrom;
-		/**
-		 * Angle in radians - the end of the interval where the function value is given
-		 */
+		/// <summary>Angle in radians - the end of the interval where the function value is given</summary>
 		public double xradTo;
-		/**
-		 * The sine function value
-		 */
+		/// <summary>The sine function value</summary>
 		public double sin;
-		/**
-		 * The cosine function value
-		 */
+		/// <summary>The cosine function value</summary>
 		public double cos;
-		/**
-		 * The tangent function value
-		 */
+		/// <summary>The tangent function value</summary>
 		public double tan;
-		/**
-		 * The cotangent function value
-		 */
+		/// <summary>The cotangent function value</summary>
 		public double ctan;
-		/**
-		 * The secant function value
-		 */
+		/// <summary>The secant function value</summary>
 		public double sec;
-		/**
-		 * The cosecant function value
-		 */
+		/// <summary>The cosecant function value</summary>
 		public double csc;
 
-		/**
-		 * Main constructor
-		 * @param factor  The angle provided as a factor of PI
-		 * @param sin     The sine function value
-		 * @param cos     The cosine function value
-		 * @param tan     The tangent function value
-		 * @param ctan    The cotangent function value
-		 * @param sec     The secant function value
-		 * @param csc     The cosecant function value
-		 */
+		/// <summary>Main constructor</summary>
+		/// <param name="factor">The angle provided as a factor of PI</param>
+		/// <param name="sin">The sine function value</param>
+		/// <param name="cos">The cosine function value</param>
+		/// <param name="tan">The tangent function value</param>
+		/// <param name="ctan">The cotangent function value</param>
+		/// <param name="sec">The secant function value</param>
+		/// <param name="csc">The cosecant function value</param>
 		public SpecialValueTrigonometric(double factor, double sin, double cos, double tan, double ctan, double sec, double csc) {
 			this.factor = factor;
 			this.xrad = factor * MathConstants.PI;
@@ -583,13 +538,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 
 		}
-		/**
-		 * Returns special values of trigonometric functions
-		 *
-		 * @param xrad   The angle provided in radians
-		 * @return       Returns special values of trigonometric functions object if the special value was found for a given x
-		 * otherwise returns null
-		 */
+		/// <summary>Returns special values of trigonometric functions</summary>
+		/// <param name="xrad">The angle provided in radians</param>
+		/// <returns>Returns special values of trigonometric functions object if the special value was found for a given x
+		/// otherwise returns null</returns>
 		public static SpecialValueTrigonometric getSpecialValueTrigonometric(double xrad) {
 			if (SpecialValue.specialCasesDisabled) return null;
 			if (Double.IsNaN(xrad)) return null;
@@ -599,67 +551,53 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return null;
 		}
-		/**
-		 * Returns special value of inverse trigonometric sine function
-		 * @param x    The sine value
-		 * @return     Returns special value object if special value was found,
-		 * otherwise returns null.
-		 */
+		/// <summary>Returns special value of inverse trigonometric sine function</summary>
+		/// <param name="x">The sine value</param>
+		/// <returns>Returns special value object if special value was found,
+		/// otherwise returns null.</returns>
 		public static SpecialValue getSpecialValueAsin(double x) {
 			return getSpecialValue(x, valuesListAsin);
 		}
-		/**
-		 * Returns special value of inverse trigonometric cosine function
-		 * @param x    The cosine value
-		 * @return     Returns special value object if special value was found,
-		 * otherwise returns null.
-		 */
+		/// <summary>Returns special value of inverse trigonometric cosine function</summary>
+		/// <param name="x">The cosine value</param>
+		/// <returns>Returns special value object if special value was found,
+		/// otherwise returns null.</returns>
 		public static SpecialValue getSpecialValueAcos(double x) {
 			return getSpecialValue(x, valuesListAcos);
 		}
-		/**
-		 * Returns special value of inverse trigonometric tangent function
-		 * @param x    The tangent value
-		 * @return     Returns special value object if special value was found,
-		 * otherwise returns null.
-		 */
+		/// <summary>Returns special value of inverse trigonometric tangent function</summary>
+		/// <param name="x">The tangent value</param>
+		/// <returns>Returns special value object if special value was found,
+		/// otherwise returns null.</returns>
 		public static SpecialValue getSpecialValueAtan(double x) {
 			return getSpecialValue(x, valuesListAtan);
 		}
-		/**
-		 * Returns special value of inverse trigonometric cotangent function
-		 * @param x    The cotangent value
-		 * @return     Returns special value object if special value was found,
-		 * otherwise returns null.
-		 */
+		/// <summary>Returns special value of inverse trigonometric cotangent function</summary>
+		/// <param name="x">The cotangent value</param>
+		/// <returns>Returns special value object if special value was found,
+		/// otherwise returns null.</returns>
 		public static SpecialValue getSpecialValueActan(double x) {
 			return getSpecialValue(x, valuesListActan);
 		}
-		/**
-		 * Returns special value of inverse trigonometric secant function
-		 * @param x    The secant value
-		 * @return     Returns special value object if special value was found,
-		 * otherwise returns null.
-		 */
+		/// <summary>Returns special value of inverse trigonometric secant function</summary>
+		/// <param name="x">The secant value</param>
+		/// <returns>Returns special value object if special value was found,
+		/// otherwise returns null.</returns>
 		public static SpecialValue getSpecialValueAsec(double x) {
 			return getSpecialValue(x, valuesListAsec);
 		}
-		/**
-		 * Returns special value of inverse trigonometric cosecant function
-		 * @param x    The cosecant value
-		 * @return     Returns special value object if special value was found,
-		 * otherwise returns null.
-		 */
+		/// <summary>Returns special value of inverse trigonometric cosecant function</summary>
+		/// <param name="x">The cosecant value</param>
+		/// <returns>Returns special value object if special value was found,
+		/// otherwise returns null.</returns>
 		public static SpecialValue getSpecialValueAcsc(double x) {
 			return getSpecialValue(x, valuesListAcsc);
 		}
-		/**
-		 * Returns special value of inverse trigonometric function
-		 * @param x              The trigonometric function value value
-		 * @param valuesList     List of special values of a given trigonometric function
-		 * @return               Returns special value object if special value was found,
-		 * otherwise returns null.
-		 */
+		/// <summary>Returns special value of inverse trigonometric function</summary>
+		/// <param name="x">The trigonometric function value value</param>
+		/// <param name="valuesList">List of special values of a given trigonometric function</param>
+		/// <returns>Returns special value object if special value was found,
+		/// otherwise returns null.</returns>
 		private static SpecialValue getSpecialValue(double x, List<SpecialValue> valuesList) {
 			if (SpecialValue.specialCasesDisabled) return null;
 			if (Double.IsNaN(x)) return null;

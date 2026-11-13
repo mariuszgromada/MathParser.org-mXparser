@@ -4,3 +4,4 @@
 __pycache__/
 *.pyc
 *.tgz
+/test/binding-origin.json

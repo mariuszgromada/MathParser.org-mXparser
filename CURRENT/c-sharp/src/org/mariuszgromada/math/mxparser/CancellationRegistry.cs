@@ -219,12 +219,12 @@ using System;
 using System.Threading;
 
 namespace org.mariuszgromada.math.mxparser {
-	/** Shared positive-domain signals and reservations. Raw IDs have no ownership generation. */
+	/// <summary>Shared positive-domain signals and reservations. Raw IDs have no ownership generation.</summary>
 	internal static class CancellationRegistry {
 		private static readonly int[] cancellations = new int[1024];
 		private static readonly int[] reservations = new int[1024];
 
-		/** Reads a domain bit; the caller must first validate that id is positive. */
+		/// <summary>Reads a domain bit; the caller must first validate that id is positive.</summary>
 		internal static bool isCancelled(int id) {
 			return (read(cancellations, id >> 5) & (1 << (id & 31))) != 0;
 		}

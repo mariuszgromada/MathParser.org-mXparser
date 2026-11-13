@@ -230,86 +230,119 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		Calculus() = delete;
 
 		/**
-		 * Derivative type specification
+		 * \brief Derivative type specification
 		 */
 		static constexpr int LEFT_DERIVATIVE = 1;
 		static constexpr int RIGHT_DERIVATIVE = 2;
 		static constexpr int GENERAL_DERIVATIVE = 3;
 
+		/**
+		 * \brief Trapezoid numerical integration
+		 * \param f                   the expression
+		 * \param x                   the argument
+		 * \param a                   form a ...
+		 * \param b                   ... to b
+		 * \param eps                 the epsilon (error)
+		 * \param maxSteps            the maximum number of steps
+		 * \return Integral value as double.
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 */
 		static double integralTrapezoid(const ExpressionPtr &f, const ArgumentPtr &x, double a, double b, double eps, int maxSteps);
 		/**
-		 * Trapezoid numerical integration
+		 * \brief Trapezoid numerical integration
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      x                   the argument
-		 * @param      a                   form a ...
-		 * @param      b                   ... to b
-		 * @param      eps                 the epsilon (error)
-		 * @param      maxSteps            the maximum number of steps
-		 *
-		 * @return     Integral value as double.
-		 *
-		 * @see        Expression
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see integralTrapezoid(org.mariuszgromada.math.mxparser.Expression,org.mariuszgromada.math.mxparser.Argument,double,double,double,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param f                   the expression
+		 * \param x                   the argument
+		 * \param a                   form a ...
+		 * \param b                   ... to b
+		 * \param eps                 the epsilon (error)
+		 * \param maxSteps            the maximum number of steps
+		 * \return Integral value as double.
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::Calculus::integralTrapezoid
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double integralTrapezoidWithCancel(const ExpressionPtr &f, const ArgumentPtr &x, double a, double b, double eps, int maxSteps, int cancelId);
+		/**
+		 * \brief Numerical derivative at x = x0
+		 * \param f                   the expression
+		 * \param x                   the argument
+		 * \param x0                  at point x = x0
+		 * \param derType             derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
+		 *                                 GENERAL_DERIVATIVE
+		 * \param eps                 the epsilon (error)
+		 * \param maxSteps            the maximum number of steps
+		 * \return Derivative value as double.
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 */
 		static double derivative(const ExpressionPtr &f, const ArgumentPtr &x, double x0, int derType, double eps, int maxSteps);
 		/**
-		 * Numerical derivative at x = x0
+		 * \brief Numerical derivative at x = x0
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      x                   the argument
-		 * @param      x0                  at point x = x0
-		 * @param      derType             derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
+		 * \param f                   the expression
+		 * \param x                   the argument
+		 * \param x0                  at point x = x0
+		 * \param derType             derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
 		 *                                 GENERAL_DERIVATIVE
-		 * @param      eps                 the epsilon (error)
-		 * @param      maxSteps            the maximum number of steps
-		 *
-		 * @return     Derivative value as double.
-		 *
-		 * @see        Expression
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see derivative(org.mariuszgromada.math.mxparser.Expression,org.mariuszgromada.math.mxparser.Argument,double,int,double,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param eps                 the epsilon (error)
+		 * \param maxSteps            the maximum number of steps
+		 * \return Derivative value as double.
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::Calculus::derivative
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double derivativeWithCancel(const ExpressionPtr &f, const ArgumentPtr &x, double x0, int derType, double eps, int maxSteps, int cancelId);
+		/**
+		 * \brief Numerical n-th derivative at x = x0 (you should avoid calculation
+		 * of derivatives with order higher than 2).
+		 * \param f                   the expression
+		 * \param n                   the deriviative order
+		 * \param x                   the argument
+		 * \param x0                  at point x = x0
+		 * \param derType             derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
+		 *                                 GENERAL_DERIVATIVE
+		 * \param eps                 the epsilon (error)
+		 * \param maxSteps            the maximum number of steps
+		 * \return Derivative value as double.
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 */
 		static double derivativeNth(const ExpressionPtr &f, double n, const ArgumentPtr &x, double x0, int derType, double eps, int maxSteps);
 		/**
-		 * Numerical n-th derivative at x = x0 (you should avoid calculation
+		 * \brief Numerical n-th derivative at x = x0 (you should avoid calculation
 		 * of derivatives with order higher than 2).
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
@@ -317,42 +350,93 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      n                   the deriviative order
-		 * @param      x                   the argument
-		 * @param      x0                  at point x = x0
-		 * @param      derType             derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
+		 * \param f                   the expression
+		 * \param n                   the deriviative order
+		 * \param x                   the argument
+		 * \param x0                  at point x = x0
+		 * \param derType             derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
 		 *                                 GENERAL_DERIVATIVE
-		 * @param      eps                 the epsilon (error)
-		 * @param      maxSteps            the maximum number of steps
-		 *
-		 * @return     Derivative value as double.
-		 *
-		 * @see        Expression
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see derivativeNth(org.mariuszgromada.math.mxparser.Expression,double,org.mariuszgromada.math.mxparser.Argument,double,int,double,int)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param eps                 the epsilon (error)
+		 * \param maxSteps            the maximum number of steps
+		 * \return Derivative value as double.
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::Calculus::derivativeNth
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double derivativeNthWithCancel(const ExpressionPtr &f, double n, const ArgumentPtr &x, double x0, int derType, double eps, int maxSteps, int cancelId);
+		/**
+		 * \brief Forward difference(1) operator (at x = x0)
+		 * \param f                   the expression
+		 * \param x                   the argument name
+		 * \param x0                  x = x0
+		 * \return Forward difference(1) value calculated at x0.
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 */
 		static double forwardDifference(const ExpressionPtr &f, const ArgumentPtr &x, double x0);
+		/**
+		 * \brief Forward difference(1) operator (at current value of argument x)
+		 * \param f                   the expression
+		 * \param x                   the argument name
+		 * \return Forward difference(1) value calculated at the current value of argument x.
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 */
 		static double forwardDifference(const ExpressionPtr &f, const ArgumentPtr &x);
+		/**
+		 * \brief Backward difference(1) operator (at x = x0).
+		 * \param f                   the expression
+		 * \param x                   the argument name
+		 * \param x0                  x = x0
+		 * \return Backward difference value calculated at x0.
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 */
 		static double backwardDifference(const ExpressionPtr &f, const ArgumentPtr &x, double x0);
+		/**
+		 * \brief Backward difference(1) operator (at current value of argument x)
+		 * \param f                   the expression
+		 * \param x                   the argument name
+		 * \return Backward difference(1) value calculated at the current value of argument x.
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 */
 		static double backwardDifference(const ExpressionPtr &f, const ArgumentPtr &x);
+		/**
+		 * \brief Forward difference(h) operator (at x = x0)
+		 * \param f                   the expression
+		 * \param h                   the difference
+		 * \param x                   the argument name
+		 * \param x0                  x = x0
+		 * \return Forward difference(h) value calculated at x0.
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 */
 		static double forwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x, double x0);
+		/**
+		 * \brief Forward difference(h) operator (at the current value of the argument x)
+		 * \param f                   the expression
+		 * \param h                   the difference
+		 * \param x                   the argument name
+		 * \return Forward difference(h) value calculated at the current value of the argument x.
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 */
 		static double forwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x);
 		/**
-		 * Forward difference(h) operator (at the current value of the argument x)
+		 * \brief Forward difference(h) operator (at the current value of the argument x)
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -363,29 +447,46 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      h                   the difference
-		 * @param      x                   the argument name
-		 *
-		 * @return     Forward difference(h) value calculated at the current value of the argument x.
-		 *
-		 * @see        Expression
-		 * @see        Argument
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see forwardDifference(org.mariuszgromada.math.mxparser.Expression,double,org.mariuszgromada.math.mxparser.Argument)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param f                   the expression
+		 * \param h                   the difference
+		 * \param x                   the argument name
+		 * \return Forward difference(h) value calculated at the current value of the argument x.
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::Calculus::forwardDifference
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double forwardDifferenceWithCancel(const ExpressionPtr &f, double h, const ArgumentPtr &x, int cancelId);
+		/**
+		 * \brief Backward difference(h) operator (at x = x0)
+		 * \param f                   the expression
+		 * \param h                   the difference
+		 * \param x                   the argument name
+		 * \param x0                  x = x0
+		 * \return Backward difference(h) value calculated at x0.
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 */
 		static double backwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x, double x0);
+		/**
+		 * \brief Backward difference(h) operator (at the current value of the argument x)
+		 * \param f                   the expression
+		 * \param h                   the difference
+		 * \param x                   the argument name
+		 * \return Backward difference(h) value calculated at the current value of the argument x.
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 */
 		static double backwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x);
 		/**
-		 * Backward difference(h) operator (at the current value of the argument x)
+		 * \brief Backward difference(h) operator (at the current value of the argument x)
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
@@ -396,55 +497,63 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param      f                   the expression
-		 * @param      h                   the difference
-		 * @param      x                   the argument name
-		 *
-		 * @return     Backward difference(h) value calculated at the current value of the argument x.
-		 *
-		 * @see        Expression
-		 * @see        Argument
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see backwardDifference(org.mariuszgromada.math.mxparser.Expression,double,org.mariuszgromada.math.mxparser.Argument)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param f                   the expression
+		 * \param h                   the difference
+		 * \param x                   the argument name
+		 * \return Backward difference(h) value calculated at the current value of the argument x.
+		 * \sa org::mariuszgromada::math::mxparser::Expression
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::Calculus::backwardDifference
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double backwardDifferenceWithCancel(const ExpressionPtr &f, double h, const ArgumentPtr &x, int cancelId);
+		/**
+		 * \brief Brent solver (Brent root finder)
+		 * \param f  Function given in the Expression form
+		 * \param x  Argument
+		 * \param a  Left limit
+		 * \param b  Right limit
+		 * \param eps      Epsilon value (accuracy)
+		 * \param maxSteps Maximum number of iterations
+		 * \return Function root - if found, otherwise Double.NaN.
+		 */
 		static double solveBrent(const ExpressionPtr &f, const ArgumentPtr &x, double a, double b, double eps, double maxSteps);
 		/**
-		 * Brent solver (Brent root finder)
+		 * \brief Brent solver (Brent root finder)
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * At this method's existing cancellation checks it returns Double.NaN.
 		 * <p>There is no uniform cancellation result across the WithCancel family.
 		 * The existing returns of this method remain in effect; a caller using a
 		 * sentinel may throw an exception. Querying the signal does not establish
 		 * whether this particular call observed cancellation.
-		 * @param f  Function given in the Expression form
-		 * @param x  Argument
-		 * @param a  Left limit
-		 * @param b  Right limit
-		 * @param eps      Epsilon value (accuracy)
-		 * @param maxSteps Maximum number of iterations
-		 * @return   Function root - if found, otherwise Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see solveBrent(org.mariuszgromada.math.mxparser.Expression,org.mariuszgromada.math.mxparser.Argument,double,double,double,double)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \param f  Function given in the Expression form
+		 * \param x  Argument
+		 * \param a  Left limit
+		 * \param b  Right limit
+		 * \param eps      Epsilon value (accuracy)
+		 * \param maxSteps Maximum number of iterations
+		 * \return Function root - if found, otherwise Double.NaN.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::Calculus::solveBrent
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		static double solveBrentWithCancel(const ExpressionPtr &f, const ArgumentPtr &x, double a, double b, double eps, double maxSteps, int cancelId);
 

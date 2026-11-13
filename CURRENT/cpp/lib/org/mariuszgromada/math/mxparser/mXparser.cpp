@@ -347,7 +347,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE PrimesCachePtr mXparser::primesCache = nullptr;
 
 	/**
-	 * Empty expression for general help purposes.
+	 * \brief Empty expression for general help purposes.
 	 */
 	API_VISIBLE ExpressionPtr mXparser::HELP_EXPRESSION = new_Expression();
 
@@ -382,12 +382,12 @@ namespace org::mariuszgromada::math::mxparser {
 		VERSION_CODE_NAME = S(UTF("Sagitara"));
 		VERSION_NAME = VERSION + UTF(" ") + VERSION_CODE_NAME;
 
-		/**
+		/*
 		 * Framework used to compile mXparser
 		 */
 		BUIT_FOR = S(UTF("C++"));
 
-		/**
+		/*
 		 * The terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT.
 		 */
 		LICENSE =
@@ -418,23 +418,10 @@ namespace org::mariuszgromada::math::mxparser {
 	);
 
 
-	/**
-	 * Checks whether the library has already been warmed up before concurrent use
-	 *
-	 * @return True if the warm-up was completed successfully, false otherwise.
-	 *
-	 * @see #warmUpBeforeConcurrentUse()
-	 */
 	API_VISIBLE bool mXparser::checkIfWarmedUpBeforeConcurrentUse() {
 		return isWarmedUpBeforeConcurrentUse;
 	}
 
-	/**
-	 * Performs a deterministic, single-threaded warm-up of the core mXparser classes
-	 * before concurrent use.
-	 *
-	 * @return True if the warm-up was completed successfully, false otherwise.
-	 */
 	API_VISIBLE bool mXparser::warmUpBeforeConcurrentUse() {
 		if (isWarmedUpBeforeConcurrentUse) return true;
 		StringPtr a = nullptr;
@@ -493,59 +480,28 @@ namespace org::mariuszgromada::math::mxparser {
 		HELP_EXPRESSION = new_Expression();
 	}
 
-	/**
-	 * Initialization of prime numbers cache.
-	 * Cache size according to {PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
-	 * @see PrimesCache
-	 */
 	API_VISIBLE void mXparser::initPrimesCache() {
 		primesCache = new_PrimesCache();
 	}
 
-	/**
-	 * Initialization of prime numbers cache.
-	 * @param mximumNumberInCache The maximum integer number that
-	 *                            will be stored in cache.
-	 * @see PrimesCache
-	 */
 	API_VISIBLE void mXparser::initPrimesCache(int mximumNumberInCache) {
 		primesCache = new_PrimesCache(mximumNumberInCache);
 	}
 
-	/**
-	 * Initialization of prime numbers cache.
-	 * @param primesCache The primes cache object
-	 * @see PrimesCache
-	 */
 	API_VISIBLE void mXparser::initPrimesCache(const PrimesCachePtr &primesCache) {
 		mXparser::primesCache = primesCache;
 	}
 
-	/**
-	 * Returns true in case when primes cache initialization was successful,
-	 * otherwise returns false.
-	 *
-	 * @return Returns true in case when primes cache initialization was successful,
-	 * otherwise returns false.
-	 */
 	API_VISIBLE bool mXparser::isInitPrimesCacheSuccessful() {
 		if (primesCache == nullptr) return false;
 		LOCK(primesCache);
 		return primesCache->isInitSuccessful();
 	}
 
-	/**
-	 * Sets {mXparser#primesCache} to nullptr
-	 */
 	API_VISIBLE void mXparser::setNoPrimesCache() {
 		primesCache = nullptr;
 	}
 
-	/**
-	 * Returns maximum integer number in primes cache
-	 * @return If primes cache was initialized then maximum number in
-	 * primes cache, otherwise {mXparser#PRIMES_CACHE_NOT_INITIALIZED}
-	 */
 	API_VISIBLE int mXparser::getMaxNumInPrimesCache() {
 		if (primesCache != nullptr) {
 			LOCK(primesCache);
@@ -554,57 +510,23 @@ namespace org::mariuszgromada::math::mxparser {
 			return PRIMES_CACHE_NOT_INITIALIZED;
 	}
 
-	/**
-	 * Gets maximum threads number
-	 *
-	 * @return Threads number.
-	 */
 	API_VISIBLE int mXparser::getThreadsNumber() {
 		return THREADS_NUMBER;
 	}
 
-	/**
-	 * Sets default threads number
-	 */
 	API_VISIBLE void mXparser::setDefaultThreadsNumber() {
 		THREADS_NUMBER = static_cast<int>(std::thread::hardware_concurrency());
 	}
 
-	/**
-	 * Sets threads number
-	 *
-	 * @param threadsNumber  Thread number.
-	 */
 	API_VISIBLE void mXparser::setThreadsNumber(int threadsNumber) {
 		if (threadsNumber > 0) THREADS_NUMBER = threadsNumber;
 	}
 
-	/**
-	 * Calculates function f(x0) (given as expression) assigning Argument x = x0;
-	 *
-	 *
-	 * @param      f                   the expression
-	 * @param      x                   the argument
-	 * @param      x0                  the argument value
-	 *
-	 * @return     f->calculate()
-	 *
-	 * @see        Expression
-	 *
-	 * @deprecated Planned to be removed, use {MathFunctions#getFunctionValue(Expression, Argument, double)} instead
-	 */
 	// @Deprecated
 	API_VISIBLE double mXparser::getFunctionValue(const ExpressionPtr &f, const ArgumentPtr &x, double x0) {
 		return MathFunctions::getFunctionValue(f, x, x0);
 	}
 
-	/**
-	 * Converts List of double to double[]
-	 *
-	 * @param      numbers             the numbers list
-	 *
-	 * @return     numbers array
-	 */
 	API_VISIBLE ArrayPtr<double> mXparser::arrayList2double(const ListPtr<double> &numbers) {
 		if (numbers == nullptr)
 			return nullptr;
@@ -615,622 +537,201 @@ namespace org::mariuszgromada::math::mxparser {
 		return newNumbers;
 	}
 
-	/**
-	 * Returns array of double values of the function f(i)
-	 * calculated on the range: i = from to i = to by step = delta
-	 *
-	 * @param f            Function expression
-	 * @param index        Index argument
-	 * @param from         'from' value
-	 * @param to           'to' value
-	 * @param delta        'delta' step definition
-	 * @return             Array of function values
-	 *
-	 * @deprecated Planned to be removed, use {MathFunctions#getFunctionValues(Expression, Argument, double, double, double)} instead
-	 */
 	// @Deprecated
 	API_VISIBLE ArrayPtr<double> mXparser::getFunctionValues(const ExpressionPtr &f, const ArgumentPtr &index, double from,
 	                                             double to, double delta) {
 		return MathFunctions::getFunctionValues(f, index, from, to, delta);
 	}
 
-	/**
-	 * Modifies random generator used by the ProbabilityDistributions class.
-	 *
-	 * @param randomGenerator      Random generator.
-	 * @see ProbabilityDistributions
-	 * @see ProbabilityDistributions#randomGenerator
-	 */
 	API_VISIBLE void mXparser::setRandomGenerator(const RandomPtr &randomGenerator) {
 		if (randomGenerator != nullptr) ProbabilityDistributions::randomGenerator = randomGenerator;
 	}
 
-	/**
-	 * Sets comparison mode to EXACT.
-	 * @see BinaryRelations
-	 */
 	API_VISIBLE void mXparser::setExactComparison() {
 		BinaryRelations::setExactComparison();
 	}
 
-	/**
-	 * Sets comparison mode to EPSILON.
-	 * @see BinaryRelations
-	 * @see #setEpsilon(double)
-	 */
 	API_VISIBLE void mXparser::setEpsilonComparison() {
 		BinaryRelations::setEpsilonComparison();
 	}
 
-	/**
-	 * Sets epsilon value used in the EPSILON comparison mode and
-	 * the almost integer rounding mode.
-	 *
-	 * @param epsilon   Epsilon value (grater than 0).
-	 *
-	 * @see #setEpsilonComparison()
-	 * @see #enableAlmostIntRounding()
-	 * @see BinaryRelations
-	 */
 	API_VISIBLE void mXparser::setEpsilon(double epsilon) {
 		BinaryRelations::setEpsilon(epsilon);
 	}
 
-	/**
-	 * Sets default epsilon value.
-	 *
-	 * @see #setEpsilonComparison()
-	 * @see #enableAlmostIntRounding()
-	 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
-	 * @see BinaryRelations
-	 */
 	API_VISIBLE void mXparser::setDefaultEpsilon() {
 		BinaryRelations::setDefaultEpsilon();
 	}
 
-	/**
-	 * Returns current epsilon value.
-	 * @return  Returns current epsilon value.
-	 *
-	 * @see #setEpsilonComparison()
-	 * @see #enableAlmostIntRounding()
-	 * @see BinaryRelations
-	 */
 	API_VISIBLE double mXparser::getEpsilon() {
 		return BinaryRelations::getEpsilon();
 	}
 
-	/**
-	 * Checks if epsilon comparison mode is active;
-	 * @return  True if epsilon mode is active, otherwise returns false.
-	 * @see #setEpsilonComparison()
-	 * @see #setExactComparison()
-	 * @see #enableAlmostIntRounding()
-	 * @see BinaryRelations
-	 */
 	API_VISIBLE bool mXparser::checkIfEpsilonMode() {
 		return BinaryRelations::checkIfEpsilonMode();
 	}
 
-	/**
-	 * Checks if exact comparison mode is active;
-	 * @return  True if exact mode is active, otherwise returns false.
-	 * @see #setEpsilonComparison()
-	 * @see #setExactComparison()
-	 * @see BinaryRelations
-	 */
 	API_VISIBLE bool mXparser::checkIfExactMode() {
 		return BinaryRelations::checkIfExactMode();
 	}
 
-	/**
-	 * Enables ULP rounding.
-	 * Double floating-point precision arithmetic causes
-	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
-	 * additionally doubles are having a lot of advantages
-	 * providing flexible number representation regardless of
-	 * number size. mXparser is fully based on double numbers
-	 * and that is why is providing intelligent ULP rounding
-	 * to minimize misleading results. By default, this option is
-	 * enabled resulting in automatic rounding only in some cases.
-	 * Using this mode 0.1 + 0.1 + 0.1 = 0.3
-	 */
 	API_VISIBLE void mXparser::enableUlpRounding() {
 		ulpRounding = true;
 	}
 
-	/**
-	 * Disables ULP rounding.
-	 * Double floating-point precision arithmetic causes
-	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
-	 * additionally doubles are having a lot of advantages
-	 * providing flexible number representation regardless of
-	 * number size. mXparser is fully based on double numbers
-	 * and that is why is providing intelligent ULP rounding
-	 * to minimize misleading results. By default this option is
-	 * enabled resulting in automatic rounding only in some cases.
-	 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different from 0.3.
-	 */
 	API_VISIBLE void mXparser::disableUlpRounding() {
 		ulpRounding = false;
 	}
 
-	/**
-	 * Enables / disables ULP rounding.
-	 * Double floating-point precision arithmetic causes
-	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
-	 * additionally doubles are having a lot of advantages
-	 * providing flexible number representation regardless of
-	 * number size. mXparser is fully based on double numbers
-	 * and that is why is providing intelligent ULP rounding
-	 * to minimize misleading results. By default this option is
-	 * enabled resulting in automatic rounding only in some cases.
-	 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different from 0.3.
-	 *
-	 * @param ulpRoundingState    True to enable, false to disable
-	 */
 	API_VISIBLE void mXparser::setUlpRounding(bool ulpRoundingState) {
 		ulpRounding = ulpRoundingState;
 	}
 
-	/**
-	 * Double floating-point precision arithmetic causes
-	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
-	 * additionally doubles are having a lot of advantages
-	 * providing flexible number representation regardless of
-	 * number size. mXparser is fully based on double numbers
-	 * and that is why is providing intelligent ULP rounding
-	 * to minimize misleading results. By default this option is
-	 * enabled resulting in automatic rounding only in some cases.
-	 * Using this mode 0.1 + 0.1 + 0.1 = 0.3
-	 *
-	 * @return True if ULP rounding is enabled, otherwise false.
-	 */
 	API_VISIBLE bool mXparser::checkIfUlpRounding() {
 		return ulpRounding;
 	}
 
-	/**
-	 * Enables canonical rounding.
-	 * Double floating-point precision arithmetic causes
-	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
-	 * additionally doubles are having a lot of advantages
-	 * providing flexible number representation regardless of
-	 * number size. mXparser is fully based on double numbers
-	 * and that is why is providing intelligent canonical rounding
-	 * to minimize misleading results. By default, this option is
-	 * enabled resulting in automatic rounding only in some cases.
-	 * Using this mode 2.5 - 2.2 = 0.3
-	 */
 	API_VISIBLE void mXparser::enableCanonicalRounding() {
 		canonicalRounding = true;
 	}
 
-	/**
-	 * Disables canonical rounding.
-	 * Double floating-point precision arithmetic causes
-	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
-	 * additionally doubles are having a lot of advantages
-	 * providing flexible number representation regardless of
-	 * number size. mXparser is fully based on double numbers
-	 * and that is why is providing intelligent canonical rounding
-	 * to minimize misleading results. By default, this option is
-	 * enabled resulting in automatic rounding only in some cases.
-	 * Using this mode 2.5 - 2.2 = 0.3
-	 */
 	API_VISIBLE void mXparser::disableCanonicalRounding() {
 		canonicalRounding = false;
 	}
 
-	/**
-	 * Enables / disables canonical rounding.
-	 * Double floating-point precision arithmetic causes
-	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
-	 * additionally doubles are having a lot of advantages
-	 * providing flexible number representation regardless of
-	 * number size. mXparser is fully based on double numbers
-	 * and that is why is providing intelligent ULP rounding
-	 * to minimize misleading results. By default, this option is
-	 * enabled resulting in automatic rounding only in some cases.
-	 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different from 0.3.
-	 *
-	 * @param canonicalRoundingState    True to enable, false to disable
-	 */
 	API_VISIBLE void mXparser::setCanonicalRounding(bool canonicalRoundingState) {
 		canonicalRounding = canonicalRoundingState;
 	}
 
-	/**
-	 * Double floating-point precision arithmetic causes
-	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
-	 * additionally doubles are having a lot of advantages
-	 * providing flexible number representation regardless of
-	 * number size. mXparser is fully based on double numbers
-	 * and that is why is providing intelligent canonical rounding
-	 * to minimize misleading results. By default, this option is
-	 * enabled resulting in automatic rounding only in some cases.
-	 * Using this mode 2.5 - 2.2 = 0.3
-	 *
-	 * @return True if Canonical rounding is enabled, otherwise false.
-	 */
 	API_VISIBLE bool mXparser::checkIfCanonicalRounding() {
 		return canonicalRounding;
 	}
 
-	/**
-	 * Enables almost integer rounding option causing
-	 * rounding final calculation result to precise integer
-	 * if and only if result is very close to integer.
-	 * Very close condition depends on epsilon.
-	 *
-	 * @see mXparser#setEpsilon(double)
-	 * @see mXparser#getEpsilon()
-	 * @see Expression#calculate()
-	 */
 	API_VISIBLE void mXparser::enableAlmostIntRounding() {
 		almostIntRounding = true;
 	}
 
-	/**
-	 * Disables almost integer rounding option causing
-	 * rounding final calculation result to precise integer
-	 * if and only if result is very close to integer.
-	 * Very close condition depends on epsilon.
-	 *
-	 * @see mXparser#setEpsilon(double)
-	 * @see mXparser#getEpsilon()
-	 * @see Expression#calculate()
-	 */
 	API_VISIBLE void mXparser::disableAlmostIntRounding() {
 		almostIntRounding = false;
 	}
-	/**
-	 * Enables / disables almost integer rounding option causing
-	 * rounding final calculation result to precise integer
-	 * if and only if result is very close to integer.
-	 * Very close condition depends on epsilon.
-	 *
-	 * @param almostIntRoundingState    True to enable, false to disable
-	 */
 	API_VISIBLE void mXparser::setAlmostIntRounding(bool almostIntRoundingState) {
 		almostIntRounding = almostIntRoundingState;
 	}
 
-	/**
-	 * Returns state of almost integer rounding option causing
-	 * rounding final calculation result to precise integer
-	 * if and only if result is very close to integer.
-	 * Very close condition depends on epsilon.
-	 *
-	 * @return true if option enabled, false otherwise
-	 *
-	 * @see mXparser#setEpsilon(double)
-	 * @see mXparser#getEpsilon()
-	 * @see Expression#calculate()
-	 */
 	API_VISIBLE bool mXparser::checkIfAlmostIntRounding() {
 		return almostIntRounding;
 	}
-	/**
-	 * Enables special case recognition options, e.g. tan(pi/2) = NaN.
-	 * Default behaviour is 'enableSpecialCases'.
-	 */
 	API_VISIBLE void mXparser::enableSpecialCases() {
 		SpecialValue::specialCasesDisabled = false;
 	}
-	/**
-	 * Disables special case recognition options, e.g. tan(pi/2) will return value
-	 * according to the standard math library implementation.
-	 * Default behaviour is 'enableSpecialCases'.
-	 */
 	API_VISIBLE void mXparser::disableSpecialCases() {
 		SpecialValue::specialCasesDisabled = true;
 	}
-	/**
-	 * Enables special case recognition options, e.g. tan(pi/2) = NaN or
-	 * disables special case recognition options, e.g. tan(pi/2) will return value
-	 * according to the standard math library implementation.
-	 * Default behaviour is 'enableSpecialCases'.
-	 *
-	 * @param specialCasesState   true to enable, false to disable.
-	 */
 	API_VISIBLE void mXparser::setSpecialCases(bool specialCasesState) {
 		SpecialValue::specialCasesDisabled = !specialCasesState;
 	}
-	/**
-	 * Checks if special case recognition is enabled.
-	 * @return true in case if special case recognition is enabled, otherwise false.
-	 */
 	API_VISIBLE bool mXparser::checkIfSpecialCases() {
 		return !SpecialValue::specialCasesDisabled;
 	}
-	/**
-	 * Internal limit to aAPI_VISIBLE void mXparser::infinite loops while calculating
-	 * expression defined in the way shown by below examples.
-	 *
-	 * Argument x = new_Argument("x = 2*y");
-	 * Argument y = new_Argument("y = 2*x");
-	 * x->addDefinitions(y);
-	 * y->addDefinitions(x);
-	 *
-	 * Function f = new_Function("f(x) = 2*g(x)");
-	 * Function g = new_Function("g(x) = 2*f(x)");
-	 * f->addDefinitions(g);
-	 * g->addDefinitions(f);
-	 *
-	 * @param maxAllowedRecursionDepth  Maximum number of allowed recursion calls
-	 */
 	API_VISIBLE void mXparser::setMaxAllowedRecursionDepth(int maxAllowedRecursionDepth) {
 		MAX_RECURSION_CALLS = maxAllowedRecursionDepth;
 		Argument::refreshMaxAllowedRecursionDepth();
 	}
-	/**
-	 * Internal default limit to aAPI_VISIBLE void mXparser::infinite loops while calculating
-	 * expression defined in the way shown by below examples.
-	 *
-	 * Argument x = new_Argument("x = 2*y");
-	 * Argument y = new_Argument("y = 2*x");
-	 * x->addDefinitions(y);
-	 * y->addDefinitions(x);
-	 *
-	 * Function f = new_Function("f(x) = 2*g(x)");
-	 * Function g = new_Function("g(x) = 2*f(x)");
-	 * f->addDefinitions(g);
-	 * g->addDefinitions(f);
-	 */
 	API_VISIBLE void mXparser::setDefaultMaxAllowedRecursionDepth() {
 		MAX_RECURSION_CALLS = DEFAULT_MAX_RECURSION_CALLS;
 		Argument::refreshMaxAllowedRecursionDepth();
 	}
-	/**
-	 * Internal limit to aAPI_VISIBLE void mXparser::infinite loops while calculating
-	 * expression defined in the way shown by below examples.
-	 *
-	 * Argument x = new_Argument("x = 2*y");
-	 * Argument y = new_Argument("y = 2*x");
-	 * x->addDefinitions(y);
-	 * y->addDefinitions(x);
-	 *
-	 * Function f = new_Function("f(x) = 2*g(x)");
-	 * Function g = new_Function("g(x) = 2*f(x)");
-	 * f->addDefinitions(g);
-	 * g->addDefinitions(f);
-	 *
-	 * Currently, does not affect properly defined recursive mode.
-	 *
-	 * @return Max allowed recursion calls
-	 */
 	API_VISIBLE int mXparser::getMaxAllowedRecursionDepth() {
 		return MAX_RECURSION_CALLS;
 	}
 
-	/**
-	 * Set mXparser to operate in radians mode for
-	 * trigonometric functions
-	 */
 	API_VISIBLE void mXparser::setRadiansMode() {
 		degreesMode = false;
 	}
 
-	/**
-	 * Set mXparser to operate in degrees mode for
-	 * trigonometric functions
-	 */
 	API_VISIBLE void mXparser::setDegreesMode() {
 		degreesMode = true;
 	}
 
-	/**
-	 * Checks whether mXparser operates in radians mode for
-	 * trigonometric functions.
-	 *
-	 * @return true - if radians mode, false - otherwise
-	 */
 	API_VISIBLE bool mXparser::checkIfRadiansMode() {
 		return !degreesMode;
 	}
 
-	/**
-	 * Checks whether mXparser operates in degrees mode for
-	 * trigonometric functions.
-	 *
-	 * @return true - if degrees mode, false - otherwise
-	 */
 	API_VISIBLE bool mXparser::checkIfDegreesMode() {
 		return degreesMode;
 	}
 
-	/**
-	 * Sets implied multiplication
-	 */
 	API_VISIBLE void mXparser::enableImpliedMultiplicationMode() {
 		impliedMultiplicationMode = true;
 		HELP_EXPRESSION->enableImpliedMultiplicationMode();
 	}
 
-	/**
-	 * Disables implied multiplication
-	 */
 	API_VISIBLE void mXparser::disableImpliedMultiplicationMode() {
 		impliedMultiplicationMode = false;
 		HELP_EXPRESSION->disableImpliedMultiplicationMode();
 	}
 
-	/**
-	 * Gets implied multiplication status
-	 *
-	 * @return     true if implied multiplication is enabled,
-	 *             otherwise returns false.
-	 */
 	API_VISIBLE bool mXparser::checkIfImpliedMultiplicationMode() {
 		return impliedMultiplicationMode;
 	}
 
-	/**
-	 * Enables unicode built-in parser keywords, this flag
-	 * informs the parser that built-in unicode keywords
-	 * are supported and will be recognized as functions or
-	 * operators.
-	 */
 	API_VISIBLE void mXparser::enableUnicodeBuiltinKeyWordsMode() {
 		unicodeKeyWordsEnabled = true;
 		HELP_EXPRESSION->enableUnicodeBuiltinKeyWordsMode();
 	}
 
-	/**
-	 * Disables unicode built-in parser keywords, this flag
-	 * informs the parser that built-in unicode keywords
-	 * are not supported and will not be recognized as functions or
-	 * operators.
-	 */
 	API_VISIBLE void mXparser::disableUnicodeBuiltinKeyWordsMode() {
 		unicodeKeyWordsEnabled = false;
 		HELP_EXPRESSION->disableUnicodeBuiltinKeyWordsMode();
 	}
 
-	/**
-	 * Gets unicode built-in parser keywords mode
-	 *
-	 * @return     true if unicode built-in parser keywords is enabled,
-	 *             otherwise returns false.
-	 */
 	API_VISIBLE bool mXparser::checkIfUnicodeBuiltinKeyWordsMode() {
 		return unicodeKeyWordsEnabled;
 	}
 
-	/**
-	 * Enables attempt to fix the expression String.
-	 * For example, situations such as:
-	 * "++" change to "+",
-	 * "+-" changed to "-"
-	 * "-+" changed to "-"
-	 * "--" changed to "+"
-	 */
 	API_VISIBLE void mXparser::enableAttemptToFixExpStrMode() {
 		attemptToFixExpStrEnabled = true;
 	}
 
-	/**
-	 * Disables attempt to fix the expression String.
-	 * For example, situations such as:
-	 * "++" change to "+",
-	 * "+-" changed to "-"
-	 * "-+" changed to "-"
-	 * "--" changed to "+"
-	 */
 	API_VISIBLE void mXparser::disableAttemptToFixExpStrMode() {
 		attemptToFixExpStrEnabled = false;
 	}
 
-	/**
-	 * Gets attempt to fix expression string mode
-	 *
-	 * @return     true attempt to fix expression string mode is enabled,
-	 *             otherwise returns false.
-	 */
 	API_VISIBLE bool mXparser::checkIfAttemptToFixExpStrMode() {
 		return attemptToFixExpStrEnabled;
 	}
 
-	/**
-	 * Option that enables selection of best matching language based on the current OS locale.
-	 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
-	 * If OS language is not supported, then English is selected.
-	 *
-	 * @see StringModel
-	 * @see StringResources
-	 * @see StringResources#bestMatchingLanguage()
-	 */
 	API_VISIBLE void mXparser::enableSelectBestMatchingLanguage() {
 		selectBestMatchingLanguage = true;
 		StringModel::setDefaultStringResources();
 	}
 
-	/**
-	 * Disables mode of selection of best matching language based on the current OS locale.
-	 * Returns to the English language.
-	 *
-	 * @see StringModel
-	 * @see StringResources
-	 * @see StringResources#bestMatchingLanguage()
-	 */
 	API_VISIBLE void mXparser::disableSelectBestMatchingLanguage() {
 		selectBestMatchingLanguage = false;
 		StringModel::setDefaultEnglishStringResources();
 	}
 
-	/**
-	 * Checks if mode of selection of best matching language based on the current OS locale is enabled.
-	 *
-	 * @return   True if mode of selection of best matching language is enabled, otherwise false.
-	 *
-	 * @see StringModel
-	 * @see StringResources
-	 * @see StringResources#bestMatchingLanguage()
-	 */
 	API_VISIBLE bool mXparser::checkIfSelectBestMatchingLanguage() {
 		return selectBestMatchingLanguage;
 	}
 
-	/**
-	 * Changes language to the one that best matches provided language code.
-	 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
-	 * If language code does not belong to the supported language codes
-	 * English language is selected.
-	 *
-	 * @param language     Supported language codes: en, fr, de, it, pl, pt, es.
-	 *
-	 * @see StringModel
-	 * @see StringModel#setStringResources(StringResources)
-	 * @see StringResources
-	 * @see StringResources#bestMatchingLanguage(String)
-	 */
 	API_VISIBLE void mXparser::changeLanguageTo(const StringPtr &language) {
 		StringModel::setStringResources(StringResources::bestMatchingLanguage(language));
 	}
 
 
-	/**
-	 * Changes language to the one that best matches current OS locale.
-	 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
-	 * If OS language is not supported, then English is selected.
-	 *
-	 * @see StringModel
-	 * @see StringModel#setStringResources(StringResources)
-	 * @see StringResources
-	 * @see StringResources#bestMatchingLanguage()
-	 */
 	API_VISIBLE void mXparser::changeLanguageToBestMatching() {
 		StringModel::forceDefaultStringResources();
 	}
 
-	/**
-	 * Sets initial search size for the toFraction method
-	 *
-	 * @param n initial search size, has to be non-zero positive.
-	 * @see NumberTheory#toFraction(double)
-	 */
 	API_VISIBLE void mXparser::setToFractionInitSearchSize(Long n) {
 		NumberTheory::setToFractionInitSearchSize(n);
 	}
 
-	/**
-	 * Gets initial search size used by the toFraction method
-	 *
-	 * @return initial search size used by the toFraction method
-	 * @see NumberTheory#toFraction(double)
-	 */
 	Long mXparser::getToFractionInitSearchSize() {
 		return NumberTheory::getToFractionInitSearchSize();
 	}
 
-	/**
-	 * Removes built-in tokens form the list of tokens recognized by the parsers.
-	 * Procedure affects only tokens classified to built-in functions, built-in
-	 * constants, built-in units, built-in random variables.
-	 *
-	 * @param tokens  List of tokens to remove.
-	 */
 	API_VISIBLE void mXparser::removeBuiltinTokens(const ListPtr<StringPtr> &tokens) {
 		if (tokens == nullptr) return;
 		LOCK(tokensToRemove);
@@ -1242,10 +743,6 @@ namespace org::mariuszgromada::math::mxparser {
 		optionsChangesetNumber++;
 	}
 
-	/**
-	 * Un-marks tokens previously marked to be removed.
-	 * @param tokens List of tokens to un-mark.
-	 */
 	API_VISIBLE void mXparser::unremoveBuiltinTokens(const ListPtr<StringPtr> &tokens) {
 		if (tokens == nullptr) return;
 		if (tokens->isEmpty()) return;
@@ -1258,19 +755,12 @@ namespace org::mariuszgromada::math::mxparser {
 		optionsChangesetNumber++;
 	}
 
-	/**
-	 * Un-marks all tokens previously marked to be removed.
-	 */
 	API_VISIBLE void mXparser::unremoveAllBuiltinTokens() {
 		LOCK(tokensToRemove);
 		tokensToRemove->clear();
 		optionsChangesetNumber++;
 	}
 
-	/**
-	 * Returns current list of tokens marked to be removed.
-	 * @return Current list of tokens marked to be removed
-	 */
 	ArrayPtr<StringPtr> mXparser::getBuiltinTokensToRemove() {
 		LOCK(tokensToRemove);
 		int tokensNum = tokensToRemove->size();
@@ -1280,15 +770,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return tokensToRemoveArray;
 	}
 
-	/**
-	 * Method to change definition of built-in token - more precisely
-	 * using this method allows to modify token string recognized by the parser
-	 * (i.e. sin(x) to sinus(x)).
-	 * Procedure affects only tokens classified to built-in functions, built-in
-	 * constants, built-in units, built-in random variables.
-	 * @param currentToken     Current token name
-	 * @param newToken         New token name
-	 */
 	API_VISIBLE void mXparser::modifyBuiltinToken(const StringPtr &currentToken, const StringPtr &newToken) {
 		if (currentToken == nullptr) return;
 		if (currentToken->empty()) return;
@@ -1305,16 +786,6 @@ namespace org::mariuszgromada::math::mxparser {
 		optionsChangesetNumber++;
 	}
 
-	/**
-	 * Method to change definition of built-in token - more precisely
-	 * using this method allows to modify token string recognized by the parser
-	 * (i.e. sin(x) to sinus(x)).
-	 * Procedure affects only tokens classified to built-in functions, built-in
-	 * constants, built-in units, built-in random variables.
-	 * @param currentToken          Current token name
-	 * @param newToken              New token name
-	 * @param newTokenDescription   New token description (if nullptr the previous one will be used)
-	 */
 	API_VISIBLE void mXparser::modifyBuiltinToken(const StringPtr &currentToken, const StringPtr &newToken,
 	                                  const StringPtr &newTokenDescription) {
 		if (currentToken == nullptr) return;
@@ -1332,10 +803,6 @@ namespace org::mariuszgromada::math::mxparser {
 		optionsChangesetNumber++;
 	}
 
-	/**
-	 * Un-marks tokens previously marked to be modified.
-	 * @param currentOrNewTokens   List of tokens to be un-marked (current or modified).
-	 */
 	API_VISIBLE void mXparser::unmodifyBuiltinTokens(const ListPtr<StringPtr> &currentOrNewTokens) {
 		if (currentOrNewTokens == nullptr) return;
 		if (currentOrNewTokens->isEmpty()) return;
@@ -1353,20 +820,12 @@ namespace org::mariuszgromada::math::mxparser {
 		optionsChangesetNumber++;
 	}
 
-	/**
-	 * Un-marks all tokens previously marked to be modified.
-	 */
 	API_VISIBLE void mXparser::unmodifyAllBuiltinTokens() {
 		LOCK(tokensToModify);
 		tokensToModify->clear();
 		optionsChangesetNumber++;
 	}
 
-	/**
-	 * Return details on tokens marked to be modified.
-	 * @return String(i, 0) - current token, String(i, 1) - new token,
-	 *                        String(i, 2) - new token description.
-	 */
 	ArrayPtr<StringPtr> mXparser::getBuiltinTokensToModify() {
 		LOCK(tokensToModify);
 		int tokensNum = tokensToModify->size();
@@ -1380,38 +839,20 @@ namespace org::mariuszgromada::math::mxparser {
 		return tokensToModifyArray;
 	}
 
-	/**
-	 * Sets mXparser to override built-in tokens
-	 * by user defined tokens.
-	 */
 	API_VISIBLE void mXparser::setToOverrideBuiltinTokens() {
 		overrideBuiltinTokens = true;
 		optionsChangesetNumber++;
 	}
 
-	/**
-	 * Sets mXparser not to override built-in tokens
-	 * by user defined tokens.
-	 */
 	API_VISIBLE void mXparser::setNotToOverrideBuiltinTokens() {
 		overrideBuiltinTokens = false;
 		optionsChangesetNumber++;
 	}
 
-	/**
-	 * Checks whether mXparser is set to override built-in tokens.
-	 *
-	 * @return True if mXparser is set to override built-in tokens by
-	 *         user defined tokens, otherwise false.
-	 */
 	API_VISIBLE bool mXparser::checkIfsetToOverrideBuiltinTokens() {
 		return overrideBuiltinTokens;
 	}
 
-	/**
-	 * Sets default mXparser options
-	 *
-	 */
 	API_VISIBLE void mXparser::setDefaultOptions() {
 		enableUlpRounding();
 		enableAlmostIntRounding();
@@ -1430,292 +871,86 @@ namespace org::mariuszgromada::math::mxparser {
 		optionsChangesetNumber++;
 	}
 
-	/**
-	 * Returns token type description.
-	 *
-	 * @param tokenTypeId Token type id
-	 * @return StringPtr representing token type description.
-	 *
-	 * @deprecated Planned to be removed, use {Token#getTokenTypeDescription(int)} instead
-	 */
 	// @Deprecated
 	API_VISIBLE StringPtr mXparser::getTokenTypeDescription(int tokenTypeId) {
 		return parsertokens::Token::getTokenTypeDescription(tokenTypeId);
 	}
 
-	/**
-	 * Converts integer number to hex string (plain text)
-	 *
-	 * @param number   Integer number
-	 * @return         Hex string (i.e. FF23)
-	 *
-	 * @deprecated Planned to be removed, use {StringUtils#numberToHexString(int)} instead
-	 */
 	// @Deprecated
 	API_VISIBLE StringPtr mXparser::numberToHexString(int number) {
 		return StringUtils::numberToHexString(number);
 	}
 
-	/**
-	 * Converts Long number to hex string (plain text)
-	 *
-	 * @param number   Long number
-	 * @return         Hex string (i.e. FF23)
-	 *
-	 * @deprecated Planned to be removed, use {StringUtils#numberToHexString(Long)} instead
-	 */
 	// @Deprecated
 	API_VISIBLE StringPtr mXparser::numberToHexString(Long number) {
 		return StringUtils::numberToHexString(number);
 	}
 
-	/**
-	 * Converts (Long)double number to hex string (plain text)
-	 *
-	 * @param number   Double number
-	 * @return         Hex string (i.e. FF23)
-	 *
-	 * @deprecated Planned to be removed, use {StringUtils#numberToHexString(double)} instead
-	 */
 	// @Deprecated
 	API_VISIBLE StringPtr mXparser::numberToHexString(double number) {
 		return StringUtils::numberToHexString(number);
 	}
 
-	/**
-	 * Converts hex string into ASCII string, where each letter is
-	 * represented by two hex digits (byte) from the hex string.
-	 *
-	 * @param hexString   Hex string (i.e. 48656C6C6F)
-	 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
-	 *
-	 * @deprecated Planned to be removed, use {StringUtils#hexString2AsciiString(String)} instead
-	 */
 	// @Deprecated
 	API_VISIBLE StringPtr mXparser::hexString2AsciiString(const StringPtr &hexString) {
 		return StringUtils::hexString2AsciiString(hexString);
 	}
 
-	/**
-	 * Converts number into ASCII string, where each letter is
-	 * represented by two hex digits (byte) from the hex representation
-	 * of the original number
-	 *
-	 * @param number   Integer number (i.e. 310939249775 = '48656C6C6F')
-	 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
-	 *
-	 * @deprecated Planned to be removed, use {StringUtils#numberToAsciiString(int)} instead
-	 */
 	// @Deprecated
 	API_VISIBLE StringPtr mXparser::numberToAsciiString(int number) {
 		return StringUtils::numberToAsciiString(number);
 	}
 
-	/**
-	 * Converts number into ASCII string, where each letter is
-	 * represented by two hex digits (byte) from the hex representation
-	 * of the original number
-	 *
-	 * @param number   Long number (i.e. 310939249775 = '48656C6C6F')
-	 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
-	 *
-	 * @deprecated Planned to be removed, use {StringUtils#numberToAsciiString(Long)} instead
-	 */
 	// @Deprecated
 	API_VISIBLE StringPtr mXparser::numberToAsciiString(Long number) {
 		return StringUtils::numberToAsciiString(number);
 	}
 
-	/**
-	 * Converts (Long)double number into ASCII string, where each letter is
-	 * represented by two hex digits (byte) from the hex representation
-	 * of the original number cast to Long type.
-	 *
-	 * @param number   Double number (i.e. 310939249775 = '48656C6C6F')
-	 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
-	 *
-	 * @deprecated Planned to be removed, use {StringUtils#numberToAsciiString(double)} instead
-	 */
 	// @Deprecated
 	API_VISIBLE StringPtr mXparser::numberToAsciiString(double number) {
 		return StringUtils::numberToAsciiString(number);
 	}
 
-	/**
-	 * Other base (base between 1 and 36) number literal conversion to decimal number.
-	 *
-	 * @param numberLiteral    Number literal in given numeral system with base between
-	 *                         1 and 36. Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7,
-	 *                         8:8, 9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G, 17:H,
-	 *                         18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P, 26:Q, 27:R,
-	 *                         28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
-	 * @param numeralSystemBase             Numeral system base, between 1 and 36
-	 * @return                 Decimal number after conversion. If conversion was not
-	 *                         possible the Double::NaN is returned.
-	 */
 	API_VISIBLE double mXparser::convOthBase2Decimal(const StringPtr &numberLiteral, int numeralSystemBase) {
 		return NumberTheory::convOthBase2Decimal(numberLiteral, numeralSystemBase);
 	}
 
-	/**
-	 * Other base (base between 1 and 36) number literal conversion to decimal number.
-	 * Base specification included in number literal.
-	 *
-	 * Examples: 2 for b2.1001 or b.1001, 1 for b1.111, 23 for b23.123afg
-	 * 16 for b16.123acdf or h.123acdf.
-	 *
-	 * @param numberLiteral Number literal string.
-	 *
-	 * Base format: b1. b2. b. b3. b4. b5. b6. b7. b8. o. b9. b10. b11. b12.
-	 * b13. b14. b15. b16. h. b17. b18. b19. b20. b21. b22. b23. b24. b25. b26.
-	 * b27. b28. b29. b30. b31. b32. b33. b34. b35. b36.
-	 *
-	 * Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:A, 11:B, 12:C,
-	 * 13:D, 14:E, 15:F, 16:G, 17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P,
-	 * 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
-	 *
-	 * @return     Decimal number after conversion. If conversion was not
-	 *             possible the Double::NaN is returned.
-	 */
 	API_VISIBLE double mXparser::convOthBase2Decimal(const StringPtr &numberLiteral) {
 		return NumberTheory::convOthBase2Decimal(numberLiteral);
 	}
 
-	/**
-	 * Other base to decimal conversion.
-	 *
-	 * @param numeralSystemBase   Numeral system base has to be above 0.
-	 * @param digits              List of digits
-	 * @return                    Number after conversion. If conversion is not possible then
-	 *                            Double::NaN is returned.
-	 */
 	API_VISIBLE double mXparser::convOthBase2Decimal(int numeralSystemBase, const ListPtr<int> &digits) {
 		return NumberTheory::convOthBase2Decimal(numeralSystemBase, digits);
 	}
 
-	/**
-	 * Other base to decimal conversion.
-	 *
-	 * @param numeralSystemBase   Numeral system base has to be above 0.
-	 * @param digits              List of digits
-	 * @return                    Number after conversion. If conversion is not possible then
-	 *                            Double::NaN is returned.
-	 */
 	API_VISIBLE double mXparser::convOthBase2Decimal(double numeralSystemBase, const ListPtr<double> &digits) {
 		return NumberTheory::convOthBase2Decimal(numeralSystemBase, digits);
 	}
 
-	/**
-	 * Decimal number to other numeral system conversion with base
-	 * between 1 and 36.
-	 *
-	 * @param decimalNumber    Decimal number
-	 * @param numeralSystemBase       Numeral system base between 1 and 36
-	 * @return           Number literal representing decimal number in
-	 *                   given numeral system. Digits
-	 *                   0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8,
-	 *                   9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G,
-	 *                   17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O,
-	 *                   25:P, 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W,
-	 *                   33:X, 34:Y, 35:Z. If conversion was not possible
-	 *                   the "NaN" string is returned.
-	 */
 	API_VISIBLE StringPtr mXparser::convDecimal2OthBase(double decimalNumber, int numeralSystemBase) {
 		return NumberTheory::convDecimal2OthBase(decimalNumber, numeralSystemBase);
 	}
 
-	/**
-	 * Decimal number to other numeral system conversion with base
-	 * between 1 and 36.
-	 *
-	 * @param decimalNumber    Decimal number
-	 * @param numeralSystemBase       Numeral system base between 1 and 36
-	 * @param format     If 1 then always bxx-> is used, i.e. b1. or b16.
-	 *                   If 2 then for binary b. is used, for octal o. is used,
-	 *                   for hexadecimal h. is used, otherwise bxx-> is used
-	 *                   where xx is the numeral system base specification.
-	 *
-	 * @return           Number literal representing decimal number in
-	 *                   given numeral system.
-	 *
-	 * Base format: b1. b2. b. b3. b4. b5. b6. b7. b8. o. b9. b10. b11. b12.
-	 * b13. b14. b15. b16. h. b17. b18. b19. b20. b21. b22. b23. b24. b25. b26.
-	 * b27. b28. b29. b30. b31. b32. b33. b34. b35. b36.
-	 *
-	 * Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:A, 11:B, 12:C,
-	 * 13:D, 14:E, 15:F, 16:G, 17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P,
-	 * 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
-	 *
-	 * If conversion was not possible the "NaN" string is returned.
-	 */
 	API_VISIBLE StringPtr mXparser::convDecimal2OthBase(double decimalNumber, int numeralSystemBase, int format) {
 		return NumberTheory::convDecimal2OthBase(decimalNumber, numeralSystemBase, format);
 	}
 
-	/**
-	 * Converts double value to its fraction representation.
-	 *
-	 * @param value Value to be converted
-	 *
-	 * @return Array representing fraction. Sign at index 0,
-	 * numerator at index 1, denominator at index 2.
-	 * If conversion is not possible then Double::NaN is
-	 * assigned to all the fields.
-	 */
 	API_VISIBLE ArrayPtr<double> mXparser::toFraction(double value) {
 		return NumberTheory::toFraction(value);
 	}
 
-	/**
-	 * Converts double value to its mixed fraction representation.
-	 *
-	 * @param value Value to be converted
-	 *
-	 * @return Array representing fraction.
-	 * Sign at index 0, whole number at index 1,
-	 * numerator at index 2, denominator at index 3.
-	 * If conversion is not possible then Double::NaN is
-	 * assigned to both numerator and denominator.
-	 */
 	API_VISIBLE ArrayPtr<double> mXparser::toMixedFraction(double value) {
 		return NumberTheory::toMixedFraction(value);
 	}
 
-	/**
-	 * Converts array representing fraction to fraction string representation.
-	 *
-	 * @param fraction    Array representing fraction (including mix fractions)
-	 * @return  StringPtr representation of fraction.
-	 *
-	 * @see NumberTheory#toFraction(double)
-	 * @see NumberTheory#toMixedFraction(double)
-	 */
 	API_VISIBLE StringPtr mXparser::fractionToString(const ArrayPtr<double> &fraction) {
 		return NumberTheory::fractionToString(fraction);
 	}
 
-	/**
-	 * Converts number to its fraction string representation.
-	 *
-	 * @param value   Given number
-	 * @return  StringPtr representation of fraction.
-	 *
-	 * @see NumberTheory#toFraction(double)
-	 * @see NumberTheory#fractionToString(double[])
-	 */
 	API_VISIBLE StringPtr mXparser::toFractionString(double value) {
 		return NumberTheory::toFractionString(value);
 	}
 
-	/**
-	 * Converts number to its mixed fraction string representation.
-	 *
-	 * @param value   Given number
-	 * @return  StringPtr representation of fraction.
-	 *
-	 * @see NumberTheory#toMixedFraction(double)
-	 * @see NumberTheory#fractionToString(double[])
-	 */
 	API_VISIBLE StringPtr mXparser::toMixedFractionString(double value) {
 		return NumberTheory::toMixedFractionString(value);
 	}
@@ -1728,11 +963,6 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 	}
 
-	/**
-	 * Prints array of strings
-	 *
-	 * @param stringArray  array of strinfs
-	 */
 	API_VISIBLE void mXparser::consolePrintln(const ArrayPtr<StringPtr> &stringArray) {
 		if (stringArray == nullptr) {
 			consolePrintln("null");
@@ -1742,11 +972,6 @@ namespace org::mariuszgromada::math::mxparser {
 			consolePrintln(s);
 	}
 
-	/**
-	 * Prints array of strings
-	 *
-	 * @param stringList  array of strinfs
-	 */
 	API_VISIBLE void mXparser::consolePrintln(const ListPtr<StringPtr> &stringList) {
 		if (stringList == nullptr) {
 			consolePrintln("null");
@@ -1756,10 +981,6 @@ namespace org::mariuszgromada::math::mxparser {
 			consolePrintln(s);
 	}
 
-	/**
-	 * Prints new line to the Console, no new line
-	 *
-	 */
 	API_VISIBLE void mXparser::consolePrintln() {
 		LOCK(CONSOLE_OUTPUT);
 		initConsoleOutput();
@@ -1833,569 +1054,193 @@ namespace org::mariuszgromada::math::mxparser {
 		consolePrintSettings(StringInvariant::EMPTY);
 	}
 
-	/**
-	 * Resets console output string, console output
-	 * string is being built by consolePrintln(), consolePrint().
-	 *
-	 * @see mXparser#consolePrint(Object)
-	 * @see mXparser#consolePrintln(Object)
-	 * @see mXparser#consolePrintln()
-	 * @see mXparser#resetConsoleOutput()
-	 */
 	API_VISIBLE void mXparser::resetConsoleOutput() {
 		LOCK(CONSOLE_OUTPUT);
 		CONSOLE_OUTPUT->clear();
 		CONSOLE_ROW_NUMBER = 1;
 	}
 
-	/**
-	 * Sets default console prefix->
-	 */
 	API_VISIBLE void mXparser::setDefaultConsolePrefix() {
 		CONSOLE_PREFIX = UTF("[mXparser-v.") + VERSION + UTF("] ");
 	}
 
-	/**
-	 * Sets default console output string prefix->
-	 */
 	API_VISIBLE void mXparser::setDefaultConsoleOutputPrefix() {
 		CONSOLE_OUTPUT_PREFIX = UTF("[mXparser-v.") + VERSION + UTF("] ");
 	}
 
-	/**
-	 * Sets console prefix->
-	 *
-	 * @param consolePrefix StringPtr containing console prefix definition.
-	 */
 	API_VISIBLE void mXparser::setConsolePrefix(const StringPtr &consolePrefix) {
 		CONSOLE_PREFIX = consolePrefix;
 	}
 
-	/**
-	 * Sets console output string prefix->
-	 *
-	 * @param consoleOutputPrefix StringPtr containing console output prefix definition.
-	 */
 	API_VISIBLE void mXparser::setConsoleOutputPrefix(const StringPtr &consoleOutputPrefix) {
 		CONSOLE_OUTPUT_PREFIX = consoleOutputPrefix;
 	}
 
-	/**
-	 * Returns console output string, console output string
-	 * is being built by consolePrintln(), consolePrint().
-	 *
-	 * @return Console output string
-	 *
-	 * @see mXparser#consolePrint(Object)
-	 * @see mXparser#consolePrintln(Object)
-	 * @see mXparser#consolePrintln()
-	 * @see mXparser#resetConsoleOutput()
-	 */
 	API_VISIBLE StringPtr mXparser::getConsoleOutput() {
 		LOCK(HELP_EXPRESSION);
 		return CONSOLE_OUTPUT->toString();
 	}
 
-	/**
-	 * Returns detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @return One string value containing all the help.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelp() {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelp();
 	}
 
-	/**
-	 * Returns detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @return One string value containing all the help.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelp(const StringPtr &query) {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelp(query);
 	}
 
-	/**
-	 * Returns detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param addHeader Indicator whether to add a header.
-	 * @param addCaption Indicator whether to add caption.
-	 * @param caption If a non-standard caption is to be added, any string other than ""
-	 * will replace the standard caption with the one specified by the user.
-	 *
-	 * @return One string value containing all the help.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelp(bool addHeader, bool addCaption, const StringPtr &caption) {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelp(addHeader, addCaption, caption);
 	}
 
-	/**
-	 * Returns detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @param addHeader Indicator whether to add a header.
-	 * @param addCaption Indicator whether to add caption.
-	 * @param caption If a non-standard caption is to be added, any string other than ""
-	 *
-	 * @return One string value containing all the help.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelp(const StringPtr &query, bool addHeader, bool addCaption, const StringPtr &caption) {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelp(query, addHeader, addCaption, caption);
 	}
 
-	/**
-	 * Returns (as CSV) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @return One string value in CSV format containing all the help.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelpAsCsv() {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelpAsCsv();
 	}
 
-	/**
-	 * Returns (as CSV) detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @return One string value in CSV format containing all the help.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelpAsCsv(const StringPtr &query) {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelpAsCsv(query);
 	}
 
-	/**
-	 * Returns (as CSV) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @param quote Text qualifier.
-	 * @param delimiter Delimiter.
-	 * @param addHeader Indicator whether to add a header.
-	 *
-	 * @return One string value in CSV format containing all the help.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelpAsCsv(const StringPtr &quote, const StringPtr &delimiter, bool addHeader) {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelpAsCsv(quote, delimiter, addHeader);
 	}
 
-	/**
-	 * Returns (as CSV) detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @param quote Text qualifier.
-	 * @param delimiter Delimiter.
-	 * @param addHeader Indicator whether to add a header.
-	 *
-	 * @return One string value in CSV format containing all the help.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelpAsCsv(const StringPtr &query, const StringPtr &quote, const StringPtr &delimiter,
 	                                 bool addHeader) {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelpAsCsv(query, quote, delimiter, addHeader);
 	}
 
-	/**
-	 * Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @return One string value containing all the help. StringPtr in HTML table format.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelpAsHtmlTable() {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelpAsHtmlTable();
 	}
 
-	/**
-	 * Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @return One string value containing all the help. StringPtr in HTML table format.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelpAsHtmlTable(const StringPtr &query) {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelpAsHtmlTable(query);
 	}
 
-	/**
-	 * Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @param addHeader Indicator whether to add a header.
-	 * @param addCaption Indicator whether to add caption.
-	 * @param addFigure Indicator whether to add a FIGURE tag.
-	 * @param caption If a non-standard caption is to be added, use any string other than "".
-	 * @param cssClass If CSS class is to be added, use any string other than "".
-	 *
-	 * @return One string value containing all the help. StringPtr in HTML table format.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelpAsHtmlTable(bool addHeader, bool addCaption, bool addFigure, const StringPtr &caption,
 	                                       const StringPtr &cssClass) {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelpAsHtmlTable(addHeader, addCaption, addFigure, caption, cssClass);
 	}
 
-	/**
-	 * Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @param addHeader Indicator whether to add a header.
-	 * @param addCaption Indicator whether to add caption.
-	 * @param addFigure Indicator whether to add a FIGURE tag.
-	 * @param caption If a non-standard caption is to be added, use any string other than "".
-	 * @param cssClass If CSS class is to be added, use any string other than "".
-	 *
-	 * @return One string value containing all the help. StringPtr in HTML table format.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelpAsHtmlTable(const StringPtr &query, bool addHeader, bool addCaption, bool addFigure,
 	                                       const StringPtr &caption, const StringPtr &cssClass) {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelpAsHtmlTable(query, addHeader, addCaption, addFigure, caption, cssClass);
 	}
 
-	/**
-	 * Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @return One string value containing all the help. StringPtr in Markdown table format.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelpAsMarkdownTable() {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelpAsMarkdownTable();
 	}
 
-	/**
-	 * Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-
-	 * @return One string value containing all the help. StringPtr in Markdown table format.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelpAsMarkdownTable(const StringPtr &query) {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelpAsMarkdownTable(query);
 	}
 
-	/**
-	 * Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @param addHeader Indicator whether to add a header.
-	 * @param addCaption Indicator whether to add caption.
-	 * @param caption If a non-standard caption is to be added, use any string other than "".
-	 *
-	 * @return One string value containing all the help. StringPtr in Markdown table format.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelpAsMarkdownTable(bool addHeader, bool addCaption, const StringPtr &caption) {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelpAsMarkdownTable(addHeader, addCaption, caption);
 	}
 
-	/**
-	 * Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @param addHeader Indicator whether to add a header.
-	 * @param addCaption Indicator whether to add caption.
-	 * @param caption If a non-standard caption is to be added, use any string other than "".
-	 *
-	 * @return One string value containing all the help. StringPtr in Markdown table format.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelpAsMarkdownTable(const StringPtr &query, bool addHeader, bool addCaption,
 	                                           const StringPtr &caption) {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelpAsMarkdownTable(query, addHeader, addCaption, caption);
 	}
 
-	/**
-	 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @return One string value containing all the help. StringPtr in Json format.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelpAsJson() {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelpAsJson();
 	}
 
-	/**
-	 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @return One string value containing all the help. StringPtr in Json format.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelpAsJson(const StringPtr &query) {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelpAsJson(query);
 	}
 
-	/**
-	 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
-	 *
-	 * @param addCaption Indicator whether to add caption.
-	 * @param caption If a non-standard caption is to be added, use any string other than "".
-	 *
-	 * @return One string value containing all the help. StringPtr in Json format.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelpAsJson(bool addCaption, const StringPtr &caption) {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelpAsJson(addCaption, caption);
 	}
 
-	/**
-	 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
-	 * Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @param addCaption Indicator whether to add caption.
-	 * @param caption If a non-standard caption is to be added, use any string other than "".
-	 *
-	 * @return One string value containing all the help. StringPtr in Json format.
-	 */
 	API_VISIBLE StringPtr mXparser::getHelpAsJson(const StringPtr &query, bool addCaption, const StringPtr &caption) {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getHelpAsJson(query, addCaption, caption);
 	}
 
-	/**
-	 * Prints all help content.
-	 */
 	API_VISIBLE void mXparser::consolePrintHelp() {
 		consolePrintln(getHelp());
 	}
 
-	/**
-	 * Prints filtered help content. Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 */
 	API_VISIBLE void mXparser::consolePrintHelp(const StringPtr &query) {
 		consolePrintln(getHelp(query));
 	}
 
-	/**
-	 * Returns list of keywords known to the parser
-	 *
-	 * @return      List of keywords known to the parser.
-	 *
-	 * @see KeyWord
-	 * @see KeyWord#wordTypeId
-	 * @see mXparser#getHelp()
-	 */
 	API_VISIBLE ListPtr<KeyWordPtr> mXparser::getKeyWords() {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getKeyWords();
 	}
 
-	/**
-	 * Returns list of keywords known to the parser. Allows simple and advanced searches.
-	 *
-	 * @param query For a simple search, simply enter a word (e.g.: "sine").
-	 * Advanced search is also possible, please use one of the tags below:
-	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
-	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
-	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
-	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
-	 * Only one tag can be used per search.
-	 *
-	 * @return      List of keywords known to the parser filter against query string.
-	 *
-	 * @see KeyWord
-	 * @see KeyWord#wordTypeId
-	 * @see mXparser#getHelp(String)
-	 */
 	API_VISIBLE ListPtr<KeyWordPtr> mXparser::getKeyWords(const StringPtr &query) {
 		LOCK(HELP_EXPRESSION);
 		return HELP_EXPRESSION->getKeyWords(query);
 	}
 
-	/**
-	 * Function used to introduce some compatibility
-	 * between JAVA and C# while regexp matching.
-	 *
-	 * @param str         String
-	 * @param pattern     Pattern (regexp)
-	 *
-	 * @return            True if pattern matches entirely, False otherwise
-	 *
-	 * @deprecated Planned to be removed, use {StringUtils#regexMatch(String, String)} instead
-	 */
 	// @Deprecated
 	API_VISIBLE bool mXparser::regexMatch(const StringPtr &str, const StringPtr &pattern) {
 		return StringUtils::regexMatch(str, pattern);
 	}
 
-	/**
-	 * Prints tokens to the console.
-	 * @param tokens   Tokens list.
-	 *
-	 * @see Expression#getCopyOfInitialTokens()
-	 * @see Token
-	 */
 	API_VISIBLE void mXparser::consolePrintTokens(const ListPtr<TokenPtr> &tokens) {
 		Expression::showTokens(tokens);
 	}
 
-	/**
-	 * Prints tokens to the console.
-	 * @param tokens   Tokens list.
-	 *
-	 * @see Expression#getCopyOfInitialTokens()
-	 * @see Token
-	 */
 	API_VISIBLE void mXparser::consolePrint(const ListPtr<TokenPtr> &tokens) {
 		mXparser::consolePrintTokens(tokens);
 	}
 
-	/**
-	 * Prints tokens to the console.
-	 * @param tokens   Tokens list.
-	 *
-	 * @see Expression#getCopyOfInitialTokens()
-	 * @see Token
-	 */
 	API_VISIBLE void mXparser::consolePrintln(const ListPtr<TokenPtr> &tokens) {
 		mXparser::consolePrintTokens(tokens);
 		mXparser::consolePrintln();
 	}
 
-	/**
-	 * Prints to the console the terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT
-	 */
 	API_VISIBLE void mXparser::consolePrintLicense() {
 		License::consolePrintLicense();
 	}
 
-	/**
-	 * Gets license info
-	 *
-	 * @return     license info as string
-	 */
 	API_VISIBLE StringPtr mXparser::getLicense() {
 		return LICENSE;
 	}
 
-	/**
-	 * Waits given number of milliseconds
-	 *
-	 * @param timeMillis Number of milliseconds
-	 */
 	API_VISIBLE void mXparser::wait(int timeMillis) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(timeMillis));
 	}
 
-	/**
-	 * Method give a signal to other methods to cancel current calculation. This is a flag,
-	 * remember to reset this flag after process is cancelled and you are going to start
-	 * new calculation process.
-	  * Sets only the global cancellation signal; individual domains are unaffected.
-	 */
 	API_VISIBLE void mXparser::cancelCurrentCalculation() {
 		cancelCurrentCalculationFlag = true;
 	}
 
-	/**
-	 * Resets a flag giving signal to the engine to cancel current calculation.
-	 *
-	 * {cancelCurrentCalculation()}
-	  * Resets only the global cancellation signal; domain signals remain unchanged.
-	 */
 	API_VISIBLE void mXparser::resetCancelCurrentCalculationFlag() {
 		cancelCurrentCalculationFlag = false;
 	}
 
-	/**
-	 * Check whether a flag to cancel current calculation process is set.
-	 *
-	 * {cancelCurrentCalculation()}
-	 * {resetCancelCurrentCalculationFlag()}
-	 *
-	 * @return true in case cancel calculation flag is active,
-	 *        otherwise false
-	  * Reads only the global signal, independently of an active domain ID.
-	 */
 	API_VISIBLE bool mXparser::isCurrentCalculationCancelled() {
 		return cancelCurrentCalculationFlag;
 	}

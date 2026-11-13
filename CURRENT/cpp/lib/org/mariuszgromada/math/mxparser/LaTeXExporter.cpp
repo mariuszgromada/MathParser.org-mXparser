@@ -1,5 +1,5 @@
 /*
- * @(#)LaTeXExporter.cpp        6.2.0    2026-11-11
+ * @(#)LaTeXExporter.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -242,7 +242,9 @@
 namespace org::mariuszgromada::math::mxparser {
 using namespace parsertokens; using namespace wrapper; using namespace latex_detail;
 namespace {
-/** @version        6.2.0 */
+/**
+ * \version 6.2.0
+ */
 class ExporterImplementation {
 public:
 using object = std::any;
@@ -262,7 +264,9 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 	static const Map<Long, RulePtr>& RULES() { static const auto value = makeRules(); return value; }
 	static const Map<Text, Text>& UNICODE_NAMES() { static const auto value = makeUnicodeNames(); return value; }
 
-	/** @version        6.2.0 */
+	/**
+	 * \version 6.2.0
+	 */
 	enum class Style {
 		TEMPLATE, OPERATOR, LITERAL, DELIMITER, DIRECT_FUNCTION, NAMED_FUNCTION,
 		CASES_IF, CASES_IFF, CONTINUED_FRACTION, LIST_SUM, LIST_PRODUCT, MEAN,
@@ -270,13 +274,17 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 		NTH_DERIVATIVE, DIFFERENCE, SOLVE, NORMAL
 	};
 
-	/** @version        6.2.0 */
+	/**
+	 * \version 6.2.0
+	 */
 	struct Slot {
 		const int number;
 		Slot(int number) : number(number) {
 		}
 	};
-	/** @version        6.2.0 */
+	/**
+	 * \version 6.2.0
+	 */
 	struct Rule {
 		const Text symbol;
 		const std::vector<object> templ;
@@ -293,9 +301,11 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 			return false;
 		}
 	};
-	/** Presentation metadata for static templates, not source-language parsing.
+	/**
+	 * \brief Presentation metadata for static templates, not source-language parsing.
 	 * A scalar token can display a quotient, power or function call (units and
-	 * named constants), so token atomicity alone cannot decide parentheses. */
+	 * named constants), so token atomicity alone cannot decide parentheses.
+	 */
 	static bool atomicPresentation(Text templ) {
 		int depth = 0;
 		for (int i = 0; i < templ.length(); i++) {
@@ -321,7 +331,9 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 		registerRule(rules, type, id, new_Rule(symbol, templ, style, std::vector<int>{}, start, separator));
 	}
 
-	/** Compile only trusted, static templates. Substituted data is never parsed as a template. */
+	/**
+	 * \brief Compile only trusted, static templates. Substituted data is never parsed as a template.
+	 */
 	static std::vector<object> compileTemplate(Text templ) {
 		ListPtr<object> parts = new_List<object>();
 		TextBuilder text;
@@ -876,7 +888,9 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 		return n->token->tokenTypeId == BinaryRelation::TYPE_ID ? RELATION : LOGICAL;
 	}
 
-	/** @version        6.2.0 */
+	/**
+	 * \version 6.2.0
+	 */
 	struct Visit {
 		const NodePtr node = nullptr;
 		const bool forceCall;
@@ -897,10 +911,10 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 		return slashes % 2 != 0;
 	}
 
-	/** Iterative emission keeps long flat expressions off the Java call stack and
+	/**
+	 * \brief Iterative emission keeps long flat expressions off the Java call stack and
 	 * writes each generated fragment once to the bounded final buffer.
-	 *
-	 * @version        6.2.0
+	 * \version 6.2.0
 	 */
 	struct Renderer {
 		Stack<object> pending;
@@ -1266,11 +1280,11 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 		}
 	};
 
-	/** Decimal spelling metadata only: no floating evaluation or arbitrary-precision
+	/**
+	 * \brief Decimal spelling metadata only: no floating evaluation or arbitrary-precision
 	 * library. The same character/32-bit-integer algorithm ports to C# and C++.
 	 * Excessive exponents remain unclassified and use explicit symbolic ranges.
-	 *
-	 * @version        6.2.0
+	 * \version 6.2.0
 	 */
 	struct DecimalLiteral {
 		const int sign, order;
@@ -1402,10 +1416,14 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 		return names;
 	}
 
-	/** @version        6.2.0 */
+	/**
+	 * \version 6.2.0
+	 */
 	enum class Form { ATOM, CALL, PREFIX, POSTFIX, BINARY };
 
-	/** @version        6.2.0 */
+	/**
+	 * \version 6.2.0
+	 */
 	struct Node {
         Node* deleteNext = nullptr;
 		const TokenPtr token;
@@ -1416,7 +1434,9 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 		}
 	};
 
-	/** @version        6.2.0 */
+	/**
+	 * \version 6.2.0
+	 */
 	struct Part {
 		const TokenPtr token;
 		const int index;
@@ -1428,7 +1448,9 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 		}
 	};
 
-	/** @version        6.2.0 */
+	/**
+	 * \version 6.2.0
+	 */
 	struct Scope {
 		const TokenPtr call;
 		const int index;
@@ -1452,7 +1474,9 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 				|| (type == Token::NOT_MATCHED && Text(UTF("function")).equals(Text(token->looksLike)));
 	}
 
-	/** Delimiters and levels come from mXparser; no source text is parsed here. */
+	/**
+	 * \brief Delimiters and levels come from mXparser; no source text is parsed here.
+	 */
 	static NodePtr reconstruct(ListPtr<TokenPtr> tokens) {
 		if (tokens == nullptr) throw error(0, Text(UTF("missing token stream")));
 		if (tokens->size() > MAX_TOKENS) throw error(0, Text(UTF("token budget exceeded")));
@@ -1507,7 +1531,9 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 	 * ready fragments first, rightmost ready powers/tetrations, then first position in
 	 * each remaining group. A conventional precedence-only parser is insufficient
 	 * for signs and for mXparser's power/postfix/remainder ordering. */
-	/** @version        6.2.0 */
+	/**
+	 * \version 6.2.0
+	 */
 	struct Candidate {
 		Part* const part;
 		const int version;
@@ -1515,10 +1541,14 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 		Candidate(Part* part) : part(part), version(part->version), priority(binding(part->token, part->index)) {
 		}
 	};
-    /** @version        6.2.0 */
+    /**
+     * \version 6.2.0
+     */
     class CandidateQueue {
         using Comparator = std::function<int(const CandidatePtr&, const CandidatePtr&)>;
-        /** @version        6.2.0 */
+        /**
+         * \version 6.2.0
+         */
         struct Later { Comparator compare; bool operator()(const CandidatePtr& a, const CandidatePtr& b) const { return compare(a, b) > 0; } };
         std::priority_queue<CandidatePtr, std::vector<CandidatePtr>, Later> queue;
     public:
@@ -1538,9 +1568,11 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 		part->version++;
 		if (ready(part)) candidates.add(new_Candidate(part));
 	}
-	/** Linked fragments plus a queue of ready candidates preserve the original
+	/**
+	 * \brief Linked fragments plus a queue of ready candidates preserve the original
 	 * selection order without rescanning/shifting a flat expression quadratically.
-	 * Only the two surviving neighbours can become newly ready after a reduction. */
+	 * Only the two surviving neighbours can become newly ready after a reduction.
+	 */
 	static NodePtr reduce(ListPtr<PartPtr> parts, int index) {
 		if (parts->isEmpty()) throw error(index, Text(UTF("empty expression or argument")));
 		CandidateQueue candidates([](const CandidatePtr& a, const CandidatePtr& b) {
@@ -1606,7 +1638,9 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 	 * and the independent operator-combination audit together when that method changes.
 	 * The evaluator's exceptional multi-power selection with an unready negative
 	 * exponent is intentionally deferred to a separate engine investigation. */
-	/** @version        6.2.0 */
+	/**
+	 * \version 6.2.0
+	 */
 	enum class Binding {
 		TETRATION, POWER, FACTORIAL, PERCENT, REMAINDER, NEGATION, ROOT,
 		BIT_COMPLEMENT, PRODUCT, SUM, NOT_EQUAL, EQUAL, LESS, GREATER,

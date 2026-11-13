@@ -1,5 +1,5 @@
 /*
- * @(#)PrimesCache.cs        6.1.0    2024-10-06
+ * @(#)PrimesCache.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -218,80 +218,49 @@
 using System;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
-	 * Class for generating prime numbers cache using
-	 * Eratosthenes Sieve.
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        6.1.0
-	 */
+	/// <summary>Class for generating prime numbers cache using
+	/// Eratosthenes Sieve.</summary>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true)]
 	public class PrimesCache {
-		/**
-		 * Default range of integer to store in cache
-		 */
+		/// <summary>Default range of integer to store in cache</summary>
 		public const int DEFAULT_MAX_NUM_IN_CACHE = 10000000;
-		/**
-		 * Empty cache status
-		 */
+		/// <summary>Empty cache status</summary>
 		public const bool CACHE_EMPTY = false;
-		/**
-		 * Cache ready to use
-		 */
+		/// <summary>Cache ready to use</summary>
 		public const bool CACHING_FINISHED = true;
-		/**
-		 * Indicator if given number is a prime
-		 */
+		/// <summary>Indicator if given number is a prime</summary>
 		public const int IS_PRIME = 1;
-		/**
-		 * Indicator if given number is not a prime
-		 */
+		/// <summary>Indicator if given number is not a prime</summary>
 		public const int IS_NOT_PRIME = 0;
-		/**
-		 * Indicator that the value is not stored
-		 * in cache
-		 */
+		/// <summary>Indicator that the value is not stored
+		/// in cache</summary>
 		public const int NOT_IN_CACHE = -1;
-		/**
-		 * Primes between 0 ... and ... maximumNumberInCache
-		 * will be cached
-		 */
+		/// <summary>Primes between 0 ... and ... maximumNumberInCache
+		/// will be cached</summary>
 		internal int maxNumInCache;
-		/**
-		 * Number of cached prime numbers
-		 */
+		/// <summary>Number of cached prime numbers</summary>
 		internal int numberOfPrimes;
-		/**
-		 * Time in seconds showing
-		 * how long did it take to finalize prime numbers
-		 * caching.
-		 */
+		/// <summary>Time in seconds showing
+		/// how long did it take to finalize prime numbers
+		/// caching.</summary>
 		internal double computingTime;
-		/**
-		 * Caching process status
-		 */
+		/// <summary>Caching process status</summary>
 		internal bool cacheStatus;
-		/**
-		 * Integers table to store number and indicate
-		 * whether they are prime or not
-		 */
+		/// <summary>Integers table to store number and indicate
+		/// whether they are prime or not</summary>
 		internal bool[] isPrime;
-		/**
-		 * Internal flag marking that primes cache initialization was successful;
-		 */
+		/// <summary>Internal flag marking that primes cache initialization was successful;</summary>
 		bool initSuccessful;
-		/**
-		 * Eratosthenes Sieve implementation
-		 */
+		/// <summary>Eratosthenes Sieve implementation</summary>
 		private void EratosthenesSieve() {
 			long startTime = mXparser.currentTimeMillis();
 			try {
@@ -334,18 +303,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				computingTime = (endTime - startTime)/1000.0;
 			}
 		}
-		/**
-		 * Counting found primes
-		 */
+		/// <summary>Counting found primes</summary>
 		private void countPrimes() {
 			for (int i = 0; i <= maxNumInCache; i++) {
 				if (isPrime[i]) numberOfPrimes++;
 				if (mXparser.isCurrentCalculationCancelled()) return;
 			}
 		}
-		/**
-		 * Default constructor - setting prime cache for a default range if integers
-		 */
+		/// <summary>Default constructor - setting prime cache for a default range if integers</summary>
 		public PrimesCache() {
 
 			initSuccessful = false;
@@ -361,10 +326,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				numberOfPrimes = 0;
 			}
 		}
-		/**
-		 * Constructor - setting prime cache for a given range if integers
-		 * @param maxNumInCache Range of integers to be stored in prime cache
-		 */
+		/// <summary>Constructor - setting prime cache for a given range if integers</summary>
+		/// <param name="maxNumInCache">Range of integers to be stored in prime cache</param>
 		public PrimesCache(int maxNumInCache) {
 			if (maxNumInCache > 2)
 				this.maxNumInCache = Math.Min(maxNumInCache, int.MaxValue - 1);
@@ -383,39 +346,29 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				numberOfPrimes = 0;
 			}
 		}
-		/**
-		 * Returns computing time of Eratosthenes Sieve
-		 * @return Computing time in seconds
-		 */
+		/// <summary>Returns computing time of Eratosthenes Sieve</summary>
+		/// <returns>Computing time in seconds</returns>
 		public double getComputingTime() {
 			return computingTime;
 		}
-		/**
-		 * Returns cache status
-		 * @return PrimesCache.CACHE_EMPTY or PrimesCache.CACHING_FINISHED;
-		 */
+		/// <summary>Returns cache status</summary>
+		/// <returns>PrimesCache.CACHE_EMPTY or PrimesCache.CACHING_FINISHED;</returns>
 		public bool getCacheStatus() {
 			return cacheStatus;
 		}
-		/**
-		 * Returns number of found primes.
-		 * @return Number of found primes.
-		 */
+		/// <summary>Returns number of found primes.</summary>
+		/// <returns>Number of found primes.</returns>
 		public int getNumberOfPrimes() {
 			return numberOfPrimes;
 		}
-		/**
-		 * Returns cache range.
-		 * @return Maximum integera number in cache/
-		 */
+		/// <summary>Returns cache range.</summary>
+		/// <returns>Maximum integera number in cache/</returns>
 		public int getMaxNumInCache() {
 			return maxNumInCache;
 		}
-		/**
-		 * Check whether given number is prime
-		 * @param n Given integer number.
-		 * @return PrimesCache.IS_PRIME or PrimesCache.IS_NOT_PRIME or PrimesCache.NOT_IN_CACHE
-		 */
+		/// <summary>Check whether given number is prime</summary>
+		/// <param name="n">Given integer number.</param>
+		/// <returns>PrimesCache.IS_PRIME or PrimesCache.IS_NOT_PRIME or PrimesCache.NOT_IN_CACHE</returns>
 		public int primeTest(int n) {
 			if (n <= 1) return IS_NOT_PRIME;
 			if ( (n <= maxNumInCache) && (cacheStatus == CACHING_FINISHED) )
@@ -426,20 +379,15 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			else
 				return NOT_IN_CACHE;
 		}
-		/**
-		 * Returns true in case when primes cache initialization was successful,
-		 * otherwise returns false.
-		 *
-		 * @return Returns true in case when primes cache initialization was successful,
-		 * otherwise returns false.
-		 */
+		/// <summary>Returns true in case when primes cache initialization was successful,
+		/// otherwise returns false.</summary>
+		/// <returns>Returns true in case when primes cache initialization was successful,
+		/// otherwise returns false.</returns>
 		public bool isInitSuccessful() {
 			return initSuccessful;
 		}
-		/**
-		 * Gets underlying primes cache boolean table
-		 * @return Underlying primes cache boolean table
-		 */
+		/// <summary>Gets underlying primes cache boolean table</summary>
+		/// <returns>Underlying primes cache boolean table</returns>
 		bool[] getPrimes() {
 			return isPrime;
 		}

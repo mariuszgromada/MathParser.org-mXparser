@@ -1,5 +1,5 @@
 /*
- * @(#)ArgumentExtension.cs        6.1.0    2024-10-06
+ * @(#)ArgumentExtension.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -219,48 +219,35 @@ using System;
 
 namespace org.mariuszgromada.math.mxparser {
 
-	/**
-	 * ArgumentExtension provides interface for argument algorithm definition.
-	 * Argument can be interpreted as function with no (zero) parameters.
-	 * In this case algorithm definition is based on source code using
-	 * JAVA (for JAVA / Android) or .NET. If implemented Argument Extension
-	 * object can be further used while Argument object
-	 * construction, which means it can extend mXparser math collection.
-	 * mXparser extension with your own implementation can be achieved
-	 * by implementing ArgumentExtension interface, creating an ArgumentExtension
-	 * object, creating Argument object based on ArgumentExtension, adding Argument
-	 * object to Expression / mXparser definition.
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        5.2.0
-	 *
-	 * @see Argument
-	 */
+	/// <summary>ArgumentExtension provides interface for argument algorithm definition.
+	/// Argument can be interpreted as function with no (zero) parameters.
+	/// In this case algorithm definition is based on source code using
+	/// JAVA (for JAVA / Android) or .NET. If implemented Argument Extension
+	/// object can be further used while Argument object
+	/// construction, which means it can extend mXparser math collection.
+	/// mXparser extension with your own implementation can be achieved
+	/// by implementing ArgumentExtension interface, creating an ArgumentExtension
+	/// object, creating Argument object based on ArgumentExtension, adding Argument
+	/// object to Expression / mXparser definition.</summary>
+	/// <seealso cref="org.mariuszgromada.math.mxparser.Argument"/>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true)]
 	public interface ArgumentExtension {
-		/**
-		 * Actual algorithm implementation.
-		 *
-		 * @return Argument Extension value.
-		 */
+		/// <summary>Actual algorithm implementation.</summary>
+		/// <returns>Argument Extension value.</returns>
 		double getArgumentValue();
-		/**
-		 * Cloning in case of usage in Expression
-		 * with recursive statements.
-		 *
-		 * @return Returns ArgumentExtension object that was cloned.
-		 *
-		 * @see Expression#getRecursiveMode()
-		 */
+		/// <summary>Cloning in case of usage in Expression
+		/// with recursive statements.</summary>
+		/// <returns>Returns ArgumentExtension object that was cloned.</returns>
+		/// <seealso cref="org.mariuszgromada.math.mxparser.Expression.getRecursiveMode()"/>
 		ArgumentExtension clone();
 	}
 }

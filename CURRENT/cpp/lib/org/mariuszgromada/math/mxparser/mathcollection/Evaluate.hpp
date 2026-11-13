@@ -1,5 +1,5 @@
 /*
- * @(#)Evaluate.hpp        6.1.0    2024-10-06
+ * @(#)Evaluate.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -229,8 +229,28 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	public:
 		Evaluate() = delete;
 
+		/**
+		 * \brief Polynomial evaluation based on provided coefficients.
+		 * \param x                  Point at which polynomial will be evaluated
+		 * \param coefficients       Polynomial coefficients
+		 * \return Polynomial value
+		 */
 		static double polynomial(double x, const Array<double> &coefficients);
+		/**
+		 * \brief Polynomial evaluation for the \ref org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::logGamma(double)
+		 * \param x      Argument value
+		 * \param coef   List of polynomial coefficients
+		 * \param n      Polynomial degree
+		 * \return Polynomial value
+		 */
 		static double p1evl(double x, const Array<double> &coef, int n);
+		/**
+		 * \brief Polynomial evaluation for the \ref org::mariuszgromada::math::mxparser::mathcollection::SpecialFunctions::logGamma(double)
+		 * \param x      Argument value
+		 * \param coef   List of polynomial coefficients
+		 * \param n      Polynomial degree
+		 * \return Polynomial value
+		 */
 		static double polevl(double x, const Array<double> &coef, int n);
 	};
 } // namespace org::mariuszgromada::math::mxparser::mathcollection

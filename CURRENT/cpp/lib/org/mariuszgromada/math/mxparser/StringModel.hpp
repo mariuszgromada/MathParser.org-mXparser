@@ -1,5 +1,5 @@
 /*
- * @(#)StringModel.hpp        6.1.0    2024-10-06
+ * @(#)StringModel.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -246,18 +246,53 @@ namespace org::mariuszgromada::math::mxparser {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Sets a user-specific text resource object.
+		 * Using this object, you can provide your own text model or your own translations.
+		 * If the provided string resources object is null, no change will be done
+		 * and the current object will still be used.
+		 * \param stringResources A user-specific text resource object
+		 * \sa org::mariuszgromada::math::mxparser::StringResources
+		 */
 		static void setStringResources(const StringResourcesPtr &stringResources);
+		/**
+		 * \brief Sets default string resources.
+		 * \sa org::mariuszgromada::math::mxparser::StringResources
+		 */
 		static void setDefaultStringResources();
 		static void forceDefaultStringResources();
+		/**
+		 * \brief Sets default english string resources.
+		 * \sa org::mariuszgromada::math::mxparser::StringResources
+		 */
 		static void setDefaultEnglishStringResources();
 
 		// ***********************************************************
 
+		/**
+		 * \brief Gets currently used user-specific text resource object.
+		 * \return Currently used StringResources
+		 */
 		static StringResourcesPtr getStringResources();
 
 		// ***********************************************************
 
+				/**
+				 * \brief Displays the user-defined text resources used
+				 * and the effect of their use to generate descriptions
+				 * of the parser elements on the console.
+				 * \sa org::mariuszgromada::math::mxparser::StringResources
+				 * \sa org::mariuszgromada::math::mxparser::StringResources::print()
+				 * \sa org::mariuszgromada::math::mxparser::StringModel::printDescriptions()
+				 */
 				static void print();
+		/**
+		 * \brief Prints to the console the result of applying user-specific text resources
+		 * to generate parser description and objects. The method can help with
+		 * debugging when creating your own translations.
+		 * \sa org::mariuszgromada::math::mxparser::StringResources
+		 * \sa org::mariuszgromada::math::mxparser::StringModel::setStringResources(const StringResourcesPtr &)
+		 */
 		static void printDescriptions();
 
 		// ***********************************************************

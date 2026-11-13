@@ -1,5 +1,5 @@
 /*
- * @(#)CalcStepRecord.cpp        6.1.0    2024-10-06
+ * @(#)CalcStepRecord.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -228,18 +228,18 @@ namespace org::mariuszgromada::math::mxparser {
 
 	API_VISIBLE CalcStepRecord::CalcStepRecord() {
 		/**
-		 * If an expression makes a reference to a dependent argument or a user function then
+		 * \brief If an expression makes a reference to a dependent argument or a user function then
 		 * the calculation process will be done based on the calculation tree, where each group
 		 * will be a marker of a particular (different) leaf of this tree.
 		 */
 		numberGroup = 0;
 		/**
-		 * Marker of a step in a process of calculation of a given expression pointed by
+		 * \brief Marker of a step in a process of calculation of a given expression pointed by
 		 * a particular leaf in a calculation tree.
 		 */
 		numberGroupWithin = 0;
 		/**
-		 * Calculation step type.
+		 * \brief Calculation step type.
 		 * 1. If an expression string refers (at some point) to a dependent argument
 		 * then calculation step handling this dependent argument calculation
 		 * will be marked as type Argument.
@@ -250,24 +250,24 @@ namespace org::mariuszgromada::math::mxparser {
 		 * then this step will be marked as type Expression.
 		 *
 		 * Calculation step type
-		 * @see StepType
+		 * \sa org::mariuszgromada::math::mxparser::CalcStepRecord::StepType
 		 */
 		type = StepType::Unknown;
 		/**
-		 * Calculation step description - can be ana argument name, function name and or
+		 * \brief Calculation step description - can be ana argument name, function name and or
 		 * an expression string
 		 */
 		description = nullptr;
 		/**
-		 * Calculation step content - so what is really happening in this step
+		 * \brief Calculation step content - so what is really happening in this step
 		 */
 		content = nullptr;
 		/**
-		 * True if this is a first step in a given group.
+		 * \brief True if this is a first step in a given group.
 		 */
 		firstInGroup = false;
 		/**
-		 * True if this is a last step in a given group.
+		 * \brief True if this is a last step in a given group.
 		 */
 		lastInGroup = false;
 	}

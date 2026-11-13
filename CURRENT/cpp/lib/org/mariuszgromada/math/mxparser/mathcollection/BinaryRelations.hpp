@@ -1,5 +1,5 @@
 /*
- * @(#)BinaryRelations.hpp        6.1.0    2024-10-06
+ * @(#)BinaryRelations.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -227,31 +227,119 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		BinaryRelations() = delete;
 
 		/**
-		 * Default epsilon for comparison
+		 * \brief Default epsilon for comparison
 		 */
 		static constexpr double DEFAULT_COMPARISON_EPSILON = 0.00000000000001;
+		/**
+		 * \brief Sets comparison mode to EXACT.
+		 */
 		static void setExactComparison();
+		/**
+		 * \brief Sets comparison mode to EPSILON.
+		 */
 		static void setEpsilonComparison();
+		/**
+		 * \brief Sets epsilon value.
+		 * \param epsilon   Epsilon value (grater than 0).
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::BinaryRelations::setEpsilonComparison()
+		 */
 		static void setEpsilon(double epsilon);
+		/**
+		 * \brief Sets default epsilon value.
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::BinaryRelations::setEpsilonComparison()
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::BinaryRelations::DEFAULT_COMPARISON_EPSILON
+		 */
 		static void setDefaultEpsilon();
+		/**
+		 * \brief Returns current epsilon value.
+		 * \return Returns current epsilon value.
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::BinaryRelations::setEpsilonComparison()
+		 */
 		static double getEpsilon();
+		/**
+		 * \brief Checks if epsilon comparison mode is active;
+		 * \return True if epsilon mode is active, otherwise returns false.
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::BinaryRelations::setEpsilonComparison()
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::BinaryRelations::setExactComparison()
+		 */
 		static bool checkIfEpsilonMode();
+		/**
+		 * \brief Checks if exact comparison mode is active;
+		 * \return True if exact mode is active, otherwise returns false.
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::BinaryRelations::setEpsilonComparison()
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::BinaryRelations::setExactComparison()
+		 */
 		static bool checkIfExactMode();
+		/**
+		 * \brief Equality relation.
+		 * \param a                   the a number (a = b)
+		 * \param b                   the b number (a = b)
+		 * \return if a = Double.NaN or b = Double.NaN return Double.NaN,
+		 *             else if a = b return 1,
+		 *             otherwise return 0.
+		 */
 		static double eq(double a, double b);
+		/**
+		 * \brief Test for equality or almost equality.
+		 * \param a   First number
+		 * \param b   Second number
+		 * \return Returns true if both number are equal or are almost equal.
+		 * \sa org::mariuszgromada::math::mxparser::mathcollection::BinaryRelations::DEFAULT_COMPARISON_EPSILON
+		 */
 		static bool isEqualOrAlmost(double a, double b);
+		/**
+		 * \brief Inequality relation.
+		 * \param a                   the a number (a &lt;&gt; b)
+		 * \param b                   the b number (a &lt;&gt; b)
+		 * \return if a = Double.NaN or b = Double.NaN return Double.NaN,
+		 *             else if a &lt;&gt; b return 1,
+		 *             otherwise return 0.
+		 */
 		static double neq(double a, double b);
+		/**
+		 * \brief Lower than relation.
+		 * \param a                   the a number (a &lt; b)
+		 * \param b                   the b number (a &lt; b)
+		 * \return if a = Double.NaN or b = Double.NaN return Double.NaN,
+		 *             else if a &lt; b return 1,
+		 *             otherwise return 0.
+		 */
 		static double lt(double a, double b);
+		/**
+		 * \brief Greater than relation.
+		 * \param a                   the a number (a &gt; b)
+		 * \param b                   the b number (a &gt; b)
+		 * \return if a = Double.NaN or b = Double.NaN return Double.NaN,
+		 *             else if a &gt; b return 1,
+		 *             otherwise return 0.
+		 */
 		static double gt(double a, double b);
+		/**
+		 * \brief Lower or equal relation.
+		 * \param a                   the a number (a &lt;= b)
+		 * \param b                   the b number (a &lt;= b)
+		 * \return if a = Double.NaN or b = Double.NaN return Double.NaN,
+		 *             else if a &lt;= b return 1,
+		 *             otherwise return 0.
+		 */
 		static double leq(double a, double b);
+		/**
+		 * \brief Greater or equal relation.
+		 * \param a                   the a number (a &gt;= b)
+		 * \param b                   the b number (a &gt;= b)
+		 * \return if a = Double.NaN or b = Double.NaN return Double.NaN,
+		 *             else if a &gt;= b return 1,
+		 *             otherwise return 0.
+		 */
 		static double geq(double a, double b);
 
 	private:
 		/**
-		 * Epsilon for comparison
+		 * \brief Epsilon for comparison
 		 */
 		static inline double epsilon = DEFAULT_COMPARISON_EPSILON;
 		/**
-		 * COmparison mode indicator
+		 * \brief COmparison mode indicator
 		 */
 		static inline bool epsilonComparison = true;
 

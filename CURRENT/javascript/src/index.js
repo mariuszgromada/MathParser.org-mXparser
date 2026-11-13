@@ -311,6 +311,17 @@ function typedNativeArray(value, type) {
         || (element.kind === 'bigint' && element.native === 'Long' && value instanceof BigInt64Array);
 }
 
+/**
+ * Initializes an independent instance of the existing C++ engine in WebAssembly.
+ *
+ * Calculations on the returned API are synchronous. Native handles, including handles returned by methods,
+ * must be released with delete() when finished.
+ * @param {import("./index.d.ts").InitOptions} [options={}] - Emscripten initialization options; the caller's
+ *   object is not modified.
+ * @returns {Promise<import("./index.d.ts").MxParser>} A promise resolving to this module instance's public
+ *   API.
+ * @throws {TypeError} If options is not an object. Initialization failures reject the promise.
+ */
 export async function initMxParser(options = {}) {
     if (options === null || typeof options !== 'object' || Array.isArray(options)) throw new TypeError('Initialization options must be an object');
     // Emscripten mutates its Module object with exports. A fresh configuration
@@ -331,6 +342,12 @@ export async function initMxParser(options = {}) {
         owners = {...(catalog.objects.ErrorMessage ? {syntaxchecker: Object.create(null)} : {}), '': mx};
     // Immutable value construction, not a native object/handle/ownership system.
     mx.LongDouble = Object.freeze({
+        /**
+         * Creates an immutable binary128 value from its raw representation; no native handle is allocated.
+         * @param {bigint} bits - Unsigned 128-bit binary128 payload, not a numeric integer value.
+         * @returns {import("./index.d.ts").LongDouble} The immutable raw binary128 value.
+         * @throws {TypeError} If bits is not an unsigned 128-bit bigint.
+         */
         fromBits(bits) {
             return new LongDoubleValue(longDoubleToken, bits);
         }
@@ -467,6 +484,11 @@ export async function initMxParser(options = {}) {
         if (catalog.borrowed_lexer_handler?.get && self instanceof classes.TokenManagerErrorHandler) call(() => native[catalog.borrowed_lexer_handler.validate](self[handle]));
     }
 
+    /**
+     * Owning Embind handle to a native C++ object. Release each handle with delete(); cloneHandle() retains an
+     * alias, while native clone methods copy objects.
+     * @version 6.2.0
+     */
     class NativeHandle {
         get [handle]() {
             throw new TypeError('Invalid native handle receiver: use a constructor or factory from this mXparser module');
@@ -478,20 +500,38 @@ export async function initMxParser(options = {}) {
             Object.defineProperty(this, nativeHandleBrand, {value: true});
         }
 
+        /**
+         * Releases this handle's native ownership. Other owners may keep the object alive.
+         */
         delete() {
             return call(() => this[handle].delete());
         }
 
+        /**
+         * Checks whether this handle has been released.
+         * @returns {boolean} Whether this handle has been deleted.
+         */
         isDeleted() {
             return this[handle].isDeleted();
         }
 
+        /**
+         * Creates another owning handle to the same native object; it does not clone the object.
+         * @returns {NativeHandle} An alias handle. Release it separately with delete().
+         * @throws {TypeError} If this handle has been deleted.
+         */
         cloneHandle() {
             if (this.isDeleted()) throw new TypeError('Cannot copy a deleted native handle');
             validateBorrowedLexerHandlerHandle(this);
             return wrap(call(() => this[handle].clone()), {kind: 'handle', name: 'PrimitiveElement'});
         }
 
+        /**
+         * Compares native object identity rather than JavaScript wrapper identity.
+         * @param {NativeHandle} other - Handle to compare.
+         * @returns {boolean} Whether both handles refer to the same native object.
+         * @throws {TypeError} If either handle has been deleted.
+         */
         isAliasOf(other) {
             if (!(other instanceof NativeHandle)) return false;
             if (this.isDeleted() || other.isDeleted()) throw new TypeError('Cannot compare deleted native handles');

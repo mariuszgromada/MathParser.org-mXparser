@@ -1,5 +1,5 @@
 /*
- * @(#)LaTeXParser.cpp        6.2.0    2026-11-11
+ * @(#)LaTeXParser.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -253,7 +253,9 @@ StringPtr LaTeXParser::Node::getSourceText() const { return S(source->substr(sta
 LaTeXParser::NodePtr LaTeXParser::new_Node(Kind kind, Ptr<const String> text, SymbolStyle style, Ptr<const String> source, int start, int end, const std::vector<NodePtr>& children) {
     return NodePtr(new Node(kind, text, style, source, start, end, children), IterativeDelete<Node>{});
 }
-	/** @version        6.2.0 */
+	/**
+	 * \version 6.2.0
+	 */
 	class LaTeXParser::Parser {
 		friend class LaTeXParser;
 		const Text source;
@@ -297,8 +299,10 @@ LaTeXParser::NodePtr LaTeXParser::new_Node(Kind kind, Ptr<const String> text, Sy
 				else return;
 			}
 		}
-		/** TeX command arguments skip ordinary whitespace, not spacing macros:
-		 * a macro such as quad is itself the next argument token. */
+		/**
+		 * \brief TeX command arguments skip ordinary whitespace, not spacing macros:
+		 * a macro such as quad is itself the next argument token.
+		 */
 		void argumentSpace() {
 			while (position < source.length() && whitespace(source.charAt(position))) position++;
 		}

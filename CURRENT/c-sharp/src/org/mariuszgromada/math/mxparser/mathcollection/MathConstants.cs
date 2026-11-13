@@ -1,5 +1,5 @@
 /*
- * @(#)MathConstants.cs        6.1.0    2024-10-06
+ * @(#)MathConstants.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -219,272 +219,143 @@ using org.mariuszgromada.math.mxparser.parsertokens;
 using System;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
-	 * MathConstants - class representing the most important math constants.
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        5.2.0
-	 */
+	/// <summary>MathConstants - class representing the most important math constants.</summary>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true)]
 	public sealed class MathConstants {
-		/**
-		 * Pi, Archimedes' constant or Ludolph's number
-		 */
+		/// <summary>Pi, Archimedes' constant or Ludolph's number</summary>
 		public const double PI = 3.14159265358979323846264338327950288;
-		/**
-		 * Pi/2
-		 */
+		/// <summary>Pi/2</summary>
 		public static readonly double PIBY2 = PI / 2.0;
-		/**
-		 * 1/Pi
-		 */
+		/// <summary>1/Pi</summary>
 		public static readonly double PIINV = 1.0 / PI;
-		/**
-		 * Napier's constant, or Euler's number, base of Natural logarithm
-		 */
+		/// <summary>Napier's constant, or Euler's number, base of Natural logarithm</summary>
 		public const double E = 2.71828182845904523536028747135266249;
-		/**
-		 * Euler-Mascheroni constant
-		 */
+		/// <summary>Euler-Mascheroni constant</summary>
 		public const double EULER_MASCHERONI = 0.57721566490153286060651209008240243;
-		/**
-		 * Golden ratio
-		 */
+		/// <summary>Golden ratio</summary>
 		public const double GOLDEN_RATIO = 1.61803398874989484820458683436563811;
-		/**
-		 * Plastic constant
-		 */
+		/// <summary>Plastic constant</summary>
 		public const double PLASTIC = 1.32471795724474602596090885447809734;
-		/**
-		 * Embree-Trefethen constant
-		 */
+		/// <summary>Embree-Trefethen constant</summary>
 		public const double EMBREE_TREFETHEN = 0.70258;
-		/**
-		 * Feigenbaum constant
-		 */
+		/// <summary>Feigenbaum constant</summary>
 		public const double FEIGENBAUM_DELTA = 4.66920160910299067185320382046620161;
-		/**
-		 * Feigenbaum constant
-		 */
+		/// <summary>Feigenbaum constant</summary>
 		public const double FEIGENBAUM_ALFA = 2.50290787509589282228390287321821578;
-		/**
-		 * Feigenbaum constant
-		 */
+		/// <summary>Feigenbaum constant</summary>
 		public const double TWIN_PRIME = 0.66016181584686957392781211001455577;
-		/**
-		 * Meissel-Mertens constant
-		 */
+		/// <summary>Meissel-Mertens constant</summary>
 		public const double MEISSEL_MERTEENS = 0.26149721284764278375542683860869585;
-		/**
-		 * Brun's constant for twin primes
-		 */
+		/// <summary>Brun's constant for twin primes</summary>
 		public const double BRAUN_TWIN_PRIME = 1.902160583104;
-		/**
-		 * Brun's constant for prime quadruplets
-		 */
+		/// <summary>Brun's constant for prime quadruplets</summary>
 		public const double BRAUN_PRIME_QUADR = 0.8705883800;
-		/**
-		 * de Bruijn-Newman constant
-		 */
+		/// <summary>de Bruijn-Newman constant</summary>
 		public const double BRUIJN_NEWMAN = -2.7E-9;
-		/**
-		 * Catalan's constant
-		 */
+		/// <summary>Catalan's constant</summary>
 		public const double CATALAN = 0.91596559417721901505460351493238411;
-		/**
-		 * Landau-Ramanujan constant
-		 */
+		/// <summary>Landau-Ramanujan constant</summary>
 		public const double LANDAU_RAMANUJAN = 0.76422365358922066299069873125009232;
-		/**
-		 * Viswanath's constant
-		 */
+		/// <summary>Viswanath's constant</summary>
 		public const double VISWANATH = 1.13198824;
-		/**
-		 * Legendre's constant
-		 */
+		/// <summary>Legendre's constant</summary>
 		public const double LEGENDRE = 1.0;
-		/**
-		 * Ramanujan-Soldner constant
-		 */
+		/// <summary>Ramanujan-Soldner constant</summary>
 		public const double RAMANUJAN_SOLDNER = 1.45136923488338105028396848589202744;
-		/**
-		 * Erdos-Borwein constant
-		 */
+		/// <summary>Erdos-Borwein constant</summary>
 		public const double ERDOS_BORWEIN = 1.60669515241529176378330152319092458;
-		/**
-		 * Bernstein's constant
-		 */
+		/// <summary>Bernstein's constant</summary>
 		public const double BERNSTEIN = 0.28016949902386913303;
-		/**
-		 * Gauss-Kuzmin-Wirsing constant
-		 */
+		/// <summary>Gauss-Kuzmin-Wirsing constant</summary>
 		public const double GAUSS_KUZMIN_WIRSING = 0.30366300289873265859744812190155623;
-		/**
-		 * Hafner-Sarnak-McCurley constant
-		 */
+		/// <summary>Hafner-Sarnak-McCurley constant</summary>
 		public const double HAFNER_SARNAK_MCCURLEY = 0.35323637185499598454;
-		/**
-		 * Golomb-Dickman constant
-		 */
+		/// <summary>Golomb-Dickman constant</summary>
 		public const double GOLOMB_DICKMAN = 0.62432998854355087099293638310083724;
-		/**
-		 * Cahen's constant
-		 */
+		/// <summary>Cahen's constant</summary>
 		public const double CAHEN = 0.6434105463;
-		/**
-		 * Laplace limit
-		 */
+		/// <summary>Laplace limit</summary>
 		public const double LAPLACE_LIMIT = 0.66274341934918158097474209710925290;
-		/**
-		 * Alladi-Grinstead constant
-		 */
+		/// <summary>Alladi-Grinstead constant</summary>
 		public const double ALLADI_GRINSTEAD = 0.8093940205;
-		/**
-		 * Lengyel's constant
-		 */
+		/// <summary>Lengyel's constant</summary>
 		public const double LENGYEL = 1.0986858055;
-		/**
-		 * Levy's constant
-		 */
+		/// <summary>Levy's constant</summary>
 		public const double LEVY = 3.27582291872181115978768188245384386;
-		/**
-		 * Apery's constant
-		 */
+		/// <summary>Apery's constant</summary>
 		public const double APERY = 1.20205690315959428539973816151144999;
-		/**
-		 * Mills' constant
-		 */
+		/// <summary>Mills' constant</summary>
 		public const double MILLS = 1.30637788386308069046861449260260571;
-		/**
-		 * Backhouse's constant
-		 */
+		/// <summary>Backhouse's constant</summary>
 		public const double BACKHOUSE = 1.45607494858268967139959535111654356;
-		/**
-		 * Porter's constant
-		 */
+		/// <summary>Porter's constant</summary>
 		public const double PORTER = 1.4670780794;
-		/**
-		 * Porter's constant
-		 */
+		/// <summary>Porter's constant</summary>
 		public const double LIEB_QUARE_ICE = 1.5396007178;
-		/**
-		 * Niven's constant
-		 */
+		/// <summary>Niven's constant</summary>
 		public const double NIVEN = 1.70521114010536776428855145343450816;
-		/**
-		 * Sierpiński's constant
-		 */
+		/// <summary>Sierpiński's constant</summary>
 		public const double SIERPINSKI = 2.58498175957925321706589358738317116;
-		/**
-		 * Khinchin's constant
-		 */
+		/// <summary>Khinchin's constant</summary>
 		public const double KHINCHIN = 2.68545200106530644530971483548179569;
-		/**
-		 * Fransén-Robinson constant
-		 */
+		/// <summary>Fransén-Robinson constant</summary>
 		public const double FRANSEN_ROBINSON = 2.80777024202851936522150118655777293;
-		/**
-		 * Landau's constant
-		 */
+		/// <summary>Landau's constant</summary>
 		public const double LANDAU = 0.5432589653429767;
-		/**
-		 * Parabolic constant
-		 */
+		/// <summary>Parabolic constant</summary>
 		public const double PARABOLIC = 2.29558714939263807403429804918949039;
-		/**
-		 * Omega constant
-		 */
+		/// <summary>Omega constant</summary>
 		public const double OMEGA = 0.56714329040978387299996866221035555;
-		/**
-		 * MRB constant
-		 */
+		/// <summary>MRB constant</summary>
 		public const double MRB = 0.18785964246206712024851793405427;
-		/**
-		 * A069284 - Logarithmic integral function li(2)
-		 */
+		/// <summary>A069284 - Logarithmic integral function li(2)</summary>
 		public const double LI2 = 1.045163780117492784844588889194613136522615578151;
-		/**
-		 * Gompertz Constant OEIS A073003
-		 */
+		/// <summary>Gompertz Constant OEIS A073003</summary>
 		public const double GOMPERTZ = 0.596347362323194074341078499369279376074;
-		/**
-		 * Square root of 2
-		 */
+		/// <summary>Square root of 2</summary>
 		public static readonly double SQRT2 = Math.Sqrt(2.0);
-		/**
-		 * Square root of pi
-		 */
+		/// <summary>Square root of pi</summary>
 		public const double SQRTPi = 1.772453850905516027298167483341145182797549456122387128213d;
-		/**
-		 * Square root of 2*pi
-		 */
+		/// <summary>Square root of 2*pi</summary>
 		public const double SQRT2Pi = 2.5066282746310005024157652848110452530069867406099d;
-		/**
-		 * Natural logarithm of pi
-		 */
+		/// <summary>Natural logarithm of pi</summary>
 		public static readonly double LNPI = MathFunctions.ln(PI);
-		/**
-		 * Tetration left convergence limit
-		 */
+		/// <summary>Tetration left convergence limit</summary>
 		public static readonly double EXP_MINUS_E = Math.Pow(E, -E);
-		/**
-		 * Tetration right convergence limit
-		 */
+		/// <summary>Tetration right convergence limit</summary>
 		public static readonly double EXP_1_OVER_E = Math.Pow(E, 1.0 / E);
-		/**
-		 * 1 over e
-		 */
+		/// <summary>1 over e</summary>
 		public const double EXP_MINUS_1 = 1.0 / Math.E;
-		/**
-		 * Natural logarithm of sqrt(2)
-		 */
+		/// <summary>Natural logarithm of sqrt(2)</summary>
 		public static readonly double LN_SQRT2 = MathFunctions.ln(SQRT2);
-		/**
-		 * SQRT2BY2
-		 */
+		/// <summary>SQRT2BY2</summary>
 		public static readonly double SQRT2BY2 = SQRT2 / 2.0;
-		/**
-		 * SQRT3
-		 */
+		/// <summary>SQRT3</summary>
 		public static readonly double SQRT3 = Math.Sqrt(3.0);
-		/**
-		 * SQRT3BY2
-		 */
+		/// <summary>SQRT3BY2</summary>
 		public static readonly double SQRT3BY2 = SQRT3 / 2.0;
-		/**
-		 * D2BYSQRT3
-		 */
+		/// <summary>D2BYSQRT3</summary>
 		public static readonly double D2BYSQRT3 = 2.0 / SQRT3;
-		/**
-		 * SQRT3BY3
-		 */
+		/// <summary>SQRT3BY3</summary>
 		public static readonly double SQRT3BY3 = SQRT3 / 3.0;
-		/**
-		 * SQRT5
-		 */
+		/// <summary>SQRT5</summary>
 		public static readonly double SQRT5 = Math.Sqrt(5.0);
-		/**
-		 * Not-a-Number
-		 */
+		/// <summary>Not-a-Number</summary>
 		public const double NOT_A_NUMBER = Double.NaN;
-        /**
-		 * Returns constant value, where constant is represented by the
-		 * token id in the ConstantValue class
-		 * 
-		 * @param constantValueId Please refer to the ConstantValue class.
-		 * @return Returns constant value if id is known, otherwise Double.NaN is returned.
-		 * 
-		 * @see ConstantValue
-		 */
+        /// <summary>Returns constant value, where constant is represented by the
+        /// token id in the ConstantValue class</summary>
+        /// <param name="constantValueId">Please refer to the ConstantValue class.</param>
+        /// <returns>Returns constant value if id is known, otherwise Double.NaN is returned.</returns>
+        /// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.ConstantValue"/>
         public static double getConstantValue(int constantValueId) {
 			switch (constantValueId) {
 				case ConstantValue.PI_ID: return MathConstants.PI;

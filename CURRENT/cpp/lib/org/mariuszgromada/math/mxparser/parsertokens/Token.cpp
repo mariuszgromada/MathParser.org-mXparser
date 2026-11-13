@@ -1,5 +1,5 @@
 /*
- * @(#)Token.cpp        6.1.1    2026-05-17
+ * @(#)Token.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -246,9 +246,6 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 	using namespace org::mariuszgromada::math::mxparser;
 	using namespace org::mariuszgromada::math::mxparser::wrapper;
 
-	/**
-	 * Default constructor
-	 */
 	API_VISIBLE Token::Token() {
 		tokenStr = nullptr;
 		keyWord = nullptr;
@@ -269,12 +266,6 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		looksLike = nullptr;
 	}
 
-	/**
-	 * Verification if the token is a left unary Operator::
-	 *
-	 * @return true in case token is unary left operator,
-	 * otherwise returns false
-	 */
 	API_VISIBLE bool Token::isUnaryLeftOperator(const TokenPtr& token) {
 		if (token->tokenTypeId == Operator::TYPE_ID) {
 			if (token->tokenId == Operator::SQUARE_ROOT_ID) return true;
@@ -290,12 +281,6 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		return false;
 	}
 
-	/**
-	 * Verification if the token is a right unary Operator::
-	 *
-	 * @return true in case token is unary right operator,
-	 * otherwise returns false
-	 */
 	API_VISIBLE bool Token::isUnaryRightOperator(const TokenPtr& token) {
 		if (token->tokenTypeId == Operator::TYPE_ID) {
 			if (token->tokenId == Operator::FACT_ID) return true;
@@ -304,32 +289,14 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		return false;
 	}
 
-	/**
-	 * Verification if the token is a left parenthesis.
-	 *
-	 * @return true in case token is a left parenthesis,
-	 * otherwise returns false
-	 */
 	API_VISIBLE bool Token::isLeftParenthesis(const TokenPtr& token) {
 		return token->tokenTypeId == ParserSymbol::TYPE_ID && token->tokenId == ParserSymbol::LEFT_PARENTHESES_ID;
 	}
 
-	/**
-	 * Verification if the token is a right parenthesis.
-	 *
-	 * @return true in case token is a right parenthesis,
-	 * otherwise returns false
-	 */
 	API_VISIBLE bool Token::isRightParenthesis(const TokenPtr& token) {
 		return token->tokenTypeId == ParserSymbol::TYPE_ID && token->tokenId == ParserSymbol::RIGHT_PARENTHESES_ID;
 	}
 
-	/**
-	 * Verification if the token is an identifier.
-	 *
-	 * @return true in case token is an identifier,
-	 * otherwise returns false
-	 */
 	API_VISIBLE bool Token::isIdentifier(const TokenPtr& token) {
 		return token->tokenTypeId == Constant::TYPE_ID ||
 		       token->tokenTypeId == ConstantValue::TYPE_ID ||
@@ -337,12 +304,6 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		       token->tokenTypeId == Argument::TYPE_ID;
 	}
 
-	/**
-	 * Verification if the token is a binary Operator::
-	 *
-	 * @return true in case token is a binary operator,
-	 * otherwise returns false
-	 */
 	API_VISIBLE bool Token::isBinaryOperator(const TokenPtr& token) {
 		if (isUnaryLeftOperator(token)) return false;
 		if (isUnaryRightOperator(token)) return false;
@@ -359,43 +320,19 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		return false;
 	}
 
-	/**
-	 * Verification if the token is a parameter separator.
-	 *
-	 * @return true in case token is a parameter separator,
-	 * otherwise returns false
-	 */
 	API_VISIBLE bool Token::isParameterSeparator(const TokenPtr& token) {
 		return token->tokenTypeId == ParserSymbol::TYPE_ID && token->tokenId == ParserSymbol::COMMA_ID;
 	}
 
-	/**
-	 * Verification if the token is a number.
-	 *
-	 * @return true in case token is a number,
-	 * otherwise returns false
-	 */
 	API_VISIBLE bool Token::isNumber(const TokenPtr& token) {
 		return token->tokenTypeId == ParserSymbol::NUMBER_TYPE_ID && token->tokenId == ParserSymbol::NUMBER_ID;
 	}
 
-	/**
-	 * Verification if the token is represented by a special name in the form [...].
-	 *
-	 * @return true in case token is represented by a special name in the form [...],
-	 * otherwise returns false
-	 */
 	API_VISIBLE bool Token::isSpecialTokenName(const TokenPtr& token) {
 		if (token->tokenStr->empty()) return false;
 		return token->tokenStr->at(0) == '[';
 	}
 
-	/**
-	 * Verification if the token represents unicode root operator
-	 *
-	 * @return true in case token represents unicode root operator
-	 * otherwise returns false
-	 */
 	API_VISIBLE bool Token::isUnicodeRootOperator(const TokenPtr& token) {
 		if (token->tokenTypeId == Operator::TYPE_ID) {
 			if (token->tokenId == Operator::SQUARE_ROOT_ID) return true;
@@ -405,11 +342,6 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		return false;
 	}
 
-	/**
-	 * Creates token representing multiplication Operator::
-	 *
-	 * @return token representing multiplication Operator::
-	 */
 	API_VISIBLE TokenPtr Token::makeMultiplyToken() {
 		TokenPtr multiplyToken = new_Token();
 		multiplyToken->tokenTypeId = Operator::TYPE_ID;
@@ -417,23 +349,12 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		multiplyToken->tokenStr = Operator::MULTIPLY_STR;
 		return multiplyToken;
 	}
-	/**
-	 * Creates token representing number.
-	 *
-	 * @return token representing number.
-	 */
 	API_VISIBLE TokenPtr Token::makeNumberToken() {
 		TokenPtr numberToken = new_Token();
 		numberToken->tokenTypeId = ParserSymbol::NUMBER_TYPE_ID;
 		numberToken->tokenId = ParserSymbol::NUMBER_ID;
 		return numberToken;
 	}
-	/**
-	 * Creates token representing number.
-	 *
-	 * @param number Number
-	 * @return token representing number.
-	 */
 	API_VISIBLE TokenPtr Token::makeNumberToken(double number, int tokenLevel) {
 		TokenPtr numberToken = makeNumberToken();
 		numberToken->tokenValue = number;
@@ -441,11 +362,6 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		numberToken->tokenLevel = tokenLevel;
 		return numberToken;
 	}
-	/**
-	 * Creates token representing comma parser symbol.
-	 *
-	 * @return token representing comma parser symbol.
-	 */
 	API_VISIBLE TokenPtr Token::makeCommaToken() {
 		TokenPtr commaToken = new_Token();
 		commaToken->tokenTypeId = ParserSymbol::TYPE_ID;
@@ -454,22 +370,11 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		commaToken->keyWord = ParserSymbol::COMMA_STR;
 		return commaToken;
 	}
-	/**
-	 * Creates token representing comma parser symbol.
-	 *
-	 * @param tokenLevel Level of token in the token lists.
-	 * @return token representing comma parser symbol.
-	 */
 	API_VISIBLE TokenPtr Token::makeCommaToken(int tokenLevel) {
 		TokenPtr commaToken = makeCommaToken();
 		commaToken->tokenLevel = tokenLevel;
 		return commaToken;
 	}
-	/**
-	 * Creates token representing left parenthesis parser symbol.
-	 *
-	 * @return token representing left parenthesis parser symbol.
-	 */
 	API_VISIBLE TokenPtr Token::makeLeftParenthesisToken() {
 		TokenPtr leftParenthesisToken = new_Token();
 		leftParenthesisToken->tokenTypeId = ParserSymbol::TYPE_ID;
@@ -478,22 +383,11 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		leftParenthesisToken->keyWord = ParserSymbol::LEFT_PARENTHESES_STR;
 		return leftParenthesisToken;
 	}
-	/**
-	 * Creates token representing left parenthesis parser symbol.
-	 *
-	 * @param tokenLevel Level of token in the token lists.
-	 * @return token representing left parenthesis parser symbol.
-	 */
 	API_VISIBLE TokenPtr Token::makeLeftParenthesisToken(int tokenLevel) {
 		TokenPtr leftParenthesisToken = makeLeftParenthesisToken();
 		leftParenthesisToken->tokenLevel = tokenLevel;
 		return leftParenthesisToken;
 	}
-	/**
-	 * Creates token representing right parenthesis parser symbol.
-	 *
-	 * @return token representing right parenthesis parser symbol.
-	 */
 	API_VISIBLE TokenPtr Token::makeRightParenthesisToken() {
 		TokenPtr rightParenthesisToken = new_Token();
 		rightParenthesisToken->tokenTypeId = ParserSymbol::TYPE_ID;
@@ -502,22 +396,11 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		rightParenthesisToken->keyWord = ParserSymbol::RIGHT_PARENTHESES_STR;
 		return rightParenthesisToken;
 	}
-	/**
-	 * Creates token representing right parenthesis parser symbol.
-	 *
-	 * @param tokenLevel Level of token in the token lists.
-	 * @return token representing right parenthesis parser symbol.
-	 */
 	API_VISIBLE TokenPtr Token::makeRightParenthesisToken(int tokenLevel) {
 		TokenPtr rightParenthesisToken = makeRightParenthesisToken();
 		rightParenthesisToken->tokenLevel = tokenLevel;
 		return rightParenthesisToken;
 	}
-	/**
-	 * Creates token representing derivative calculus operator.
-	 *
-	 * @return token representing derivative calculus operator.
-	 */
 	API_VISIBLE TokenPtr Token::makeDerToken() {
 		TokenPtr derToken = new_Token();
 		derToken->tokenTypeId = CalculusOperator::TYPE_ID;
@@ -526,22 +409,11 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		derToken->keyWord = CalculusOperator::DER_STR;
 		return derToken;
 	}
-	/**
-	 * Creates token representing derivative calculus operator.
-	 *
-	 * @param tokenLevel Level of token in the token lists.
-	 * @return token representing derivative calculus operator.
-	 */
 	API_VISIBLE TokenPtr Token::makeDerToken(int tokenLevel) {
 		TokenPtr derToken = makeDerToken();
 		derToken->tokenLevel = tokenLevel;
 		return derToken;
 	}
-	/**
-	 * Creates token representing user argument token.
-	 *
-	 * @return token representing user argument token.
-	 */
 	API_VISIBLE TokenPtr Token::makeArgumentToken(const StringPtr& argumentName, int argumentIndex, int tokenLevel, double initialValue) {
 		TokenPtr argumentToken = new_Token();
 		argumentToken->tokenTypeId = Argument::TYPE_ID;
@@ -553,12 +425,6 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		return argumentToken;
 	}
 	//StringPtr Token::getTypeDesc() {return BinaryRelation::TYPE_DESC;}
-	/**
-	 * Returns token type description.
-	 *
-	 * @param tokenTypeId Token type id
-	 * @return StringPtr representing token type description.
-	 */
 	API_VISIBLE StringPtr Token::getTokenTypeDescription(int tokenTypeId) {
 		switch (tokenTypeId) {
 			case ParserSymbol::TYPE_ID: return ParserSymbol::TYPE_DESC;
@@ -583,9 +449,6 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		}
 	}
 
-	/**
-	 * Token cloning.
-	 */
 	API_VISIBLE TokenPtr Token::clone(const TokenPtr& token) {
 		TokenPtr tokenClone = new_Token();
 		tokenClone->keyWord = token->keyWord;

@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialValueTrigonometric.cpp        6.1.0    2024-10-06
+ * @(#)SpecialValueTrigonometric.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -227,32 +227,32 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser::wrapper;
 
 	/**
-	 * List of special values of inverse sine function
+	 * \brief List of special values of inverse sine function
 	 */
 	API_VISIBLE ListPtr<SpecialValuePtr> SpecialValueTrigonometric::valuesListAsin = nullptr;
 	/**
-	 * List of special values of inverse cosine function
+	 * \brief List of special values of inverse cosine function
 	 */
 	API_VISIBLE ListPtr<SpecialValuePtr> SpecialValueTrigonometric::valuesListAcos = nullptr;
 	/**
-	 * List of special values of inverse tangent function
+	 * \brief List of special values of inverse tangent function
 	 */
 	API_VISIBLE ListPtr<SpecialValuePtr> SpecialValueTrigonometric::valuesListAtan = nullptr;
 	/**
-	 * List of special values of inverse cotangent function
+	 * \brief List of special values of inverse cotangent function
 	 */
 	API_VISIBLE ListPtr<SpecialValuePtr> SpecialValueTrigonometric::valuesListActan = nullptr;
 	/**
-	 * List of special values of inverse secant function
+	 * \brief List of special values of inverse secant function
 	 */
 	API_VISIBLE ListPtr<SpecialValuePtr> SpecialValueTrigonometric::valuesListAsec = nullptr;
 	/**
-	 * List of special values of inverse cosecant function
+	 * \brief List of special values of inverse cosecant function
 	 */
 	API_VISIBLE ListPtr<SpecialValuePtr> SpecialValueTrigonometric::valuesListAcsc = nullptr;
 
 	/**
-	 * List of special values for all main trigonometric functions
+	 * \brief List of special values for all main trigonometric functions
 	 */
 	API_VISIBLE SpecialValueTrigonometricPtr SpecialValueTrigonometric::valuesListTrig[] = {
 		/* 0 degrees ------- */
@@ -375,7 +375,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 
 	/**
-	 * factor: Angle factor in Pi radians
+	 * \brief factor: Angle factor in Pi radians
 	 * xrad: Angle in radians
 	 * xdeg: Angle in degrees
 	 * xradFrom: Angle in radians - the start of the interval where the function value is given
@@ -388,16 +388,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * csc: The cosecant function value
 	 */
 
-	/**
-	 * Main constructor
-	 * @param factor  The angle provided as a factor of PI
-	 * @param sin     The sine function value
-	 * @param cos     The cosine function value
-	 * @param tan     The tangent function value
-	 * @param ctan    The cotangent function value
-	 * @param sec     The secant function value
-	 * @param csc     The cosecant function value
-	 */
 	API_VISIBLE SpecialValueTrigonometric::SpecialValueTrigonometric(double factor, double sin, double cos, double tan, double ctan,
 	                                                     double sec, double csc) {
 		this->factor = factor;
@@ -438,13 +428,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		}
 	}
 
-	/**
-	 * Returns special values of trigonometric functions
-	 *
-	 * @param xrad   The angle provided in radians
-	 * @return       Returns special values of trigonometric functions object if the special value was found for a given x
-	 * otherwise returns null
-	 */
 	API_VISIBLE SpecialValueTrigonometricPtr SpecialValueTrigonometric::getSpecialValueTrigonometric(double xrad) {
 		if (SpecialValue::specialCasesDisabled) return nullptr;
 		if (Double::isNaN(xrad)) return nullptr;
@@ -455,71 +438,35 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return nullptr;
 	}
 
-	/**
-	 * Returns special value of inverse trigonometric sine function
-	 * @param x    The sine value
-	 * @return     Returns special value object if special value was found,
-	 * otherwise returns null.
-	 */
 	API_VISIBLE SpecialValuePtr SpecialValueTrigonometric::getSpecialValueAsin(double x) {
 		return getSpecialValue(x, valuesListAsin);
 	}
 
-	/**
-	 * Returns special value of inverse trigonometric cosine function
-	 * @param x    The cosine value
-	 * @return     Returns special value object if special value was found,
-	 * otherwise returns null.
-	 */
 	API_VISIBLE SpecialValuePtr SpecialValueTrigonometric::getSpecialValueAcos(double x) {
 		return getSpecialValue(x, valuesListAcos);
 	}
 
-	/**
-	 * Returns special value of inverse trigonometric tangent function
-	 * @param x    The tangent value
-	 * @return     Returns special value object if special value was found,
-	 * otherwise returns null.
-	 */
 	API_VISIBLE SpecialValuePtr SpecialValueTrigonometric::getSpecialValueAtan(double x) {
 		return getSpecialValue(x, valuesListAtan);
 	}
 
-	/**
-	 * Returns special value of inverse trigonometric cotangent function
-	 * @param x    The cotangent value
-	 * @return     Returns special value object if special value was found,
-	 * otherwise returns null.
-	 */
 	API_VISIBLE SpecialValuePtr SpecialValueTrigonometric::getSpecialValueActan(double x) {
 		return getSpecialValue(x, valuesListActan);
 	}
 
-	/**
-	 * Returns special value of inverse trigonometric secant function
-	 * @param x    The secant value
-	 * @return     Returns special value object if special value was found,
-	 * otherwise returns null.
-	 */
 	API_VISIBLE SpecialValuePtr SpecialValueTrigonometric::getSpecialValueAsec(double x) {
 		return getSpecialValue(x, valuesListAsec);
 	}
 
-	/**
-	 * Returns special value of inverse trigonometric cosecant function
-	 * @param x    The cosecant value
-	 * @return     Returns special value object if special value was found,
-	 * otherwise returns null.
-	 */
 	API_VISIBLE SpecialValuePtr SpecialValueTrigonometric::getSpecialValueAcsc(double x) {
 		return getSpecialValue(x, valuesListAcsc);
 	}
 
 	/**
-	 * Returns special value of inverse trigonometric function
-	 * @param x              The trigonometric function value value
-	 * @param valuesList     List of special values of a given trigonometric function
-	 * @return               Returns special value object if special value was found,
+	 * \brief Returns special value of inverse trigonometric function
+	 * \param x              The trigonometric function value value
+	 * \param valuesList     List of special values of a given trigonometric function
+	 * \return Returns special value object if special value was found,
 	 * otherwise returns null.
 	 */
 	SpecialValuePtr SpecialValueTrigonometric::getSpecialValue(double x, const ListPtr<SpecialValuePtr> &valuesList) {

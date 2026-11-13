@@ -1,5 +1,5 @@
 /*
- * @(#)ParserSymbol.cs        6.1.0    2024-10-06
+ * @(#)ParserSymbol.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -218,26 +218,19 @@
 using System;
 
 namespace org.mariuszgromada.math.mxparser.parsertokens {
-	/**
-	 * Parser symbols - mXparser tokens definition.
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
-	 *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
-	 *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *
-	 * @version        6.1.0
-	 */
+	/// <summary>Parser symbols - mXparser tokens definition.</summary>
+	/// <remarks><para>Author: <b>Mariusz Gromada</b><br/>
+	///                 <a href="https://mathparser.org">MathParser.org - mXparser project page</a><br/>
+	///                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser">mXparser on GitHub</a><br/>
+	///                 <a href="https://payhip.com/INFIMA">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br/>
+	///                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br/>
+	///                 <a href="https://scalarmath.org/">ScalarMath.org - a powerful math engine and math scripting language</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite">Scalar Lite</a><br/>
+	///                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro">Scalar Pro</a><br/>
+	///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
 	[CLSCompliant(true)]
 	public sealed class ParserSymbol {
-		/**
-		* ParserSymbol - reg exp patterns.
-		*/
+		/// <summary>ParserSymbol - reg exp patterns.</summary>
 		/*
 		 * ParserSymbol - reg exp patterns.
 		 */
@@ -440,23 +433,17 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 				+ "(" + nameOnlyTokenOptBracketsRegExp + ANY_NUMBER_LITERAL_REG_EXP + ")+" + "(" + nameOnlyTokenOptBracketsRegExp + ")?"
 				+ ")";
 
-		/**
-		 * ParserSymbol - token type id.
-		 */
+		/// <summary>ParserSymbol - token type id.</summary>
 		public const int TYPE_ID = 20;
 		public static String TYPE_DESC = ParserSymbol.NA;
-        /**
-		 * ParserSymbol - tokens id.
-		 */
+        /// <summary>ParserSymbol - tokens id.</summary>
         public const int LEFT_PARENTHESES_ID				= 1;
 		public const int RIGHT_PARENTHESES_ID				= 2;
 		public const int COMMA_ID							= 3;
 		public const int BLANK_ID							= 4;
 		public const int NUMBER_ID							= 1;
 		public const int NUMBER_TYPE_ID						= 0;
-		/**
-		 * ParserSymbol - tokens key words.
-		 */
+		/// <summary>ParserSymbol - tokens key words.</summary>
 		public const String LEFT_PARENTHESES_STR 			= "(";
 		public const String RIGHT_PARENTHESES_STR			= ")";
 		public const String COMMA_STR						= ",";

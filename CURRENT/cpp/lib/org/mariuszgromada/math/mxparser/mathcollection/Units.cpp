@@ -1,5 +1,5 @@
 /*
- * @(#)Units.cpp        6.1.0    2024-10-06
+ * @(#)Units.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -226,15 +226,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser::wrapper;
 
 
-	/**
-	 * Returns unit value, where unit is represented by the
-	 * token id in the Unit class
-	 *
-	 * @param unitId
-	 * @return Returns unit value if id is known, otherwise Double.NaN is returned.
-	 *
-	 * @see Unit
-	 */
 	API_VISIBLE double Units::getUnitValue(int unitId) {
 		switch (unitId) {
 			case Unit::PERC_ID: return PERC;

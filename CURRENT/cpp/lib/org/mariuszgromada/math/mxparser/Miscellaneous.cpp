@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.cpp        6.1.0    2024-10-06
+ * @(#)Miscellaneous.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -242,7 +242,7 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	*/
 
 	/**
-	 * Package level class for handling function parameters.
+	 * \brief Package level class for handling function parameters.
 	 */
 	API_VISIBLE FunctionParameter::FunctionParameter(const ListPtr<TokenPtr> &tokens, const StringPtr &paramStr, int fromIndex,
 	                                     int toIndex) {
@@ -253,8 +253,8 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	}
 
 	/**
-	* Package level class for generating iterative operator parameters
-	*/
+	 * \brief Package level class for generating iterative operator parameters
+	 */
 	API_VISIBLE IterativeOperatorParameters::IterativeOperatorParameters(const ListPtr<FunctionParameterPtr> &functionParameters) {
 		/*
 		 * Get index string
@@ -292,8 +292,8 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	}
 
 	/**
-	* Handling argument parameters
-	*/
+	 * \brief Handling argument parameters
+	 */
 	API_VISIBLE ArgumentParameter::ArgumentParameter() {
 		argument = nullptr;
 		initialValue = Double::NaN;
@@ -303,10 +303,10 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	}
 
 	/**
-	* Internal token class
-	* which is used with stack while
-	* evaluation of tokens levels
-	*/
+	 * \brief Internal token class
+	 * which is used with stack while
+	 * evaluation of tokens levels
+	 */
 	API_VISIBLE TokenStackElement::TokenStackElement() {
 		tokenIndex = ConstantValue::NaN;
 		tokenId = ConstantValue::NaN;
@@ -316,8 +316,8 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	}
 
 	/**
-	*
-	*/
+
+	 */
 	API_VISIBLE SyntaxStackElement::SyntaxStackElement(const StringPtr &tokenStr, int tokenLevel) {
 		this->tokenStr = tokenStr;
 		this->tokenLevel = tokenLevel;
@@ -330,10 +330,10 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	*/
 
 	/**
-	* Comparator for key word list sorting by key word string.
-	* This king of sorting is used while checking the syntax
-	* (duplicated key word error)
-	*/
+	 * \brief Comparator for key word list sorting by key word string.
+	 * This king of sorting is used while checking the syntax
+	 * (duplicated key word error)
+	 */
 	API_VISIBLE bool KwStrComparator::operator()(const KeyWordPtr &kw1, const KeyWordPtr &kw2) const {
 		StringPtr s1 = kw1->wordString;
 		StringPtr s2 = kw2->wordString;
@@ -341,12 +341,11 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	}
 
 	/**
-	* Comparator for key word list sorting by
-	* descending key word length
-	* .
-	* This king of sorting is used while tokenizing
-	* (best match)
-	*/
+	 * \brief Comparator for key word list sorting by
+	 * descending key word length.
+	 * This king of sorting is used while tokenizing
+	 * (best match)
+	 */
 	API_VISIBLE bool DescKwLenComparator::operator()(const KeyWordPtr &kw1, const KeyWordPtr &kw2) const {
 		size_t l1 = kw1->wordString->length();
 		size_t l2 = kw2->wordString->length();
@@ -354,9 +353,9 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	}
 
 	/**
-	* Comparator for key word list sorting by
-	* type of the key word
-	*/
+	 * \brief Comparator for key word list sorting by
+	 * type of the key word
+	 */
 	API_VISIBLE bool KwTypeComparator::operator()(const KeyWordPtr &kw1, const KeyWordPtr &kw2) const {
 		size_t t1 = kw1->wordTypeId * 1000000 + kw1->wordId * 1000 + kw1->wordString->length();
 		size_t t2 = kw2->wordTypeId * 1000000 + kw2->wordId * 1000 + kw2->wordString->length();
@@ -405,7 +404,7 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	}
 
 	/**
-	 * Data structure used internally for token to be modified list
+	 * \brief Data structure used internally for token to be modified list
 	 */
 	API_VISIBLE TokenModification::TokenModification() {
 		currentToken = nullptr;
@@ -414,7 +413,7 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	}
 
 	/**
-	 * Data structure used in tokenization
+	 * \brief Data structure used in tokenization
 	 * searching for implied multiplication
 	 * in case of a token i a form of one name
 	 * for instance x2x2 = x2*x2

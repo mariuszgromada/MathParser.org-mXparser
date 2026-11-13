@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.hpp        6.1.0    2024-10-06
+ * @(#)Constant.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -263,61 +263,99 @@ namespace org::mariuszgromada::math::mxparser {
 		// ********************** CONSTRUCTORS ***********************
 		// ***********************************************************
 
+		/**
+		 * \brief Constructor - creates constant with a given name and given value
+		 * \param constantName        the constant name
+		 * \param constantValue       the constant value
+		 */
 		Constant(const StringPtr &constantName, double constantValue) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(constantName, constantValue);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,double)
+		 */
 		Constant(const String &constantName, double constantValue) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), constantValue);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,double)
+		 */
 		Constant(const std::string &constantName, double constantValue) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), constantValue);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,double)
+		 */
 		Constant(const std::string *constantName, double constantValue) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(*constantName), constantValue);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,double)
+		 */
 		Constant(const Char *constantName, double constantValue) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), constantValue);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,double)
+		 */
 		Constant(const char *constantName, double constantValue) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), constantValue);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,double)
+		 */
 		Constant(const StringPtr &constantName, int constantValue) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(constantName, CAST_DOUBLE(constantValue));
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,double)
+		 */
 		Constant(const String &constantName, int constantValue) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), CAST_DOUBLE(constantValue));
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,double)
+		 */
 		Constant(const std::string &constantName, int constantValue) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), CAST_DOUBLE(constantValue));
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,double)
+		 */
 		Constant(const std::string *constantName, int constantValue) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(*constantName), CAST_DOUBLE(constantValue));
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,double)
+		 */
 		Constant(const Char *constantName, int constantValue) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), CAST_DOUBLE(constantValue));
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,double)
+		 */
 		Constant(const char *constantName, int constantValue) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), CAST_DOUBLE(constantValue));
 			iAmFullyConstructed = true;
@@ -325,61 +363,101 @@ namespace org::mariuszgromada::math::mxparser {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Constructor - creates constant with a given name and given value.
+		 * Additionally, description is being set.
+		 * \param constantName        the constant name
+		 * \param constantValue       the constant value
+		 * \param description         the constant description
+		 */
 		Constant(const StringPtr &constantName, int constantValue, const StringPtr &description) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(constantName, CAST_DOUBLE(constantValue), description);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,int,const StringPtr &)
+		 */
 		Constant(const String &constantName, int constantValue, const String &description) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), CAST_DOUBLE(constantValue), S(description));
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,int,const StringPtr &)
+		 */
 		Constant(const std::string &constantName, int constantValue, const std::string &description) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), CAST_DOUBLE(constantValue), S(description));
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,int,const StringPtr &)
+		 */
 		Constant(std::string &constantName, int constantValue, std::string &description) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), CAST_DOUBLE(constantValue), S(description));
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,int,const StringPtr &)
+		 */
 		Constant(const Char *constantName, int constantValue, const Char *description) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), CAST_DOUBLE(constantValue), S(description));
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,int,const StringPtr &)
+		 */
 		Constant(const char *constantName, int constantValue, const char *description) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), CAST_DOUBLE(constantValue), S(description));
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,int,const StringPtr &)
+		 */
 		Constant(const StringPtr &constantName, double constantValue, const StringPtr &description) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(constantName, constantValue, description);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,int,const StringPtr &)
+		 */
 		Constant(const String &constantName, double constantValue, const String &description) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), constantValue, S(description));
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,int,const StringPtr &)
+		 */
 		Constant(const std::string &constantName, double constantValue, const std::string &description) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), constantValue, S(description));
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,int,const StringPtr &)
+		 */
 		Constant(std::string &constantName, double constantValue, std::string &description) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), constantValue, S(description));
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,int,const StringPtr &)
+		 */
 		Constant(const Char *constantName, double constantValue, const Char *description) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), constantValue, S(description));
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::Constant(const StringPtr &,int,const StringPtr &)
+		 */
 		Constant(const char *constantName, double constantValue, const char *description) : PrimitiveElement(TYPE_ID) {
 			executeContructorConst(S(constantName), constantValue, S(description));
 			iAmFullyConstructed = true;
@@ -388,14 +466,10 @@ namespace org::mariuszgromada::math::mxparser {
 		// ***********************************************************
 
 		/**
-		 * Constructor for function definition in natural math language,
-		 * for instance providing on string "f(x,y) = sin(x) + cos(x)"
-		 * is enough to define function "f" with parameters "x and y"
-		 * and function body "sin(x) + cos(x)".
-		 *
-		 * @param constantDefinitionString      Constant definition in the form
-		 *                                      of one String, ie "c = 2" or "c = 2*sin(pi/3)"
-		 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions
+		 * \brief Constructs a constant by evaluating a definition such as `c = 2*sin(pi/3)`.
+		 * \param constantDefinitionString The constant name and expression, separated by `=`.
+		 * \param elements Definitions available while evaluating the expression.
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
 		 */
 		template<typename... PrimitiveElements>
 		explicit Constant(const StringPtr &constantDefinitionString, PrimitiveElements &&... elements) : PrimitiveElement(TYPE_ID) {
@@ -404,14 +478,10 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 
 		/**
-		 * Constructor for function definition in natural math language,
-		 * for instance providing on string "f(x,y) = sin(x) + cos(x)"
-		 * is enough to define function "f" with parameters "x and y"
-		 * and function body "sin(x) + cos(x)".
-		 *
-		 * @param constantDefinitionString      Constant definition in the form
-		 *                                      of one String, ie "c = 2" or "c = 2*sin(pi/3)"
-		 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions
+		 * \brief Constructs a constant by evaluating a definition such as `c = 2*sin(pi/3)`.
+		 * \param constantDefinitionString The constant name and expression, separated by `=`.
+		 * \param elements Definitions available while evaluating the expression.
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
 		 */
 		template<typename... PrimitiveElements>
 		explicit Constant(const String &constantDefinitionString, PrimitiveElements &&... elements) : PrimitiveElement(TYPE_ID) {
@@ -419,24 +489,48 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructs a constant by evaluating a definition such as `c = 2*sin(pi/3)`.
+		 * \param constantDefinitionString The constant name and expression, separated by `=`.
+		 * \param elements Definitions available while evaluating the expression.
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		explicit Constant(const std::string &constantDefinitionString, PrimitiveElements &&... elements) : PrimitiveElement(TYPE_ID) {
 			executeContructorConstPE(S(constantDefinitionString), FORWARD_PRIMITIVE(elements)...);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructs a constant by evaluating a definition such as `c = 2*sin(pi/3)`.
+		 * \param constantDefinitionString The constant name and expression, separated by `=`.
+		 * \param elements Definitions available while evaluating the expression.
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		explicit Constant(std::string &constantDefinitionString, PrimitiveElements &&... elements) : PrimitiveElement(TYPE_ID) {
 			executeContructorConstPE(S(constantDefinitionString), FORWARD_PRIMITIVE(elements)...);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructs a constant by evaluating a definition such as `c = 2*sin(pi/3)`.
+		 * \param constantDefinitionString The constant name and expression, separated by `=`.
+		 * \param elements Definitions available while evaluating the expression.
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		explicit Constant(const Char *constantDefinitionString, PrimitiveElements &&... elements) : PrimitiveElement(TYPE_ID) {
 			executeContructorConstPE(S(constantDefinitionString), FORWARD_PRIMITIVE(elements)...);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructs a constant by evaluating a definition such as `c = 2*sin(pi/3)`.
+		 * \param constantDefinitionString The constant name and expression, separated by `=`.
+		 * \param elements Definitions available while evaluating the expression.
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		explicit Constant(const char *constantDefinitionString, PrimitiveElements &&... elements) : PrimitiveElement(TYPE_ID) {
 			executeContructorConstPE(S(constantDefinitionString), FORWARD_PRIMITIVE(elements)...);
@@ -451,61 +545,126 @@ namespace org::mariuszgromada::math::mxparser {
 		// ***********************************************************
 
 		/**
-		 * When constant could not be found
+		 * \brief When constant could not be found
 		 */
 		static constexpr int NOT_FOUND = Expression::NOT_FOUND;
 		/**
-		 * Status of the syntax - no syntax error
+		 * \brief Status of the syntax - no syntax error
 		 */
 		static constexpr bool NO_SYNTAX_ERRORS = Expression::NO_SYNTAX_ERRORS;
 		/**
-		 * Status of the syntax - syntax error
+		 * \brief Status of the syntax - syntax error
 		 */
 		static constexpr bool SYNTAX_ERROR = Expression::SYNTAX_ERROR;
 		/**
-		 * Status of the syntax - syntax error
-		 *
-		 * @deprecated Planned to be removed, use {link #SYNTAX_ERROR} instead
+		 * \brief Status of the syntax - syntax error
+		 * \deprecated Planned to be removed, use {link #SYNTAX_ERROR} instead
 		 */
 		// @Deprecated
 		static constexpr bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = SYNTAX_ERROR;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Gets constant name
+		 * \return the constant name as string.
+		 */
 		StringPtr getConstantName();
 
 		// ***********************************************************
 
+		/**
+		 * \brief Sets constant name. If constant is associated with any expression
+		 * then this operation will set modified flag to each related expression.
+		 * \param constantName        the constant name
+		 */
 		void setConstantName(const StringPtr &constantName);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::setConstantName(const StringPtr &)
+		 */
 		void setConstantName(const String &constantName) { setConstantName(S(constantName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::setConstantName(const StringPtr &)
+		 */
 		void setConstantName(const std::string &constantName) { setConstantName(SC(constantName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::setConstantName(const StringPtr &)
+		 */
 		void setConstantName(const Char* constantName) { setConstantName(SC(constantName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::setConstantName(const StringPtr &)
+		 */
 		void setConstantName(const char* constantName) { setConstantName(SC(constantName)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Sets constant value
+		 * \param constantValue   constant value
+		 */
 		void setConstantValue(double constantValue);
+		/**
+		 * \brief Gets constant value.
+		 * \return constant value as double
+		 */
 		double getConstantValue() const;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Gets constant description.
+		 * \return constant description as string.
+		 */
 		StringPtr getDescription();
 
 		// ***********************************************************
 
+		/**
+		 * \brief Sets constant description.
+		 * \param description         the constant description
+		 */
 		void setDescription(const StringPtr &description);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::setDescription(const StringPtr &)
+		 */
 		void setDescription(const String &description) { setDescription(S(description)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::setDescription(const StringPtr &)
+		 */
 		void setDescription(const Char *description) { setDescription(S(description)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::setDescription(const StringPtr &)
+		 */
 		void setDescription(const std::string &description) { setDescription(S(description)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Constant::setDescription(const StringPtr &)
+		 */
 		void setDescription(const char *description) { setDescription(S(description)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Returns the diagnostic message for this constant's definition.
+		 * \return The definition validation message.
+		 */
 		StringPtr getErrorMessage();
+		/**
+		 * \brief Returns the syntax status of the constant definition.
+		 * \return true if the definition has no syntax errors; false otherwise.
+		 */
 		bool getSyntaxStatus() const;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Creates a completely independent 1-1 clone that can be safely used
+		 * by a separate thread. If the cloned element contains references
+		 * to other elements (e.g. arguments, functions, constants),
+		 * then they will also be cloned and the newly created element will
+		 * contain references to the corresponding clones.
+		 * Important - the API allows you to extract all these clones.
+		 * \return Cloned object.
+		 */
 		ConstantPtr cloneForThreadSafe();
 
 	public: /* but should be private */
@@ -568,36 +727,57 @@ namespace org::mariuszgromada::math::mxparser {
 		STATIC_VARS_INITI_H;
 	};
 
+	/**
+	 * \brief Constructor - creates constant with a given name and given value
+	 * \param constantName        the constant name
+	 * \param constantValue       the constant value
+	 * \return A shared pointer to the new Constant instance.
+	 */
 	inline ConstantPtr new_Constant(const StringPtr &constantName, double constantValue) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double)
+	 */
 	inline ConstantPtr new_Constant(const String &constantName, double constantValue) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double)
+	 */
 	inline ConstantPtr new_Constant(const std::string &constantName, double constantValue) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double)
+	 */
 	inline ConstantPtr new_Constant(std::string &constantName, double constantValue) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double)
+	 */
 	inline ConstantPtr new_Constant(const Char *constantName, double constantValue) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double)
+	 */
 	inline ConstantPtr new_Constant(const char *constantName, double constantValue) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue);
 		constant->postConstructorSync();
@@ -605,30 +785,50 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 
+	/**
+	 * \brief Constructor - creates constant with a given name and given value.
+	 * Additionally, description is being set.
+	 * \param constantName        the constant name
+	 * \param constantValue       the constant value
+	 * \param description         the constant description
+	 * \return A shared pointer to the new Constant instance.
+	 */
 	inline ConstantPtr new_Constant(const StringPtr &constantName, double constantValue, const StringPtr &description) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue, description);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double,const StringPtr &)
+	 */
 	inline ConstantPtr new_Constant(StringPtr &constantName, double constantValue, StringPtr &description) {
 		ConstantPtr constant = std::make_shared<Constant>(CONST_STRING_PTR(constantName), constantValue, CONST_STRING_PTR(description));
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double,const StringPtr &)
+	 */
 	inline ConstantPtr new_Constant(const String &constantName, double constantValue, const String &description) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue, description);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double,const StringPtr &)
+	 */
 	inline ConstantPtr new_Constant(String &constantName, double constantValue, String &description) {
 		ConstantPtr constant = std::make_shared<Constant>(CONST_STRING(constantName), constantValue, CONST_STRING(description));
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double,const StringPtr &)
+	 */
 	inline ConstantPtr new_Constant(const std::string &constantName, double constantValue, const std::string &description) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue, description);
 		constant->postConstructorSync();
@@ -636,114 +836,171 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double,const StringPtr &)
+	 */
 	inline ConstantPtr new_Constant(std::string &constantName, double constantValue, std::string &description) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue, description);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double,const StringPtr &)
+	 */
 	inline ConstantPtr new_Constant(const Char *constantName, double constantValue, const Char *description) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue, description);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double,const StringPtr &)
+	 */
 	inline ConstantPtr new_Constant(const char *constantName, double constantValue, const char *description) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue, description);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double)
+	 */
 	inline ConstantPtr new_Constant(const StringPtr &constantName, int constantValue) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double)
+	 */
 	inline ConstantPtr new_Constant(StringPtr &constantName, int constantValue) {
 		ConstantPtr constant = std::make_shared<Constant>(CONST_STRING_PTR(constantName), constantValue);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double)
+	 */
 	inline ConstantPtr new_Constant(const String &constantName, int constantValue) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double)
+	 */
 	inline ConstantPtr new_Constant(String &constantName, int constantValue) {
 		ConstantPtr constant = std::make_shared<Constant>(CONST_STRING(constantName), constantValue);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double)
+	 */
 	inline ConstantPtr new_Constant(const std::string &constantName, int constantValue) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double)
+	 */
 	inline ConstantPtr new_Constant(std::string &constantName, int constantValue) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double)
+	 */
 	inline ConstantPtr new_Constant(const Char *constantName, int constantValue) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double)
+	 */
 	inline ConstantPtr new_Constant(const char *constantName, int constantValue) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double,const StringPtr &)
+	 */
 	inline ConstantPtr new_Constant(const StringPtr &constantName, int constantValue, const StringPtr &description) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue, description);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double,const StringPtr &)
+	 */
 	inline ConstantPtr new_Constant(StringPtr &constantName, int constantValue, StringPtr &description) {
 		ConstantPtr constant = std::make_shared<Constant>(CONST_STRING_PTR(constantName), constantValue, CONST_STRING_PTR(description));
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double,const StringPtr &)
+	 */
 	inline ConstantPtr new_Constant(const String &constantName, int constantValue, const String &description) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue, description);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double,const StringPtr &)
+	 */
 	inline ConstantPtr new_Constant(String &constantName, int constantValue, String &description) {
 		ConstantPtr constant = std::make_shared<Constant>(CONST_STRING(constantName), constantValue, CONST_STRING(description));
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double,const StringPtr &)
+	 */
 	inline ConstantPtr new_Constant(const std::string &constantName, int constantValue, const std::string &description) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue, description);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double,const StringPtr &)
+	 */
 	inline ConstantPtr new_Constant(std::string &constantName, int constantValue, std::string &description) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue, description);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double,const StringPtr &)
+	 */
 	inline ConstantPtr new_Constant(const Char *constantName, int constantValue, const Char *description) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue, description);
 		constant->postConstructorSync();
 		return constant;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Constant(const StringPtr &,double,const StringPtr &)
+	 */
 	inline ConstantPtr new_Constant(const char *constantName, int constantValue, const char *description) {
 		ConstantPtr constant = std::make_shared<Constant>(constantName, constantValue, description);
 		constant->postConstructorSync();
@@ -751,6 +1008,13 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 
+	/**
+	 * \brief Constructs a constant by evaluating a definition such as `c = 2*sin(pi/3)`.
+	 * \param constantDefinitionString The constant name and expression, separated by `=`.
+	 * \param elements Definitions available while evaluating the expression.
+	 * \return A shared pointer to the new Constant instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	ConstantPtr new_Constant(const StringPtr &constantDefinitionString, PrimitiveElements &&... elements) {
 		ConstantPtr constant = std::make_shared<Constant>(constantDefinitionString, FORWARD_PRIMITIVE(elements)...);
@@ -758,6 +1022,13 @@ namespace org::mariuszgromada::math::mxparser {
 		return constant;
 	}
 
+	/**
+	 * \brief Constructs a constant by evaluating a definition such as `c = 2*sin(pi/3)`.
+	 * \param constantDefinitionString The constant name and expression, separated by `=`.
+	 * \param elements Definitions available while evaluating the expression.
+	 * \return A shared pointer to the new Constant instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	ConstantPtr new_Constant(const String &constantDefinitionString, PrimitiveElements &&... elements) {
 		ConstantPtr constant = std::make_shared<Constant>(constantDefinitionString, FORWARD_PRIMITIVE(elements)...);
@@ -765,6 +1036,13 @@ namespace org::mariuszgromada::math::mxparser {
 		return constant;
 	}
 
+	/**
+	 * \brief Constructs a constant by evaluating a definition such as `c = 2*sin(pi/3)`.
+	 * \param constantDefinitionString The constant name and expression, separated by `=`.
+	 * \param elements Definitions available while evaluating the expression.
+	 * \return A shared pointer to the new Constant instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	ConstantPtr new_Constant(const std::string &constantDefinitionString, PrimitiveElements &&... elements) {
 		ConstantPtr constant = std::make_shared<Constant>(constantDefinitionString, FORWARD_PRIMITIVE(elements)...);
@@ -772,6 +1050,13 @@ namespace org::mariuszgromada::math::mxparser {
 		return constant;
 	}
 
+	/**
+	 * \brief Constructs a constant by evaluating a definition such as `c = 2*sin(pi/3)`.
+	 * \param constantDefinitionString The constant name and expression, separated by `=`.
+	 * \param elements Definitions available while evaluating the expression.
+	 * \return A shared pointer to the new Constant instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	ConstantPtr new_Constant(const Char *constantDefinitionString, PrimitiveElements &&... elements) {
 		ConstantPtr constant = std::make_shared<Constant>(constantDefinitionString, FORWARD_PRIMITIVE(elements)...);
@@ -779,6 +1064,13 @@ namespace org::mariuszgromada::math::mxparser {
 		return constant;
 	}
 
+	/**
+	 * \brief Constructs a constant by evaluating a definition such as `c = 2*sin(pi/3)`.
+	 * \param constantDefinitionString The constant name and expression, separated by `=`.
+	 * \param elements Definitions available while evaluating the expression.
+	 * \return A shared pointer to the new Constant instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	ConstantPtr new_Constant(const char *constantDefinitionString, PrimitiveElements &&... elements) {
 		ConstantPtr constant = std::make_shared<Constant>(constantDefinitionString, FORWARD_PRIMITIVE(elements)...);

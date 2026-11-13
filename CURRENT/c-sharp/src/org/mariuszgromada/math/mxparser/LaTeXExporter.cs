@@ -1,5 +1,5 @@
 /*
- * @(#)LaTeXExporter.cs        6.2.0    2026-11-11
+ * @(#)LaTeXExporter.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -225,10 +225,8 @@ using org.mariuszgromada.math.mxparser.parsertokens;
 namespace org.mariuszgromada.math.mxparser {
 
 
-/** Internal, on-demand mathematical presentation of the runtime token stream.
- *
- * @version        6.2.0
- */
+/// <summary>Internal, on-demand mathematical presentation of the runtime token stream.</summary>
+/// <remarks><para>Version: 6.2.0</para></remarks>
 internal sealed class LaTeXExporter {
 	private LaTeXExporter() { }
 	private const int MAX_TOKENS = 100000;
@@ -243,7 +241,7 @@ internal sealed class LaTeXExporter {
 	private static readonly FrozenMap<long, Rule> RULES = makeRules();
 	private static readonly FrozenMap<String, String> UNICODE_NAMES = makeUnicodeNames();
 
-	/** @version        6.2.0 */
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	private enum Style {
 		TEMPLATE, OPERATOR, LITERAL, DELIMITER, DIRECT_FUNCTION, NAMED_FUNCTION,
 		CASES_IF, CASES_IFF, CONTINUED_FRACTION, LIST_SUM, LIST_PRODUCT, MEAN,
@@ -251,12 +249,12 @@ internal sealed class LaTeXExporter {
 		NTH_DERIVATIVE, DIFFERENCE, SOLVE, NORMAL
 	}
 
-	/** @version        6.2.0 */
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	private sealed class Slot {
 		internal readonly int number;
 		internal Slot(int number) { this.number = number; }
 	}
-	/** @version        6.2.0 */
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	private sealed class Rule {
 		internal readonly String symbol;
 		internal readonly object[] template;
@@ -280,9 +278,9 @@ internal sealed class LaTeXExporter {
 			return false;
 		}
 	}
-	/** Presentation metadata for static templates, not source-language parsing.
-	 * A scalar token can display a quotient, power or function call (units and
-	 * named constants), so token atomicity alone cannot decide parentheses. */
+	/// <summary>Presentation metadata for static templates, not source-language parsing.
+	/// A scalar token can display a quotient, power or function call (units and
+	/// named constants), so token atomicity alone cannot decide parentheses.</summary>
 	private static bool atomicPresentation(String template) {
 		int depth = 0;
 		for (int i = 0; i < template.Length; i++) {
@@ -309,7 +307,7 @@ internal sealed class LaTeXExporter {
 		register(rules, type, id, new Rule(symbol, template, style, new int[0], start, separator));
 	}
 
-	/** Compile only trusted, static templates. Substituted data is never parsed as a template. */
+	/// <summary>Compile only trusted, static templates. Substituted data is never parsed as a template.</summary>
 	private static object[] compileTemplate(String template) {
 		List<object> parts = new List<object>();
 		StringBuilder text = new StringBuilder();
@@ -864,7 +862,7 @@ internal sealed class LaTeXExporter {
 		return n.token.tokenTypeId == BinaryRelation.TYPE_ID ? RELATION : LOGICAL;
 	}
 
-	/** @version        6.2.0 */
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	private sealed class Visit {
 		internal readonly Node node;
 		internal readonly bool forceCall;
@@ -889,11 +887,9 @@ internal sealed class LaTeXExporter {
 		return slashes % 2 != 0;
 	}
 
-	/** Iterative emission keeps long flat expressions off the Java call stack and
-	 * writes each generated fragment once to the bounded final buffer.
-	 *
-	 * @version        6.2.0
-	 */
+	/// <summary>Iterative emission keeps long flat expressions off the Java call stack and
+	/// writes each generated fragment once to the bounded final buffer.</summary>
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	private sealed class Renderer {
 		private readonly Stack<object> pending = new Stack<object>();
 		private readonly StringBuilder result = new StringBuilder();
@@ -1258,12 +1254,10 @@ internal sealed class LaTeXExporter {
 		}
 	}
 
-	/** Decimal spelling metadata only: no floating evaluation or arbitrary-precision
-	 * library. The same character/32-bit-integer algorithm ports to C# and C++.
-	 * Excessive exponents remain unclassified and use explicit symbolic ranges.
-	 *
-	 * @version        6.2.0
-	 */
+	/// <summary>Decimal spelling metadata only: no floating evaluation or arbitrary-precision
+	/// library. The same character/32-bit-integer algorithm ports to C# and C++.
+	/// Excessive exponents remain unclassified and use explicit symbolic ranges.</summary>
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	private sealed class DecimalLiteral {
 		internal readonly int sign, order;
 		internal readonly String digits;
@@ -1395,10 +1389,10 @@ internal sealed class LaTeXExporter {
 		return new FrozenMap<String, String>(names);
 	}
 
-	/** @version        6.2.0 */
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	internal enum Form { ATOM, CALL, PREFIX, POSTFIX, BINARY }
 
-	/** @version        6.2.0 */
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	internal sealed class Node {
 		internal readonly Token token;
 		internal readonly int index;
@@ -1412,7 +1406,7 @@ internal sealed class LaTeXExporter {
 		}
 	}
 
-	/** @version        6.2.0 */
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	private sealed class Part {
 		internal readonly Token token;
 		internal readonly int index;
@@ -1427,7 +1421,7 @@ internal sealed class LaTeXExporter {
 		}
 	}
 
-	/** @version        6.2.0 */
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	private sealed class Scope {
 		internal readonly Token call;
 		internal readonly int index;
@@ -1454,7 +1448,7 @@ internal sealed class LaTeXExporter {
 				|| (type == Token.NOT_MATCHED && "function".Equals(token.looksLike));
 	}
 
-	/** Delimiters and levels come from mXparser; no source text is parsed here. */
+	/// <summary>Delimiters and levels come from mXparser; no source text is parsed here.</summary>
 	internal static Node reconstruct(List<Token> tokens) {
 		if (tokens == null) throw error(0, "missing token stream");
 		if (tokens.Count > MAX_TOKENS) throw error(0, "token budget exceeded");
@@ -1506,7 +1500,7 @@ internal sealed class LaTeXExporter {
 	 * ready fragments first, rightmost ready powers/tetrations, then first position in
 	 * each remaining group. A conventional precedence-only parser is insufficient
 	 * for signs and for mXparser's power/postfix/remainder ordering. */
-	/** @version        6.2.0 */
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	private sealed class Candidate {
 		internal readonly Part part;
 		internal readonly int version;
@@ -1528,9 +1522,9 @@ internal sealed class LaTeXExporter {
 		part.version++;
 		if (ready(part)) candidates.Add(new Candidate(part));
 	}
-	/** Linked fragments plus a queue of ready candidates preserve the original
-	 * selection order without rescanning/shifting a flat expression quadratically.
-	 * Only the two surviving neighbours can become newly ready after a reduction. */
+	/// <summary>Linked fragments plus a queue of ready candidates preserve the original
+	/// selection order without rescanning/shifting a flat expression quadratically.
+	/// Only the two surviving neighbours can become newly ready after a reduction.</summary>
 	private static Node reduce(List<Part> parts, int index) {
 		if ((parts.Count == 0)) throw error(index, "empty expression or argument");
 		CandidateQueue candidates = new CandidateQueue((a, b) => {
@@ -1596,7 +1590,7 @@ internal sealed class LaTeXExporter {
 	 * and the independent operator-combination audit together when that method changes.
 	 * The evaluator's exceptional multi-power selection with an unready negative
 	 * exponent is intentionally deferred to a separate engine investigation. */
-	/** @version        6.2.0 */
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	private enum Binding {
 		TETRATION, POWER, FACTORIAL, PERCENT, REMAINDER, NEGATION, ROOT,
 		BIT_COMPLEMENT, PRODUCT, SUM, NOT_EQUAL, EQUAL, LESS, GREATER,
@@ -1642,13 +1636,13 @@ internal sealed class LaTeXExporter {
 
 	// Minimal runtime adapters for .NET targets predating ReadOnlyDictionary/PriorityQueue.
 	// The registry owns a copy and exposes only lookup; no mutable dictionary escapes.
-	/** @version        6.2.0 */
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	private sealed class FrozenMap<K, V> where V : class {
 		private readonly Dictionary<K, V> values;
 		internal FrozenMap(Dictionary<K, V> values) { this.values = new Dictionary<K, V>(values); }
 		internal V get(K key) { V value; return values.TryGetValue(key, out value) ? value : null; }
 	}
-	/** @version        6.2.0 */
+	/// <remarks><para>Version: 6.2.0</para></remarks>
 	private sealed class CandidateQueue {
 		private readonly List<Candidate> heap = new List<Candidate>();
 		private readonly Comparison<Candidate> comparison;

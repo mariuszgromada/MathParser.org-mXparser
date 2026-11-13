@@ -1,5 +1,5 @@
 /*
- * @(#)Token.hpp        6.1.1    2026-05-17
+ * @(#)Token.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -227,10 +227,13 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 
 	class API_VISIBLE Token {
 	public:
+		/**
+		 * \brief Default constructor
+		 */
 		Token();
 		Token(const TokenPtr& token);
 		/**
-		 * Indicator that token was not matched
+		 * \brief Indicator that token was not matched
 		 */
 		static constexpr int NOT_MATCHED = KeyWord::NO_DEFINITION;
 		StringPtr tokenStr = nullptr;
@@ -241,30 +244,148 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		double tokenValue;
 		StringPtr looksLike = nullptr;
 
+		/**
+		 * \brief Tests whether the token is a prefix unary operator.
+		 * \param token The token to inspect (not null).
+		 * \return true for a prefix unary operator; false otherwise.
+		 */
 		[[nodiscard]] static bool isUnaryLeftOperator(const TokenPtr& token);
+		/**
+		 * \brief Tests whether the token is a postfix unary operator.
+		 * \param token The token to inspect (not null).
+		 * \return true for a postfix unary operator; false otherwise.
+		 */
 		[[nodiscard]] static bool isUnaryRightOperator(const TokenPtr& token);
+		/**
+		 * \brief Tests whether the token is a left parenthesis.
+		 * \param token The token to inspect (not null).
+		 * \return true for a left parenthesis; false otherwise.
+		 */
 		[[nodiscard]] static bool isLeftParenthesis(const TokenPtr& token);
+		/**
+		 * \brief Tests whether the token is a right parenthesis.
+		 * \param token The token to inspect (not null).
+		 * \return true for a right parenthesis; false otherwise.
+		 */
 		[[nodiscard]] static bool isRightParenthesis(const TokenPtr& token);
+		/**
+		 * \brief Tests whether the token represents an argument, constant or unit.
+		 * \param token The token to inspect (not null).
+		 * \return true for an argument, constant or unit; false otherwise.
+		 */
 		[[nodiscard]] static bool isIdentifier(const TokenPtr& token);
+		/**
+		 * \brief Tests whether the token is a binary operator.
+		 * \param token The token to inspect (not null).
+		 * \return true for a binary operator; false otherwise.
+		 */
 		[[nodiscard]] static bool isBinaryOperator(const TokenPtr& token);
+		/**
+		 * \brief Tests whether the token separates parameters.
+		 * \param token The token to inspect (not null).
+		 * \return true for a comma token; false otherwise.
+		 */
 		[[nodiscard]] static bool isParameterSeparator(const TokenPtr& token);
+		/**
+		 * \brief Tests whether the token represents a number.
+		 * \param token The token to inspect (not null).
+		 * \return true for a number token; false otherwise.
+		 */
 		[[nodiscard]] static bool isNumber(const TokenPtr& token);
+		/**
+		 * \brief Tests whether the token text starts with `[`.
+		 * \param token The token to inspect (not null).
+		 * \return true if the text starts with a left square bracket; false otherwise.
+		 */
 		[[nodiscard]] static bool isSpecialTokenName(const TokenPtr& token);
+		/**
+		 * \brief Tests whether the token is a Unicode square, cube or fourth root operator.
+		 * \param token The token to inspect (not null).
+		 * \return true for a supported Unicode root operator; false otherwise.
+		 */
 		[[nodiscard]] static bool isUnicodeRootOperator(const TokenPtr& token);
+		/**
+		 * \brief Copies the fields of the specified token into a new token.
+		 * \param token The token to copy (not null).
+		 * \return A new token with the same field values.
+		 */
 		[[nodiscard]] static TokenPtr clone(const TokenPtr& token);
 		[[nodiscard]] static TokenPtr cloneFast(const TokenPtr& token);
+		/**
+		 * \brief Creates token representing multiplication operator.
+		 * \return token representing multiplication operator.
+		 */
 		[[nodiscard]] static TokenPtr makeMultiplyToken();
+		/**
+		 * \brief Creates token representing number.
+		 * \return token representing number.
+		 */
 		[[nodiscard]] static TokenPtr makeNumberToken();
+		/**
+		 * \brief Creates a number token with the specified value and nesting level.
+		 * \param number The numeric value.
+		 * \param tokenLevel The token nesting level.
+		 * \return The new number token.
+		 */
 		[[nodiscard]] static TokenPtr makeNumberToken(double number, int tokenLevel);
+		/**
+		 * \brief Creates token representing comma parser symbol.
+		 * \return token representing comma parser symbol.
+		 */
 		[[nodiscard]] static TokenPtr makeCommaToken();
+		/**
+		 * \brief Creates token representing comma parser symbol.
+		 * \param tokenLevel Level of token in the token lists.
+		 * \return token representing comma parser symbol.
+		 */
 		[[nodiscard]] static TokenPtr makeCommaToken(int tokenLevel);
+		/**
+		 * \brief Creates token representing left parenthesis parser symbol.
+		 * \return token representing left parenthesis parser symbol.
+		 */
 		[[nodiscard]] static TokenPtr makeLeftParenthesisToken();
+		/**
+		 * \brief Creates token representing left parenthesis parser symbol.
+		 * \param tokenLevel Level of token in the token lists.
+		 * \return token representing left parenthesis parser symbol.
+		 */
 		[[nodiscard]] static TokenPtr makeLeftParenthesisToken(int tokenLevel);
+		/**
+		 * \brief Creates token representing right parenthesis parser symbol.
+		 * \return token representing right parenthesis parser symbol.
+		 */
 		[[nodiscard]] static TokenPtr makeRightParenthesisToken();
+		/**
+		 * \brief Creates token representing right parenthesis parser symbol.
+		 * \param tokenLevel Level of token in the token lists.
+		 * \return token representing right parenthesis parser symbol.
+		 */
 		[[nodiscard]] static TokenPtr makeRightParenthesisToken(int tokenLevel);
+		/**
+		 * \brief Creates token representing derivative calculus operator.
+		 * \return token representing derivative calculus operator.
+		 */
 		[[nodiscard]] static TokenPtr makeDerToken();
+		/**
+		 * \brief Creates token representing derivative calculus operator.
+		 * \param tokenLevel Level of token in the token lists.
+		 * \return token representing derivative calculus operator.
+		 */
 		[[nodiscard]] static TokenPtr makeDerToken(int tokenLevel);
+		/**
+		 * \brief Creates a token for an argument at the specified nesting level.
+		 * \param argumentName The argument name.
+		 * \param argumentIndex The argument index in the expression.
+		 * \param tokenLevel The token nesting level.
+		 * \param initialValue The initial numeric value.
+		 * \return The new argument token.
+		 */
 		[[nodiscard]] static TokenPtr makeArgumentToken(const StringPtr& argumentName, int argumentIndex, int tokenLevel, double initialValue);
+		/**
+		 * \brief Returns token type description.
+		 * \param tokenTypeId Token type id
+		 * \return String representing token type description.
+		 */
 		[[nodiscard]] static StringPtr getTokenTypeDescription(int tokenTypeId);
 
 
@@ -283,6 +404,10 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		);
 	};
 
+	/**
+	 * \brief Default constructor
+	 * \return A shared pointer to the new Token instance.
+	 */
 	inline TokenPtr new_Token() {
 		return std::make_shared<Token>();
 	}

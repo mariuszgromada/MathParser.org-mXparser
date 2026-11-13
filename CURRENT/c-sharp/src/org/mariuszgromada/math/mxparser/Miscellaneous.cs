@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.cs        6.1.0    2024-10-06
+ * @(#)Miscellaneous.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -226,9 +226,7 @@ namespace org.mariuszgromada.math.mxparser {
 	*
 	*=================================================
 	*/
-    /**
-	 * Package level class for handling function parameters.
-	 */
+    /// <summary>Package level class for handling function parameters.</summary>
     [Serializable]
     internal class FunctionParameter {
 		internal List<Token> tokens;
@@ -246,9 +244,7 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 	}
 
-    /**
-	* Package level class for generating iterative operator parameters
-	*/
+    /// <summary>Package level class for generating iterative operator parameters</summary>
     [Serializable]
     internal class IterativeOperatorParameters {
 		internal FunctionParameter indexParam;
@@ -301,9 +297,7 @@ namespace org.mariuszgromada.math.mxparser {
 			delta = Double.NaN;
         }
 	}
-    /**
-	* Handling argument parameters
-	*/
+    /// <summary>Handling argument parameters</summary>
     [Serializable]
     internal class ArgumentParameter {
 		internal Argument argument;
@@ -319,11 +313,9 @@ namespace org.mariuszgromada.math.mxparser {
             index = ConstantValue.NaN;
         }
 	}
-    /**
-	* Internal token class
-	* which is used with stack while
-	* evaluation of tokens levels
-	*/
+    /// <summary>Internal token class
+    /// which is used with stack while
+    /// evaluation of tokens levels</summary>
     [Serializable]
     internal class TokenStackElement {
 		internal int tokenIndex;
@@ -353,50 +345,46 @@ namespace org.mariuszgromada.math.mxparser {
 	* Comparators for sorting
 	* ---------------------------------------------------------
 	*/
-    /**
-	* Comparator for key word list sorting by key word string.
-	* This king of sorting is used while checking the syntax
-	* (duplicated key word error)
-	*/
+    /// <summary>Comparator for key word list sorting by key word string.
+    /// This king of sorting is used while checking the syntax
+    /// (duplicated key word error)</summary>
     [Serializable]
     class KwStrComparator : IComparer<KeyWord> {
-		/**
-		 *
-		 */
+		/// <summary>Compares keyword strings in their natural lexicographic order.</summary>
+		/// <param name="kw1">The first keyword.</param>
+		/// <param name="kw2">The second keyword.</param>
+		/// <returns>A negative value, zero or a positive value if the first string sorts before, equals or follows the second.</returns>
 		public int Compare(KeyWord kw1, KeyWord kw2) {
 			String s1 = kw1.wordString;
 			String s2 = kw2.wordString;
 			return s1.CompareTo(s2);
 		}
 	}
-    /**
-	* Comparator for key word list sorting by
-	* descending key word length
-	* .
-	* This king of sorting is used while tokenizing
-	* (best match)
-	*/
+    /// <summary>Comparator for key word list sorting by
+    /// descending key word length
+    /// .
+    /// This king of sorting is used while tokenizing
+    /// (best match)</summary>
     [Serializable]
     class DescKwLenComparator : IComparer<KeyWord> {
-		/**
-		 *
-		 */
+		/// <summary>Compares keywords by descending string length.</summary>
+		/// <param name="kw1">The first keyword.</param>
+		/// <param name="kw2">The second keyword.</param>
+		/// <returns>A negative value for a longer first keyword, zero for equal lengths, or a positive value otherwise.</returns>
 		public int Compare(KeyWord kw1, KeyWord kw2) {
 			int l1 = kw1.wordString.Length;
 			int l2 = kw2.wordString.Length;
 			return l2 - l1;
 		}
 	}
-    /**
-	* Comparator for key word list sorting by
-	* type of the key word
-	*
-	*/
+    /// <summary>Comparator for key word list sorting by
+    /// type of the key word</summary>
     [Serializable]
     class KwTypeComparator : IComparer<KeyWord> {
-		/**
-		 *
-		 */
+		/// <summary>Compares keyword ordering keys formed from token type, token ID and string length.</summary>
+		/// <param name="kw1">The first keyword.</param>
+		/// <param name="kw2">The second keyword.</param>
+		/// <returns>The difference between the computed ordering keys.</returns>
 		public int Compare(KeyWord kw1, KeyWord kw2) {
 			int t1 = kw1.wordTypeId * 1000000 + kw1.wordId * 1000 + kw1.wordString.Length;
 			int t2 = kw2.wordTypeId * 1000000 + kw2.wordId * 1000 + kw2.wordString.Length;
@@ -448,9 +436,7 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 		}
 	}
-    /**
-	 * Data structure used internally for token to be modified list
-	 */
+    /// <summary>Data structure used internally for token to be modified list</summary>
     [Serializable]
     internal class TokenModification {
 		internal String currentToken;
@@ -458,12 +444,10 @@ namespace org.mariuszgromada.math.mxparser {
 		internal String newTokenDescription;
 	}
 
-    /**
-	 * Data structure used in tokenization
-	 * searching for implied multiplication
-	 * in case of a token i a form of one name
-	 * for instance x2x2 = x2*x2
-	 */
+    /// <summary>Data structure used in tokenization
+    /// searching for implied multiplication
+    /// in case of a token i a form of one name
+    /// for instance x2x2 = x2*x2</summary>
     [Serializable]
     class TokenPart {
 		internal const int INTEGER = 1;

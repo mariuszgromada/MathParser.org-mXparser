@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.java        6.1.0    2024-10-14
+ * @(#)Constant.java        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -246,7 +246,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        6.1.0
+ * @version        6.2.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -372,14 +372,10 @@ public class Constant extends PrimitiveElement implements Serializable {
 		registerNoSyntaxErrorInDefinition();
 	}
 	/**
-	 * Constructor for function definition in natural math language,
-	 * for instance providing on string "f(x,y) = sin(x) + cos(x)"
-	 * is enough to define function "f" with parameters "x and y"
-	 * and function body "sin(x) + cos(x)".
+	 * Constructs a constant by evaluating a definition such as {@code c = 2*sin(pi/3)}.
 	 *
-	 * @param constantDefinitionString      Constant definition in the form
-	 *                                      of one String, ie "c = 2" or "c = 2*sin(pi/3)"
-	 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions
+	 * @param constantDefinitionString The constant name and expression, separated by {@code =}.
+	 * @param elements Definitions available while evaluating the expression.
 	 */
 	public Constant(String constantDefinitionString, PrimitiveElement...elements) {
 		super(Constant.TYPE_ID);
@@ -482,19 +478,17 @@ public class Constant extends PrimitiveElement implements Serializable {
 		this.description = description;
 	}
 	/**
-	 * Method return error message after
+	 * Returns the diagnostic message for this constant's definition.
 	 *
-	 * @return     Error message as string.
+	 * @return The definition validation message.
 	 */
 	public String getErrorMessage() {
 		return errorMessage;
 	}
 	/**
-	 * Gets syntax status of the expression.
+	 * Returns the syntax status of the constant definition.
 	 *
-	 * @return     Constant.NO_SYNTAX_ERRORS if there are no syntax errors,
-	 *             Const.SYNTAX_ERROR when syntax error was found or
-	 *             syntax status is unknown
+	 * @return true if the definition has no syntax errors; false otherwise.
 	 */
 	public boolean getSyntaxStatus() {
 		return this.syntaxStatus;

@@ -1,5 +1,5 @@
 /*
- * @(#)Token.java        6.1.1    2026-05-17
+ * @(#)Token.java        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -233,7 +233,7 @@ import java.io.Serializable;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        6.1.1
+ * @version        6.2.0
  */
 public class Token implements Serializable {
 	private static final int serialClassID = 92;
@@ -274,10 +274,10 @@ public class Token implements Serializable {
 	 */
 	public String looksLike;
 	/**
-	 * Verification if the token is a left unary operator.
+	 * Tests whether the token is a prefix unary operator.
 	 *
-	 * @return true in case token is unary left operator,
-	 * otherwise returns false
+	 * @param token The token to inspect (not null).
+	 * @return true for a prefix unary operator; false otherwise.
 	 */
 	public static boolean isUnaryLeftOperator(Token token) {
 		if (token.tokenTypeId == Operator.TYPE_ID) {
@@ -293,12 +293,17 @@ public class Token implements Serializable {
 		}
 		return false;
 	}
+	/**
+	 * Tests whether this token is a prefix unary operator.
+	 *
+	 * @return true for a prefix unary operator; false otherwise.
+	 */
 	public boolean isUnaryLeftOperator() { return isUnaryLeftOperator(this); }
 	/**
-	 * Verification if the token is a right unary operator.
+	 * Tests whether the token is a postfix unary operator.
 	 *
-	 * @return true in case token is unary right operator,
-	 * otherwise returns false
+	 * @param token The token to inspect (not null).
+	 * @return true for a postfix unary operator; false otherwise.
 	 */
 	public static boolean isUnaryRightOperator(Token token) {
 		if (token.tokenTypeId == Operator.TYPE_ID) {
@@ -307,32 +312,47 @@ public class Token implements Serializable {
 		}
 		return false;
 	}
+	/**
+	 * Tests whether this token is a postfix unary operator.
+	 *
+	 * @return true for a postfix unary operator; false otherwise.
+	 */
 	public boolean isUnaryRightOperator() { return isUnaryRightOperator(this); }
 	/**
-	 * Verification if the token is a left parenthesis.
+	 * Tests whether the token is a left parenthesis.
 	 *
-	 * @return true in case token is a left parenthesis,
-	 * otherwise returns false
+	 * @param token The token to inspect (not null).
+	 * @return true for a left parenthesis; false otherwise.
 	 */
 	public static boolean isLeftParenthesis(Token token) {
 		return token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.LEFT_PARENTHESES_ID;
 	}
+	/**
+	 * Tests whether this token is a left parenthesis.
+	 *
+	 * @return true for a left parenthesis; false otherwise.
+	 */
 	public boolean isLeftParenthesis() { return isLeftParenthesis(this); }
 	/**
-	 * Verification if the token is a right parenthesis.
+	 * Tests whether the token is a right parenthesis.
 	 *
-	 * @return true in case token is a right parenthesis,
-	 * otherwise returns false
+	 * @param token The token to inspect (not null).
+	 * @return true for a right parenthesis; false otherwise.
 	 */
 	public static boolean isRightParenthesis(Token token) {
 		return token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID;
 	}
+	/**
+	 * Tests whether this token is a right parenthesis.
+	 *
+	 * @return true for a right parenthesis; false otherwise.
+	 */
 	public boolean isRightParenthesis() { return isRightParenthesis(this); }
 	/**
-	 * Verification if the token is an identifier.
+	 * Tests whether the token represents an argument, constant or unit.
 	 *
-	 * @return true in case token is an identifier,
-	 * otherwise returns false
+	 * @param token The token to inspect (not null).
+	 * @return true for an argument, constant or unit; false otherwise.
 	 */
 	public static boolean isIdentifier(Token token) {
 		return token.tokenTypeId == Constant.TYPE_ID ||
@@ -340,12 +360,17 @@ public class Token implements Serializable {
 				token.tokenTypeId == Unit.TYPE_ID ||
 				token.tokenTypeId == Argument.TYPE_ID;
 	}
+	/**
+	 * Tests whether this token represents an argument, constant or unit.
+	 *
+	 * @return true for an argument, constant or unit; false otherwise.
+	 */
 	public boolean isIdentifier() { return isIdentifier(this); }
 	/**
-	 * Verification if the token is a binary operator.
+	 * Tests whether the token is a binary operator.
 	 *
-	 * @return true in case token is a binary operator,
-	 * otherwise returns false
+	 * @param token The token to inspect (not null).
+	 * @return true for a binary operator; false otherwise.
 	 */
 	public static boolean isBinaryOperator(Token token) {
 		if (isUnaryLeftOperator(token)) return false;
@@ -362,43 +387,63 @@ public class Token implements Serializable {
 		}
 		return false;
 	}
+	/**
+	 * Tests whether this token is a binary operator.
+	 *
+	 * @return true for a binary operator; false otherwise.
+	 */
 	public boolean isBinaryOperator() { return isBinaryOperator(this); }
 	/**
-	 * Verification if the token is a parameter separator.
+	 * Tests whether the token separates parameters.
 	 *
-	 * @return true in case token is a parameter separator,
-	 * otherwise returns false
+	 * @param token The token to inspect (not null).
+	 * @return true for a comma token; false otherwise.
 	 */
 	public static boolean isParameterSeparator(Token token) {
 		return token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.COMMA_ID;
 	}
+	/**
+	 * Tests whether this token separates parameters.
+	 *
+	 * @return true for a comma token; false otherwise.
+	 */
 	public boolean isParameterSeparator() { return isParameterSeparator(this); }
 	/**
-	 * Verification if the token is a number.
+	 * Tests whether the token represents a number.
 	 *
-	 * @return true in case token is a number,
-	 * otherwise returns false
+	 * @param token The token to inspect (not null).
+	 * @return true for a number token; false otherwise.
 	 */
 	public static boolean isNumber(Token token) {
 		return token.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID && token.tokenId == ParserSymbol.NUMBER_ID;
 	}
+	/**
+	 * Tests whether this token represents a number.
+	 *
+	 * @return true for a number token; false otherwise.
+	 */
 	public boolean isNumber() { return isNumber(this); }
 	/**
-	 * Verification if the token is represented by a special name in the form [...].
+	 * Tests whether the token text starts with {@code [}.
 	 *
-	 * @return true in case token is represented by a special name in the form [...],
-	 * otherwise returns false
+	 * @param token The token to inspect (not null).
+	 * @return true if the text starts with a left square bracket; false otherwise.
 	 */
 	public static boolean isSpecialTokenName(Token token) {
 		if (token.tokenStr.length() == 0) return false;
 		return token.tokenStr.charAt(0) == '[';
 	}
+	/**
+	 * Tests whether this token text starts with {@code [}.
+	 *
+	 * @return true if the text starts with a left square bracket; false otherwise.
+	 */
 	public boolean isSpecialTokenName() { return isSpecialTokenName(this); }
 	/**
-	 * Verification if the token represents unicode root operator
+	 * Tests whether the token is a Unicode square, cube or fourth root operator.
 	 *
-	 * @return true in case token represents unicode root operator
-	 * otherwise returns false
+	 * @param token The token to inspect (not null).
+	 * @return true for a supported Unicode root operator; false otherwise.
 	 */
 	public static boolean isUnicodeRootOperator(Token token) {
 		if (token.tokenTypeId == Operator.TYPE_ID) {
@@ -408,6 +453,11 @@ public class Token implements Serializable {
 		}
 		return false;
 	}
+	/**
+	 * Tests whether this token is a Unicode square, cube or fourth root operator.
+	 *
+	 * @return true for a supported Unicode root operator; false otherwise.
+	 */
 	public boolean isUnicodeRootOperator() { return isUnicodeRootOperator(this); }
 	/**
 	 * Creates token representing multiplication operator.
@@ -433,10 +483,11 @@ public class Token implements Serializable {
 		return numberToken;
 	}
 	/**
-	 * Creates token representing number.
+	 * Creates a number token with the specified value and nesting level.
 	 *
-	 * @param number Number
-	 * @return token representing number.
+	 * @param number The numeric value.
+	 * @param tokenLevel The token nesting level.
+	 * @return The new number token.
 	 */
 	public static Token makeNumberToken(double number, int tokenLevel) {
 		Token numberToken = makeNumberToken();
@@ -542,9 +593,13 @@ public class Token implements Serializable {
 		return derToken;
 	}
 	/**
-	 * Creates token representing user argument token.
+	 * Creates a token for an argument at the specified nesting level.
 	 *
-	 * @return token representing user argument token.
+	 * @param argumentName The argument name.
+	 * @param argumentIndex The argument index in the expression.
+	 * @param tokenLevel The token nesting level.
+	 * @param initialValue The initial numeric value.
+	 * @return The new argument token.
 	 */
 	public static Token makeArgumentToken(String argumentName, int argumentIndex, int tokenLevel, double initialValue) {
 		Token argumentToken = new Token();
@@ -598,7 +653,10 @@ public class Token implements Serializable {
 		looksLike = ParserSymbol.EMPTY;
 	}
 	/**
-	 * Token cloning.
+	 * Copies the fields of the specified token into a new token.
+	 *
+	 * @param token The token to copy (not null).
+	 * @return A new token with the same field values.
 	 */
 	public static Token clone(Token token) {
 		Token tokenClone = new Token();
@@ -611,5 +669,10 @@ public class Token implements Serializable {
 		tokenClone.looksLike = token.looksLike;
 		return tokenClone;
 	}
+	/**
+	 * Returns a copy of this token.
+	 *
+	 * @return A new token with the same field values.
+	 */
 	public Token clone() { return clone(this); }
 }

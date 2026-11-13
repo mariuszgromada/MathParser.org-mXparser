@@ -1,5 +1,5 @@
 /*
- * @(#)LaTeXExporter.hpp        6.2.0    2026-11-11
+ * @(#)LaTeXExporter.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -221,7 +221,9 @@
 #include "aliases/AliasesTypesUser.hpp"
 namespace org::mariuszgromada::math::mxparser {
 // Internal exporter; only the existing Expression owns its public entry point.
-/** @version        6.2.0 */
+/**
+ * \version 6.2.0
+ */
 class LaTeXExporter {
     friend class Expression;
     LaTeXExporter() = delete;

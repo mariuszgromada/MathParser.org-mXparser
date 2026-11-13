@@ -1,5 +1,5 @@
 /*
- * @(#)PrimesCache.hpp        6.1.0    2024-10-06
+ * @(#)PrimesCache.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -232,42 +232,76 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		friend class org::mariuszgromada::math::mxparser::mathcollection::NumberTheory;
 
 	public:
+		/**
+		 * \brief Default constructor - setting prime cache for a default range if integers
+		 */
 		PrimesCache();
 
+		/**
+		 * \brief Constructor - setting prime cache for a given range if integers
+		 * \param maxNumInCache Range of integers to be stored in prime cache
+		 */
 		explicit PrimesCache(int maxNumInCache);
 
 		/**
-		 * Default range of integer to store in cache
+		 * \brief Default range of integer to store in cache
 		 */
 		static constexpr int DEFAULT_MAX_NUM_IN_CACHE = 10000000;
 		/**
-		 * Empty cache status
+		 * \brief Empty cache status
 		 */
 		static constexpr bool CACHE_EMPTY = false;
 		/**
-		 * Cache ready to use
+		 * \brief Cache ready to use
 		 */
 		static constexpr bool CACHING_FINISHED = true;
 		/**
-		 * Indicator if given number is a prime
+		 * \brief Indicator if given number is a prime
 		 */
 		static constexpr int IS_PRIME = 1;
 		/**
-		 * Indicator if given number is not a prime
+		 * \brief Indicator if given number is not a prime
 		 */
 		static constexpr int IS_NOT_PRIME = 0;
 		/**
-		 * Indicator that the value is not stored
+		 * \brief Indicator that the value is not stored
 		 * in cache
 		 */
 		static constexpr int NOT_IN_CACHE = -1;
 		mutable std::mutex mtx;
 
+		/**
+		 * \brief Returns computing time of Eratosthenes Sieve
+		 * \return Computing time in seconds
+		 */
 		[[nodiscard]] double getComputingTime() const;
+		/**
+		 * \brief Returns cache status
+		 * \return PrimesCache.CACHE_EMPTY or PrimesCache.CACHING_FINISHED;
+		 */
 		[[nodiscard]] bool getCacheStatus() const;
+		/**
+		 * \brief Returns number of found primes.
+		 * \return Number of found primes.
+		 */
 		[[nodiscard]] int getNumberOfPrimes() const;
+		/**
+		 * \brief Returns cache range.
+		 * \return Maximum integera number in cache/
+		 */
 		[[nodiscard]] int getMaxNumInCache() const;
+		/**
+		 * \brief Check whether given number is prime
+		 * \param n Given integer number.
+		 * \return PrimesCache.IS_PRIME or PrimesCache.IS_NOT_PRIME or PrimesCache.NOT_IN_CACHE
+		 */
 		[[nodiscard]] int primeTest(int n) const;
+		/**
+		 * \brief Returns true in case when primes cache initialization was successful,
+		 * otherwise returns false.
+		 * \return Returns true in case when primes cache initialization was successful,
+		 * otherwise returns false.
+		 */
 		[[nodiscard]] bool isInitSuccessful() const;
 
 	private:
@@ -283,10 +317,19 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		ArrayPtr<bool> getPrimes();
 	};
 
+	/**
+	 * \brief Default constructor - setting prime cache for a default range if integers
+	 * \return A shared pointer to the new PrimesCache instance.
+	 */
 	inline PrimesCachePtr new_PrimesCache() {
 		return std::make_shared<PrimesCache>();
 	}
 
+	/**
+	 * \brief Constructor - setting prime cache for a given range if integers
+	 * \param maxNumInCache Range of integers to be stored in prime cache
+	 * \return A shared pointer to the new PrimesCache instance.
+	 */
 	inline PrimesCachePtr new_PrimesCache(int maxNumInCache) {
 		return std::make_shared<PrimesCache>(maxNumInCache);
 	}

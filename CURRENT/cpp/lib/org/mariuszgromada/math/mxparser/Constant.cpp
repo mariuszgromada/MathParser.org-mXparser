@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.cpp        6.1.0    2024-10-06
+ * @(#)Constant.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -288,11 +288,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Constructor - creates constant with a given name and given value
-	 *
-	 *
-	 * @param      constantName        the constant name
-	 * @param      constantValue       the constant value
+	 * \brief Constructor - creates constant with a given name and given value
+	 * \param constantName        the constant name
+	 * \param constantValue       the constant value
 	 */
 	API_VISIBLE void Constant::executeContructorConst(const StringPtr &constantName, double constantValue) {
 		relatedExpressionsList = new_List<std::weak_ptr<Expression>>();
@@ -311,12 +309,11 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Constructor - creates constant with a given name and given value.
+	 * \brief Constructor - creates constant with a given name and given value.
 	 * Additionally, description is being set.
-	 *
-	 * @param      constantName        the constant name
-	 * @param      constantValue       the constant value
-	 * @param      description         the constant description
+	 * \param constantName        the constant name
+	 * \param constantValue       the constant value
+	 * \param description         the constant description
 	 */
 	API_VISIBLE void Constant::executeContructorConst(const StringPtr &constantName, double constantValue,
 	                                      const StringPtr &description) {
@@ -349,21 +346,10 @@ namespace org::mariuszgromada::math::mxparser {
 		iAmFullyConstructed = true;
 	}
 
-	/**
-	 * Gets constant name
-	 *
-	 * @return     the constant name as string.
-	 */
 	API_VISIBLE StringPtr Constant::getConstantName() {
 		return constantName;
 	}
 
-	/**
-	 * Sets constant name. If constant is associated with any expression
-	 * then this operation will set modified flag to each related expression.
-	 *
-	 * @param      constantName        the constant name
-	 */
 	API_VISIBLE void Constant::setConstantName(const StringPtr &constantName) {
 		if (constantName == nullptr) {
 			if (!syntaxStatus)
@@ -383,67 +369,35 @@ namespace org::mariuszgromada::math::mxparser {
 		registerNoSyntaxErrorInDefinition();
 	}
 
-	/**
-	 * Sets constant value
-	 * @param constantValue   constant value
-	 */
 	API_VISIBLE void Constant::setConstantValue(double constantValue) {
 		this->constantValue = constantValue;
 	}
 
-	/**
-	 * Gets constant value.
-	 *
-	 * @return     constant value as double
-	 */
 	API_VISIBLE double Constant::getConstantValue() const {
 		return constantValue;
 	}
 
-	/**
-	 * Gets constant description.
-	 *
-	 * @return     constant description as string.
-	 */
 	API_VISIBLE StringPtr Constant::getDescription() {
 		return description;
 	}
 
-	/**
-	 * Sets constant description.
-	 *
-	 * @param      description         the constant description
-	 */
 	API_VISIBLE void Constant::setDescription(const StringPtr &description) {
 		if (description == nullptr)
 			return;
 		this->description = description;
 	}
 
-	/**
-	 * Method return error message after
-	 *
-	 * @return     Error message as string.
-	 */
 	API_VISIBLE StringPtr Constant::getErrorMessage() {
 		return errorMessage;
 	}
 
-	/**
-	 * Gets syntax status of the expression.
-	 *
-	 * @return     Constant::NO_SYNTAX_ERRORS if there are no syntax errors,
-	 *             Const.SYNTAX_ERROR when syntax error was found or
-	 *             syntax status is unknown
-	 */
 	API_VISIBLE bool Constant::getSyntaxStatus() const {
 		return this->syntaxStatus;
 	}
 
 	/**
-	 * Adds related expression.
-	 *
-	 * @param      expression          the related expression.
+	 * \brief Adds related expression.
+	 * \param expression          the related expression.
 	 */
 	API_VISIBLE void Constant::addRelatedExpression(const ExpressionPtr &expression) {
 		if (expression == nullptr)
@@ -457,9 +411,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Removes related expression.
-	 *
-	 * @param      expression          the related expression.
+	 * \brief Removes related expression.
+	 * \param expression          the related expression.
 	 */
 	API_VISIBLE void Constant::removeRelatedExpression(const ExpressionPtr &expression) {
 		if (expression == nullptr) return;
@@ -470,7 +423,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Sets expression modified flag to each related expression.
+	 * \brief Sets expression modified flag to each related expression.
 	 */
 	API_VISIBLE void Constant::setExpressionModifiedFlags() {
 		for (const std::weak_ptr<Expression>& observer : *relatedExpressionsList)
@@ -495,16 +448,6 @@ namespace org::mariuszgromada::math::mxparser {
 		return constantClone;
 	}
 
-	/**
-	 * Creates a completely independent 1-1 clone that can be safely used
-	 * by a separate thread. If the cloned element contains references
-	 * to other elements (e.g. arguments, functions, constants),
-	 * then they will also be cloned and the newly created element will
-	 * contain references to the corresponding clones.
-	 * Important - the API allows you to extract all these clones.
-	 *
-	 * @return Cloned object.
-	 */
 	API_VISIBLE ConstantPtr Constant::cloneForThreadSafe() {
 		CloneCachePtr cloneCache = new_CloneCache();
 		ConstantPtr constantClone = cloneForThreadSafeInternal(cloneCache);

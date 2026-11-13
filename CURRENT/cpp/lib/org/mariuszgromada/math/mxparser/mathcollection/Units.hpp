@@ -1,5 +1,5 @@
 /*
- * @(#)Units.hpp        6.1.0    2024-10-06
+ * @(#)Units.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -235,91 +235,91 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * ===========================================
 		 */
 		/**
-		 * Percentage
+		 * \brief Percentage
 		 */
 		static constexpr double PERC = 0.01;
 		/**
-		 * Promil, Per mille
+		 * \brief Promil, Per mille
 		 */
 		static constexpr double PROMIL = 0.001;
 		/**
-		 * Yotta
+		 * \brief Yotta
 		 */
 		static constexpr double YOTTA = 1.0E24;
 		/**
-		 * Zetta
+		 * \brief Zetta
 		 */
 		static constexpr double ZETTA = 1.0E21;
 		/**
-		 * Exa
+		 * \brief Exa
 		 */
 		static constexpr double EXA = 1.0E18;
 		/**
-		 * Peta
+		 * \brief Peta
 		 */
 		static constexpr double PETA = 1.0E15;
 		/**
-		 * Tera
+		 * \brief Tera
 		 */
 		static constexpr double TERA = 1.0E12;
 		/**
-		 * Giga
+		 * \brief Giga
 		 */
 		static constexpr double GIGA = 1000000000.0;
 		/**
-		 * Mega
+		 * \brief Mega
 		 */
 		static constexpr double MEGA = 1000000.0;
 		/**
-		 * Kilo
+		 * \brief Kilo
 		 */
 		static constexpr double KILO = 1000.0;
 		/**
-		 * Hecto
+		 * \brief Hecto
 		 */
 		static constexpr double HECTO = 100.0;
 		/**
-		 * Deca
+		 * \brief Deca
 		 */
 		static constexpr double DECA = 10.0;
 		/**
-		 * Deci
+		 * \brief Deci
 		 */
 		static constexpr double DECI = 0.1;
 		/**
-		 * Centi
+		 * \brief Centi
 		 */
 		static constexpr double CENTI = 0.01;
 		/**
-		 * Milli
+		 * \brief Milli
 		 */
 		static constexpr double MILLI = 0.001;
 		/**
-		 * Micro
+		 * \brief Micro
 		 */
 		static constexpr double MICRO = 0.000001;
 		/**
-		 * Nano
+		 * \brief Nano
 		 */
 		static constexpr double NANO = 0.000000001;
 		/**
-		 * Pico
+		 * \brief Pico
 		 */
 		static constexpr double PICO = 1.0E-12;
 		/**
-		 * Femto
+		 * \brief Femto
 		 */
 		static constexpr double FEMTO = 1.0E-15;
 		/**
-		 * Atto
+		 * \brief Atto
 		 */
 		static constexpr double ATTO = 1.0E-18;
 		/**
-		 * Zepto
+		 * \brief Zepto
 		 */
 		static constexpr double ZEPTO = 1.0E-21;
 		/**
-		 * Yocto
+		 * \brief Yocto
 		 */
 		static constexpr double YOCTO = 1.0E-24;
 
@@ -328,39 +328,39 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * ===========================================
 		 */
 		/**
-		 * Meter
+		 * \brief Meter
 		 */
 		static constexpr double METRE = 1.0;
 		/**
-		 * Kilometer
+		 * \brief Kilometer
 		 */
 		static constexpr double KILOMETRE = 1000.0 * METRE;
 		/**
-		 * Centimeter
+		 * \brief Centimeter
 		 */
 		static constexpr double CENTIMETRE = CENTI * METRE;
 		/**
-		 * Millimetre
+		 * \brief Millimetre
 		 */
 		static constexpr double MILLIMETRE = MILLI * METRE;
 		/**
-		 * Inch
+		 * \brief Inch
 		 */
 		static constexpr double INCH = 2.54 * CENTIMETRE;
 		/**
-		 * Yard
+		 * \brief Yard
 		 */
 		static constexpr double YARD = 0.9144 * METRE;
 		/**
-		 * Feet
+		 * \brief Feet
 		 */
 		static constexpr double FEET = 30.48 * CENTIMETRE;
 		/**
-		 * Mile
+		 * \brief Mile
 		 */
 		static constexpr double MILE = 1.609344 * KILOMETRE;
 		/**
-		 * Nautical mile
+		 * \brief Nautical mile
 		 */
 		static constexpr double NAUTICAL_MILE = 1.852 * KILOMETRE;
 
@@ -369,31 +369,31 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * ===========================================
 		 */
 		/**
-		 * Square metre
+		 * \brief Square metre
 		 */
 		static constexpr double METRE2 = METRE * METRE;
 		/**
-		 * Square centimetre
+		 * \brief Square centimetre
 		 */
 		static constexpr double CENTIMETRE2 = CENTIMETRE * CENTIMETRE;
 		/**
-		 * Square millimetre
+		 * \brief Square millimetre
 		 */
 		static constexpr double MILLIMETRE2 = MILLIMETRE * MILLIMETRE;
 		/**
-		 * Are
+		 * \brief Are
 		 */
 		static constexpr double ARE = (10.0 * METRE) * (10.0 * METRE);
 		/**
-		 * Hectare
+		 * \brief Hectare
 		 */
 		static constexpr double HECTARE = (100.0 * METRE) * (100.0 * METRE);
 		/**
-		 * Square kilometre
+		 * \brief Square kilometre
 		 */
 		static constexpr double KILOMETRE2 = KILOMETRE * KILOMETRE;
 		/**
-		 * Acre
+		 * \brief Acre
 		 */
 		static constexpr double ACRE = (66.0 * FEET) * (660.0 * FEET);
 
@@ -402,35 +402,35 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * ===========================================
 		 */
 		/**
-		 * Qubic millimetre
+		 * \brief Qubic millimetre
 		 */
 		static constexpr double MILLIMETRE3 = MILLIMETRE * MILLIMETRE * MILLIMETRE;
 		/**
-		 * Qubic centimetre
+		 * \brief Qubic centimetre
 		 */
 		static constexpr double CENTIMETRE3 = CENTIMETRE * CENTIMETRE * CENTIMETRE;
 		/**
-		 * Qubic metre
+		 * \brief Qubic metre
 		 */
 		static constexpr double METRE3 = METRE * METRE * METRE;
 		/**
-		 * Qubic kilometre
+		 * \brief Qubic kilometre
 		 */
 		static constexpr double KILOMETRE3 = KILOMETRE * KILOMETRE * KILOMETRE;
 		/**
-		 * Millilitre
+		 * \brief Millilitre
 		 */
 		static constexpr double MILLILITRE = CENTIMETRE3;
 		/**
-		 * Litre
+		 * \brief Litre
 		 */
 		static constexpr double LITRE = 1000.0 * MILLILITRE;
 		/**
-		 * Gallon
+		 * \brief Gallon
 		 */
 		static constexpr double GALLON = 3.78541178 * LITRE;
 		/**
-		 * Pint
+		 * \brief Pint
 		 */
 		static constexpr double PINT = 473.176473 * MILLILITRE;
 
@@ -439,31 +439,31 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * ===========================================
 		 */
 		/**
-		 * Second
+		 * \brief Second
 		 */
 		static constexpr double SECOND = 1.0;
 		/**
-		 * Millisecond
+		 * \brief Millisecond
 		 */
 		static constexpr double MILLISECOND = MILLI * SECOND;
 		/**
-		 * MINUTE
+		 * \brief MINUTE
 		 */
 		static constexpr double MINUTE = 60.0 * SECOND;
 		/**
-		 * HOUR
+		 * \brief HOUR
 		 */
 		static constexpr double HOUR = 60.0 * MINUTE;
 		/**
-		 * DAY
+		 * \brief DAY
 		 */
 		static constexpr double DAY = 24.0 * HOUR;
 		/**
-		 * WEEK
+		 * \brief WEEK
 		 */
 		static constexpr double WEEK = 7.0 * DAY;
 		/**
-		 * JULIAN YEAR
+		 * \brief JULIAN YEAR
 		 */
 		static constexpr double JULIAN_YEAR = 365.25 * DAY;
 
@@ -472,31 +472,31 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * ===========================================
 		 */
 		/**
-		 * Kilogram
+		 * \brief Kilogram
 		 */
 		static constexpr double KILOGRAM = 1.0;
 		/**
-		 * Gram
+		 * \brief Gram
 		 */
 		static constexpr double GRAM = 0.001 * KILOGRAM;
 		/**
-		 * Milligram
+		 * \brief Milligram
 		 */
 		static constexpr double MILLIGRAM = MILLI * GRAM;
 		/**
-		 * Decagram
+		 * \brief Decagram
 		 */
 		static constexpr double DECAGRAM = DECA * GRAM;
 		/**
-		 * Tonne
+		 * \brief Tonne
 		 */
 		static constexpr double TONNE = 1000.0 * KILOGRAM;
 		/**
-		 * Ounce
+		 * \brief Ounce
 		 */
 		static constexpr double OUNCE = 28.3495231 * GRAM;
 		/**
-		 * Pound
+		 * \brief Pound
 		 */
 		static constexpr double POUND = 0.45359237 * KILOGRAM;
 
@@ -511,12 +511,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * ===========================================
 		 */
 		/**
-		 * Coulomb
+		 * \brief Coulomb
 		 */
 		static constexpr double COULOMB = 1.0;
 
 		/**
-		 * Ampere
+		 * \brief Ampere
 		 */
 		static constexpr double AMPERE = COULOMB / SECOND;
 
@@ -525,17 +525,17 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * ===========================================
 		 */
 		/**
-		 * Kelvin
+		 * \brief Kelvin
 		 */
 		static constexpr double KELVIN = 1.0;
 
 		/**
-		 * Celcius
+		 * \brief Celcius
 		 */
 		static constexpr double CELCIUS = 1.0;
 
 		/**
-		 * Farenheight
+		 * \brief Farenheight
 		 */
 		static constexpr double FARENHEIGHT = 1.8;
 
@@ -544,75 +544,75 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * ===========================================
 		 */
 		/**
-		 * Bit
+		 * \brief Bit
 		 */
 		static constexpr double BIT = 1.0;
 		/**
-		 * Kilobit
+		 * \brief Kilobit
 		 */
 		static constexpr double KILOBIT = 1024.0 * BIT;
 		/**
-		 * Megabit
+		 * \brief Megabit
 		 */
 		static constexpr double MEGABIT = 1024.0 * KILOBIT;
 		/**
-		 * Gigabit
+		 * \brief Gigabit
 		 */
 		static constexpr double GIGABIT = 1024.0 * MEGABIT;
 		/**
-		 * Terabit
+		 * \brief Terabit
 		 */
 		static constexpr double TERABIT = 1024.0 * GIGABIT;
 		/**
-		 * Petabit
+		 * \brief Petabit
 		 */
 		static constexpr double PETABIT = 1024.0 * TERABIT;
 		/**
-		 * Exabit
+		 * \brief Exabit
 		 */
 		static constexpr double EXABIT = 1024.0 * PETABIT;
 		/**
-		 * Zettabit
+		 * \brief Zettabit
 		 */
 		static constexpr double ZETTABIT = 1024.0 * EXABIT;
 		/**
-		 * Yottabit
+		 * \brief Yottabit
 		 */
 		static constexpr double YOTTABIT = 1024.0 * ZETTABIT;
 		/**
-		 * Byte
+		 * \brief Byte
 		 */
 		static constexpr double BYTE = 8.0 * BIT;
 		/**
-		 * Kilobyte
+		 * \brief Kilobyte
 		 */
 		static constexpr double KILOBYTE = 1024.0 * BYTE;
 		/**
-		 * Megabyte
+		 * \brief Megabyte
 		 */
 		static constexpr double MEGABYTE = 1024.0 * KILOBYTE;
 		/**
-		 * Gigabyte
+		 * \brief Gigabyte
 		 */
 		static constexpr double GIGABYTE = 1024.0 * MEGABYTE;
 		/**
-		 * Terabyte
+		 * \brief Terabyte
 		 */
 		static constexpr double TERABYTE = 1024.0 * GIGABYTE;
 		/**
-		 * Petabyte
+		 * \brief Petabyte
 		 */
 		static constexpr double PETABYTE = 1024.0 * TERABYTE;
 		/**
-		 * Exabyte
+		 * \brief Exabyte
 		 */
 		static constexpr double EXABYTE = 1024.0 * PETABYTE;
 		/**
-		 * Zettabyte
+		 * \brief Zettabyte
 		 */
 		static constexpr double ZETTABYTE = 1024.0 * EXABYTE;
 		/**
-		 * Yottabyte
+		 * \brief Yottabyte
 		 */
 		static constexpr double YOTTABYTE = 1024.0 * ZETTABYTE;
 
@@ -621,27 +621,27 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * ===========================================
 		 */
 		/**
-		 * Jule
+		 * \brief Jule
 		 */
 		static constexpr double JOULE = (KILOGRAM * METRE * METRE) / (SECOND * SECOND);
 		/**
-		 * Electrono-Volt
+		 * \brief Electrono-Volt
 		 */
 		static constexpr double ELECTRONO_VOLT = 1.6021766208E-19 * JOULE;
 		/**
-		 * Kilo Electrono-Volt
+		 * \brief Kilo Electrono-Volt
 		 */
 		static constexpr double KILO_ELECTRONO_VOLT = KILO * ELECTRONO_VOLT;
 		/**
-		 * Mega Electrono-Volt
+		 * \brief Mega Electrono-Volt
 		 */
 		static constexpr double MEGA_ELECTRONO_VOLT = MEGA * ELECTRONO_VOLT;
 		/**
-		 * Giga Electrono-Volt
+		 * \brief Giga Electrono-Volt
 		 */
 		static constexpr double GIGA_ELECTRONO_VOLT = GIGA * ELECTRONO_VOLT;
 		/**
-		 * Tera Electrono-Volt
+		 * \brief Tera Electrono-Volt
 		 */
 		static constexpr double TERA_ELECTRONO_VOLT = TERA * ELECTRONO_VOLT;
 
@@ -650,19 +650,19 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * ===========================================
 		 */
 		/**
-		 * Metre per second
+		 * \brief Metre per second
 		 */
 		static constexpr double METRE_PER_SECOND = METRE / SECOND;
 		/**
-		 * Kilometre per hour
+		 * \brief Kilometre per hour
 		 */
 		static constexpr double KILOMETRE_PER_HOUR = KILOMETRE / HOUR;
 		/**
-		 * Mile per hour
+		 * \brief Mile per hour
 		 */
 		static constexpr double MILE_PER_HOUR = MILE / HOUR;
 		/**
-		 * Knot
+		 * \brief Knot
 		 */
 		static constexpr double KNOT = 0.514444444 * METRE / SECOND;
 
@@ -671,15 +671,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * ===========================================
 		 */
 		/**
-		 * Metre per squared second
+		 * \brief Metre per squared second
 		 */
 		static constexpr double METRE_PER_SECOND2 = METRE / (SECOND * SECOND);
 		/**
-		 * Kilometre per squared hour
+		 * \brief Kilometre per squared hour
 		 */
 		static constexpr double KILOMETRE_PER_HOUR2 = KILOMETRE / (HOUR * HOUR);
 		/**
-		 * Mile per squared hour
+		 * \brief Mile per squared hour
 		 */
 		static constexpr double MILE_PER_HOUR2 = MILE / (HOUR * HOUR);
 
@@ -688,22 +688,27 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * ===========================================
 		 */
 		/**
-		 * Radian (angle)
+		 * \brief Radian (angle)
 		 */
 		static constexpr double RADIAN_ARC = 1.0;
 		/**
-		 * Degree (angle)
+		 * \brief Degree (angle)
 		 */
 		static constexpr double DEGREE_ARC = (Math::PI / 180.0) * RADIAN_ARC;
 		/**
-		 * Minute (angle)
+		 * \brief Minute (angle)
 		 */
 		static constexpr double MINUTE_ARC = DEGREE_ARC / 60.0;
 		/**
-		 * Second (angle)
+		 * \brief Second (angle)
 		 */
 		static constexpr double SECOND_ARC = MINUTE_ARC / 60.0;
 
+		/**
+		 * \brief Returns the numeric value of a built-in unit or prefix.
+		 * \param unitId The token identifier defined by \ref org::mariuszgromada::math::mxparser::parsertokens::Unit.
+		 * \return The unit or prefix value, or `Double.NaN` if the identifier is unknown.
+		 */
 		static double getUnitValue(int unitId);
 	};
 } // namespace org::mariuszgromada::math::mxparser::mathcollection

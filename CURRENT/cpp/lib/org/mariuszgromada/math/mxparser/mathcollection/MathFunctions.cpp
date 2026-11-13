@@ -280,14 +280,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		MAX_RECURSION_CALLS = mXparser::getMaxAllowedRecursionDepth();
 	}
 
-	/**
-	 * Addition a + b applying canonical rounding if canonical
-	 * rounding is enabled
-	 *
-	 * @param a  The a parameter
-	 * @param b  The b parameter
-	 * @return   The result of addition
-	 */
 	API_VISIBLE double MathFunctions::plus(double a, double b) {
 		if (Double::isNaN(a)) return Double::NaN;
 		if (Double::isNaN(b)) return Double::NaN;
@@ -299,14 +291,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return da.add(db).doubleValue();
 	}
 
-	/**
-	 * Subtraction a - b applying canonical rounding if canonical
-	 * rounding is enabled
-	 *
-	 * @param a  The a parameter
-	 * @param b  The b parameter
-	 * @return   The result of subtraction
-	 */
 	API_VISIBLE double MathFunctions::minus(double a, double b) {
 		if (Double::isNaN(a)) return Double::NaN;
 		if (Double::isNaN(b)) return Double::NaN;
@@ -318,14 +302,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return da.subtract(db).doubleValue();
 	}
 
-	/**
-	 * Multiplication a * b applying canonical rounding if canonical
-	 * rounding is enabled
-	 *
-	 * @param a  The a parameter
-	 * @param b  The b parameter
-	 * @return   The result of multiplication
-	 */
 	API_VISIBLE double MathFunctions::multiply(double a, double b) {
 		if (Double::isNaN(a)) return Double::NaN;
 		if (Double::isNaN(b)) return Double::NaN;
@@ -337,14 +313,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return da.multiply(db).doubleValue();
 	}
 
-	/**
-	 * Division a / b applying canonical rounding if canonical
-	 * rounding is enabled
-	 *
-	 * @param a  The a parameter
-	 * @param b  The b parameter
-	 * @return   The result of division
-	 */
 	API_VISIBLE double MathFunctions::div(double a, double b) {
 		if (b == 0) return Double::NaN;
 		if (Double::isNaN(a)) return Double::NaN;
@@ -359,14 +327,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return a / b;
 	}
 
-	/**
-	 * Integer division (also called quotient) a / b applying canonical rounding if canonical
-	 * rounding is enabled
-	 *
-	 * @param a  The a parameter
-	 * @param b  The b parameter
-	 * @return   The result of integer division
-	 */
 	API_VISIBLE double MathFunctions::divQuotient(double a, double b) {
 		double result = div(a, b);
 		if (Double::isNaN(result) || Double::isInfinite(result)) return result;
@@ -374,14 +334,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return Math::floor(result);
 	}
 
-	/**
-	 * Bell Numbers
-	 *
-	 * @param      n                   the n
-	 *
-	 * @return     if n &gt;= 0 returns Bell numbers,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::bellNumber(int n) {
 		return bellNumberWithCancel(n, 0);
 	}
@@ -410,13 +362,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Bell number
-	 * @param      n                   the n
-	 *
-	 * @return     if n is within the int range return bellNumber( (int)Math::round(n) ),
-	 *             otherwise return Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::bellNumber(double n) {
 		return bellNumberWithCancel(n, 0);
 	}
@@ -429,20 +374,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return bellNumberWithCancel(CAST_INT(Math::round(n)), cancelId);
 	}
 
-	/**
-	 * Euler numbers
-	 *
-	 * @param      n                   the n function param
-	 * @param      k                   the k function param
-	 *
-	 * @return     if n &gt;=0 returns Euler number,
-	 *             otherwise return Double::NaN.
-	 *             Returns also Double::NaN when MAX RECURSION CALLS
-	 *             is exceeded.
-	 *
-	 * @see mXparser#getMaxAllowedRecursionDepth()
-	 * @see mXparser#setMaxAllowedRecursionDepth(int)
-	 */
 	API_VISIBLE double MathFunctions::eulerNumber(int n, int k) {
 		return eulerNumberWithCancel(n, k, 0);
 	}
@@ -475,15 +406,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return (k + 1) * e1 + (n - k) * e2;
 	}
 
-	/**
-	 * Euler numbers
-	 *
-	 * @param      n                   the n function param
-	 * @param      k                   the k function param
-	 *
-	 * @return     if n, k &lt;&gt; Double::NaN returns eulerNumber( (int)Math::round(n), (int)Math::round(k) ),
-	 *             otherwise return Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::eulerNumber(double n, double k) {
 		return eulerNumberWithCancel(n, k, 0);
 	}
@@ -495,13 +417,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return eulerNumberWithCancel(checkedMathIntConversion(Math::round(n), "eulerNumber"), checkedMathIntConversion(Math::round(k), "eulerNumber"), cancelId);
 	}
 
-	/**
-	 * Factorial
-	 *
-	 * @param      n                   the n function parameter
-	 *
-	 * @return     Factorial if n &gt;=0, otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::factorial(int n) {
 		return factorialWithCancel(n, 0);
 	}
@@ -524,14 +439,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return f;
 	}
 
-	/**
-	 * Factorial
-	 *
-	 * @param      n                   the n function parameter
-	 *
-	 * @return     if n &lt;&gt; Double::NaN return factorial( (int)Math::round(n) ),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::factorial(double n) {
 		return factorialWithCancel(n, 0);
 	}
@@ -544,12 +451,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return factorialWithCancel(checkedMathIntConversion(Math::round(n), "factorial"), cancelId);
 	}
 
-	/**
-	 * Falling factorial polynomial
-	 * @param x  Argument
-	 * @param n  Polynomial degree
-	 * @return   Falling factorial polynomial of degree n at point x
-	 */
 	API_VISIBLE double MathFunctions::factorialFalling(double x, double n) {
 		return factorialFallingWithCancel(x, n, 0);
 	}
@@ -570,12 +471,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return y;
 	}
 
-	/**
-	 * Rising factorial polynomial
-	 * @param x  Argument
-	 * @param n  Polynomial degree
-	 * @return   Rising factorial polynomial of degree n at point x
-	 */
 	API_VISIBLE double MathFunctions::factorialRising(double x, double n) {
 		return factorialRisingWithCancel(x, n, 0);
 	}
@@ -596,15 +491,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return y;
 	}
 
-	/**
-	 * Generalized binomial coefficient
-	 *
-	 * @param      n                   the n function parameter
-	 * @param k    k                   the k function parameter
-	 *
-	 * @return     Generalized binomial coefficient, if
-	 *             n = Double::NaN or k &lt; 0 returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::binomCoeff(double n, Long k) {
 		return binomCoeffWithCancel(n, k, 0);
 	}
@@ -633,15 +519,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Generalized binomial coefficient
-	 *
-	 * @param      n                   the n function parameter
-	 * @param      k                   the k function parameter
-	 *
-	 * @return     if n, k &lt;&gt; Double::NaN returns binomCoeff(n, (int)Math::round(k) ),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::binomCoeff(double n, double k) {
 		return binomCoeffWithCancel(n, k, 0);
 	}
@@ -654,16 +531,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return binomCoeffWithCancel(n, checkedMathLongConversion(Math::round(k), "binomCoeff"), cancelId);
 	}
 
-	/**
-	 * Generalized coefficient returning number of k permutations
-	 * that can be drawn for n elements set.
-	 *
-	 * @param      n                   the n function parameter
-	 * @param      k                   the k function parameter
-	 *
-	 * @return   For k greater than 0 return number of permutations, otherwise
-	 *           returns Double::NaN
-	 */
 	API_VISIBLE double MathFunctions::numberOfPermutations(double n, Long k) {
 		return numberOfPermutationsWithCancel(n, k, 0);
 	}
@@ -685,16 +552,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Generalized coefficient returning number of k permutations
-	 * that can be drawn for n elements set.
-	 *
-	 * @param      n                   the n function parameter
-	 * @param      k                   the k function parameter
-	 *
-	 * @return   For k greater than 0 return number of permutations, otherwise
-	 *           returns Double::NaN
-	 */
 	API_VISIBLE double MathFunctions::numberOfPermutations(double n, double k) {
 		return numberOfPermutationsWithCancel(n, k, 0);
 	}
@@ -707,15 +564,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return numberOfPermutationsWithCancel(n, lk, cancelId);
 	}
 
-	/**
-	 * Bernoulli numbers
-	 *
-	 * @param      m                   the m function parameter
-	 * @param      n                   the n function parameter
-	 *
-	 * @return     if n, m &gt;= 0 returns Bernoulli number,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::bernoulliNumber(int m, int n) {
 		return bernoulliNumberWithCancel(m, n, 0);
 	}
@@ -736,15 +584,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Bernoulli numbers
-	 *
-	 * @param      m                   the m function parameter
-	 * @param      n                   the n function parameter
-	 *
-	 * @return     if n, m &lt;&gt; Double::NaN returns bernoulliNumber( (int)Math::round(m), (int)Math::round(n) ),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::bernoulliNumber(double m, double n) {
 		return bernoulliNumberWithCancel(m, n, 0);
 	}
@@ -757,19 +596,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return bernoulliNumberWithCancel(checkedMathIntConversion(Math::round(m), "bernoulliNumber"), checkedMathIntConversion(Math::round(n), "bernoulliNumber"), cancelId);
 	}
 
-	/**
-	 * Stirling numbers of the first kind
-	 *
-	 * @param      n                   the n function parameter
-	 * @param      k                   the k function parameter
-	 *
-	 * @return     Stirling numbers of the first kind
-	 *             Returns also Double::NaN when MAX RECURSION CALLS
-	 *             is exceeded.
-	 *
-	 * @see mXparser#getMaxAllowedRecursionDepth()
-	 * @see mXparser#setMaxAllowedRecursionDepth(int)
-	 */
 	API_VISIBLE double MathFunctions::Stirling1Number(int n, int k) {
 		return Stirling1NumberWithCancel(n, k, 0);
 	}
@@ -801,15 +627,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return (n - 1) * s1 + s2;
 	}
 
-	/**
-	 * Stirling numbers of the first kind
-	 *
-	 * @param      n                   the n function parameter
-	 * @param      k                   the k function parameter
-	 *
-	 * @return     if n, k &lt;&gt; Doube.NaN returns Stirling1Number( (int)Math::round(n), (int)Math::round(k) ),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::Stirling1Number(double n, double k) {
 		return Stirling1NumberWithCancel(n, k, 0);
 	}
@@ -822,19 +639,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return Stirling1NumberWithCancel(checkedMathIntConversion(Math::round(n), "Stirling1Number"), checkedMathIntConversion(Math::round(k), "Stirling1Number"), cancelId);
 	}
 
-	/**
-	 * Stirling numbers of the second kind
-	 *
-	 * @param      n                   the n function parameter
-	 * @param      k                   the k function parameter
-	 *
-	 * @return     Stirling numbers of the second kind
-	 *             Returns also Double::NaN when MAX RECURSION CALLS
-	 *             is exceeded.
-	 *
-	 * @see mXparser#getMaxAllowedRecursionDepth()
-	 * @see mXparser#setMaxAllowedRecursionDepth(int)
-	 */
 	API_VISIBLE double MathFunctions::Stirling2Number(int n, int k) {
 		return Stirling2NumberWithCancel(n, k, 0);
 	}
@@ -866,15 +670,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return k * s1 + s2;
 	}
 
-	/**
-	 * Stirling numbers of the second kind
-	 *
-	 * @param      n                   the n function parameter
-	 * @param      k                   the k function parameter
-	 *
-	 * @return     if n, k &lt;&gt; Doube.NaN returns Stirling2Number( (int)Math::round(n), (int)Math::round(k) ),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::Stirling2Number(double n, double k) {
 		return Stirling2NumberWithCancel(n, k, 0);
 	}
@@ -887,15 +682,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return Stirling2NumberWithCancel(checkedMathIntConversion(Math::round(n), "Stirling2Number"), checkedMathIntConversion(Math::round(k), "Stirling2Number"), cancelId);
 	}
 
-	/**
-	 * Worpitzky numbers
-	 *
-	 * @param      n                   the n function parameter
-	 * @param      k                   the k function parameter
-	 *
-	 * @return     if n,k &gt;= 0 and k &lt;= n return Worpitzky number,
-	 *             otherwise return Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::worpitzkyNumber(int n, int k) {
 		return worpitzkyNumberWithCancel(n, k, 0);
 	}
@@ -914,15 +700,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Worpitzky numbers
-	 *
-	 * @param      n                   the n function parameter
-	 * @param      k                   the k function parameter
-	 *
-	 * @return     if n,k &lt;&gt; Double::NaN returns worpitzkyNumber( (int)Math::round(n), (int)Math::round(k) ),
-	 *             otherwise return Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::worpitzkyNumber(double n, double k) {
 		return worpitzkyNumberWithCancel(n, k, 0);
 	}
@@ -935,14 +712,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return worpitzkyNumberWithCancel(checkedMathIntConversion(Math::round(n), "worpitzkyNumber"), checkedMathIntConversion(Math::round(k), "worpitzkyNumber"), cancelId);
 	}
 
-	/**
-	 * Harmonic numer
-	 *
-	 * @param      n                   the n function parameter
-	 *
-	 * @return     if n &gt; 0 returns harmonic number, otherwise returns 0
-	 *             (empty summation operator)
-	 */
 	API_VISIBLE double MathFunctions::harmonicNumber(int n) {
 		return ordinaryHarmonicNumberWithCancel(n, 0);
 	}
@@ -962,14 +731,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return h;
 	}
 
-	/**
-	 * Harmonic number
-	 *
-	 * @param      n                   the n function parameter
-	 *
-	 * @return     if n &lt;&gt; Double::NaN returns harmonicNumber( (int)Math::round(n) ),
-	 *             otherwise returns Double::NaN
-	 */
 	API_VISIBLE double MathFunctions::harmonicNumber(double n) {
 		return ordinaryHarmonicNumberWithCancel(n, 0);
 	}
@@ -982,15 +743,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return ordinaryHarmonicNumberWithCancel(checkedMathIntConversion(Math::round(n), "harmonicNumber"), cancelId);
 	}
 
-	/**
-	 * Harmonic number 1/1 + 1/2^x + ... + 1/n^x
-	 *
-	 * @param      x                   the x function parameter
-	 * @param      n                   the n function parameter
-	 *
-	 * @return     if x &lt;&gt; Double::NaN and x &gt;= 0 Harmonic number,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::harmonicNumber(double x, int n) {
 		return generalizedHarmonicNumberWithCancel(x, n, 0);
 	}
@@ -1012,15 +764,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return h;
 	}
 
-	/**
-	 * Harmonic number 1/1 + 1/2^x + ... + 1/n^x
-	 *
-	 * @param      x                   the x function parameter
-	 * @param      n                   the n function parameter
-	 *
-	 * @return     if x,n &lt;&gt; Double::NaN returns harmonicNumber( x, (int)Math::round(n) ),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::harmonicNumber(double x, double n) {
 		return generalizedHarmonicNumberWithCancel(x, n, 0);
 	}
@@ -1033,44 +776,16 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return generalizedHarmonicNumberWithCancel(x, checkedMathIntConversion(Math::round(n), "harmonicNumber"), cancelId);
 	}
 
-	/**
-	 * Catalan numbers
-	 *
-	 * @param      n                   the n function parameter
-	 *
-	 * @return     Catalan numbers
-	 */
 	API_VISIBLE double MathFunctions::catalanNumber(int n) {
 		return binomCoeff(2 * n, CAST_LONG(n)) * div(1, n + 1);
 	}
 
-	/**
-	 * Catalan numbers
-	 *
-	 * @param      n                   the n function parameter
-	 *
-	 * @return     if n &lt;&gt; Double::NaN returns catalanNumber( (int)Math::round(n) ),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::catalanNumber(double n) {
 		if (Double::isNaN(n))
 			return Double::NaN;
 		return catalanNumber(checkedMathIntConversion(Math::round(n), "catalanNumber"));
 	}
 
-	/**
-	 * Fibonacci numbers
-	 *
-	 * @param      n                   the n function parameter
-	 *
-	 * @return     if n &gt;= 0 returns fibonacci numbers,
-	 *             otherwise returns Double::NaN.
-	 *             Returns also Double::NaN when MAX RECURSION CALLS
-	 *             is exceeded.
-	 *
-	 * @see mXparser#getMaxAllowedRecursionDepth()
-	 * @see mXparser#setMaxAllowedRecursionDepth(int)
-	 */
 	API_VISIBLE double MathFunctions::fibonacciNumber(int n) {
 		return fibonacciNumberWithCancel(n, 0);
 	}
@@ -1101,14 +816,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return f1 + f2;
 	}
 
-	/**
-	 * Fibonacci numbers
-	 *
-	 * @param      n                   the n function parameter
-	 *
-	 * @return     if n &lt;&gt; Double::NaN returns fibonacciNumber( (int)Math::round(n) ),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::fibonacciNumber(double n) {
 		return fibonacciNumberWithCancel(n, 0);
 	}
@@ -1121,19 +828,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return fibonacciNumberWithCancel(checkedMathIntConversion(Math::round(n), "fibonacciNumber"), cancelId);
 	}
 
-	/**
-	 * Lucas numebrs
-	 *
-	 * @param      n                   the n function parameter
-	 *
-	 * @return     if n &gt;= 0 returns Lucas numbers,
-	 *             otherwise returns Double::NaN.
-	 *             Returns also Double::NaN when MAX RECURSION CALLS
-	 *             is exceeded.
-	 *
-	 * @see mXparser#getMaxAllowedRecursionDepth()
-	 * @see mXparser#setMaxAllowedRecursionDepth(int)
-	 */
 	API_VISIBLE double MathFunctions::lucasNumber(int n) {
 		return lucasNumberWithCancel(n, 0);
 	}
@@ -1164,14 +858,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return l1 + l2;
 	}
 
-	/**
-	 * Lucas numebrs
-	 *
-	 * @param      n                   the n function parameter
-	 *
-	 * @return     if n &lt;&gt; Double::NaN returns lucasNumber( (int)Math::round(n) ),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::lucasNumber(double n) {
 		return lucasNumberWithCancel(n, 0);
 	}
@@ -1184,15 +870,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return lucasNumberWithCancel(checkedMathIntConversion(Math::round(n), "lucasNumber"), cancelId);
 	}
 
-	/**
-	 * Kronecker delta
-	 *
-	 * @param      i                   the i function parameter
-	 * @param      j                   the j function parameter
-	 *
-	 * @return     if i,j &lt;&gt; Double::NaN returns Kronecker delta,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::kroneckerDelta(double i, double j) {
 		if (Double::isNaN(i) || Double::isNaN(j))
 			return Double::NaN;
@@ -1202,14 +879,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return 0;
 	}
 
-	/**
-	 * Kronecker delta
-	 *
-	 * @param      i                   the i function parameter
-	 * @param      j                   the j function parameter
-	 *
-	 * @return     Kronecker delta
-	 */
 	API_VISIBLE double MathFunctions::kroneckerDelta(int i, int j) {
 		if (i == j)
 			return 1;
@@ -1217,15 +886,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return 0;
 	}
 
-	/**
-	 * Continued fraction
-	 *
-	 * @param      sequence            the numbers
-	 *
-	 * @return     if each number form the sequence &lt;&gt; Double::NaN and
-	 *             there is no division by 0 while computing returns continued fraction
-	 *             value, otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::continuedFraction(const ArrayPtr<double> &sequence) {
 		return continuedFractionWithCancel(sequence, 0);
 	}
@@ -1257,13 +917,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * Private function calculating continued polynomial
+	 * \brief Private function calculating continued polynomial
 	 * recursively.
-	 *
-	 * @param      n         the polynomial order
-	 * @param      x         the x values
-	 *
-	 * @return     continued polynomial value
+	 * \param n         the polynomial order
+	 * \param x         the x values
+	 * \return continued polynomial value
+	 * \param cancelId The cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID.
 	 */
 	API_VISIBLE double MathFunctions::continuedPolynomialWithCancel(int n, const ArrayPtr<double> &x, int cancelId) {
 		if (x == nullptr) return Double::NaN;
@@ -1276,15 +935,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return (*x)(n - 1) * continuedPolynomialWithCancel(n - 1, x, cancelId) + continuedPolynomialWithCancel(n - 2, x, cancelId);
 	}
 
-	/**
-	 * Continued polynomial
-	 *
-	 * @param      x         the x values
-	 *
-	 * @return     if each number for x is different the Double::NaN
-	 *             returns continued polynomial, otherwise returns
-	 *             Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::continuedPolynomial(const ArrayPtr<double> &x) {
 		return continuedPolynomialWithCancel(x, 0);
 	}
@@ -1302,15 +952,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return continuedPolynomialWithCancel(x->length, x, cancelId);
 	}
 
-	/**
-	 * Euler polynomial
-	 *
-	 * @param      m                   the m parameter
-	 * @param      x                   the x parameter
-	 *
-	 * @return     if x &lt;&gt; Double::NaN and m &gt;= 0 returns polynomial value,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::eulerPolynomial(int m, double x) {
 		return eulerPolynomialWithCancel(m, x, 0);
 	}
@@ -1336,15 +977,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return sumTotal;
 	}
 
-	/**
-	 * Euler polynomial
-	 *
-	 * @param      m                   the m parameter
-	 * @param      x                   the x parameter
-	 *
-	 * @return     if x,m &lt;&gt; Double::NaN returns eulerPolynomial( (int)Math::round(m), (int)Math::round(x) ),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::eulerPolynomial(double m, double x) {
 		return eulerPolynomialWithCancel(m, x, 0);
 	}
@@ -1357,16 +989,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return eulerPolynomialWithCancel(checkedMathIntConversion(Math::round(m), "eulerPolynomial"), x, cancelId);
 	}
 
-	/**
-	 * Characteristic function x in (a,b)
-	 *
-	 * @param      x                   the x value
-	 * @param      a                   the left (lower) limit
-	 * @param      b                   the right (upper) limit
-	 *
-	 * @return     if x, a, b &lt;&gt; Double::NaN returns
-	 * 			   characteristic function value on the (a,b) range.
-	 */
 	API_VISIBLE double MathFunctions::chi(double x, double a, double b) {
 		if (Double::isNaN(x) || Double::isNaN(a) || Double::isNaN(b))
 			return Double::NaN;
@@ -1381,16 +1003,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Characteristic function x in (a,b)
-	 *
-	 * @param      x                   the x value
-	 * @param      a                   the left (lower) limit
-	 * @param      b                   the right (upper) limit
-	 *
-	 * @return     if x, a, b &lt;&gt; Double::NaN returns
-	 * 			   characteristic function value on the (a,b) range.
-	 */
 	API_VISIBLE double MathFunctions::chi_LR(double x, double a, double b) {
 		if (Double::isNaN(x) || Double::isNaN(a) || Double::isNaN(b))
 			return Double::NaN;
@@ -1405,16 +1017,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Characteristic function x in (a,b)
-	 *
-	 * @param      x                   the x value
-	 * @param      a                   the left (lower) limit
-	 * @param      b                   the right (upper) limit
-	 *
-	 * @return     if x, a, b &lt;&gt; Double::NaN returns
-	 * 			   characteristic function value on the (a,b) range.
-	 */
 	API_VISIBLE double MathFunctions::chi_L(double x, double a, double b) {
 		if (Double::isNaN(x) || Double::isNaN(a) || Double::isNaN(b))
 			return Double::NaN;
@@ -1429,16 +1031,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Characteristic function x in (a,b)
-	 *
-	 * @param      x                   the x value
-	 * @param      a                   the left (lower) limit
-	 * @param      b                   the right (upper) limit
-	 *
-	 * @return     if x, a, b &lt;&gt; Double::NaN returns
-	 * 			   characteristic function value on the (a,b) range.
-	 */
 	API_VISIBLE double MathFunctions::chi_R(double x, double a, double b) {
 		if (Double::isNaN(x) || Double::isNaN(a) || Double::isNaN(b))
 			return Double::NaN;
@@ -1453,26 +1045,16 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Verifies whether provided number is almost integer
-	 *
-	 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
-	 *
-	 * @param a  The number to be verified
-	 * @return   True if the number is almost integer according to the default epsilon,
-	 *           otherwise returns false.
-	 */
 	bool API_VISIBLE MathFunctions::isAlmostInt(double a) {
 		double aint = Math::round(a);
 		return abs(a - aint) <= BinaryRelations::DEFAULT_COMPARISON_EPSILON;
 	}
 
 	/**
-	 * Applies the integer exponent to the base a
-	 *
-	 * @param a   The base
-	 * @param n   The integer exponent
-	 * @return    Return a to the power of n, if canonical rounding is enable, the it operates on big numbers
+	 * \brief Applies the integer exponent to the base a
+	 * \param a   The base
+	 * \param n   The integer exponent
+	 * \return Return a to the power of n, if canonical rounding is enable, the it operates on big numbers
 	 */
 	API_VISIBLE double MathFunctions::powInt(double a, int n) {
 		if (Double::isNaN(a)) return Double::NaN;
@@ -1491,15 +1073,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		}
 	}
 
-	/**
-	 * Power function a^b
-	 *
-	 * @param      a                   the a function parameter
-	 * @param      b                   the b function parameter
-	 *
-	 * @return     if a,b &lt;&gt; Double::NaN returns Math::pow(a, b),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::power(double a, double b) {
 		if (Double::isNaN(a) || Double::isNaN(b))
 			return Double::NaN;
@@ -1533,13 +1106,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		}
 	}
 
-	/**
-	 * Nth order root of a number
-	 *
-	 * @param n   Root order
-	 * @param x   Number
-	 * @return    Returns root of a number. If calculation is not possible Double::NaN is returned.
-	 */
 	API_VISIBLE double MathFunctions::root(double n, double x) {
 		if (Double::isNaN(n) || Double::isNaN(x)) return Double::NaN;
 		if (Double::isInfinite(n) || Double::isInfinite(x)) return Double::NaN;
@@ -1563,13 +1129,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		}
 	}
 
-	/**
-	 * Tetration, exponential power, power series
-	 *
-	 * @param a   base
-	 * @param n   exponent
-	 * @return    Tetration result.
-	 */
 	API_VISIBLE double MathFunctions::tetration(double a, double n) {
 		return tetrationWithCancel(a, n, 0);
 	}
@@ -1614,21 +1173,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return r;
 	}
 
-	/**
-	 * Modulo operator a % b
-	 *
-	 * @param      a                   the a function parameter
-	 * @param      b                   the b function parameter
-	 *
-	 * @return     if a,b &lt;&gt; Double::NaN returns a % b.
-	 */
 	API_VISIBLE double MathFunctions::mod(double a, double b) {
 		if (Double::isNaN(a) || Double::isNaN(b))
 			return Double::NaN;
 		return Math::mod(a, b);
 	}
 
-	/**
+	/*
 	 * Division a/b
 	 *
 	 * @param      a                   the a function parameter
@@ -1647,14 +1198,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 	*/
-	/**
-	 * Sine trigonometric function
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN return Math::sin(a),
-	 *             otherwise return Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::sin(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -1666,14 +1209,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return Math::sin(a);
 	}
 
-	/**
-	 * Cosine trigonometric function
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::cos(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::cos(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -1685,14 +1220,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return Math::cos(a);
 	}
 
-	/**
-	 * Tangent trigonometric function
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::tan(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::tan(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -1704,14 +1231,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return Math::tan(a);
 	}
 
-	/**
-	 * Cotangent trigonometric function
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN and tan(a) &lt;&gt; 0 returns 1 / Math::tan(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::ctan(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -1727,14 +1246,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Secant trigonometric function
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN and cos(a) &lt;&gt; 0 returns 1 / Math::cos(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::sec(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -1750,14 +1261,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Cosecant trigonometric function
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN and sin(a) &lt;&gt; 0 returns 1 / Math::sin(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::cosec(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -1774,9 +1277,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * If double is almost integer returns the closes integer, otherwise original value
-	 * @param val   Parameter
-	 * @return      f double is almost integer returns the closest integer, otherwise original value
+	 * \brief If double is almost integer returns the closes integer, otherwise original value
+	 * \param val   Parameter
+	 * \return f double is almost integer returns the closest integer, otherwise original value
 	 */
 	API_VISIBLE double MathFunctions::intIfAlmostIntOtherwiseOrig(double val) {
 		double valint = Math::round(val);
@@ -1784,14 +1287,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return val;
 	}
 
-	/**
-	 * Arcus sine - inverse trigonometric sine function
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::asin(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::asin(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -1805,14 +1300,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		} else return r;
 	}
 
-	/**
-	 * Arcus cosine - inverse trigonometric cosine function
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::acos(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::acos(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -1826,14 +1313,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		} else return r;
 	}
 
-	/**
-	 * Arcus tangent - inverse trigonometric tangent function
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::atan(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::atan(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -1847,14 +1326,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		} else return r;
 	}
 
-	/**
-	 * Arcus cotangent - inverse trigonometric cotangent function
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN and a &lt;&gt; 0 returns Math::atan(1/a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::actan(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -1872,12 +1343,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		} else return r;
 	}
 
-	/**
-	 * Arcus secant - inverse trigonometric secant function
-	 *
-	 * @param      a                   the a function parameter
-	 * @return     Inverse trigonometric secant function
-	 */
 	API_VISIBLE double MathFunctions::asec(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -1891,12 +1356,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		} else return r;
 	}
 
-	/**
-	 * Arcus cosecant - inverse trigonometric cosecant function
-	 *
-	 * @param      a                   the a function parameter
-	 * @return     Inverse trigonometric cosecant function
-	 */
 	API_VISIBLE double MathFunctions::acosec(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -1910,140 +1369,60 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		} else return r;
 	}
 
-	/**
-	 * Natural logarithm
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::log(1/a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::ln(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
 		return Math::log(a);
 	}
 
-	/**
-	 * Binary logarithm
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::log(a)/Math::log(2.0),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::log2(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
 		return Math::log(a) / Math::log(2.0);
 	}
 
-	/**
-	 * Common logarithm
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::log10(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::log10(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
 		return Math::log10(a);
 	}
 
-	/**
-	 * Degrees to radius translation.
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::toRadians(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::rad(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
 		return Math::toRadians(a);
 	}
 
-	/**
-	 * Exponential function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::exp(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::exp(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
 		return Math::exp(a);
 	}
 
-	/**
-	 * Square root.
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::sqrt(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::sqrt(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
 		return Math::sqrt(a);
 	}
 
-	/**
-	 * Hyperbolic sine function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::sinh(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::sinh(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
 		return Math::sinh(a);
 	}
 
-	/**
-	 * Hyperbolic cosine function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::cosh(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::cosh(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
 		return Math::cosh(a);
 	}
 
-	/**
-	 * Hyperbolic tangent function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::tanh(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::tanh(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
 		return Math::tanh(a);
 	}
 
-	/**
-	 * Hyperbolic cotangent function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN and tanh(a) &lt;&gt; 0 returns 1 / Math::tanh(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::coth(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -2054,14 +1433,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Hyperbolic secant function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN and cosh(a) &lt;&gt; 0 returns 1 / Math::cosh(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::sech(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -2072,14 +1443,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Hyperbolic cosecant function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN and sinh(a) &lt;&gt; 0 returns 1 / Math::sinh(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::csch(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -2090,112 +1453,48 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Radius to degrees translation.
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::toDegrees(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::deg(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
 		return Math::toDegrees(a);
 	}
 
-	/**
-	 * Absolute value.
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::abs(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::abs(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
 		return Math::abs(a);
 	}
 
-	/**
-	 * Signum function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::signum(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::sgn(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
 		return Math::signum(a);
 	}
 
-	/**
-	 * Floor function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::floor(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::floor(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
 		return Math::floor(a);
 	}
 
-	/**
-	 * Ceiling function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::ceil(a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::ceil(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
 		return Math::ceil(a);
 	}
 
-	/**
-	 * Arcus hyperbolic sine - inverse hyperbolic sine function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::log(a + Math::sqrt(a*a+1)),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::arsinh(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
 		return Math::log(a + Math::sqrt(a * a + 1));
 	}
 
-	/**
-	 * Arcus hyperbolic cosine - inverse hyperbolic cosine function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN returns Math::log(a + Math::sqrt(a*a-1)),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::arcosh(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
 		return Math::log(a + Math::sqrt(a * a - 1));
 	}
 
-	/**
-	 * Arcus hyperbolic tangent - inverse hyperbolic tangent function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN and 1-a &lt;&gt; 0 returns 0.5*Math::log( (1+a)/(1-a) ),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::artanh(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -2205,14 +1504,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Arcus hyperbolic tangent - inverse hyperbolic tangent function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN and a-1 &lt;&gt; 0 returns 0.5*Math::log( (a+1)/(a-1) );,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::arcoth(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -2222,14 +1513,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Arcus hyperbolic secant - inverse hyperbolic secant function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN and a &lt;&gt; 0 returns Math::log( (1+Math::sqrt(1-a*a))/a);,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::arsech(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -2239,14 +1522,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Arcus hyperbolic cosecant - inverse hyperbolic cosecant function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN and a &lt;&gt; 0 returns Math::log( (1+Math::sqrt(1-a*a))/a);,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::arcsch(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -2256,14 +1531,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Normalized sinc function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN and a &lt;&gt; 0 returns Math::sin(PI*a) / (PI*a);,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::sa(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -2276,14 +1543,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Sinc function->
-	 *
-	 * @param      a                   the a function parameter
-	 *
-	 * @return     if a &lt;&gt; Double::NaN and a &lt;&gt; 0 returns Math::sin(a) / (a),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::sinc(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;
@@ -2298,15 +1557,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * General logarithm.
-	 *
-	 * @param      a                   the a function parameter (base)
-	 * @param      b                   the b function parameter (number)
-	 *
-	 * @return     if a,b &lt;&gt; Double::NaN and log(b) &lt;&gt; 0 returns Math::log(a) / Math::log(b),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::log(double a, double b) {
 		if (Double::isNaN(a) || Double::isNaN(b))
 			return Double::NaN;
@@ -2317,13 +1567,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return result;
 	}
 
-	/**
-	 * Double rounding
-	 *
-	 * @param value    double value to be rounded
-	 * @param places   decimal places
-	 * @return         Rounded value
-	 */
 	API_VISIBLE double MathFunctions::round(double value, int places) {
 		return roundWithCancel(value, places, 0);
 	}
@@ -2573,13 +1816,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 	}
 
-	/**
-	 * Double half up rounding
-	 *
-	 * @param value    double value to be rounded
-	 * @param places   decimal places
-	 * @return         Rounded value
-	 */
 	API_VISIBLE double MathFunctions::roundHalfUp(double value, int places) {
 		return roundHalfUpWithCancel(value, places, 0);
 	}
@@ -2612,13 +1848,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return Math::floor(sign * valueFloor) / multiplier;
 	}
 
-	/**
-	 * Double down rounding
-	 *
-	 * @param value    double value to be rounded
-	 * @param places   decimal places
-	 * @return         Rounded value
-	 */
 	API_VISIBLE double MathFunctions::roundDown(double value, int places) {
 		return roundDownWithCancel(value, places, 0);
 	}
@@ -2650,17 +1879,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return Math::floor(sign * valueFloor) / multiplier;
 	}
 
-	/**
-	 * Unit in the last place rounding, see
-	 * 0.1 + 0.1 + 0.1 vs roundUlp(0.1 + 0.1 + 0.1)
-	 *
-	 * @param number   Double number that is to be rounded
-	 *
-	 * @return    Double number with rounded ulp
-	 *
-	 * @see MathFunctions#decimalDigitsBefore(double)
-	 * @see MathFunctions#ulp(double)
-	 */
 	API_VISIBLE double MathFunctions::roundUlp(double number) {
 		if ((Double::isNaN(number)) || (Double::isInfinite(number)) || (number == 0))
 			return number;
@@ -2674,83 +1892,33 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		}
 	}
 
-	/**
-	 * Returns integer part of a double value.
-	 * @param x  Number
-	 * @return For non-negative x returns Math::floor(x),
-	 *         otherwise returns -Math::floor(-x)
-	 */
 	API_VISIBLE double MathFunctions::integerPart(double x) {
 		if (x > 0) return Math::floor(x);
 		else if (x < 0) return -Math::floor(-x);
 		else return 0;
 	}
 
-	/**
-	 * For very small number returns the position of
-	 * first significant digit, ie 0.1 = 1, 0.01 = 2
-	 *
-	 * @param anyValue Double value, small one.
-	 * @return Number of digits, number of places.
-	 */
 	API_VISIBLE int MathFunctions::decimalDigitsBefore(double anyValue) {
 		return Double::decimalDigitsBefore(anyValue);
 	}
 
-	/**
-	 * Unit in the last place(ULP) for double
-	 * @param value Double number
-	 * @return ULP for a given double.
-	 */
 	API_VISIBLE double MathFunctions::ulp(double value) {
 		return Double::ulp(value);
 	}
 
-	/**
-	 * Unit in The Last Place - number of decimal digits before
-	 * @param value   Double number
-	 * @return        Positive number of digits N for ulp = 1e-{N+1},
-	 *                if ulp is &gt; 1 then -1 is returned.
-	 *                Returned proper value is always between -1 and +322.
-	 *                If value is NaN then -2 is returned.
-	 */
 	API_VISIBLE int MathFunctions::ulpDecimalDigitsBefore(double value) {
 		return Double::ulpDecimalDigitsBefore(value);
 	}
 
-	/**
-	 * Length of a number represented in a standard decimal format
-	 * @param value   A given number
-	 * @return        Length of a number represented in a standard decimal format
-	 *                including decimal separator, excluding leading zeros (integer part),
-	 *                excluding trailing zeros (fractional part)
-	 */
 	API_VISIBLE int MathFunctions::decimalNumberLength(double value) {
 		return Double::decimalNumberLength(value);
 	}
 
-	/**
-	 * Fractional part length of a number represented in a standard decimal format
-	 * @param value   A given number
-	 * @return        Fractional part length of a number represented in a standard decimal
-	 *                format excluding decimal separator, excluding trailing zeros (fractional part)
-	 */
 	API_VISIBLE int MathFunctions::fractionalPartLength(double value) {
 		return Double::fractionalPartLength(value);
 	}
 
 
-	/**
-	 * Intelligent rounding of a number within the decimal position of the ULP (Unit in the Last Place),
-	 * provided that the result is significantly shortened in the standard decimal notation. Examples:
-	 * 30.499999999999992 is rounded to 30.5, but 30.499999999999122 will not be rounded. Rounding is
-	 * made to the decimal position of the ULP minus 2 on condition that the resulted number is shortened
-	 * by at least 9 places.
-	 * @param value   A given number
-	 * @return        Returns an intelligently rounded number when the decimal position of ULP
-	 *                is a minimum of 11 and when rounded to the position of ULP - 2, shortens
-	 *                the number by a minimum of 9 places. Otherwise, returns original number.
-	 */
 	API_VISIBLE double MathFunctions::lengthRound(double value) {
 		return lengthRoundWithCancel(value, 0);
 	}
@@ -2772,14 +1940,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return Double::reParseDouble(valueFinal);
 	}
 
-	/**
-	 * Returns the first non-NaN value
-	 *
-	 * @param values   List of values
-	 * @return         Returns the first non-NaN value, if list is nullptr
-	 *                 then returns Double::NaN, if list contains no elements
-	 *                 then returns Double::NaN.
-	 */
 	API_VISIBLE double MathFunctions::coalesce(const ArrayPtr<double> &values) {
 		return coalesceWithCancel(values, 0);
 	}
@@ -2795,14 +1955,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return Double::NaN;
 	}
 
-	/**
-	 * Check whether double value is almost integer.
-	 * @param x   Number
-	 * @return True if double value is almost integer, otherwise false.
-	 *         {BinaryRelations#DEFAULT_COMPARISON_EPSILON}
-	 *
-	 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
-	 */
 	bool API_VISIBLE MathFunctions::isInteger(double x) {
 		if (Double::isNaN(x)) return false;
 		if (x == Double::POSITIVE_INFINITY) return false;
@@ -2812,15 +1964,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return Math::abs(x - round) < BinaryRelations::DEFAULT_COMPARISON_EPSILON;
 	}
 
-	/**
-	 * Check whether two double values are almost equal.
-	 * @param a   First number
-	 * @param b   Second number
-	 * @return True if double values are almost equal, otherwise false.
-	 *         {BinaryRelations#DEFAULT_COMPARISON_EPSILON}
-	 *
-	 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
-	 */
 	bool API_VISIBLE MathFunctions::almostEqual(double a, double b) {
 		if (Double::isNaN(a)) return false;
 		if (Double::isNaN(b)) return false;
@@ -2828,18 +1971,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return Math::abs(a - b) <= BinaryRelations::DEFAULT_COMPARISON_EPSILON;
 	}
 
-	/**
-	 * Calculates function f(x0) (given as expression) assigning Argument x = x0;
-	 *
-	 *
-	 * @param      f                   the expression
-	 * @param      x                   the argument
-	 * @param      x0                  the argument value
-	 *
-	 * @return     f->calculate()
-	 *
-	 * @see        Expression
-	 */
 	API_VISIBLE double MathFunctions::getFunctionValue(const ExpressionPtr &f, const ArgumentPtr &x, double x0) {
 		return getFunctionValueWithCancel(f, x, x0, 0);
 	}
@@ -2853,17 +1984,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return f->calculateWithCancel(cancelId);
 	}
 
-	/**
-	 * Returns array of double values of the function f(i)
-	 * calculated on the range: i = from to i = to by step = delta
-	 *
-	 * @param f            Function expression
-	 * @param index        Index argument
-	 * @param from         'from' value
-	 * @param to           'to' value
-	 * @param delta        'delta' step definition
-	 * @return             Array of function values
-	 */
 	ArrayPtr<double> API_VISIBLE MathFunctions::getFunctionValues(const ExpressionPtr &f, const ArgumentPtr &index, double from,
 	                                                  double to, double delta) {
 		return getFunctionValuesWithCancel(f, index, from, to, delta, 0);

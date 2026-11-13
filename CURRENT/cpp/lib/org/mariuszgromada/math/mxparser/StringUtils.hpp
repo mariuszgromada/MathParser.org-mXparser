@@ -1,5 +1,5 @@
 /*
- * @(#)StringUtils.hpp        6.1.0    2024-10-06
+ * @(#)StringUtils.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -241,29 +241,104 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 
 		// ***********************************************************
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::stringutils::StringUtils::regexMatch(const StringPtr &,const StringPtr &)
+		 */
 		static bool regexMatch(const String &str, const String &pattern);
+		/**
+		 * \brief Function used to introduce some compatibility
+		 * between JAVA and C# while regexp matching.
+		 * \param str         String
+		 * \param pattern     Pattern (regexp)
+		 * \return True if pattern matches entirely, False otherwise
+		 */
 		static bool regexMatch(const StringPtr &str, const StringPtr &pattern);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Converts integer number to hex string (plain text)
+		 * \param number   Integer number
+		 * \return Hex string (i.e. FF23)
+		 */
 		static StringPtr numberToHexString(int number);
+		/**
+		 * \brief Converts long number to hex string (plain text)
+		 * \param number   Long number
+		 * \return Hex string (i.e. FF23)
+		 */
 		static StringPtr numberToHexString(Long number);
+		/**
+		 * \brief Converts (long)double number to hex string (plain text)
+		 * \param number   Double number
+		 * \return Hex string (i.e. FF23)
+		 */
 		static StringPtr numberToHexString(double number);
+		/**
+		 * \brief Converts hex string into ASCII string, where each letter is
+		 * represented by two hex digits (byte) from the hex string.
+		 * \param hexString   Hex string (i.e. 48656C6C6F)
+		 * \return ASCII string (i.e. '48656C6C6F' = 'Hello')
+		 */
 		static StringPtr hexString2AsciiString(const StringPtr &hexString);
+		/**
+		 * \brief Converts number into ASCII string, where each letter is
+		 * represented by two hex digits (byte) from the hex representation
+		 * of the original number
+		 * \param number   Integer number (i.e. 310939249775 = '48656C6C6F')
+		 * \return ASCII string (i.e. '48656C6C6F' = 'Hello')
+		 */
 		static StringPtr numberToAsciiString(int number);
+		/**
+		 * \brief Converts number into ASCII string, where each letter is
+		 * represented by two hex digits (byte) from the hex representation
+		 * of the original number
+		 * \param number   Long number (i.e. 310939249775 = '48656C6C6F')
+		 * \return ASCII string (i.e. '48656C6C6F' = 'Hello')
+		 */
 		static StringPtr numberToAsciiString(Long number);
+		/**
+		 * \brief Converts (long)double number into ASCII string, where each letter is
+		 * represented by two hex digits (byte) from the hex representation
+		 * of the original number cast to long type.
+		 * \param number   Double number (i.e. 310939249775 = '48656C6C6F')
+		 * \return ASCII string (i.e. '48656C6C6F' = 'Hello')
+		 */
 		static StringPtr numberToAsciiString(double number);
 
 		// ***********************************************************
 
+		/**
+		 * \brief Counts non-overlapping, case-sensitive occurrences of a substring.
+		 * \param str The text to search.
+		 * \param toFind The literal substring to count.
+		 * \return The count; -1 if either input is null, or 0 for an empty input or substring.
+		 */
 		static int countOccurrences(const StringPtr &str, const StringPtr &toFind);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::stringutils::StringUtils::countOccurrences(const StringPtr &,const StringPtr &)
+		 */
 		static int countOccurrences(const String &str, const String &toFind) { return countOccurrences(S(str), S(toFind)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::stringutils::StringUtils::countOccurrences(const StringPtr &,const StringPtr &)
+		 */
 		static int countOccurrences(const std::string &str, const std::string &toFind) { return countOccurrences(S(str), S(toFind)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::stringutils::StringUtils::countOccurrences(const StringPtr &,const StringPtr &)
+		 */
 		static int countOccurrences(const Char* str, const Char* toFind) { return countOccurrences(S(str), S(toFind)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::stringutils::StringUtils::countOccurrences(const StringPtr &,const StringPtr &)
+		 */
 		static int countOccurrences(const char* str, const char* toFind) { return countOccurrences(S(str), S(toFind)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Counts lines separated by a newline character, including an empty trailing line.
+		 * \param text The text to inspect.
+		 * \return The line count; 0 for empty text, or -1 for null.
+		 */
 		static int countLines(const StringPtr &text);
 
 		// ***********************************************************

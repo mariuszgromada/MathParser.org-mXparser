@@ -298,25 +298,24 @@ namespace org::mariuszgromada::math::mxparser {
 
 	public:
 		/**
-		 * Calculates the expression value
+		 * \brief Calculates the expression value
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-	
-		 * @return     The expression value if syntax was ok,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see calculate()
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \return The expression value if syntax was ok,
+		 *             otherwise returns Double.NaN.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::Expression::calculate()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		double calculateWithCancel(int cancelId);
 
@@ -370,11 +369,10 @@ namespace org::mariuszgromada::math::mxparser {
 		// 1 =========================================================================
 
 		/**
-		 * Default constructor - empty expression
-		 *
-		 * @param  elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
-		 *
-		 * @see    PrimitiveElement
+		 * \brief Default constructor - empty expression
+		 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
 		 */
 		template<typename... PrimitiveElements>
 		explicit Expression(PrimitiveElements &&... elements) : PrimitiveElement(TYPE_ID) {
@@ -383,6 +381,11 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Default constructor - empty expression
+		 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 */
 		explicit Expression(const ListPtr<PrimitiveElementPtr> &elements) : PrimitiveElement(TYPE_ID) {
 			executeConstructorConst();
 			addDefinitions(elements);
@@ -392,13 +395,11 @@ namespace org::mariuszgromada::math::mxparser {
 		// 2 =========================================================================
 
 		/**
-		 * Constructor - creates new expression from expression string.
-		 *
-		 * @param      expressionString    definition of the expression
-		 * @param      elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
-		 *
-		 * @see    PrimitiveElement
-		 *
+		 * \brief Constructor - creates new expression from expression string.
+		 * \param expressionString    definition of the expression
+		 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
 		 */
 		template<typename... PrimitiveElements>
 		explicit Expression(const StringPtr &expressionString, PrimitiveElements &&... elements) : PrimitiveElement(TYPE_ID) {
@@ -407,6 +408,13 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates new expression from expression string.
+		 * \param expressionString    definition of the expression
+		 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		explicit Expression(StringPtr &expressionString, PrimitiveElements &&... elements) : PrimitiveElement(TYPE_ID) {
 			executeConstructorConst(expressionString);
@@ -414,6 +422,13 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates new expression from expression string.
+		 * \param expressionString    definition of the expression
+		 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		explicit Expression(const String &expressionString, PrimitiveElements &&... elements) : PrimitiveElement(TYPE_ID) {
 			executeConstructorConst(expressionString);
@@ -421,6 +436,13 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates new expression from expression string.
+		 * \param expressionString    definition of the expression
+		 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		explicit Expression(String &expressionString, PrimitiveElements &&... elements) : PrimitiveElement(TYPE_ID) {
 			executeConstructorConst(expressionString);
@@ -428,6 +450,13 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates new expression from expression string.
+		 * \param expressionString    definition of the expression
+		 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		explicit Expression(const std::string &expressionString, PrimitiveElements &&... elements) : PrimitiveElement(TYPE_ID) {
 			executeConstructorConst(S(expressionString));
@@ -435,6 +464,13 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates new expression from expression string.
+		 * \param expressionString    definition of the expression
+		 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		explicit Expression(std::string &expressionString, PrimitiveElements &&... elements) : PrimitiveElement(TYPE_ID) {
 			executeConstructorConst(S(expressionString));
@@ -442,6 +478,13 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates new expression from expression string.
+		 * \param expressionString    definition of the expression
+		 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		explicit Expression(const Char *expressionString, PrimitiveElements &&... elements) : PrimitiveElement(TYPE_ID) {
 			executeConstructorConst(S(expressionString));
@@ -449,6 +492,13 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates new expression from expression string.
+		 * \param expressionString    definition of the expression
+		 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		explicit Expression(const char *expressionString, PrimitiveElements &&... elements) : PrimitiveElement(TYPE_ID) {
 			executeConstructorConst(S(expressionString));
@@ -456,48 +506,75 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \brief Constructor - creates new expression from expression string.
+		 * \param expressionString    definition of the expression
+		 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 */
 		explicit Expression(const StringPtr &expressionString, const ListPtr<PrimitiveElementPtr> &elements) : PrimitiveElement(TYPE_ID) {
 			executeConstructorConst(expressionString);
 			addDefinitions(elements);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::Expression(const StringPtr &,const ListPtr< PrimitiveElementPtr > &)
+		 */
 		explicit Expression(StringPtr &expressionString, const ListPtr<PrimitiveElementPtr> &elements) : PrimitiveElement(TYPE_ID) {
 			executeConstructorConst(expressionString);
 			addDefinitions(elements);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::Expression(const StringPtr &,const ListPtr< PrimitiveElementPtr > &)
+		 */
 		explicit Expression(const StringPtr &expressionString, ListPtr<PrimitiveElementPtr> &elements) : PrimitiveElement(TYPE_ID) {
 			executeConstructorConst(expressionString);
 			addDefinitions(elements);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::Expression(const StringPtr &,const ListPtr< PrimitiveElementPtr > &)
+		 */
 		explicit Expression(StringPtr &expressionString, ListPtr<PrimitiveElementPtr> &elements) : PrimitiveElement(TYPE_ID) {
 			executeConstructorConst(expressionString);
 			addDefinitions(elements);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::Expression(const StringPtr &,const ListPtr< PrimitiveElementPtr > &)
+		 */
 		explicit Expression(const String &expressionString, const ListPtr<PrimitiveElementPtr> &elements) : PrimitiveElement(TYPE_ID) {
 			executeConstructorConst(expressionString);
 			addDefinitions(elements);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::Expression(const StringPtr &,const ListPtr< PrimitiveElementPtr > &)
+		 */
 		explicit Expression(String &expressionString, const ListPtr<PrimitiveElementPtr> &elements) : PrimitiveElement(TYPE_ID) {
 			executeConstructorConst(expressionString);
 			addDefinitions(elements);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::Expression(const StringPtr &,const ListPtr< PrimitiveElementPtr > &)
+		 */
 		explicit Expression(const String &expressionString, ListPtr<PrimitiveElementPtr> &elements) : PrimitiveElement(TYPE_ID) {
 			executeConstructorConst(expressionString);
 			addDefinitions(elements);
 			iAmFullyConstructed = true;
 		}
 
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::Expression(const StringPtr &,const ListPtr< PrimitiveElementPtr > &)
+		 */
 		explicit Expression(String &expressionString, ListPtr<PrimitiveElementPtr> &elements) : PrimitiveElement(TYPE_ID) {
 			executeConstructorConst(expressionString);
 			addDefinitions(elements);
@@ -506,122 +583,447 @@ namespace org::mariuszgromada::math::mxparser {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Adds user defined elements (such as: Arguments, Constants, Functions)
+		 * to the expressions.
+		 * \param elements Elements list (variadic), where Argument, Constant, Function
+		 *                 extend the same class PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		void addDefinitions(PrimitiveElements &&... elements) {
 			EXECUTE_FUNCTION_VARIADIC(VariadicProcessorUdfs, elements, addDefinitions);
 		}
+		/**
+		 * \brief Adds user defined elements (such as: Arguments, Constants, Functions)
+		 * to the expressions.
+		 * \param elements Elements list (variadic), where Argument, Constant, Function
+		 *                 extend the same class PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 */
 		void addDefinitions(const ListPtr<PrimitiveElementPtr> &elements);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::addDefinitions(const ListPtr< PrimitiveElementPtr > &)
+		 */
 		void addDefinitions(ListPtr<PrimitiveElementPtr> &elements) { addDefinitions(CONST_LIST_PRIMITIVE_ELEMENT(elements)); }
+		/**
+		 * \brief Adds user defined elements (such as: Arguments, Constants, Functions)
+		 * to the expressions.
+		 * \param element Elements list (variadic), where Argument, Constant, Function
+		 *                 extend the same class PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 */
 		void addDefinitions(const PrimitiveElementPtr &element);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::addDefinitions(const PrimitiveElementPtr &)
+		 */
 		void addDefinitions(PrimitiveElementPtr &element) { addDefinitions(CONST_PRIMITIVE_ELEMENT(element)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Removes user defined elements (such as: Arguments, Constants, Functions)
+		 * to the expressions.
+		 * \param elements Elements list (variadic), where Argument, Constant, Function
+		 *                 extend the same class PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 * \tparam PrimitiveElements Types of the forwarded arguments.
+		 */
 		template<typename... PrimitiveElements>
 		void removeDefinitions(PrimitiveElements &&... elements) {
 			EXECUTE_FUNCTION_VARIADIC(VariadicProcessorUdfs, elements, removeDefinitions);
 		}
+		/**
+		 * \brief Removes user defined elements (such as: Arguments, Constants, Functions)
+		 * to the expressions.
+		 * \param elements Elements list (variadic), where Argument, Constant, Function
+		 *                 extend the same class PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 */
 		void removeDefinitions(const ListPtr<PrimitiveElementPtr> &elements);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeDefinitions(const ListPtr< PrimitiveElementPtr > &)
+		 */
 		void removeDefinitions(ListPtr<PrimitiveElementPtr> &elements) { removeDefinitions(CONST_LIST_PRIMITIVE_ELEMENT(elements)); }
+		/**
+		 * \brief Removes user defined elements (such as: Arguments, Constants, Functions)
+		 * to the expressions.
+		 * \param element Elements list (variadic), where Argument, Constant, Function
+		 *                 extend the same class PrimitiveElement
+		 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+		 */
 		void removeDefinitions(const PrimitiveElementPtr &element);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeDefinitions(const PrimitiveElementPtr &)
+		 */
 		void removeDefinitions(PrimitiveElementPtr &element) { removeDefinitions(CONST_PRIMITIVE_ELEMENT(element)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Adds arguments (variadic) to the expression definition.
+		 * \param arguments           the arguments list
+		 *                                 (comma separated list)
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 * \tparam Arguments Types of the forwarded arguments.
+		 */
 		template<typename... Arguments>
 		void addArguments(Arguments &&... arguments) {
 			EXECUTE_FUNCTION_VARIADIC(VariadicProcessorArgument, arguments, addArguments);
 		}
+		/**
+		 * \brief Adds arguments (variadic) to the expression definition.
+		 * \param arguments           the arguments list
+		 *                                 (comma separated list)
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 */
 		void addArguments(const ListPtr<ArgumentPtr> &arguments);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::addArguments(const ListPtr< ArgumentPtr > &)
+		 */
 		void addArguments(ListPtr<ArgumentPtr> &arguments) { addArguments(CONST_LIST_ARGUMENT(arguments)); }
+		/**
+		 * \brief Adds arguments (variadic) to the expression definition.
+		 * \param argument           the arguments list
+		 *                                 (comma separated list)
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 */
 		void addArguments(const ArgumentPtr &argument);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::addArguments(const ArgumentPtr &)
+		 */
 		void addArguments(ArgumentPtr &argument) { addArguments(CONST_ARGUMENT(argument)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Enables to define the arguments (associated with
+		 * the expression) based on the given arguments names.
+		 * \param argumentsNames      the arguments names (variadic)
+		 *                                 comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 * \tparam Strings Types of the forwarded arguments.
+		 */
 		template<typename... Strings>
 		void defineArguments(Strings &&... argumentsNames) {
 			EXECUTE_FUNCTION_VARIADIC(VariadicProcessorString, argumentsNames, defineArguments);
 		}
+		/**
+		 * \brief Enables to define the arguments (associated with
+		 * the expression) based on the given arguments names.
+		 * \param argumentsNames      the arguments names (variadic)
+		 *                                 comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 */
 		void defineArguments(const ListPtr<StringPtr> &argumentsNames);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::defineArguments(const ListPtr< StringPtr > &)
+		 */
 		void defineArguments(ListPtr<StringPtr> &argumentsNames) { defineArguments(CONST_LIST_STRING(argumentsNames)); }
+		/**
+		 * \brief Enables to define the arguments (associated with
+		 * the expression) based on the given arguments names.
+		 * \param argumentName      the arguments names (variadic)
+		 *                                 comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 */
 		void defineArguments(const StringPtr &argumentName);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::defineArguments(const StringPtr &)
+		 */
 		void defineArguments(StringPtr &argumentName) { defineArguments(CONST_STRING_PTR(argumentName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::defineArguments(const StringPtr &)
+		 */
 		void defineArguments(const String &argumentName) { defineArguments(S(argumentName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::defineArguments(const StringPtr &)
+		 */
 		void defineArguments(const Char *argumentName) { defineArguments(S(argumentName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::defineArguments(const StringPtr &)
+		 */
 		void defineArguments(const std::string &argumentName) { defineArguments(S(argumentName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::defineArguments(const StringPtr &)
+		 */
 		void defineArguments(const char *argumentName) { defineArguments(S(argumentName)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Removes first occurrences of the arguments
+		 * associated with the expression.
+		 * \param arguments           the arguments (variadic parameters)
+		 *                                 comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 * \tparam StringsOrArguments Types of the forwarded arguments.
+		 */
 		template<typename... StringsOrArguments>
 		void removeArguments(StringsOrArguments &&... arguments) {
 			EXECUTE_FUNCTION_VARIADIC_WITH_STRING(VariadicProcessorStringOrArgument, arguments, removeArguments);
 		}
+		/**
+		 * \brief Removes first occurrences of the arguments
+		 * associated with the expression.
+		 * \param argumentsNames      the arguments names
+		 *                                 (variadic parameters) comma separated
+		 *                                 list
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 */
 		void removeArguments(const ListPtr<StringPtr> &argumentsNames);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeArguments(const ListPtr< StringPtr > &)
+		 */
 		void removeArguments(ListPtr<StringPtr> &argumentsNames) { removeArguments(CONST_LIST_STRING(argumentsNames)); }
+		/**
+		 * \brief Removes first occurrences of the arguments
+		 * associated with the expression.
+		 * \param argumentName      the arguments names
+		 *                                 (variadic parameters) comma separated
+		 *                                 list
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 */
 		void removeArguments(const StringPtr &argumentName);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeArguments(const StringPtr &)
+		 */
 		void removeArguments(StringPtr &argumentName) { removeArguments(CONST_STRING_PTR(argumentName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeArguments(const StringPtr &)
+		 */
 		void removeArguments(const String &argumentName) { removeArguments(S(argumentName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeArguments(const StringPtr &)
+		 */
 		void removeArguments(const Char *argumentName) { removeArguments(S(argumentName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeArguments(const StringPtr &)
+		 */
 		void removeArguments(const std::string &argumentName) { removeArguments(S(argumentName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeArguments(const StringPtr &)
+		 */
 		void removeArguments(const char *argumentName) { removeArguments(S(argumentName)); }
+		/**
+		 * \brief Removes first occurrences of the arguments
+		 * associated with the expression.
+		 * \param arguments           the arguments (variadic parameters)
+		 *                                 comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 */
 		void removeArguments(const ListPtr<ArgumentPtr> &arguments);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeArguments(const ListPtr< ArgumentPtr > &)
+		 */
 		void removeArguments(ListPtr<ArgumentPtr> &arguments) { removeArguments(CONST_LIST_ARGUMENT(arguments)); }
+		/**
+		 * \brief Removes first occurrences of the arguments
+		 * associated with the expression.
+		 * \param argument           the arguments (variadic parameters)
+		 *                                 comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 */
 		void removeArguments(const ArgumentPtr &argument);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeArguments(const ArgumentPtr &)
+		 */
 		void removeArguments(ArgumentPtr &argument) { removeArguments(CONST_ARGUMENT(argument)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Removes all arguments associated with the expression.
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 */
 		void removeAllArguments();
 
 		// ***********************************************************
 
+		/**
+		 * \brief Adds constants (variadic parameters) to the expression definition.
+		 * \param constants           the constants
+		 *                                 (comma separated list)
+		 * \sa org::mariuszgromada::math::mxparser::Constant
+		 * \tparam Constants Types of the forwarded arguments.
+		 */
 		template<typename... Constants>
 		void addConstants(Constants &&... constants) {
 			EXECUTE_FUNCTION_VARIADIC(VariadicProcessorConstant, constants, addConstants);
 		}
+		/**
+		 * \brief Adds constants to the expression definition.
+		 * \param constants       the list of constants
+		 * \sa org::mariuszgromada::math::mxparser::Constant
+		 */
 		void addConstants(const ListPtr<ConstantPtr> &constants);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::addConstants(const ListPtr< ConstantPtr > &)
+		 */
 		void addConstants(ListPtr<ConstantPtr> &constants) { addConstants(CONST_LIST_CONSTANT(constants)); }
+		/**
+		 * \brief Adds constants (variadic parameters) to the expression definition.
+		 * \param constant           the constants
+		 *                                 (comma separated list)
+		 * \sa org::mariuszgromada::math::mxparser::Constant
+		 */
 		void addConstants(const ConstantPtr &constant);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::addConstants(const ConstantPtr &)
+		 */
 		void addConstants(ConstantPtr &constant) { addConstants(CONST_CONSTANT(constant)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Removes first occurrences of the constants
+		 * associated with the expression
+		 * \param constants           the constants (variadic parameters)
+		 *                                 comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Constant
+		 * \tparam StringsOrConstants Types of the forwarded arguments.
+		 */
 		template<typename... StringsOrConstants>
 		void removeConstants(StringsOrConstants &&... constants) {
 			EXECUTE_FUNCTION_VARIADIC_WITH_STRING(VariadicProcessorStringOrConstant, constants, removeConstants);
 		}
+		/**
+		 * \brief Removes first occurrences of the constants
+		 * associated with the expression.
+		 * \param constantsNames      the constants names (variadic parameters)
+		 *                                 comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Constant
+		 */
 		void removeConstants(const ListPtr<StringPtr> &constantsNames);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeConstants(const ListPtr< StringPtr > &)
+		 */
 		void removeConstants(ListPtr<StringPtr> &constantsNames) { removeConstants(CONST_LIST_STRING(constantsNames)); }
+		/**
+		 * \brief Removes first occurrences of the constants
+		 * associated with the expression.
+		 * \param constantName      the constants names (variadic parameters)
+		 *                                 comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Constant
+		 */
 		void removeConstants(const StringPtr &constantName);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeConstants(const StringPtr &)
+		 */
 		void removeConstants(StringPtr &constantName) { removeConstants(CONST_STRING_PTR(constantName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeConstants(const StringPtr &)
+		 */
 		void removeConstants(const String &constantName) { removeConstants(S(constantName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeConstants(const StringPtr &)
+		 */
 		void removeConstants(const Char *constantName) { removeConstants(S(constantName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeConstants(const StringPtr &)
+		 */
 		void removeConstants(const std::string &constantName) { removeConstants(S(constantName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeConstants(const StringPtr &)
+		 */
 		void removeConstants(const char *constantName) { removeConstants(S(constantName)); }
+		/**
+		 * \brief Removes first occurrences of the constants
+		 * associated with the expression
+		 * \param constants           the constants (variadic parameters)
+		 *                                 comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Constant
+		 */
 		void removeConstants(const ListPtr<ConstantPtr> &constants);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeConstants(const ListPtr< ConstantPtr > &)
+		 */
 		void removeConstants(ListPtr<ConstantPtr> &constants) { removeConstants(CONST_LIST_CONSTANT(constants)); }
+		/**
+		 * \brief Removes first occurrences of the constants
+		 * associated with the expression
+		 * \param constant           the constants (variadic parameters)
+		 *                                 comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Constant
+		 */
 		void removeConstants(const ConstantPtr &constant);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeConstants(const ConstantPtr &)
+		 */
 		void removeConstants(ConstantPtr &constant) { removeConstants(CONST_CONSTANT(constant)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Removes all constants
+		 * associated with the expression
+		 * \sa org::mariuszgromada::math::mxparser::Constant
+		 */
 		void removeAllConstants();
 
 		// ***********************************************************
 
+		/**
+		 * \brief Adds functions (variadic parameters) to the expression definition.
+		 * \param functions           the functions
+		 *                                 (variadic parameters) comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 * \tparam Functions Types of the forwarded arguments.
+		 */
 		template<typename... Functions>
 		void addFunctions(Functions &&... functions) {
 			EXECUTE_FUNCTION_VARIADIC(VariadicProcessorFunction, functions, addFunctions);
 		}
+		/**
+		 * \brief Adds functions (variadic parameters) to the expression definition.
+		 * \param functions           the functions
+		 *                                 (variadic parameters) comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 */
 		void addFunctions(const ListPtr<FunctionPtr> &functions);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::addFunctions(const ListPtr< FunctionPtr > &)
+		 */
 		void addFunctions(ListPtr<FunctionPtr> &functions) { addFunctions(CONST_LIST_FUNCTION(functions)); }
+		/**
+		 * \brief Adds functions (variadic parameters) to the expression definition.
+		 * \param function           the functions
+		 *                                 (variadic parameters) comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 */
 		void addFunctions(const FunctionPtr &function);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::addFunctions(const FunctionPtr &)
+		 */
 		void addFunctions(FunctionPtr &function) { addFunctions(CONST_FUNCTION(function)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Enables to define the function (associated with
+		 * the expression) based on the function name,
+		 * function expression string and arguments names (variadic parameters).
+		 * \param functionName                  the function name
+		 * \param functionExpressionString      the expression string
+		 * \param argumentsNames                the function arguments names
+		 *                                           (variadic parameters)
+		 *                                           comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 * \tparam Strings Types of the forwarded arguments.
+		 */
 		template<typename... Strings>
 		void defineFunction(const StringPtr &functionName, const StringPtr &functionExpressionString, Strings &&... argumentsNames) {
 			EXECUTE_FUNCTION_WITH_OPTIONAL_VARIADIC(VariadicProcessorString, argumentsNames,
@@ -629,52 +1031,179 @@ namespace org::mariuszgromada::math::mxparser {
 			);
 		}
 
+		/**
+		 * \brief Enables to define the function (associated with
+		 * the expression) based on the function name,
+		 * function expression string and arguments names (variadic parameters).
+		 * \param functionName                  the function name
+		 * \param functionExpressionString      the expression string
+		 * \param argumentsNames                the function arguments names
+		 *                                           (variadic parameters)
+		 *                                           comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 * \tparam Strings Types of the forwarded arguments.
+		 */
 		template<typename... Strings>
 		void defineFunction(const String &functionName, const String &functionExpressionString, Strings &&... argumentsNames) {
 			defineFunction(S(functionName), S(functionExpressionString), FORWARD_STRING(argumentsNames)...);
 		}
 
+		/**
+		 * \brief Enables to define the function (associated with
+		 * the expression) based on the function name,
+		 * function expression string and arguments names (variadic parameters).
+		 * \param functionName                  the function name
+		 * \param functionExpressionString      the expression string
+		 * \param argumentsNames                the function arguments names
+		 *                                           (variadic parameters)
+		 *                                           comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 * \tparam Strings Types of the forwarded arguments.
+		 */
 		template<typename... Strings>
 		void defineFunction(const std::string &functionName, const std::string &functionExpressionString, Strings &&... argumentsNames) {
 			defineFunction(S(functionName), S(functionExpressionString), FORWARD_STRING(argumentsNames)...);
 		}
 
+		/**
+		 * \brief Enables to define the function (associated with
+		 * the expression) based on the function name,
+		 * function expression string and arguments names (variadic parameters).
+		 * \param functionName                  the function name
+		 * \param functionExpressionString      the expression string
+		 * \param argumentsNames                the function arguments names
+		 *                                           (variadic parameters)
+		 *                                           comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 * \tparam Strings Types of the forwarded arguments.
+		 */
 		template<typename... Strings>
 		void defineFunction(const Char* functionName, const Char* functionExpressionString, Strings &&... argumentsNames) {
 			defineFunction(S(functionName), S(functionExpressionString), FORWARD_STRING(argumentsNames)...);
 		}
 
+		/**
+		 * \brief Enables to define the function (associated with
+		 * the expression) based on the function name,
+		 * function expression string and arguments names (variadic parameters).
+		 * \param functionName                  the function name
+		 * \param functionExpressionString      the expression string
+		 * \param argumentsNames                the function arguments names
+		 *                                           (variadic parameters)
+		 *                                           comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 * \tparam Strings Types of the forwarded arguments.
+		 */
 		template<typename... Strings>
 		void defineFunction(const char* functionName, const char* functionExpressionString, Strings &&... argumentsNames) {
 			defineFunction(S(functionName), S(functionExpressionString), FORWARD_STRING(argumentsNames)...);
 		}
 
+		/**
+		 * \brief Enables to define the function (associated with
+		 * the expression) based on the function name,
+		 * function expression string and arguments names (variadic parameters).
+		 * \param functionName                  the function name
+		 * \param functionExpressionString      the expression string
+		 * \param argumentsNames                the function arguments names
+		 *                                           (variadic parameters)
+		 *                                           comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 */
 		void defineFunction(const StringPtr &functionName, const StringPtr &functionExpressionString, const ListPtr<StringPtr> &argumentsNames);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::defineFunction(const StringPtr &,const StringPtr &,const ListPtr< StringPtr > &)
+		 */
 		void defineFunction(const StringPtr &functionName, const StringPtr &functionExpressionString, ListPtr<StringPtr> &argumentsNames) {
 			defineFunction(functionName, functionExpressionString, CONST_LIST_STRING(argumentsNames));
 		}
 
 		// ***********************************************************
 
+		/**
+		 * \brief Removes first occurrences of the functions
+		 * associated with the expression.
+		 * \param functions           the functions (variadic parameters)
+		 *                                 comma separated list.
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 * \tparam StringsOrFunctions Types of the forwarded arguments.
+		 */
 		template<typename... StringsOrFunctions>
 		void removeFunctions(StringsOrFunctions &&... functions) {
 			EXECUTE_FUNCTION_VARIADIC_WITH_STRING(VariadicProcessorStringOrFunction, functions, removeFunctions);
 		}
+		/**
+		 * \brief Removes first occurrences of the functions
+		 * associated with the expression.
+		 * \param functionsNames      the functions names (variadic parameters)
+		 *                                 comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 */
 		void removeFunctions(const ListPtr<StringPtr> &functionsNames);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeFunctions(const ListPtr< StringPtr > &)
+		 */
 		void removeFunctions(ListPtr<StringPtr> &functionsNames) { removeFunctions(CONST_LIST_STRING(functionsNames)); }
+		/**
+		 * \brief Removes first occurrences of the functions
+		 * associated with the expression.
+		 * \param functionName      the functions names (variadic parameters)
+		 *                                 comma separated list
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 */
 		void removeFunctions(const StringPtr &functionName);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeFunctions(const StringPtr &)
+		 */
 		void removeFunctions(StringPtr &functionName) { removeFunctions(CONST_STRING_PTR(functionName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeFunctions(const StringPtr &)
+		 */
 		void removeFunctions(const String &functionName) { removeFunctions(S(functionName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeFunctions(const StringPtr &)
+		 */
 		void removeFunctions(const Char *functionName) { removeFunctions(S(functionName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeFunctions(const StringPtr &)
+		 */
 		void removeFunctions(const std::string &functionName) { removeFunctions(S(functionName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeFunctions(const StringPtr &)
+		 */
 		void removeFunctions(const char *functionName) { removeFunctions(S(functionName)); }
+		/**
+		 * \brief Removes first occurrences of the functions
+		 * associated with the expression.
+		 * \param functions           the functions (variadic parameters)
+		 *                                 comma separated list.
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 */
 		void removeFunctions(const ListPtr<FunctionPtr> &functions);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeFunctions(const ListPtr< FunctionPtr > &)
+		 */
 		void removeFunctions(ListPtr<FunctionPtr> &functions) { removeFunctions(CONST_LIST_FUNCTION(functions)); }
+		/**
+		 * \brief Removes first occurrences of the functions
+		 * associated with the expression.
+		 * \param function           the functions (variadic parameters)
+		 *                                 comma separated list.
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 */
 		void removeFunctions(const FunctionPtr &function);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::removeFunctions(const FunctionPtr &)
+		 */
 		void removeFunctions(FunctionPtr &function) { removeFunctions(CONST_FUNCTION(function)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Removes all functions
+		 * associated with the expression.
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 */
 		void removeAllFunctions();
 
 		// ***********************************************************
@@ -685,236 +1214,601 @@ namespace org::mariuszgromada::math::mxparser {
 		// ***********************************************************
 
 		/**
-		 * Status of the syntax - no syntax error
+		 * \brief Status of the syntax - no syntax error
 		 */
 		static constexpr bool NO_SYNTAX_ERRORS = true;
 		/**
-		 * Status of the syntax - syntax error or syntax status unknown
+		 * \brief Status of the syntax - syntax error or syntax status unknown
 		 */
 		static constexpr bool SYNTAX_ERROR = false;
 		// @Deprecated
 		/**
-		 * Status of the syntax - syntax error or syntax status unknown
-		 *
-		 * @deprecated Planned to be removed, use {SYNTAX_ERROR} instead
+		 * \brief Status of the syntax - syntax error or syntax status unknown
+		 * \deprecated Planned to be removed, use {SYNTAX_ERROR} instead
 		 */
 		// @Deprecated
 		static constexpr bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = SYNTAX_ERROR;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Method return error message after
+		 * calling checkSyntax() method or
+		 * calculate().
+		 * \return Error message as string.
+		 */
 		StringPtr getErrorMessage() const;
+		/**
+		 * \brief Gets syntax status of the expression.
+		 * \return true if there are no syntax errors,
+		 *             false when syntax error was found or
+		 *             syntax status is unknown
+		 */
 		bool getSyntaxStatus() const;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Sets (modifies expression) expression string.
+		 * \param expressionString    the expression string
+		 */
 		void setExpressionString(const StringPtr &expressionString);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::setExpressionString(const StringPtr &)
+		 */
 		void setExpressionString(const String &expressionString) { setExpressionString(S(expressionString)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::setExpressionString(const StringPtr &)
+		 */
 		void setExpressionString(const Char *expressionString) { setExpressionString(S(expressionString)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::setExpressionString(const StringPtr &)
+		 */
 		void setExpressionString(const std::string &expressionString) { setExpressionString(S(expressionString)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::setExpressionString(const StringPtr &)
+		 */
 		void setExpressionString(const char *expressionString) { setExpressionString(S(expressionString)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Returns expression string
+		 * \return Expression string definition.
+		 */
 		StringPtr getExpressionString();
+		/**
+		 * \brief Returns expression string
+		 * \return Expression string definition.
+		 */
 		StringPtr getCanonicalExpressionString();
+		/**
+		 * \brief Clears expression string
+		 */
 		void clearExpressionString();
 
 		// ***********************************************************
 
+		/**
+		 * \brief Sets expression description.
+		 * \param description         the description string
+		 */
 		void setDescription(const StringPtr &description);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::setDescription(const StringPtr &)
+		 */
 		void setDescription(const String &description) { setDescription(S(description)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::setDescription(const StringPtr &)
+		 */
 		void setDescription(const Char *description) { setDescription(S(description)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::setDescription(const StringPtr &)
+		 */
 		void setDescription(const std::string &description) { setDescription(S(description)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::setDescription(const StringPtr &)
+		 */
 		void setDescription(const char *description) { setDescription(S(description)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Gets expression description.
+		 * \return String description.
+		 */
 		StringPtr getDescription();
+		/**
+		 * \brief Clears expression description
+		 */
 		void clearDescription();
 
 		// ***********************************************************
 
+		/**
+		 * \brief Enables verbose mode.
+		 */
 		void setVerboseMode();
+		/**
+		 * \brief Disables verbose mode (default silent mode).
+		 */
 		void setSilentMode();
+		/**
+		 * \brief Returns verbose mode status.
+		 * \return true if verbose mode is on,
+		 *             otherwise returns false.
+		 */
 		bool getVerboseMode() const;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Sets implied multiplication
+		 */
 		void enableImpliedMultiplicationMode();
+		/**
+		 * \brief Disables implied multiplication
+		 */
 		void disableImpliedMultiplicationMode();
+		/**
+		 * \brief Gets implied multiplication status
+		 * \return true if implied multiplication is enabled,
+		 *             otherwise returns false.
+		 */
 		bool checkIfImpliedMultiplicationMode() const;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Enables unicode built-in parser keywords, this flag
+		 * informs the parser that built-in unicode keywords
+		 * are supported and will be recognized as functions or
+		 * operators.
+		 */
 		void enableUnicodeBuiltinKeyWordsMode();
+		/**
+		 * \brief Disables unicode built-in parser keywords, this flag
+		 * informs the parser that built-in unicode keywords
+		 * are not supported and will not be recognized as functions or
+		 * operators.
+		 */
 		void disableUnicodeBuiltinKeyWordsMode();
+		/**
+		 * \brief Gets unicode built-in parser keywords mode
+		 * \return true if unicode built-in parser keywords is enabled,
+		 *             otherwise returns false.
+		 */
 		bool checkIfUnicodeBuiltinKeyWordsMode() const;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Enables attempt to fix the expression String.
+		 * For example, situations such as:
+		 * "++" change to "+",
+		 * "+-" changed to "-"
+		 * "-+" changed to "-"
+		 * "--" changed to "+"
+		 */
 		void enableAttemptToFixExpStrMode();
+		/**
+		 * \brief Disables attempt to fix the expression String.
+		 * For example, situations such as:
+		 * "++" change to "+",
+		 * "+-" changed to "-"
+		 * "-+" changed to "-"
+		 * "--" changed ro "+"
+		 */
 		void disableAttemptToFixExpStrMode();
+		/**
+		 * \brief Gets attempt to fix expression string mode
+		 * \return true attempt to fix expression string mode is enabled,
+		 *             otherwise returns false.
+		 */
 		bool checkIfAttemptToFixExpStrMode() const;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Gets recursive mode status
+		 * \return true if recursive mode is enabled,
+		 *             otherwise returns false.
+		 */
 		bool getRecursiveMode() const;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Gets computing time.
+		 * \return computing time in seconds.
+		 */
 		double getComputingTime() const;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Enables to define the argument (associated with the expression)
+		 * based on the argument name and the argument value.
+		 * \param argumentName        the argument name
+		 * \param argumentValue       the argument value
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 */
 		void defineArgument(const StringPtr &argumentName, double argumentValue);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::defineArgument(const StringPtr &,double)
+		 */
 		void defineArgument(const String &argumentName, double argumentValue) { defineArgument(S(argumentName), argumentValue); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::defineArgument(const StringPtr &,double)
+		 */
 		void defineArgument(const Char *argumentName, double argumentValue) { defineArgument(S(argumentName), argumentValue); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::defineArgument(const StringPtr &,double)
+		 */
 		void defineArgument(const std::string &argumentName, double argumentValue) { defineArgument(S(argumentName), argumentValue); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::defineArgument(const StringPtr &,double)
+		 */
 		void defineArgument(const char *argumentName, double argumentValue) { defineArgument(S(argumentName), argumentValue); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Gets argument index from the expression.
+		 * \param argumentName        the argument name
+		 * \return The argument index if the argument name was found,
+		 *             otherwise returns Argument.NOT_FOUND
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 */
 		int getArgumentIndex(const StringPtr &argumentName) const;
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getArgumentIndex(const StringPtr &) const
+		 */
 		int getArgumentIndex(const String &argumentName) const { return getArgumentIndex(S(argumentName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getArgumentIndex(const StringPtr &) const
+		 */
 		int getArgumentIndex(const Char *argumentName) const { return getArgumentIndex(S(argumentName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getArgumentIndex(const StringPtr &) const
+		 */
 		int getArgumentIndex(const std::string &argumentName) const { return getArgumentIndex(S(argumentName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getArgumentIndex(const StringPtr &) const
+		 */
 		int getArgumentIndex(const char *argumentName) const { return getArgumentIndex(S(argumentName)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Gets number of arguments associated with the expression.
+		 * \return The number of arguments (int &gt;= 0)
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 */
 		int getArgumentsNumber() const;
 
 		// ***********************************************************
+		/**
+		 * \brief Gets argument from the expression.
+		 * \param argumentName        the argument name
+		 * \return The argument if the argument name was found,
+		 *             otherwise returns null.
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 */
 		ArgumentPtr getArgument(const StringPtr &argumentName) const;
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getArgument(const StringPtr &) const
+		 */
 		ArgumentPtr getArgument(const String &argumentName) const { return getArgument(S(argumentName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getArgument(const StringPtr &) const
+		 */
 		ArgumentPtr getArgument(const Char *argumentName) const { return getArgument(S(argumentName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getArgument(const StringPtr &) const
+		 */
 		ArgumentPtr getArgument(const std::string &argumentName) const { return getArgument(S(argumentName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getArgument(const StringPtr &) const
+		 */
 		ArgumentPtr getArgument(const char *argumentName) const { return getArgument(S(argumentName)); }
+		/**
+		 * \brief Gets argument from the expression.
+		 * \param argumentIndex       the argument index
+		 * \return Argument if the argument index is between 0 and
+		 *             the last available argument index (getArgumentsNumber()-1),
+		 *             otherwise returns null.
+		 * \sa org::mariuszgromada::math::mxparser::Argument
+		 * \sa org::mariuszgromada::math::mxparser::RecursiveArgument
+		 */
 		ArgumentPtr getArgument(int argumentIndex) const;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Sets argument value.
+		 * \param argumentName        the argument name
+		 * \param argumentValue       the argument value
+		 */
 		void setArgumentValue(const StringPtr &argumentName, double argumentValue);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::setArgumentValue(const StringPtr &,double)
+		 */
 		void setArgumentValue(const String &argumentName, double argumentValue) { setArgumentValue(S(argumentName), argumentValue); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::setArgumentValue(const StringPtr &,double)
+		 */
 		void setArgumentValue(const Char *argumentName, double argumentValue) { setArgumentValue(S(argumentName), argumentValue); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::setArgumentValue(const StringPtr &,double)
+		 */
 		void setArgumentValue(const std::string &argumentName, double argumentValue) { setArgumentValue(S(argumentName), argumentValue); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::setArgumentValue(const StringPtr &,double)
+		 */
 		void setArgumentValue(const char *argumentName, double argumentValue) { setArgumentValue(S(argumentName), argumentValue); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Gets argument vale.
+		 * \param argumentName        the argument name
+		 * \return Argument value if argument name was found,
+		 *             otherwise return Double.NaN.
+		 */
 		double getArgumentValue(const StringPtr &argumentName);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getArgumentValue(const StringPtr &)
+		 */
 		double getArgumentValue(const String &argumentName) { return getArgumentValue(S(argumentName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getArgumentValue(const StringPtr &)
+		 */
 		double getArgumentValue(const Char *argumentName) { return getArgumentValue(S(argumentName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getArgumentValue(const StringPtr &)
+		 */
 		double getArgumentValue(const std::string &argumentName) { return getArgumentValue(S(argumentName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getArgumentValue(const StringPtr &)
+		 */
 		double getArgumentValue(const char *argumentName) { return getArgumentValue(S(argumentName)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Enables to define the constant (associated with
+		 * the expression) based on the constant name and
+		 * constant value.
+		 * \param constantName        the constant name
+		 * \param constantValue       the constant value
+		 * \sa org::mariuszgromada::math::mxparser::Constant
+		 */
 		void defineConstant(const StringPtr &constantName, double constantValue);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::defineConstant(const StringPtr &,double)
+		 */
 		void defineConstant(const String &constantName, double constantValue) { defineConstant(S(constantName), constantValue); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::defineConstant(const StringPtr &,double)
+		 */
 		void defineConstant(const Char *constantName, double constantValue) { defineConstant(S(constantName), constantValue); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::defineConstant(const StringPtr &,double)
+		 */
 		void defineConstant(const std::string &constantName, double constantValue) { defineConstant(S(constantName), constantValue); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::defineConstant(const StringPtr &,double)
+		 */
 		void defineConstant(const char *constantName, double constantValue) { defineConstant(S(constantName), constantValue); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Gets constant index associated with the expression.
+		 * \param constantName        the constant name
+		 * \return Constant index if constant name was found,
+		 *             otherwise return Constant.NOT_FOUND.
+		 * \sa org::mariuszgromada::math::mxparser::Constant
+		 */
 		int getConstantIndex(const StringPtr &constantName) const;
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getConstantIndex(const StringPtr &) const
+		 */
 		int getConstantIndex(const String &constantName) const { return getConstantIndex(S(constantName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getConstantIndex(const StringPtr &) const
+		 */
 		int getConstantIndex(const Char *constantName) const { return getConstantIndex(S(constantName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getConstantIndex(const StringPtr &) const
+		 */
 		int getConstantIndex(const std::string &constantName) const { return getConstantIndex(S(constantName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getConstantIndex(const StringPtr &) const
+		 */
 		int getConstantIndex(const char *constantName) const { return getConstantIndex(S(constantName)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Gets number of constants associated with the expression.
+		 * \return number of constants (int &gt;= 0)
+		 * \sa org::mariuszgromada::math::mxparser::Constant
+		 */
 		int getConstantsNumber() const;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Gets constant associated with the expression.
+		 * \param constantName        the constant name
+		 * \return Constant if constant name was found,
+		 *             otherwise return null.
+		 * \sa org::mariuszgromada::math::mxparser::Constant
+		 */
 		ConstantPtr getConstant(const StringPtr &constantName) const;
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getConstant(const StringPtr &) const
+		 */
 		ConstantPtr getConstant(const String &constantName) const { return getConstant(S(constantName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getConstant(const StringPtr &) const
+		 */
 		ConstantPtr getConstant(const Char *constantName) const { return getConstant(S(constantName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getConstant(const StringPtr &) const
+		 */
 		ConstantPtr getConstant(const std::string &constantName) const { return getConstant(S(constantName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getConstant(const StringPtr &) const
+		 */
 		ConstantPtr getConstant(const char *constantName) const { return getConstant(S(constantName)); }
+		/**
+		 * \brief Gets constant associated with the expression.
+		 * \param constantIndex       the constant index
+		 * \return Constant if the constantIndex is between
+		 *             0 and the last available constant index
+		 *             (getConstantsNumber() - 1),
+		 *             otherwise it returns null.
+		 * \sa org::mariuszgromada::math::mxparser::Constant
+		 */
 		ConstantPtr getConstant(int constantIndex) const;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Gets index of function associated with the expression.
+		 * \param functionName        the function name
+		 * \return Function index if function name was found,
+		 *             otherwise returns Function.NOT_FOUND
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 */
 		int getFunctionIndex(const StringPtr &functionName) const;
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getFunctionIndex(const StringPtr &) const
+		 */
 		int getFunctionIndex(const String &functionName) const { return getFunctionIndex(S(functionName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getFunctionIndex(const StringPtr &) const
+		 */
 		int getFunctionIndex(const Char *functionName) const { return getFunctionIndex(S(functionName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getFunctionIndex(const StringPtr &) const
+		 */
 		int getFunctionIndex(const std::string &functionName) const { return getFunctionIndex(S(functionName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getFunctionIndex(const StringPtr &) const
+		 */
 		int getFunctionIndex(const char *functionName) const { return getFunctionIndex(S(functionName)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Gets number of functions associated with the expression.
+		 * \return number of functions (int &gt;= 0)
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 */
 		int getFunctionsNumber() const;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Gets function associated with the expression.
+		 * \param functionName        the function name
+		 * \return Function if function name was found,
+		 *             otherwise returns null.
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 */
 		FunctionPtr getFunction(const StringPtr &functionName) const;
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getFunction(const StringPtr &) const
+		 */
 		FunctionPtr getFunction(const String &functionName) const { return getFunction(S(functionName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getFunction(const StringPtr &) const
+		 */
 		FunctionPtr getFunction(const Char *functionName) const { return getFunction(S(functionName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getFunction(const StringPtr &) const
+		 */
 		FunctionPtr getFunction(const std::string &functionName) const { return getFunction(S(functionName)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getFunction(const StringPtr &) const
+		 */
 		FunctionPtr getFunction(const char *functionName) const { return getFunction(S(functionName)); }
+		/**
+		 * \brief Gets function associated with the expression.
+		 * \param functionIndex the function index
+		 * \return Function if function index is between 0 and
+		 *             the last available function index (getFunctionsNumber()-1),
+		 *             otherwise returns null.
+		 * \sa org::mariuszgromada::math::mxparser::Function
+		 */
 		FunctionPtr getFunction(int functionIndex) const;
 
 		// ***********************************************************
 
+		/**
+		 * \brief Checks syntax of the expression string.
+		 * \return true if syntax is ok
+		 */
 		bool checkLexSyntax();
+		/**
+		 * \brief Checks syntax of the expression string.
+		 * \return true if syntax is ok
+		 */
 		bool checkSyntax();
 
 		// ***********************************************************
 
+		/**
+		 * \brief Calculates the expression value and registers all the calculation steps
+		 * \return The expression value if syntax was ok,
+		 *             otherwise returns Double.NaN.
+		 */
 		double calculate();
+		/**
+		 * \brief Calculates the expression value
+		 * \param calcStepsRegister A collection to store list of calculation steps,
+		 *                          steps registered as strings.
+		 * \return The expression value if syntax was ok,
+		 *             otherwise returns Double.NaN.
+		 */
 		double calculate(const CalcStepsRegisterPtr &calcStepsRegister);
 		/**
-		 * Calculates the expression value
+		 * \brief Calculates the expression value
 		 *
 		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
 		 * cancellation; positive IDs combine the global signal with the domain signal.
 		 * This method does not clear either signal. Cached values and fast returns
 		 * may complete normally despite a pending signal. Separate IDs do not make
 		 * a shared mutable expression graph safe for concurrent calculations.
-		 * @param calcStepsRegister A collection to store list of calculation steps,
+		 * \param calcStepsRegister A collection to store list of calculation steps,
 		 *                          steps registered as strings.
-		 *
-		 * @return     The expression value if syntax was ok,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see calculate(org.mariuszgromada.math.mxparser.CalcStepsRegister)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \return The expression value if syntax was ok,
+		 *             otherwise returns Double.NaN.
+		 * \param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * \since 6.2.0
+		 * \sa org::mariuszgromada::math::mxparser::Expression::calculate
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::cancelCalculation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::resetCalculationCancellation(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::acquireCancellationTokenId()
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::reserveCancellationTokenId(int)
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::releaseCancellationTokenId(int)
+		 * \exception std::invalid_argument if cancelId is outside the supported range
 		 */
 		double calculateWithCancel(const CalcStepsRegisterPtr &calcStepsRegister, int cancelId);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::calculate(const CalcStepsRegisterPtr &)
+		 */
 		double calculate(CalcStepsRegisterPtr &calcStepsRegister) { return calculate(CONST_CALC_STEPS_REGISTER(calcStepsRegister)); }
 		/**
-		 * Calculates the expression value
-		 *
-		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
-		 * cancellation; positive IDs combine the global signal with the domain signal.
-		 * This method does not clear either signal. Cached values and fast returns
-		 * may complete normally despite a pending signal. Separate IDs do not make
-		 * a shared mutable expression graph safe for concurrent calculations.
-		 * @param calcStepsRegister A collection to store list of calculation steps,
-		 *                          steps registered as strings.
-		 *
-		 * @return     The expression value if syntax was ok,
-		 *             otherwise returns Double::NaN.
-		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
-		 * @throws std::invalid_argument if cancelId is outside the supported range
-		 * @since 6.2.0
-		 * @see calculate(org.mariuszgromada.math.mxparser.CalcStepsRegister)
-		 * @see mXparser#cancelCalculation(int)
-		 * @see mXparser#resetCalculationCancellation(int)
-		 * @see mXparser#acquireCancellationTokenId()
-		 * @see mXparser#reserveCancellationTokenId(int)
-		 * @see mXparser#releaseCancellationTokenId(int)
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::calculateWithCancel(const CalcStepsRegisterPtr &,int)
 		 */
 		double calculateWithCancel(CalcStepsRegisterPtr &calcStepsRegister, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
@@ -924,154 +1818,610 @@ namespace org::mariuszgromada::math::mxparser {
 
 		// ***********************************************************
 
+		/**
+		 * \brief Tokenizes expression string and returns tokens list,
+		 * including: string, type, level.
+		 * \return Copy of initial tokens.
+		 * \sa org::mariuszgromada::math::mxparser::parsertokens::Token
+		 * \sa org::mariuszgromada::math::mxparser::mXparser::consolePrintTokens(const ListPtr< TokenPtr > &)
+		 */
 		ListPtr<TokenPtr> getCopyOfInitialTokens();
-        /** Classical mathematical LaTeX without delimiters or evaluation.
-         * Uses getCopyOfInitialTokens() with the same cache/metadata behavior.
-         * @throws std::logic_error Invalid structure, builtin arity, identifier or resource budget.
-         * @since 6.1.2 */
+        /**
+         * \brief Returns this expression in classical mathematical LaTeX notation, without
+         * math-mode delimiters. Values, user function bodies and numerical algorithm
+         * settings are not evaluated. Undefined symbols with unambiguous structure
+         * are supported. This method uses \ref org::mariuszgromada::math::mxparser::Expression::getCopyOfInitialTokens() and has
+         * the same tokenization/cache and extension-metadata behavior as that method.
+         * The returned notation describes the formula, not numerical implementation
+         * details such as rounding, angular mode or special values at singularities.
+         * \return A mathematical LaTeX fragment, or an empty string for empty input.
+         * \since 6.2.0
+         * \exception std::logic_error Invalid structure, builtin arity, identifier or resource budget.
+         */
         StringPtr getExpressionAsLaTeX();
+		/**
+		 * \brief Returns missing user defined arguments names, i.e.
+		 * sin(x) + cos(y) where x and y are not defined
+		 * function will return x and y.
+		 * \return Array of missing user defined arguments names
+		 * - distinct strings.
+		 */
 		ArrayPtr<StringPtr> getMissingUserDefinedArguments();
+		/**
+		 * \brief Returns missing user defined units names, i.e.
+		 * 2*[w] + [q] where [w] and [q] are not defined
+		 * function will return [w] and [q].
+		 * \return Array of missing user defined units names
+		 * - distinct strings.
+		 */
 		ArrayPtr<StringPtr> getMissingUserDefinedUnits();
+		/**
+		 * \brief Returns missing user defined functions names, i.e.
+		 * sin(x) + fun(x,y) where fun is not defined
+		 * function will return fun.
+		 * \return Array of missing user defined functions names
+		 * - distinct strings.
+		 */
 		ArrayPtr<StringPtr> getMissingUserDefinedFunctions();
+		/**
+		 * \brief Prints to the console copy of initial tokens. Presents how
+		 * expression string is interpreted by the parser.
+		 * \sa org::mariuszgromada::math::mxparser::Expression::getCopyOfInitialTokens()
+		 */
 		void consolePrintCopyOfInitialTokens();
 
 		// ***********************************************************
 
+		/**
+		 * \brief Returns detailed user help on the syntax of mathematical expressions.
+		 * \return One string value containing all the help.
+		 */
 		StringPtr getHelp();
+		/**
+		 * \brief Returns detailed user help on the syntax of mathematical expressions.
+		 * Allows simple and advanced searches.
+		 * \param query For a simple search, simply enter a word (e.g.: "sine").
+		 * Advanced search is also possible, please use one of the tags below:
+		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		 * Only one tag can be used per search.
+		 * \return One string value containing all the help.
+		 */
 		StringPtr getHelp(const StringPtr &query);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelp(const StringPtr &)
+		 */
 		StringPtr getHelp(const String &query) { return getHelp(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelp(const StringPtr &)
+		 */
 		StringPtr getHelp(const Char *query) { return getHelp(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelp(const StringPtr &)
+		 */
 		StringPtr getHelp(const std::string &query) { return getHelp(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelp(const StringPtr &)
+		 */
 		StringPtr getHelp(const char *query) { return getHelp(S(query)); }
+		/**
+		 * \brief Returns detailed user help on the syntax of mathematical expressions.
+		 * Allows simple and advanced searches.
+		 * \param addHeader Indicator whether to add a header.
+		 * \param addCaption Indicator whether to add caption.
+		 * \param caption If a non-standard caption is to be added, any string other than ""
+		 * will replace the standard caption with the one specified by the user.
+		 * \return One string value containing all the help.
+		 */
 		StringPtr getHelp(bool addHeader, bool addCaption, const StringPtr &caption);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelp(bool,bool,const StringPtr &)
+		 */
 		StringPtr getHelp(bool addHeader, bool addCaption, const String &caption) { return getHelp(addHeader, addCaption, S(caption)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelp(bool,bool,const StringPtr &)
+		 */
 		StringPtr getHelp(bool addHeader, bool addCaption, const Char *caption) { return getHelp(addHeader, addCaption, S(caption)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelp(bool,bool,const StringPtr &)
+		 */
 		StringPtr getHelp(bool addHeader, bool addCaption, const std::string &caption) { return getHelp(addHeader, addCaption, S(caption)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelp(bool,bool,const StringPtr &)
+		 */
 		StringPtr getHelp(bool addHeader, bool addCaption, const char *caption) { return getHelp(addHeader, addCaption, S(caption)); }
+		/**
+		 * \brief Returns detailed user help on the syntax of mathematical expressions.
+		 * Allows simple and advanced searches.
+		 * \param query For a simple search, simply enter a word (e.g.: "sine").
+		 * Advanced search is also possible, please use one of the tags below:
+		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		 * Only one tag can be used per search.
+		 * \param addHeader Indicator whether to add a header.
+		 * \param addCaption Indicator whether to add caption.
+		 * \param caption If a non-standard caption is to be added, any string other than ""
+		 * \return One string value containing all the help.
+		 */
 		StringPtr getHelp(const StringPtr &query, bool addHeader, bool addCaption, const StringPtr &caption);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelp(const StringPtr &,bool,bool,const StringPtr &)
+		 */
 		StringPtr getHelp(const String &query, bool addHeader, bool addCaption, const String &caption) { return getHelp(S(query), addHeader, addCaption, S(caption)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelp(const StringPtr &,bool,bool,const StringPtr &)
+		 */
 		StringPtr getHelp(const Char *query, bool addHeader, bool addCaption, const Char *caption) { return getHelp(S(query), addHeader, addCaption, S(caption)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelp(const StringPtr &,bool,bool,const StringPtr &)
+		 */
 		StringPtr getHelp(const std::string &query, bool addHeader, bool addCaption, const std::string &caption) { return getHelp(S(query), addHeader, addCaption, S(caption)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelp(const StringPtr &,bool,bool,const StringPtr &)
+		 */
 		StringPtr getHelp(const char *query, bool addHeader, bool addCaption, const char *caption) { return getHelp(S(query), addHeader, addCaption, S(caption)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Returns (as CSV) detailed user help on the syntax of mathematical expressions.
+		 * \return One string value in CSV format containing all the help.
+		 */
 		StringPtr getHelpAsCsv();
+		/**
+		 * \brief Returns (as CSV) detailed user help on the syntax of mathematical expressions.
+		 * Allows simple and advanced searches.
+		 * \param query For a simple search, simply enter a word (e.g.: "sine").
+		 * Advanced search is also possible, please use one of the tags below:
+		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		 * Only one tag can be used per search.
+		 * \return One string value in CSV format containing all the help.
+		 */
 		StringPtr getHelpAsCsv(const StringPtr &query);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsCsv(const StringPtr &)
+		 */
 		StringPtr getHelpAsCsv(const String &query) { return getHelpAsCsv(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsCsv(const StringPtr &)
+		 */
 		StringPtr getHelpAsCsv(const Char *query) { return getHelpAsCsv(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsCsv(const StringPtr &)
+		 */
 		StringPtr getHelpAsCsv(const std::string &query) { return getHelpAsCsv(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsCsv(const StringPtr &)
+		 */
 		StringPtr getHelpAsCsv(const char *query) { return getHelpAsCsv(S(query)); }
+		/**
+		 * \brief Returns (as CSV) detailed user help on the syntax of mathematical expressions.
+		 * \param quote Text qualifier.
+		 * \param delimiter Delimiter.
+		 * \param addHeader Indicator whether to add a header.
+		 * \return One string value in CSV format containing all the help.
+		 */
 		StringPtr getHelpAsCsv(const StringPtr &quote, const StringPtr &delimiter, bool addHeader);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsCsv(const StringPtr &,const StringPtr &,bool)
+		 */
 		StringPtr getHelpAsCsv(const String &quote, const String &delimiter, bool addHeader) { return getHelpAsCsv(S(quote), S(delimiter), addHeader); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsCsv(const StringPtr &,const StringPtr &,bool)
+		 */
 		StringPtr getHelpAsCsv(const Char *quote, const Char *delimiter, bool addHeader) { return getHelpAsCsv(S(quote), S(delimiter), addHeader); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsCsv(const StringPtr &,const StringPtr &,bool)
+		 */
 		StringPtr getHelpAsCsv(const std::string &quote, const std::string &delimiter, bool addHeader) { return getHelpAsCsv(S(quote), S(delimiter), addHeader); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsCsv(const StringPtr &,const StringPtr &,bool)
+		 */
 		StringPtr getHelpAsCsv(const char *quote, const char *delimiter, bool addHeader) { return getHelpAsCsv(S(quote), S(delimiter), addHeader); }
+		/**
+		 * \brief Returns (as CSV) detailed user help on the syntax of mathematical expressions.
+		 * Allows simple and advanced searches.
+		 * \param query For a simple search, simply enter a word (e.g.: "sine").
+		 * Advanced search is also possible, please use one of the tags below:
+		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		 * Only one tag can be used per search.
+		 * \param quote Text qualifier.
+		 * \param delimiter Delimiter.
+		 * \param addHeader Indicator whether to add a header.
+		 * \return One string value in CSV format containing all the help.
+		 */
 		StringPtr getHelpAsCsv(const StringPtr &query, const StringPtr &quote, const StringPtr &delimiter, bool addHeader);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsCsv(const StringPtr &,const StringPtr &,const StringPtr &,bool)
+		 */
 		StringPtr getHelpAsCsv(const String &query, const String &quote, const String &delimiter, bool addHeader) { return getHelpAsCsv(S(query), S(quote), S(delimiter), addHeader); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsCsv(const StringPtr &,const StringPtr &,const StringPtr &,bool)
+		 */
 		StringPtr getHelpAsCsv(const Char *query, const Char *quote, const Char *delimiter, bool addHeader) { return getHelpAsCsv(S(query), S(quote), S(delimiter), addHeader); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsCsv(const StringPtr &,const StringPtr &,const StringPtr &,bool)
+		 */
 		StringPtr getHelpAsCsv(const std::string &query, const std::string &quote, const std::string &delimiter, bool addHeader) { return getHelpAsCsv(S(query), S(quote), S(delimiter), addHeader); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsCsv(const StringPtr &,const StringPtr &,const StringPtr &,bool)
+		 */
 		StringPtr getHelpAsCsv(const char *query, const char *quote, const char *delimiter, bool addHeader) { return getHelpAsCsv(S(query), S(quote), S(delimiter), addHeader); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
+		 * \return One string value containing all the help. String in HTML table format.
+		 */
 		StringPtr getHelpAsHtmlTable();
+		/**
+		 * \brief Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
+		 * \param query For a simple search, simply enter a word (e.g.: "sine").
+		 * Advanced search is also possible, please use one of the tags below:
+		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		 * Only one tag can be used per search.
+		 * \return One string value containing all the help. String in HTML table format.
+		 */
 		StringPtr getHelpAsHtmlTable(const StringPtr &query);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsHtmlTable(const StringPtr &)
+		 */
 		StringPtr getHelpAsHtmlTable(const String &query) { return getHelpAsHtmlTable(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsHtmlTable(const StringPtr &)
+		 */
 		StringPtr getHelpAsHtmlTable(const Char *query) { return getHelpAsHtmlTable(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsHtmlTable(const StringPtr &)
+		 */
 		StringPtr getHelpAsHtmlTable(const std::string &query) { return getHelpAsHtmlTable(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsHtmlTable(const StringPtr &)
+		 */
 		StringPtr getHelpAsHtmlTable(const char *query) { return getHelpAsHtmlTable(S(query)); }
+		/**
+		 * \brief Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
+		 * \param addHeader Indicator whether to add a header.
+		 * \param addCaption Indicator whether to add caption.
+		 * \param addFigure Indicator whether to add a FIGURE tag.
+		 * \param caption If a non-standard caption is to be added, use any string other than "".
+		 * \param cssClass If CSS class is to be added, use any string other than "".
+		 * \return One string value containing all the help. String in HTML table format.
+		 */
 		StringPtr getHelpAsHtmlTable(bool addHeader, bool addCaption, bool addFigure, const StringPtr &caption, const StringPtr &cssClass);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsHtmlTable(bool,bool,bool,const StringPtr &,const StringPtr &)
+		 */
 		StringPtr getHelpAsHtmlTable(bool addHeader, bool addCaption, bool addFigure, const String &caption, const String &cssClass) {
 			return getHelpAsHtmlTable(addHeader, addCaption, addFigure, S(caption), S(cssClass));
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsHtmlTable(bool,bool,bool,const StringPtr &,const StringPtr &)
+		 */
 		StringPtr getHelpAsHtmlTable(bool addHeader, bool addCaption, bool addFigure, const Char *caption, const Char *cssClass) {
 			return getHelpAsHtmlTable(addHeader, addCaption, addFigure, S(caption), S(cssClass));
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsHtmlTable(bool,bool,bool,const StringPtr &,const StringPtr &)
+		 */
 		StringPtr getHelpAsHtmlTable(bool addHeader, bool addCaption, bool addFigure, const std::string &caption, const std::string &cssClass) {
 			return getHelpAsHtmlTable(addHeader, addCaption, addFigure, S(caption), S(cssClass));
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsHtmlTable(bool,bool,bool,const StringPtr &,const StringPtr &)
+		 */
 		StringPtr getHelpAsHtmlTable(bool addHeader, bool addCaption, bool addFigure, const char *caption, const char *cssClass) {
 			return getHelpAsHtmlTable(addHeader, addCaption, addFigure, S(caption), S(cssClass));
 		}
+		/**
+		 * \brief Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
+		 * Allows simple and advanced searches.
+		 * \param query For a simple search, simply enter a word (e.g.: "sine").
+		 * Advanced search is also possible, please use one of the tags below:
+		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		 * Only one tag can be used per search.
+		 * \param addHeader Indicator whether to add a header.
+		 * \param addCaption Indicator whether to add caption.
+		 * \param addFigure Indicator whether to add a FIGURE tag.
+		 * \param caption If a non-standard caption is to be added, use any string other than "".
+		 * \param cssClass If CSS class is to be added, use any string other than "".
+		 * \return One string value containing all the help. String in HTML table format.
+		 */
 		StringPtr getHelpAsHtmlTable(const StringPtr &query, bool addHeader, bool addCaption, bool addFigure, const StringPtr &caption, const StringPtr &cssClass);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsHtmlTable(const StringPtr &,bool,bool,bool,const StringPtr &,const StringPtr &)
+		 */
 		StringPtr getHelpAsHtmlTable(const String &query, bool addHeader, bool addCaption, bool addFigure,const String &caption, const String &cssClass) {
 			return getHelpAsHtmlTable(S(query), addHeader, addCaption, addFigure, S(caption), S(cssClass));
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsHtmlTable(const StringPtr &,bool,bool,bool,const StringPtr &,const StringPtr &)
+		 */
 		StringPtr getHelpAsHtmlTable(const Char *query, bool addHeader, bool addCaption, bool addFigure, const Char *caption, const Char *cssClass) {
 			return getHelpAsHtmlTable(S(query), addHeader, addCaption, addFigure, S(caption), S(cssClass));
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsHtmlTable(const StringPtr &,bool,bool,bool,const StringPtr &,const StringPtr &)
+		 */
 		StringPtr getHelpAsHtmlTable(const std::string &query, bool addHeader, bool addCaption, bool addFigure, const std::string &caption, const std::string &cssClass) {
 			return getHelpAsHtmlTable(S(query), addHeader, addCaption, addFigure, S(caption), S(cssClass));
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsHtmlTable(const StringPtr &,bool,bool,bool,const StringPtr &,const StringPtr &)
+		 */
 		StringPtr getHelpAsHtmlTable(const char *query, bool addHeader, bool addCaption, bool addFigure, const char *caption, const char *cssClass) {
 			return getHelpAsHtmlTable(S(query), addHeader, addCaption, addFigure, S(caption), S(cssClass));
 		}
 
 		// ***********************************************************
 
+		/**
+		 * \brief Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
+		 * \return One string value containing all the help. String in Markdown table format.
+		 */
 		StringPtr getHelpAsMarkdownTable();
+		/**
+		 * \brief Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
+		 * Allows simple and advanced searches.
+		 * \param query For a simple search, simply enter a word (e.g.: "sine").
+		 * Advanced search is also possible, please use one of the tags below:
+		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		 * Only one tag can be used per search.
+		 * \return One string value containing all the help. String in Markdown table format.
+		 */
 		StringPtr getHelpAsMarkdownTable(const StringPtr &query);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsMarkdownTable(const StringPtr &)
+		 */
 		StringPtr getHelpAsMarkdownTable(const String &query) { return getHelpAsMarkdownTable(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsMarkdownTable(const StringPtr &)
+		 */
 		StringPtr getHelpAsMarkdownTable(const Char *query) { return getHelpAsMarkdownTable(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsMarkdownTable(const StringPtr &)
+		 */
 		StringPtr getHelpAsMarkdownTable(const std::string &query) { return getHelpAsMarkdownTable(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsMarkdownTable(const StringPtr &)
+		 */
 		StringPtr getHelpAsMarkdownTable(const char *query) { return getHelpAsMarkdownTable(S(query)); }
+		/**
+		 * \brief Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
+		 * \param addHeader Indicator whether to add a header.
+		 * \param addCaption Indicator whether to add caption.
+		 * \param caption If a non-standard caption is to be added, use any string other than "".
+		 * \return One string value containing all the help. String in Markdown table format.
+		 */
 		StringPtr getHelpAsMarkdownTable(bool addHeader, bool addCaption, const StringPtr &caption);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsMarkdownTable(bool,bool,const StringPtr &)
+		 */
 		StringPtr getHelpAsMarkdownTable(bool addHeader, bool addCaption, const String &caption) { return getHelpAsMarkdownTable(addHeader, addCaption, S(caption)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsMarkdownTable(bool,bool,const StringPtr &)
+		 */
 		StringPtr getHelpAsMarkdownTable(bool addHeader, bool addCaption, const Char *caption) { return getHelpAsMarkdownTable(addHeader, addCaption, S(caption)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsMarkdownTable(bool,bool,const StringPtr &)
+		 */
 		StringPtr getHelpAsMarkdownTable(bool addHeader, bool addCaption, const std::string &caption) { return getHelpAsMarkdownTable(addHeader, addCaption, S(caption)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsMarkdownTable(bool,bool,const StringPtr &)
+		 */
 		StringPtr getHelpAsMarkdownTable(bool addHeader, bool addCaption, const char *caption) { return getHelpAsMarkdownTable(addHeader, addCaption, S(caption)); }
+		/**
+		 * \brief Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
+		 * Allows simple and advanced searches.
+		 * \param query For a simple search, simply enter a word (e.g.: "sine").
+		 * Advanced search is also possible, please use one of the tags below:
+		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		 * Only one tag can be used per search.
+		 * \param addHeader Indicator whether to add a header.
+		 * \param addCaption Indicator whether to add caption.
+		 * \param caption If a non-standard caption is to be added, use any string other than "".
+		 * \return One string value containing all the help. String in Markdown table format.
+		 */
 		StringPtr getHelpAsMarkdownTable(const StringPtr &query, bool addHeader, bool addCaption, const StringPtr &caption);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsMarkdownTable(const StringPtr &,bool,bool,const StringPtr &)
+		 */
 		StringPtr getHelpAsMarkdownTable(const String &query, bool addHeader, bool addCaption, const String &caption) {
 			return getHelpAsMarkdownTable(S(query), addHeader, addCaption, S(caption));
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsMarkdownTable(const StringPtr &,bool,bool,const StringPtr &)
+		 */
 		StringPtr getHelpAsMarkdownTable(const Char *query, bool addHeader, bool addCaption, const Char *caption) {
 			return getHelpAsMarkdownTable(S(query), addHeader, addCaption, S(caption));
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsMarkdownTable(const StringPtr &,bool,bool,const StringPtr &)
+		 */
 		StringPtr getHelpAsMarkdownTable(const std::string &query, bool addHeader, bool addCaption, const std::string &caption) {
 			return getHelpAsMarkdownTable(S(query), addHeader, addCaption, S(caption));
 		}
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsMarkdownTable(const StringPtr &,bool,bool,const StringPtr &)
+		 */
 		StringPtr getHelpAsMarkdownTable(const char *query, bool addHeader, bool addCaption, const char *caption) {
 			return getHelpAsMarkdownTable(S(query), addHeader, addCaption, S(caption));
 		}
 
 		// ***********************************************************
 
+		/**
+		 * \brief Returns (as Json) detailed user help on the syntax of mathematical expressions.
+		 * \return One string value containing all the help. String in Json format.
+		 */
 		StringPtr getHelpAsJson();
+		/**
+		 * \brief Returns (as Json) detailed user help on the syntax of mathematical expressions.
+		 * Allows simple and advanced searches.
+		 * \param query For a simple search, simply enter a word (e.g.: "sine").
+		 * Advanced search is also possible, please use one of the tags below:
+		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		 * Only one tag can be used per search.
+		 * \return One string value containing all the help. String in Json format.
+		 */
 		StringPtr getHelpAsJson(const StringPtr &query);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsJson(const StringPtr &)
+		 */
 		StringPtr getHelpAsJson(const String &query) { return getHelpAsJson(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsJson(const StringPtr &)
+		 */
 		StringPtr getHelpAsJson(const Char *query) { return getHelpAsJson(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsJson(const StringPtr &)
+		 */
 		StringPtr getHelpAsJson(const std::string &query) { return getHelpAsJson(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsJson(const StringPtr &)
+		 */
 		StringPtr getHelpAsJson(const char *query) { return getHelpAsJson(S(query)); }
+		/**
+		 * \brief Returns (as Json) detailed user help on the syntax of mathematical expressions.
+		 * \param addCaption Indicator whether to add caption.
+		 * \param caption If a non-standard caption is to be added, use any string other than "".
+		 * \return One string value containing all the help. String in Json format.
+		 */
 		StringPtr getHelpAsJson(bool addCaption, const StringPtr &caption);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsJson(bool,const StringPtr &)
+		 */
 		StringPtr getHelpAsJson(bool addCaption, const String &caption) { return getHelpAsJson(addCaption, S(caption)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsJson(bool,const StringPtr &)
+		 */
 		StringPtr getHelpAsJson(bool addCaption, const Char *caption) { return getHelpAsJson(addCaption, S(caption)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsJson(bool,const StringPtr &)
+		 */
 		StringPtr getHelpAsJson(bool addCaption, const std::string &caption) { return getHelpAsJson(addCaption, S(caption)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsJson(bool,const StringPtr &)
+		 */
 		StringPtr getHelpAsJson(bool addCaption, const char *caption) { return getHelpAsJson(addCaption, S(caption)); }
+		/**
+		 * \brief Returns (as Json) detailed user help on the syntax of mathematical expressions.
+		 * Allows simple and advanced searches.
+		 * \param query For a simple search, simply enter a word (e.g.: "sine").
+		 * Advanced search is also possible, please use one of the tags below:
+		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		 * Only one tag can be used per search.
+		 * \param addCaption Indicator whether to add caption.
+		 * \param caption If a non-standard caption is to be added, use any string other than "".
+		 * \return One string value containing all the help. String in Json format.
+		 */
 		StringPtr getHelpAsJson(const StringPtr &query, bool addCaption, const StringPtr &caption);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsJson(const StringPtr &,bool,const StringPtr &)
+		 */
 		StringPtr getHelpAsJson(const String &query, bool addCaption, const String &caption) { return getHelpAsJson(S(query), addCaption, S(caption)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsJson(const StringPtr &,bool,const StringPtr &)
+		 */
 		StringPtr getHelpAsJson(const Char *query, bool addCaption, const Char *caption) { return getHelpAsJson(S(query), addCaption, S(caption)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsJson(const StringPtr &,bool,const StringPtr &)
+		 */
 		StringPtr getHelpAsJson(const std::string &query, bool addCaption, const std::string &caption) { return getHelpAsJson(S(query), addCaption, S(caption)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getHelpAsJson(const StringPtr &,bool,const StringPtr &)
+		 */
 		StringPtr getHelpAsJson(const char *query, bool addCaption, const char *caption) { return getHelpAsJson(S(query), addCaption, S(caption)); }
 
 		// ***********************************************************
 
+		/**
+		 * \brief Returns list of keywords known to the parser
+		 * \return List of keywords known to the parser.
+		 * \sa org::mariuszgromada::math::mxparser::parsertokens::KeyWord
+		 * \sa org::mariuszgromada::math::mxparser::parsertokens::KeyWord::wordTypeId
+		 * \sa org::mariuszgromada::math::mxparser::Expression::getHelp()
+		 */
 		ListPtr<KeyWordPtr> getKeyWords();
+		/**
+		 * \brief Returns list of keywords known to the parser. Allows simple and advanced searches.
+		 * \param query For a simple search, simply enter a word (e.g.: "sine").
+		 * Advanced search is also possible, please use one of the tags below:
+		 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+		 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+		 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+		 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+		 * Only one tag can be used per search.
+		 * \return List of keywords known to the parser filter against query string.
+		 * \sa org::mariuszgromada::math::mxparser::parsertokens::KeyWord
+		 * \sa org::mariuszgromada::math::mxparser::parsertokens::KeyWord::wordTypeId
+		 * \sa org::mariuszgromada::math::mxparser::Expression::getHelp(const StringPtr &)
+		 */
 		ListPtr<KeyWordPtr> getKeyWords(const StringPtr &query);
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getKeyWords(const StringPtr &)
+		 */
 		ListPtr<KeyWordPtr> getKeyWords(const String &query) { return getKeyWords(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getKeyWords(const StringPtr &)
+		 */
 		ListPtr<KeyWordPtr> getKeyWords(const Char *query) { return getKeyWords(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getKeyWords(const StringPtr &)
+		 */
 		ListPtr<KeyWordPtr> getKeyWords(const std::string &query) { return getKeyWords(S(query)); }
+		/**
+		 * \copydoc org::mariuszgromada::math::mxparser::Expression::getKeyWords(const StringPtr &)
+		 */
 		ListPtr<KeyWordPtr> getKeyWords(const char *query) { return getKeyWords(S(query)); }
 
 
 		// ***********************************************************
 
+		/**
+		 * \brief Creates a completely independent 1-1 clone that can be safely used
+		 * by a separate thread. If the cloned element contains references
+		 * to other elements (e.g. arguments, functions, constants),
+		 * then they will also be cloned and the newly created element will
+		 * contain references to the corresponding clones.
+		 * Important - the API allows you to extract all these clones.
+		 * \return Cloned object.
+		 */
 		ExpressionPtr cloneForThreadSafe();
 
 		// ***********************************************************
 
 		/**
-		 * FOUND / NOT_FOUND
+		 * \brief FOUND / NOT_FOUND
 		 * used for matching purposes
 		 */
 		static constexpr int NOT_FOUND = mXparser::NOT_FOUND;
@@ -1137,7 +2487,7 @@ namespace org::mariuszgromada::math::mxparser {
 		static const ListPtr<ExpressionPtr> LIST_PTR_OF_EXPRESSION_PTR_ALWAYS_EMPTY;
 
 		/**
-		 * For verbose mode purposes
+		 * \brief For verbose mode purposes
 		 */
 		static constexpr bool WITH_EXP_STR = true;
 		static constexpr bool NO_EXP_STR = false;
@@ -1574,7 +2924,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 		// package:
 		/**
-		 * Marker for internal processing
+		 * \brief Marker for internal processing
 		 */
 		static constexpr bool INTERNAL = true;
 		StringPtr expressionString = StringInvariantEMPTY();
@@ -1728,6 +3078,13 @@ namespace org::mariuszgromada::math::mxparser {
 		return expression;
 	}
 
+	/**
+	 * \brief Default constructor - empty expression
+	 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \return A shared pointer to the new Expression instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	ExpressionPtr new_Expression(PrimitiveElements &&... elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(FORWARD_PRIMITIVE(elements)...);
@@ -1735,6 +3092,12 @@ namespace org::mariuszgromada::math::mxparser {
 		return expression;
 	}
 
+	/**
+	 * \brief Default constructor - empty expression
+	 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \return A shared pointer to the new Expression instance.
+	 */
 	inline ExpressionPtr new_Expression(const ListPtr<PrimitiveElementPtr> &elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(elements);
 		expression->postConstructorSync();
@@ -1744,6 +3107,14 @@ namespace org::mariuszgromada::math::mxparser {
 	// 2 =========================================================================
 
 
+	/**
+	 * \brief Constructor - creates new expression from expression string.
+	 * \param expressionString    definition of the expression
+	 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \return A shared pointer to the new Expression instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	ExpressionPtr new_Expression(const StringPtr &expressionString, PrimitiveElements &&... elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(expressionString, FORWARD_PRIMITIVE(elements)...);
@@ -1751,6 +3122,14 @@ namespace org::mariuszgromada::math::mxparser {
 		return expression;
 	}
 
+	/**
+	 * \brief Constructor - creates new expression from expression string.
+	 * \param expressionString    definition of the expression
+	 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \return A shared pointer to the new Expression instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	ExpressionPtr new_Expression(StringPtr &expressionString, PrimitiveElements &&... elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(expressionString, FORWARD_PRIMITIVE(elements)...);
@@ -1758,6 +3137,14 @@ namespace org::mariuszgromada::math::mxparser {
 		return expression;
 	}
 
+	/**
+	 * \brief Constructor - creates new expression from expression string.
+	 * \param expressionString    definition of the expression
+	 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \return A shared pointer to the new Expression instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	ExpressionPtr new_Expression(const String &expressionString, PrimitiveElements &&... elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(expressionString, FORWARD_PRIMITIVE(elements)...);
@@ -1765,6 +3152,14 @@ namespace org::mariuszgromada::math::mxparser {
 		return expression;
 	}
 
+	/**
+	 * \brief Constructor - creates new expression from expression string.
+	 * \param expressionString    definition of the expression
+	 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \return A shared pointer to the new Expression instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	ExpressionPtr new_Expression(String &expressionString, PrimitiveElements &&... elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(expressionString, FORWARD_PRIMITIVE(elements)...);
@@ -1772,6 +3167,14 @@ namespace org::mariuszgromada::math::mxparser {
 		return expression;
 	}
 
+	/**
+	 * \brief Constructor - creates new expression from expression string.
+	 * \param expressionString    definition of the expression
+	 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \return A shared pointer to the new Expression instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	ExpressionPtr new_Expression(const std::string &expressionString, PrimitiveElements &&... elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(expressionString, FORWARD_PRIMITIVE(elements)...);
@@ -1779,6 +3182,14 @@ namespace org::mariuszgromada::math::mxparser {
 		return expression;
 	}
 
+	/**
+	 * \brief Constructor - creates new expression from expression string.
+	 * \param expressionString    definition of the expression
+	 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \return A shared pointer to the new Expression instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	ExpressionPtr new_Expression(std::string &expressionString, PrimitiveElements &&... elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(expressionString, FORWARD_PRIMITIVE(elements)...);
@@ -1786,6 +3197,14 @@ namespace org::mariuszgromada::math::mxparser {
 		return expression;
 	}
 
+	/**
+	 * \brief Constructor - creates new expression from expression string.
+	 * \param expressionString    definition of the expression
+	 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \return A shared pointer to the new Expression instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	ExpressionPtr new_Expression(const Char *expressionString, PrimitiveElements &&... elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(expressionString, FORWARD_PRIMITIVE(elements)...);
@@ -1793,6 +3212,14 @@ namespace org::mariuszgromada::math::mxparser {
 		return expression;
 	}
 
+	/**
+	 * \brief Constructor - creates new expression from expression string.
+	 * \param expressionString    definition of the expression
+	 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \return A shared pointer to the new Expression instance.
+	 * \tparam PrimitiveElements Types of the forwarded arguments.
+	 */
 	template<typename... PrimitiveElements>
 	ExpressionPtr new_Expression(const char *expressionString, PrimitiveElements &&... elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(expressionString, FORWARD_PRIMITIVE(elements)...);
@@ -1800,6 +3227,13 @@ namespace org::mariuszgromada::math::mxparser {
 		return expression;
 	}
 
+	/**
+	 * \brief Constructor - creates new expression from expression string.
+	 * \param expressionString    definition of the expression
+	 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+	 * \sa org::mariuszgromada::math::mxparser::PrimitiveElement
+	 * \return A shared pointer to the new Expression instance.
+	 */
 	inline ExpressionPtr new_Expression(const StringPtr &expressionString,
 	                                    const ListPtr<PrimitiveElementPtr> &elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(expressionString, elements);
@@ -1807,18 +3241,27 @@ namespace org::mariuszgromada::math::mxparser {
 		return expression;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Expression(const StringPtr &,const ListPtr< PrimitiveElementPtr > &)
+	 */
 	inline ExpressionPtr new_Expression(StringPtr &expressionString, const ListPtr<PrimitiveElementPtr> &elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(expressionString, elements);
 		expression->postConstructorSync();
 		return expression;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Expression(const StringPtr &,const ListPtr< PrimitiveElementPtr > &)
+	 */
 	inline ExpressionPtr new_Expression(const StringPtr &expressionString, ListPtr<PrimitiveElementPtr> &elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(expressionString, elements);
 		expression->postConstructorSync();
 		return expression;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Expression(const StringPtr &,const ListPtr< PrimitiveElementPtr > &)
+	 */
 	inline ExpressionPtr new_Expression(StringPtr &expressionString, ListPtr<PrimitiveElementPtr> &elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(expressionString, elements);
 		expression->postConstructorSync();
@@ -1826,24 +3269,36 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Expression(const StringPtr &,const ListPtr< PrimitiveElementPtr > &)
+	 */
 	inline ExpressionPtr new_Expression(const String &expressionString, const ListPtr<PrimitiveElementPtr> &elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(expressionString, elements);
 		expression->postConstructorSync();
 		return expression;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Expression(const StringPtr &,const ListPtr< PrimitiveElementPtr > &)
+	 */
 	inline ExpressionPtr new_Expression(String &expressionString, const ListPtr<PrimitiveElementPtr> &elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(expressionString, elements);
 		expression->postConstructorSync();
 		return expression;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Expression(const StringPtr &,const ListPtr< PrimitiveElementPtr > &)
+	 */
 	inline ExpressionPtr new_Expression(const String &expressionString, ListPtr<PrimitiveElementPtr> &elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(expressionString, elements);
 		expression->postConstructorSync();
 		return expression;
 	}
 
+	/**
+	 * \copydoc org::mariuszgromada::math::mxparser::new_Expression(const StringPtr &,const ListPtr< PrimitiveElementPtr > &)
+	 */
 	inline ExpressionPtr new_Expression(String &expressionString, ListPtr<PrimitiveElementPtr> &elements) {
 		ExpressionPtr expression = std::make_shared<Expression>(expressionString, elements);
 		expression->postConstructorSync();

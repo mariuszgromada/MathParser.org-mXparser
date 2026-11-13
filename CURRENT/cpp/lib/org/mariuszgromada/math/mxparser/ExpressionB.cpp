@@ -257,9 +257,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 *=================================================
 	 */
 	/**
-	 * Free Arguments handling.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Free Arguments handling.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::FREE_ARGUMENT(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::FREE_ARGUMENT, pos);
@@ -273,9 +272,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Dependent Arguments handling.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Dependent Arguments handling.
+	 * \param pos                 the token position
+	 * \param calcStepsRegister The calculation-step register.
 	 */
 	API_VISIBLE void Expression::DEPENDENT_ARGUMENT(int pos, const CalcStepsRegisterPtr &calcStepsRegister) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::DEPENDENT_ARGUMENT, pos);
@@ -317,9 +316,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * User functions handling.
-	 *
-	 * @param      pos                 the token position
+	 * \brief User functions handling.
+	 * \param pos                 the token position
+	 * \param calcStepsRegister The calculation-step register.
 	 */
 	API_VISIBLE void Expression::USER_FUNCTION(int pos, const CalcStepsRegisterPtr &calcStepsRegister) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::USER_FUNCTION, pos);
@@ -386,9 +385,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * User constants handling.
-	 *
-	 * @param      pos                 the token position
+	 * \brief User constants handling.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::USER_CONSTANT(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::USER_CONSTANT, pos);
@@ -397,9 +395,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Recursive arguments handling.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Recursive arguments handling.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::RECURSIVE_ARGUMENT(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::RECURSIVE_ARGUMENT, pos);
@@ -423,9 +420,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Constants handling.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Constants handling.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CONSTANT(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::CONSTANT, pos);
@@ -439,9 +435,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Constants handling.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Constants handling.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::UNIT(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::UNIT, pos);
@@ -449,9 +444,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Random Variables handling.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Random Variables handling.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::RANDOM_VARIABLE(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::RANDOM_VARIABLE, pos);
@@ -459,19 +453,17 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Gets token value
-	 * @param      tokenIndex          the token index
-	 *
-	 * @return     the token value
+	 * \brief Gets token value
+	 * \param tokenIndex          the token index
+	 * \return the token value
 	 */
 	API_VISIBLE double Expression::getTokenValue(int tokenIndex) {
 		return tokensList->getRef(tokenIndex)->tokenValue;
 	}
 
 	/**
-	 * Tetration handling.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Tetration handling.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::TETRATION(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::TETRATION, pos);
@@ -481,9 +473,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Power handling.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Power handling.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::POWER(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::POWER, pos);
@@ -493,9 +484,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Modulo handling.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Modulo handling.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::MODULO(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::MODULO, pos);
@@ -505,9 +495,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Division handling.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Division handling.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::DIVIDE(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::DIVIDE, pos);
@@ -521,9 +510,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Integer division handling.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Integer division handling.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::DIVIDE_QUOTIENT(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::DIVIDE_QUOTIENT, pos);
@@ -533,9 +521,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Multiplication handling.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Multiplication handling.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::MULTIPLY(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::MULTIPLY, pos);
@@ -546,9 +533,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Addition handling.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Addition handling.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::PLUS(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::PLUS, pos);
@@ -573,9 +559,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Subtraction handling
-	 *
-	 * @param      pos                 the token position
+	 * \brief Subtraction handling
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::MINUS(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::MINUS, pos);
@@ -600,9 +585,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Logical AND
-	 *
-	 * @param      pos                 the token position
+	 * \brief Logical AND
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::AND(int pos) {
 		double a = getTokenValue(pos - 1);
@@ -611,9 +595,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Logical OR
-	 *
-	 * @param      pos                 the token position
+	 * \brief Logical OR
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::OR(int pos) {
 		double a = getTokenValue(pos - 1);
@@ -622,9 +605,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Logical NAND
-	 *
-	 * @param      pos                 the token position
+	 * \brief Logical NAND
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::NAND(int pos) {
 		double a = getTokenValue(pos - 1);
@@ -633,9 +615,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Logical NOR
-	 *
-	 * @param      pos                 the token position
+	 * \brief Logical NOR
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::NOR(int pos) {
 		double a = getTokenValue(pos - 1);
@@ -644,10 +625,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Logical XOR
-	 *
-	 *
-	 * @param      pos                 the token position
+	 * \brief Logical XOR
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::XOR(int pos) {
 		double a = getTokenValue(pos - 1);
@@ -656,10 +635,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Logical IMP
-	 *
-	 *
-	 * @param      pos                 the token position
+	 * \brief Logical IMP
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::IMP(int pos) {
 		double a = getTokenValue(pos - 1);
@@ -668,9 +645,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Logical CIMP
-	 *
-	 * @param      pos                 the token position
+	 * \brief Logical CIMP
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CIMP(int pos) {
 		double a = getTokenValue(pos - 1);
@@ -679,9 +655,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Logical NIMP
-	 *
-	 * @param      pos                 the token position
+	 * \brief Logical NIMP
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::NIMP(int pos) {
 		double a = getTokenValue(pos - 1);
@@ -690,9 +665,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Logical CNIMP
-	 *
-	 * @param      pos                 the token position
+	 * \brief Logical CNIMP
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CNIMP(int pos) {
 		double a = getTokenValue(pos - 1);
@@ -701,9 +675,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Logical EQV
-	 *
-	 * @param      pos                 the token position
+	 * \brief Logical EQV
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::EQV(int pos) {
 		double a = getTokenValue(pos - 1);
@@ -712,9 +685,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Logical negation
-	 *
-	 * @param      pos                 the token position
+	 * \brief Logical negation
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::NEG(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::NEG, pos);
@@ -724,9 +696,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Equality relation.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Equality relation.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::EQ(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::EQ, pos);
@@ -736,9 +707,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Not equals.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Not equals.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::NEQ(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::NEQ, pos);
@@ -748,9 +718,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Lower than.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Lower than.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::LT(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::LT, pos);
@@ -760,9 +729,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Greater than.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Greater than.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::GT(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::GT, pos);
@@ -772,9 +740,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Lower or equal.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Lower or equal.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::LEQ(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::LEQ, pos);
@@ -784,9 +751,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Greater or equal
-	 *
-	 * @param      pos                 the token position
+	 * \brief Greater or equal
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::GEQ(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::GEQ, pos);
@@ -796,9 +762,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Square root as unary left operator
-	 *
-	 * @param      pos                 the token position
+	 * \brief Square root as unary left operator
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::SQUARE_ROOT_OPERATOR(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -807,9 +772,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Cube root as unary left operator
-	 *
-	 * @param      pos                 the token position
+	 * \brief Cube root as unary left operator
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CUBE_ROOT_OPERATOR(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -818,9 +782,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Fourth root as unary left operator
-	 *
-	 * @param      pos                 the token position
+	 * \brief Fourth root as unary left operator
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::FOURTH_ROOT_OPERATOR(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -829,9 +792,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Bitwise COMPL
-	 *
-	 * @param      pos                 the token position
+	 * \brief Bitwise COMPL
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::BITWISE_COMPL(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::BITWISE_COMPL, pos);
@@ -841,9 +803,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Bitwise AND
-	 *
-	 * @param      pos                 the token position
+	 * \brief Bitwise AND
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::BITWISE_AND(int pos) {
 		Long a = native_numeric_detail::javaLongCast(getTokenValue(pos - 1));
@@ -852,9 +813,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Bitwise OR
-	 *
-	 * @param      pos                 the token position
+	 * \brief Bitwise OR
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::BITWISE_OR(int pos) {
 		Long a = native_numeric_detail::javaLongCast(getTokenValue(pos - 1));
@@ -863,9 +823,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Bitwise XOR
-	 *
-	 * @param      pos                 the token position
+	 * \brief Bitwise XOR
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::BITWISE_XOR(int pos) {
 		Long a = native_numeric_detail::javaLongCast(getTokenValue(pos - 1));
@@ -874,9 +833,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Bitwise NAND
-	 *
-	 * @param      pos                 the token position
+	 * \brief Bitwise NAND
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::BITWISE_NAND(int pos) {
 		Long a = native_numeric_detail::javaLongCast(getTokenValue(pos - 1));
@@ -885,9 +843,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Bitwise NOR
-	 *
-	 * @param      pos                 the token position
+	 * \brief Bitwise NOR
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::BITWISE_NOR(int pos) {
 		Long a = native_numeric_detail::javaLongCast(getTokenValue(pos - 1));
@@ -896,9 +853,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Bitwise NOR
-	 *
-	 * @param      pos                 the token position
+	 * \brief Bitwise NOR
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::BITWISE_XNOR(int pos) {
 		Long a = native_numeric_detail::javaLongCast(getTokenValue(pos - 1));
@@ -907,9 +863,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Bitwise LEFT SHIFT
-	 *
-	 * @param      pos                 the token position
+	 * \brief Bitwise LEFT SHIFT
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::BITWISE_LEFT_SHIFT(int pos) {
 		Long a = native_numeric_detail::javaLongCast(getTokenValue(pos - 1));
@@ -918,9 +873,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Bitwise RIGHT SHIFT
-	 *
-	 * @param      pos                 the token position
+	 * \brief Bitwise RIGHT SHIFT
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::BITWISE_RIGHT_SHIFT(int pos) {
 		Long a = native_numeric_detail::javaLongCast(getTokenValue(pos - 1));
@@ -929,9 +883,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Sine function
-	 *
-	 * @param      pos                 the token position
+	 * \brief Sine function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::SIN(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -939,10 +892,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Cosine / Trigonometric functions
+	 * \brief Cosine / Trigonometric functions
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::COS(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -950,10 +902,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Tangent / Trigonometric functions
+	 * \brief Tangent / Trigonometric functions
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::TAN(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -961,10 +912,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Cotangent / Trigonometric functions
+	 * \brief Cotangent / Trigonometric functions
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CTAN(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -972,10 +922,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Secant / Trigonometric functions
+	 * \brief Secant / Trigonometric functions
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::SEC(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -983,10 +932,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Cosecant / Trigonometric functions
+	 * \brief Cosecant / Trigonometric functions
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::COSEC(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -994,10 +942,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Arcus sine / Inverse trigonometric functions
+	 * \brief Arcus sine / Inverse trigonometric functions
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ASIN(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1005,10 +952,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Arcus cosine / Inverse trigonometric functions
+	 * \brief Arcus cosine / Inverse trigonometric functions
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ACOS(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1016,10 +962,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Arcus tangent / Inverse trigonometric functions
+	 * \brief Arcus tangent / Inverse trigonometric functions
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ATAN(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1027,10 +972,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Arcus cotangent / Inverse trigonometric functions
+	 * \brief Arcus cotangent / Inverse trigonometric functions
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ACTAN(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1038,10 +982,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Natural logarithm (base e)
+	 * \brief Natural logarithm (base e)
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::LN(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1049,10 +992,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Logarithm - base 2
+	 * \brief Logarithm - base 2
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::LOG2(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1060,10 +1002,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Logarithm - base 10
+	 * \brief Logarithm - base 10
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::LOG10(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1071,10 +1012,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Converts degrees to radius
+	 * \brief Converts degrees to radius
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::RAD(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1082,10 +1022,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Exponential function
+	 * \brief Exponential function
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::EXP(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1093,10 +1032,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Square root
+	 * \brief Square root
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::SQRT(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1104,10 +1042,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Hyperbolic sine
+	 * \brief Hyperbolic sine
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::SINH(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1115,10 +1052,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Hyperbolic cosine
+	 * \brief Hyperbolic cosine
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::COSH(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1126,10 +1062,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Hyperbolic tangent
+	 * \brief Hyperbolic tangent
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::TANH(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1137,10 +1072,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Hyperbolic cotangent
+	 * \brief Hyperbolic cotangent
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::COTH(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1148,10 +1082,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Hyperbolic secant
+	 * \brief Hyperbolic secant
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::SECH(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1159,10 +1092,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Hyperbolic cosecant
+	 * \brief Hyperbolic cosecant
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CSCH(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1170,10 +1102,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Converts radians to degrees
+	 * \brief Converts radians to degrees
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::DEG(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1181,10 +1112,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Absolut value
+	 * \brief Absolut value
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ABS(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1192,10 +1122,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Signum function
+	 * \brief Signum function
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::SGN(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1203,10 +1132,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Floor function
+	 * \brief Floor function
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::FLOOR(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1214,10 +1142,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Ceil function
+	 * \brief Ceil function
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CEIL(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1225,10 +1152,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Arcus hyperbolic sine
+	 * \brief Arcus hyperbolic sine
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ARSINH(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1236,10 +1162,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Arcus hyperbolic cosine
+	 * \brief Arcus hyperbolic cosine
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ARCOSH(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1247,10 +1172,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Arcus hyperbolic tangent
+	 * \brief Arcus hyperbolic tangent
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ARTANH(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1258,10 +1182,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Arcus hyperbolic cotangent
+	 * \brief Arcus hyperbolic cotangent
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ARCOTH(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1269,10 +1192,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Arcus hyperbolic secant
+	 * \brief Arcus hyperbolic secant
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ARSECH(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1280,10 +1202,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Arcus hyperbolic cosecant
+	 * \brief Arcus hyperbolic cosecant
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ARCSCH(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1291,9 +1212,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * SA / sinc normalized
-	 *
-	 * @param      pos                 the token position
+	 * \brief SA / sinc normalized
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::SA(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1301,9 +1221,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Sinc unnormalized
-	 *
-	 * @param      pos                 the token position
+	 * \brief Sinc unnormalized
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::SINC(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1311,9 +1230,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Bell numbers
-	 *
-	 * @param      pos                 the token position
+	 * \brief Bell numbers
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::BELL_NUMBER(int pos) {
 		double n = getTokenValue(pos + 1);
@@ -1321,9 +1239,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Lucas numbers
-	 *
-	 * @param      pos                 the token position
+	 * \brief Lucas numbers
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::LUCAS_NUMBER(int pos) {
 		double n = getTokenValue(pos + 1);
@@ -1331,9 +1248,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Fibonacci numbers
-	 *
-	 * @param      pos                 the token position
+	 * \brief Fibonacci numbers
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::FIBONACCI_NUMBER(int pos) {
 		double n = getTokenValue(pos + 1);
@@ -1341,9 +1257,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Harmonic numbers
-	 *
-	 * @param      pos                 the token position
+	 * \brief Harmonic numbers
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::HARMONIC_NUMBER(int pos) {
 		double n = getTokenValue(pos + 1);
@@ -1351,9 +1266,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Prime test
-	 *
-	 * @param      pos                 the token position
+	 * \brief Prime test
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::IS_PRIME(int pos) {
 		double n = getTokenValue(pos + 1);
@@ -1361,9 +1275,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Prime counting
-	 *
-	 * @param      pos                 the token position
+	 * \brief Prime counting
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::PRIME_COUNT(int pos) {
 		double n = getTokenValue(pos + 1);
@@ -1371,9 +1284,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Exponential integral function
-	 *
-	 * @param      pos                 the token position
+	 * \brief Exponential integral function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::EXP_INT(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1381,9 +1293,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Logarithmic exponential integral function
-	 *
-	 * @param      pos                 the token position
+	 * \brief Logarithmic exponential integral function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::LOG_INT(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1391,9 +1302,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Offset logarithmic exponential integral function
-	 *
-	 * @param      pos                 the token position
+	 * \brief Offset logarithmic exponential integral function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::OFF_LOG_INT(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1401,10 +1311,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Factorilal function
+	 * \brief Factorilal function
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::FACT(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::FACT, pos);
@@ -1414,10 +1323,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Percentage
+	 * \brief Percentage
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::PERC(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::PERC, pos);
@@ -1427,10 +1335,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Negation
+	 * \brief Negation
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::NOT(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1438,9 +1345,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Gauss error function
-	 *
-	 * @param      pos                 the token position
+	 * \brief Gauss error function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::GAUSS_ERF(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1448,9 +1354,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Gauss complementary error function
-	 *
-	 * @param      pos                 the token position
+	 * \brief Gauss complementary error function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::GAUSS_ERFC(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1458,9 +1363,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Inverse of Gauss error function
-	 *
-	 * @param      pos                 the token position
+	 * \brief Inverse of Gauss error function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::GAUSS_ERF_INV(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1468,9 +1372,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Inverse of Gauss complementary error function
-	 *
-	 * @param      pos                 the token position
+	 * \brief Inverse of Gauss complementary error function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::GAUSS_ERFC_INV(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1478,10 +1381,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Unit in The Last Place
+	 * \brief Unit in The Last Place
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ULP(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1489,10 +1391,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Is Not-a-Number
+	 * \brief Is Not-a-Number
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ISNAN(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1503,10 +1404,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Number of digits in base 10
+	 * \brief Number of digits in base 10
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::NDIG10(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1514,10 +1414,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Number of prime factors - distinct
+	 * \brief Number of prime factors - distinct
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::NFACT(int pos) {
 		double n = getTokenValue(pos + 1);
@@ -1525,10 +1424,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Arcuus secant
+	 * \brief Arcuus secant
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ARCSEC(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1536,10 +1434,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Arcuus cosecant
+	 * \brief Arcuus cosecant
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ARCCSC(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1547,10 +1444,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Gamma special function
+	 * \brief Gamma special function
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::GAMMA(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1558,10 +1454,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Lambert-W special function, principal branch 0
+	 * \brief Lambert-W special function, principal branch 0
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::LAMBERT_W0(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1569,10 +1464,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Lambert-W special function, branch = -1
+	 * \brief Lambert-W special function, branch = -1
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::LAMBERT_W1(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1580,10 +1474,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Signum of Gamma special function
+	 * \brief Signum of Gamma special function
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::SGN_GAMMA(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1591,10 +1484,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Log Gamma special function
+	 * \brief Log Gamma special function
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::LOG_GAMMA(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1602,10 +1494,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Digamma special function
+	 * \brief Digamma special function
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::DI_GAMMA(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1613,10 +1504,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * User Defined Variadic function param value
+	 * \brief User Defined Variadic function param value
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::UDF_PARAM(int pos) {
 		double value = Double::NaN;
@@ -1650,10 +1540,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Logarithm
+	 * \brief Logarithm
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::LOG(int pos) {
 		double b = getTokenValue(pos + 1);
@@ -1662,11 +1551,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Creates ArraListPtr<double> containing function parameters
-	 *
-	 * @param      pos                 the function position
-	 *
-	 * @return     List of function parameters.
+	 * \brief Creates ArraListPtr<double> containing function parameters
+	 * \param pos                 the function position
+	 * \return List of function parameters.
 	 */
 	ListPtr<double> Expression::getNumbers(int pos) {
 		ListPtr<double> numbers = new_List<double>();
@@ -1689,10 +1576,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Modulo
+	 * \brief Modulo
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::MOD(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1701,9 +1587,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Binomial Coefficient
-	 *
-	 * @param      pos                 the token position
+	 * \brief Binomial Coefficient
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::BINOM_COEFF(int pos) {
 		double n = getTokenValue(pos + 1);
@@ -1712,9 +1597,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Number of permutations
-	 *
-	 * @param      pos                 the token position
+	 * \brief Number of permutations
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::PERMUTATIONS(int pos) {
 		double n = getTokenValue(pos + 1);
@@ -1723,8 +1607,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Beta special function
-	 * @param      pos                 the token position
+	 * \brief Beta special function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::BETA(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1733,8 +1617,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Log beta special function
-	 * @param      pos                 the token position
+	 * \brief Log beta special function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::LOG_BETA(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1779,9 +1663,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Bernoulli Number
-	 *
-	 * @param      pos                 the token position
+	 * \brief Bernoulli Number
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::BERNOULLI_NUMBER(int pos) {
 		double m = getTokenValue(pos + 1);
@@ -1790,9 +1673,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Stirling number of the first kind
-	 *
-	 * @param      pos                 the token position
+	 * \brief Stirling number of the first kind
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::STIRLING1_NUMBER(int pos) {
 		double n = getTokenValue(pos + 1);
@@ -1801,9 +1683,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Stirling number of the second kind.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Stirling number of the second kind.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::STIRLING2_NUMBER(int pos) {
 		double n = getTokenValue(pos + 1);
@@ -1812,9 +1693,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Worpitzky number.
-	 *
-	 * @param      pos                 the token position
+	 * \brief Worpitzky number.
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::WORPITZKY_NUMBER(int pos) {
 		double n = getTokenValue(pos + 1);
@@ -1823,9 +1703,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Euler number
-	 *
-	 * @param      pos                 the token position
+	 * \brief Euler number
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::EULER_NUMBER(int pos) {
 		double n = getTokenValue(pos + 1);
@@ -1834,9 +1713,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Kronecker delta
-	 *
-	 * @param      pos                 the token position
+	 * \brief Kronecker delta
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::KRONECKER_DELTA(int pos) {
 		double i = getTokenValue(pos + 1);
@@ -1845,9 +1723,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Euler polynomial
-	 *
-	 * @param      pos                 the token position
+	 * \brief Euler polynomial
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::EULER_POLYNOMIAL(int pos) {
 		double m = getTokenValue(pos + 1);
@@ -1856,9 +1733,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Harmonic numbers
-	 *
-	 * @param      pos                 the token position
+	 * \brief Harmonic numbers
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::HARMONIC2_NUMBER(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -1867,9 +1743,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Decimal rounding
-	 *
-	 * @param      pos                 the token position
+	 * \brief Decimal rounding
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ROUND(int pos) {
 		double value = getTokenValue(pos + 1);
@@ -1878,9 +1753,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Random number - Uniform Continuous distribution
-	 *
-	 * @param      pos                 the token position
+	 * \brief Random number - Uniform Continuous distribution
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::RND_VAR_UNIFORM_CONT(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1890,9 +1764,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Random number - Uniform Discrete distribution
-	 *
-	 * @param      pos                 the token position
+	 * \brief Random number - Uniform Discrete distribution
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::RND_VAR_UNIFORM_DISCR(int pos) {
 		double a = getTokenValue(pos + 1);
@@ -1901,9 +1774,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Random number - Normal distribution
-	 *
-	 * @param      pos                 the token position
+	 * \brief Random number - Normal distribution
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::RND_NORMAL(int pos) {
 		double mean = getTokenValue(pos + 1);
@@ -1913,9 +1785,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Random number - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)
-	 *
-	 * @param      pos                 the token position
+	 * \brief Random number - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::RND_F_SNEDECOR(int pos) {
 		double d1 = getTokenValue(pos + 1);
@@ -1924,9 +1795,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Number of digits in given numeral system
-	 *
-	 * @param      pos                 the token position
+	 * \brief Number of digits in given numeral system
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::NDIG(int pos) {
 		double number = getTokenValue(pos + 1);
@@ -1935,9 +1805,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Digit at position - base 10 numeral system
-	 *
-	 * @param      pos                 the token position
+	 * \brief Digit at position - base 10 numeral system
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::DIGIT10(int pos) {
 		double number = getTokenValue(pos + 1);
@@ -1946,9 +1815,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Prime factor value
-	 *
-	 * @param      pos                 the token position
+	 * \brief Prime factor value
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::FACTVAL(int pos) {
 		double number = getTokenValue(pos + 1);
@@ -1957,9 +1825,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Prime factor value exponent
-	 *
-	 * @param      pos                 the token position
+	 * \brief Prime factor value exponent
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::FACTEXP(int pos) {
 		double number = getTokenValue(pos + 1);
@@ -1968,9 +1835,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Nth order root
-	 *
-	 * @param      pos                 the token position
+	 * \brief Nth order root
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ROOT(int pos) {
 		double n = getTokenValue(pos + 1);
@@ -1979,9 +1845,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Lower incomplete special Gamma function
-	 *
-	 * @param      pos                 the token position
+	 * \brief Lower incomplete special Gamma function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::INC_GAMMA_LOWER(int pos) {
 		double s = getTokenValue(pos + 1);
@@ -1990,9 +1855,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Upper incomplete special Gamma function
-	 *
-	 * @param      pos                 the token position
+	 * \brief Upper incomplete special Gamma function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::INC_GAMMA_UPPER(int pos) {
 		double s = getTokenValue(pos + 1);
@@ -2001,9 +1865,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Lower regularized special Gamma function
-	 *
-	 * @param      pos                 the token position
+	 * \brief Lower regularized special Gamma function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::REG_GAMMA_LOWER(int pos) {
 		double s = getTokenValue(pos + 1);
@@ -2012,9 +1875,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Lower regularized special Gamma function
-	 *
-	 * @param      pos                 the token position
+	 * \brief Lower regularized special Gamma function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::REG_GAMMA_UPPER(int pos) {
 		double s = getTokenValue(pos + 1);
@@ -2023,9 +1885,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * IF function
-	 *
-	 * @param      pos                 the token position
+	 * \brief IF function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::IF_CONDITION(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::IF_CONDITION, pos);
@@ -2048,9 +1909,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * IFF function
-	 *
-	 * @param      pos                 the token position
+	 * \brief IFF function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::IFF(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::IFF, pos);
@@ -2116,10 +1976,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * IF
+	 * \brief IF
 	 * Sets tokens to number token
-	 *
-	 * @param pos token index (position)
+	 * \param pos token index (position)
 	 */
 	API_VISIBLE void Expression::IF(int pos) {
 		double ifCondition = tokensList->getRef(pos + 1)->tokenValue;
@@ -2134,9 +1993,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Characteristic function (a,b)
-	 *
-	 * @param      pos                 the token position
+	 * \brief Characteristic function (a,b)
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CHI(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -2146,9 +2004,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Characteristic function [a,b]
-	 *
-	 * @param      pos                 the token position
+	 * \brief Characteristic function [a,b]
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CHI_LR(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -2158,9 +2015,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Characteristic function [a,b)
-	 *
-	 * @param      pos                 the token position
+	 * \brief Characteristic function [a,b)
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CHI_L(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -2170,9 +2026,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Characteristic function (a,b]
-	 *
-	 * @param      pos                 the token position
+	 * \brief Characteristic function (a,b]
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CHI_R(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -2182,9 +2037,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Probability Distribution Function - Uniform Continuous distribution
-	 *
-	 * @param      pos                 the token position
+	 * \brief Probability Distribution Function - Uniform Continuous distribution
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::PDF_UNIFORM_CONT(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -2194,9 +2048,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Cumulative Distribution Function - Uniform Continuous distribution
-	 *
-	 * @param      pos                 the token position
+	 * \brief Cumulative Distribution Function - Uniform Continuous distribution
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CDF_UNIFORM_CONT(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -2206,9 +2059,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Quantile Function - Uniform Continuous distribution
-	 *
-	 * @param      pos                 the token position
+	 * \brief Quantile Function - Uniform Continuous distribution
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::QNT_UNIFORM_CONT(int pos) {
 		double q = getTokenValue(pos + 1);
@@ -2218,9 +2070,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Probability Distribution Function - Normal distribution
-	 *
-	 * @param      pos                 the token position
+	 * \brief Probability Distribution Function - Normal distribution
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::PDF_NORMAL(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -2230,9 +2081,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Cumulative Distribution Function - Normal distribution
-	 *
-	 * @param      pos                 the token position
+	 * \brief Cumulative Distribution Function - Normal distribution
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CDF_NORMAL(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -2242,9 +2092,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Quantile Function - Normal distribution
-	 *
-	 * @param      pos                 the token position
+	 * \brief Quantile Function - Normal distribution
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::QNT_NORMAL(int pos) {
 		double q = getTokenValue(pos + 1);
@@ -2254,9 +2103,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Probability Distribution Function - Snedecor's F distribution
-	 *
-	 * @param      pos                 the token position
+	 * \brief Probability Distribution Function - Snedecor's F distribution
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::PDF_F_SNEDECOR(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -2266,9 +2114,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Cumulative Distribution Function - Snedecor's F distribution
-	 *
-	 * @param      pos                 the token position
+	 * \brief Cumulative Distribution Function - Snedecor's F distribution
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CDF_F_SNEDECOR(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -2278,9 +2125,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Quantile Function - Snedecor's F distribution
-	 *
-	 * @param      pos                 the token position
+	 * \brief Quantile Function - Snedecor's F distribution
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::QNT_F_SNEDECOR(int pos) {
 		double p = getTokenValue(pos + 1);
@@ -2293,9 +2139,8 @@ namespace org::mariuszgromada::math::mxparser {
 	const API_VISIBLE double Expression::EE = Math::round(MathConstants::E * 1e8);
 	const API_VISIBLE double Expression::GG = Math::round(MathConstants::GOLDEN_RATIO * 1e8);
 	/**
-	 * Digit at position - numeral system with given base
-	 *
-	 * @param      pos                 the token position
+	 * \brief Digit at position - numeral system with given base
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::DIGIT(int pos) {
 		double number = getTokenValue(pos + 1);
@@ -2311,8 +2156,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Incomplete beta special function
-	 * @param      pos                 the token position
+	 * \brief Incomplete beta special function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::INC_BETA(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -2322,8 +2167,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Regularized incomplete beta special function
-	 * @param      pos                 the token position
+	 * \brief Regularized incomplete beta special function
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::REG_BETA(int pos) {
 		double x = getTokenValue(pos + 1);
@@ -2333,14 +2178,12 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Updating missing tokens (i.e. indexes i sum operator). Used when creating
+	 * \brief Updating missing tokens (i.e. indexes i sum operator). Used when creating
 	 * internal expressions based on the sublist of tokens.
-	 *
-	 *
-	 * @param      tokens              the tokens list
-	 * @param      keyWord             missing keyword
-	 * @param      tokenId             missing token id
-	 * @param      tokenTypeId         missing token type id
+	 * \param tokens              the tokens list
+	 * \param keyWord             missing keyword
+	 * \param tokenId             missing token id
+	 * \param tokenTypeId         missing token type id
 	 */
 	API_VISIBLE void Expression::updateMissingTokens(const ListPtr<TokenPtr> &tokens, const StringPtr &keyWord, int tokenId,
 	                                     int tokenTypeId) {
@@ -2353,11 +2196,10 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Update missing tokens in expression related
+	 * \brief Update missing tokens in expression related
 	 * to iterative operators.
-	 *
-	 * @param index      Index parameter of the iterative operator
-	 * @param iterParams     Parameters list of the iterative operator
+	 * \param index      Index parameter of the iterative operator
+	 * \param iterParams     Parameters list of the iterative operator
 	 */
 	API_VISIBLE void Expression::updateMissingTokens(const ArgumentParameterPtr &index,
 	                                     const IterativeOperatorParametersPtr &iterParams) {
@@ -2374,10 +2216,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Evaluates ranges 'from', 'to', 'delta' for the iterative operator
-	 *
-	 * @param index      Index parameter of the iterative operator
-	 * @param iterParams     Parameters list of the iterative operator
+	 * \brief Evaluates ranges 'from', 'to', 'delta' for the iterative operator
+	 * \param index      Index parameter of the iterative operator
+	 * \param iterParams     Parameters list of the iterative operator
 	 */
 	API_VISIBLE void Expression::evalFromToDeltaParameters(const ArgumentParameterPtr &index,
 	                                           const IterativeOperatorParametersPtr &iterParams) {
@@ -2424,14 +2265,13 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Summation operator (SIGMA by)
+	 * \brief Summation operator (SIGMA by)
 	 * sum(i,m,n,f(i),b) --> sum f(i) from i=m to i=n by delta
 	 * i - index (argument)
 	 * m, n - numbers or expressions
 	 * f(i) - function string
 	 * by delta
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::SUM(int pos) {
 		IterativeOperatorParametersPtr iterParams = new_IterativeOperatorParameters(
@@ -2446,14 +2286,13 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Product operator (SIGMA by)
+	 * \brief Product operator (SIGMA by)
 	 * pord(i,m,n,f(i),b) --> prod f(i) from i=m to i=n by delta
 	 * i - index (argument)
 	 * m, n - numbers or expressions
 	 * f(i) - function string
 	 * by delta
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::PROD(int pos) {
 		IterativeOperatorParametersPtr iterParams = new_IterativeOperatorParameters(
@@ -2468,14 +2307,13 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Minimum value - iterative operator
+	 * \brief Minimum value - iterative operator
 	 * mini(i,m,n,f(i),b) --> min f(i) from i=m to i=n by delta
 	 * i - index (argument)
 	 * m, n - numbers or expressions
 	 * f(i) - function string
 	 * by delta
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::MINIMUM(int pos) {
 		IterativeOperatorParametersPtr iterParams = new_IterativeOperatorParameters(
@@ -2490,14 +2328,13 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Maximum value - iterative operator
+	 * \brief Maximum value - iterative operator
 	 * maxi(i,m,n,f(i),b) --> max f(i) from i=m to i=n by delta
 	 * i - index (argument)
 	 * m, n - numbers or expressions
 	 * f(i) - function string
 	 * by delta
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::MAXIMUM(int pos) {
 		IterativeOperatorParametersPtr iterParams = new_IterativeOperatorParameters(
@@ -2512,14 +2349,13 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Average function value - iterative operator
+	 * \brief Average function value - iterative operator
 	 * avg(i,m,n,f(i),b) --> avg f(i) from i=m to i=n by delta
 	 * i - index (argument)
 	 * m, n - numbers or expressions
 	 * f(i) - function string
 	 * by delta
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::AVG(int pos) {
 		IterativeOperatorParametersPtr iterParams = new_IterativeOperatorParameters(
@@ -2534,14 +2370,13 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Variance from sample function values - iterative operator
+	 * \brief Variance from sample function values - iterative operator
 	 * vari(i,m,n,f(i),b) --> var f(i) from i=m to i=n by delta
 	 * i - index (argument)
 	 * m, n - numbers or expressions
 	 * f(i) - function string
 	 * by delta
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::VAR(int pos) {
 		IterativeOperatorParametersPtr iterParams = new_IterativeOperatorParameters(
@@ -2556,14 +2391,13 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Standard deviation from sample function values - iterative operator
+	 * \brief Standard deviation from sample function values - iterative operator
 	 * stdi(i,m,n,f(i),b) --> std f(i) from i=m to i=n by delta
 	 * i - index (argument)
 	 * m, n - numbers or expressions
 	 * f(i) - function string
 	 * by delta
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::STD(int pos) {
 		IterativeOperatorParametersPtr iterParams = new_IterativeOperatorParameters(
@@ -2578,10 +2412,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Function derivative
-	 *
-	 * @param      pos                 the token position
-	 * @param      derivativeType      the type of derivative (LEFT, RIGHT, ...)
+	 * \brief Function derivative
+	 * \param pos                 the token position
+	 * \param derivativeType      the type of derivative (LEFT, RIGHT, ...)
 	 */
 	API_VISIBLE void Expression::DERIVATIVE(int pos, int derivativeType) {
 		/*
@@ -2680,10 +2513,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Function derivative
-	 *
-	 * @param      pos                 the token position
-	 * @param      derivativeType      the type of derivative (left, right, etc...)
+	 * \brief Function derivative
+	 * \param pos                 the token position
+	 * \param derivativeType      the type of derivative (left, right, etc...)
 	 */
 	API_VISIBLE void Expression::DERIVATIVE_NTH(int pos, int derivativeType) {
 		const double DEF_EPS = 1E-8;
@@ -2809,13 +2641,12 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Function integral
-	 *
-	 * @param      pos                 the token position
+	 * \brief Function integral
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::INTEGRAL(int pos) {
 		/**
-		 * Default epsilon
+		 * \brief Default epsilon
 		 */
 		const double DEF_EPS = 1E-6;
 		/*
@@ -2861,13 +2692,12 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Function SOLVE
-	 *
-	 * @param      pos                 the token position
+	 * \brief Function SOLVE
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::SOLVE(int pos) {
 		/**
-		 * Default epsilon
+		 * \brief Default epsilon
 		 */
 		const double DEF_EPS = 1E-9;
 		/*
@@ -2913,9 +2743,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Forward difference operator
-	 *
-	 * @param      pos                 the token position
+	 * \brief Forward difference operator
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::FORWARD_DIFFERENCE(int pos) {
 		ListPtr<FunctionParameterPtr> params = ExpressionUtils::getFunctionParameters(pos, tokensList);
@@ -2942,9 +2771,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Backward diffrence operator
-	 *
-	 * @param      pos                 the token position
+	 * \brief Backward diffrence operator
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::BACKWARD_DIFFERENCE(int pos) {
 		ListPtr<FunctionParameterPtr> params = ExpressionUtils::getFunctionParameters(pos, tokensList);
@@ -2971,10 +2799,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Minimum variadic
+	 * \brief Minimum variadic
 	 * Sets tokens to number token
-	 *
-	 * @param      pos                 the token position
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::MIN_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -2983,10 +2810,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Maximum variadic
+	 * \brief Maximum variadic
 	 * Sets tokens to number token
-	 *
-	 * @param pos token index (position)
+	 * \param pos token index (position)
 	 */
 	API_VISIBLE void Expression::MAX_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -2995,10 +2821,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Sum variadic
+	 * \brief Sum variadic
 	 * Sets tokens to number token
-	 *
-	 * @param pos token index (position)
+	 * \param pos token index (position)
 	 */
 	API_VISIBLE void Expression::SUM_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3007,10 +2832,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Sum variadic
+	 * \brief Sum variadic
 	 * Sets tokens to number token
-	 *
-	 * @param pos token index (position)
+	 * \param pos token index (position)
 	 */
 	API_VISIBLE void Expression::PROD_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3019,10 +2843,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Average variadic
+	 * \brief Average variadic
 	 * Sets tokens to number token
-	 *
-	 * @param pos token index (position)
+	 * \param pos token index (position)
 	 */
 	API_VISIBLE void Expression::AVG_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3031,10 +2854,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Variance variadic
+	 * \brief Variance variadic
 	 * Sets tokens to number token
-	 *
-	 * @param pos token index (position)
+	 * \param pos token index (position)
 	 */
 	API_VISIBLE void Expression::VAR_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3043,10 +2865,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Standard deviation variadic
+	 * \brief Standard deviation variadic
 	 * Sets tokens to number token
-	 *
-	 * @param pos token index (position)
+	 * \param pos token index (position)
 	 */
 	API_VISIBLE void Expression::STD_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3055,9 +2876,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Continued fraction
-	 *
-	 * @param      pos                 the token position
+	 * \brief Continued fraction
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CONTINUED_FRACTION(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3066,9 +2886,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Continued polynomial
-	 *
-	 * @param      pos                 the token position
+	 * \brief Continued polynomial
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CONTINUED_POLYNOMIAL(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3077,9 +2896,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Greates Common Divisor
-	 *
-	 * @param      pos                 the token position
+	 * \brief Greates Common Divisor
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::GCD(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3088,9 +2906,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Lowest Common Multiply
-	 *
-	 * @param      pos                 the token position
+	 * \brief Lowest Common Multiply
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::LCM(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3099,9 +2916,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Random number from list
-	 *
-	 * @param      pos                 the token position
+	 * \brief Random number from list
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::RND_LIST(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3111,9 +2927,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Coalesce
-	 *
-	 * @param      pos                 the token position
+	 * \brief Coalesce
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::COALESCE(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3122,9 +2937,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * OR_VARIADIC
-	 *
-	 * @param      pos                 the token position
+	 * \brief OR_VARIADIC
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::OR_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3133,9 +2947,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * AND_VARIADIC
-	 *
-	 * @param      pos                 the token position
+	 * \brief AND_VARIADIC
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::AND_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3144,9 +2957,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * XOR_VARIADIC
-	 *
-	 * @param      pos                 the token position
+	 * \brief XOR_VARIADIC
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::XOR_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3155,9 +2967,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * ARGMIN_VARIADIC
-	 *
-	 * @param      pos                 the token position
+	 * \brief ARGMIN_VARIADIC
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ARGMIN_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3166,9 +2977,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * ARGMAX_VARIADIC
-	 *
-	 * @param      pos                 the token position
+	 * \brief ARGMAX_VARIADIC
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ARGMAX_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3177,9 +2987,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * MEDIAN_VARIADIC
-	 *
-	 * @param      pos                 the token position
+	 * \brief MEDIAN_VARIADIC
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::MEDIAN_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3188,9 +2997,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * MODE_VARIADIC
-	 *
-	 * @param      pos                 the token position
+	 * \brief MODE_VARIADIC
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::MODE_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3199,9 +3007,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * BASE_VARIADIC
-	 *
-	 * @param      pos                 the token position
+	 * \brief BASE_VARIADIC
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::BASE_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3210,9 +3017,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * NDIST_VARIADIC
-	 *
-	 * @param      pos                 the token position
+	 * \brief NDIST_VARIADIC
+	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::NDIST_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
@@ -3221,10 +3027,9 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Parser symbols
+	 * \brief Parser symbols
 	 * Removes comma
-	 *
-	 * @param pos token index (position)
+	 * \param pos token index (position)
 	 */
 	API_VISIBLE void Expression::COMMA(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::COMMA, pos);
@@ -3232,11 +3037,10 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	/**
-	 * Parser symbols
+	 * \brief Parser symbols
 	 * Removes parenthesis
-	 *
-	 * @param lPos    left token index (position)
-	 * @param rPos    roght token index (position)
+	 * \param lPos    left token index (position)
+	 * \param rPos    roght token index (position)
 	 */
 	API_VISIBLE void Expression::PARENTHESES(int lPos, int rPos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::PARENTHESES, lPos, rPos);

@@ -241,49 +241,20 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser::parsertokens;
 	using namespace org::mariuszgromada::math::mxparser::mathcollection;
 
-	/**
-	 * Sets initial search size for the toFraction method
-	 *
-	 * @param n initial search size, has to be non-zero positive.
-	 * @see NumberTheory#toFraction(double)
-	 */
 	API_VISIBLE void NumberTheory::setToFractionInitSearchSize(Long n) {
 		if (n >= 0) TO_FRACTION_INIT_SEARCH_SIZE = n;
 	}
 
-	/**
-	 * Gets initial search size used by the toFraction method
-	 *
-	 * @return initial search size used by the toFraction method
-	 * @see NumberTheory#toFraction(double)
-	 */
 	API_VISIBLE Long NumberTheory::getToFractionInitSearchSize() {
 		return TO_FRACTION_INIT_SEARCH_SIZE;
 	}
 
-	/**
-	 * Minimum function->
-	 *
-	 * @param      a                   the a function parameter
-	 * @param      b                   the b function parameter
-	 *
-	 * @return     if a,b &lt;&gt; Double::NaN returns Math::min(a, b),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double NumberTheory::min(double a, double b) {
 		if (Double::isNaN(a) || Double::isNaN(b))
 			return Double::NaN;
 		return Math::min(a, b);
 	}
 
-	/**
-	 * Minimum function->
-	 *
-	 * @param      numbers             the a function parameter
-	 *
-	 * @return     if each number form numbers &lt;&gt; Double::NaN returns the smallest number,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double NumberTheory::min(const ArrayPtr<double> &numbers) {
 		return minWithCancel(numbers, 0);
 	}
@@ -324,14 +295,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return min;
 	}
 
-	/**
-	 * Arg-Min function->
-	 *
-	 * @param      numbers             the a function parameter
-	 *
-	 * @return     Returns the index of the first smallest number,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double NumberTheory::argmin(const ArrayPtr<double> &numbers) {
 		return argminWithCancel(numbers, 0);
 	}
@@ -380,29 +343,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return minIndex + 1;
 	}
 
-	/**
-	 * Maximum function->
-	 *
-	 * @param      a                   the a function parameter
-	 * @param      b                   the b function parameter
-	 *
-	 * @return     if a,b &lt;&gt; Double::NaN returns Math::max(a, b),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double NumberTheory::max(double a, double b) {
 		if (Double::isNaN(a) || Double::isNaN(b))
 			return Double::NaN;
 		return Math::max(a, b);
 	}
 
-	/**
-	 * Maximum function->
-	 *
-	 * @param      numbers             the a function parameter
-	 *
-	 * @return     if each number form numbers &lt;&gt; Double::NaN returns the highest number,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double NumberTheory::max(const ArrayPtr<double> &numbers) {
 		return maxWithCancel(numbers, 0);
 	}
@@ -443,14 +389,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return max;
 	}
 
-	/**
-	 * Arg-Max function->
-	 *
-	 * @param      numbers             the a function parameter
-	 *
-	 * @return     Returns the index of the first biggest number,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double NumberTheory::argmax(const ArrayPtr<double> &numbers) {
 		return argmaxWithCancel(numbers, 0);
 	}
@@ -500,11 +438,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * Sorting array - ascending - quick sort algorithm. Initial ordering swapped according to sort order.
-	 * @param array         Array to be sorted
-	 * @param initOrder     Array to be swapped together with sorted array
-	 * @param leftIndex     Starting left index->
-	 * @param rightIndex    Starting right index->
+	 * \brief Sorting array - ascending - quick sort algorithm. Initial ordering swapped according to sort order.
+	 * \param array         Array to be sorted
+	 * \param initOrder     Array to be swapped together with sorted array
+	 * \param leftIndex     Starting left index->
+	 * \param rightIndex    Starting right index->
+	 * \param cancelId The cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID.
 	 */
 	API_VISIBLE void NumberTheory::sortAscWithCancel(const ArrayPtr<double> &array, const ArrayPtr<int> &initOrder, int leftIndex,
 	                           int rightIndex, int cancelId) {
@@ -539,12 +478,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (i < rightIndex) sortAscWithCancel(array, initOrder, i, rightIndex, cancelId);
 	}
 
-	/**
-	 * Array sort - ascending - quick sort algorithm.
-	 * @param array  Array to be sorted
-	 * @return       Sorts array and additionally returns
-	 *               initial ordering swapped according to sort order.
-	 */
 	ArrayPtr<int> API_VISIBLE NumberTheory::sortAsc(const ArrayPtr<double> &array) {
 		return sortAscWithCancel(array, 0);
 	}
@@ -563,14 +496,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return initOrder;
 	}
 
-	/**
-	 * Returns list of distinct values found in a given array.
-	 * @param array The array
-	 * @param returnOrderByDescFreqAndAscOrigPos Indicator whether to apply final ordering based
-	 *                                           on descending value frequency and ascending initial position.
-	 * @return List of values in the form of: first index - value index, second index: 0 - value, 1 - value count,
-	 *                                        2 - minimal value position in original array
-	 */
 	API_VISIBLE ArrayPtr<double> NumberTheory::getDistValues(const ArrayPtr<double> &array,
 	                                                bool returnOrderByDescFreqAndAscOrigPos) {
 		return getDistValuesWithCancel(array, returnOrderByDescFreqAndAscOrigPos, 0);
@@ -727,12 +652,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return distValFinal;
 	}
 
-	/**
-	 * Returns number of unique values found the list of numbers
-	 * @param numbers    The list of numbers
-	 * @return           Number of unique values. If list is nullptr or any Double::NaN
-	 *                   is found then Double::NaN is returned.
-	 */
 	API_VISIBLE double NumberTheory::numberOfDistValues(const ArrayPtr<double> &numbers) {
 		return numberOfDistValuesWithCancel(numbers, 0);
 	}
@@ -750,13 +669,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return getDistValuesWithCancel(numbers, false, cancelId)->rows;
 	}
 
-	/**
-	 * Greatest common divisor (GCD)
-	 *
-	 * @param      a                   the a function parameter
-	 * @param      b                   the b function parameter
-	 * @return     GCD(a,b)
-	 */
 	API_VISIBLE Long NumberTheory::gcd(Long a, Long b) {
 		return gcdWithCancel(a, b, 0);
 	}
@@ -791,15 +703,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return a;
 	}
 
-	/**
-	 * Greatest common divisor (GCD)
-	 *
-	 * @param      a                   the a function parameter
-	 * @param      b                   the b function parameter
-	 *
-	 * @return     if a, b &lt;&gt; Double::NaN returns gcd( (int)Math::round(a),(int)Math::round(b) ),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double NumberTheory::gcd(double a, double b) {
 		return gcdWithCancel(a, b, 0);
 	}
@@ -838,13 +741,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return a;
 	}
 
-	/**
-	 * Greatest common divisor (GCD)
-	 *
-	 * @param      numbers             the numbers
-	 *
-	 * @return     GCD(a_1,...,a_n) a_1,...,a_n in numbers
-	 */
 	API_VISIBLE Long NumberTheory::gcd(const ArrayPtr<Long> &numbers) {
 		return gcdWithCancel(numbers, 0);
 	}
@@ -868,15 +764,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return (*numbers)(numbers->length - 1);
 	}
 
-	/**
-	 * Greatest common divisor (GCD)
-	 *
-	 * @param      numbers             the numbers
-	 *
-	 * @return     if each number form numbers &lt;&gt; Double::NaN returns
-	 *             GCD(a_1,...,a_n) a_1,...,a_n in numbers,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double NumberTheory::gcd(const ArrayPtr<double> &numbers) {
 		return gcdWithCancel(numbers, 0);
 	}
@@ -897,14 +784,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return (*numbers)(numbers->length - 1);
 	}
 
-	/**
-	 * Latest common multiply (LCM)
-	 *
-	 * @param      a                   the a function parameter
-	 * @param      b                   the b function parameter
-	 *
-	 * @return     LCM(a,b)
-	 */
 	API_VISIBLE Long NumberTheory::lcm(Long a, Long b) {
 		return lcmWithCancel(a, b, 0);
 	}
@@ -921,15 +800,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			gcdWithCancel(a, b, cancelId), "NumberTheory.lcm");
 	}
 
-	/**
-	 * Latest common multiply (LCM)
-	 *
-	 * @param      a                   the a function parameter
-	 * @param      b                   the b function parameter
-	 *
-	 * @return     if a, b &lt;&gt; Double::NaN returns lcm( (int)Math::round(a), (int)Math::round(b) ),
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double NumberTheory::lcm(double a, double b) {
 		return lcmWithCancel(a, b, 0);
 	}
@@ -944,13 +814,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return (a * b) / gcdWithCancel(a, b, cancelId);
 	}
 
-	/**
-	 * Latest common multiply (LCM)
-	 *
-	 * @param      numbers             the numbers
-	 *
-	 * @return     LCM(a_1,...,a_n) a_1,...,a_n in numbers
-	 */
 	API_VISIBLE Long NumberTheory::lcm(const ArrayPtr<Long> &numbers) {
 		return lcmWithCancel(numbers, 0);
 	}
@@ -973,15 +836,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return (*numbers)(numbers->length - 1);
 	}
 
-	/**
-	 * Latest common multiply (LCM)
-	 *
-	 * @param      numbers             the numbers
-	 *
-	 * @return     if each number form numbers &lt;&gt; Double::NaN returns
-	 *             LCM(a_1,...,a_n) a_1,...,a_n in numbers,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double NumberTheory::lcm(const ArrayPtr<double> &numbers) {
 		return lcmWithCancel(numbers, 0);
 	}
@@ -1002,15 +856,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return (*numbers)(numbers->length - 1);
 	}
 
-	/**
-	 * Adding numbers.
-	 *
-	 * @param      numbers             the numbers
-	 *
-	 * @return     if each number from numbers &lt;&gt; Double::NaN returns
-	 *             sum(a_1,...,a_n) a_1,...,a_n in numbers,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double NumberTheory::sum(const ArrayPtr<double> &numbers) {
 		return sumWithCancel(numbers, 0);
 	}
@@ -1042,15 +887,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		}
 	}
 
-	/**
-	 * Numbers multiplication.
-	 *
-	 * @param      numbers             the numbers
-	 *
-	 * @return     if each number from numbers &lt;&gt; Double::NaN returns
-	 *             prod(a_1,...,a_n) a_1,...,a_n in numbers,
-	 *             otherwise returns Double::NaN.
-	 */
 	API_VISIBLE double NumberTheory::prod(const ArrayPtr<double> &numbers) {
 		return prodWithCancel(numbers, 0);
 	}
@@ -1082,13 +918,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		}
 	}
 
-	/**
-	 * Prime test
-	 *
-	 * @param n           The number to be tested.
-	 *
-	 * @return true if number is prime, otherwise false
-	 */
 	API_VISIBLE bool NumberTheory::primeTest(Long n) {
 		return primeTestWithCancel(n, 0);
 	}
@@ -1159,13 +988,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return true;
 	}
 
-	/**
-	 * Prime test
-	 *
-	 * @param n        The number to be tested.
-	 *
-	 * @return true if number is prime, otherwise false
-	 */
 	API_VISIBLE double NumberTheory::primeTest(double n) {
 		return primeTestWithCancel(n, 0);
 	}
@@ -1181,13 +1003,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return 0;
 	}
 
-	/**
-	 * Prime counting function
-	 *
-	 * @param n number
-	 *
-	 * @return Number of primes below or equal x
-	 */
 	API_VISIBLE Long NumberTheory::primeCount(Long n) {
 		return primeCountWithCancel(n, 0);
 	}
@@ -1206,13 +1021,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return numberOfPrimes;
 	}
 
-	/**
-	 * Prime counting function
-	 *
-	 * @param n number
-	 *
-	 * @return Number of primes below or equal x
-	 */
 	API_VISIBLE double NumberTheory::primeCount(double n) {
 		return primeCountWithCancel(n, 0);
 	}
@@ -1224,17 +1032,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return CAST_DOUBLE(primeCountWithCancel(native_numeric_detail::checkedNativeLong(n, "NumberTheory.primeCount"), cancelId));
 	}
 
-	/**
-	 * Summation operator (SIGMA FROM i = a, to b,  f(i) by delta
-	 *
-	 * @param      f                   the expression
-	 * @param      index               the name of index argument
-	 * @param      from                FROM index = form
-	 * @param      to                  TO index = to
-	 * @param      delta               BY delta
-	 *
-	 * @return     summation operation (for empty summation operations returns 0).
-	 */
 	API_VISIBLE double NumberTheory::sigmaSummation(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to,
 	                                    double delta) {
 		return sigmaSummationWithCancel(f, index, from, to, delta, 0);
@@ -1315,20 +1112,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		}
 	}
 
-	/**
-	 * Product operator
-	 *
-	 * @param      f                   the expression
-	 * @param      index               the name of index argument
-	 * @param      from                FROM index = form
-	 * @param      to                  TO index = to
-	 * @param      delta               BY delta
-	 *
-	 * @return     product operation (for empty product operations returns 1).
-	 *
-	 * @see        Expression
-	 * @see        Argument
-	 */
 	API_VISIBLE double NumberTheory::piProduct(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to,
 	                               double delta) {
 		return piProductWithCancel(f, index, from, to, delta, 0);
@@ -1409,20 +1192,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		}
 	}
 
-	/**
-	 * Minimum value - iterative operator.
-	 *
-	 * @param      f                   the expression
-	 * @param      index               the name of index argument
-	 * @param      from                FROM index = form
-	 * @param      to                  TO index = to
-	 * @param      delta               BY delta
-	 *
-	 * @return     product operation (for empty product operations returns 1).
-	 *
-	 * @see        Expression
-	 * @see        Argument
-	 */
 	API_VISIBLE double NumberTheory::min(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta) {
 		return minWithCancel(f, index, from, to, delta, 0);
 	}
@@ -1455,20 +1224,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return min;
 	}
 
-	/**
-	 * Maximum value - iterative operator.
-	 *
-	 * @param      f                   the expression
-	 * @param      index               the name of index argument
-	 * @param      from                FROM index = form
-	 * @param      to                  TO index = to
-	 * @param      delta               BY delta
-	 *
-	 * @return     product operation (for empty product operations returns 1).
-	 *
-	 * @see        Expression
-	 * @see        Argument
-	 */
 	API_VISIBLE double NumberTheory::max(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta) {
 		return maxWithCancel(f, index, from, to, delta, 0);
 	}
@@ -1502,11 +1257,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * Return regular expression representing number literal
+	 * \brief Return regular expression representing number literal
 	 * string in given numeral system with base between 1 and 36.
-	 *
-	 * @param numeralSystemBase    Base of numeral system, base between 1 and 36
-	 * @return        Regular expression string if base between 1 and 36,
+	 * \param numeralSystemBase    Base of numeral system, base between 1 and 36
+	 * \return Regular expression string if base between 1 and 36,
 	 *                otherwise empty string "" is returned.
 	 */
 	API_VISIBLE StringPtr NumberTheory::getRegExpForNumeralSystem(int numeralSystemBase) {
@@ -1553,20 +1307,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return S(UTF("\\b\\B"));
 	}
 
-	/**
-	 * Digit index based on digit character for numeral systems with
-	 * base between 1 and 36.
-	 *
-	 * @param digitChar   Digit character (lower or upper case) representing digit in numeral
-	 *                    systems with base between 1 and 36. Digits:
-	 *                    0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8,
-	 *                    9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G,
-	 *                    17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O,
-	 *                    25:P, 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W,
-	 *                    33:X, 34:Y, 35:Z
-	 * @return            Returns digit index if digit char was recognized,
-	 *                    otherwise returns -1.
-	 */
 	API_VISIBLE int NumberTheory::digitIndex(Char digitChar) {
 		switch (digitChar) {
 			case UTF('0'): return 0;
@@ -1636,20 +1376,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return -1;
 	}
 
-	/**
-	 * Character representing digit for numeral systems with base
-	 * between 1 and 36.
-	 *
-	 * @param digitIndex   Digit index between 0 and 35
-	 * @return             Digit character representing digit
-	 *                     for numeral systems with base between 1 and 36.
-	 *                     Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7,
-	 *                     8:8, 9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F,
-	 *                     16:G, 17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N,
-	 *                     24:O, 25:P, 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V,
-	 *                     32:W, 33:X, 34:Y, 35:Z. If digit index is put of range
-	 *                     '?' is returned.
-	 */
 	API_VISIBLE Char NumberTheory::digitChar(int digitIndex) {
 		switch (digitIndex) {
 			case 0: return UTF('0');
@@ -1693,26 +1419,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return UTF('?');
 	}
 
-	/**
-	 * Recognition of numeral system base in which number literal represents
-	 * number.
-	 * Examples: 2 for b2.1001 or b.1001, 1 for b1.111, 23 for b23.123afg
-	 * 16 for b16.123acdf or h.123acdf.
-	 *
-	 * @param numberLiteral Number literal string.
-	 *
-	 * Base format: b1. b2. b. b3. b4. b5. b6. b7. b8. o. b9. b10. b11. b12.
-	 * b13. b14. b15. b16. h. b17. b18. b19. b20. b21. b22. b23. b24. b25. b26.
-	 * b27. b28. b29. b30. b31. b32. b33. b34. b35. b36.
-	 *
-	 * Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:A, 11:B, 12:C,
-	 * 13:D, 14:E, 15:F, 16:G, 17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P,
-	 * 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
-	 *
-	 * @return  If number literal fits numeral system definition then numeral
-	 *          system base is returned (base between 1 and 36), otherwise
-	 *          -1 is returned.
-	 */
 	API_VISIBLE int NumberTheory::getNumeralSystemBase(const StringPtr &numberLiteral) {
 		for (int b = 0; b <= 36; b++) {
 			StringPtr pattern = getRegExpForNumeralSystem(b);
@@ -1721,18 +1427,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return -1;
 	}
 
-	/**
-	 * Other base (base between 1 and 36) number literal conversion to decimal number.
-	 *
-	 * @param numberLiteral    Number literal in given numeral system with base between
-	 *                         1 and 36. Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7,
-	 *                         8:8, 9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G, 17:H,
-	 *                         18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P, 26:Q, 27:R,
-	 *                         28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
-	 * @param numeralSystemBase             Numeral system base, between 1 and 36
-	 * @return                 Decimal number after conversion. If conversion was not
-	 *                         possible the Double::NaN is returned.
-	 */
 	API_VISIBLE double NumberTheory::convOthBase2Decimal(const StringPtr &numberLiteralLong, int numeralSystemBase) {
 		return convOthBase2DecimalWithCancel(numberLiteralLong, numeralSystemBase, 0);
 	}
@@ -1774,26 +1468,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return sign * decValue;
 	}
 
-	/**
-	 * Other base (base between 1 and 36) number literal conversion to decimal number.
-	 * Base specification included in number literal.
-	 *
-	 * Examples: 2 for b2.1001 or b.1001, 1 for b1.111, 23 for b23.123afg
-	 * 16 for b16.123acdf or h.123acdf.
-	 *
-	 * @param numberLiteral Number literal string.
-	 *
-	 * Base format: b1. b2. b. b3. b4. b5. b6. b7. b8. o. b9. b10. b11. b12.
-	 * b13. b14. b15. b16. h. b17. b18. b19. b20. b21. b22. b23. b24. b25. b26.
-	 * b27. b28. b29. b30. b31. b32. b33. b34. b35. b36.
-	 *
-	 * Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:A, 11:B, 12:C,
-	 * 13:D, 14:E, 15:F, 16:G, 17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P,
-	 * 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
-	 *
-	 * @return     Decimal number after conversion. If conversion was not
-	 *             possible the Double::NaN is returned.
-	 */
 	API_VISIBLE double NumberTheory::convOthBase2Decimal(const StringPtr &numberLiteralLong) {
 		if (numberLiteralLong == nullptr) return Double::NaN;
 		StringPtr numberLiteral = StringUtils::trim(numberLiteralLong);
@@ -1812,14 +1486,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return sign * convOthBase2Decimal(finalLiteral, numeralSystemBase);
 	}
 
-	/**
-	 * Other base to decimal conversion.
-	 *
-	 * @param numeralSystemBase   Numeral system base has to be above 0.
-	 * @param digits              List of digits
-	 * @return                    Number after conversion. If conversion is not possible then
-	 *                            Double::NaN is returned.
-	 */
 	API_VISIBLE double NumberTheory::convOthBase2Decimal(int numeralSystemBase, const ArrayPtr<int> &digits) {
 		return convOthBase2DecimalWithCancel(numeralSystemBase, digits, 0);
 	}
@@ -1848,14 +1514,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return decValue;
 	}
 
-	/**
-	 * Other base to decimal conversion.
-	 *
-	 * @param numeralSystemBase   Numeral system base has to be above 0.
-	 * @param digits              List of digits
-	 * @return                    Number after conversion. If conversion is not possible then
-	 *                            Double::NaN is returned.
-	 */
 	API_VISIBLE double NumberTheory::convOthBase2Decimal(double numeralSystemBase, const ArrayPtr<double> &digits) {
 		return convOthBase2DecimalWithCancel(numeralSystemBase, digits, 0);
 	}
@@ -1883,16 +1541,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return convOthBase2DecimalWithCancel(numeralSystemBaseInt, digitsInt, cancelId);
 	}
 
-	/**
-	 * Other base to decimal conversion.
-	 *
-	 * @param baseAndDigits   Numeral system base and digits specification.
-	 *                        Numeral system base is placed at index 0, rest of
-	 *                        array is interpreted as digits. Numeral system base
-	 *                        has to be above 0.
-	 * @return                Number after conversion. If conversion is not possible then
-	 *                        Double::NaN is returned.
-	 */
 	API_VISIBLE double NumberTheory::convOthBase2Decimal(const ArrayPtr<int> &baseAndDigits) {
 		return convOthBase2DecimalWithCancel(baseAndDigits, 0);
 	}
@@ -1911,16 +1559,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return convOthBase2DecimalWithCancel(numeralSystemBase, digits, cancelId);
 	}
 
-	/**
-	 * Other base to decimal conversion.
-	 *
-	 * @param baseAndDigits   Numeral system base and digits specification.
-	 *                        Numeral system base is placed at index 0, rest of
-	 *                        array is interpreted as digits. Numeral system base
-	 *                        has to be above 0.
-	 * @return                Number after conversion. If conversion is not possible then
-	 *                        Double::NaN is returned.
-	 */
 	API_VISIBLE double NumberTheory::convOthBase2Decimal(const ArrayPtr<double> &baseAndDigits) {
 		return convOthBase2DecimalWithCancel(baseAndDigits, 0);
 	}
@@ -1939,21 +1577,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return convOthBase2DecimalWithCancel(numeralSystemBase, digits, cancelId);
 	}
 
-	/**
-	 * Decimal number to other numeral system conversion with base
-	 * between 1 and 36.
-	 *
-	 * @param decimalNumber    Decimal number
-	 * @param numeralSystemBase       Numeral system base between 1 and 36
-	 * @return           Number literal representing decimal number in
-	 *                   given numeral system. Digits
-	 *                   0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8,
-	 *                   9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G,
-	 *                   17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O,
-	 *                   25:P, 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W,
-	 *                   33:X, 34:Y, 35:Z. If conversion was not possible
-	 *                   the "NaN" string is returned.
-	 */
 	API_VISIBLE StringPtr NumberTheory::convDecimal2OthBase(double decimalNumber, int numeralSystemBase) {
 		return formatNumberInBaseWithCancel(decimalNumber, numeralSystemBase, 0);
 	}
@@ -1990,30 +1613,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return signChar + numberLiteral;
 	}
 
-	/**
-	 * Decimal number to other numeral system conversion with base
-	 * between 1 and 36.
-	 *
-	 * @param decimalNumber    Decimal number
-	 * @param numeralSystemBase       Numeral system base between 1 and 36
-	 * @param format     If 1 then always bxx-> is used, i.e. b1. or b16.
-	 *                   If 2 then for binary b. is used, for octal o. is used,
-	 *                   for hexadecimal h. is used, otherwise bxx-> is used
-	 *                   where xx is the numeral system base specification.
-	 *
-	 * @return           Number literal representing decimal number in
-	 *                   given numeral system.
-	 *
-	 * Base format: b1. b2. b. b3. b4. b5. b6. b7. b8. o. b9. b10. b11. b12.
-	 * b13. b14. b15. b16. h. b17. b18. b19. b20. b21. b22. b23. b24. b25. b26.
-	 * b27. b28. b29. b30. b31. b32. b33. b34. b35. b36.
-	 *
-	 * Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:A, 11:B, 12:C,
-	 * 13:D, 14:E, 15:F, 16:G, 17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P,
-	 * 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
-	 *
-	 * If conversion was not possible the "NaN" string is returned.
-	 */
 	API_VISIBLE StringPtr NumberTheory::convDecimal2OthBase(double decimalNumber, int numeralSystemBase, int format) {
 		if (Double::isNaN(decimalNumber)) return S(UTF("NaN"));
 		if (numeralSystemBase < 1) return S(UTF("NaN"));
@@ -2030,11 +1629,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return sign + prefix + convDecimal2OthBase(MathFunctions::abs(decimalNumber), numeralSystemBase);
 	}
 
-	/**
-	 * Number of digits needed to represent given number in base 10 numeral system.
-	 * @param number   The number
-	 * @return         Number of digits needed to represent given number in base 10 numeral system.
-	 */
 	API_VISIBLE int NumberTheory::numberOfDigits(Long number) {
 		if (number < 0) number = native_numeric_detail::checkedNativeAbsoluteLong(number, "NumberTheory.numberOfDigits");
 		if (number < 10) return 1;
@@ -2049,13 +1643,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		else return 10;
 	}
 
-	/**
-	 * Number of digits needed to represent given number in base 10 numeral system.
-	 * @param number   The number
-	 * @return         Number of digits needed to represent given number in base 10 numeral system.
-	 *                 If number is NaN the NaN is returned. If number is infinite then
-	 *                 Double::POSITIVE_INFINITY is returned.
-	 */
 	API_VISIBLE double NumberTheory::numberOfDigits(double number) {
 		if (Double::isNaN(number)) return Double::NaN;
 		if (Double::isInfinite(number)) return Double::POSITIVE_INFINITY;
@@ -2065,13 +1652,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return Double::numberOfIntegerDigits(number);
 	}
 
-	/**
-	 * Number of digits needed to represent given number in numeral system with given base.
-	 * @param number              The number
-	 * @param numeralSystemBase   Numeral system base above 0
-	 * @return                    Returns number of digits. In case when numeralSystemBase is lower than
-	 *                            1 then -1 is returned.
-	 */
 	API_VISIBLE Long NumberTheory::numberOfDigits(Long number, Long numeralSystemBase) {
 		return numberOfDigitsWithCancel(number, numeralSystemBase, 0);
 	}
@@ -2094,15 +1674,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return digitsNum;
 	}
 
-	/**
-	 * Number of digits needed to represent given number (its integer part) in numeral system with given base.
-	 * @param number              The number
-	 * @param numeralSystemBase   Numeral system base above 0
-	 * @return                    Returns number of digits. In case when numeralSystemBase is lower than
-	 *                            1 then Double::NaN is returned. If number or numeralSystemBase is Double::NaN
-	 *                            then Double::NaN is returned. If numeralSystemBase is infinite then Double::NaN
-	 *                            is returned.
-	 */
 	API_VISIBLE double NumberTheory::numberOfDigits(double number, double numeralSystemBase) {
 		return numberOfDigitsWithCancel(number, numeralSystemBase, 0);
 	}
@@ -2131,14 +1702,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return digitsNum;
 	}
 
-	/**
-	 * Digit at position - numeral system with given base
-	 *
-	 * @param number              The number
-	 * @param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
-	 * @param numeralSystemBase   Base of numeral system - above 0
-	 * @return                    Return digit at given position. If digit finding was not possible then -1 is returned.
-	 */
 	API_VISIBLE int NumberTheory::digitAtPosition(Long number, int position, int numeralSystemBase) {
 		return digitAtPositionWithCancel(number, position, numeralSystemBase, 0);
 	}
@@ -2174,25 +1737,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		else return (*digits)(digitsNum + position - 1);
 	}
 
-	/**
-	 * Digit at position - numeral system with base 10
-	 *
-	 * @param number              The number
-	 * @param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
-	 * @return                    Return digit at given position. If digit finding was not possible then -1 is returned.
-	 */
 	API_VISIBLE int NumberTheory::digitAtPosition(Long number, int position) {
 		return digitAtPosition(number, position, 10);
 	}
 
-	/**
-	 * Digit at position - numeral system with given base
-	 *
-	 * @param number              The number
-	 * @param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
-	 * @param numeralSystemBase   Base of numeral system - above 0
-	 * @return                    Return digit at given position. If digit finding was not possible then Double::NaN is returned.
-	 */
 	API_VISIBLE double NumberTheory::digitAtPosition(double number, double position, double numeralSystemBase) {
 		return digitAtPositionWithCancel(number, position, numeralSystemBase, 0);
 	}
@@ -2232,13 +1780,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		else return (*digits)(CAST_INT(digitsNum + position - 1));
 	}
 
-	/**
-	 * Digit at position - numeral system with base 10
-	 *
-	 * @param number              The number
-	 * @param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
-	 * @return                    Return digit at given position. If digit finding was not possible then Double::NaN is returned.
-	 */
 	API_VISIBLE double NumberTheory::digitAtPosition(double number, double position) {
 		return decimalDigitAtPositionWithCancel(number, position, 0);
 	}
@@ -2249,12 +1790,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return digitAtPositionWithCancel(number, position, 10.0, cancelId);
 	}
 
-	/**
-	 * Prime decomposition (prime factorization)
-	 *
-	 * @param number     Number to be decomposed
-	 * @return           List of prime factors (non-distinct)
-	 */
 	API_VISIBLE ArrayPtr<Long> NumberTheory::primeFactors(Long number) {
 		return primeFactorsWithCancel(number, 0);
 	}
@@ -2298,12 +1833,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return factors;
 	}
 
-	/**
-	 * Prime decomposition (prime factorization)
-	 *
-	 * @param number     Number to be decomposed
-	 * @return           List of prime factors (non-distinct)
-	 */
 	API_VISIBLE ArrayPtr<double> NumberTheory::primeFactors(double number) {
 		return primeFactorsWithCancel(number, 0);
 	}
@@ -2349,12 +1878,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return factors;
 	}
 
-	/**
-	 * Prime decomposition (prime factorization) - returns number of distinct prime factors
-	 *
-	 * @param number     Number to be decomposed
-	 * @return           Number of distinct prime factors
-	 */
 	API_VISIBLE double NumberTheory::numberOfPrimeFactors(double number) {
 		return numberOfPrimeFactorsWithCancel(number, 0);
 	}
@@ -2369,15 +1892,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return factorsDist->rows;
 	}
 
-	/**
-	 * Prime decomposition (prime factorization) - returns prime factor value
-	 *
-	 * @param number     Number to be decomposed
-	 * @param id         Factor id
-	 * @return           Factor value if factor id between 1 and numberOfPrimeFactors, otherwise 1 is returned.
-	 *                   For NaN of infinite parameters Double NaN is returned. For number eq 0 Double::NaN
-	 *                   is returned.
-	 */
 	API_VISIBLE double NumberTheory::primeFactorValue(double number, double id) {
 		return primeFactorValueWithCancel(number, id, 0);
 	}
@@ -2401,15 +1915,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return (*factorsDist)(CAST_INT(id - 1), 0);
 	}
 
-	/**
-	 * Prime decomposition (prime factorization) - returns prime factor exponent
-	 *
-	 * @param number     Number to be decomposed
-	 * @param id         Factor id
-	 * @return           Factor exponent if factor id between 1 and numberOfPrimeFactors, otherwise 0 is returned.
-	 *                   For NaN of infinite parameters Double NaN is returned. For number eq 0 Double::NaN
-	 *                   is returned.
-	 */
 	API_VISIBLE double NumberTheory::primeFactorExponent(double number, double id) {
 		return primeFactorExponentWithCancel(number, id, 0);
 	}
@@ -2434,13 +1939,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * Creates array representing fraction (sign, numerator and denominator).
-	 *
-	 * @param sign        Sign of the number represented by fraction
-	 * @param numerator   Numerator from the fraction
-	 * @param denominator Denominator from the fraction
-	 *
-	 * @return Returns array containing sign, numerator and denominator.
+	 * \brief Creates array representing fraction (sign, numerator and denominator).
+	 * \param sign        Sign of the number represented by fraction
+	 * \param numerator   Numerator from the fraction
+	 * \param denominator Denominator from the fraction
+	 * \return Returns array containing sign, numerator and denominator.
 	 * Sign at index 0, numerator at index 1, denominator at index 2.
 	 */
 	API_VISIBLE ArrayPtr<double> NumberTheory::fractionToDoubleArray(double sign, double numerator, double denominator) {
@@ -2452,14 +1955,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * Creates array representing mixed fraction (sign, whole number, numerator and denominator).
-	 *
-	 * @param sign        Sign of the number represented by fraction
-	 * @param whole       Whole number
-	 * @param numerator   Numerator from the fraction
-	 * @param denominator Denominator from the fraction
-	 *
-	 * @return Returns array containing whole number, numerator and denominator.
+	 * \brief Creates array representing mixed fraction (sign, whole number, numerator and denominator).
+	 * \param sign        Sign of the number represented by fraction
+	 * \param whole       Whole number
+	 * \param numerator   Numerator from the fraction
+	 * \param denominator Denominator from the fraction
+	 * \return Returns array containing whole number, numerator and denominator.
 	 * Sign at index 0, whole number at index 1, numerator at index 2, denominator at index 3.
 	 */
 	API_VISIBLE ArrayPtr<double> NumberTheory::mixedFractionToDoubleArray(double sign, double whole, double numerator,
@@ -2472,16 +1973,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return mixedFraction;
 	}
 
-	/**
-	 * Converts double value to its fraction representation.
-	 *
-	 * @param value Value to be converted
-	 *
-	 * @return Array representing fraction. Sign at index 0,
-	 * numerator at index 1, denominator at index 2.
-	 * If conversion is not possible then Double::NaN is
-	 * assigned to all the fields.
-	 */
 	API_VISIBLE ArrayPtr<double> NumberTheory::toFraction(double value) {
 		return toFractionWithCancel(value, 0);
 	}
@@ -2577,17 +2068,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return fractionToDoubleArray(sign, numerator, denominator);
 	}
 
-	/**
-	 * Converts double value to its mixed fraction representation.
-	 *
-	 * @param value Value to be converted
-	 *
-	 * @return Array representing fraction.
-	 * Sign at index 0, whole number at index 1,
-	 * numerator at index 2, denominator at index 3.
-	 * If conversion is not possible then Double::NaN is
-	 * assigned to both numerator and denominator.
-	 */
 	API_VISIBLE ArrayPtr<double> NumberTheory::toMixedFraction(double value) {
 		ArrayPtr<double> fraction = toFraction(value);
 		double sign = (*fraction)(0);
@@ -2604,15 +2084,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return mixedFractionToDoubleArray(sign, whole, numerator, denominator);
 	}
 
-	/**
-	 * Converts array representing fraction to fraction string representation.
-	 *
-	 * @param fraction    Array representing fraction (including mix fractions)
-	 * @return  StringPtr representation of fraction.
-	 *
-	 * @see NumberTheory#toFraction(double)
-	 * @see NumberTheory#toMixedFraction(double)
-	 */
 	API_VISIBLE StringPtr NumberTheory::fractionToString(const ArrayPtr<double> &fraction) {
 		bool mixedFraction = false;
 		if (fraction->length != 3 && fraction->length != 4) return ConstantValue::NAN_STR;
@@ -2678,28 +2149,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		}
 	}
 
-	/**
-	 * Converts number to its fraction string representation.
-	 *
-	 * @param value   Given number
-	 * @return  StringPtr representation of fraction.
-	 *
-	 * @see NumberTheory#toFraction(double)
-	 * @see NumberTheory#fractionToString(double())
-	 */
 	API_VISIBLE StringPtr NumberTheory::toFractionString(double value) {
 		return fractionToString(toFraction(value));
 	}
 
-	/**
-	 * Converts number to its mixed fraction string representation.
-	 *
-	 * @param value   Given number
-	 * @return  StringPtr representation of fraction.
-	 *
-	 * @see NumberTheory#toMixedFraction(double)
-	 * @see NumberTheory#fractionToString(double())
-	 */
 	API_VISIBLE StringPtr NumberTheory::toMixedFractionString(double value) {
 		return fractionToString(toMixedFraction(value));
 	}

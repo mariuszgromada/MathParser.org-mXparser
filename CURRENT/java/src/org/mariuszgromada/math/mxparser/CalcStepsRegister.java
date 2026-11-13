@@ -1,5 +1,5 @@
 /*
- * @(#)CalcStepsRegister.java        6.1.0    2024-10-14
+ * @(#)CalcStepsRegister.java        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -235,7 +235,7 @@ import java.util.List;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        6.1.0
+ * @version        6.2.0
  *
  * @see CalcStepRecord
  * @see Expression
@@ -319,6 +319,11 @@ public class CalcStepsRegister implements Serializable {
             );
         mXparser.consolePrintln(StringModel.STRING_RESOURCES.COMPUTING_TIME + StringInvariant.SPACE_EQUAL_SPACE + calcStepsRegister.computingTime + " s.");
     }
+    /**
+     * Returns a localized text report of the recorded calculation steps.
+     *
+     * @return The report, or a localized message if the register is empty.
+     */
     @Override
     public String toString() {
         return toString(this);

@@ -1,5 +1,5 @@
 /*
- * @(#)MathConstants.hpp        6.1.0    2024-10-06
+ * @(#)MathConstants.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -237,246 +237,253 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		MathConstants() = delete;
 
 		/**
-		 * Pi, Archimedes' constant or Ludolph's number
+		 * \brief Pi, Archimedes' constant or Ludolph's number
 		 */
 		static constexpr double PI = Math::PI;
 		/**
-		 * Pi/2
+		 * \brief Pi/2
 		 */
 		static constexpr double PIBY2 = PI / 2.0;
 		/**
-		 * 1/Pi
+		 * \brief 1/Pi
 		 */
 		static constexpr double PIINV = 1.0 / PI;
 		/**
-		 * Napier's constant, or Euler's number, base of Natural logarithm
+		 * \brief Napier's constant, or Euler's number, base of Natural logarithm
 		 */
 		static constexpr double E = 2.71828182845904523536028747135266249;
 		/**
-		 * Euler-Mascheroni constant
+		 * \brief Euler-Mascheroni constant
 		 */
 		static constexpr double EULER_MASCHERONI = 0.57721566490153286060651209008240243;
 		/**
-		 * Golden ratio
+		 * \brief Golden ratio
 		 */
 		static constexpr double GOLDEN_RATIO = 1.61803398874989484820458683436563811;
 		/**
-		 * Plastic constant
+		 * \brief Plastic constant
 		 */
 		static constexpr double PLASTIC = 1.32471795724474602596090885447809734;
 		/**
-		 * Embree-Trefethen constant
+		 * \brief Embree-Trefethen constant
 		 */
 		static constexpr double EMBREE_TREFETHEN = 0.70258;
 		/**
-		 * Feigenbaum constant
+		 * \brief Feigenbaum constant
 		 */
 		static constexpr double FEIGENBAUM_DELTA = 4.66920160910299067185320382046620161;
 		/**
-		 * Feigenbaum constant
+		 * \brief Feigenbaum constant
 		 */
 		static constexpr double FEIGENBAUM_ALFA = 2.50290787509589282228390287321821578;
 		/**
-		 * Feigenbaum constant
+		 * \brief Feigenbaum constant
 		 */
 		static constexpr double TWIN_PRIME = 0.66016181584686957392781211001455577;
 		/**
-		 * Meissel-Mertens constant
+		 * \brief Meissel-Mertens constant
 		 */
 		static constexpr double MEISSEL_MERTEENS = 0.26149721284764278375542683860869585;
 		/**
-		 * Brun's constant for twin primes
+		 * \brief Brun's constant for twin primes
 		 */
 		static constexpr double BRAUN_TWIN_PRIME = 1.902160583104;
 		/**
-		 * Brun's constant for prime quadruplets
+		 * \brief Brun's constant for prime quadruplets
 		 */
 		static constexpr double BRAUN_PRIME_QUADR = 0.8705883800;
 		/**
-		 * de Bruijn-Newman constant
+		 * \brief de Bruijn-Newman constant
 		 */
 		static constexpr double BRUIJN_NEWMAN = -2.7E-9;
 		/**
-		 * Catalan's constant
+		 * \brief Catalan's constant
 		 */
 		static constexpr double CATALAN = 0.91596559417721901505460351493238411;
 		/**
-		 * Landau-Ramanujan constant
+		 * \brief Landau-Ramanujan constant
 		 */
 		static constexpr double LANDAU_RAMANUJAN = 0.76422365358922066299069873125009232;
 		/**
-		 * Viswanath's constant
+		 * \brief Viswanath's constant
 		 */
 		static constexpr double VISWANATH = 1.13198824;
 		/**
-		 * Legendre's constant
+		 * \brief Legendre's constant
 		 */
 		static constexpr double LEGENDRE = 1.0;
 		/**
-		 * Ramanujan-Soldner constant
+		 * \brief Ramanujan-Soldner constant
 		 */
 		static constexpr double RAMANUJAN_SOLDNER = 1.45136923488338105028396848589202744;
 		/**
-		 * Erdos-Borwein constant
+		 * \brief Erdos-Borwein constant
 		 */
 		static constexpr double ERDOS_BORWEIN = 1.60669515241529176378330152319092458;
 		/**
-		 * Bernstein's constant
+		 * \brief Bernstein's constant
 		 */
 		static constexpr double BERNSTEIN = 0.28016949902386913303;
 		/**
-		 * Gauss-Kuzmin-Wirsing constant
+		 * \brief Gauss-Kuzmin-Wirsing constant
 		 */
 		static constexpr double GAUSS_KUZMIN_WIRSING = 0.30366300289873265859744812190155623;
 		/**
-		 * Hafner-Sarnak-McCurley constant
+		 * \brief Hafner-Sarnak-McCurley constant
 		 */
 		static constexpr double HAFNER_SARNAK_MCCURLEY = 0.35323637185499598454;
 		/**
-		 * Golomb-Dickman constant
+		 * \brief Golomb-Dickman constant
 		 */
 		static constexpr double GOLOMB_DICKMAN = 0.62432998854355087099293638310083724;
 		/**
-		 * Cahen's constant
+		 * \brief Cahen's constant
 		 */
 		static constexpr double CAHEN = 0.6434105463;
 		/**
-		 * Laplace limit
+		 * \brief Laplace limit
 		 */
 		static constexpr double LAPLACE_LIMIT = 0.66274341934918158097474209710925290;
 		/**
-		 * Alladi-Grinstead constant
+		 * \brief Alladi-Grinstead constant
 		 */
 		static constexpr double ALLADI_GRINSTEAD = 0.8093940205;
 		/**
-		 * Lengyel's constant
+		 * \brief Lengyel's constant
 		 */
 		static constexpr double LENGYEL = 1.0986858055;
 		/**
-		 * Levy's constant
+		 * \brief Levy's constant
 		 */
 		static constexpr double LEVY = 3.27582291872181115978768188245384386;
 		/**
-		 * Apery's constant
+		 * \brief Apery's constant
 		 */
 		static constexpr double APERY = 1.20205690315959428539973816151144999;
 		/**
-		 * Mills' constant
+		 * \brief Mills' constant
 		 */
 		static constexpr double MILLS = 1.30637788386308069046861449260260571;
 		/**
-		 * Backhouse's constant
+		 * \brief Backhouse's constant
 		 */
 		static constexpr double BACKHOUSE = 1.45607494858268967139959535111654356;
 		/**
-		 * Porter's constant
+		 * \brief Porter's constant
 		 */
 		static constexpr double PORTER = 1.4670780794;
 		/**
-		 * Porter's constant
+		 * \brief Porter's constant
 		 */
 		static constexpr double LIEB_QUARE_ICE = 1.5396007178;
 		/**
-		 * Niven's constant
+		 * \brief Niven's constant
 		 */
 		static constexpr double NIVEN = 1.70521114010536776428855145343450816;
 		/**
-		 * Sierpiński's constant
+		 * \brief Sierpiński's constant
 		 */
 		static constexpr double SIERPINSKI = 2.58498175957925321706589358738317116;
 		/**
-		 * Khinchin's constant
+		 * \brief Khinchin's constant
 		 */
 		static constexpr double KHINCHIN = 2.68545200106530644530971483548179569;
 		/**
-		 * Fransén-Robinson constant
+		 * \brief Fransén-Robinson constant
 		 */
 		static constexpr double FRANSEN_ROBINSON = 2.80777024202851936522150118655777293;
 		/**
-		 * Landau's constant
+		 * \brief Landau's constant
 		 */
 		static constexpr double LANDAU = 0.5432589653429767;
 		/**
-		 * Parabolic constant
+		 * \brief Parabolic constant
 		 */
 		static constexpr double PARABOLIC = 2.29558714939263807403429804918949039;
 		/**
-		 * Omega constant
+		 * \brief Omega constant
 		 */
 		static constexpr double OMEGA = 0.56714329040978387299996866221035555;
 		/**
-		 * MRB constant
+		 * \brief MRB constant
 		 */
 		static constexpr double MRB = 0.18785964246206712024851793405427;
 		/**
-		 * A069284 - Logarithmic integral function li(2)
+		 * \brief A069284 - Logarithmic integral function li(2)
 		 */
 		static constexpr double LI2 = 1.045163780117492784844588889194613136522615578151;
 		/**
-		 * Gompertz Constant OEIS A073003
+		 * \brief Gompertz Constant OEIS A073003
 		 */
 		static constexpr double GOMPERTZ = 0.596347362323194074341078499369279376074;
 		/**
-		 * Square root of 2
+		 * \brief Square root of 2
 		 */
 		static constexpr double SQRT2 = 1.4142135623730950488016887242096980785696718753769480731766797379; // Math::sqrt(2.0);
 		/**
-		 * Square root of pi
+		 * \brief Square root of pi
 		 */
 		static constexpr double SQRTPi = 1.772453850905516027298167483341145182797549456122387128213L;
 		/**
-		 * Square root of 2*pi
+		 * \brief Square root of 2*pi
 		 */
 		static constexpr double SQRT2Pi = 2.5066282746310005024157652848110452530069867406099L;
 		/**
-		 * Natural logarithm of pi
+		 * \brief Natural logarithm of pi
 		 */
 		static constexpr double LNPI = 1.1447298858494001741434273513530587116472948129153115715136230714; // Math::log(PI)
 		/**
-		 * Tetration left convergence limit
+		 * \brief Tetration left convergence limit
 		 */
 		static constexpr double EXP_MINUS_E = 0.0659880358453125370767901875968464249385770482527964364024735415; // Math::pow(E, -E)
 		/**
-		 * Tetration right convergence limit
+		 * \brief Tetration right convergence limit
 		 */
 		static constexpr double EXP_1_OVER_E = 1.4446678610097661336583391085964302230585954532422531658205226643; // Math::pow(E, 1.0 / E)
 		/**
-		 * 1 over e
+		 * \brief 1 over e
 		 */
 		static constexpr double EXP_MINUS_1 = 1.0 / Math::E;
 		/**
-		 * Natural logarithm of sqrt(2)
+		 * \brief Natural logarithm of sqrt(2)
 		 */
 		static constexpr double LN_SQRT2 = 0.3465735902799726547086160607290882840377500671801276270603400047; // Math::log(SQRT2)
 		/**
-		 * SQRT2BY2
+		 * \brief SQRT2BY2
 		 */
 		static constexpr double SQRT2BY2 = SQRT2 / 2.0;
 		/**
-		 * SQRT3
+		 * \brief SQRT3
 		 */
 		static constexpr double SQRT3 = 1.7320508075688772935274463415058723669428052538103806280558069794; //Math::sqrt(3.0)
 		/**
-		 * SQRT3BY2
+		 * \brief SQRT3BY2
 		 */
 		static constexpr double SQRT3BY2 = SQRT3 / 2.0;
 		/**
-		 * D2BYSQRT3
+		 * \brief D2BYSQRT3
 		 */
 		static constexpr double D2BYSQRT3 = 2.0 / SQRT3;
 		/**
-		 * SQRT3BY3
+		 * \brief SQRT3BY3
 		 */
 		static constexpr double SQRT3BY3 = SQRT3 / 3.0;
 		/**
-		 * SQRT5
+		 * \brief SQRT5
 		 */
 		static constexpr double SQRT5 = 2.2360679774997896964091736687312762354406183596115257242708972454; // Math::sqrt(5.0)
 		/**
-		 * Not-a-Number
+		 * \brief Not-a-Number
 		 */
 		static constexpr double NOT_A_NUMBER = Double::NaN;
 
+		/**
+		 * \brief Returns constant value, where constant is represented by the
+		 * token id in the ConstantValue class
+		 * \param constantValueId Please refer to the ConstantValue class.
+		 * \return Returns constant value if id is known, otherwise Double.NaN is returned.
+		 * \sa org::mariuszgromada::math::mxparser::parsertokens::ConstantValue
+		 */
 		static double getConstantValue(int constantValueId);
 	};
 } // namespace org::mariuszgromada::math::mxparser::mathcollection
