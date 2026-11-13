@@ -1,35 +1,164 @@
-# MathParser.org-mXparser has been downloaded more than 8,000,000 times!
-![mXparser icon](https://mathparser.org/wp-content/uploads/2024/09/mxparser-logo-250.png)
-[![Subscription-Form](https://mathparser.org/wp-content/uploads/2022/08/mailing_list_subscription_form.png)](https://forms.aweber.com/form/82/2120798082.htm)
+# MathParser.org-mXparser
 
-## mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Kotlin, Android, C++, C# .NET
+![mXparser logo](https://mathparser.org/wp-content/uploads/2024/09/mxparser-logo-250.png)
 
-## v.6.1.2 (2026-10-25): Sagitara — Security and performance maintenance release
+**A flexible, feature-rich mathematical expression parser and evaluator for Java, Kotlin, Android, C++ and C#/.NET.**
+
+**More than 8,000,000 downloads.** Easy to integrate, powerful enough for complex mathematical expressions, and designed for both straightforward calculations and highly customizable mathematical models.
+
+[**Website**](https://mathparser.org/) · [**Tutorial**](https://mathparser.org/mxparser-tutorial/) · [**API documentation**](https://mathparser.org/api/) · [**Math Collection**](https://mathparser.org/mxparser-math-collection/operators/) · [**License**](https://mathparser.org/mxparser-license/)
+
+[![Mailing list subscription](https://mathparser.org/wp-content/uploads/2022/08/mailing_list_subscription_form.png)](https://forms.aweber.com/form/82/2120798082.htm)
+
+## Contents
+
+- [Quick start](#quick-start)
+- [Installation](#installation)
+- [Supported environments](#supported-environments)
+- [Capabilities](#capabilities)
+- [Releases](#releases)
+- [Examples: mXparser in a nutshell](#examples-mxparser-in-a-nutshell)
+- [Tutorial and reference](#tutorial-and-reference)
+- [Built-in tokens reference](#built-in-tokens-reference)
+- [Licensing and support](#licensing-and-support)
+- [Related projects](#related-projects)
+
+## Quick start
+
+Create an `Expression`, provide mathematical notation as a string, and call `calculate()`:
+
+```java
+import org.mariuszgromada.math.mxparser.Expression;
+
+Expression expression = new Expression("2 + 3 * sin(pi / 2)");
+double result = expression.calculate();
+```
+
+For user-defined arguments, functions, recursion, numerical calculus, and many more examples, see [Examples: mXparser in a nutshell](#examples-mxparser-in-a-nutshell) and the [full tutorial](https://mathparser.org/mxparser-tutorial/).
+
+## Installation
+
+### NuGet: Package Manager
+
+```powershell
+Install-Package MathParser.org-mXparser -Version 6.1.2
+```
+
+### NuGet: .NET CLI
+
+```bash
+dotnet add package MathParser.org-mXparser --version 6.1.2
+```
+
+### NuGet: PackageReference
+
+```xml
+<PackageReference Include="MathParser.org-mXparser" Version="6.1.2"/>
+```
+
+### Maven: pom.xml
+
+```xml
+<dependency>
+    <groupId>org.mariuszgromada.math</groupId>
+    <artifactId>MathParser.org-mXparser</artifactId>
+    <version>6.1.2</version>
+</dependency>
+```
+
+### Gradle: Groovy DSL
+
+```groovy
+implementation 'org.mariuszgromada.math:MathParser.org-mXparser:6.1.2'
+```
+
+### Gradle: Kotlin DSL
+
+```kotlin
+implementation("org.mariuszgromada.math:MathParser.org-mXparser:6.1.2")
+```
+
+### C++: CMake / FetchContent 
+
+```cmake
+include(FetchContent)
+FetchContent_Declare(
+   MathParserOrgMxParser
+   GIT_REPOSITORY https://github.com/mariuszgromada/MathParser.org-mXparser.git
+   GIT_TAG v.6.1.2
+   SOURCE_SUBDIR CURRENT/cpp/lib
+)
+FetchContent_MakeAvailable(MathParserOrgMxParser)
+mxparser_link(YourExecutable)
+```
+
+## Supported environments
+
+Supported mXparser frameworks
+
+The original compatibility matrix lists:
+
+- Java 6+
+- Android: tested with mXparser compiled using JDK 1.7
+- .NET Framework 2+ / Mono CLS; .NET Core 1+; .NET Standard 1+; .NET PCL
+- Xamarin
+- C++: supported since mXparser v6.1.0
+
+See the [release history](#releases) for newer distributions and supported build targets.
+
+## Capabilities
+
+### Mathematical capabilities
+
+- **Basic operators**, i.e.: +, -, *, ^, !
+- **[Boolean logic](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/BooleanAlgebra.html)** operators i.e.: or, and, xor
+- **[Binary relations](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/BinaryRelations.html)** i.e.: =, <, >
+- **[Mathematical functions](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.html)** (large library of 1-arg, 2-arg, 3-arg - functions) i.e.: sin, cos, Stirling numbers, log, inverse functions
+- **[Constants](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/MathConstants.html)** (large library), i.e.: pi, e, golden ratio
+- **Variadic functions**, i.e.: [greatest common divisor](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.html#gcd-int...-)
+- **[Iterated summation and product operators](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.html#sigmaSummation-org.mariuszgromada.math.mxparser.Expression-org.mariuszgromada.math.mxparser.Argument-double-double-double-)**
+- **[Differentiation and integration](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/NumericalAnalysis.html)**
+
+### Customization and expression tooling
+
+- **[user defined constants](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Constant.html)** and arguments, both free - and dependent on other arguments + possibility of use in functions
+- **[user defined functions](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Function.html)** (both free and depended)
+- **[user defined recursive arguments](http://mathparser.org/api/org/mariuszgromada/math/mxparser/RecursiveArgument.html)** + simple (controlled) recursion (1 recursive argument)
+- **[user defined recursive functions / expressions (any)](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Function.html#getRecursiveMode--)** - complex, many arguments, no limitation 
+- **[internal syntax checking](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Expression.html#checkSyntax--)**
+- **[internal help](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Expression.html#getHelp--)**
+- other useful functionalities, i.e.: [computing time](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Expression.html#getComputingTime--), expression description.
+
+## Releases
+
+**Current version in this README: 6.1.2 (2026-10-25).** See the release notes below for security, compatibility, and major improvements.
+
+### v.6.1.2 (2026-10-25): Sagitara: Security and performance maintenance release
 
 - **Security fix:** Addresses GHSA-7fcj-crmh-pvhp, a quadratic-time numeric literal tokenization issue that could cause excessive CPU consumption when checking or evaluating expressions containing very long numeric literals.
 - **Performance improvement:** Replaces repeated numeric-prefix validation with efficient scanning in Java, C#, and C++, including related implied multiplication and fraction recognition paths.
 - **Compatibility:** Preserves the existing public API and expression syntax, with additional regression coverage.
 
-## v.6.1.1 (2026-05-17): Sagitara: maintenance release with bug fixes and improvements
+### v.6.1.1 (2026-05-17): Sagitara: Maintenance release: bug fixes and improvements
 
 - [**Warm-up before concurrent use**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/331)
 
-### Bugs fixed: #333, #334
+#### Bugs fixed: #333, #334
 - [**Function h(x) = h(h(0)), recursion problem**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/333)
 - [**n-th derivative bug**]( https://github.com/mariuszgromada/MathParser.org-mXparser/issues/334)
 
 
-## v.6.1.0 (2024-10-19): mXparser supports C++, Chinese Translation
+### v.6.1.0 (2024-10-19): mXparser supports C++, Chinese Translation
 - [**C++ support**](https://mathparser.org/mxparser-tutorial/cpp-support-in-mxparser-key-assumptions/),
 - [**mXparser in Chinese**](https://mathparser.org/mxparser-tutorial/mxparser-in-chinese/),
 
-### Translations:
+#### Translations:
 - [**mXparser in French**](https://mathparser.org/mxparser-tutorial/mxparser-in-french/), 
 - [**mXparser in German**](https://mathparser.org/mxparser-tutorial/mxparser-in-german/), 
 
-## v.6.0.0 (2024-05-19): Translations (French, German, Italian, Polish, Portuguese, Spanish) + New operators
+### v.6.0.0 (2024-05-19): Translations (French, German, Italian, Polish, Portuguese, Spanish) + New operators
 
-### Translations:
+#### Translations:
 - [**mXparser in French**](https://mathparser.org/mxparser-tutorial/mxparser-in-french/), 
 - [**mXparser in German**](https://mathparser.org/mxparser-tutorial/mxparser-in-german/), 
 - [**mXparser in Italian**](https://mathparser.org/mxparser-tutorial/mxparser-in-italian/), 
@@ -38,17 +167,17 @@
 - [**mXparser in Spanish**](https://mathparser.org/mxparser-tutorial/mxparser-in-spanish/), 
 - https://github.com/mariuszgromada/MathParser.org-mXparser/issues/303 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/304 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/305 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/306 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/307 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/308
 
-### New bitwise operators:
+#### New bitwise operators:
 - [**Bitwise NAND, Bitwise NOR, Bitwise XOR**](https://mathparser.org/mxparser-tutorial/bitwise-operators/)
 - https://github.com/mariuszgromada/MathParser.org-mXparser/issues/152
 
-### New division operators:
+#### New division operators:
 - [**Central & Eastern Europe ":", Integer division (quotient) "\\"**](https://mathparser.org/mxparser-tutorial/simple-expressions/)
 - https://github.com/mariuszgromada/MathParser.org-mXparser/issues/318 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/285
 
-### New binaries: .NET8, jdk20, jdk21, jdk22
+#### New binaries: .NET8, jdk20, jdk21, jdk22
 
-## v.5.2.1 (2023-02-08): Orion: Improvement and standardization of descriptions and messages. Definition of your own translations. Exporting help in multiple formats. Clones for thread safe. Performance improvement.
+### v.5.2.1 (2023-02-08): Orion: Improvement and standardization of descriptions and messages. Definition of your own translations. Exporting help in multiple formats. Clones for thread safe. Performance improvement.
 - [**Improvement and standardization of built-in elements description**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/290), click to see [**usage example**](https://mathparser.org/mxparser-tutorial/validating-string-model/)
 - [**Improvement and standardization of error messages**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/286), click to see [**usage example**](https://mathparser.org/mxparser-tutorial/validating-string-model/)
 - [**Definition of your own translations**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/294), click to see [**usage example**](https://mathparser.org/mxparser-tutorial/configuration-of-your-own-translation/)
@@ -62,145 +191,217 @@
 - [**Bug fixed #292 Implied Multiplication bug when blank character separates**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/292) 
 - [**Bug fixed #283 Unnecessary newline at the end in getErrorMessage()**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/283) 
 - [**Bug fixed #284 Unnecessary space in function expression string returned by getErrorMessage()**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/284) 
-- [**Bug fixed #297 Claculation Steps Register fix - commas / parenthesis / missing parts related to user arguments**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/297)
+- [**Bug fixed #297 Calculation Steps Register fix - commas / parenthesis / missing parts related to user arguments**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/297)
 
-# v.5.1 Libris: Implied Multiplication, Unicode Math Symbols, Additional Probability Distributions, Calculation Steps Register, Serialization Support
+### v.5.1 Libris: Implied Multiplication, Unicode Math Symbols, Additional Probability Distributions, Calculation Steps Register, Serialization Support
 - [**Implied Multiplication**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/243), click to see [usage example](https://mathparser.org/mxparser-tutorial/implied-multiplication/)
 - [**Unicode Math Symbols**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/249), click to see [usage example](https://mathparser.org/mxparser-tutorial/unicode-math/)
 - [**Calculation Steps Register**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/260), click to see [usage example](https://mathparser.org/mxparser-tutorial/calculation-steps-register)
 - [**Serialization Support**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/207), click to see [usage example](https://mathparser.org/mxparser-tutorial/serialization-deserialization/)
 - [**An Attempt To Fix Expression String**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/254)
-- [**Student's t-distribution**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/256): Probabilisty Density Function, Cumulative Distribution Function, Quantile Function  
-- [**Chi-Squared Distribution**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/257): Probabilisty Density Function, Cumulative Distribution Function, Quantile Function  
-- [**F-Snedecor Distribution**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/238): Probabilisty Density Function, Cumulative Distribution Function, Quantile Function  
+- [**Student's t-distribution**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/256): Probability Density Function, Cumulative Distribution Function, Quantile Function  
+- [**Chi-Squared Distribution**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/257): Probability Density Function, Cumulative Distribution Function, Quantile Function  
+- [**F-Snedecor Distribution**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/238): Probability Density Function, Cumulative Distribution Function, Quantile Function  
 - Minor Bug fixing: [259](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/259), [258](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/258), [252](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/252), [261](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/261), [262](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/262), [263](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/263), [271](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/271), [269](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/269), [268](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/268), [266](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/266), [265](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/265)
 - Regression tests refactoring
 
-# Package installation
+## Examples: mXparser in a nutshell
 
-## Nuget - Packgae Manager
+The following examples illustrate the range of mXparser, from basic arithmetic to user-defined expressions and numerical calculus.
 
-```
-Install-Package MathParser.org-mXparser -Version 6.1.2
-```
+### Demo animations
 
-## Nuget – .NET CLI
+**Java**
 
-```
-dotnet add package MathParser.org-mXparser --version 6.1.2
-```
+![mXparser Java demo](http://mathparser.org/wp-content/uploads/2017/05/mxparser-demo-r2.gif)
 
-## Nuget – Package Reference
+**C#**
 
-```
-<PackageReference Include="MathParser.org-mXparser" Version="6.1.2"/>
-```
+![mXparser C# demo](http://mathparser.org/wp-content/uploads/2017/05/mxparser-demo-vs-r2.gif)
 
-## Maven - Dependency
+### Code examples
 
-```
-<dependency>
-    <groupId>org.mariuszgromada.math</groupId>
-    <artifactId>MathParser.org-mXparser</artifactId>
-    <version>6.1.2</version>
-</dependency>
+#### Basic calculation
+![calc](http://mathparser.org/wp-content/uploads/2017/05/calc.png)
+
+```java
+Expression e = new Expression("2+3");
+e.calculate();
 ```
 
-## Maven - Gradle
+#### Parentheses and operator precedence
+![parenth](http://mathparser.org/wp-content/uploads/2017/05/parenth.png)
 
-```
-implementation 'org.mariuszgromada.math:MathParser.org-mXparser:6.1.2'
-```
-
-## Maven – Gradle (Kotlin)
-
-```
-implementation("org.mariuszgromada.math:MathParser.org-mXparser:6.1.2")
+```java
+Expression e = new Expression("2+(3-5)^2");
+e.calculate();
 ```
 
-## CMake - Dependency / FetchContent 
+#### Built-in constants
+![const](http://mathparser.org/wp-content/uploads/2017/05/const.png)
 
-```
-include(FetchContent)
-FetchContent_Declare(
-   MathParserOrgMxParser
-   GIT_REPOSITORY https://github.com/mariuszgromada/MathParser.org-mXparser.git
-   GIT_TAG v.6.1.2
-   SOURCE_SUBDIR CURRENT/cpp/lib
-)
-FetchContent_MakeAvailable(MathParserOrgMxParser)
-mxparser_link(YourExecutable)
+```java
+Expression e = new Expression("2*pi");
+e.calculate();
 ```
 
-## NPM
 
-    $ npm i mathparser.org-mxparser
+#### User-defined constants
+![const-user](http://mathparser.org/wp-content/uploads/2017/05/const-user.png)
 
-[![INFIMA](https://mathparser.org/wp-content/uploads/2022/04/INFIMA-logo-small.png)](https://payhip.com/INFIMA)
-* or consider donation: **[DONATION](https://mathparser.org/donate/)**
+```java
+Constant tau = new Constant("tau = 2*pi");
+Expression e = new Expression("3*tau", tau);
+e.calculate();
+```
 
-# Customer First, Value Next – The Executive Playbook for AI-Driven Omnichannel Personalization and Customer-Centric Growth
-[![CustomerFirst](https://customerfirst.tech/wp-content/uploads/2026/01/Customer-First-Value-Next.png)](https://customerfirst.tech/)
-[![CustomerFirst](http://customerfirst.tech/wp-content/uploads/2026/05/Customer-First-Value-Next-On-Goodreads-20260524.jpg)](https://www.goodreads.com/author/list/66829237.Mariusz_Gromada)
+#### Built-in functions
+![sinx](http://mathparser.org/wp-content/uploads/2017/05/sinx.png)
 
-### >>> [Click Here to see the Playbook](https://customerfirst.tech/) <<<
+```java
+Expression e = new Expression("sin(2*pi)");
+e.calculate();
+```
 
-### Audiobook
-- ↗️ [Google Play Books](https://play.google.com/store/audiobooks/details/Mariusz_Gromada_Customer_First_Value_Next?id=AQAAAEB6alMqOM)
-- ↗️ [Apple Books](https://books.apple.com/us/audiobook/customer-first-value-next-the-executive-playbook-for/id6779149158)
-- ↗️ [Audiobooks Now](https://www.audiobooksnow.com/audiobook/customer-first-value-next/10469106/)
-- ↗️ [Libro.FM](https://libro.fm/audiobooks/9788397899858-customer-first-value-next)
-- ↗️ [Chirp](https://www.chirpbooks.com/audiobooks/customer-first-value-next-by-mariusz-gromada)
+#### Variadic functions
+![fun-variadic](http://mathparser.org/wp-content/uploads/2017/05/fun-variadic.png)
 
-### eBook
-- ↗️ [Google Play Books](https://play.google.com/store/books/details/Mariusz_Gromada_Customer_First_Value_Next?id=Mk7sEQAAQBAJ)
-- ↗️ [Apple Books](http://books.apple.com/us/book/id6782600570)
-- ↗️ [Amazon](https://www.amazon.com/dp/B0GB26C5F3)
+```java
+Expression e = new Expression("gcd(2,5,10,30)");
+e.calculate();
+```
 
-### Print book / eBook
-- ↗️ [Amazon US](https://www.amazon.com/dp/8397899812)
-- ↗️ [Amazon UK](https://www.amazon.co.uk/dp/8397899812)
-- ↗️ [Amazon DE](https://www.amazon.de/dp/8397899812)
-- ↗️ [Amazon PL](https://www.amazon.pl/dp/8397899812)
+#### User-defined arguments
+![arg-free](http://mathparser.org/wp-content/uploads/2017/05/arg-free.png)
 
-### Customer First. Value Next. - Worth reading.
-- ↗️ [Customer First. Value Next. – Explore Key Concepts](https://customerfirst.tech/wp-content/uploads/2026/01/Mariusz-Gromada-Customer-First-Value-Next-Key-Concepts.pdf)
-- ↗️ [Customer First. Value Next. – Look inside the book](https://customerfirst.tech/wp-content/uploads/2026/01/Mariusz-Gromada-Customer-First-Value-Next-Parts.pdf)
-- ↗️ [Customer First, Value Next Earns a 5-Star Review and Finalist Award from Readers’ Favorite](https://customerfirst.tech/wp-content/uploads/2026/09/readersfavorite-com-customer-first-value-next-book-review-and-award.pdf)
-- ↗️ [Mariusz Gromada in conversation with Adam Jadczak for ITwiz: “How well-used data builds relationships and creates business value”](https://customerfirst.tech/wp-content/uploads/2026/09/how-well-used-data-builds-relationships-and-business-value-itwiz-pl.pdf)
+```java
+Argument x = new Argument("x = 5");
+Expression e = new Expression("sin(x)", x);
+e.calculate();
+```
 
-# Scalar Scientific Calculator, Charts & Scripts
+#### Dependent arguments
+![arg-dep](http://mathparser.org/wp-content/uploads/2017/05/arg-dep.png)
 
-[![Scalar-Lite](https://scalarmath.org/wp-content/uploads/2022/05/scalar-presentation-web-small.png)](https://scalarmath.org/)
+```java
+Argument x = new Argument("x = 5");
+Argument y = new Argument("y = 2*x", x);
+Expression e = new Expression("sin(y)", y);
+e.calculate();
+```
 
-### >>> [Click Here to see Scalar in action](https://youtu.be/HUlEUaioogQ) <<<
+#### Conditional expressions
+![if-then](http://mathparser.org/wp-content/uploads/2017/05/if-then.png)
 
-### Scalar - Free version
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300">](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite&amp;pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
+```java
+Argument x = new Argument("x = 5");
+Expression e = new Expression("if(sin(x) > 5, 1, 0)", x);
+e.calculate();
+```
 
-### Scalar Pro - Full paid version
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300">](https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro&amp;pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
+#### Boolean expressions
+![true-false](http://mathparser.org/wp-content/uploads/2017/05/true-false.png)
 
-# MathParser.org-mXparser
+```java
+Expression e = new Expression("5=6");
+e.calculate();
+```
 
-**mXparser** is **a highly flexible parser of mathematical expressions provided as text**. Software delivers easy to use API for JAVA, C# .NET, TypeScript and JavaScript. 
+#### Binary relations
 
-# Supported frameworks
-![mXparser frameworks](https://github.com/futurearchitec/tempresources/raw/main/supported-frameworks.png)
-- JAVA: 6+
-- Android - tested with mxparser compiled using jdk 1.7
-- .NET Framework (2+) / MONO CLS, .NET Core: 1+, .NET Standard: 1+, .NET PCL
-- Xamarin
-- TypeScript, JavaScript
-- Chrome, Firefox, MS Edge, Safari
-- nodeJS
+```java
+Expression e = new Expression("5 <= 6");
+e.calculate();
+```
 
-## **Tutorial**
-The tutorial consists of c.a. 180 live examples from c.a. 40 sections. Each of the examples can be copied and run on your own environment. In addition, mXparser provides an extensive collection of over 500 built-in math functions, expressions and symbols. Familiarize yourself with the scope and the syntax. Live testing is the best way to learn. Good luck! 
-### [**Using internal help**](https://mathparser.org/mxparser-tutorial/using-internal-help/)
+### Iterated operators and calculus
+
+#### Summation
+![sum](http://mathparser.org/wp-content/uploads/2017/05/sum.png)
+
+```java
+Expression e = new Expression("sum(i, 1, 10, 2*i^2 + pi)");
+e.calculate();
+```
+
+#### Products with fractional steps
+![prod](http://mathparser.org/wp-content/uploads/2017/05/prod.png)
+
+```java
+Expression e = new Expression("prod(i, 1, 5, i, 0.5)");
+e.calculate();
+```
+
+#### Alternating series
+```java
+Argument x = new Argument("x = pi/2");
+Expression e = new Expression("sum(n,0,10,(-1)^n*(x^(2*n+1))/(2*n+1)!)", x);
+e.calculate();
+```
+
+#### Differentiation
+![der](http://mathparser.org/wp-content/uploads/2017/05/der.png)
+
+```java
+Argument x = new Argument("x = pi/2");
+Expression e = new Expression("cos(x)-der(sin(x), x)", x);
+e.calculate();
+```
+
+#### Definite integrals
+![int](http://mathparser.org/wp-content/uploads/2017/05/int.png)
+
+```java
+Expression e = new Expression("2*int(sqrt(1-x^2), x, -1, 1)");
+e.calculate();
+```
+
+### User-defined functions and recursion
+
+#### User-defined functions
+![fun-user](http://mathparser.org/wp-content/uploads/2017/05/fun-user.png)
+
+```java
+Function f = new Function("f(x,y) = sin(x) + cos(y)");
+f.calculate(1,2);
+Expression e = new Expression("f(1,2) - 10", f);
+e.calculate();
+```
+
+#### Recursive factorial
+![recur](http://mathparser.org/wp-content/uploads/2017/05/recur.png)
+
+```java
+Function f = new Function("f(n) = if( n>0, n*f(n-1), 1)");
+f.calculate(5);
+```
+
+#### Recursion with multiple parameters
+```java
+Function Cnk = new Function("Cnk(n,k) = if(k>0, if(k<n, Cnk(n-1,k-1)+Cnk(n-1,k), 1), 1)");
+Cnk.calculate(5, 2);
+```
+
+### Validation and diagnostics
+
+#### Syntax checking and error reporting
+![syntax](http://mathparser.org/wp-content/uploads/2017/05/syntax.png)
+
+```java
+Expression e = new Expression("2+1/a");
+e.checkSyntax();
+mXparser.consolePrintln(e.getErrorMessage());
+```
+
+## Tutorial and reference
+
+### Tutorial
+
+The tutorial consists of approximately 180 live examples from approximately 40 sections. Each of the examples can be copied and run on your own environment. In addition, mXparser provides an extensive collection of over 500 built-in math functions, expressions and symbols. Familiarize yourself with the scope and the syntax. Live testing is the best way to learn. Good luck! 
+#### [**Using internal help**](https://mathparser.org/mxparser-tutorial/using-internal-help/)
 - Full help content
 - In-line help searching
-### [**Simple expressions**](https://mathparser.org/mxparser-tutorial/simple-expressions/)
+#### [**Simple expressions**](https://mathparser.org/mxparser-tutorial/simple-expressions/)
 - Simple calculation
 - Changing expression string
 - Using operators
@@ -208,7 +409,7 @@ The tutorial consists of c.a. 180 live examples from c.a. 40 sections. Each of t
 - Using numbers in scientific notation
 - Percent sign
 - Leading zeros
-### [**Implied multiplication**](https://mathparser.org/mxparser-tutorial/implied-multiplication/)
+#### [**Implied multiplication**](https://mathparser.org/mxparser-tutorial/implied-multiplication/)
 - Numbers and parenthesis
 - Numbers and constants / arguments
 - Numbers and constants / arguments and parenthesis
@@ -216,26 +417,26 @@ The tutorial consists of c.a. 180 live examples from c.a. 40 sections. Each of t
 - Implied multiplication and possible ambiguity
 - Implied multiplication and list of tokens
 - Enable / disable implied multiplication
-### [**Evaluating relations**](https://mathparser.org/mxparser-tutorial/evaluating-relations/)
+#### [**Evaluating relations**](https://mathparser.org/mxparser-tutorial/evaluating-relations/)
 - Binary relation “=”
 - Binary relation “<“
 - Boolean operator “OR”
 - Boolean operator “AND”
-### [**Using built-in functions**](https://mathparser.org/mxparser-tutorial/using-built-in-functions/)
+#### [**Using built-in functions**](https://mathparser.org/mxparser-tutorial/using-built-in-functions/)
 - Unary function
 - Binary function
 - Function with 3 arguments
 - Function with n-arguments
 - Function with even number of arguments
-### [**User defined constants**](https://mathparser.org/mxparser-tutorial/user-defined-constants/)
+#### [**User defined constants**](https://mathparser.org/mxparser-tutorial/user-defined-constants/)
 - Defining constant – various options
-### [**User defined arguments**](https://mathparser.org/mxparser-tutorial/user-defined-arguments/)
+#### [**User defined arguments**](https://mathparser.org/mxparser-tutorial/user-defined-arguments/)
 - Dealing with free arguments
 - Defining dependent arguments
 - Implementing your own Argument Extension
 - Getting list of missing user defined arguments
 - Possible conflict between Implied Multiplication and getting list of missing user defined arguments + recommended solutions
-### [**User defined functions**](https://mathparser.org/mxparser-tutorial/user-defined-functions/)
+#### [**User defined functions**](https://mathparser.org/mxparser-tutorial/user-defined-functions/)
 - Fast function definition (performance of creation)
 - Handy function constructor, but slower proces of function creation (performance of creation slower, but calculation the same)
 - Function with more parameters
@@ -243,52 +444,52 @@ The tutorial consists of c.a. 180 live examples from c.a. 40 sections. Each of t
 - Implementing your own Function Extension
 - Getting list of missing user defined functions
 - Possible conflict between Implied Multiplication and getting list of missing user defined functions + recommended solutions
-### [**Expression pre-compilation**](https://mathparser.org/mxparser-tutorial/expression-pre-compilation/)
+#### [**Expression pre-compilation**](https://mathparser.org/mxparser-tutorial/expression-pre-compilation/)
 - What is pre-compilation?
 - When is pre-compilation done?
 - When is pre-compilation done again?
 - An example of bad practice in computing the value of an expression for a changing argument value
 - An example of good practice in computing the value of an expression for a changing argument value
-### [**Variadic user defined functions**](https://mathparser.org/mxparser-tutorial/variadic-user-defined-functions/)
+#### [**Variadic user defined functions**](https://mathparser.org/mxparser-tutorial/variadic-user-defined-functions/)
 - Function returning number of parameters provided
 - Function returning sum of first and last parameter provided
 - Function returning parameter at position defined by the first parameter
 - Function returning sum of all parameters squared
 - Implementing your own Variadic Function Extension
-### [**“if” and “iff” functions**](https://mathparser.org/mxparser-tutorial/if-and-iff-functions/)
+#### [**“if” and “iff” functions**](https://mathparser.org/mxparser-tutorial/if-and-iff-functions/)
 - Mechanics of the if function
 - “if” function and arguments
 - “if” function in user defined function
 - Mechanics of the “iff” function
 - iff function is not limited in number of cases
-### [**Summation & Product iterated operators**](https://mathparser.org/mxparser-tutorial/summation-product-iterated-operators/)
+#### [**Summation & Product iterated operators**](https://mathparser.org/mxparser-tutorial/summation-product-iterated-operators/)
 - SIGMA summation operator
 - PI product operator
 - SIGMA summation operator – Approximating sin(x) by Taylor series
 - SIGMA summation operator – Approximating pi value by integrating sqrt(1-x^2)
-### [**Derivatives & Integrals**](https://mathparser.org/mxparser-tutorial/derivatives-integrals/)
+#### [**Derivatives & Integrals**](https://mathparser.org/mxparser-tutorial/derivatives-integrals/)
 - General derivative
 - Left / right derivative
 - Derivative from more complex function
 - Derivative – alternative syntax
 - Integrals – calculating pi by integration sqrt(1-x^2)
-### [**Solving equation f(x) = 0**](https://mathparser.org/mxparser-tutorial/solving-equation-fx-0/)
+#### [**Solving equation f(x) = 0**](https://mathparser.org/mxparser-tutorial/solving-equation-fx-0/)
 - Solve 2x-4 = 0 for x in [0, 10]
 - Solve cos(x) = 0 for x in [0, pi]
 - Solve cos(x) = 0 for x in [pi, pi] (root not bracketed)
 - Solve x-y = 0 for x in [0, 10] and y = 4
 - Solve sin'(x) = 0 for x in [0, pi]
-### [**Prime Numbers**](https://mathparser.org/mxparser-tutorial/prime-numbers/)
+#### [**Prime Numbers**](https://mathparser.org/mxparser-tutorial/prime-numbers/)
 - Primality test function
 - Primes counting function
 - Using built-in primes cache to accelerate calculations
 - Estimating number of primes using Offset logarithmic integral function
 - Prime factorization
-### [**Built-in constants**](https://mathparser.org/mxparser-tutorial/built-in-constants/)
+#### [**Built-in constants**](https://mathparser.org/mxparser-tutorial/built-in-constants/)
 - Using built-in constants
 - Estimating Moon gravitational acceleration
 - Getting list of constants
-### [**Built-in Units**](https://mathparser.org/mxparser-tutorial/built-in-units/)
+#### [**Built-in Units**](https://mathparser.org/mxparser-tutorial/built-in-units/)
 - Units of length / distance
 - Units of time
 - Units of information
@@ -296,14 +497,14 @@ The tutorial consists of c.a. 180 live examples from c.a. 40 sections. Each of t
 - Express 4 feet in inches
 - Express in square kilometers the area of a rectangle measuring 100 meters by 2 kilometers
 - List of supported units
-### [**Built-in Metric prefixes**](https://mathparser.org/mxparser-tutorial/metric-prefixes/)
+#### [**Built-in Metric prefixes**](https://mathparser.org/mxparser-tutorial/metric-prefixes/)
 - Example: 10 Millions / Kilo
 - List of supported metric prefixes
-### [**PDF, CDF and Quantile functions**](https://mathparser.org/mxparser-tutorial/pdf-cdf-and-quantile-functions/)
+#### [**PDF, CDF and Quantile functions**](https://mathparser.org/mxparser-tutorial/pdf-cdf-and-quantile-functions/)
 - Expected value estimation using Probability Distribution Function
 - Probability estimation using Cumulative Distribution Function – the law of 3*SIGMA
 - Calculating quantiles using Inverse Cumulative Distribution Function – males height example assuming males height distribution N(170, 15)
-### [**Random numbers**](https://mathparser.org/mxparser-tutorial/random-numbers/)
+#### [**Random numbers**](https://mathparser.org/mxparser-tutorial/random-numbers/)
 - Random number from uniform continuous distribution
 - Random number from uniform discrete distribution
 - Random number from normal distribution
@@ -311,30 +512,30 @@ The tutorial consists of c.a. 180 live examples from c.a. 40 sections. Each of t
 - Estimating mean of Normal distribution
 - Estimating standard deviation of Normal distribution
 - Estimating variance of Normal distribution
-### [**Built-in Random Variables**](https://mathparser.org/mxparser-tutorial/built-in-random-variables/)
+#### [**Built-in Random Variables**](https://mathparser.org/mxparser-tutorial/built-in-random-variables/)
 - Random integer
 - Random integer N: -10^k <= N <= 10^k for k = 1, 2, …,9
 - Random natural number
 - Random natural number N <= 10^k for k = 1, 2, …,9
 - Uniform continuous distribution U(0,1)
 - Normal distribution N(0,1)
-### [**User defined Random Variables**](https://mathparser.org/mxparser-tutorial/user-defined-random-variables/)
+#### [**User defined Random Variables**](https://mathparser.org/mxparser-tutorial/user-defined-random-variables/)
 - Dependent argument as user defined random variable
 - User defined function as user defined random variable – random walk example
-### [**Bitwise Operators**](https://mathparser.org/mxparser-tutorial/bitwise-operators/)
+#### [**Bitwise Operators**](https://mathparser.org/mxparser-tutorial/bitwise-operators/)
 - Bitwise unary complement
 - Bitwise AND
 - Bitwise exclusive OR
 - Bitwise inclusive OR
 - Signed left / right shift
-### [**Fractions**](https://mathparser.org/mxparser-tutorial/fractions/)
+#### [**Fractions**](https://mathparser.org/mxparser-tutorial/fractions/)
 - Fraction (proper) as Number Literal
 - Improper Fraction as Number Literal
 - Fraction (Mixed Number) as Number Literal
 - Fraction (Mixed Numer) and Improper Fraction in one Number Literal
 - Operations on Fractions
 - Represent double as Fraction
-### [**Various numeral systems**](https://mathparser.org/mxparser-tutorial/various-numeral-systems/)
+#### [**Various numeral systems**](https://mathparser.org/mxparser-tutorial/various-numeral-systems/)
 - Binary number
 - Octal number 
 - Hexadecimal number
@@ -342,14 +543,14 @@ The tutorial consists of c.a. 180 live examples from c.a. 40 sections. Each of t
 - Unary zero
 - Base 1 – 36 number literals
 - Base N numeral system
-### [**Fast (limited) user defined recursion**](https://mathparser.org/mxparser-tutorial/fast-limited-user-defined-recursion/)
+#### [**Fast (limited) user defined recursion**](https://mathparser.org/mxparser-tutorial/fast-limited-user-defined-recursion/)
 - Fibonacci numbers using fast recursion
-### [**User defined recursion – not limited**](https://mathparser.org/mxparser-tutorial/user-defined-recursion-not-limited/)
+#### [**User defined recursion – not limited**](https://mathparser.org/mxparser-tutorial/user-defined-recursion-not-limited/)
 - Fibonacci numbers using user defined recursive function
 - Number of recursive parameters is not limited – binomial coefficient definition using user defined recursive function
 - Mixing function parameters – part causing recursive calls, other part as ‘typical’ parameter. Below example is presenting definition of Chebyshev polynomial using recursive function.
 - Indirect recursion – approximating sin(x) and cos(x)
-### [**Unicode math**](https://mathparser.org/mxparser-tutorial/unicode-math/)
+#### [**Unicode math**](https://mathparser.org/mxparser-tutorial/unicode-math/)
 - The square root √
 - The square root of the square root √√
 - The square root and parenthesis √()
@@ -359,33 +560,33 @@ The tutorial consists of c.a. 180 live examples from c.a. 40 sections. Each of t
 - Show all Unicode built-in keywords
 - Enable / disable Unicode built-in keywords
 - List of Unicode symbols that grammar accepts
-### [**Working with NaN – Not-a-Number**](https://mathparser.org/mxparser-tutorial/working-with-nan-not-a-number/)
+#### [**Working with NaN – Not-a-Number**](https://mathparser.org/mxparser-tutorial/working-with-nan-not-a-number/)
 - NaN in condition
 - NaN symbol
 - First non-NaN value
-### [**Radians Mode / Degrees Mode**](https://mathparser.org/mxparser-tutorial/radians-mode-degrees-mode/)
+#### [**Radians Mode / Degrees Mode**](https://mathparser.org/mxparser-tutorial/radians-mode-degrees-mode/)
 - Basic trigonometric function
 - Inverse trigonometric function
 - Using units of angle being in radians mode
-### [**Calculation Steps Register**](https://mathparser.org/mxparser-tutorial/calculation-steps-register/)
+#### [**Calculation Steps Register**](https://mathparser.org/mxparser-tutorial/calculation-steps-register/)
 - Simple Expression
 - Dependent User Argument
 - User Function
 - Expression referencing User Argument and User Function
-### [**Inspecting calculation process**](https://mathparser.org/mxparser-tutorial/inspecting-calculation-process/)
+#### [**Inspecting calculation process**](https://mathparser.org/mxparser-tutorial/inspecting-calculation-process/)
 - Setting the verbose mode
 - Syntax checking
 - Lexical syntax checking
 - Getting computing time
-### [**Playing with expression tokens**](https://mathparser.org/mxparser-tutorial/playing-with-expression-tokens/)
+#### [**Playing with expression tokens**](https://mathparser.org/mxparser-tutorial/playing-with-expression-tokens/)
 - Printing expression tokens
 - Using tokens to print expression in a fancy way
 - Playing with invalid tokens
-### [**Built-in tokens (key words) manipulation**](https://mathparser.org/mxparser-tutorial/built-in-tokens-key-words-manipulation/)
+#### [**Built-in tokens (key words) manipulation**](https://mathparser.org/mxparser-tutorial/built-in-tokens-key-words-manipulation/)
 - Removing built-in tokens
 - Modifying built-in tokens
 - Overriding built-in tokens
-### [**Smart rounding settings**](https://mathparser.org/mxparser-tutorial/smart-rounding-settings/)
+#### [**Smart rounding settings**](https://mathparser.org/mxparser-tutorial/smart-rounding-settings/)
 - A few words on Floating Point Math
 - Why mXparser is based on the double data type?
 - Smart rounding options available in mXparser
@@ -394,14 +595,14 @@ The tutorial consists of c.a. 180 live examples from c.a. 40 sections. Each of t
 - Example - Only Unit In The Last Place Rounding option is active
 - Example - Only Almost Integer Rounding option is active
 - Example - None of the rounding options are active
-### [**Efficient calculations in the loops**](https://mathparser.org/mxparser-tutorial/efficient-calculations-in-loops/)
+#### [**Efficient calculations in the loops**](https://mathparser.org/mxparser-tutorial/efficient-calculations-in-loops/)
 - User expression in the loop + output
 - User function in the loop + output
 - User argument (dependent) in the loop + output
 - User expression in the loop – Performance
 - User function in the loop – Performance
 - User argument (dependent) in the loop – Performance
-### [**Extensive list of settings**](https://mathparser.org/mxparser-tutorial/extensive-list-of-settings/)
+#### [**Extensive list of settings**](https://mathparser.org/mxparser-tutorial/extensive-list-of-settings/)
 - Degrees / Radians Mode
 - Attempt To Fix Expression String Mode
 - Primes Cache
@@ -423,7 +624,7 @@ The tutorial consists of c.a. 180 live examples from c.a. 40 sections. Each of t
 - Random Generator Selection
 - Maximum Threads Number
 - Default Settings
-### [**Serialization & Deserialization**](https://mathparser.org/mxparser-tutorial/serialization-deserialization/)
+#### [**Serialization & Deserialization**](https://mathparser.org/mxparser-tutorial/serialization-deserialization/)
 - SerializationUtils class
 - Binary serialization SECURITY WARNING
 - Enabling / Disabling binary serialization
@@ -431,230 +632,160 @@ The tutorial consists of c.a. 180 live examples from c.a. 40 sections. Each of t
 - Expression serialization / deserialization from / to String
 - Expression serialization / deserialization from / to File
 - Serialization / Deserialization of complex objects
-## [>>> Click to learn from examples <<<](http://mathparser.org/mxparser-tutorial/)
+**[Explore all tutorial examples](http://mathparser.org/mxparser-tutorial/)
 
-## **Math Collection**
+### Math Collection
 mXparser provides a rich collection of built-in math functions, math expressions, and math symbols. Familiarize yourself with the scope and the syntax. Math collection internal help is also available directly from the software – see the tutorial and the API documentation for all the details.
-### - [**Operators**](https://mathparser.org/mxparser-math-collection/operators/)
-### - [**Binary Relations**](https://mathparser.org/mxparser-math-collection/binary-relations/)
-### - [**Boolean Operators**](https://mathparser.org/mxparser-math-collection/boolean-operators/)
-### - [**Bitwise Operators**](https://mathparser.org/mxparser-math-collection/bitwise-operators/)
-### - [**Unary Functions**](https://mathparser.org/mxparser-math-collection/unary-functions/)
-### - [**Binary Functions**](https://mathparser.org/mxparser-math-collection/binary-functions/)
-### - [**3-args Functions**](https://mathparser.org/mxparser-math-collection/3-args-functions/)
-### - [**Variadic Functions**](https://mathparser.org/mxparser-math-collection/variadic-functions/)
-### - [**Random Variables**](https://mathparser.org/mxparser-math-collection/random-variables/)
-### - [**Iterated Operators**](https://mathparser.org/mxparser-math-collection/iterated-operators/)
-### - [**Calculus Operators**](https://mathparser.org/mxparser-math-collection/calculus-operators/)
-### - [**Mathematical Constants**](https://mathparser.org/mxparser-math-collection/constants/)
-### - [**Physical Constants**](https://mathparser.org/mxparser-math-collection/physical-constants/)
-### - [**Astronomical Constants**](https://mathparser.org/mxparser-math-collection/astronomical-constants/)
-### - [**Metric prefixes**](https://mathparser.org/mxparser-math-collection/metric-prefixes/)
-### - [**Units**](https://mathparser.org/mxparser-math-collection/units/)
-### - [**Parser Symbols**](https://mathparser.org/mxparser-math-collection/parser-symbols/)
-### - [**Number formats**](https://mathparser.org/mxparser-math-collection/number-formats/)
+- [**Operators**](https://mathparser.org/mxparser-math-collection/operators/)
+- [**Binary Relations**](https://mathparser.org/mxparser-math-collection/binary-relations/)
+- [**Boolean Operators**](https://mathparser.org/mxparser-math-collection/boolean-operators/)
+- [**Bitwise Operators**](https://mathparser.org/mxparser-math-collection/bitwise-operators/)
+- [**Unary Functions**](https://mathparser.org/mxparser-math-collection/unary-functions/)
+- [**Binary Functions**](https://mathparser.org/mxparser-math-collection/binary-functions/)
+- [**3-args Functions**](https://mathparser.org/mxparser-math-collection/3-args-functions/)
+- [**Variadic Functions**](https://mathparser.org/mxparser-math-collection/variadic-functions/)
+- [**Random Variables**](https://mathparser.org/mxparser-math-collection/random-variables/)
+- [**Iterated Operators**](https://mathparser.org/mxparser-math-collection/iterated-operators/)
+- [**Calculus Operators**](https://mathparser.org/mxparser-math-collection/calculus-operators/)
+- [**Mathematical Constants**](https://mathparser.org/mxparser-math-collection/constants/)
+- [**Physical Constants**](https://mathparser.org/mxparser-math-collection/physical-constants/)
+- [**Astronomical Constants**](https://mathparser.org/mxparser-math-collection/astronomical-constants/)
+- [**Metric prefixes**](https://mathparser.org/mxparser-math-collection/metric-prefixes/)
+- [**Units**](https://mathparser.org/mxparser-math-collection/units/)
+- [**Parser Symbols**](https://mathparser.org/mxparser-math-collection/parser-symbols/)
+- [**Number formats**](https://mathparser.org/mxparser-math-collection/number-formats/)
 
-## **API documentation**
-### - [API documentation](https://mathparser.org/api/)
+### API documentation
 
-## **Did you find the software useful?**
-- please consider [**donation**](http://mathparser.org/donate)
-- purchase the commercial license from [**here**](https://mathparser.org/order-commercial-license) or from [**here**](https://payhip.com/INFIMA)
+[API documentation](https://mathparser.org/api/)
 
-# JAVA intro
-![mXparser demo](http://mathparser.org/wp-content/uploads/2017/05/mxparser-demo-r2.gif)
+### Project documentation and websites
 
-# C# intro
-![mXparser demo - csharp](http://mathparser.org/wp-content/uploads/2017/05/mxparser-demo-vs-r2.gif)
+- [mXparser - API (english)](http://mathparser.org/api/)
+- [mXparser - WIKI (english)](https://github.com/mariuszgromada/MathParser.org-mXparser/wiki)
+- [mXparser - Tutorial (english)](http://mathparser.org/mxparser-tutorial/)
+- [MathSpace.pl - site about math with mXparser examples (polish)](http://mathspace.pl/)
+- [MathParser.org - site about mXparser (english)](http://mathparser.org/)
 
-# TypeScript intro
-![mXparser demo - TypeScript](https://github.com/futurearchitec/tempresources/raw/main/mxparser-demo-ts-r1.gif)
+## Licensing and support
 
-# Main functionalities:
-- **basic operators**, i.e.: +, -, *, ^, !
-- **[Boolean logic](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/BooleanAlgebra.html)** operators i.e.: or, and, xor
-- **[binary relations](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/BinaryRelations.html)** i.e.: =, <, >
-- **[math functions](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.html)** (large library of 1-arg, 2-arg, 3-arg - functions) i.e.: sin, cos, Stirling numbers, log, inverse functions
-- **[constants](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/MathConstants.html)** (large library), i.e.: pi, e, golden ratio
-- **n-args functions**, i.e.: [greatest common divisor](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.html#gcd-int...-)
-- **[iterated summation and product operators](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.html#sigmaSummation-org.mariuszgromada.math.mxparser.Expression-org.mariuszgromada.math.mxparser.Argument-double-double-double-)**
-- **[differentiation and integration](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/NumericalAnalysis.html)**
+mXparser offers commercial licensing. If the library is useful to you, please consider purchasing a license or supporting its development.
 
+- [Order a commercial license](https://mathparser.org/order-commercial-license/) ([alternative order link](https://mathparser.org/order-commercial-license))
+- [INFIMA online store](https://payhip.com/INFIMA)
+- [Donate to the project](https://mathparser.org/donate/) ([alternative donation link](http://mathparser.org/donate))
 
-# High flexibility functionalities
-- **[user defined constants](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Constant.html)** and arguments, both free - and dependent on other arguments + possibility of use in functions
-- **[user defined functions](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Function.html)** (both free and depended)
-- **[user defined recursive arguments](http://mathparser.org/api/org/mariuszgromada/math/mxparser/RecursiveArgument.html)** + simple (controlled) recursion (1 recursive argument)
-- **[user defined recursive functions / expressions (any)](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Function.html#getRecursiveMode--)** - complex, many arguments, no limitation 
-- **[internal syntax checking](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Expression.html#checkSyntax--)**
-- **[internal help](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Expression.html#getHelp--)**
-- other useful functionalities, i.e.: [computing time](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Expression.html#getComputingTime--), expression description.
+[![INFIMA store](https://mathparser.org/wp-content/uploads/2022/04/INFIMA-logo-small.png)](https://payhip.com/INFIMA)
 
-# Project documentation
-### - [mXparser - API (english)](http://mathparser.org/api/)
-### - [mXparser - WIKI (english)](https://github.com/mariuszgromada/MathParser.org-mXparser/wiki)
-### - [mXparser - Tutorial (english)](http://mathparser.org/mxparser-tutorial/)
-### - [MathSpace.pl - site about math with mXparser examples (polish)](http://mathspace.pl/)
-### - [MathParser.org - site about mXparser (english)](http://mathparser.org/)
+[![INFIMA](http://mathparser.org/wp-content/uploads/2022/04/infima-logo.jpg)](https://payhip.com/INFIMA)
 
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJYYH86583LEN)
+[![Donate with PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJYYH86583LEN)
 
-# mXparser in nutshell
+## Related projects
 
-#### You want simple calculator...
-![calc](http://mathparser.org/wp-content/uploads/2017/05/calc.png)
+### Scalar: Scientific Calculator, Charts & Scripts
 
-    Expression e = new Expression("2+3");
-    e.calculate();
-:+1: 
+[![Scalar-Lite](https://scalarmath.org/wp-content/uploads/2022/05/scalar-presentation-web-small.png)](https://scalarmath.org/)
 
-#### A calculator supporting parenthesis...
-![parenth](http://mathparser.org/wp-content/uploads/2017/05/parenth.png)
+**[Watch Scalar in action](https://youtu.be/HUlEUaioogQ)**
 
-    Expression e = new Expression("2+(3-5)^2");
-    e.calculate();
-:+1: 
+#### Scalar Lite: Free version
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300">](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
 
-#### You care about predefined constants...
-![const](http://mathparser.org/wp-content/uploads/2017/05/const.png)
+#### Scalar Pro: Full paid version
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300">](https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
 
-    Expression e = new Expression("2*pi");
-    e.calculate();
-:+1: 
+### Customer First, Value Next: The Executive Playbook for AI-Driven Omnichannel Personalization and Customer-Centric Growth
 
+A book by Mariusz Gromada.
 
-#### You need to define your own constants...
-![const-user](http://mathparser.org/wp-content/uploads/2017/05/const-user.png)
+[![CustomerFirst](https://customerfirst.tech/wp-content/uploads/2026/01/Customer-First-Value-Next.png)](https://customerfirst.tech/)
+[![CustomerFirst](https://customerfirst.tech/wp-content/uploads/2026/05/Customer-First-Value-Next-On-Goodreads-20260524.jpg)](https://www.goodreads.com/author/list/66829237.Mariusz_Gromada)
 
-    Constant tau = new Constant("tau = 2*pi");
-    Expression e = new Expression("3*tau", tau);
-    e.calculate();
-:+1: 
+**[Explore the book and its ideas](https://customerfirst.tech/)**
 
-#### You enjoy using many built-in functions...
-![sinx](http://mathparser.org/wp-content/uploads/2017/05/sinx.png)
+#### Audiobook
+- ↗️ [Google Play Books](https://play.google.com/store/audiobooks/details/Mariusz_Gromada_Customer_First_Value_Next?id=AQAAAEB6alMqOM)
+- ↗️ [Apple Books](https://books.apple.com/us/audiobook/customer-first-value-next-the-executive-playbook-for/id6779149158)
+- ↗️ [Audiobooks Now](https://www.audiobooksnow.com/audiobook/customer-first-value-next/10469106/)
+- ↗️ [Libro.FM](https://libro.fm/audiobooks/9788397899858-customer-first-value-next)
+- ↗️ [Chirp](https://www.chirpbooks.com/audiobooks/customer-first-value-next-by-mariusz-gromada)
 
-    Expression e = new Expression("sin(2*pi)");
-    e.calculate();
-:+1: 
+#### eBook
+- ↗️ [Google Play Books](https://play.google.com/store/books/details/Mariusz_Gromada_Customer_First_Value_Next?id=Mk7sEQAAQBAJ)
+- ↗️ [Apple Books](https://books.apple.com/us/book/id6782600570)
+- ↗️ [Amazon](https://www.amazon.com/dp/B0GB26C5F3)
 
-#### You do not limit yourself to unary functions...
-![fun-variadic](http://mathparser.org/wp-content/uploads/2017/05/fun-variadic.png)
+#### Print book / eBook
+- ↗️ [Amazon US](https://www.amazon.com/dp/8397899812)
+- ↗️ [Amazon UK](https://www.amazon.co.uk/dp/8397899812)
+- ↗️ [Amazon DE](https://www.amazon.de/dp/8397899812)
+- ↗️ [Amazon PL](https://www.amazon.pl/dp/8397899812)
 
-    Expression e = new Expression("gcd(2,5,10,30)");
-    e.calculate();
-:+1: 
+#### Further reading and reviews
+- ↗️ [Customer First. Value Next. – Explore Key Concepts](https://customerfirst.tech/wp-content/uploads/2026/01/Mariusz-Gromada-Customer-First-Value-Next-Key-Concepts.pdf)
+- ↗️ [Customer First. Value Next. – Look inside the book](https://customerfirst.tech/wp-content/uploads/2026/01/Mariusz-Gromada-Customer-First-Value-Next-Parts.pdf)
+- ↗️ [Customer First, Value Next Earns a 5-Star Review and Finalist Award from Readers’ Favorite](https://customerfirst.tech/wp-content/uploads/2026/09/readersfavorite-com-customer-first-value-next-book-review-and-award.pdf)
+- ↗️ [Mariusz Gromada in conversation with Adam Jadczak for ITwiz: “How well-used data builds relationships and creates business value”](https://customerfirst.tech/wp-content/uploads/2026/09/how-well-used-data-builds-relationships-and-business-value-itwiz-pl.pdf)
 
-#### What about user defined arguments...
-![arg-free](http://mathparser.org/wp-content/uploads/2017/05/arg-free.png)
+#### ✖ STOP running campaigns. ✅ START scaling empathy.
 
-    Argument x = new Argument("x = 5");
-    Expression e = new Expression("sin(x)", x);
-    e.calculate();
-:+1: 
+We are facing the **Scalability GAP**: Data volumes and customer contexts are growing exponentially, while your teams can only expand linearly. In this environment, the traditional approach of “**campaign madness**” – overwhelming customers with disconnected offers – is not just inefficient; it erodes trust and burns budget.
 
-#### You are considering dependent arguments...
-![arg-dep](http://mathparser.org/wp-content/uploads/2017/05/arg-dep.png)
+To succeed today, you don't need a better marketing calendar. You need a **Personalization Factory**.
 
-    Argument x = new Argument("x = 5");
-    Argument y = new Argument("y = 2*x", x);
-    Expression e = new Expression("sin(y)", y);
-    e.calculate();
-:+1: 
+**Customer First, Value Next** is the executive playbook for creating an AI-driven organization that shifts from “pushing” products to “serving” needs. This is not a theoretical treatise. It’s a proven strategy for leaders who recognize that in the era of AI, the most significant competitive advantage is maintaining **humanity at scale**.
 
-#### You need to apply some logic...
-![if-then](http://mathparser.org/wp-content/uploads/2017/05/if-then.png)
+#### Inside this playbook, you will discover how to:
 
-    Argument x = new Argument("x = 5");
-    Expression e = new Expression("if(sin(x) > 5, 1, 0)", x);
-    e.calculate();
-:+1:
+- ⛔ End “Campaign Madness”: Replace disconnected offers with an always-on, intelligent conversation strategy tailored to the individual.
+- ⚙️ Build the Personalization Factory: Implement the AI by Design & Real-Time by Design architectures (Senses, Brain, Voice).
+- 🧠 Master the CI-RM Framework: Deploy 16 practical analytical tactics – including Next Best Action (NBA) strategies and Incremental Uplift Modeling – to drive true, measured customer-centric growth.
+- 📈 Measure What Matters: Shift from vanity metrics to Incremental ROI, Uplift, and Customer Lifetime Value (CLV).
+- 🤝 Scale Empathy: Use technology not to replace humans, but to augment their ability to serve millions of customers personally.
 
-#### Yes, you are right, there is a support for Boolean algebra!
-![true-false](http://mathparser.org/wp-content/uploads/2017/05/true-false.png)
+#### Who This Book Is For
 
-    Expression e = new Expression("5=6");
-    e.calculate();
-:+1:
+This transformation requires more than just a CCO. It demands an Executive Team that understands value and risk, aligned with a Data & Tech team capable of building the foundation. This book offers dedicated paths for:
 
-#### And for binary relations as well!
+#### 🚀 The Executive Team (CEO, CCO, CMO, CFO)
 
-    Expression e = new Expression("5 <= 6");
-    e.calculate();
-:+1:
+Understand the vision, the risks, and the Return on Investment. Learn how to measure real value, make the business case, and defend the transformation to the CFO by connecting "trust" directly to the P&L.
 
-## mXparser is cool! But this is only the beginning, we are just warming up!
+#### 📈 Growth & CRM Leaders (Head of CRM, Digital, Marketing)
 
-#### You want to play with iterated operators...
-![sum](http://mathparser.org/wp-content/uploads/2017/05/sum.png)
+Translate strategy into operations. Move from "send" to "serve" by constructing the Value Map and deploying practical tactics that choose the best offer for every customer context.
 
-    Expression e = new Expression("sum(i, 1, 10, 2*i^2 + pi)");
-    e.calculate();
-:+1:
+#### 💻 Data & Technology Leaders (CTO, CIO, Head of Data)
 
-#### You want to iterate differently by not necessarily whole numbes...
-![prod](http://mathparser.org/wp-content/uploads/2017/05/prod.png)
+Build technology within the context of business strategy. Discover fundamental design principles (AI by Design) and architecture plans that automate Data Science without killing your analytics team.
 
-    Expression e = new Expression("prod(i, 1, 5, i, 0.5)");
-    e.calculate();
-:+1:
+**📣 “Technology isn’t just an automation tool. It’s a megaphone for empathy. Put the Customer First. Value comes next.”**
 
-#### You want to have more fun with math...
-    Argument x = new Argument("x = pi/2");
-    Expression e20 = new Expression("sum(n,0,10,(-1)^n*(x^(2*n+1))/(2*n+1)!)", x);
-    e.calculate();
-:+1:
+##### See more
 
-#### You still want more fun with calculus operations, i.e. differentiation...
-![der](http://mathparser.org/wp-content/uploads/2017/05/der.png)
+- Book on [**CustomerFirst.tech**](https://customerfirst.tech/)
+- Book on [**goodreads.com**](https://www.goodreads.com/book/show/245806557-customer-first-value-next)
+- Book on [**Amazon US**](https://www.amazon.com/dp/8397899812)
+- Book on [**Amazon UK**](https://www.amazon.co.uk/dp/8397899812)
+- Book on [**Amazon DE**](https://www.amazon.de/dp/8397899812)
+- Book on [**Amazon FR**](https://www.amazon.fr/dp/8397899812)
+- Book on [**Amazon ES**](https://www.amazon.es/dp/8397899812)
+- Book on [**Amazon IT**](https://www.amazon.it/dp/8397899812)
+- Book on [**Amazon NL**](https://www.amazon.nl/dp/8397899812)
+- Book on [**Amazon PL**](https://www.amazon.pl/dp/8397899812)
+- Book on [**Amazon SE**](https://www.amazon.se/dp/8397899812)
+- Book on [**Amazon BE**](https://www.amazon.com.be/dp/8397899812)
+- Book on [**Amazon IE**](https://www.amazon.ie/dp/8397899812)
+- Book on [**Amazon JP**](https://www.amazon.co.jp/dp/8397899812)
+- Book on [**Amazon CA**](https://www.amazon.ca/dp/8397899812)
+- Book on [**Amazon AU**](https://www.amazon.com.au/dp/8397899812)
 
-    Argument x = new Argument("x = pi/2");
-    Expression e = new Expression("cos(x)-der(sin(x), x)", x);
-    e.calculate();
-:+1:
+## Built-in tokens reference
 
-#### And definite integrals as well...
-![int](http://mathparser.org/wp-content/uploads/2017/05/int.png)
+The full built-in syntax catalog is included below, with number formats, operators, functions, constants, units, and parser symbols. For a navigable online reference, also see the [Math Collection](https://mathparser.org/mxparser-math-collection/operators/).
 
-    Expression e = new Expression("2*int(sqrt(1-x^2), x, -1, 1)");
-    e.calculate();
-:+1:
-
-##  mXparser is even cooler! It is time to ask about ...
-
-#### user defined functions...
-![fun-user](http://mathparser.org/wp-content/uploads/2017/05/fun-user.png)
-
-    Function f = new Function("f(x,y) = sin(x) + cos(y)");
-    f.calculate(1,2);
-    Expression e = new Expression("f(1,2) - 10", f);
-    e.calculate();
-:+1:
-
-#### Recursion is your desire...
-![recur](http://mathparser.org/wp-content/uploads/2017/05/recur.png)
-
-    Function f = new Function("f(n) = if( n>0, n*f(n-1), 1)");
-    f.calculate()
-:+1:
-
-#### Any kind of recursion...
-    Function Cnk = new Function("Cnk(n,k) = if(k>0, if(k<n, Cnk(n-1,k-1)+Cnk(n-1,k), 1), 1)");
-    Cnk.calculate()
-:+1:
-
-## If anything above matches you then mXparser is a good choice!
-
-#### mXparser can interact with end users as it supports syntax checking.
-![syntax](http://mathparser.org/wp-content/uploads/2017/05/syntax.png)
-
-    Expression e = new Expression("2+1/a");
-    e.checkSyntax();
-    mXparser.consolePrintln(e.getErrorMessage());
-
-# Built-in tokens
-
-## Number format
+### Number format
 |Key word|Category|Description|Example|Since|
 |---|---|---|---|---|
 |Number|Decimal Number|Decimal number|1, 1.5, -2.3|1.0|
@@ -666,7 +797,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |Number|Base 1-36|Base 1-36 number - number literal| bN.xxxx , BN.xxxx|4.1|
 |Number|Fraction|Number literal as fraction| 1_2 , 2_3_4, 172_345, 345_172 |4.3|
 
-## Operators
+### Operators
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |+|Operator|a + b|1.0|Addition - Operator|
@@ -686,7 +817,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |∛|Operator|∛x|5.0|Cube root - Operator - Unicode math symbol|
 |∜|Operator|∜x|5.0|Fourth root - Operator - Unicode math symbol|
 
-## Boolean Operators
+### Boolean Operators
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |&|Boolean operator|p & q|1.0|Logical conjunction AND - Boolean operator|
@@ -730,7 +861,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |~|Boolean operator|~p|1.0|Negation - Boolean operator|
 |¬|Boolean operator|¬p|5.0|Negation - Boolean operator - Unicode math symbol|
 
-## Bitwise Operators
+### Bitwise Operators
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |@~|Bitwise operator|@~a|4.0|Bitwise unary complement - Bitwise operator|
@@ -740,7 +871,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |@<<|Bitwise operator|a @<< b|4.0|Signed left shift - Bitwise operator|
 |@>>|Bitwise operator|a @>> b|4.0|Signed right shift - Bitwise operator|
 
-## Binary Relations
+### Binary Relations
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |=|Binary relation|a = b|1.0|Equality - Binary relation|
@@ -758,7 +889,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |⋝|Binary relation|a ⋝ b|5.0|Greater or equal - Binary relation - Unicode math symbol|
 |>=|Binary relation|a >= b|1.0|Greater or equal - Binary relation|
 
-## Unary Functions
+### Unary Functions
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |sin|Unary function|sin(x)|1.0|Trigonometric sine - Unary function|
@@ -867,7 +998,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |rStud|Unary function|rStud(v)|5.0|Random variable - Student's t-distribution - Unary function|
 |rChi2|Unary function|rChi2(k)|5.0|Random variable - Chi-squared distribution - Unary function|
 
-## Binary Functions
+### Binary Functions
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |log|Binary function|log(a, b)|1.0|Logarithm - Binary function|
@@ -908,7 +1039,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |qChi2|Binary function|qChi2(p, k)|5.0|Chi-squared distribution - Quantile function (inverse cumulative distribution function) - Binary function|
 |rFSned|Binary function|rFSned(d1, d2)|5.1|Random variable - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution) - Binary function|
 
-## 3-args Functions
+### 3-args Functions
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |if|Ternary function|if(cond, expr-if-true, expr-if-false)|1.0|If - Ternary function|
@@ -930,7 +1061,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |cFSned|Ternary function|cFSned(x, d1, d2)|5.1|Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution) - Cumulative distribution function - Ternary function|
 |qFSned|Ternary function|qFSned(p, d1, d2)|5.1|Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution) - Quantile function (inverse cumulative distribution function) - Ternary function|
 
-## Variadic Functions
+### Variadic Functions
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |iff|Variadic function|iff(cond-1, expr-1; ... ; cond-n, expr-n)|1.0|If function - Variadic function|
@@ -957,7 +1088,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |base|Variadic function|base(b, d1, ..., dn)|4.1|Returns number in given numeral system base represented by list of digits - Variadic function|
 |ndist|Variadic function|ndist(v1, ..., vn)|4.1|Number of distinct values - Variadic function|
 
-## Calculus Operators / Iterated Operators
+### Calculus Operators / Iterated Operators
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |∑|Calculus operator|∑(i, from, to, expr, <by>)|5.0|Summation SIGMA - Iterated operator Σ - Calculus operator - Unicode math symbol|
@@ -989,7 +1120,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |solve|Calculus operator|solve(expr, arg, from, to)|4.0|Equation solving (root finding) f(x)=0 - Calculus operator|
 
 
-## Random Variables
+### Random Variables
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |[Uni]|Random variable|[Uni]|3.0|Uniform continuous distribution U(0,1) - Random variable|
@@ -1025,7 +1156,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |[Nat9]|Random variable|[Nat9]|3.0|Uniform discrete distribution - Random natural number U{1,10⁹} - Random variable|
 |[Nor]|Random variable|[Nor]|3.0|Normal distribution N(0,1) - Random variable|
 
-## Mathematical Constants
+### Mathematical Constants
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |π|Constant value|π|5.0|Pi, Archimedes' or Ludolph's number - Mathematical constant π - Constant value - Unicode math symbol|
@@ -1076,7 +1207,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |[li2]|Constant value|[li2]|2.3|Logarithmic integral at point 2 - Mathematical constant li(2) - Constant value|
 |[EG]|Constant value|[EG]|2.3|Gompertz constant - Mathematical constant δ - Constant value|
 
-## Physical Constant
+### Physical Constant
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |[c]|Constant value|[c]|4.0|Light speed in vacuum - Physical constant c [m/s] (m=1, s=1) - Constant value|
@@ -1088,7 +1219,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |[mP]|Constant value|[mP]|4.0|Planck mass - Physical constant mᵖ [kg] (kg=1) - Constant value|
 |[tP]|Constant value|[tP]|4.0|Planck time - Physical constant tᵖ [s] (s=1) - Constant value|
 
-## Astronomical Constant
+### Astronomical Constant
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |[ly]|Constant value|[ly]|4.0|Light year - Astronomical constant ly [m] (m=1) - Constant value|
@@ -1127,7 +1258,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |[Neptune-M]|Constant value|[Neptune-M]|4.0|Neptune mass - Astronomical constant [kg] (kg=1) - Constant value|
 |[Neptune-D]|Constant value|[Neptune-D]|4.0|Neptune-Sun distance - Astronomical constant - Semi major axis [m] (m=1) - Constant value|
 
-## Metric prefixes
+### Metric prefixes
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |[Y]|Unit|[Y]|4.0|Septillion / Yotta - Metric prefix = 10²⁴ - Dimensionless unit|
@@ -1161,7 +1292,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |[z]|Unit|[z]|4.0|Sextillionth / Zepto - Metric prefix = 10⁻²¹ - Dimensionless unit|
 |[y]|Unit|[y]|4.0|Septillionth / Yocto - Metric prefix = 10⁻²⁴ - Dimensionless unit|
 
-## Units of length
+### Units of length
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |[m]|Unit|[m]|4.0|Meter - Unit of length [m] (m=1) - Unit|
@@ -1174,7 +1305,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |[mile]|Unit|[mile]|4.0|Mile - Unit of length [m] (m=1) - Unit|
 |[nmi]|Unit|[nmi]|4.0|Nautical mile - Unit of length [m] (m=1) - Unit|
 
-## Units of area
+### Units of area
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |[m2]|Unit|[m2]|4.0|Square meter - Unit of area [m²] (m=1) - Unit|
@@ -1185,7 +1316,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |[acre]|Unit|[acre]|4.0|Acre - Unit of area [m²] (m=1) - Unit|
 |[km2]|Unit|[km2]|4.0|Square kilometer - Unit of area [m²] (m=1) - Unit|
 
-## Units of volume
+### Units of volume
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |[mm3]|Unit|[mm3]|4.0|Cubic millimeter - Unit of volume [m³] (m=1) - Unit|
@@ -1197,7 +1328,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |[gall]|Unit|[gall]|4.0|Gallon - Unit of volume [m³] (m=1) - Unit|
 |[pint]|Unit|[pint]|4.0|Pint - Unit of volume [m³] (m=1) - Unit|
 
-## Units of time
+### Units of time
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |[s]|Unit|[s]|4.0|Second - Unit of time [s] (s=1) - Unit|
@@ -1208,7 +1339,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |[week]|Unit|[week]|4.0|Week - Unit of time [s] (s=1) - Unit|
 |[yearj]|Unit|[yearj]|4.0|Julian year = 365.25 days - Unit of time [s] (s=1) - Unit|
 
-## Units of mass
+### Units of mass
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |[kg]|Unit|[kg]|4.0|Kilogram - Unit of mass [kg] (kg=1) - Unit|
@@ -1219,7 +1350,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |[oz]|Unit|[oz]|4.0|Ounce - Unit of mass [kg] (kg=1) - Unit|
 |[lb]|Unit|[lb]|4.0|Pound - Unit of mass [kg] (kg=1) - Unit|
 
-## Units of information
+### Units of information
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |[b]|Unit|[b]|4.0|Bit - Unit of information [bit] (bit=1) - Unit|
@@ -1241,7 +1372,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |[ZB]|Unit|[ZB]|4.0|Zettabyte - Unit of information [bit] (bit=1) - Unit|
 |[YB]|Unit|[YB]|4.0|Yottabyte - Unit of information [bit] (bit=1) - Unit|
 
-## Units of energy
+### Units of energy
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |[J]|Unit|[J]|4.0|Joule - Unit of energy [J] (m=1, kg=1, s=1) - Unit|
@@ -1251,7 +1382,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |[GeV]|Unit|[GeV]|4.0|Gigaelectronovolt - Unit of energy [J] (m=1, kg=1, s=1) - Unit|
 |[TeV]|Unit|[TeV]|4.0|Teraelectronovolt - Unit of energy [J] (m=1, kg=1, s=1) - Unit|
 
-## Units of speed
+### Units of speed
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |[m/s]|Unit|[m/s]|4.0|Meter per second - Unit of speed [m/s] (m=1, s=1) - Unit|
@@ -1259,14 +1390,14 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |[mi/h]|Unit|[mi/h]|4.0|Mile per hour - Unit of speed [m/s] (m=1, s=1) - Unit|
 |[knot]|Unit|[knot]|4.0|Knot - Unit of speed [m/s] (m=1, s=1) - Unit|
 
-## Units of acceleration
+### Units of acceleration
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |[m/s2]|Unit|[m/s2]|4.0|Meter per square second - Unit of acceleration [m/s²] (m=1, s=1) - Unit|
 |[km/h2]|Unit|[km/h2]|4.0|Kilometer per square hour - Unit of acceleration [m/s²] (m=1, s=1) - Unit|
 |[mi/h2]|Unit|[mi/h2]|4.0|Mile per square hour - Unit of acceleration [m/s²] (m=1, s=1) - Unit|
 
-## Units of angle
+### Units of angle
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |[rad]|Unit|[rad]|4.0|Radian - Unit of angle [rad] (rad=1) - Unit|
@@ -1274,7 +1405,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |[']|Unit|[']|4.0|Minute of arc - Unit of angle [rad] (rad=1) - Unit|
 |['']|Unit|['']|4.0|Second of arc - Unit of angle [rad] (rad=1) - Unit|
 
-## Other parser symbols
+### Other parser symbols
 |Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
 |(|Parser symbol|( ... )|1.0|Left parentheses - Parser symbol|
@@ -1283,68 +1414,7 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |;|Parser symbol|(a1; ... ;an)|1.0|Semicolon (function parameters) - Parser symbol|
 | |Parser symbol| |4.2|Blank (whitespace) character - Parser symbol|
 
-# Did you find mXparser useful? If yes:
-* please consider donation: **[DONATION](https://mathparser.org/donate/)**
-* or purchase the license via **[ORDER Page](https://mathparser.org/order-commercial-license/)** or **[INFIMA Online Store](https://payhip.com/INFIMA)**
+---
 
-[![INFIMA](http://mathparser.org/wp-content/uploads/2022/04/infima-logo.jpg)](https://payhip.com/INFIMA)
-
-
-## **Customer First, Value Next: The Executive Playbook for AI-Driven Omnichannel Personalization and Customer-Centric Growth** (a book by Mariusz Gromada)
-
-### ✖ STOP running campaigns. ✅ START scaling empathy.
-
-We are facing the **Scalability GAP**: Data volumes and customer contexts are growing exponentially, while your teams can only expand linearly. In this environment, the traditional approach of “**campaign madness**” – overwhelming customers with disconnected offers – is not just inefficient; it erodes trust and burns budget.
-
-To succeed today, you don't need a better marketing calendar. You need a **Personalization Factory**.
-
-**Customer First, Value Next** is the executive playbook for creating an AI-driven organization that shifts from “pushing” products to “serving” needs. This is not a theoretical treatise. It’s a proven strategy for leaders who recognize that in the era of AI, the most significant competitive advantage is maintaining **humanity at scale**.
-
-### Inside this playbook, you will discover how to:
-
-- ⛔ End “Campaign Madness”: Replace disconnected offers with an always-on, intelligent conversation strategy tailored to the individual.
-- ⚙️ Build the Personalization Factory: Implement the AI by Design & Real-Time by Design architectures (Senses, Brain, Voice).
-- 🧠 Master the CI-RM Framework: Deploy 16 practical analytical tactics – including Next Best Action (NBA) strategies and Incremental Uplift Modeling – to - drive true, measured customer-centric growth.
-- 📈 Measure What Matters: Shift from vanity metrics to Incremental ROI, Uplift, and Customer Lifetime Value (CLV).
-- 🤝 Scale Empathy: Use technology not to replace humans, but to augment their ability to serve millions of customers personally.
-
-### Who This Book Is For
-
-This transformation requires more than just a CCO. It demands an Executive Team that understands value and risk, aligned with a Data & Tech team capable of building the foundation. This book offers dedicated paths for:
-
-### 🚀 The Executive Team (CEO, CCO, CMO, CFO)
-
-Understand the vision, the risks, and the Return on Investment. Learn how to measure real value, make the business case, and defend the transformation to the CFO by connecting "trust" directly to the P&L.
-
-### 📈 Growth & CRM Leaders (Head of CRM, Digital, Marketing)
-
-Translate strategy into operations. Move from "send" to "serve" by constructing the Value Map and deploying practical tactics that choose the best offer for every customer context.
-
-### 💻 Data & Technology Leaders (CTO, CIO, Head of Data)
-
-Build technology within the context of business strategy. Discover fundamental design principles (AI by Design) and architecture plans that automate Data Science without killing your analytics team.
-
-**📣 “Technology isn’t just an automation tool. It’s a megaphone for empathy. Put the Customer First. Value comes next.”**
-
-### See more
-
-- Book on [**CustomerFirst.tech**](https://customerfirst.tech/)
-- Book on [**goodreads.com**](https://www.goodreads.com/book/show/245806557-customer-first-value-next)
-- Book on [**Amazon US**](https://www.amazon.com/dp/8397899812)
-- Book on [**Amazon UK**](https://www.amazon.co.uk/dp/8397899812)
-- Book on [**Amazon DE**](https://www.amazon.de/dp/8397899812)
-- Book on [**Amazon FR**](https://www.amazon.fr/dp/8397899812)
-- Book on [**Amazon ES**](https://www.amazon.es/dp/8397899812)
-- Book on [**Amazon IT**](https://www.amazon.it/dp/8397899812)
-- Book on [**Amazon NL**](https://www.amazon.nl/dp/8397899812)
-- Book on [**Amazon PL**](https://www.amazon.pl/dp/8397899812)
-- Book on [**Amazon SE**](https://www.amazon.se/dp/8397899812)
-- Book on [**Amazon BE**](https://www.amazon.com.be/dp/8397899812)
-- Book on [**Amazon IE**](https://www.amazon.ie/dp/8397899812)
-- Book on [**Amazon JP**](https://www.amazon.co.jp/dp/8397899812)
-- Book on [**Amazon CA**](https://www.amazon.ca/dp/8397899812)
-- Book on [**Amazon AU**](https://www.amazon.com.au/dp/8397899812)
-
-
-Best regards,
+**Best regards,**  
 *Mariusz Gromada*
