@@ -1,5 +1,5 @@
 /*
- * @(#)Argument.hpp        6.1.0    2024-10-06
+ * @(#)Argument.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -230,6 +230,7 @@
 #include "org/mariuszgromada/math/mxparser/wrapper/Integer.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/List.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/VariadicProcessor.hpp"
+#include <stdexcept>
 
 namespace org::mariuszgromada::math::mxparser {
 
@@ -250,6 +251,30 @@ namespace org::mariuszgromada::math::mxparser {
 		void analyzeArgumentDefinitionString(bool isRecursive, bool forceDependent, const StringPtr &argumentDefinitionString);
 
 	public:
+		/**
+		 * Gets argument value and registers all the calculation steps
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+	
+		 * @return     direct argument value for free argument,
+		 *             otherwise returns calculated argument value
+		 *             based on the argument expression.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see getArgumentValue()
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		double getArgumentValueWithCancel(int cancelId);
+
 		Argument(const Argument& other) noexcept;
 		Argument(Argument&& other) noexcept;
 		Argument& operator=(const Argument& other) noexcept;
@@ -861,7 +886,61 @@ namespace org::mariuszgromada::math::mxparser {
 
 		double getArgumentValue();
 		double getArgumentValue(const CalcStepsRegisterPtr &calcStepsRegister);
+		/**
+		 * Gets argument value and registers all the calculation steps
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * @param calcStepsRegister A collection to store list of calculation steps,
+		 *                          steps registered as strings.
+		 *
+		 * @return     direct argument value for free argument,
+		 *             otherwise returns calculated argument value
+		 *             based on the argument expression.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see getArgumentValue(org.mariuszgromada.math.mxparser.CalcStepsRegister)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		double getArgumentValueWithCancel(const CalcStepsRegisterPtr &calcStepsRegister, int cancelId);
 		double getArgumentValue(CalcStepsRegisterPtr &calcStepsRegister) { return getArgumentValue(CONST_CALC_STEPS_REGISTER(calcStepsRegister)); }
+		/**
+		 * Gets argument value and registers all the calculation steps
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * @param calcStepsRegister A collection to store list of calculation steps,
+		 *                          steps registered as strings.
+		 *
+		 * @return     direct argument value for free argument,
+		 *             otherwise returns calculated argument value
+		 *             based on the argument expression.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see getArgumentValue(org.mariuszgromada.math.mxparser.CalcStepsRegister)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		double getArgumentValueWithCancel(CalcStepsRegisterPtr &calcStepsRegister, int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+				throw std::invalid_argument("cancelId out of range");
+			return getArgumentValueWithCancel(CONST_CALC_STEPS_REGISTER(calcStepsRegister), cancelId);
+		}
 		double getComputingTime() const;
 
 		// ***********************************************************
@@ -1037,6 +1116,9 @@ namespace org::mariuszgromada::math::mxparser {
 
 	public:
 		STATIC_VARS_INITI_H;
+
+	private:
+		double getArgumentValueCoreWithCancel(const CalcStepsRegisterPtr &calcStepsRegister, int cancelId);
 
 	};
 

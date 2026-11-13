@@ -1,5 +1,5 @@
 /*
- * @(#)tutorial.mjs        6.2.0    2026-11-04
+ * @(#)tutorial.mjs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:

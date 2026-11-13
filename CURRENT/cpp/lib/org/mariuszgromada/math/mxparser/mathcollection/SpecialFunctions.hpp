@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialFunctions.hpp        6.1.0    2024-10-06
+ * @(#)SpecialFunctions.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -219,7 +219,9 @@
 #ifndef ORG_MARIUSZGROMADA_MATH_MXPARSER_MATHCOLLECTION_SPECIALFUNCTIONS_H
 #define ORG_MARIUSZGROMADA_MATH_MXPARSER_MATHCOLLECTION_SPECIALFUNCTIONS_H
 
+#include "org/mariuszgromada/math/mxparser/mXparser.hpp"
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesStd.hpp"
+#include <stdexcept>
 
 namespace org::mariuszgromada::math::mxparser::mathcollection {
 
@@ -230,8 +232,80 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		// ***********************************************************
 
 		static double exponentialIntegralEi(double x);
+		/**
+		 * Exponential integral function Ei(x)
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x    Point at which function will be evaluated.
+		 * @return Exponential integral function Ei(x)
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see exponentialIntegralEi(double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double exponentialIntegralEiWithCancel(double x, int cancelId);
 		static double logarithmicIntegralLi(double x);
+		/**
+		 * Logarithmic integral function li(x)
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x   Point at which function will be evaluated.
+		 * @return Logarithmic integral function li(x)
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see logarithmicIntegralLi(double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double logarithmicIntegralLiWithCancel(double x, int cancelId);
 		static double offsetLogarithmicIntegralLi(double x);
+		/**
+		 * Offset logarithmic integral function Li(x)
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x   Point at which function will be evaluated.
+		 * @return Offset logarithmic integral function Li(x)
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see offsetLogarithmicIntegralLi(double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double offsetLogarithmicIntegralLiWithCancel(double x, int cancelId);
 
 		// ***********************************************************
 
@@ -243,31 +317,471 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		// ***********************************************************
 
 		static double gamma(double x);
+		/**
+		 * Real valued Gamma function
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x   Argument value
+		 * @return  Returns gamma function value.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see gamma(double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double gammaWithCancel(double x, int cancelId);
 		static double lanchosGamma(double x);
+		/**
+		 * Gamma function implementation based on
+		 * Lanchos approximation algorithm
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x    Function parameter
+		 * @return     Gamma function value (Lanchos approx).
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see lanchosGamma(double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double lanchosGammaWithCancel(double x, int cancelId);
 		static double logGamma(double x);
+		/**
+		 * Real valued log gamma function.
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x  Argument value
+		 * @return  Returns log value from gamma function.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see logGamma(double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double logGammaWithCancel(double x, int cancelId);
 		static double sgnGamma(double x);
+		/**
+		 * Signum from the real valued gamma function.
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x Argument value
+		 * @return  Returns signum of the gamma(x)
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see sgnGamma(double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double sgnGammaWithCancel(double x, int cancelId);
 		static double regularizedGammaLowerP(double s, double x);
+		/**
+		 * Regularized lower gamma function 'P'
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param s  Argument value
+		 * @param x  Argument value
+		 * @return Value of the regularized lower gamma function 'P'.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see regularizedGammaLowerP(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double regularizedGammaLowerPWithCancel(double s, double x, int cancelId);
 		static double inverseRegularizedGammaLowerP(double a, double p);
+		/**
+		 * Inverse of regularized lower gamma function 'P'
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param a  Argument value
+		 * @param p  Argument value
+		 * @return Value of the inverse regularized lower gamma function 'P'.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see inverseRegularizedGammaLowerP(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double inverseRegularizedGammaLowerPWithCancel(double a, double p, int cancelId);
 		static double incompleteGammaLower(double s, double x);
+		/**
+		 * Incomplete lower gamma function
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param s   Argument value
+		 * @param x   Argument value
+		 * @return Value of the incomplete lower gamma function.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see incompleteGammaLower(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double incompleteGammaLowerWithCancel(double s, double x, int cancelId);
 		static double regularizedGammaUpperQ(double s, double x);
+		/**
+		 * Regularized upper gamma function 'Q'
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param s  Argument value
+		 * @param x  Argument value
+		 * @return Value of the regularized upper gamma function 'Q'.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see regularizedGammaUpperQ(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double regularizedGammaUpperQWithCancel(double s, double x, int cancelId);
 		static double incompleteGammaUpper(double s, double x);
+		/**
+		 * Incomplete upper gamma function
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param s   Argument value
+		 * @param x   Argument value
+		 * @return Value of the incomplete upper gamma function.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see incompleteGammaUpper(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double incompleteGammaUpperWithCancel(double s, double x, int cancelId);
 		static double diGamma(double x);
+		/**
+		 * Digamma function as the logarithmic derivative of the Gamma special function
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x   Argument value
+		 * @return Approximated value of the digamma function.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see diGamma(double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double diGammaWithCancel(double x, int cancelId);
 
 		// ***********************************************************
 
 		static double logBeta(double x, double y);
+		/**
+		 * Log Beta special function
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x   Argument value
+		 * @param y   Argument value
+		 * @return  Return logBeta special function (for positive x and positive y)
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see logBeta(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double logBetaWithCancel(double x, double y, int cancelId);
 		static double beta(double x, double y);
+		/**
+		 * Beta special function
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x   Argument value
+		 * @param y   Argument value
+		 * @return  Return Beta special function (for positive x and positive y)
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see beta(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double betaWithCancel(double x, double y, int cancelId);
 		static double incompleteBeta(double a, double b, double x);
+		/**
+		 * Log Incomplete Beta special function
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param a   Argument value
+		 * @param b   Argument value
+		 * @param x   Argument value
+		 * @return  Return incomplete Beta special function
+		 * for positive a and positive b and x between 0 and 1
+		 *
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see incompleteBeta(double,double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double incompleteBetaWithCancel(double a, double b, double x, int cancelId);
 		static double regularizedBeta(double a, double b, double x);
+		/**
+		 * Regularized incomplete Beta special function
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param a   Argument value
+		 * @param b   Argument value
+		 * @param x   Argument value
+		 * @return  Return incomplete Beta special function
+		 * for positive a and positive b and x between 0 and 1
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see regularizedBeta(double,double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double regularizedBetaWithCancel(double a, double b, double x, int cancelId);
 		static double inverseRegularizedBeta(double a, double b, double p);
+		/**
+		 * Inerse regularized incomplete Beta special function
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param a   Argument value
+		 * @param b   Argument value
+		 * @param p   Argument value
+		 * @return  Return inverse incomplete Beta special function
+		 * for positive a and positive b and x between 0 and 1
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see inverseRegularizedBeta(double,double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double inverseRegularizedBetaWithCancel(double a, double b, double p, int cancelId);
 
 		// ***********************************************************
 
 		static double lambertW(double x, double branch);
+		/**
+		 * Real-valued Lambert-W function approximation.
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x      Point at which function will be approximated
+		 * @param branch Branch id, 0 for principal branch, -1 for the other branch
+		 * @return       Principal branch for x greater or equal than -1/e, otherwise Double::NaN.
+		 *               Minus 1 branch for x greater or equal than -1/e and lower than 0, otherwise Double::NaN.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see lambertW(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double lambertWWithCancel(double x, double branch, int cancelId);
 
 		// ***********************************************************
 
 		static double hypergeometricF(double a, double b, double c, double z, double maxIterations, double precision);
+		/**
+		 * The Gaussian or ordinary hypergeometric special function
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param a    Argument value
+		 * @param b    Argument value
+		 * @param c    Argument value
+		 * @param z    Argument value
+		 * @param maxIterations   Stop condition
+		 * @param precision   Stop condition
+		 * @return   Returns hypergeometric special function approximation
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see hypergeometricF(double,double,double,double,double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double hypergeometricFWithCancel(double a, double b, double c, double z, double maxIterations, double precision, int cancelId);
 
 		// ***********************************************************
 
@@ -278,18 +792,18 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		static const double doublePrecision;
 		static const double GSL_DBL_EPSILON;
 
-		static double continuedFractionEi(double x);
-		static double powerSeriesEi(double x);
-		static double argumentAdditionSeriesEi(double x);
+		static double continuedFractionEiWithCancel(double x, int cancelId);
+		static double powerSeriesEiWithCancel(double x, int cancelId);
+		static double argumentAdditionSeriesEiWithCancel(double x, int cancelId);
 		static double erfImp(double z, bool invert);
 		static double erfInvImpl(double p, double q, double s);
-		static double gammaInt(Long n);
+		static double gammaIntWithCancel(Long n, int cancelId);
 
-		static double halleyIteration(double x, double wInitial, int maxIter);
+		static double halleyIterationWithCancel(double x, double wInitial, int maxIter, int cancelId);
 		static double seriesEval(double r);
-		static double lambertW0(double x);
+		static double lambertW0WithCancel(double x, int cancelId);
 		static double lambertW1(double x);
-		static double hypergeometricFDirect(double a, double b, double c, double z, double maxIterations, double precision);
+		static double hypergeometricFDirectWithCancel(double a, double b, double c, double z, double maxIterations, double precision, int cancelId);
 	};
 } // namespace org::mariuszgromada::math::mxparser::mathcollection
 

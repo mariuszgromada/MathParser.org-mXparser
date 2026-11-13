@@ -1,5 +1,5 @@
 /*
- * @(#)RecursiveArgument.cs        6.1.0    2024-10-06
+ * @(#)RecursiveArgument.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -260,7 +260,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        6.1.0
+	 * @version        6.2.0
 	 *
 	 * @see Argument
 	 * @see Expression
@@ -392,6 +392,37 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     value as double
 		 */
 		public double getArgumentValue(double index) {
+			return getArgumentValueCoreWithCancel(index, 0);
+		}
+		/**
+		 * Gets recursive argument value
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * @param      index               the index
+		 *
+		 * @return     value as double
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see getArgumentValue(double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public double getArgumentValueWithCancel(double index, int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
+			if (cancelId == 0) return getArgumentValue(index);
+			return getArgumentValueCoreWithCancel(index, cancelId);
+		}
+
+		private double getArgumentValueCoreWithCancel(double index, int cancelId) {
 			/*
 			 * Remember starting index
 			 */
@@ -460,7 +491,7 @@ namespace org.mariuszgromada.math.mxparser {
 			/*
 			 * perform recursive call
 			 */
-			double value = newExp.calculate();
+			double value = newExp.calculateWithCancel(cancelId);
 			/*
 			 * remember calculated in the base values array
 			 */

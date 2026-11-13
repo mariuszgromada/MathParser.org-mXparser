@@ -4,9 +4,9 @@
     <AssemblyName>MathParser.org-mXparser</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
     <PackageId>MathParser.org-mXparser</PackageId>
-    <Version>6.1.2</Version>
-    <AssemblyVersion>6.1.2.0</AssemblyVersion>
-    <FileVersion>6.1.2.0</FileVersion>
+    <Version>6.2.0</Version>
+    <AssemblyVersion>6.2.0.0</AssemblyVersion>
+    <FileVersion>6.2.0.0</FileVersion>
     <Authors>Mariusz Gromada</Authors>
     <Company>Mariusz Gromada - MathParser.org</Company>
     <Product>MathParser.org-mXparser</Product>
@@ -17,7 +17,7 @@
     <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://github.com/mariuszgromada/MathParser.org-mXparser</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
-    <PackageReleaseNotes>v.6.1.2 Sagitara: security and performance maintenance release. Fixes GHSA-7fcj-crmh-pvhp by eliminating quadratic-time tokenization of long numeric literals. Public API and expression syntax remain unchanged.</PackageReleaseNotes>
+    <PackageReleaseNotes>6.2.0 development (unreleased). Further changes are planned; release notes are not final.</PackageReleaseNotes>
     <PackageTags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom</PackageTags>
   </PropertyGroup>
   <PropertyGroup>
@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Argument.cs" Link="src\org\mariuszgromada\math\mxparser\Argument.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\CancellationRegistry.cs" Link="src\org\mariuszgromada\math\mxparser\CancellationRegistry.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Constant.cs" Link="src\org\mariuszgromada\math\mxparser\Constant.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Expression.cs" Link="src\org\mariuszgromada\math\mxparser\Expression.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\LaTeXExporter.cs" Link="src\org\mariuszgromada\math\mxparser\LaTeXExporter.cs" />

@@ -1,5 +1,5 @@
 /*
- * @(#)ApiTest.java        6.2.0    2026-11-11
+ * @(#)ApiTest.java        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -12160,4 +12160,900 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
+
+    /* Cancellation helpers live in the existing API suite. Each domain owns real resources. */
+    private static final class CancelDomain implements AutoCloseable {
+        final int id = mXparser.acquireCancellationTokenId();
+        public void close() { mXparser.releaseCancellationTokenId(id); }
+    }
+
+    private static final class CancelGateState {
+        final java.util.concurrent.CountDownLatch entered = new java.util.concurrent.CountDownLatch(1);
+        final java.util.concurrent.CountDownLatch proceed = new java.util.concurrent.CountDownLatch(1);
+        final java.util.concurrent.atomic.AtomicBoolean armed = new java.util.concurrent.atomic.AtomicBoolean();
+        final java.util.concurrent.atomic.AtomicInteger calls = new java.util.concurrent.atomic.AtomicInteger();
+        Runnable action;
+        int skipCalls;
+        void visit() {
+            calls.incrementAndGet();
+            if (armed.get() && skipCalls > 0) { skipCalls--; return; }
+            if (!armed.compareAndSet(true, false)) return;
+            entered.countDown();
+            if (action != null) { action.run(); return; }
+            try {
+                if (!proceed.await(15, java.util.concurrent.TimeUnit.SECONDS))
+                    throw new AssertionError("Cancellation callback release timed out");
+            } catch (InterruptedException e) { Thread.currentThread().interrupt(); throw new AssertionError(e); }
+        }
+    }
+
+    private static final class CancelGate implements FunctionExtension {
+        final CancelGateState state;
+        double value;
+        CancelGate(CancelGateState state) { this.state = state; }
+        public int getParametersNumber() { return 1; }
+        public String getParameterName(int index) { return "x"; }
+        public void setParameterValue(int index, double value) { this.value = value; }
+        public double calculate() { state.visit(); return value; }
+        public FunctionExtension clone() { return new CancelGate(state); }
+    }
+
+    private static void cancelAwait(java.util.concurrent.CountDownLatch latch) throws Exception {
+        Assertions.assertTrue(latch.await(15, java.util.concurrent.TimeUnit.SECONDS), "Worker never reached callback");
+    }
+
+    private static void cancelShutdown(ExecutorService pool) throws Exception {
+        pool.shutdown();
+        Assertions.assertTrue(pool.awaitTermination(15, java.util.concurrent.TimeUnit.SECONDS), "Worker did not finish");
+    }
+
+    private static double cancelDuring(Callable<Double> calculation, CancelGateState state, int id) throws Exception {
+        ExecutorService pool = Executors.newSingleThreadExecutor();
+        state.armed.set(true);
+        Future<Double> result = pool.submit(calculation);
+        try {
+            cancelAwait(state.entered);
+            mXparser.cancelCalculation(id);
+            state.proceed.countDown();
+            return result.get(15, java.util.concurrent.TimeUnit.SECONDS);
+        } finally {
+            state.proceed.countDown();
+            cancelShutdown(pool);
+        }
+    }
+
+    private static double[] cancelPair(int first, int second, boolean global) throws Exception {
+        CancelGateState a = new CancelGateState(), b = new CancelGateState();
+        Expression ea = new Expression("sum(i,1,100,gate(i))", new Function("gate", new CancelGate(a)));
+        Expression eb = new Expression("sum(i,1,100,gate(i))", new Function("gate", new CancelGate(b)));
+        ExecutorService pool = Executors.newFixedThreadPool(2);
+        a.armed.set(true); b.armed.set(true);
+        Future<Double> fa = pool.submit(() -> first < 0 ? ea.calculate() : ea.calculateWithCancel(first));
+        Future<Double> fb = pool.submit(() -> second < 0 ? eb.calculate() : eb.calculateWithCancel(second));
+        try {
+            cancelAwait(a.entered); cancelAwait(b.entered);
+            if (global) mXparser.cancelCurrentCalculation();
+            else mXparser.cancelCalculation(first < 0 ? second : first);
+            a.proceed.countDown(); b.proceed.countDown();
+            return new double[]{fa.get(15, java.util.concurrent.TimeUnit.SECONDS), fb.get(15, java.util.concurrent.TimeUnit.SECONDS)};
+        } finally {
+            a.proceed.countDown(); b.proceed.countDown();
+            cancelShutdown(pool);
+            if (global) mXparser.resetCancelCurrentCalculationFlag();
+        }
+    }
+
+    private static int cancelFrame(Expression expression) throws Exception {
+        java.lang.reflect.Field field = Expression.class.getDeclaredField("activeCancelId");
+        field.setAccessible(true);
+        return field.getInt(expression);
+    }
+
+    private static void cancelNaN(double value) { Assertions.assertTrue(Double.isNaN(value)); }
+
+    @Test
+    public void testApi0423() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: legacy signatures, null, varargs and ID0";
+        TestCommonTools.consolePrintTestApiStart(423, testDescr);
+        Expression e = new Expression("2+2");
+        CalcStepsRegister csr = new CalcStepsRegister();
+        Assertions.assertEquals(4, e.calculate());
+        Assertions.assertEquals(4, e.calculate((CalcStepsRegister)null));
+        Assertions.assertEquals(4, e.calculate(csr));
+        Assertions.assertFalse(csr.calcStepRecords.isEmpty());
+        Assertions.assertEquals(4, e.calculateWithCancel(0));
+        Assertions.assertEquals(4, e.calculateWithCancel(csr, 0));
+        Argument a = new Argument("a=2+2");
+        Assertions.assertEquals(a.getArgumentValue(), a.getArgumentValueWithCancel((CalcStepsRegister)null, 0));
+        Function f = new Function("f(x)=x*x");
+        Assertions.assertEquals(4, f.calculate(2));
+        Assertions.assertEquals(4, f.calculateWithCancel(new double[]{2}, 0));
+        Assertions.assertEquals(4, f.calculateWithCancel(new Argument[]{new Argument("x",2)}, 0));
+        cancelNaN(f.calculate((double[])null));
+        cancelNaN(f.calculateWithCancel((double[])null, 0));
+        java.util.function.DoubleSupplier oldReference = e::calculate;
+        Assertions.assertEquals(4, oldReference.getAsDouble());
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0424() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: all 142 public calculation entries validate ID before work";
+        TestCommonTools.consolePrintTestApiStart(424, testDescr);
+        Class<?>[] classes = {Expression.class, Argument.class, Function.class, RecursiveArgument.class,
+            BooleanAlgebra.class, Calculus.class, MathFunctions.class, NumberTheory.class,
+            ProbabilityDistributions.class, SpecialFunctions.class, Statistics.class};
+        int count = 0;
+        for (Class<?> type : classes) for (java.lang.reflect.Method method : type.getDeclaredMethods()) {
+            if (!java.lang.reflect.Modifier.isPublic(method.getModifiers()) || !method.getName().endsWith("WithCancel")) continue;
+            count++;
+            Object receiver = type == Expression.class ? new Expression("2+2") : type == Argument.class ? new Argument("a",4)
+                : type == Function.class ? new Function("f(x)=x*x") : type == RecursiveArgument.class ? new RecursiveArgument("r(n)=n") : null;
+            Class<?>[] parameters = method.getParameterTypes();
+            Object[] values = new Object[parameters.length];
+            for (int i=0; i<values.length; i++) values[i] = parameters[i] == int.class ? (Object)0
+                : parameters[i] == long.class ? (Object)0L : parameters[i] == double.class ? (Object)0.0
+                : parameters[i] == boolean.class ? (Object)false : null;
+            for (int invalid : new int[]{-1,32768,Integer.MIN_VALUE,Integer.MAX_VALUE}) {
+                values[values.length-1] = invalid;
+                java.lang.reflect.InvocationTargetException failure = Assertions.assertThrows(java.lang.reflect.InvocationTargetException.class,
+                    () -> method.invoke(receiver, values), method.toString());
+                Assertions.assertTrue(failure.getCause() instanceof IllegalArgumentException, method.toString());
+            }
+        }
+        Assertions.assertEquals(142, count);
+        // Invalid IDs must be rejected before evaluating user callbacks or dependent parameters.
+        CancelGateState callback = new CancelGateState();
+        Function gate = new Function("gate", new CancelGate(callback));
+        Expression expression = new Expression("gate(1)", gate);
+        Argument dependent = new Argument("a=gate(1)", gate);
+        Function function = new Function("f(x)=gate(x)", gate);
+        RecursiveArgument recursive = new RecursiveArgument("r(n)=gate(n)", gate);
+        for (int invalid : new int[]{-1, 32768, Integer.MIN_VALUE, Integer.MAX_VALUE}) {
+            Assertions.assertThrows(IllegalArgumentException.class, () -> expression.calculateWithCancel(invalid));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> expression.calculateWithCancel(new CalcStepsRegister(), invalid));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> dependent.getArgumentValueWithCancel(invalid));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> dependent.getArgumentValueWithCancel(new CalcStepsRegister(), invalid));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> function.calculateWithCancel(invalid));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> function.calculateWithCancel(new CalcStepsRegister(), invalid));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> function.calculateWithCancel(new double[]{1}, invalid));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> function.calculateWithCancel(new Argument[]{dependent}, invalid));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> gate.calculateWithCancel(new double[]{1}, invalid));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> recursive.getArgumentValueWithCancel(1.0, invalid));
+            Assertions.assertEquals(0, callback.calls.get(), "Invalid ID executed a user callback");
+        }
+        Assertions.assertEquals(1, expression.calculateWithCancel(0));
+        Assertions.assertTrue(callback.calls.get() > 0, "Positive control must execute the same callback");
+
+        for (int invalid : new int[]{-1,32768,Integer.MIN_VALUE,Integer.MAX_VALUE}) {
+            Assertions.assertThrows(IllegalArgumentException.class, () -> mXparser.cancelCalculation(invalid));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> mXparser.resetCalculationCancellation(invalid));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> mXparser.isCalculationCancelled(invalid));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> mXparser.reserveCancellationTokenId(invalid));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> mXparser.releaseCancellationTokenId(invalid));
+        }
+        Assertions.assertThrows(IllegalArgumentException.class, () -> mXparser.reserveCancellationTokenId(0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> mXparser.releaseCancellationTokenId(0));
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0425() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: global OR domain, sticky state and default options";
+        TestCommonTools.consolePrintTestApiStart(425, testDescr);
+        try (CancelDomain a = new CancelDomain(); CancelDomain b = new CancelDomain()) {
+            Assertions.assertFalse(mXparser.isCalculationCancelled(a.id));
+            mXparser.cancelCalculation(a.id);
+            Assertions.assertTrue(mXparser.isCalculationCancelled(a.id));
+            Assertions.assertFalse(mXparser.isCalculationCancelled(b.id));
+            Assertions.assertFalse(mXparser.isCurrentCalculationCancelled());
+            mXparser.cancelCurrentCalculation();
+            Assertions.assertTrue(mXparser.isCalculationCancelled(b.id));
+            for (int invalid : new int[]{-1, 32768, Integer.MIN_VALUE, Integer.MAX_VALUE})
+                Assertions.assertThrows(IllegalArgumentException.class, () -> mXparser.isCalculationCancelled(invalid));
+            mXparser.setDefaultOptions();
+            Assertions.assertFalse(mXparser.isCalculationCancelled(b.id));
+            Assertions.assertTrue(mXparser.isCalculationCancelled(a.id));
+            Assertions.assertFalse(mXparser.reserveCancellationTokenId(a.id));
+            cancelNaN(new Expression("sum(i,1,10,i)").calculateWithCancel(a.id));
+            Assertions.assertTrue(mXparser.isCalculationCancelled(a.id));
+            mXparser.resetCalculationCancellation(a.id);
+            Assertions.assertFalse(mXparser.isCalculationCancelled(a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0426() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: cross-thread publication and adjacent atomic bits";
+        TestCommonTools.consolePrintTestApiStart(426, testDescr);
+        int[] ids = {1,2,3,4,31,32,63,64,32767};
+        ExecutorService pool = Executors.newFixedThreadPool(ids.length);
+        for (int id:ids) Assertions.assertTrue(mXparser.reserveCancellationTokenId(id));
+        try {
+            List<Future<?>> work = new ArrayList<>();
+            java.util.concurrent.CountDownLatch start = new java.util.concurrent.CountDownLatch(1);
+            for (int id:ids) work.add(pool.submit(() -> { cancelAwait(start); mXparser.cancelCalculation(id); return null; }));
+            start.countDown();
+            for (Future<?> f:work) f.get(15,java.util.concurrent.TimeUnit.SECONDS);
+            for (int id:ids) Assertions.assertTrue(mXparser.isCalculationCancelled(id));
+            work.clear();
+            for (int id:ids) work.add(pool.submit(() -> mXparser.resetCalculationCancellation(id)));
+            for (Future<?> f:work) f.get(15,java.util.concurrent.TimeUnit.SECONDS);
+            for (int id:ids) Assertions.assertFalse(mXparser.isCalculationCancelled(id));
+            java.util.concurrent.CountDownLatch listening = new java.util.concurrent.CountDownLatch(1);
+            Future<Boolean> consumer = pool.submit(() -> {
+                listening.countDown();
+                long deadline = System.nanoTime() + java.util.concurrent.TimeUnit.SECONDS.toNanos(10);
+                while (!mXparser.isCalculationCancelled(31)) if (System.nanoTime() > deadline) return false;
+                return true;
+            });
+            cancelAwait(listening);
+            mXparser.cancelCalculation(31); // No following barrier publishes this write to the consumer.
+            Assertions.assertTrue(consumer.get(15,java.util.concurrent.TimeUnit.SECONDS));
+            // Global publication uses the original volatile flag, through either API.
+            java.lang.reflect.Field signalField = mXparser.class.getDeclaredField("cancelCurrentCalculationFlag");
+            Assertions.assertTrue(java.lang.reflect.Modifier.isVolatile(signalField.getModifiers()));
+            for (boolean legacy : new boolean[]{true, false}) {
+                java.util.concurrent.CountDownLatch globalListening = new java.util.concurrent.CountDownLatch(1);
+                Future<Boolean> globalConsumer = pool.submit(() -> {
+                    globalListening.countDown();
+                    long deadline = System.nanoTime() + java.util.concurrent.TimeUnit.SECONDS.toNanos(10);
+                    while (!mXparser.isCurrentCalculationCancelled())
+                        if (System.nanoTime() > deadline) return false;
+                    return mXparser.isCalculationCancelled(0) && mXparser.isCalculationCancelled(32);
+                });
+                cancelAwait(globalListening);
+                if (legacy) mXparser.cancelCurrentCalculation();
+                else mXparser.cancelCalculation(0);
+                Assertions.assertTrue(globalConsumer.get(15, java.util.concurrent.TimeUnit.SECONDS));
+                if (legacy) mXparser.resetCalculationCancellation(0);
+                else mXparser.resetCancelCurrentCalculationFlag();
+                Assertions.assertFalse(mXparser.isCurrentCalculationCancelled());
+                Assertions.assertFalse(mXparser.isCalculationCancelled(0));
+                Assertions.assertFalse(mXparser.isCalculationCancelled(32));
+                Assertions.assertTrue(mXparser.isCalculationCancelled(31));
+            }
+
+        } finally {
+            cancelShutdown(pool);
+            for (int id:ids) mXparser.releaseCancellationTokenId(id);
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0427() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: reserve/acquire clear only successfully claimed signals";
+        TestCommonTools.consolePrintTestApiStart(427, testDescr);
+        int id = 31;
+        mXparser.cancelCalculation(id);
+        Assertions.assertTrue(mXparser.reserveCancellationTokenId(id));
+        try {
+            Assertions.assertFalse(mXparser.isCalculationCancelled(id));
+            mXparser.cancelCalculation(id);
+            Assertions.assertFalse(mXparser.reserveCancellationTokenId(id));
+            Assertions.assertTrue(mXparser.isCalculationCancelled(id));
+        } finally { mXparser.releaseCancellationTokenId(id); }
+        for (int i=1;i<=32767;i++) mXparser.cancelCalculation(i);
+        try (CancelDomain acquired = new CancelDomain()) {
+            Assertions.assertFalse(mXparser.isCalculationCancelled(acquired.id));
+            Assertions.assertTrue(mXparser.isCalculationCancelled(acquired.id == 1 ? 2 : 1));
+        } finally { for (int i=1;i<=32767;i++) mXparser.resetCalculationCancellation(i); }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0428() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: exhaustion, reuse and simultaneous unique acquire";
+        TestCommonTools.consolePrintTestApiStart(428, testDescr);
+        Set<Integer> reserved = new HashSet<>();
+        try {
+            for (int i=1;i<=32767;i++) Assertions.assertTrue(reserved.add(mXparser.acquireCancellationTokenId()));
+            Assertions.assertThrows(IllegalStateException.class, mXparser::acquireCancellationTokenId);
+            mXparser.releaseCancellationTokenId(32); reserved.remove(32);
+            Assertions.assertEquals(32,mXparser.acquireCancellationTokenId()); reserved.add(32);
+        } finally { for (int id:reserved) mXparser.releaseCancellationTokenId(id); }
+        ExecutorService pool=Executors.newFixedThreadPool(8);
+        java.util.concurrent.CountDownLatch start=new java.util.concurrent.CountDownLatch(1);
+        List<Future<Integer>> futures=new ArrayList<>(); reserved.clear();
+        try {
+            for(int i=0;i<8;i++) futures.add(pool.submit(() -> { cancelAwait(start); return mXparser.acquireCancellationTokenId(); }));
+            start.countDown();
+            for(Future<Integer> f:futures) Assertions.assertTrue(reserved.add(f.get(15,java.util.concurrent.TimeUnit.SECONDS)));
+        } finally { start.countDown(); cancelShutdown(pool); for(int id:reserved)mXparser.releaseCancellationTokenId(id); }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0429() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: release order, neighbours and unreserved rejection";
+        TestCommonTools.consolePrintTestApiStart(429, testDescr);
+        Assertions.assertTrue(mXparser.reserveCancellationTokenId(31));
+        Assertions.assertTrue(mXparser.reserveCancellationTokenId(30));
+        try {
+            mXparser.cancelCalculation(31); mXparser.cancelCalculation(30);
+            mXparser.releaseCancellationTokenId(31);
+            Assertions.assertTrue(mXparser.reserveCancellationTokenId(31));
+            Assertions.assertFalse(mXparser.isCalculationCancelled(31));
+            Assertions.assertTrue(mXparser.isCalculationCancelled(30));
+        } finally { mXparser.releaseCancellationTokenId(31); mXparser.releaseCancellationTokenId(30); }
+        mXparser.cancelCalculation(31);
+        Assertions.assertThrows(IllegalStateException.class, () -> mXparser.releaseCancellationTokenId(31));
+        Assertions.assertTrue(mXparser.isCalculationCancelled(31));
+        mXparser.resetCalculationCancellation(31);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0430() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: two workers with independent domains";
+        TestCommonTools.consolePrintTestApiStart(430, testDescr);
+        try(CancelDomain a=new CancelDomain();CancelDomain b=new CancelDomain()) {
+            double[] values=cancelPair(a.id,b.id,false);
+            cancelNaN(values[0]);Assertions.assertEquals(5050,values[1]);
+            Assertions.assertFalse(mXparser.isCurrentCalculationCancelled());
+            Assertions.assertFalse(mXparser.isCalculationCancelled(b.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0431() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: a separate controller globally cancels both workers";
+        TestCommonTools.consolePrintTestApiStart(431, testDescr);
+        try(CancelDomain a=new CancelDomain();CancelDomain b=new CancelDomain()) {
+            double[] values=cancelPair(a.id,b.id,true);cancelNaN(values[0]);cancelNaN(values[1]);
+            Assertions.assertFalse(mXparser.isCalculationCancelled(a.id));
+            Assertions.assertFalse(mXparser.isCalculationCancelled(b.id));
+            Assertions.assertEquals(55,new Expression("sum(i,1,10,i)").calculateWithCancel(a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0432() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: legacy and token calculations side by side";
+        TestCommonTools.consolePrintTestApiStart(432, testDescr);
+        try(CancelDomain a=new CancelDomain()) {
+            double[] values=cancelPair(-1,a.id,false);Assertions.assertEquals(5050,values[0]);cancelNaN(values[1]);
+            mXparser.resetCalculationCancellation(a.id);
+            values=cancelPair(-1,a.id,true);cancelNaN(values[0]);cancelNaN(values[1]);
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0433() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: deliberate shared ID group and explicit reset";
+        TestCommonTools.consolePrintTestApiStart(433, testDescr);
+        try(CancelDomain a=new CancelDomain()) {
+            double[] values=cancelPair(a.id,a.id,false);cancelNaN(values[0]);cancelNaN(values[1]);
+            Assertions.assertTrue(mXparser.isCalculationCancelled(a.id));mXparser.resetCalculationCancellation(a.id);
+            Assertions.assertEquals(5050,new Expression("sum(i,1,100,i)").calculateWithCancel(a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0434() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: pre-cancel first reduction and reset";
+        TestCommonTools.consolePrintTestApiStart(434, testDescr);
+        try(CancelDomain a=new CancelDomain()) {
+            mXparser.cancelCalculation(a.id);cancelNaN(new Expression("sum(i,1,10,i)").calculateWithCancel(a.id));
+            mXparser.resetCalculationCancellation(a.id);Assertions.assertEquals(55,new Expression("sum(i,1,10,i)").calculateWithCancel(a.id));
+            mXparser.cancelCurrentCalculation();cancelNaN(new Expression("sum(i,1,10,i)").calculate());
+            mXparser.resetCancelCurrentCalculationFlag();
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0435() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: cached literal, free and recursive base fast returns";
+        TestCommonTools.consolePrintTestApiStart(435, testDescr);
+        try(CancelDomain a=new CancelDomain()) {
+            Expression e=new Expression("7");e.calculateWithCancel(a.id);e.calculateWithCancel(a.id);
+            RecursiveArgument r=new RecursiveArgument("r(n)=n");r.addBaseCase(2,7);
+            mXparser.cancelCalculation(a.id);
+            Assertions.assertEquals(7,e.calculateWithCancel(a.id));
+            Assertions.assertEquals(7,new Argument("a",7).getArgumentValueWithCancel(a.id));
+            Assertions.assertEquals(7,r.getArgumentValueWithCancel(2.0,a.id));
+            Assertions.assertTrue(mXparser.isCalculationCancelled(a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0436() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: replay propagates existing negative evaluator result";
+        TestCommonTools.consolePrintTestApiStart(436, testDescr);
+        try(CancelDomain a=new CancelDomain()) {
+            for(int id:new int[]{a.id,0}) {
+                CancelGateState s=new CancelGateState();s.action=() -> mXparser.cancelCalculation(id);
+                Expression e=new Expression("gate(1)+2",new Function("gate",new CancelGate(s)));
+                Assertions.assertEquals(3,e.calculateWithCancel(id));
+                s.armed.set(true);cancelNaN(e.calculateWithCancel(id));
+                mXparser.resetCalculationCancellation(id);Assertions.assertEquals(3,e.calculateWithCancel(id));
+            }
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0437() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: active frame restored after result, cancellation and exception";
+        TestCommonTools.consolePrintTestApiStart(437, testDescr);
+        try(CancelDomain a=new CancelDomain();CancelDomain b=new CancelDomain()) {
+            CancelGateState s=new CancelGateState();Expression e=new Expression("gate(1)+2",new Function("gate",new CancelGate(s)));
+            Assertions.assertEquals(3,e.calculateWithCancel(a.id));Assertions.assertEquals(0,cancelFrame(e));
+            s.action=() -> mXparser.cancelCalculation(a.id);s.armed.set(true);cancelNaN(e.calculateWithCancel(a.id));
+            Assertions.assertEquals(0,cancelFrame(e));
+            s.action=() -> {throw new IllegalStateException("test callback");};s.armed.set(true);
+            cancelNaN(e.calculateWithCancel(b.id));Assertions.assertEquals(0,cancelFrame(e));
+            Assertions.assertEquals(3,e.calculateWithCancel(b.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0438() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: nested independent expression retains its own ID on the same worker";
+        TestCommonTools.consolePrintTestApiStart(438, testDescr);
+        try(CancelDomain a=new CancelDomain();CancelDomain b=new CancelDomain()) {
+            CancelGateState s=new CancelGateState();Expression inner=new Expression("sum(i,1,10,i)");
+            s.action=() -> {mXparser.cancelCalculation(a.id);Assertions.assertEquals(55,inner.calculateWithCancel(b.id));};
+            s.armed.set(true);Expression outer=new Expression("gate(1)+2",new Function("gate",new CancelGate(s)));
+            cancelNaN(outer.calculateWithCancel(a.id));Assertions.assertEquals(0,cancelFrame(inner));Assertions.assertEquals(0,cancelFrame(outer));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0439() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: active ID excluded from clones and trusted serialization";
+        TestCommonTools.consolePrintTestApiStart(439, testDescr);
+        try(CancelDomain a=new CancelDomain();CancelDomain b=new CancelDomain()) {
+            Expression e=new Expression("2+2");java.lang.reflect.Field field=Expression.class.getDeclaredField("activeCancelId");field.setAccessible(true);field.setInt(e,a.id);
+            Assertions.assertTrue(java.lang.reflect.Modifier.isTransient(field.getModifiers()));
+            java.lang.reflect.Method clone=Expression.class.getDeclaredMethod("clone");clone.setAccessible(true);
+            Expression shallow=(Expression)clone.invoke(e), independent=e.cloneForThreadSafe();
+            Assertions.assertEquals(0,cancelFrame(shallow));Assertions.assertEquals(0,cancelFrame(independent));
+            Assertions.assertEquals(4,independent.calculateWithCancel(b.id));
+            SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
+            try {
+                Expression restored=SerializationUtils.deserializeFromBytes(SerializationUtils.serializeToBytes(e));
+                Assertions.assertNotNull(restored);Assertions.assertEquals(0,cancelFrame(restored));Assertions.assertEquals(4,restored.calculateWithCancel(b.id));
+            } finally {SerializationUtils.disableBinarySerialization();field.setInt(e,0);}
+            CancelGateState s=new CancelGateState();CancelGate original=new CancelGate(s);CancelGate copied=(CancelGate)original.clone();
+            Assertions.assertSame(original.state,copied.state);s.action=() -> {};s.armed.set(true);original.calculate();copied.calculate();
+            Assertions.assertEquals(0,s.entered.getCount());Assertions.assertFalse(s.armed.get());
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0440() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: dependent Argument and runtime Function propagation with trace";
+        TestCommonTools.consolePrintTestApiStart(440, testDescr);
+        try(CancelDomain a=new CancelDomain()) {
+            CancelGateState s=new CancelGateState();Function gate=new Function("gate",new CancelGate(s));
+            Argument x=new Argument("x=sum(i,1,100,gate(i))",gate);Function f=new Function("f(t)=x+t");f.addDefinitions(x);
+            Assertions.assertEquals(5050,x.getArgumentValueWithCancel(a.id));Assertions.assertEquals(5051,f.calculateWithCancel(new double[]{1},a.id));
+            cancelNaN(cancelDuring(() -> x.getArgumentValueWithCancel(new CalcStepsRegister(),a.id),s,a.id));
+            mXparser.resetCalculationCancellation(a.id);
+            CancelGateState t=new CancelGateState();Argument y=new Argument("y=sum(i,1,100,gate(i))",new Function("gate",new CancelGate(t)));
+            Function g=new Function("g(t)=y+t");g.addDefinitions(y);g.setArgumentValue(0,1);
+            cancelNaN(cancelDuring(() -> g.calculateWithCancel(new CalcStepsRegister(),a.id),t,a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0441() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: all typed Function entries and dependent argument arrays";
+        TestCommonTools.consolePrintTestApiStart(441, testDescr);
+        try(CancelDomain a=new CancelDomain()) {
+            for(int variant=0;variant<4;variant++) {
+                CancelGateState s=new CancelGateState();Function f=new Function("f(x)=sum(i,1,x,gate(i))",new Function("gate",new CancelGate(s)));f.setArgumentValue(0,100);
+                final int v=variant;
+                Callable<Double> call=() -> v==0?f.calculateWithCancel(new double[]{100},a.id):v==1?f.calculateWithCancel(new Argument[]{new Argument("x",100)},a.id):v==2?f.calculateWithCancel(new CalcStepsRegister(),a.id):f.calculateWithCancel(a.id);
+                Assertions.assertEquals(5050,call.call());cancelNaN(cancelDuring(call,s,a.id));mXparser.resetCalculationCancellation(a.id);
+            }
+            CancelGateState s=new CancelGateState();Argument dependent=new Argument("x=sum(i,1,100,gate(i))",new Function("gate",new CancelGate(s)));
+            Function f=new Function("f(x)=x");cancelNaN(cancelDuring(() -> f.calculateWithCancel(new Argument[]{dependent},a.id),s,a.id));
+            cancelNaN(f.calculateWithCancel((double[])null,a.id));cancelNaN(f.calculateWithCancel(new double[0],a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0442() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: recursive Argument and Function including cloned callback rendezvous";
+        TestCommonTools.consolePrintTestApiStart(442, testDescr);
+        try(CancelDomain a=new CancelDomain()) {
+            CancelGateState s=new CancelGateState();Function gate=new Function("gate",new CancelGate(s));
+            RecursiveArgument r=new RecursiveArgument("r(n)=r(n-1)+gate(n)",gate);r.addBaseCase(0,0);
+            Assertions.assertEquals(55,r.getArgumentValueWithCancel(10.0,a.id));
+            r=new RecursiveArgument("r(n)=r(n-1)+gate(n)",gate);r.addBaseCase(0,0);final RecursiveArgument cold=r;
+            cancelNaN(cancelDuring(() -> cold.getArgumentValueWithCancel(10.0,a.id),s,a.id));mXparser.resetCalculationCancellation(a.id);
+            CancelGateState t=new CancelGateState();Function recursive=new Function("f(n)=if(n<=0,0,f(n-1)+gate(n))",new Function("gate",new CancelGate(t)));
+            Assertions.assertEquals(55,recursive.calculateWithCancel(new double[]{10},a.id));
+            cancelNaN(cancelDuring(() -> recursive.calculateWithCancel(new double[]{10},a.id),t,a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0443() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: IF/IFF preserve lazy inactive branches";
+        TestCommonTools.consolePrintTestApiStart(443, testDescr);
+        try(CancelDomain a=new CancelDomain()) {
+            for(String text:new String[]{"if(1,sum(i,1,10,gate(i)),other(99))","iff(1,sum(i,1,10,gate(i)),1,other(99))"}) {
+                CancelGateState s=new CancelGateState(),other=new CancelGateState();
+                Expression e=new Expression(text,new Function("gate",new CancelGate(s)),new Function("other",new CancelGate(other)));
+                Assertions.assertEquals(55,e.calculateWithCancel(a.id));Assertions.assertEquals(0,other.calls.get());
+                cancelNaN(cancelDuring(() -> e.calculateWithCancel(a.id),s,a.id));Assertions.assertEquals(0,other.calls.get());mXparser.resetCalculationCancellation(a.id);
+            }
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0444() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: iteration, sample variance and range parameter expressions";
+        TestCommonTools.consolePrintTestApiStart(444, testDescr);
+        try(CancelDomain a=new CancelDomain()) {
+            String[] operators={"sum","prod","avg","vari","stdi"};double[] expected={15,120,3,2.5,Math.sqrt(2.5)};
+            for(int i=0;i<operators.length;i++) {
+                CancelGateState s=new CancelGateState();Expression e=new Expression(operators[i]+"(i,1,5,gate(i))",new Function("gate",new CancelGate(s)));
+                Assertions.assertEquals(expected[i],e.calculateWithCancel(a.id),1e-12);
+                double cancelledValue=cancelDuring(() -> e.calculateWithCancel(a.id),s,a.id);
+                Assertions.assertTrue(Double.isNaN(cancelledValue),operators[i]+" returned "+cancelledValue);
+                mXparser.resetCalculationCancellation(a.id);
+            }
+            for(String range:new String[]{"sum(i,gate(1),10,i)","sum(i,1,gate(10),i)","sum(i,1,10,i,gate(1))"}) {
+                CancelGateState s=new CancelGateState();Expression e=new Expression(range,new Function("gate",new CancelGate(s)));
+                cancelNaN(cancelDuring(() -> e.calculateWithCancel(a.id),s,a.id));mXparser.resetCalculationCancellation(a.id);
+            }
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0445() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: calculus helpers and all expression-valued calculus parameters";
+        TestCommonTools.consolePrintTestApiStart(445, testDescr);
+        try(CancelDomain a=new CancelDomain()) {
+            for(int variant=0;variant<4;variant++) {
+                CancelGateState s=new CancelGateState();Argument x=new Argument("x",0.5);
+                Expression f=new Expression(variant==2?"gate(x)-0.5":variant==3?"gate(x)^2":"gate(x)",x,new Function("gate",new CancelGate(s)));
+                final int v=variant;
+                Callable<Double> call=() -> v==0?Calculus.derivativeWithCancel(f,x,0.5,Calculus.GENERAL_DERIVATIVE,1e-8,20,a.id):v==1?Calculus.integralTrapezoidWithCancel(f,x,0,1,1e-8,20,a.id):v==2?Calculus.solveBrentWithCancel(f,x,0,1,1e-8,20,a.id):Calculus.derivativeNthWithCancel(f,2,x,0.5,Calculus.RIGHT_DERIVATIVE,1e-8,20,a.id);
+                Assertions.assertEquals(new double[]{1,0.5,0.5,2}[variant],call.call(),1e-5);
+                if (variant == 2) s.skipCalls = 2; // Reach Brent's iteration, past its endpoint/early-return paths.
+                cancelNaN(cancelDuring(call,s,a.id));mXparser.resetCalculationCancellation(a.id);
+            }
+            for(String text:new String[]{"der(x,x,gate(0.5))","der(x,x,0.5,gate(0.00000001),20)","der(x,x,0.5,0.00000001,gate(20))","dern(x^2,gate(2),x)","int(x,x,gate(0),1)","solve(x-0.5,x,0,gate(1))","diff(x,x,gate(1))"}) {
+                CancelGateState s=new CancelGateState();Expression e=new Expression(text,new Argument("x",0.5),new Function("gate",new CancelGate(s)));
+                Assertions.assertTrue(e.checkSyntax(),e.getErrorMessage());
+                double cancelledValue=cancelDuring(() -> e.calculateWithCancel(a.id),s,a.id);
+                if (text.startsWith("solve(")) {
+                    // A cancelled bound can leave Brent with NaN endpoint values, skip its
+                    // controlled loop and return b. Preserve this existing global behaviour.
+                    Assertions.assertEquals(1,cancelledValue);
+                    Assertions.assertTrue(mXparser.isCalculationCancelled(a.id));
+                    CancelGateState legacyState=new CancelGateState();
+                    Expression legacy=new Expression(text,new Argument("x",0.5),new Function("gate",new CancelGate(legacyState)));
+                    try { Assertions.assertEquals(cancelledValue,cancelDuring(legacy::calculate,legacyState,0)); }
+                    finally { mXparser.resetCancelCurrentCalculationFlag(); }
+                } else Assertions.assertTrue(Double.isNaN(cancelledValue),text+" returned "+cancelledValue);
+                mXparser.resetCalculationCancellation(a.id);
+            }
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0446() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: foreign expression syntax frame and base conversion";
+        TestCommonTools.consolePrintTestApiStart(446, testDescr);
+        try(CancelDomain a=new CancelDomain()) {
+            java.lang.reflect.Method syntax=Expression.class.getDeclaredMethod("checkSyntaxWithCancel",String.class,boolean.class,int.class);syntax.setAccessible(true);
+            Expression foreign=new Expression("b2.101");Assertions.assertTrue((Boolean)syntax.invoke(foreign,"",false,a.id));Assertions.assertEquals(0,cancelFrame(foreign));
+            Argument arg=new Argument("a=b2.101");Function fun=new Function("f(x)=x+b2.101");RecursiveArgument recursive=new RecursiveArgument("r(n)=n+b2.101");
+            Expression e=new Expression("a+f(1)+r(1)",arg,fun,recursive);Assertions.assertEquals(17,e.calculateWithCancel(a.id));
+            mXparser.cancelCalculation(a.id);Expression pending=new Expression("a+f(1)+r(1)",new Argument("a=b2.101"),new Function("f(x)=x+b2.101"),new RecursiveArgument("r(n)=n+b2.101"));
+            cancelNaN(pending.calculateWithCancel(a.id));Assertions.assertEquals(0,cancelFrame(pending));
+            mXparser.resetCalculationCancellation(a.id);Assertions.assertTrue(new Expression("b2.101").checkSyntax());
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0447() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: getFunctionValues forwards ID without adding count-loop polls";
+        TestCommonTools.consolePrintTestApiStart(447, testDescr);
+        try(CancelDomain a=new CancelDomain()) {
+            Argument x=new Argument("x");Expression f=new Expression("gate(x)+1",x,new Function("gate",new CancelGate(new CancelGateState())));
+            Assertions.assertArrayEquals(new double[]{1,2,3},MathFunctions.getFunctionValuesWithCancel(f,x,0,2,1,a.id));
+            Assertions.assertArrayEquals(new double[]{3,2,1},MathFunctions.getFunctionValuesWithCancel(f,x,2,0,-1,a.id));
+            Assertions.assertArrayEquals(new double[]{2},MathFunctions.getFunctionValuesWithCancel(f,x,1,1,1,a.id));
+            Assertions.assertNull(MathFunctions.getFunctionValuesWithCancel(f,x,0,2,0,a.id));
+            mXparser.cancelCalculation(a.id);double[] samples=MathFunctions.getFunctionValuesWithCancel(f,x,0,2,1,a.id);
+            Assertions.assertEquals(3,samples.length);for(double sample:samples)cancelNaN(sample);
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0448() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: NumberTheory rounding modes, sorting, bases and typed factor sentinels";
+        TestCommonTools.consolePrintTestApiStart(448, testDescr);
+        try(CancelDomain a=new CancelDomain()) {
+            for(boolean canonical:new boolean[]{true,false}) {
+                if(canonical)mXparser.enableCanonicalRounding();else mXparser.disableCanonicalRounding();
+                Assertions.assertEquals(6,NumberTheory.sumWithCancel(new double[]{1,2,3},a.id));
+                mXparser.cancelCalculation(a.id);cancelNaN(NumberTheory.sumWithCancel(new double[]{1,2,3},a.id));mXparser.resetCalculationCancellation(a.id);
+            }
+            Assertions.assertArrayEquals(new long[]{2,2,3},NumberTheory.primeFactorsWithCancel(12L,a.id));
+            Assertions.assertArrayEquals(new double[]{2,2,3},NumberTheory.primeFactorsWithCancel(12.0,a.id));
+            double[] sorted={3,1,2};Assertions.assertArrayEquals(new int[]{1,2,0},NumberTheory.sortAscWithCancel(sorted,a.id));Assertions.assertArrayEquals(new double[]{1,2,3},sorted);
+            Assertions.assertEquals(5,NumberTheory.convOthBase2DecimalWithCancel(2.0,new double[]{1,0,1},a.id));
+            mXparser.cancelCalculation(a.id);Assertions.assertEquals(0,NumberTheory.primeFactorsWithCancel(12L,a.id).length);Assertions.assertEquals(0,NumberTheory.primeFactorsWithCancel(12.0,a.id).length);
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0449() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: mathematical families, exact integral sentinels and lcm exception";
+        TestCommonTools.consolePrintTestApiStart(449, testDescr);
+        try(CancelDomain a=new CancelDomain()) {
+            Assertions.assertEquals(3628800,MathFunctions.factorialWithCancel(10,a.id));
+            Assertions.assertEquals(MathFunctions.binomCoeff(30,15),MathFunctions.binomCoeffWithCancel(30,15L,a.id));
+            Assertions.assertEquals(MathFunctions.harmonicNumber(10),MathFunctions.ordinaryHarmonicNumberWithCancel(10,a.id));
+            Assertions.assertEquals(MathFunctions.harmonicNumber(2.0,10),MathFunctions.generalizedHarmonicNumberWithCancel(2.0,10,a.id));
+            Assertions.assertEquals(MathFunctions.eulerNumber(10,4),MathFunctions.eulerNumberWithCancel(10,4,a.id));
+            Assertions.assertEquals(MathFunctions.Stirling1Number(10,4),MathFunctions.Stirling1NumberWithCancel(10,4,a.id));
+            Assertions.assertEquals(MathFunctions.Stirling2Number(10,4),MathFunctions.Stirling2NumberWithCancel(10,4,a.id));
+            Assertions.assertEquals(6765,MathFunctions.fibonacciNumberWithCancel(20,a.id));Assertions.assertEquals(15127,MathFunctions.lucasNumberWithCancel(20,a.id));
+            Assertions.assertEquals(1,BooleanAlgebra.andVariadicWithCancel(new double[]{1,1},a.id));Assertions.assertEquals(2.5,Statistics.varWithCancel(new double[]{1,2,3,4,5},a.id));
+            Assertions.assertEquals(SpecialFunctions.exponentialIntegralEi(2),SpecialFunctions.exponentialIntegralEiWithCancel(2,a.id));
+            Assertions.assertEquals(6,NumberTheory.gcdWithCancel(12L,18L,a.id));Assertions.assertEquals(6,NumberTheory.gcdWithCancel(new long[]{12,18,24},a.id));
+            Assertions.assertEquals(72,NumberTheory.lcmWithCancel(new long[]{12,18,24},a.id));Assertions.assertEquals(4,NumberTheory.primeCountWithCancel(10L,a.id));
+            Assertions.assertEquals(7,NumberTheory.numberOfDigitsWithCancel(123L,2L,a.id));Assertions.assertEquals(2,NumberTheory.digitAtPositionWithCancel(123L,2,10,a.id));
+            for(int id:new int[]{a.id,0}) {
+                mXparser.cancelCalculation(id);
+                Assertions.assertEquals(0L,NumberTheory.gcdWithCancel(12L,18L,id));Assertions.assertEquals(0L,NumberTheory.gcdWithCancel(new long[]{12,18,24},id));
+                Assertions.assertEquals(0L,NumberTheory.lcmWithCancel(new long[]{12,18,24},id));Assertions.assertEquals(0L,NumberTheory.primeCountWithCancel(10L,id));
+                Assertions.assertEquals(0L,NumberTheory.numberOfDigitsWithCancel(123L,2L,id));Assertions.assertEquals(0,NumberTheory.digitAtPositionWithCancel(123L,2,10,id));
+                Assertions.assertThrows(ArithmeticException.class,() -> NumberTheory.lcmWithCancel(12L,18L,id));
+                if(id==0)Assertions.assertThrows(ArithmeticException.class,() -> NumberTheory.lcm(12L,18L));
+                cancelNaN(MathFunctions.factorialWithCancel(10,id));cancelNaN(MathFunctions.eulerNumberWithCancel(10,4,id));cancelNaN(MathFunctions.Stirling1NumberWithCancel(10,4,id));cancelNaN(MathFunctions.Stirling2NumberWithCancel(10,4,id));
+                cancelNaN(MathFunctions.fibonacciNumberWithCancel(20,id));cancelNaN(MathFunctions.lucasNumberWithCancel(20,id));cancelNaN(MathFunctions.ordinaryHarmonicNumberWithCancel(10,id));cancelNaN(MathFunctions.generalizedHarmonicNumberWithCancel(2.0,10,id));
+                cancelNaN(BooleanAlgebra.andVariadicWithCancel(new double[]{1,1},id));cancelNaN(Statistics.varWithCancel(new double[]{1,2,3},id));cancelNaN(SpecialFunctions.exponentialIntegralEiWithCancel(2,id));
+                cancelNaN(new Expression("lcm(12,18)").calculateWithCancel(id));mXparser.resetCalculationCancellation(id);
+            }
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0450() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: rejection sampling retains RNG identity and draw order";
+        TestCommonTools.consolePrintTestApiStart(450, testDescr);
+        try(CancelDomain a=new CancelDomain()) {
+            java.util.concurrent.atomic.AtomicInteger calls=new java.util.concurrent.atomic.AtomicInteger();
+            Random random=new Random(){public double nextDouble(){if(calls.incrementAndGet()==2)mXparser.cancelCalculation(a.id);return 0;}};
+            cancelNaN(ProbabilityDistributions.rndNormalWithCancel(0,1,random,a.id));Assertions.assertEquals(2,calls.get());
+            Assertions.assertEquals(3,ProbabilityDistributions.rndNormalWithCancel(3,0,random,a.id));Assertions.assertEquals(2,calls.get());
+            mXparser.resetCalculationCancellation(a.id);
+            Assertions.assertEquals(ProbabilityDistributions.rndNormal(0,1,new Random(123)),ProbabilityDistributions.rndNormalWithCancel(0,1,new Random(123),a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0451() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: syntax errors, corrected definitions and frame restoration";
+        TestCommonTools.consolePrintTestApiStart(451, testDescr);
+        mXparser.disableAttemptToFixExpStrMode(); // Keep the intended malformed input malformed in both APIs.
+        try(CancelDomain a=new CancelDomain()) {
+            Expression legacy=new Expression("1+"),token=new Expression("1+");cancelNaN(legacy.calculate());cancelNaN(token.calculateWithCancel(a.id));
+            Assertions.assertEquals(legacy.getErrorMessage(),token.getErrorMessage());Assertions.assertEquals(0,cancelFrame(token));
+            Argument bad=new Argument("a=1+");Expression e=new Expression("a",bad);cancelNaN(e.calculateWithCancel(a.id));
+            bad.setArgumentExpressionString("2+2");Assertions.assertEquals(4,e.calculateWithCancel(a.id));
+            token.setExpressionString("2+2");Assertions.assertTrue(token.checkSyntax());Assertions.assertEquals(4,token.calculateWithCancel(a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0452() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: exact nine legacy dispatch boundaries and positive private cores";
+        TestCommonTools.consolePrintTestApiStart(452, testDescr);
+        Expression e=new Expression("2+2") {public double calculate(){return 101;}public double calculate(CalcStepsRegister csr){return 102;}};
+        Argument a=new Argument("a=2+2") {public double getArgumentValue(){return 201;}public double getArgumentValue(CalcStepsRegister csr){return 202;}};
+        Function f=new Function("f(x)=x*x") {public double calculate(){return 301;}public double calculate(CalcStepsRegister csr){return 302;}public double calculate(double... values){return 303;}public double calculate(Argument... values){return 304;}};
+        f.setArgumentValue(0,2);
+        RecursiveArgument r=new RecursiveArgument("r(n)=n+100") {public double getArgumentValue(double index){return 401;}};
+        double[] actual={e.calculateWithCancel(0),e.calculateWithCancel((CalcStepsRegister)null,0),a.getArgumentValueWithCancel(0),a.getArgumentValueWithCancel((CalcStepsRegister)null,0),f.calculateWithCancel(0),f.calculateWithCancel((CalcStepsRegister)null,0),f.calculateWithCancel(new double[]{2},0),f.calculateWithCancel(new Argument[]{new Argument("x",2)},0),r.getArgumentValueWithCancel(2.0,0)};
+        Assertions.assertArrayEquals(new double[]{101,102,201,202,301,302,303,304,401},actual);
+        try(CancelDomain id=new CancelDomain()) {
+            Assertions.assertEquals(4,e.calculateWithCancel(id.id));Assertions.assertEquals(4,e.calculateWithCancel((CalcStepsRegister)null,id.id));
+            Assertions.assertEquals(4,a.getArgumentValueWithCancel(id.id));Assertions.assertEquals(4,a.getArgumentValueWithCancel((CalcStepsRegister)null,id.id));
+            Assertions.assertEquals(4,f.calculateWithCancel(id.id));Assertions.assertEquals(4,f.calculateWithCancel((CalcStepsRegister)null,id.id));
+            Assertions.assertEquals(4,f.calculateWithCancel(new double[]{2},id.id));Assertions.assertEquals(4,f.calculateWithCancel(new Argument[]{new Argument("x",2)},id.id));
+            Assertions.assertEquals(102,r.getArgumentValueWithCancel(2.0,id.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0453() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: explicit mathematical names and inherited no-index RecursiveArgument getter";
+        TestCommonTools.consolePrintTestApiStart(453, testDescr);
+        try(CancelDomain a=new CancelDomain()) {
+            Assertions.assertEquals(MathFunctions.harmonicNumber(2.0,3),MathFunctions.generalizedHarmonicNumberWithCancel(2.0,3,a.id));
+            Assertions.assertEquals(MathFunctions.harmonicNumber(2),MathFunctions.ordinaryHarmonicNumberWithCancel(2,a.id));
+            Assertions.assertEquals(6,NumberTheory.sum(1,2,3));Assertions.assertEquals(6,NumberTheory.sumWithCancel(new double[]{1,2,3},a.id));
+            Assertions.assertEquals(5,NumberTheory.convOthBase2DecimalWithCancel("101",2,a.id));
+            Assertions.assertEquals(NumberTheory.convDecimal2OthBase(5,2),NumberTheory.formatNumberInBaseWithCancel(5,2,a.id));
+            Assertions.assertEquals(NumberTheory.digitAtPosition(123.0,2),NumberTheory.decimalDigitAtPositionWithCancel(123.0,2,a.id));
+            Argument n=new Argument("n",2);RecursiveArgument r=new RecursiveArgument("r","n+100",n);r.addBaseCase(2,999);
+            Assertions.assertEquals(102,r.getArgumentValueWithCancel(a.id));Assertions.assertEquals(999,r.getArgumentValueWithCancel(2.0,a.id));
+            n.setArgumentValue(5);Assertions.assertEquals(105,r.getArgumentValueWithCancel(a.id));Assertions.assertEquals(105,r.getArgumentValueWithCancel(5.0,a.id));
+            n.setArgumentValue(8);Assertions.assertEquals(108,r.getArgumentValueWithCancel(a.id));Assertions.assertEquals(105,r.getArgumentValueWithCancel(5.0,a.id));
+            Assertions.assertEquals(108,r.getArgumentValueWithCancel((CalcStepsRegister)null,a.id));
+            Assertions.assertEquals(Argument.class,RecursiveArgument.class.getMethod("getArgumentValueWithCancel",int.class).getDeclaringClass());
+            Assertions.assertEquals(Argument.class,RecursiveArgument.class.getMethod("getArgumentValueWithCancel",CalcStepsRegister.class,int.class).getDeclaringClass());
+            Assertions.assertEquals(RecursiveArgument.class,RecursiveArgument.class.getMethod("getArgumentValueWithCancel",double.class,int.class).getDeclaringClass());
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0454() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "cancellation: repeated pool ownership, cancellation, join and reuse";
+        TestCommonTools.consolePrintTestApiStart(454, testDescr);
+        for(int round=0;round<8;round++) {
+            try(CancelDomain a=new CancelDomain();CancelDomain b=new CancelDomain()) {
+                double[] values=cancelPair(a.id,b.id,false);cancelNaN(values[0]);Assertions.assertEquals(5050,values[1]);
+                mXparser.resetCalculationCancellation(a.id);Assertions.assertEquals(55,new Expression("sum(i,1,10,i)").calculateWithCancel(a.id));
+            }
+        }
+        int reused=mXparser.acquireCancellationTokenId();mXparser.releaseCancellationTokenId(reused);
+        Assertions.assertTrue(mXparser.reserveCancellationTokenId(reused));mXparser.releaseCancellationTokenId(reused);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
 }

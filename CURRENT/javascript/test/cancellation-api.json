@@ -1,0 +1,3774 @@
+[
+  {
+    "owner": "Argument",
+    "name": "getArgumentValueWithCancel",
+    "static": false,
+    "result": "double",
+    "parameters": [
+      [
+        "CalcStepsRegister",
+        "calcStepsRegister"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Argument.java",
+    "line": 896,
+    "exports": [
+      "api_C1_10001"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "Argument",
+    "name": "getArgumentValueWithCancel",
+    "static": false,
+    "result": "double",
+    "parameters": [
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Argument.java",
+    "line": 1489,
+    "exports": [
+      "api_C1_10002"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "Expression",
+    "name": "calculateWithCancel",
+    "static": false,
+    "result": "double",
+    "parameters": [
+      [
+        "CalcStepsRegister",
+        "calcStepsRegister"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Expression.java",
+    "line": 5318,
+    "exports": [
+      "api_C1_10003"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "Expression",
+    "name": "calculateWithCancel",
+    "static": false,
+    "result": "double",
+    "parameters": [
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Expression.java",
+    "line": 7771,
+    "exports": [
+      "api_C1_10004"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "Function",
+    "name": "calculateWithCancel",
+    "static": false,
+    "result": "double",
+    "parameters": [
+      [
+        "CalcStepsRegister",
+        "calcStepsRegister"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Function.java",
+    "line": 833,
+    "exports": [
+      "api_C1_10005"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "Function",
+    "name": "calculateWithCancel",
+    "static": false,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "parameters"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Function.java",
+    "line": 902,
+    "exports": [
+      "api_C1_10006"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "Function",
+    "name": "calculateWithCancel",
+    "static": false,
+    "result": "double",
+    "parameters": [
+      [
+        "Argument[]",
+        "arguments"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Function.java",
+    "line": 988,
+    "exports": [
+      "api_C1_10007"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "Function",
+    "name": "calculateWithCancel",
+    "static": false,
+    "result": "double",
+    "parameters": [
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Function.java",
+    "line": 1744,
+    "exports": [
+      "api_C1_10008"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mXparser",
+    "name": "isCalculationCancelled",
+    "static": true,
+    "result": "boolean",
+    "parameters": [
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mXparser.java",
+    "line": 2333,
+    "exports": [
+      "api_C1_10009"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mXparser",
+    "name": "cancelCalculation",
+    "static": true,
+    "result": "void",
+    "parameters": [
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mXparser.java",
+    "line": 2363,
+    "exports": [
+      "api_C1_10010"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mXparser",
+    "name": "resetCalculationCancellation",
+    "static": true,
+    "result": "void",
+    "parameters": [
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mXparser.java",
+    "line": 2394,
+    "exports": [
+      "api_C1_10011"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mXparser",
+    "name": "acquireCancellationTokenId",
+    "static": true,
+    "result": "int",
+    "parameters": [],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mXparser.java",
+    "line": 2425,
+    "exports": [
+      "api_C1_10012"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mXparser",
+    "name": "reserveCancellationTokenId",
+    "static": true,
+    "result": "boolean",
+    "parameters": [
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mXparser.java",
+    "line": 2453,
+    "exports": [
+      "api_C1_10013"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mXparser",
+    "name": "releaseCancellationTokenId",
+    "static": true,
+    "result": "void",
+    "parameters": [
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mXparser.java",
+    "line": 2481,
+    "exports": [
+      "api_C1_10014"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "RecursiveArgument",
+    "name": "getArgumentValueWithCancel",
+    "static": false,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "index"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/RecursiveArgument.java",
+    "line": 425,
+    "exports": [
+      "api_C1_10015"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::BooleanAlgebra",
+    "name": "andVariadicWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "values"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/BooleanAlgebra.java",
+    "line": 597,
+    "exports": [
+      "api_C1_10016"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::BooleanAlgebra",
+    "name": "orVariadicWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "values"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/BooleanAlgebra.java",
+    "line": 651,
+    "exports": [
+      "api_C1_10017"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::BooleanAlgebra",
+    "name": "xorVariadicWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "values"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/BooleanAlgebra.java",
+    "line": 705,
+    "exports": [
+      "api_C1_10018"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::Calculus",
+    "name": "integralTrapezoidWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "Expression",
+        "f"
+      ],
+      [
+        "Argument",
+        "x"
+      ],
+      [
+        "double",
+        "a"
+      ],
+      [
+        "double",
+        "b"
+      ],
+      [
+        "double",
+        "eps"
+      ],
+      [
+        "int",
+        "maxSteps"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Calculus.java",
+    "line": 298,
+    "exports": [
+      "api_C1_10019"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::Calculus",
+    "name": "derivativeWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "Expression",
+        "f"
+      ],
+      [
+        "Argument",
+        "x"
+      ],
+      [
+        "double",
+        "x0"
+      ],
+      [
+        "int",
+        "derType"
+      ],
+      [
+        "double",
+        "eps"
+      ],
+      [
+        "int",
+        "maxSteps"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Calculus.java",
+    "line": 381,
+    "exports": [
+      "api_C1_10020"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::Calculus",
+    "name": "derivativeNthWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "Expression",
+        "f"
+      ],
+      [
+        "double",
+        "n"
+      ],
+      [
+        "Argument",
+        "x"
+      ],
+      [
+        "double",
+        "x0"
+      ],
+      [
+        "int",
+        "derType"
+      ],
+      [
+        "double",
+        "eps"
+      ],
+      [
+        "int",
+        "maxSteps"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Calculus.java",
+    "line": 474,
+    "exports": [
+      "api_C1_10021"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::Calculus",
+    "name": "forwardDifferenceWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "Expression",
+        "f"
+      ],
+      [
+        "double",
+        "h"
+      ],
+      [
+        "Argument",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Calculus.java",
+    "line": 656,
+    "exports": [
+      "api_C1_10022"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::Calculus",
+    "name": "backwardDifferenceWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "Expression",
+        "f"
+      ],
+      [
+        "double",
+        "h"
+      ],
+      [
+        "Argument",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Calculus.java",
+    "line": 735,
+    "exports": [
+      "api_C1_10023"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::Calculus",
+    "name": "solveBrentWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "Expression",
+        "f"
+      ],
+      [
+        "Argument",
+        "x"
+      ],
+      [
+        "double",
+        "a"
+      ],
+      [
+        "double",
+        "b"
+      ],
+      [
+        "double",
+        "eps"
+      ],
+      [
+        "double",
+        "maxSteps"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Calculus.java",
+    "line": 792,
+    "exports": [
+      "api_C1_10024"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "bellNumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "int",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 387,
+    "exports": [
+      "api_C1_10025"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "bellNumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 445,
+    "exports": [
+      "api_C1_10026"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "eulerNumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "int",
+        "n"
+      ],
+      [
+        "int",
+        "k"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 502,
+    "exports": [
+      "api_C1_10027"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "eulerNumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "n"
+      ],
+      [
+        "double",
+        "k"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 570,
+    "exports": [
+      "api_C1_10028"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "factorialWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "int",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 614,
+    "exports": [
+      "api_C1_10029"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "factorialWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 667,
+    "exports": [
+      "api_C1_10030"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "factorialFallingWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "double",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 709,
+    "exports": [
+      "api_C1_10031"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "factorialRisingWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "double",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 759,
+    "exports": [
+      "api_C1_10032"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "binomCoeffWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "n"
+      ],
+      [
+        "long",
+        "k"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 815,
+    "exports": [
+      "api_C1_10033"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "binomCoeffWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "n"
+      ],
+      [
+        "double",
+        "k"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 878,
+    "exports": [
+      "api_C1_10034"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "numberOfPermutationsWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "n"
+      ],
+      [
+        "long",
+        "k"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 928,
+    "exports": [
+      "api_C1_10035"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "numberOfPermutationsWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "n"
+      ],
+      [
+        "double",
+        "k"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 987,
+    "exports": [
+      "api_C1_10036"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "bernoulliNumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "int",
+        "m"
+      ],
+      [
+        "int",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 1035,
+    "exports": [
+      "api_C1_10037"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "bernoulliNumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "m"
+      ],
+      [
+        "double",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 1090,
+    "exports": [
+      "api_C1_10038"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "Stirling1NumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "int",
+        "n"
+      ],
+      [
+        "int",
+        "k"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 1145,
+    "exports": [
+      "api_C1_10039"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "Stirling1NumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "n"
+      ],
+      [
+        "double",
+        "k"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 1209,
+    "exports": [
+      "api_C1_10040"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "Stirling2NumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "int",
+        "n"
+      ],
+      [
+        "int",
+        "k"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 1264,
+    "exports": [
+      "api_C1_10041"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "Stirling2NumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "n"
+      ],
+      [
+        "double",
+        "k"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 1328,
+    "exports": [
+      "api_C1_10042"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "worpitzkyNumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "int",
+        "n"
+      ],
+      [
+        "int",
+        "k"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 1376,
+    "exports": [
+      "api_C1_10043"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "worpitzkyNumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "n"
+      ],
+      [
+        "double",
+        "k"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 1429,
+    "exports": [
+      "api_C1_10044"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "ordinaryHarmonicNumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "int",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 1475,
+    "exports": [
+      "api_C1_10045"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "ordinaryHarmonicNumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 1527,
+    "exports": [
+      "api_C1_10046"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "generalizedHarmonicNumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "int",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 1575,
+    "exports": [
+      "api_C1_10047"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "generalizedHarmonicNumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "double",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 1631,
+    "exports": [
+      "api_C1_10048"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "fibonacciNumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "int",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 1709,
+    "exports": [
+      "api_C1_10049"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "fibonacciNumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 1771,
+    "exports": [
+      "api_C1_10050"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "lucasNumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "int",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 1826,
+    "exports": [
+      "api_C1_10051"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "lucasNumberWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 1888,
+    "exports": [
+      "api_C1_10052"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "continuedFractionWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "sequence"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 1968,
+    "exports": [
+      "api_C1_10053"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "continuedPolynomialWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 2054,
+    "exports": [
+      "api_C1_10054"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "eulerPolynomialWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "int",
+        "m"
+      ],
+      [
+        "double",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 2107,
+    "exports": [
+      "api_C1_10055"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "eulerPolynomialWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "m"
+      ],
+      [
+        "double",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 2167,
+    "exports": [
+      "api_C1_10056"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "tetrationWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "a"
+      ],
+      [
+        "double",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 2401,
+    "exports": [
+      "api_C1_10057"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "roundWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "value"
+      ],
+      [
+        "int",
+        "places"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 3143,
+    "exports": [
+      "api_C1_10058"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "roundHalfUpWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "value"
+      ],
+      [
+        "int",
+        "places"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 3194,
+    "exports": [
+      "api_C1_10059"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "roundDownWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "value"
+      ],
+      [
+        "int",
+        "places"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 3258,
+    "exports": [
+      "api_C1_10060"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "lengthRoundWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "value"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 3766,
+    "exports": [
+      "api_C1_10061"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "coalesceWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "values"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 3823,
+    "exports": [
+      "api_C1_10062"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "getFunctionValueWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "Expression",
+        "f"
+      ],
+      [
+        "Argument",
+        "x"
+      ],
+      [
+        "double",
+        "x0"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 3909,
+    "exports": [
+      "api_C1_10063"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::MathFunctions",
+    "name": "getFunctionValuesWithCancel",
+    "static": true,
+    "result": "double[]",
+    "parameters": [
+      [
+        "Expression",
+        "f"
+      ],
+      [
+        "Argument",
+        "index"
+      ],
+      [
+        "double",
+        "from"
+      ],
+      [
+        "double",
+        "to"
+      ],
+      [
+        "double",
+        "delta"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+    "line": 3961,
+    "exports": [
+      "api_C1_10064"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "minWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "numbers"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 326,
+    "exports": [
+      "api_C1_10065",
+      "api_C1_10066"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "argminWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "numbers"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 381,
+    "exports": [
+      "api_C1_10067",
+      "api_C1_10068"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "maxWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "numbers"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 454,
+    "exports": [
+      "api_C1_10069",
+      "api_C1_10070"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "argmaxWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "numbers"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 509,
+    "exports": [
+      "api_C1_10071",
+      "api_C1_10072"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "sortAscWithCancel",
+    "static": true,
+    "result": "int[]",
+    "parameters": [
+      [
+        "double[]",
+        "array"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 603,
+    "exports": [
+      "api_C1_10073"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "getDistValuesWithCancel",
+    "static": true,
+    "result": "double[][]",
+    "parameters": [
+      [
+        "double[]",
+        "array"
+      ],
+      [
+        "boolean",
+        "returnOrderByDescFreqAndAscOrigPos"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 656,
+    "exports": [
+      "api_C1_10074"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "numberOfDistValuesWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "numbers"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 840,
+    "exports": [
+      "api_C1_10075",
+      "api_C1_10076"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "gcdWithCancel",
+    "static": true,
+    "result": "long",
+    "parameters": [
+      [
+        "long",
+        "a"
+      ],
+      [
+        "long",
+        "b"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 889,
+    "exports": [
+      "api_C1_10077"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "gcdWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "a"
+      ],
+      [
+        "double",
+        "b"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 959,
+    "exports": [
+      "api_C1_10078"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "gcdWithCancel",
+    "static": true,
+    "result": "long",
+    "parameters": [
+      [
+        "long[]",
+        "numbers"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 1030,
+    "exports": [
+      "api_C1_10079"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "gcdWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "numbers"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 1089,
+    "exports": [
+      "api_C1_10080",
+      "api_C1_10081"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "lcmWithCancel",
+    "static": true,
+    "result": "long",
+    "parameters": [
+      [
+        "long",
+        "a"
+      ],
+      [
+        "long",
+        "b"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 1143,
+    "exports": [
+      "api_C1_10082"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "lcmWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "a"
+      ],
+      [
+        "double",
+        "b"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 1192,
+    "exports": [
+      "api_C1_10083"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "lcmWithCancel",
+    "static": true,
+    "result": "long",
+    "parameters": [
+      [
+        "long[]",
+        "numbers"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 1240,
+    "exports": [
+      "api_C1_10084"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "lcmWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "numbers"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 1298,
+    "exports": [
+      "api_C1_10085",
+      "api_C1_10086"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "sumWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "numbers"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 1355,
+    "exports": [
+      "api_C1_10087",
+      "api_C1_10088"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "prodWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "numbers"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 1423,
+    "exports": [
+      "api_C1_10089",
+      "api_C1_10090"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "primeTestWithCancel",
+    "static": true,
+    "result": "boolean",
+    "parameters": [
+      [
+        "long",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 1487,
+    "exports": [
+      "api_C1_10091"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "primeTestWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 1588,
+    "exports": [
+      "api_C1_10092"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "primeCountWithCancel",
+    "static": true,
+    "result": "long",
+    "parameters": [
+      [
+        "long",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 1635,
+    "exports": [
+      "api_C1_10093"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "primeCountWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "n"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 1684,
+    "exports": [
+      "api_C1_10094"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "sigmaSummationWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "Expression",
+        "f"
+      ],
+      [
+        "Argument",
+        "index"
+      ],
+      [
+        "double",
+        "from"
+      ],
+      [
+        "double",
+        "to"
+      ],
+      [
+        "double",
+        "delta"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 1734,
+    "exports": [
+      "api_C1_10095"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "piProductWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "Expression",
+        "f"
+      ],
+      [
+        "Argument",
+        "index"
+      ],
+      [
+        "double",
+        "from"
+      ],
+      [
+        "double",
+        "to"
+      ],
+      [
+        "double",
+        "delta"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 1858,
+    "exports": [
+      "api_C1_10096"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "minWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "Expression",
+        "f"
+      ],
+      [
+        "Argument",
+        "index"
+      ],
+      [
+        "double",
+        "from"
+      ],
+      [
+        "double",
+        "to"
+      ],
+      [
+        "double",
+        "delta"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 1981,
+    "exports": [
+      "api_C1_10097"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "maxWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "Expression",
+        "f"
+      ],
+      [
+        "Argument",
+        "index"
+      ],
+      [
+        "double",
+        "from"
+      ],
+      [
+        "double",
+        "to"
+      ],
+      [
+        "double",
+        "delta"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 2058,
+    "exports": [
+      "api_C1_10098"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "convOthBase2DecimalWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "String",
+        "numberLiteral"
+      ],
+      [
+        "int",
+        "numeralSystemBase"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 2344,
+    "exports": [
+      "api_C1_10099",
+      "api_C1_10100"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "convOthBase2DecimalWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "int",
+        "numeralSystemBase"
+      ],
+      [
+        "int[]",
+        "digits"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 2457,
+    "exports": [
+      "api_C1_10101",
+      "api_C1_10102"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "convOthBase2DecimalWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "numeralSystemBase"
+      ],
+      [
+        "double[]",
+        "digits"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 2520,
+    "exports": [
+      "api_C1_10103",
+      "api_C1_10104"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "convOthBase2DecimalWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "int[]",
+        "baseAndDigits"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 2586,
+    "exports": [
+      "api_C1_10105"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "convOthBase2DecimalWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "baseAndDigits"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 2643,
+    "exports": [
+      "api_C1_10106"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "formatNumberInBaseWithCancel",
+    "static": true,
+    "result": "String",
+    "parameters": [
+      [
+        "double",
+        "decimalNumber"
+      ],
+      [
+        "int",
+        "numeralSystemBase"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 2709,
+    "exports": [
+      "api_C1_10107"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "numberOfDigitsWithCancel",
+    "static": true,
+    "result": "long",
+    "parameters": [
+      [
+        "long",
+        "number"
+      ],
+      [
+        "long",
+        "numeralSystemBase"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 3180,
+    "exports": [
+      "api_C1_10108"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "numberOfDigitsWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "number"
+      ],
+      [
+        "double",
+        "numeralSystemBase"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 3238,
+    "exports": [
+      "api_C1_10109"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "digitAtPositionWithCancel",
+    "static": true,
+    "result": "int",
+    "parameters": [
+      [
+        "long",
+        "number"
+      ],
+      [
+        "int",
+        "position"
+      ],
+      [
+        "int",
+        "numeralSystemBase"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 3300,
+    "exports": [
+      "api_C1_10110"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "digitAtPositionWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "number"
+      ],
+      [
+        "double",
+        "position"
+      ],
+      [
+        "double",
+        "numeralSystemBase"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 3375,
+    "exports": [
+      "api_C1_10111"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "decimalDigitAtPositionWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "number"
+      ],
+      [
+        "double",
+        "position"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 3445,
+    "exports": [
+      "api_C1_10112"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "primeFactorsWithCancel",
+    "static": true,
+    "result": "long[]",
+    "parameters": [
+      [
+        "long",
+        "number"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 3486,
+    "exports": [
+      "api_C1_10113"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "primeFactorsWithCancel",
+    "static": true,
+    "result": "double[]",
+    "parameters": [
+      [
+        "double",
+        "number"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 3560,
+    "exports": [
+      "api_C1_10114"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "numberOfPrimeFactorsWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "number"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 3634,
+    "exports": [
+      "api_C1_10115"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "primeFactorValueWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "number"
+      ],
+      [
+        "double",
+        "id"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 3683,
+    "exports": [
+      "api_C1_10116"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "primeFactorExponentWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "number"
+      ],
+      [
+        "double",
+        "id"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 3741,
+    "exports": [
+      "api_C1_10117"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::NumberTheory",
+    "name": "toFractionWithCancel",
+    "static": true,
+    "result": "double[]",
+    "parameters": [
+      [
+        "double",
+        "value"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+    "line": 3839,
+    "exports": [
+      "api_C1_10118"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::ProbabilityDistributions",
+    "name": "rndNormalWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "mean"
+      ],
+      [
+        "double",
+        "stddev"
+      ],
+      [
+        "Random",
+        "rnd"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+    "line": 489,
+    "exports": [
+      "api_C1_10119"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::ProbabilityDistributions",
+    "name": "pdfStudentTWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "double",
+        "v"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+    "line": 636,
+    "exports": [
+      "api_C1_10120"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::ProbabilityDistributions",
+    "name": "cdfStudentTWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "double",
+        "v"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+    "line": 730,
+    "exports": [
+      "api_C1_10121"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::ProbabilityDistributions",
+    "name": "qntStudentTWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "p"
+      ],
+      [
+        "double",
+        "v"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+    "line": 788,
+    "exports": [
+      "api_C1_10122"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::ProbabilityDistributions",
+    "name": "rndStudentTWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "v"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+    "line": 877,
+    "exports": [
+      "api_C1_10123"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::ProbabilityDistributions",
+    "name": "pdfChiSquaredWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "double",
+        "k"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+    "line": 994,
+    "exports": [
+      "api_C1_10124"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::ProbabilityDistributions",
+    "name": "cdfChiSquaredWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "double",
+        "k"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+    "line": 1041,
+    "exports": [
+      "api_C1_10125"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::ProbabilityDistributions",
+    "name": "qntChiSquaredWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "p"
+      ],
+      [
+        "double",
+        "k"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+    "line": 1090,
+    "exports": [
+      "api_C1_10126"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::ProbabilityDistributions",
+    "name": "rndChiSquaredWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "k"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+    "line": 1136,
+    "exports": [
+      "api_C1_10127"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::ProbabilityDistributions",
+    "name": "pdfSnedecordFWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "double",
+        "d1"
+      ],
+      [
+        "double",
+        "d2"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+    "line": 1186,
+    "exports": [
+      "api_C1_10128"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::ProbabilityDistributions",
+    "name": "cdfSnedecordFWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "double",
+        "d1"
+      ],
+      [
+        "double",
+        "d2"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+    "line": 1248,
+    "exports": [
+      "api_C1_10129"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::ProbabilityDistributions",
+    "name": "qntSnedecordFWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "p"
+      ],
+      [
+        "double",
+        "d1"
+      ],
+      [
+        "double",
+        "d2"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+    "line": 1308,
+    "exports": [
+      "api_C1_10130"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::ProbabilityDistributions",
+    "name": "rndSnedecordFWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "d1"
+      ],
+      [
+        "double",
+        "d2"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+    "line": 1367,
+    "exports": [
+      "api_C1_10131"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::ProbabilityDistributions",
+    "name": "getRandomVariableValueWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "int",
+        "randomVariableId"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+    "line": 1420,
+    "exports": [
+      "api_C1_10132"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "exponentialIntegralEiWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 271,
+    "exports": [
+      "api_C1_10133"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "logarithmicIntegralLiWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 413,
+    "exports": [
+      "api_C1_10134"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "offsetLogarithmicIntegralLiWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 458,
+    "exports": [
+      "api_C1_10135"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "gammaWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 716,
+    "exports": [
+      "api_C1_10136"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "lanchosGammaWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 767,
+    "exports": [
+      "api_C1_10137"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "logGammaWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 824,
+    "exports": [
+      "api_C1_10138"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "sgnGammaWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 911,
+    "exports": [
+      "api_C1_10139"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "regularizedGammaLowerPWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "s"
+      ],
+      [
+        "double",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 960,
+    "exports": [
+      "api_C1_10140"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "inverseRegularizedGammaLowerPWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "a"
+      ],
+      [
+        "double",
+        "p"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 1084,
+    "exports": [
+      "api_C1_10141"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "incompleteGammaLowerWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "s"
+      ],
+      [
+        "double",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 1168,
+    "exports": [
+      "api_C1_10142"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "regularizedGammaUpperQWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "s"
+      ],
+      [
+        "double",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 1208,
+    "exports": [
+      "api_C1_10143"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "incompleteGammaUpperWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "s"
+      ],
+      [
+        "double",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 1311,
+    "exports": [
+      "api_C1_10144"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "diGammaWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 1349,
+    "exports": [
+      "api_C1_10145"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "logBetaWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "double",
+        "y"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 1426,
+    "exports": [
+      "api_C1_10146"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "betaWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "double",
+        "y"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 1480,
+    "exports": [
+      "api_C1_10147"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "incompleteBetaWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "a"
+      ],
+      [
+        "double",
+        "b"
+      ],
+      [
+        "double",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 1529,
+    "exports": [
+      "api_C1_10148"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "regularizedBetaWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "a"
+      ],
+      [
+        "double",
+        "b"
+      ],
+      [
+        "double",
+        "x"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 1636,
+    "exports": [
+      "api_C1_10149"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "inverseRegularizedBetaWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "a"
+      ],
+      [
+        "double",
+        "b"
+      ],
+      [
+        "double",
+        "p"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 1761,
+    "exports": [
+      "api_C1_10150"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "lambertWWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "x"
+      ],
+      [
+        "double",
+        "branch"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 1939,
+    "exports": [
+      "api_C1_10151"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::SpecialFunctions",
+    "name": "hypergeometricFWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double",
+        "a"
+      ],
+      [
+        "double",
+        "b"
+      ],
+      [
+        "double",
+        "c"
+      ],
+      [
+        "double",
+        "z"
+      ],
+      [
+        "double",
+        "maxIterations"
+      ],
+      [
+        "double",
+        "precision"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+    "line": 1990,
+    "exports": [
+      "api_C1_10152"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::Statistics",
+    "name": "avgWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "Expression",
+        "f"
+      ],
+      [
+        "Argument",
+        "index"
+      ],
+      [
+        "double",
+        "from"
+      ],
+      [
+        "double",
+        "to"
+      ],
+      [
+        "double",
+        "delta"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Statistics.java",
+    "line": 290,
+    "exports": [
+      "api_C1_10153"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::Statistics",
+    "name": "varWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "Expression",
+        "f"
+      ],
+      [
+        "Argument",
+        "index"
+      ],
+      [
+        "double",
+        "from"
+      ],
+      [
+        "double",
+        "to"
+      ],
+      [
+        "double",
+        "delta"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Statistics.java",
+    "line": 374,
+    "exports": [
+      "api_C1_10154"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::Statistics",
+    "name": "stdWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "Expression",
+        "f"
+      ],
+      [
+        "Argument",
+        "index"
+      ],
+      [
+        "double",
+        "from"
+      ],
+      [
+        "double",
+        "to"
+      ],
+      [
+        "double",
+        "delta"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Statistics.java",
+    "line": 430,
+    "exports": [
+      "api_C1_10155"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::Statistics",
+    "name": "avgWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "numbers"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Statistics.java",
+    "line": 479,
+    "exports": [
+      "api_C1_10156",
+      "api_C1_10157"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::Statistics",
+    "name": "varWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "numbers"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Statistics.java",
+    "line": 536,
+    "exports": [
+      "api_C1_10158",
+      "api_C1_10159"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::Statistics",
+    "name": "stdWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "numbers"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Statistics.java",
+    "line": 596,
+    "exports": [
+      "api_C1_10160",
+      "api_C1_10161"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::Statistics",
+    "name": "medianWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "numbers"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Statistics.java",
+    "line": 641,
+    "exports": [
+      "api_C1_10162",
+      "api_C1_10163"
+    ],
+    "status": "UNVERIFIED"
+  },
+  {
+    "owner": "mathcollection::Statistics",
+    "name": "modeWithCancel",
+    "static": true,
+    "result": "double",
+    "parameters": [
+      [
+        "double[]",
+        "numbers"
+      ],
+      [
+        "int",
+        "cancelId"
+      ]
+    ],
+    "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Statistics.java",
+    "line": 695,
+    "exports": [
+      "api_C1_10164",
+      "api_C1_10165"
+    ],
+    "status": "UNVERIFIED"
+  }
+]

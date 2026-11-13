@@ -1,5 +1,5 @@
 /*
- * @(#)Function.cs        6.1.0    2024-10-06
+ * @(#)Function.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -252,7 +252,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        6.1.0
+	 * @version        6.2.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -795,13 +795,45 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     Function value as double.
 		 */
 		public double calculate(CalcStepsRegister calcStepsRegister) {
+			return calculateCoreWithCancel(calcStepsRegister, 0);
+		}
+		/**
+		 * Calculates function value and registers all the calculation steps
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * @param calcStepsRegister A collection to store list of calculation steps,
+		 *                          steps registered as strings.
+		 *
+		 * @return     Function value as double.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see calculate(CalcStepsRegister)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public double calculateWithCancel(CalcStepsRegister calcStepsRegister, int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
+			if (cancelId == 0) return calculate(calcStepsRegister);
+			return calculateCoreWithCancel(calcStepsRegister, cancelId);
+		}
+
+		private double calculateCoreWithCancel(CalcStepsRegister calcStepsRegister, int cancelId) {
 			CalcStepsRegister.setUserFunction(calcStepsRegister, this);
 			computingTime = 0;
 			if (!syntaxStatusDefinition)
 				return Double.NaN;
 			double value = Double.NaN;
 			if (functionBodyType == BODY_RUNTIME) {
-				value = functionExpression.calculate(calcStepsRegister);
+				value = functionExpression.calculateWithCancel(calcStepsRegister, cancelId);
 				computingTime = functionExpression.computingTime;
 				return value;
 			}
@@ -831,6 +863,38 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     function value as double.
 		 */
 		public double calculate(params double[] parameters) {
+			return calculateCoreWithCancel(parameters, 0);
+		}
+		/**
+		 * Calculates function value
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * Array parameters are fixed arrays, not token-bearing varargs.
+		 * @param      parameters              the function parameters values (as doubles)
+		 *
+		 * @return     function value as double.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see calculate(double[])
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public double calculateWithCancel(double[] parameters, int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
+			if (cancelId == 0) return calculate(parameters);
+			return calculateCoreWithCancel(parameters, cancelId);
+		}
+
+		private double calculateCoreWithCancel(double[] parameters, int cancelId) {
 			computingTime = 0;
 			if (!syntaxStatusDefinition)
 				return Double.NaN;
@@ -847,7 +911,7 @@ namespace org.mariuszgromada.math.mxparser {
 			double value = Double.NaN;
 			if (isVariadic) {
 				if (functionBodyType == BODY_RUNTIME) {
-					value =  functionExpression.calculate();
+					value =  functionExpression.calculateWithCancel(cancelId);
 					computingTime = functionExpression.computingTime;
 					return value;
 				}
@@ -864,7 +928,7 @@ namespace org.mariuszgromada.math.mxparser {
 			if (functionBodyType == BODY_RUNTIME) {
 				for (int p = 0; p < parameters.Length; p++)
 					setArgumentValue(p, parameters[p]);
-				value = functionExpression.calculate();
+				value = functionExpression.calculateWithCancel(cancelId);
 				computingTime = functionExpression.computingTime;
 				return value;
 			}
@@ -884,6 +948,38 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     function value as double
 		 */
 		public double calculate(params Argument[] arguments) {
+			return calculateCoreWithCancel(arguments, 0);
+		}
+		/**
+		 * Calculates function value
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * Array parameters are fixed arrays, not token-bearing varargs.
+		 * @param      arguments   function parameters (as Arguments)
+		 *
+		 * @return     function value as double
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see calculate(Argument[])
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public double calculateWithCancel(Argument[] arguments, int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
+			if (cancelId == 0) return calculate(arguments);
+			return calculateCoreWithCancel(arguments, cancelId);
+		}
+
+		private double calculateCoreWithCancel(Argument[] arguments, int cancelId) {
 			computingTime = 0;
 			if (!syntaxStatusDefinition)
 				return Double.NaN;
@@ -898,7 +994,7 @@ namespace org.mariuszgromada.math.mxparser {
 			parameters = new double[arguments.Length];
 			double x;
 			for (int i = 0; i < arguments.Length; i++) {
-				x = arguments[i].getArgumentValue();
+				x = arguments[i].getArgumentValueWithCancel(cancelId);
 				functionExpression.UDFVariadicParamsAtRunTime.Add(x);
 				parameters[i] = x;
 			}
@@ -906,7 +1002,7 @@ namespace org.mariuszgromada.math.mxparser {
 			double value = Double.NaN;
 			if (isVariadic) {
 				if (functionBodyType == BODY_RUNTIME) {
-					value = functionExpression.calculate();
+					value = functionExpression.calculateWithCancel(cancelId);
 					computingTime = functionExpression.computingTime;
 					return value;
 				}
@@ -922,13 +1018,13 @@ namespace org.mariuszgromada.math.mxparser {
 
 			if (functionBodyType == BODY_RUNTIME) {
 				for (int p = 0; p < arguments.Length; p++)
-					setArgumentValue(p, arguments[p].getArgumentValue());
-				value = functionExpression.calculate();
+					setArgumentValue(p, arguments[p].getArgumentValueWithCancel(cancelId));
+				value = functionExpression.calculateWithCancel(cancelId);
 				computingTime = functionExpression.computingTime;
 				return value;
 			}
 			for (int p = 0; p < arguments.Length; p++)
-				functionExtension.setParameterValue(p, arguments[p].getArgumentValue());
+				functionExtension.setParameterValue(p, arguments[p].getArgumentValueWithCancel(cancelId));
 
 			value = functionExtension.calculate();
 			computingTime = (mXparser.currentTimeMillis() - startTime)/1000.0;
@@ -1616,5 +1712,32 @@ namespace org.mariuszgromada.math.mxparser {
 			cloneCache.clearCache();
 			return functionClone;
 		}
-	}
+	
+		/**
+		 * Calculates function value and registers all the calculation steps
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+	
+		 * @return     Function value as double.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see calculate()
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public double calculateWithCancel(int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
+			if (cancelId == 0) return calculate();
+			return calculateWithCancel((CalcStepsRegister)null, cancelId);
+		}
+}
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        6.1.2    2026-10-25
+ * @(#)mXparser.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -240,7 +240,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        6.1.2
+	 * @version        6.2.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -253,8 +253,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * mXparser version
 		 */
 		public const int VERSION_MAJOR = 6;
-		public const int VERSION_MINOR = 1;
-		public const int VERSION_PATCH = 2;
+		public const int VERSION_MINOR = 2;
+		public const int VERSION_PATCH = 0;
 		public static readonly String VERSION = VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_PATCH;
 		public const String VERSION_CODE_NAME = "Sagitara";
 		public static readonly String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
@@ -486,6 +486,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Options changeset
 		 */
 		internal volatile static int optionsChangesetNumber = 0;
+		/** Maximum cancellation domain ID; 0 selects global cancellation. @since 6.2.0 */
+		public const int MAX_CANCELLATION_TOKEN_ID = 32767;
 		/**
 		 * Indicator whether to call cancel current calculation
 		 */
@@ -2341,6 +2343,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Method give a signal to other methods to cancel current calculation. This is a flag,
 		 * remember to reset this flag after process is cancelled and you are going to start
 		 * new calculation process.
+		 * <p>Sets only the global signal; positive domains also observe this flag.
 		 */
 		public static void cancelCurrentCalculation() {
 			cancelCurrentCalculationFlag = true;
@@ -2349,6 +2352,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Resets a flag giving signal to the engine to cancel current calculation.
 		 *
 		 *  @see {@link #cancelCurrentCalculation()}
+		 * <p>Clears only the global flag; individual signals and reservations remain intact.
 		 */
 		public static void resetCancelCurrentCalculationFlag() {
 			cancelCurrentCalculationFlag = false;
@@ -2358,6 +2362,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @see {@link #cancelCurrentCalculation()}
 		 * @see {@link #resetCancelCurrentCalculationFlag()}
+		 * <p>Reads only the global flag; this does not confirm that a particular operation stopped.
 		 */
 		public static bool isCurrentCalculationCancelled() {
 			return cancelCurrentCalculationFlag;
@@ -2380,5 +2385,175 @@ namespace org.mariuszgromada.math.mxparser {
 		public const String NAMEv52 = "5.2";
 		public const String NAMEv60 = "6.0";
 		public const String NAMEv61 = "6.1";
+	
+		/**
+		 * Reads the current global signal OR the specified domain signal, not an operation completion status.
+		 * <p>An ID denotes an operation domain, not a thread. Multiple independent graphs
+		 * may share an ID deliberately. Signals remain set until reset or release;
+		 * calculation never resets them. Cached values and paths without an existing
+		 * check can complete normally despite a signal. A query does not prove that
+		 * a particular invocation stopped or establish the cause of its result.
+		 * <p>Reset or release only after all workers and controllers (including timers
+		 * and callbacks) have finished. Raw IDs have no ABA or owner authentication
+		 * protection: a delayed old controller can affect a later user of the number.
+		 * Registry atomics do not make a shared mutable expression graph thread-safe.
+		 * Separate WASM modules have separate registries; synchronous single-thread
+		 * WASM cannot run a timer controller during calculation. Cross-worker signalling
+		 * requires a separately verified shared-memory runtime.
+		 * @param cancelId domain in 0..MAX_CANCELLATION_TOKEN_ID; 0 means global cancellation
+		 * @return true if global cancellation or the specified domain signal is set; false otherwise
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see #MAX_CANCELLATION_TOKEN_ID
+		 * @see #acquireCancellationTokenId()
+		 * @see #reserveCancellationTokenId(int)
+		 * @see #cancelCalculation(int)
+		 * @see #resetCalculationCancellation(int)
+		 * @see #releaseCancellationTokenId(int)
+		 */
+		public static bool isCalculationCancelled(int cancelId) {
+			if (cancelId == 0) return cancelCurrentCalculationFlag;
+			if (cancelId < 0 || cancelId > MAX_CANCELLATION_TOKEN_ID) throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
+			return cancelCurrentCalculationFlag || CancellationRegistry.isCancelled(cancelId);
+		}
+
+		/**
+		 * Atomically sets the sticky signal for this domain; ID 0 sets the global signal. A controller thread may call this while another thread calculates. The worker reacts only at an existing cancellation check.
+		 * <p>An ID denotes an operation domain, not a thread. Multiple independent graphs
+		 * may share an ID deliberately. Signals remain set until reset or release;
+		 * calculation never resets them. Cached values and paths without an existing
+		 * check can complete normally despite a signal. A query does not prove that
+		 * a particular invocation stopped or establish the cause of its result.
+		 * <p>Reset or release only after all workers and controllers (including timers
+		 * and callbacks) have finished. Raw IDs have no ABA or owner authentication
+		 * protection: a delayed old controller can affect a later user of the number.
+		 * Registry atomics do not make a shared mutable expression graph thread-safe.
+		 * Separate WASM modules have separate registries; synchronous single-thread
+		 * WASM cannot run a timer controller during calculation. Cross-worker signalling
+		 * requires a separately verified shared-memory runtime.
+		 * @param cancelId domain in 0..MAX_CANCELLATION_TOKEN_ID; 0 means global cancellation
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see #MAX_CANCELLATION_TOKEN_ID
+		 * @see #acquireCancellationTokenId()
+		 * @see #reserveCancellationTokenId(int)
+		 * @see #resetCalculationCancellation(int)
+		 * @see #releaseCancellationTokenId(int)
+		 */
+		public static void cancelCalculation(int cancelId) {
+			if (cancelId == 0) { cancelCurrentCalculation(); return; }
+			CancellationRegistry.cancel(cancelId);
+		}
+
+		/**
+		 * Atomically clears only the specified signal. ID 0 clears only global cancellation, retaining all individual signals and reservations.
+		 * <p>An ID denotes an operation domain, not a thread. Multiple independent graphs
+		 * may share an ID deliberately. Signals remain set until reset or release;
+		 * calculation never resets them. Cached values and paths without an existing
+		 * check can complete normally despite a signal. A query does not prove that
+		 * a particular invocation stopped or establish the cause of its result.
+		 * <p>Reset or release only after all workers and controllers (including timers
+		 * and callbacks) have finished. Raw IDs have no ABA or owner authentication
+		 * protection: a delayed old controller can affect a later user of the number.
+		 * Registry atomics do not make a shared mutable expression graph thread-safe.
+		 * Separate WASM modules have separate registries; synchronous single-thread
+		 * WASM cannot run a timer controller during calculation. Cross-worker signalling
+		 * requires a separately verified shared-memory runtime.
+		 * @param cancelId domain in 0..MAX_CANCELLATION_TOKEN_ID; 0 means global cancellation
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see #MAX_CANCELLATION_TOKEN_ID
+		 * @see #acquireCancellationTokenId()
+		 * @see #reserveCancellationTokenId(int)
+		 * @see #cancelCalculation(int)
+		 * @see #releaseCancellationTokenId(int)
+		 */
+		public static void resetCalculationCancellation(int cancelId) {
+			if (cancelId == 0) { resetCancelCurrentCalculationFlag(); return; }
+			CancellationRegistry.reset(cancelId);
+		}
+
+		/**
+		 * Atomically reserves a positive free ID, clears its previous signal, then publishes that ID. Never returns 0.
+		 * <p>An ID denotes an operation domain, not a thread. Multiple independent graphs
+		 * may share an ID deliberately. Signals remain set until reset or release;
+		 * calculation never resets them. Cached values and paths without an existing
+		 * check can complete normally despite a signal. A query does not prove that
+		 * a particular invocation stopped or establish the cause of its result.
+		 * <p>Reset or release only after all workers and controllers (including timers
+		 * and callbacks) have finished. Raw IDs have no ABA or owner authentication
+		 * protection: a delayed old controller can affect a later user of the number.
+		 * Registry atomics do not make a shared mutable expression graph thread-safe.
+		 * Separate WASM modules have separate registries; synchronous single-thread
+		 * WASM cannot run a timer controller during calculation. Cross-worker signalling
+		 * requires a separately verified shared-memory runtime.
+		 * @return a reserved, initially clear ID in 1..MAX_CANCELLATION_TOKEN_ID
+		 * @throws InvalidOperationException if all positive IDs are reserved
+		 * @since 6.2.0
+		 * @see #MAX_CANCELLATION_TOKEN_ID
+		 * @see #reserveCancellationTokenId(int)
+		 * @see #cancelCalculation(int)
+		 * @see #resetCalculationCancellation(int)
+		 * @see #releaseCancellationTokenId(int)
+		 */
+		public static int acquireCancellationTokenId() {
+			return CancellationRegistry.acquire();
+		}
+
+		/**
+		 * Atomically reserves a manually selected positive ID. Success clears its previous signal before publishing success; failure leaves the owner signal unchanged. Reserve manual IDs before using them alongside acquire.
+		 * <p>An ID denotes an operation domain, not a thread. Multiple independent graphs
+		 * may share an ID deliberately. Signals remain set until reset or release;
+		 * calculation never resets them. Cached values and paths without an existing
+		 * check can complete normally despite a signal. A query does not prove that
+		 * a particular invocation stopped or establish the cause of its result.
+		 * <p>Reset or release only after all workers and controllers (including timers
+		 * and callbacks) have finished. Raw IDs have no ABA or owner authentication
+		 * protection: a delayed old controller can affect a later user of the number.
+		 * Registry atomics do not make a shared mutable expression graph thread-safe.
+		 * Separate WASM modules have separate registries; synchronous single-thread
+		 * WASM cannot run a timer controller during calculation. Cross-worker signalling
+		 * requires a separately verified shared-memory runtime.
+		 * @param cancelId domain in 1..MAX_CANCELLATION_TOKEN_ID; 0 is not reservable
+		 * @return true if the ID was reserved by this call; false if already reserved
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see #MAX_CANCELLATION_TOKEN_ID
+		 * @see #acquireCancellationTokenId()
+		 * @see #cancelCalculation(int)
+		 * @see #resetCalculationCancellation(int)
+		 * @see #releaseCancellationTokenId(int)
+		 */
+		public static bool reserveCancellationTokenId(int cancelId) {
+			return CancellationRegistry.reserve(cancelId);
+		}
+
+		/**
+		 * Clears the signal before returning a reserved positive ID to the allocator. An unreserved ID is rejected before clearing its signal; use reset for an unreserved manual domain.
+		 * <p>An ID denotes an operation domain, not a thread. Multiple independent graphs
+		 * may share an ID deliberately. Signals remain set until reset or release;
+		 * calculation never resets them. Cached values and paths without an existing
+		 * check can complete normally despite a signal. A query does not prove that
+		 * a particular invocation stopped or establish the cause of its result.
+		 * <p>Reset or release only after all workers and controllers (including timers
+		 * and callbacks) have finished. Raw IDs have no ABA or owner authentication
+		 * protection: a delayed old controller can affect a later user of the number.
+		 * Registry atomics do not make a shared mutable expression graph thread-safe.
+		 * Separate WASM modules have separate registries; synchronous single-thread
+		 * WASM cannot run a timer controller during calculation. Cross-worker signalling
+		 * requires a separately verified shared-memory runtime.
+		 * @param cancelId domain in 1..MAX_CANCELLATION_TOKEN_ID; 0 is not reservable
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @throws InvalidOperationException if cancelId is not reserved
+		 * @since 6.2.0
+		 * @see #MAX_CANCELLATION_TOKEN_ID
+		 * @see #acquireCancellationTokenId()
+		 * @see #reserveCancellationTokenId(int)
+		 * @see #cancelCalculation(int)
+		 * @see #resetCalculationCancellation(int)
+		 */
+		public static void releaseCancellationTokenId(int cancelId) {
+			CancellationRegistry.release(cancelId);
+		}
 	}
 }

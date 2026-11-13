@@ -1,5 +1,5 @@
 /*
- * @(#)bindings.cpp        6.2.0    2026-11-11
+ * @(#)bindings.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -8597,4 +8597,351 @@ EMSCRIPTEN_BINDINGS (mxparser_public_bindings) {
                          &ParseExceptionArrayMemberFieldAccess<&syntaxchecker::ParseException::tokenImage>::get);
     emscripten::function("api_C1_06508_set",
                          &ParseExceptionArrayMemberFieldAccess<&syntaxchecker::ParseException::tokenImage>::set);
+    // Per-calculation cancellation: Java/C# public entries only; original transport IDs stay stable.
+    emscripten::function("api_C1_10001",
+                         &MemberCall<static_cast<double (Argument::*)(const CalcStepsRegisterPtr &, int)>(&Argument::getArgumentValueWithCancel)>::call);
+    emscripten::function("api_C1_10002",
+                         &MemberCall<static_cast<double (Argument::*)(int)>(&Argument::getArgumentValueWithCancel)>::call);
+    emscripten::function("api_C1_10003",
+                         &MemberCall<static_cast<double (Expression::*)(const CalcStepsRegisterPtr &, int)>(&Expression::calculateWithCancel)>::call);
+    emscripten::function("api_C1_10004",
+                         &MemberCall<static_cast<double (Expression::*)(int)>(&Expression::calculateWithCancel)>::call);
+    emscripten::function("api_C1_10005",
+                         &MemberCall<static_cast<double (Function::*)(const CalcStepsRegisterPtr &, int)>(&Function::calculateWithCancel)>::call);
+    emscripten::function("api_C1_10006",
+                         &MemberCall<static_cast<double (Function::*)(const ListPtr<double> &, int)>(&Function::calculateWithCancel)>::call);
+    emscripten::function("api_C1_10007",
+                         &MemberCall<static_cast<double (Function::*)(const ListPtr<ArgumentPtr> &, int)>(&Function::calculateWithCancel)>::call);
+    emscripten::function("api_C1_10008", &MemberCall<static_cast<double (Function::*)(int)>(&Function::calculateWithCancel)>::call);
+    emscripten::function("api_C1_10009",
+                         &StaticCall<static_cast<bool (*)(int)>(&mXparser::isCalculationCancelled)>::call);
+    emscripten::function("api_C1_10010",
+                         &StaticCall<static_cast<void (*)(int)>(&mXparser::cancelCalculation)>::call);
+    emscripten::function("api_C1_10011",
+                         &StaticCall<static_cast<void (*)(int)>(&mXparser::resetCalculationCancellation)>::call);
+    emscripten::function("api_C1_10012",
+                         &StaticCall<static_cast<int (*)()>(&mXparser::acquireCancellationTokenId)>::call);
+    emscripten::function("api_C1_10013",
+                         &StaticCall<static_cast<bool (*)(int)>(&mXparser::reserveCancellationTokenId)>::call);
+    emscripten::function("api_C1_10014",
+                         &StaticCall<static_cast<void (*)(int)>(&mXparser::releaseCancellationTokenId)>::call);
+    emscripten::function("api_C1_10015",
+                         &MemberCall<static_cast<double (RecursiveArgument::*)(double, int)>(&RecursiveArgument::getArgumentValueWithCancel)>::call);
+    emscripten::function("api_C1_10016",
+                         &StaticCall<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::BooleanAlgebra::andVariadicWithCancel)>::call);
+    emscripten::function("api_C1_10017",
+                         &StaticCall<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::BooleanAlgebra::orVariadicWithCancel)>::call);
+    emscripten::function("api_C1_10018",
+                         &StaticCall<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::BooleanAlgebra::xorVariadicWithCancel)>::call);
+    emscripten::function("api_C1_10019",
+                         &StaticCall<static_cast<double (*)(const ExpressionPtr &, const ArgumentPtr &, double, double,
+                                                            double, int, int)>(&mathcollection::Calculus::integralTrapezoidWithCancel)>::call);
+    emscripten::function("api_C1_10020",
+                         &StaticCall<static_cast<double (*)(const ExpressionPtr &, const ArgumentPtr &, double, int,
+                                                            double,
+                                                            int, int)>(&mathcollection::Calculus::derivativeWithCancel)>::call);
+    emscripten::function("api_C1_10021",
+                         &StaticCall<static_cast<double (*)(const ExpressionPtr &, double, const ArgumentPtr &, double,
+                                                            int, double,
+                                                            int, int)>(&mathcollection::Calculus::derivativeNthWithCancel)>::call);
+    emscripten::function("api_C1_10022",
+                         &StaticCall<static_cast<double (*)(const ExpressionPtr &, double, const ArgumentPtr &, int)>(&mathcollection::Calculus::forwardDifferenceWithCancel)>::call);
+    emscripten::function("api_C1_10023",
+                         &StaticCall<static_cast<double (*)(const ExpressionPtr &, double, const ArgumentPtr &, int)>(&mathcollection::Calculus::backwardDifferenceWithCancel)>::call);
+    emscripten::function("api_C1_10024",
+                         &StaticCall<static_cast<double (*)(const ExpressionPtr &, const ArgumentPtr &, double, double,
+                                                            double, double, int)>(&mathcollection::Calculus::solveBrentWithCancel)>::call);
+    emscripten::function("api_C1_10025",
+                         &StaticCall<static_cast<double (*)(int, int)>(&mathcollection::MathFunctions::bellNumberWithCancel)>::call);
+    emscripten::function("api_C1_10026",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::MathFunctions::bellNumberWithCancel)>::call);
+    emscripten::function("api_C1_10027",
+                         &StaticCall<static_cast<double (*)(int, int, int)>(&mathcollection::MathFunctions::eulerNumberWithCancel)>::call);
+    emscripten::function("api_C1_10028",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::MathFunctions::eulerNumberWithCancel)>::call);
+    emscripten::function("api_C1_10029",
+                         &StaticCall<static_cast<double (*)(int, int)>(&mathcollection::MathFunctions::factorialWithCancel)>::call);
+    emscripten::function("api_C1_10030",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::MathFunctions::factorialWithCancel)>::call);
+    emscripten::function("api_C1_10031",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::MathFunctions::factorialFallingWithCancel)>::call);
+    emscripten::function("api_C1_10032",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::MathFunctions::factorialRisingWithCancel)>::call);
+    emscripten::function("api_C1_10033",
+                         &StaticCall<static_cast<double (*)(double, Long, int)>(&mathcollection::MathFunctions::binomCoeffWithCancel)>::call);
+    emscripten::function("api_C1_10034",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::MathFunctions::binomCoeffWithCancel)>::call);
+    emscripten::function("api_C1_10035",
+                         &StaticCall<static_cast<double (*)(double, Long, int)>(&mathcollection::MathFunctions::numberOfPermutationsWithCancel)>::call);
+    emscripten::function("api_C1_10036",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::MathFunctions::numberOfPermutationsWithCancel)>::call);
+    emscripten::function("api_C1_10037",
+                         &StaticCall<static_cast<double (*)(int, int, int)>(&mathcollection::MathFunctions::bernoulliNumberWithCancel)>::call);
+    emscripten::function("api_C1_10038",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::MathFunctions::bernoulliNumberWithCancel)>::call);
+    emscripten::function("api_C1_10039",
+                         &StaticCall<static_cast<double (*)(int, int, int)>(&mathcollection::MathFunctions::Stirling1NumberWithCancel)>::call);
+    emscripten::function("api_C1_10040",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::MathFunctions::Stirling1NumberWithCancel)>::call);
+    emscripten::function("api_C1_10041",
+                         &StaticCall<static_cast<double (*)(int, int, int)>(&mathcollection::MathFunctions::Stirling2NumberWithCancel)>::call);
+    emscripten::function("api_C1_10042",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::MathFunctions::Stirling2NumberWithCancel)>::call);
+    emscripten::function("api_C1_10043",
+                         &StaticCall<static_cast<double (*)(int, int, int)>(&mathcollection::MathFunctions::worpitzkyNumberWithCancel)>::call);
+    emscripten::function("api_C1_10044",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::MathFunctions::worpitzkyNumberWithCancel)>::call);
+    emscripten::function("api_C1_10045",
+                         &StaticCall<static_cast<double (*)(int, int)>(&mathcollection::MathFunctions::ordinaryHarmonicNumberWithCancel)>::call);
+    emscripten::function("api_C1_10046",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::MathFunctions::ordinaryHarmonicNumberWithCancel)>::call);
+    emscripten::function("api_C1_10047",
+                         &StaticCall<static_cast<double (*)(double, int, int)>(&mathcollection::MathFunctions::generalizedHarmonicNumberWithCancel)>::call);
+    emscripten::function("api_C1_10048",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::MathFunctions::generalizedHarmonicNumberWithCancel)>::call);
+    emscripten::function("api_C1_10049",
+                         &StaticCall<static_cast<double (*)(int, int)>(&mathcollection::MathFunctions::fibonacciNumberWithCancel)>::call);
+    emscripten::function("api_C1_10050",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::MathFunctions::fibonacciNumberWithCancel)>::call);
+    emscripten::function("api_C1_10051",
+                         &StaticCall<static_cast<double (*)(int, int)>(&mathcollection::MathFunctions::lucasNumberWithCancel)>::call);
+    emscripten::function("api_C1_10052",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::MathFunctions::lucasNumberWithCancel)>::call);
+    emscripten::function("api_C1_10053",
+                         &StaticCall<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::MathFunctions::continuedFractionWithCancel)>::call);
+    emscripten::function("api_C1_10054",
+                         &StaticCall<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::MathFunctions::continuedPolynomialWithCancel)>::call);
+    emscripten::function("api_C1_10055",
+                         &StaticCall<static_cast<double (*)(int, double, int)>(&mathcollection::MathFunctions::eulerPolynomialWithCancel)>::call);
+    emscripten::function("api_C1_10056",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::MathFunctions::eulerPolynomialWithCancel)>::call);
+    emscripten::function("api_C1_10057",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::MathFunctions::tetrationWithCancel)>::call);
+    emscripten::function("api_C1_10058",
+                         &StaticCall<static_cast<double (*)(double, int, int)>(&mathcollection::MathFunctions::roundWithCancel)>::call);
+    emscripten::function("api_C1_10059",
+                         &StaticCall<static_cast<double (*)(double, int, int)>(&mathcollection::MathFunctions::roundHalfUpWithCancel)>::call);
+    emscripten::function("api_C1_10060",
+                         &StaticCall<static_cast<double (*)(double, int, int)>(&mathcollection::MathFunctions::roundDownWithCancel)>::call);
+    emscripten::function("api_C1_10061",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::MathFunctions::lengthRoundWithCancel)>::call);
+    emscripten::function("api_C1_10062",
+                         &StaticCall<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::MathFunctions::coalesceWithCancel)>::call);
+    emscripten::function("api_C1_10063",
+                         &StaticCall<static_cast<double (*)(const ExpressionPtr &, const ArgumentPtr &, double, int)>(&mathcollection::MathFunctions::getFunctionValueWithCancel)>::call);
+    emscripten::function("api_C1_10064",
+                         &StaticCall<static_cast<ArrayPtr<double> (*)(const ExpressionPtr &, const ArgumentPtr &,
+                                                                      double, double,
+                                                                      double, int)>(&mathcollection::MathFunctions::getFunctionValuesWithCancel)>::call);
+    emscripten::function("api_C1_10065",
+                         &StaticCall<static_cast<double (*)(const ListPtr<double> &, int)>(&mathcollection::NumberTheory::minWithCancel)>::call);
+    emscripten::function("api_C1_10066",
+                         &StaticCall<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::NumberTheory::minWithCancel)>::call);
+    emscripten::function("api_C1_10067",
+                         &StaticCall<static_cast<double (*)(const ListPtr<double> &, int)>(&mathcollection::NumberTheory::argminWithCancel)>::call);
+    emscripten::function("api_C1_10068",
+                         &StaticCall<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::NumberTheory::argminWithCancel)>::call);
+    emscripten::function("api_C1_10069",
+                         &StaticCall<static_cast<double (*)(const ListPtr<double> &, int)>(&mathcollection::NumberTheory::maxWithCancel)>::call);
+    emscripten::function("api_C1_10070",
+                         &StaticCall<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::NumberTheory::maxWithCancel)>::call);
+    emscripten::function("api_C1_10071",
+                         &StaticCall<static_cast<double (*)(const ListPtr<double> &, int)>(&mathcollection::NumberTheory::argmaxWithCancel)>::call);
+    emscripten::function("api_C1_10072",
+                         &StaticCall<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::NumberTheory::argmaxWithCancel)>::call);
+    emscripten::function("api_C1_10073",
+                         &StaticCallInOut<static_cast<ArrayPtr<int> (*)(const ArrayPtr<double> &, int)>(&mathcollection::NumberTheory::sortAscWithCancel)>::call);
+    emscripten::function("api_C1_10074",
+                         &StaticCallInOut<static_cast<ArrayPtr<double> (*)(const ArrayPtr<double> &, bool, int)>(&mathcollection::NumberTheory::getDistValuesWithCancel)>::call);
+    emscripten::function("api_C1_10075",
+                         &StaticCall<static_cast<double (*)(const ListPtr<double> &, int)>(&mathcollection::NumberTheory::numberOfDistValuesWithCancel)>::call);
+    emscripten::function("api_C1_10076",
+                         &StaticCallInOut<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::NumberTheory::numberOfDistValuesWithCancel)>::call);
+    emscripten::function("api_C1_10077",
+                         &StaticCall<static_cast<Long (*)(Long, Long, int)>(&mathcollection::NumberTheory::gcdWithCancel)>::call);
+    emscripten::function("api_C1_10078",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::NumberTheory::gcdWithCancel)>::call);
+    emscripten::function("api_C1_10079",
+                         &StaticCallInOut<static_cast<Long (*)(const ArrayPtr<Long> &, int)>(&mathcollection::NumberTheory::gcdWithCancel)>::call);
+    emscripten::function("api_C1_10080",
+                         &StaticCall<static_cast<double (*)(const ListPtr<double> &, int)>(&mathcollection::NumberTheory::gcdWithCancel)>::call);
+    emscripten::function("api_C1_10081",
+                         &StaticCallInOut<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::NumberTheory::gcdWithCancel)>::call);
+    emscripten::function("api_C1_10082",
+                         &StaticCall<static_cast<Long (*)(Long, Long, int)>(&mathcollection::NumberTheory::lcmWithCancel)>::call);
+    emscripten::function("api_C1_10083",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::NumberTheory::lcmWithCancel)>::call);
+    emscripten::function("api_C1_10084",
+                         &StaticCallInOut<static_cast<Long (*)(const ArrayPtr<Long> &, int)>(&mathcollection::NumberTheory::lcmWithCancel)>::call);
+    emscripten::function("api_C1_10085",
+                         &StaticCall<static_cast<double (*)(const ListPtr<double> &, int)>(&mathcollection::NumberTheory::lcmWithCancel)>::call);
+    emscripten::function("api_C1_10086",
+                         &StaticCallInOut<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::NumberTheory::lcmWithCancel)>::call);
+    emscripten::function("api_C1_10087",
+                         &StaticCall<static_cast<double (*)(const ListPtr<double> &, int)>(&mathcollection::NumberTheory::sumWithCancel)>::call);
+    emscripten::function("api_C1_10088",
+                         &StaticCall<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::NumberTheory::sumWithCancel)>::call);
+    emscripten::function("api_C1_10089",
+                         &StaticCall<static_cast<double (*)(const ListPtr<double> &, int)>(&mathcollection::NumberTheory::prodWithCancel)>::call);
+    emscripten::function("api_C1_10090",
+                         &StaticCall<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::NumberTheory::prodWithCancel)>::call);
+    emscripten::function("api_C1_10091",
+                         &StaticCall<static_cast<bool (*)(Long, int)>(&mathcollection::NumberTheory::primeTestWithCancel)>::call);
+    emscripten::function("api_C1_10092",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::NumberTheory::primeTestWithCancel)>::call);
+    emscripten::function("api_C1_10093",
+                         &StaticCall<static_cast<Long (*)(Long, int)>(&mathcollection::NumberTheory::primeCountWithCancel)>::call);
+    emscripten::function("api_C1_10094",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::NumberTheory::primeCountWithCancel)>::call);
+    emscripten::function("api_C1_10095",
+                         &StaticCall<static_cast<double (*)(const ExpressionPtr &, const ArgumentPtr &, double, double,
+                                                            double, int)>(&mathcollection::NumberTheory::sigmaSummationWithCancel)>::call);
+    emscripten::function("api_C1_10096",
+                         &StaticCall<static_cast<double (*)(const ExpressionPtr &, const ArgumentPtr &, double, double,
+                                                            double, int)>(&mathcollection::NumberTheory::piProductWithCancel)>::call);
+    emscripten::function("api_C1_10097",
+                         &StaticCall<static_cast<double (*)(const ExpressionPtr &, const ArgumentPtr &, double, double,
+                                                            double, int)>(&mathcollection::NumberTheory::minWithCancel)>::call);
+    emscripten::function("api_C1_10098",
+                         &StaticCall<static_cast<double (*)(const ExpressionPtr &, const ArgumentPtr &, double, double,
+                                                            double, int)>(&mathcollection::NumberTheory::maxWithCancel)>::call);
+    emscripten::function("api_C1_10099",
+                         &StaticCall<static_cast<double (*)(const StringPtr &, int, int)>(&mathcollection::NumberTheory::convOthBase2DecimalWithCancel)>::call);
+    emscripten::function("api_C1_10100",
+                         &StaticCall<static_cast<double (*)(const String &, int, int)>(&mathcollection::NumberTheory::convOthBase2DecimalWithCancel)>::call);
+    emscripten::function("api_C1_10101",
+                         &StaticCall<static_cast<double (*)(int, const ListPtr<int> &, int)>(&mathcollection::NumberTheory::convOthBase2DecimalWithCancel)>::call);
+    emscripten::function("api_C1_10102",
+                         &StaticCall<static_cast<double (*)(int, const ArrayPtr<int> &, int)>(&mathcollection::NumberTheory::convOthBase2DecimalWithCancel)>::call);
+    emscripten::function("api_C1_10103",
+                         &StaticCall<static_cast<double (*)(double, const ListPtr<double> &, int)>(&mathcollection::NumberTheory::convOthBase2DecimalWithCancel)>::call);
+    emscripten::function("api_C1_10104",
+                         &StaticCall<static_cast<double (*)(double, const ArrayPtr<double> &, int)>(&mathcollection::NumberTheory::convOthBase2DecimalWithCancel)>::call);
+    emscripten::function("api_C1_10105",
+                         &StaticCall<static_cast<double (*)(const ArrayPtr<int> &, int)>(&mathcollection::NumberTheory::convOthBase2DecimalWithCancel)>::call);
+    emscripten::function("api_C1_10106",
+                         &StaticCall<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::NumberTheory::convOthBase2DecimalWithCancel)>::call);
+    emscripten::function("api_C1_10107",
+                         &StaticCall<static_cast<StringPtr (*)(double, int, int)>(&mathcollection::NumberTheory::formatNumberInBaseWithCancel)>::call);
+    emscripten::function("api_C1_10108",
+                         &StaticCall<static_cast<Long (*)(Long, Long, int)>(&mathcollection::NumberTheory::numberOfDigitsWithCancel)>::call);
+    emscripten::function("api_C1_10109",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::NumberTheory::numberOfDigitsWithCancel)>::call);
+    emscripten::function("api_C1_10110",
+                         &StaticCall<static_cast<int (*)(Long, int, int, int)>(&mathcollection::NumberTheory::digitAtPositionWithCancel)>::call);
+    emscripten::function("api_C1_10111",
+                         &StaticCall<static_cast<double (*)(double, double, double, int)>(&mathcollection::NumberTheory::digitAtPositionWithCancel)>::call);
+    emscripten::function("api_C1_10112",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::NumberTheory::decimalDigitAtPositionWithCancel)>::call);
+    emscripten::function("api_C1_10113",
+                         &StaticCall<static_cast<ArrayPtr<Long> (*)(Long, int)>(&mathcollection::NumberTheory::primeFactorsWithCancel)>::call);
+    emscripten::function("api_C1_10114",
+                         &StaticCall<static_cast<ArrayPtr<double> (*)(double, int)>(&mathcollection::NumberTheory::primeFactorsWithCancel)>::call);
+    emscripten::function("api_C1_10115",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::NumberTheory::numberOfPrimeFactorsWithCancel)>::call);
+    emscripten::function("api_C1_10116",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::NumberTheory::primeFactorValueWithCancel)>::call);
+    emscripten::function("api_C1_10117",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::NumberTheory::primeFactorExponentWithCancel)>::call);
+    emscripten::function("api_C1_10118",
+                         &StaticCall<static_cast<ArrayPtr<double> (*)(double, int)>(&mathcollection::NumberTheory::toFractionWithCancel)>::call);
+    emscripten::function("api_C1_10119",
+                         &StaticCall<static_cast<double (*)(double, double, const RandomPtr &, int)>(&mathcollection::ProbabilityDistributions::rndNormalWithCancel)>::call);
+    emscripten::function("api_C1_10120",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::ProbabilityDistributions::pdfStudentTWithCancel)>::call);
+    emscripten::function("api_C1_10121",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::ProbabilityDistributions::cdfStudentTWithCancel)>::call);
+    emscripten::function("api_C1_10122",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::ProbabilityDistributions::qntStudentTWithCancel)>::call);
+    emscripten::function("api_C1_10123",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::ProbabilityDistributions::rndStudentTWithCancel)>::call);
+    emscripten::function("api_C1_10124",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::ProbabilityDistributions::pdfChiSquaredWithCancel)>::call);
+    emscripten::function("api_C1_10125",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::ProbabilityDistributions::cdfChiSquaredWithCancel)>::call);
+    emscripten::function("api_C1_10126",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::ProbabilityDistributions::qntChiSquaredWithCancel)>::call);
+    emscripten::function("api_C1_10127",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::ProbabilityDistributions::rndChiSquaredWithCancel)>::call);
+    emscripten::function("api_C1_10128",
+                         &StaticCall<static_cast<double (*)(double, double, double, int)>(&mathcollection::ProbabilityDistributions::pdfSnedecordFWithCancel)>::call);
+    emscripten::function("api_C1_10129",
+                         &StaticCall<static_cast<double (*)(double, double, double, int)>(&mathcollection::ProbabilityDistributions::cdfSnedecordFWithCancel)>::call);
+    emscripten::function("api_C1_10130",
+                         &StaticCall<static_cast<double (*)(double, double, double, int)>(&mathcollection::ProbabilityDistributions::qntSnedecordFWithCancel)>::call);
+    emscripten::function("api_C1_10131",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::ProbabilityDistributions::rndSnedecordFWithCancel)>::call);
+    emscripten::function("api_C1_10132",
+                         &StaticCall<static_cast<double (*)(int, int)>(&mathcollection::ProbabilityDistributions::getRandomVariableValueWithCancel)>::call);
+    emscripten::function("api_C1_10133",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::SpecialFunctions::exponentialIntegralEiWithCancel)>::call);
+    emscripten::function("api_C1_10134",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::SpecialFunctions::logarithmicIntegralLiWithCancel)>::call);
+    emscripten::function("api_C1_10135",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::SpecialFunctions::offsetLogarithmicIntegralLiWithCancel)>::call);
+    emscripten::function("api_C1_10136",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::SpecialFunctions::gammaWithCancel)>::call);
+    emscripten::function("api_C1_10137",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::SpecialFunctions::lanchosGammaWithCancel)>::call);
+    emscripten::function("api_C1_10138",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::SpecialFunctions::logGammaWithCancel)>::call);
+    emscripten::function("api_C1_10139",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::SpecialFunctions::sgnGammaWithCancel)>::call);
+    emscripten::function("api_C1_10140",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::SpecialFunctions::regularizedGammaLowerPWithCancel)>::call);
+    emscripten::function("api_C1_10141",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::SpecialFunctions::inverseRegularizedGammaLowerPWithCancel)>::call);
+    emscripten::function("api_C1_10142",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::SpecialFunctions::incompleteGammaLowerWithCancel)>::call);
+    emscripten::function("api_C1_10143",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::SpecialFunctions::regularizedGammaUpperQWithCancel)>::call);
+    emscripten::function("api_C1_10144",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::SpecialFunctions::incompleteGammaUpperWithCancel)>::call);
+    emscripten::function("api_C1_10145",
+                         &StaticCall<static_cast<double (*)(double, int)>(&mathcollection::SpecialFunctions::diGammaWithCancel)>::call);
+    emscripten::function("api_C1_10146",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::SpecialFunctions::logBetaWithCancel)>::call);
+    emscripten::function("api_C1_10147",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::SpecialFunctions::betaWithCancel)>::call);
+    emscripten::function("api_C1_10148",
+                         &StaticCall<static_cast<double (*)(double, double, double, int)>(&mathcollection::SpecialFunctions::incompleteBetaWithCancel)>::call);
+    emscripten::function("api_C1_10149",
+                         &StaticCall<static_cast<double (*)(double, double, double, int)>(&mathcollection::SpecialFunctions::regularizedBetaWithCancel)>::call);
+    emscripten::function("api_C1_10150",
+                         &StaticCall<static_cast<double (*)(double, double, double, int)>(&mathcollection::SpecialFunctions::inverseRegularizedBetaWithCancel)>::call);
+    emscripten::function("api_C1_10151",
+                         &StaticCall<static_cast<double (*)(double, double, int)>(&mathcollection::SpecialFunctions::lambertWWithCancel)>::call);
+    emscripten::function("api_C1_10152",
+                         &StaticCall<static_cast<double (*)(double, double, double, double, double, double, int)>(&mathcollection::SpecialFunctions::hypergeometricFWithCancel)>::call);
+    emscripten::function("api_C1_10153",
+                         &StaticCall<static_cast<double (*)(const ExpressionPtr &, const ArgumentPtr &, double, double,
+                                                            double, int)>(&mathcollection::Statistics::avgWithCancel)>::call);
+    emscripten::function("api_C1_10154",
+                         &StaticCall<static_cast<double (*)(const ExpressionPtr &, const ArgumentPtr &, double, double,
+                                                            double, int)>(&mathcollection::Statistics::varWithCancel)>::call);
+    emscripten::function("api_C1_10155",
+                         &StaticCall<static_cast<double (*)(const ExpressionPtr &, const ArgumentPtr &, double, double,
+                                                            double, int)>(&mathcollection::Statistics::stdWithCancel)>::call);
+    emscripten::function("api_C1_10156",
+                         &StaticCall<static_cast<double (*)(const ListPtr<double> &, int)>(&mathcollection::Statistics::avgWithCancel)>::call);
+    emscripten::function("api_C1_10157",
+                         &StaticCall<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::Statistics::avgWithCancel)>::call);
+    emscripten::function("api_C1_10158",
+                         &StaticCall<static_cast<double (*)(const ListPtr<double> &, int)>(&mathcollection::Statistics::varWithCancel)>::call);
+    emscripten::function("api_C1_10159",
+                         &StaticCall<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::Statistics::varWithCancel)>::call);
+    emscripten::function("api_C1_10160",
+                         &StaticCall<static_cast<double (*)(const ListPtr<double> &, int)>(&mathcollection::Statistics::stdWithCancel)>::call);
+    emscripten::function("api_C1_10161",
+                         &StaticCall<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::Statistics::stdWithCancel)>::call);
+    emscripten::function("api_C1_10162",
+                         &StaticCall<static_cast<double (*)(const ListPtr<double> &, int)>(&mathcollection::Statistics::medianWithCancel)>::call);
+    emscripten::function("api_C1_10163",
+                         &StaticCallInOut<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::Statistics::medianWithCancel)>::call);
+    emscripten::function("api_C1_10164",
+                         &StaticCall<static_cast<double (*)(const ListPtr<double> &, int)>(&mathcollection::Statistics::modeWithCancel)>::call);
+    emscripten::function("api_C1_10165",
+                         &StaticCallInOut<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::Statistics::modeWithCancel)>::call);
+    emscripten::function("api_C1_10166_get", &StaticFieldAccess<&mXparser::MAX_CANCELLATION_TOKEN_ID>::get);
+
 }

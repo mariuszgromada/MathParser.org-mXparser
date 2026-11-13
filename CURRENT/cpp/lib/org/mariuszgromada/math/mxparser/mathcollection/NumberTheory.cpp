@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTheory.cpp        6.1.0    2024-10-06
+ * @(#)NumberTheory.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -285,6 +285,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double NumberTheory::min(const ArrayPtr<double> &numbers) {
+		return minWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double NumberTheory::minWithCancel(const ArrayPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		double min = Double::POSITIVE_INFINITY;
@@ -293,12 +299,18 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				return Double::NaN;
 			if (number < min)
 				min = number;
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		return min;
 	}
 
 	API_VISIBLE double NumberTheory::min(const ListPtr<double> &numbers) {
+		return minWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double NumberTheory::minWithCancel(const ListPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers == nullptr) return Double::NaN;
 		if (numbers->size() == 0) return Double::NaN;
 		double min = Double::POSITIVE_INFINITY;
@@ -307,7 +319,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				return Double::NaN;
 			if (number < min)
 				min = number;
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		return min;
 	}
@@ -321,6 +333,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double NumberTheory::argmin(const ArrayPtr<double> &numbers) {
+		return argminWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double NumberTheory::argminWithCancel(const ArrayPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		double min = Double::POSITIVE_INFINITY;
@@ -333,12 +351,18 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				min = number;
 				minIndex = i;
 			}
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		return minIndex + 1;
 	}
 
 	API_VISIBLE double NumberTheory::argmin(const ListPtr<double> &numbers) {
+		return argminWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double NumberTheory::argminWithCancel(const ListPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers == nullptr) return Double::NaN;
 		if (numbers->size() == 0) return Double::NaN;
 		double min = Double::POSITIVE_INFINITY;
@@ -351,7 +375,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				min = number;
 				minIndex = i;
 			}
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		return minIndex + 1;
 	}
@@ -380,6 +404,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double NumberTheory::max(const ArrayPtr<double> &numbers) {
+		return maxWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double NumberTheory::maxWithCancel(const ArrayPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		double max = Double::NEGATIVE_INFINITY;
@@ -388,12 +418,18 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				return Double::NaN;
 			if (number > max)
 				max = number;
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		return max;
 	}
 
 	API_VISIBLE double NumberTheory::max(const ListPtr<double> &numbers) {
+		return maxWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double NumberTheory::maxWithCancel(const ListPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers == nullptr) return Double::NaN;
 		if (numbers->size() == 0) return Double::NaN;
 		double max = Double::NEGATIVE_INFINITY;
@@ -402,7 +438,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				return Double::NaN;
 			if (number > max)
 				max = number;
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		return max;
 	}
@@ -416,6 +452,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double NumberTheory::argmax(const ArrayPtr<double> &numbers) {
+		return argmaxWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double NumberTheory::argmaxWithCancel(const ArrayPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		double max = Double::NEGATIVE_INFINITY;
@@ -428,12 +470,18 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				max = number;
 				maxIndex = i;
 			}
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		return maxIndex + 1;
 	}
 
 	API_VISIBLE double NumberTheory::argmax(const ListPtr<double> &numbers) {
+		return argmaxWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double NumberTheory::argmaxWithCancel(const ListPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers == nullptr) return Double::NaN;
 		if (numbers->size() == 0) return Double::NaN;
 		double max = Double::NEGATIVE_INFINITY;
@@ -446,7 +494,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				max = number;
 				maxIndex = i;
 			}
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		return maxIndex + 1;
 	}
@@ -458,8 +506,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @param leftIndex     Starting left index->
 	 * @param rightIndex    Starting right index->
 	 */
-	API_VISIBLE void NumberTheory::sortAsc(const ArrayPtr<double> &array, const ArrayPtr<int> &initOrder, int leftIndex,
-	                           int rightIndex) {
+	API_VISIBLE void NumberTheory::sortAscWithCancel(const ArrayPtr<double> &array, const ArrayPtr<int> &initOrder, int leftIndex,
+	                           int rightIndex, int cancelId) {
 		int i = leftIndex;
 		int j = rightIndex;
 		double x = (*array)((leftIndex + rightIndex) / 2);
@@ -468,11 +516,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		do {
 			while (BinaryRelations::lt((*array)(i), x) == BooleanAlgebra::TRUE) {
 				i++;
-				if (mXparser::isCurrentCalculationCancelled()) return;
+				if (mXparser::isCalculationCancelled(cancelId)) return;
 			}
 			while (BinaryRelations::gt((*array)(j), x) == BooleanAlgebra::TRUE) {
 				j--;
-				if (mXparser::isCurrentCalculationCancelled()) return;
+				if (mXparser::isCalculationCancelled(cancelId)) return;
 			}
 			if (i <= j) {
 				w = (*array)(i);
@@ -484,11 +532,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				i++;
 				j--;
 			}
-			if (mXparser::isCurrentCalculationCancelled()) return;
+			if (mXparser::isCalculationCancelled(cancelId)) return;
 		} while (i <= j);
-		if (mXparser::isCurrentCalculationCancelled()) return;
-		if (leftIndex < j) sortAsc(array, initOrder, leftIndex, j);
-		if (i < rightIndex) sortAsc(array, initOrder, i, rightIndex);
+		if (mXparser::isCalculationCancelled(cancelId)) return;
+		if (leftIndex < j) sortAscWithCancel(array, initOrder, leftIndex, j, cancelId);
+		if (i < rightIndex) sortAscWithCancel(array, initOrder, i, rightIndex, cancelId);
 	}
 
 	/**
@@ -498,14 +546,20 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *               initial ordering swapped according to sort order.
 	 */
 	ArrayPtr<int> API_VISIBLE NumberTheory::sortAsc(const ArrayPtr<double> &array) {
+		return sortAscWithCancel(array, 0);
+	}
+
+	ArrayPtr<int> API_VISIBLE NumberTheory::sortAscWithCancel(const ArrayPtr<double> &array, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (array == nullptr) return nullptr;
 		ArrayPtr<int> initOrder = new_int(array->length);
 		for (int i = 0; i < array->length; i++) {
 			(*initOrder)(i) = i;
-			if (mXparser::isCurrentCalculationCancelled()) return initOrder;
+			if (mXparser::isCalculationCancelled(cancelId)) return initOrder;
 		}
 		if (array->length < 2) return initOrder;
-		sortAsc(array, initOrder, 0, array->length - 1);
+		sortAscWithCancel(array, initOrder, 0, array->length - 1, cancelId);
 		return initOrder;
 	}
 
@@ -519,6 +573,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE ArrayPtr<double> NumberTheory::getDistValues(const ArrayPtr<double> &array,
 	                                                bool returnOrderByDescFreqAndAscOrigPos) {
+		return getDistValuesWithCancel(array, returnOrderByDescFreqAndAscOrigPos, 0);
+	}
+
+	API_VISIBLE ArrayPtr<double> NumberTheory::getDistValuesWithCancel(const ArrayPtr<double> &array,
+	                                                bool returnOrderByDescFreqAndAscOrigPos, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (array == nullptr) return nullptr;
 		/*
 		 * double(n, 3) is returned
@@ -541,7 +602,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		/*
 		 * Sort ascending by value
 		 */
-		ArrayPtr<int> initPos = sortAsc(array); 
+		ArrayPtr<int> initPos = sortAscWithCancel(array, cancelId); 
 		/*
 		 * Building unique values list
 		 */
@@ -557,7 +618,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * First element is considered above
 		 */
 		for (int i = 1; i < array->rows; i++) {
-			if (mXparser::isCurrentCalculationCancelled()) break;
+			if (mXparser::isCalculationCancelled(cancelId)) break;
 			/* if the same value */
 			if (BinaryRelations::eq(unqValue, (*array)(i)) == BooleanAlgebra::TRUE) {
 				/*
@@ -626,7 +687,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		ArrayPtr<double> distValFinal = new_Array<double>(unqCnt, 3);
 		double maxBase = 0;
 		for (int i = 0; i < unqCnt; i++) {
-			if (mXparser::isCurrentCalculationCancelled()) break;
+			if (mXparser::isCalculationCancelled(cancelId)) break;
 			(*distValFinal)(i, value) = (*distVal)(i, value);
 			(*distValFinal)(i, count) = (*distVal)(i, count);
 			(*distValFinal)(i, initPosFirst) = (*distVal)(i, initPosFirst);
@@ -647,18 +708,18 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 */
 		ArrayPtr<double> key = new_double(unqCnt);
 		for (int i = 0; i < unqCnt; i++) {
-			if (mXparser::isCurrentCalculationCancelled()) break;
+			if (mXparser::isCalculationCancelled(cancelId)) break;
 			(*key)(i) = (maxBase - (*distVal)(i, count) - 1) * maxBase + (*distVal)(i, initPosFirst);
 		}
 		/*
 		 * Sorting descending
 		 */
-		ArrayPtr<int> keyInitOrder = sortAsc(key);
+		ArrayPtr<int> keyInitOrder = sortAscWithCancel(key, cancelId);
 		/*
 		 * Getting final ordering
 		 */
 		for (int i = 0; i < unqCnt; i++) {
-			if (mXparser::isCurrentCalculationCancelled()) break;
+			if (mXparser::isCalculationCancelled(cancelId)) break;
 			(*distValFinal)(i, value) = (*distVal)((*keyInitOrder)(i), value);
 			(*distValFinal)(i, count) = (*distVal)((*keyInitOrder)(i), count);
 			(*distValFinal)(i, initPosFirst) = (*distVal)((*keyInitOrder)(i), initPosFirst);
@@ -673,14 +734,20 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *                   is found then Double::NaN is returned.
 	 */
 	API_VISIBLE double NumberTheory::numberOfDistValues(const ArrayPtr<double> &numbers) {
+		return numberOfDistValuesWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double NumberTheory::numberOfDistValuesWithCancel(const ArrayPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->rows == 0) return 0;
 		for (double v: *numbers) {
 			if (Double::isNaN(v)) return Double::NaN;
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		if (numbers->rows == 1) return 1;
-		return getDistValues(numbers, false)->rows;
+		return getDistValuesWithCancel(numbers, false, cancelId)->rows;
 	}
 
 	/**
@@ -691,6 +758,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return     GCD(a,b)
 	 */
 	API_VISIBLE Long NumberTheory::gcd(Long a, Long b) {
+		return gcdWithCancel(a, b, 0);
+	}
+
+	API_VISIBLE Long NumberTheory::gcdWithCancel(Long a, Long b, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (a < 0) a = native_numeric_detail::checkedNativeAbsoluteLong(a, "NumberTheory.gcd");
 		if (b < 0) b = native_numeric_detail::checkedNativeAbsoluteLong(b, "NumberTheory.gcd");
 		if ((a == 0) && (b != 0)) return b;
@@ -700,7 +773,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (a == b) return a;
 		Long quotient;
 		while (b != 0) {
-			if (mXparser::isCurrentCalculationCancelled()) return Long{0};
+			if (mXparser::isCalculationCancelled(cancelId)) return Long{0};
 			if (a > b) {
 				quotient = a / b - 1;
 				if (quotient > 0)
@@ -728,6 +801,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double NumberTheory::gcd(double a, double b) {
+		return gcdWithCancel(a, b, 0);
+	}
+
+	API_VISIBLE double NumberTheory::gcdWithCancel(double a, double b, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(a) || Double::isNaN(b))
 			return Double::NaN;
 		if (a < 0) a = -a;
@@ -741,7 +820,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (a == b) return a;
 		double quotient;
 		while (b != 0.0) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			if (a > b) {
 				quotient = Math::floor(a / b) - 1;
 				if (quotient > 0)
@@ -767,6 +846,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return     GCD(a_1,...,a_n) a_1,...,a_n in numbers
 	 */
 	API_VISIBLE Long NumberTheory::gcd(const ArrayPtr<Long> &numbers) {
+		return gcdWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE Long NumberTheory::gcdWithCancel(const ArrayPtr<Long> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers->data == nullptr) return -1;
 		if (numbers->length == 0) return -1;
 		if (numbers->length == 1) {
@@ -774,10 +859,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return native_numeric_detail::checkedNativeAbsoluteLong((*numbers)(0), "NumberTheory.gcd");
 		}
 		if (numbers->length == 2)
-			return gcd((*numbers)(0), (*numbers)(1));
+			return gcdWithCancel((*numbers)(0), (*numbers)(1), cancelId);
 		for (int i = 1; i < numbers->length; i++) {
-			if (mXparser::isCurrentCalculationCancelled()) return Long{0};
-			(*numbers)(i) = gcd((*numbers)(i - 1), (*numbers)(i));
+			if (mXparser::isCalculationCancelled(cancelId)) return Long{0};
+			(*numbers)(i) = gcdWithCancel((*numbers)(i - 1), (*numbers)(i), cancelId);
 		}
 
 		return (*numbers)(numbers->length - 1);
@@ -793,15 +878,21 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double NumberTheory::gcd(const ArrayPtr<double> &numbers) {
+		return gcdWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double NumberTheory::gcdWithCancel(const ArrayPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		if (numbers->length == 1)
 			return MathFunctions::floor(MathFunctions::abs((*numbers)(0)));
 		if (numbers->length == 2)
-			return gcd((*numbers)(0), (*numbers)(1));
+			return gcdWithCancel((*numbers)(0), (*numbers)(1), cancelId);
 		for (int i = 1; i < numbers->length; i++) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-			(*numbers)(i) = gcd((*numbers)(i - 1), (*numbers)(i));
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+			(*numbers)(i) = gcdWithCancel((*numbers)(i - 1), (*numbers)(i), cancelId);
 		}
 		return (*numbers)(numbers->length - 1);
 	}
@@ -815,13 +906,19 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return     LCM(a,b)
 	 */
 	API_VISIBLE Long NumberTheory::lcm(Long a, Long b) {
+		return lcmWithCancel(a, b, 0);
+	}
+
+	API_VISIBLE Long NumberTheory::lcmWithCancel(Long a, Long b, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		a = native_numeric_detail::checkedNativeAbsoluteLong(a, "NumberTheory.lcm");
 		b = native_numeric_detail::checkedNativeAbsoluteLong(b, "NumberTheory.lcm");
 		if ((a == 0) || (b == 0))
 			return 0;
 		return native_numeric_detail::checkedNativeLongQuotient(
 			native_numeric_detail::checkedNonnegativeLongProduct(a, b, "NumberTheory.lcm"),
-			gcd(a, b), "NumberTheory.lcm");
+			gcdWithCancel(a, b, cancelId), "NumberTheory.lcm");
 	}
 
 	/**
@@ -834,11 +931,17 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double NumberTheory::lcm(double a, double b) {
+		return lcmWithCancel(a, b, 0);
+	}
+
+	API_VISIBLE double NumberTheory::lcmWithCancel(double a, double b, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(a) || Double::isNaN(b))
 			return Double::NaN;
 		a = MathFunctions::floor(MathFunctions::abs(a));
 		b = MathFunctions::floor(MathFunctions::abs(b));
-		return (a * b) / gcd(a, b);
+		return (a * b) / gcdWithCancel(a, b, cancelId);
 	}
 
 	/**
@@ -849,6 +952,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return     LCM(a_1,...,a_n) a_1,...,a_n in numbers
 	 */
 	API_VISIBLE Long NumberTheory::lcm(const ArrayPtr<Long> &numbers) {
+		return lcmWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE Long NumberTheory::lcmWithCancel(const ArrayPtr<Long> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers->data == nullptr) return -1;
 		if (numbers->length == 0) return -1;
 		if (numbers->length == 1) {
@@ -856,10 +965,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return native_numeric_detail::checkedNativeAbsoluteLong((*numbers)(0), "NumberTheory.lcm");
 		}
 		if (numbers->length == 2)
-			return lcm((*numbers)(0), (*numbers)(1));
+			return lcmWithCancel((*numbers)(0), (*numbers)(1), cancelId);
 		for (int i = 1; i < numbers->length; i++) {
-			if (mXparser::isCurrentCalculationCancelled()) return Long{0};
-			(*numbers)(i) = lcm((*numbers)(i - 1), (*numbers)(i));
+			if (mXparser::isCalculationCancelled(cancelId)) return Long{0};
+			(*numbers)(i) = lcmWithCancel((*numbers)(i - 1), (*numbers)(i), cancelId);
 		}
 		return (*numbers)(numbers->length - 1);
 	}
@@ -874,15 +983,21 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double NumberTheory::lcm(const ArrayPtr<double> &numbers) {
+		return lcmWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double NumberTheory::lcmWithCancel(const ArrayPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		if (numbers->length == 1)
 			MathFunctions::floor(MathFunctions::abs((*numbers)(0)));
 		if (numbers->length == 2)
-			return lcm((*numbers)(0), (*numbers)(1));
+			return lcmWithCancel((*numbers)(0), (*numbers)(1), cancelId);
 		for (int i = 1; i < numbers->length; i++) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-			(*numbers)(i) = lcm((*numbers)(i - 1), (*numbers)(i));
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+			(*numbers)(i) = lcmWithCancel((*numbers)(i - 1), (*numbers)(i), cancelId);
 		}
 		return (*numbers)(numbers->length - 1);
 	}
@@ -897,6 +1012,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double NumberTheory::sum(const ArrayPtr<double> &numbers) {
+		return sumWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double NumberTheory::sumWithCancel(const ArrayPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		if (numbers->length == 1) return (*numbers)(0);
@@ -906,7 +1027,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				if (Double::isNaN(xi)) return Double::NaN;
 				if (Double::isInfinite(xi)) return Double::NaN;
 				dsum = dsum.add(BigDecimal::valueOf(xi));
-				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			}
 			return dsum.doubleValue();
 		} else {
@@ -915,7 +1036,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				if (Double::isNaN(xi)) return Double::NaN;
 				if (Double::isInfinite(xi)) return Double::NaN;
 				sum += xi;
-				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			}
 			return sum;
 		}
@@ -931,6 +1052,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double NumberTheory::prod(const ArrayPtr<double> &numbers) {
+		return prodWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double NumberTheory::prodWithCancel(const ArrayPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		if (numbers->length == 1) return (*numbers)(0);
@@ -940,7 +1067,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				if (Double::isNaN(xi)) return Double::NaN;
 				if (Double::isInfinite(xi)) return Double::NaN;
 				dprod = dprod.multiply(BigDecimal::valueOf(xi));
-				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			}
 			return dprod.doubleValue();
 		} else {
@@ -949,7 +1076,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				if (Double::isNaN(xi)) return Double::NaN;
 				if (Double::isInfinite(xi)) return Double::NaN;
 				prod *= xi;
-				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			}
 			return prod;
 		}
@@ -963,6 +1090,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return true if number is prime, otherwise false
 	 */
 	API_VISIBLE bool NumberTheory::primeTest(Long n) {
+		return primeTestWithCancel(n, 0);
+	}
+
+	API_VISIBLE bool NumberTheory::primeTestWithCancel(Long n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		/*
 		 * 2 is a prime :-)
 		 */
@@ -1005,7 +1138,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 					for (i = 3; i <= topCache; i += 2) {
 						if ((*mXparser::primesCache->isPrime)(CAST_INT(i)))
 							if (n % i == 0) return false;
-						if (mXparser::isCurrentCalculationCancelled()) return false;
+						if (mXparser::isCalculationCancelled(cancelId)) return false;
 					}
 					/*
 					 * If no prime divisor of n in primes cache
@@ -1021,7 +1154,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 */
 		for (Long i = primesCacheOddEnd; i <= top; i += 2) {
 			if (n % i == 0) return false;
-			if (mXparser::isCurrentCalculationCancelled()) return false;
+			if (mXparser::isCalculationCancelled(cancelId)) return false;
 		}
 		return true;
 	}
@@ -1034,8 +1167,14 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return true if number is prime, otherwise false
 	 */
 	API_VISIBLE double NumberTheory::primeTest(double n) {
+		return primeTestWithCancel(n, 0);
+	}
+
+	API_VISIBLE double NumberTheory::primeTestWithCancel(double n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(n)) return Double::NaN;
-		bool isPrime = primeTest(native_numeric_detail::checkedNativeLong(n, "NumberTheory.primeTest"));
+		bool isPrime = primeTestWithCancel(native_numeric_detail::checkedNativeLong(n, "NumberTheory.primeTest"), cancelId);
 		if (isPrime)
 			return 1;
 		else
@@ -1050,12 +1189,18 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return Number of primes below or equal x
 	 */
 	API_VISIBLE Long NumberTheory::primeCount(Long n) {
+		return primeCountWithCancel(n, 0);
+	}
+
+	API_VISIBLE Long NumberTheory::primeCountWithCancel(Long n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (n <= 1) return 0;
 		if (n == 2) return 1;
 		Long numberOfPrimes = 1;
 		for (Long i = 3; i <= n; i++) {
-			if (mXparser::isCurrentCalculationCancelled()) return Long{0};
-			if (primeTest(i))
+			if (mXparser::isCalculationCancelled(cancelId)) return Long{0};
+			if (primeTestWithCancel(i, cancelId))
 				numberOfPrimes++;
 		}
 		return numberOfPrimes;
@@ -1069,8 +1214,14 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return Number of primes below or equal x
 	 */
 	API_VISIBLE double NumberTheory::primeCount(double n) {
+		return primeCountWithCancel(n, 0);
+	}
+
+	API_VISIBLE double NumberTheory::primeCountWithCancel(double n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(n)) return 0.0;
-		return CAST_DOUBLE(primeCount(native_numeric_detail::checkedNativeLong(n, "NumberTheory.primeCount")));
+		return CAST_DOUBLE(primeCountWithCancel(native_numeric_detail::checkedNativeLong(n, "NumberTheory.primeCount"), cancelId));
 	}
 
 	/**
@@ -1086,6 +1237,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE double NumberTheory::sigmaSummation(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to,
 	                                    double delta) {
+		return sigmaSummationWithCancel(f, index, from, to, delta, 0);
+	}
+
+	API_VISIBLE double NumberTheory::sigmaSummationWithCancel(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to,
+	                                    double delta, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if ((Double::isNaN(delta)) || (Double::isNaN(from)) || (Double::isNaN(to)) || (delta == 0))
 			return Double::NaN;
 		double fval;
@@ -1094,30 +1252,30 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			BigDecimal dresult = BigDecimal::ZERO;
 			if ((to >= from) && (delta > 0)) {
 				for (i = from; i < to; i += delta) {
-					if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-					fval = MathFunctions::getFunctionValue(f, index, i);
+					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+					fval = MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 					dresult = dresult.add(BigDecimal::valueOf(fval));
 				}
 				if (delta - (i - to) > 0.5 * delta) {
-					fval = MathFunctions::getFunctionValue(f, index, to);
+					fval = MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 					dresult = dresult.add(BigDecimal::valueOf(fval));
 				}
 			} else if ((to <= from) && (delta < 0)) {
 				for (i = from; i > to; i += delta) {
-					if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-					fval = MathFunctions::getFunctionValue(f, index, i);
+					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+					fval = MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 					dresult = dresult.add(BigDecimal::valueOf(fval));
 				}
 				if (-delta - (to - i) > -0.5 * delta) {
-					fval = MathFunctions::getFunctionValue(f, index, to);
+					fval = MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 					dresult = dresult.add(BigDecimal::valueOf(fval));
 				}
 			} else if (from == to) {
-				fval = MathFunctions::getFunctionValue(f, index, from);
+				fval = MathFunctions::getFunctionValueWithCancel(f, index, from, cancelId);
 				if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 				dresult = dresult.add(BigDecimal::valueOf(fval));
 			}
@@ -1126,30 +1284,30 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			double result = 0;
 			if ((to >= from) && (delta > 0)) {
 				for (i = from; i < to; i += delta) {
-					if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-					fval = MathFunctions::getFunctionValue(f, index, i);
+					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+					fval = MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 					result += fval;
 				}
 				if (delta - (i - to) > 0.5 * delta) {
-					fval = MathFunctions::getFunctionValue(f, index, to);
+					fval = MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 					result += fval;
 				}
 			} else if ((to <= from) && (delta < 0)) {
 				for (i = from; i > to; i += delta) {
-					if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-					fval = MathFunctions::getFunctionValue(f, index, i);
+					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+					fval = MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 					result += fval;
 				}
 				if (-delta - (to - i) > -0.5 * delta) {
-					fval = MathFunctions::getFunctionValue(f, index, to);
+					fval = MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 					result += fval;
 				}
 			} else if (from == to) {
-				fval = MathFunctions::getFunctionValue(f, index, from);
+				fval = MathFunctions::getFunctionValueWithCancel(f, index, from, cancelId);
 				if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 				result += fval;
 			}
@@ -1173,6 +1331,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE double NumberTheory::piProduct(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to,
 	                               double delta) {
+		return piProductWithCancel(f, index, from, to, delta, 0);
+	}
+
+	API_VISIBLE double NumberTheory::piProductWithCancel(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to,
+	                               double delta, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if ((Double::isNaN(delta)) || (Double::isNaN(from)) || (Double::isNaN(to)) || (delta == 0))
 			return Double::NaN;
 		double fval;
@@ -1181,30 +1346,30 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			BigDecimal dresult = BigDecimal::ONE;
 			if ((to >= from) && (delta > 0)) {
 				for (i = from; i < to; i += delta) {
-					if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-					fval = MathFunctions::getFunctionValue(f, index, i);
+					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+					fval = MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 					dresult = dresult.multiply(BigDecimal::valueOf(fval));
 				}
 				if (delta - (i - to) > 0.5 * delta) {
-					fval = MathFunctions::getFunctionValue(f, index, to);
+					fval = MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 					dresult = dresult.multiply(BigDecimal::valueOf(fval));
 				}
 			} else if ((to <= from) && (delta < 0)) {
 				for (i = from; i > to; i += delta) {
-					if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-					fval = MathFunctions::getFunctionValue(f, index, i);
+					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+					fval = MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 					dresult = dresult.multiply(BigDecimal::valueOf(fval));
 				}
 				if (-delta - (to - i) > -0.5 * delta) {
-					fval = MathFunctions::getFunctionValue(f, index, to);
+					fval = MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 					dresult = dresult.multiply(BigDecimal::valueOf(fval));
 				}
 			} else if (from == to) {
-				fval = MathFunctions::getFunctionValue(f, index, from);
+				fval = MathFunctions::getFunctionValueWithCancel(f, index, from, cancelId);
 				if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 				dresult = dresult.multiply(BigDecimal::valueOf(fval));
 			}
@@ -1213,30 +1378,30 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			double result = 1;
 			if ((to >= from) && (delta > 0)) {
 				for (i = from; i < to; i += delta) {
-					if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-					fval = MathFunctions::getFunctionValue(f, index, i);
+					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+					fval = MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 					result *= fval;
 				}
 				if (delta - (i - to) > 0.5 * delta) {
-					fval = MathFunctions::getFunctionValue(f, index, to);
+					fval = MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 					result *= fval;
 				}
 			} else if ((to <= from) && (delta < 0)) {
 				for (i = from; i > to; i += delta) {
-					if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-					fval = MathFunctions::getFunctionValue(f, index, i);
+					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+					fval = MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 					result *= fval;
 				}
 				if (-delta - (to - i) > -0.5 * delta) {
-					fval = MathFunctions::getFunctionValue(f, index, to);
+					fval = MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 					result *= fval;
 				}
 			} else if (from == to) {
-				fval = MathFunctions::getFunctionValue(f, index, from);
+				fval = MathFunctions::getFunctionValueWithCancel(f, index, from, cancelId);
 				if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
 				result *= fval;
 			}
@@ -1259,28 +1424,34 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see        Argument
 	 */
 	API_VISIBLE double NumberTheory::min(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta) {
+		return minWithCancel(f, index, from, to, delta, 0);
+	}
+
+	API_VISIBLE double NumberTheory::minWithCancel(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if ((Double::isNaN(delta)) || (Double::isNaN(from)) || (Double::isNaN(to)) || (delta == 0))
 			return Double::NaN;
 		double min = Double::POSITIVE_INFINITY;
 		double v;
 		if ((to >= from) && (delta > 0)) {
 			for (double i = from; i < to; i += delta) {
-				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-				v = MathFunctions::getFunctionValue(f, index, i);
+				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+				v = MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 				if (v < min) min = v;
 			}
-			v = MathFunctions::getFunctionValue(f, index, to);
+			v = MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 			if (v < min) min = v;
 		} else if ((to <= from) && (delta < 0)) {
 			for (double i = from; i > to; i += delta) {
-				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-				v = MathFunctions::getFunctionValue(f, index, i);
+				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+				v = MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 				if (v < min) min = v;
 			}
-			v = MathFunctions::getFunctionValue(f, index, to);
+			v = MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 			if (v < min) min = v;
 		} else if (from == to)
-			min = MathFunctions::getFunctionValue(f, index, from);
+			min = MathFunctions::getFunctionValueWithCancel(f, index, from, cancelId);
 		return min;
 	}
 
@@ -1299,28 +1470,34 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see        Argument
 	 */
 	API_VISIBLE double NumberTheory::max(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta) {
+		return maxWithCancel(f, index, from, to, delta, 0);
+	}
+
+	API_VISIBLE double NumberTheory::maxWithCancel(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if ((Double::isNaN(delta)) || (Double::isNaN(from)) || (Double::isNaN(to)) || (delta == 0))
 			return Double::NaN;
 		double max = Double::NEGATIVE_INFINITY;
 		double v;
 		if ((to >= from) && (delta > 0)) {
 			for (double i = from; i < to; i += delta) {
-				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-				v = MathFunctions::getFunctionValue(f, index, i);
+				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+				v = MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 				if (v > max) max = v;
 			}
-			v = MathFunctions::getFunctionValue(f, index, to);
+			v = MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 			if (v > max) max = v;
 		} else if ((to <= from) && (delta < 0)) {
 			for (double i = from; i > to; i += delta) {
-				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-				v = MathFunctions::getFunctionValue(f, index, i);
+				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+				v = MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 				if (v > max) max = v;
 			}
-			v = MathFunctions::getFunctionValue(f, index, to);
+			v = MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 			if (v > max) max = v;
 		} else if (from == to)
-			max = MathFunctions::getFunctionValue(f, index, from);
+			max = MathFunctions::getFunctionValueWithCancel(f, index, from, cancelId);
 		return max;
 	}
 
@@ -1557,6 +1734,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *                         possible the Double::NaN is returned.
 	 */
 	API_VISIBLE double NumberTheory::convOthBase2Decimal(const StringPtr &numberLiteralLong, int numeralSystemBase) {
+		return convOthBase2DecimalWithCancel(numberLiteralLong, numeralSystemBase, 0);
+	}
+
+	API_VISIBLE double NumberTheory::convOthBase2DecimalWithCancel(const StringPtr &numberLiteralLong, int numeralSystemBase, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numberLiteralLong == nullptr) return Double::NaN;
 		StringPtr numberLiteral = StringUtils::trim(numberLiteralLong);
 		if (numberLiteral->empty()) {
@@ -1578,7 +1761,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double decValue = 0;
 		int digit;
 		for (int i = 0; i < length; i++) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			digit = digitIndex(numberLiteral->at(i));
 			if (numeralSystemBase > 1) {
 				if ((digit >= 0) && (digit < numeralSystemBase)) decValue = numeralSystemBase * decValue + digit;
@@ -1638,6 +1821,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *                            Double::NaN is returned.
 	 */
 	API_VISIBLE double NumberTheory::convOthBase2Decimal(int numeralSystemBase, const ArrayPtr<int> &digits) {
+		return convOthBase2DecimalWithCancel(numeralSystemBase, digits, 0);
+	}
+
+	API_VISIBLE double NumberTheory::convOthBase2DecimalWithCancel(int numeralSystemBase, const ArrayPtr<int> &digits, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numeralSystemBase < 1) return Double::NaN;
 		if (digits == nullptr) return Double::NaN;
 		int length = digits->length;
@@ -1654,7 +1843,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				if (digit == 1) decValue = numeralSystemBase * decValue + digit;
 				else return Double::NaN;
 			}
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		return decValue;
 	}
@@ -1668,6 +1857,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *                            Double::NaN is returned.
 	 */
 	API_VISIBLE double NumberTheory::convOthBase2Decimal(double numeralSystemBase, const ArrayPtr<double> &digits) {
+		return convOthBase2DecimalWithCancel(numeralSystemBase, digits, 0);
+	}
+
+	API_VISIBLE double NumberTheory::convOthBase2DecimalWithCancel(double numeralSystemBase, const ArrayPtr<double> &digits, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numeralSystemBase < 0) return Double::NaN;
 		if (Double::isNaN(numeralSystemBase)) return Double::NaN;
 		int numeralSystemBaseInt = native_numeric_detail::checkedNativeInt(MathFunctions::floor(numeralSystemBase), "NumberTheory.convOthBase2Decimal");
@@ -1683,9 +1878,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			digit = (*digits)(i);
 			if (Double::isNaN(digit)) return Double::NaN;
 			(*digitsInt)(i) = native_numeric_detail::checkedNativeInt(digit, "NumberTheory.convOthBase2Decimal");
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
-		return convOthBase2Decimal(numeralSystemBaseInt, digitsInt);
+		return convOthBase2DecimalWithCancel(numeralSystemBaseInt, digitsInt, cancelId);
 	}
 
 	/**
@@ -1699,15 +1894,21 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *                        Double::NaN is returned.
 	 */
 	API_VISIBLE double NumberTheory::convOthBase2Decimal(const ArrayPtr<int> &baseAndDigits) {
+		return convOthBase2DecimalWithCancel(baseAndDigits, 0);
+	}
+
+	API_VISIBLE double NumberTheory::convOthBase2DecimalWithCancel(const ArrayPtr<int> &baseAndDigits, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (baseAndDigits == nullptr) return Double::NaN;
 		if (baseAndDigits->length == 0) return Double::NaN;
 		int numeralSystemBase = (*baseAndDigits)(0);
 		ArrayPtr<int> digits = new_int(baseAndDigits->length - 1);
 		for (int i = 1; i < baseAndDigits->length; i++) {
 			(*digits)(i - 1) = (*baseAndDigits)(i);
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
-		return convOthBase2Decimal(numeralSystemBase, digits);
+		return convOthBase2DecimalWithCancel(numeralSystemBase, digits, cancelId);
 	}
 
 	/**
@@ -1721,15 +1922,21 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *                        Double::NaN is returned.
 	 */
 	API_VISIBLE double NumberTheory::convOthBase2Decimal(const ArrayPtr<double> &baseAndDigits) {
+		return convOthBase2DecimalWithCancel(baseAndDigits, 0);
+	}
+
+	API_VISIBLE double NumberTheory::convOthBase2DecimalWithCancel(const ArrayPtr<double> &baseAndDigits, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (baseAndDigits == nullptr) return Double::NaN;
 		if (baseAndDigits->length == 0) return Double::NaN;
 		double numeralSystemBase = (*baseAndDigits)(0);
 		ArrayPtr<double> digits = new_double(baseAndDigits->length - 1);
 		for (int i = 1; i < baseAndDigits->length; i++) {
 			(*digits)(i - 1) = (*baseAndDigits)(i);
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
-		return convOthBase2Decimal(numeralSystemBase, digits);
+		return convOthBase2DecimalWithCancel(numeralSystemBase, digits, cancelId);
 	}
 
 	/**
@@ -1748,6 +1955,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *                   the "NaN" string is returned.
 	 */
 	API_VISIBLE StringPtr NumberTheory::convDecimal2OthBase(double decimalNumber, int numeralSystemBase) {
+		return formatNumberInBaseWithCancel(decimalNumber, numeralSystemBase, 0);
+	}
+
+	API_VISIBLE StringPtr NumberTheory::formatNumberInBaseWithCancel(double decimalNumber, int numeralSystemBase, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(decimalNumber)) return S(UTF("NaN"));
 		if (numeralSystemBase < 1) return S(UTF("NaN"));
 		if (numeralSystemBase > 36) return S(UTF("NaN"));
@@ -1768,7 +1981,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				reminder = native_numeric_detail::checkedNativeInt(Math::mod(quotient, numeralSystemBase), "NumberTheory.convDecimal2OthBase");
 				quotient = MathFunctions::floor(quotient / numeralSystemBase);
 				numberLiteral = S(digitChar(reminder)) + S(*numberLiteral);
-				if (mXparser::isCurrentCalculationCancelled()) return S(UTF("NaN"));
+				if (mXparser::isCalculationCancelled(cancelId)) return S(UTF("NaN"));
 			}
 		else {
 			String repeat(native_numeric_detail::checkedNativeInt(intPart, "NumberTheory.convDecimal2OthBase"), UTF('1'));
@@ -1860,6 +2073,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *                            1 then -1 is returned.
 	 */
 	API_VISIBLE Long NumberTheory::numberOfDigits(Long number, Long numeralSystemBase) {
+		return numberOfDigitsWithCancel(number, numeralSystemBase, 0);
+	}
+
+	API_VISIBLE Long NumberTheory::numberOfDigitsWithCancel(Long number, Long numeralSystemBase, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numeralSystemBase < 1) return -1;
 		if (number < 0) number = native_numeric_detail::checkedNativeAbsoluteLong(number, "NumberTheory.numberOfDigits");
 		if (numeralSystemBase == 10) return numberOfDigits(number);
@@ -1868,7 +2087,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		Long quotient = number;
 		Long digitsNum = 0;
 		while (quotient >= 1) {
-			if (mXparser::isCurrentCalculationCancelled()) return Long{0};
+			if (mXparser::isCalculationCancelled(cancelId)) return Long{0};
 			quotient = quotient / numeralSystemBase;
 			digitsNum++;
 		}
@@ -1885,6 +2104,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *                            is returned.
 	 */
 	API_VISIBLE double NumberTheory::numberOfDigits(double number, double numeralSystemBase) {
+		return numberOfDigitsWithCancel(number, numeralSystemBase, 0);
+	}
+
+	API_VISIBLE double NumberTheory::numberOfDigitsWithCancel(double number, double numeralSystemBase, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(number)) return Double::NaN;
 		if (Double::isNaN(numeralSystemBase)) return Double::NaN;
 		if (Double::isInfinite(numeralSystemBase)) return Double::NaN;
@@ -1899,7 +2124,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double quotient = number;
 		double digitsNum = 0;
 		while (quotient >= 1.0) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			quotient = MathFunctions::floor(quotient / numeralSystemBase);
 			digitsNum++;
 		}
@@ -1915,9 +2140,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return                    Return digit at given position. If digit finding was not possible then -1 is returned.
 	 */
 	API_VISIBLE int NumberTheory::digitAtPosition(Long number, int position, int numeralSystemBase) {
+		return digitAtPositionWithCancel(number, position, numeralSystemBase, 0);
+	}
+
+	API_VISIBLE int NumberTheory::digitAtPositionWithCancel(Long number, int position, int numeralSystemBase, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numeralSystemBase < 1) return -1;
 		if (number < 0) number = native_numeric_detail::checkedNativeAbsoluteLong(number, "NumberTheory.digitAtPosition");
-		int digitsNum = CAST_INT(numberOfDigits(number, numeralSystemBase));
+		int digitsNum = CAST_INT(numberOfDigitsWithCancel(number, numeralSystemBase, cancelId));
 		// Java int negation wraps at MIN_VALUE; avoid undefined C++ negation.
 		const int negativeDigitsNum = digitsNum == Integer::MIN_VALUE ? digitsNum : -digitsNum;
 		if (position <= negativeDigitsNum) {
@@ -1931,7 +2162,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		int digit;
 		int digitIndex = digitsNum;
 		while (quotient >= 1) {
-			if (mXparser::isCurrentCalculationCancelled()) return 0;
+			if (mXparser::isCalculationCancelled(cancelId)) return 0;
 			digit = CAST_INT(quotient % numeralSystemBase);
 			quotient = quotient / numeralSystemBase;
 			digitIndex--;
@@ -1963,6 +2194,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return                    Return digit at given position. If digit finding was not possible then Double::NaN is returned.
 	 */
 	API_VISIBLE double NumberTheory::digitAtPosition(double number, double position, double numeralSystemBase) {
+		return digitAtPositionWithCancel(number, position, numeralSystemBase, 0);
+	}
+
+	API_VISIBLE double NumberTheory::digitAtPositionWithCancel(double number, double position, double numeralSystemBase, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(number)) return Double::NaN;
 		if (Double::isNaN(position)) return Double::NaN;
 		if (Double::isNaN(numeralSystemBase)) return Double::NaN;
@@ -1973,7 +2210,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (number < 0) number = -number;
 		number = MathFunctions::floor(number);
 		numeralSystemBase = MathFunctions::floor(numeralSystemBase);
-		int digitsNum = native_numeric_detail::checkedNativeInt(numberOfDigits(number, numeralSystemBase), "NumberTheory.digitAtPosition");
+		int digitsNum = native_numeric_detail::checkedNativeInt(numberOfDigitsWithCancel(number, numeralSystemBase, cancelId), "NumberTheory.digitAtPosition");
 		if (position <= -digitsNum) {
 			if (numeralSystemBase > 1.0) return 0;
 			else return Double::NaN;
@@ -1985,7 +2222,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double digit;
 		int digitIndex = digitsNum;
 		while (quotient >= 1.0) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			digit = MathFunctions::floor(Math::mod(quotient, numeralSystemBase));
 			quotient = MathFunctions::floor(quotient / numeralSystemBase);
 			digitIndex--;
@@ -2003,7 +2240,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return                    Return digit at given position. If digit finding was not possible then Double::NaN is returned.
 	 */
 	API_VISIBLE double NumberTheory::digitAtPosition(double number, double position) {
-		return digitAtPosition(number, position, 10.0);
+		return decimalDigitAtPositionWithCancel(number, position, 0);
+	}
+
+	API_VISIBLE double NumberTheory::decimalDigitAtPositionWithCancel(double number, double position, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
+		return digitAtPositionWithCancel(number, position, 10.0, cancelId);
 	}
 
 	/**
@@ -2013,6 +2256,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return           List of prime factors (non-distinct)
 	 */
 	API_VISIBLE ArrayPtr<Long> NumberTheory::primeFactors(Long number) {
+		return primeFactorsWithCancel(number, 0);
+	}
+
+	API_VISIBLE ArrayPtr<Long> NumberTheory::primeFactorsWithCancel(Long number, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		ArrayPtr<Long> longZeroArray = new_Long(0);
 		ArrayPtr<Long> factors;
 		if (number == 0) return longZeroArray;
@@ -2036,7 +2285,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			while (n % i == 0) {
 				factorsList->add(i);
 				n /= i;
-				if (mXparser::isCurrentCalculationCancelled()) return longZeroArray;
+				if (mXparser::isCalculationCancelled(cancelId)) return longZeroArray;
 			}
 		}
 		if (n > 1) factorsList->add(n);
@@ -2044,7 +2293,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		factors = new_Long(nfact);
 		for (int i = 0; i < nfact; i++) {
 			(*factors)(i) = factorsList->get(i);
-			if (mXparser::isCurrentCalculationCancelled()) return longZeroArray;
+			if (mXparser::isCalculationCancelled(cancelId)) return longZeroArray;
 		}
 		return factors;
 	}
@@ -2056,6 +2305,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return           List of prime factors (non-distinct)
 	 */
 	API_VISIBLE ArrayPtr<double> NumberTheory::primeFactors(double number) {
+		return primeFactorsWithCancel(number, 0);
+	}
+
+	API_VISIBLE ArrayPtr<double> NumberTheory::primeFactorsWithCancel(double number, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		ArrayPtr<double> doubleZeroArray = new_double(0);
 		ArrayPtr<double> factors;
 		if (Double::isNaN(number)) return doubleZeroArray;
@@ -2081,7 +2336,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			while (Math::mod(n, i) == 0) {
 				factorsList->add(i);
 				n = MathFunctions::floor(n / i);
-				if (mXparser::isCurrentCalculationCancelled()) return doubleZeroArray;
+				if (mXparser::isCalculationCancelled(cancelId)) return doubleZeroArray;
 			}
 		}
 		if (n > 1.0) factorsList->add(n);
@@ -2089,7 +2344,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		factors = new_double(nfact);
 		for (int i = 0; i < nfact; i++) {
 			(*factors)(i) = factorsList->get(i);
-			if (mXparser::isCurrentCalculationCancelled()) return doubleZeroArray;
+			if (mXparser::isCalculationCancelled(cancelId)) return doubleZeroArray;
 		}
 		return factors;
 	}
@@ -2101,10 +2356,16 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return           Number of distinct prime factors
 	 */
 	API_VISIBLE double NumberTheory::numberOfPrimeFactors(double number) {
+		return numberOfPrimeFactorsWithCancel(number, 0);
+	}
+
+	API_VISIBLE double NumberTheory::numberOfPrimeFactorsWithCancel(double number, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(number)) return Double::NaN;
-		ArrayPtr<double> factors = primeFactors(number);
+		ArrayPtr<double> factors = primeFactorsWithCancel(number, cancelId);
 		if (factors->rows <= 1) return factors->rows;
-		ArrayPtr<double> factorsDist = NumberTheory::getDistValues(factors, false);
+		ArrayPtr<double> factorsDist = NumberTheory::getDistValuesWithCancel(factors, false, cancelId);
 		return factorsDist->rows;
 	}
 
@@ -2118,6 +2379,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *                   is returned.
 	 */
 	API_VISIBLE double NumberTheory::primeFactorValue(double number, double id) {
+		return primeFactorValueWithCancel(number, id, 0);
+	}
+
+	API_VISIBLE double NumberTheory::primeFactorValueWithCancel(double number, double id, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(number)) return Double::NaN;
 		if (Double::isNaN(id)) return Double::NaN;
 		if (Double::isInfinite(number)) return Double::NaN;
@@ -2127,8 +2394,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (id < 1) return 1;
 		id = MathFunctions::floor(id);
 		if (id > Integer::MAX_VALUE) return 1;
-		ArrayPtr<double> factors = primeFactors(number);
-		ArrayPtr<double> factorsDist = NumberTheory::getDistValues(factors, false);
+		ArrayPtr<double> factors = primeFactorsWithCancel(number, cancelId);
+		ArrayPtr<double> factorsDist = NumberTheory::getDistValuesWithCancel(factors, false, cancelId);
 		int nfact = factorsDist->rows;
 		if (id > nfact) return 1;
 		return (*factorsDist)(CAST_INT(id - 1), 0);
@@ -2144,6 +2411,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *                   is returned.
 	 */
 	API_VISIBLE double NumberTheory::primeFactorExponent(double number, double id) {
+		return primeFactorExponentWithCancel(number, id, 0);
+	}
+
+	API_VISIBLE double NumberTheory::primeFactorExponentWithCancel(double number, double id, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(number)) return Double::NaN;
 		if (Double::isNaN(id)) return Double::NaN;
 		if (Double::isInfinite(number)) return Double::NaN;
@@ -2153,8 +2426,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (id < 1) return 0;
 		id = MathFunctions::floor(id);
 		if (id > Integer::MAX_VALUE) return 0;
-		ArrayPtr<double> factors = primeFactors(number);
-		ArrayPtr<double> factorsDist = NumberTheory::getDistValues(factors, false);
+		ArrayPtr<double> factors = primeFactorsWithCancel(number, cancelId);
+		ArrayPtr<double> factorsDist = NumberTheory::getDistValuesWithCancel(factors, false, cancelId);
 		int nfact = factorsDist->rows;
 		if (id > nfact) return 0;
 		return (*factorsDist)(CAST_INT(id - 1), 1);
@@ -2210,6 +2483,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * assigned to all the fields.
 	 */
 	API_VISIBLE ArrayPtr<double> NumberTheory::toFraction(double value) {
+		return toFractionWithCancel(value, 0);
+	}
+
+	API_VISIBLE ArrayPtr<double> NumberTheory::toFractionWithCancel(double value, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(value)) return fractionToDoubleArray(Double::NaN, Double::NaN, Double::NaN);
 		if (Double::isInfinite(value)) return fractionToDoubleArray(Double::NaN, Double::NaN, Double::NaN);
 		if (value == 0) return fractionToDoubleArray(0, 0, 1);
@@ -2218,7 +2497,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			value = -value;
 			sign = -1;
 		}
-		double valueRound0 = MathFunctions::roundHalfUp(value, 0);
+		double valueRound0 = MathFunctions::roundHalfUpWithCancel(value, 0, cancelId);
 		double valueInt = Math::floor(value);
 		double valueIntNumOfDigits = NumberTheory::numberOfDigits(valueInt);
 		double multiplier = 1;
@@ -2251,15 +2530,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double quotient;
 		double quotientRound0;
 		while (n <= CAST_DOUBLE(TO_FRACTION_INIT_SEARCH_SIZE)) {
-			if (mXparser::isCurrentCalculationCancelled()) break;
+			if (mXparser::isCalculationCancelled(cancelId)) break;
 			n++;
 			quotient = n / valueDecimal;
-			quotientRound0 = MathFunctions::roundHalfUp(quotient, 0);
+			quotientRound0 = MathFunctions::roundHalfUpWithCancel(quotient, 0, cancelId);
 			fracDecimal = n / quotientRound0;
 			if ((Math::abs(quotient - quotientRound0) <= ERROR) || (Math::abs(fracDecimal - valueDecimal) <= ERROR)) {
 				numerator = n;
 				denominator = quotientRound0;
-				gcd = NumberTheory::gcd(numerator, denominator);
+				gcd = NumberTheory::gcdWithCancel(numerator, denominator, cancelId);
 				numerator = Math::floor(numerator / gcd);
 				denominator = Math::floor(denominator / gcd);
 				return fractionToDoubleArray(sign, Math::floor(valueInt * denominator + numerator), denominator);
@@ -2268,13 +2547,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		/*
 		 * Second step based o GCD if initial search was not successful
 		 */
-		double valueRound = MathFunctions::roundHalfUp(value, ulpPosition);
+		double valueRound = MathFunctions::roundHalfUpWithCancel(value, ulpPosition, cancelId);
 		multiplier = 1;
 		for (int place = 1; place < ulpPosition; place++)
 			multiplier = Math::floor(multiplier * 10);
 		double initNumerator = Math::floor(valueRound * multiplier);
 		double initDenominator = multiplier;
-		gcd = NumberTheory::gcd(initNumerator, initDenominator);
+		gcd = NumberTheory::gcdWithCancel(initNumerator, initDenominator, cancelId);
 		numerator = Math::floor(initNumerator / gcd);
 		denominator = Math::floor(initDenominator / gcd);
 		double finalQuotient;
@@ -2289,7 +2568,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		finalQuotient = a / b;
 		int finalQuotientUlpPos = MathFunctions::ulpDecimalDigitsBefore(finalQuotient);
 		if (finalQuotientUlpPos > 0)
-			finalQuotient = MathFunctions::roundHalfUp(finalQuotient, finalQuotientUlpPos - 1);
+			finalQuotient = MathFunctions::roundHalfUpWithCancel(finalQuotient, finalQuotientUlpPos - 1, cancelId);
 		double finalQuotientFloor = Math::floor(finalQuotient);
 		if (Math::abs(finalQuotient - finalQuotientFloor) <= ERROR) {
 			numerator = Math::floor(numerator / b);

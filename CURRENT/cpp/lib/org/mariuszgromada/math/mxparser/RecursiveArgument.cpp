@@ -1,5 +1,5 @@
 /*
- * @(#)RecursiveArgument.cpp        6.1.0    2024-10-06
+ * @(#)RecursiveArgument.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -306,6 +306,17 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @return     value as double
 	 */
 	API_VISIBLE double RecursiveArgument::getArgumentValue(double index) {
+		return getArgumentValueCoreWithCancel(index, 0);
+	}
+
+	API_VISIBLE double RecursiveArgument::getArgumentValueWithCancel(double index, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
+		if (cancelId == 0) return getArgumentValue(index);
+		return getArgumentValueCoreWithCancel(index, cancelId);
+	}
+
+	API_VISIBLE double RecursiveArgument::getArgumentValueCoreWithCancel(double index, int cancelId) {
 		/*
 		 * Remember starting index
 		 */
@@ -375,7 +386,7 @@ namespace org::mariuszgromada::math::mxparser {
 		/*
 		 * perform recursive call
 		 */
-		double value = newExp->calculate();
+		double value = newExp->calculateWithCancel(cancelId);
 		/*
 		 * remember calculated in the base values array
 		 */

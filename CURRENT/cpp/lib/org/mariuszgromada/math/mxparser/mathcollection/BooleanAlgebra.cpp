@@ -1,5 +1,5 @@
 /*
- * @(#)BooleanAlgebra.cpp        6.1.0    2024-10-06
+ * @(#)BooleanAlgebra.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -441,6 +441,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *           otherwise returns BooleanAlgebra::FALSE
 	 */
 	API_VISIBLE double BooleanAlgebra::andVariadic(const ArrayPtr<double> &values) {
+		return andVariadicWithCancel(values, 0);
+	}
+
+	API_VISIBLE double BooleanAlgebra::andVariadicWithCancel(const ArrayPtr<double> &values, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (values->data == nullptr) return Double::NaN;
 		if (values->length == 0) return Double::NaN;
 		int cntTrue = 0;
@@ -449,7 +455,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			bv = double2IntBoolean(v);
 			if (bv == FALSE) return FALSE;
 			if (bv == TRUE) cntTrue++;
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		if (cntTrue == values->length) return TRUE;
 		else return Double::NaN;
@@ -463,6 +469,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *           otherwise returns BooleanAlgebra::FALSE
 	 */
 	API_VISIBLE double BooleanAlgebra::orVariadic(const ArrayPtr<double> &values) {
+		return orVariadicWithCancel(values, 0);
+	}
+
+	API_VISIBLE double BooleanAlgebra::orVariadicWithCancel(const ArrayPtr<double> &values, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (values->data == nullptr) return Double::NaN;
 		if (values->length == 0) return Double::NaN;
 		int cntFalse = 0;
@@ -471,7 +483,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			bv = double2IntBoolean(v);
 			if (bv == TRUE) return TRUE;
 			if (bv == FALSE) cntFalse++;
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		if (cntFalse == values->length) return FALSE;
 		else return Double::NaN;
@@ -485,6 +497,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *           otherwise returns BooleanAlgebra::FALSE
 	 */
 	API_VISIBLE double BooleanAlgebra::xorVariadic(const ArrayPtr<double> &values) {
+		return xorVariadicWithCancel(values, 0);
+	}
+
+	API_VISIBLE double BooleanAlgebra::xorVariadicWithCancel(const ArrayPtr<double> &values, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (values->data == nullptr) return Double::NaN;
 		if (values->length == 0) return Double::NaN;
 		int cntTrue = 0;
@@ -496,7 +514,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				if (cntTrue > 1) return FALSE;
 			}
 			if (bv == NULLVAL) return Double::NaN;
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		if (cntTrue == 1) return TRUE;
 		else return FALSE;

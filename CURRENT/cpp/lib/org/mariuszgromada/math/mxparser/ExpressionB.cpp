@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionB.cpp        6.1.1    2026-05-17
+ * @(#)ExpressionB.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -267,7 +267,7 @@ namespace org::mariuszgromada::math::mxparser {
 		bool argumentVerboseMode = argument->getVerboseMode();
 		if (verboseMode)
 			argument->setVerboseMode();
-		setToNumber(pos, argument->getArgumentValue());
+		setToNumber(pos, argument->getArgumentValueWithCancel(activeCancelId));
 		if (!argumentVerboseMode)
 			argument->setSilentMode();
 	}
@@ -295,7 +295,7 @@ namespace org::mariuszgromada::math::mxparser {
 		 */
 		int tokensListSizeBefore = tokensList->size();
 		const TokenPtr& tokenBefore = tokensList->getRef(pos);
-		double argumentValue = argument->getArgumentValue(calcStepsRegister);
+		double argumentValue = argument->getArgumentValueWithCancel(calcStepsRegister, activeCancelId);
 		if (forwardErrorMessage && THIS(Expression) != argument->argumentExpression) {
 			errorMessageCalculate = StringUtils::stringConcatenateMaxLength(
 				errorMessageCalculate, argument->argumentExpression->errorMessageCalculate,
@@ -352,7 +352,7 @@ namespace org::mariuszgromada::math::mxparser {
 		const TokenPtr& tokenBefore = tokensList->getRef(pos);
 		double value;
 		try {
-			value = function->calculate(calcStepsRegister);
+			value = function->calculateWithCancel(calcStepsRegister, activeCancelId);
 		} catch (const std::overflow_error &soe) {
 			value = Double::NaN;
 			errorMessage = StringUtils::trimNotNull(S(soe.what()));
@@ -408,7 +408,7 @@ namespace org::mariuszgromada::math::mxparser {
 		bool argumentVerboseMode = argument->getVerboseMode();
 		if (verboseMode)
 			argument->setVerboseMode();
-		double result = argument->getArgumentValue(index);
+		double result = argument->getArgumentValueWithCancel(index, activeCancelId);
 		if (forwardErrorMessage && THIS(Expression) != argument->argumentExpression) {
 			errorMessageCalculate = StringUtils::stringConcatenateMaxLength(
 				errorMessageCalculate, argument->argumentExpression->errorMessageCalculate,
@@ -455,7 +455,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::RANDOM_VARIABLE(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::RANDOM_VARIABLE, pos);
-		setToNumber(pos, ProbabilityDistributions::getRandomVariableValue(tokensList->getRef(pos)->tokenId));
+		setToNumber(pos, ProbabilityDistributions::getRandomVariableValueWithCancel(tokensList->getRef(pos)->tokenId, activeCancelId));
 	}
 
 	/**
@@ -477,7 +477,7 @@ namespace org::mariuszgromada::math::mxparser {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::TETRATION, pos);
 		double a = getTokenValue(pos - 1);
 		double n = getTokenValue(pos + 1);
-		opSetDecreaseRemove(pos, MathFunctions::tetration(a, n), true);
+		opSetDecreaseRemove(pos, MathFunctions::tetrationWithCancel(a, n, activeCancelId), true);
 	}
 
 	/**
@@ -1317,7 +1317,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::BELL_NUMBER(int pos) {
 		double n = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, MathFunctions::bellNumber(n));
+		f1SetDecreaseRemove(pos, MathFunctions::bellNumberWithCancel(n, activeCancelId));
 	}
 
 	/**
@@ -1327,7 +1327,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::LUCAS_NUMBER(int pos) {
 		double n = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, MathFunctions::lucasNumber(n));
+		f1SetDecreaseRemove(pos, MathFunctions::lucasNumberWithCancel(n, activeCancelId));
 	}
 
 	/**
@@ -1337,7 +1337,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::FIBONACCI_NUMBER(int pos) {
 		double n = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, MathFunctions::fibonacciNumber(n));
+		f1SetDecreaseRemove(pos, MathFunctions::fibonacciNumberWithCancel(n, activeCancelId));
 	}
 
 	/**
@@ -1347,7 +1347,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::HARMONIC_NUMBER(int pos) {
 		double n = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, MathFunctions::harmonicNumber(n));
+		f1SetDecreaseRemove(pos, MathFunctions::ordinaryHarmonicNumberWithCancel(n, activeCancelId));
 	}
 
 	/**
@@ -1357,7 +1357,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::IS_PRIME(int pos) {
 		double n = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, NumberTheory::primeTest(n));
+		f1SetDecreaseRemove(pos, NumberTheory::primeTestWithCancel(n, activeCancelId));
 	}
 
 	/**
@@ -1367,7 +1367,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::PRIME_COUNT(int pos) {
 		double n = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, NumberTheory::primeCount(n));
+		f1SetDecreaseRemove(pos, NumberTheory::primeCountWithCancel(n, activeCancelId));
 	}
 
 	/**
@@ -1377,7 +1377,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::EXP_INT(int pos) {
 		double x = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, SpecialFunctions::exponentialIntegralEi(x));
+		f1SetDecreaseRemove(pos, SpecialFunctions::exponentialIntegralEiWithCancel(x, activeCancelId));
 	}
 
 	/**
@@ -1387,7 +1387,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::LOG_INT(int pos) {
 		double x = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, SpecialFunctions::logarithmicIntegralLi(x));
+		f1SetDecreaseRemove(pos, SpecialFunctions::logarithmicIntegralLiWithCancel(x, activeCancelId));
 	}
 
 	/**
@@ -1397,7 +1397,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::OFF_LOG_INT(int pos) {
 		double x = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, SpecialFunctions::offsetLogarithmicIntegralLi(x));
+		f1SetDecreaseRemove(pos, SpecialFunctions::offsetLogarithmicIntegralLiWithCancel(x, activeCancelId));
 	}
 
 	/**
@@ -1409,7 +1409,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::FACT(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::FACT, pos);
 		double a = getTokenValue(pos - 1);
-		setToNumber(pos, MathFunctions::factorial(a));
+		setToNumber(pos, MathFunctions::factorialWithCancel(a, activeCancelId));
 		tokensList->remove(pos - 1);
 	}
 
@@ -1521,7 +1521,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::NFACT(int pos) {
 		double n = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, NumberTheory::numberOfPrimeFactors(n));
+		f1SetDecreaseRemove(pos, NumberTheory::numberOfPrimeFactorsWithCancel(n, activeCancelId));
 	}
 
 	/**
@@ -1554,7 +1554,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::GAMMA(int pos) {
 		double x = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, SpecialFunctions::gamma(x));
+		f1SetDecreaseRemove(pos, SpecialFunctions::gammaWithCancel(x, activeCancelId));
 	}
 
 	/**
@@ -1565,7 +1565,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::LAMBERT_W0(int pos) {
 		double x = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, SpecialFunctions::lambertW(x, 0));
+		f1SetDecreaseRemove(pos, SpecialFunctions::lambertWWithCancel(x, 0, activeCancelId));
 	}
 
 	/**
@@ -1576,7 +1576,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::LAMBERT_W1(int pos) {
 		double x = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, SpecialFunctions::lambertW(x, -1));
+		f1SetDecreaseRemove(pos, SpecialFunctions::lambertWWithCancel(x, -1, activeCancelId));
 	}
 
 	/**
@@ -1587,7 +1587,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::SGN_GAMMA(int pos) {
 		double x = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, SpecialFunctions::sgnGamma(x));
+		f1SetDecreaseRemove(pos, SpecialFunctions::sgnGammaWithCancel(x, activeCancelId));
 	}
 
 	/**
@@ -1598,7 +1598,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::LOG_GAMMA(int pos) {
 		double x = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, SpecialFunctions::logGamma(x));
+		f1SetDecreaseRemove(pos, SpecialFunctions::logGammaWithCancel(x, activeCancelId));
 	}
 
 	/**
@@ -1609,7 +1609,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::DI_GAMMA(int pos) {
 		double x = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, SpecialFunctions::diGamma(x));
+		f1SetDecreaseRemove(pos, SpecialFunctions::diGammaWithCancel(x, activeCancelId));
 	}
 
 	/**
@@ -1641,12 +1641,12 @@ namespace org::mariuszgromada::math::mxparser {
 
 	API_VISIBLE void Expression::RND_STUDENT_T(int pos) {
 		double v = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, ProbabilityDistributions::rndStudentT(v));
+		f1SetDecreaseRemove(pos, ProbabilityDistributions::rndStudentTWithCancel(v, activeCancelId));
 	}
 
 	API_VISIBLE void Expression::RND_CHI2(int pos) {
 		double k = getTokenValue(pos + 1);
-		f1SetDecreaseRemove(pos, ProbabilityDistributions::rndChiSquared(k));
+		f1SetDecreaseRemove(pos, ProbabilityDistributions::rndChiSquaredWithCancel(k, activeCancelId));
 	}
 
 	/**
@@ -1708,7 +1708,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::BINOM_COEFF(int pos) {
 		double n = getTokenValue(pos + 1);
 		double k = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, MathFunctions::binomCoeff(n, k));
+		f2SetDecreaseRemove(pos, MathFunctions::binomCoeffWithCancel(n, k, activeCancelId));
 	}
 
 	/**
@@ -1719,7 +1719,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::PERMUTATIONS(int pos) {
 		double n = getTokenValue(pos + 1);
 		double k = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, MathFunctions::numberOfPermutations(n, k));
+		f2SetDecreaseRemove(pos, MathFunctions::numberOfPermutationsWithCancel(n, k, activeCancelId));
 	}
 
 	/**
@@ -1729,7 +1729,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::BETA(int pos) {
 		double x = getTokenValue(pos + 1);
 		double y = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, SpecialFunctions::beta(x, y));
+		f2SetDecreaseRemove(pos, SpecialFunctions::betaWithCancel(x, y, activeCancelId));
 	}
 
 	/**
@@ -1739,43 +1739,43 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::LOG_BETA(int pos) {
 		double x = getTokenValue(pos + 1);
 		double y = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, SpecialFunctions::logBeta(x, y));
+		f2SetDecreaseRemove(pos, SpecialFunctions::logBetaWithCancel(x, y, activeCancelId));
 	}
 
 	API_VISIBLE void Expression::PDF_STUDENT_T(int pos) {
 		double x = getTokenValue(pos + 1);
 		double v = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, ProbabilityDistributions::pdfStudentT(x, v));
+		f2SetDecreaseRemove(pos, ProbabilityDistributions::pdfStudentTWithCancel(x, v, activeCancelId));
 	}
 
 	API_VISIBLE void Expression::CDF_STUDENT_T(int pos) {
 		double x = getTokenValue(pos + 1);
 		double v = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, ProbabilityDistributions::cdfStudentT(x, v));
+		f2SetDecreaseRemove(pos, ProbabilityDistributions::cdfStudentTWithCancel(x, v, activeCancelId));
 	}
 
 	API_VISIBLE void Expression::QNT_STUDENT_T(int pos) {
 		double p = getTokenValue(pos + 1);
 		double v = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, ProbabilityDistributions::qntStudentT(p, v));
+		f2SetDecreaseRemove(pos, ProbabilityDistributions::qntStudentTWithCancel(p, v, activeCancelId));
 	}
 
 	API_VISIBLE void Expression::PDF_CHI2(int pos) {
 		double x = getTokenValue(pos + 1);
 		double k = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, ProbabilityDistributions::pdfChiSquared(x, k));
+		f2SetDecreaseRemove(pos, ProbabilityDistributions::pdfChiSquaredWithCancel(x, k, activeCancelId));
 	}
 
 	API_VISIBLE void Expression::CDF_CHI2(int pos) {
 		double x = getTokenValue(pos + 1);
 		double k = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, ProbabilityDistributions::cdfChiSquared(x, k));
+		f2SetDecreaseRemove(pos, ProbabilityDistributions::cdfChiSquaredWithCancel(x, k, activeCancelId));
 	}
 
 	API_VISIBLE void Expression::QNT_CHI2(int pos) {
 		double p = getTokenValue(pos + 1);
 		double k = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, ProbabilityDistributions::qntChiSquared(p, k));
+		f2SetDecreaseRemove(pos, ProbabilityDistributions::qntChiSquaredWithCancel(p, k, activeCancelId));
 	}
 
 	/**
@@ -1786,7 +1786,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::BERNOULLI_NUMBER(int pos) {
 		double m = getTokenValue(pos + 1);
 		double n = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, MathFunctions::bernoulliNumber(m, n));
+		f2SetDecreaseRemove(pos, MathFunctions::bernoulliNumberWithCancel(m, n, activeCancelId));
 	}
 
 	/**
@@ -1797,7 +1797,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::STIRLING1_NUMBER(int pos) {
 		double n = getTokenValue(pos + 1);
 		double k = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, MathFunctions::Stirling1Number(n, k));
+		f2SetDecreaseRemove(pos, MathFunctions::Stirling1NumberWithCancel(n, k, activeCancelId));
 	}
 
 	/**
@@ -1808,7 +1808,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::STIRLING2_NUMBER(int pos) {
 		double n = getTokenValue(pos + 1);
 		double k = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, MathFunctions::Stirling2Number(n, k));
+		f2SetDecreaseRemove(pos, MathFunctions::Stirling2NumberWithCancel(n, k, activeCancelId));
 	}
 
 	/**
@@ -1819,7 +1819,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::WORPITZKY_NUMBER(int pos) {
 		double n = getTokenValue(pos + 1);
 		double k = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, MathFunctions::worpitzkyNumber(n, k));
+		f2SetDecreaseRemove(pos, MathFunctions::worpitzkyNumberWithCancel(n, k, activeCancelId));
 	}
 
 	/**
@@ -1830,7 +1830,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::EULER_NUMBER(int pos) {
 		double n = getTokenValue(pos + 1);
 		double k = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, MathFunctions::eulerNumber(n, k));
+		f2SetDecreaseRemove(pos, MathFunctions::eulerNumberWithCancel(n, k, activeCancelId));
 	}
 
 	/**
@@ -1852,7 +1852,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::EULER_POLYNOMIAL(int pos) {
 		double m = getTokenValue(pos + 1);
 		double x = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, MathFunctions::eulerPolynomial(m, x));
+		f2SetDecreaseRemove(pos, MathFunctions::eulerPolynomialWithCancel(m, x, activeCancelId));
 	}
 
 	/**
@@ -1863,7 +1863,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::HARMONIC2_NUMBER(int pos) {
 		double x = getTokenValue(pos + 1);
 		double n = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, MathFunctions::harmonicNumber(x, n));
+		f2SetDecreaseRemove(pos, MathFunctions::generalizedHarmonicNumberWithCancel(x, n, activeCancelId));
 	}
 
 	/**
@@ -1874,7 +1874,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::ROUND(int pos) {
 		double value = getTokenValue(pos + 1);
 		int places = native_numeric_detail::javaIntCast(getTokenValue(pos + 2));
-		f2SetDecreaseRemove(pos, MathFunctions::round(value, places));
+		f2SetDecreaseRemove(pos, MathFunctions::roundWithCancel(value, places, activeCancelId));
 	}
 
 	/**
@@ -1909,7 +1909,7 @@ namespace org::mariuszgromada::math::mxparser {
 		double mean = getTokenValue(pos + 1);
 		double stddev = getTokenValue(pos + 2);
 		f2SetDecreaseRemove(
-			pos, ProbabilityDistributions::rndNormal(mean, stddev, ProbabilityDistributions::randomGenerator));
+			pos, ProbabilityDistributions::rndNormalWithCancel(mean, stddev, ProbabilityDistributions::randomGenerator, activeCancelId));
 	}
 
 	/**
@@ -1920,7 +1920,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::RND_F_SNEDECOR(int pos) {
 		double d1 = getTokenValue(pos + 1);
 		double d2 = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, ProbabilityDistributions::rndSnedecordF(d1, d2));
+		f2SetDecreaseRemove(pos, ProbabilityDistributions::rndSnedecordFWithCancel(d1, d2, activeCancelId));
 	}
 
 	/**
@@ -1931,7 +1931,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::NDIG(int pos) {
 		double number = getTokenValue(pos + 1);
 		double numeralSystemBase = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, NumberTheory::numberOfDigits(number, numeralSystemBase));
+		f2SetDecreaseRemove(pos, NumberTheory::numberOfDigitsWithCancel(number, numeralSystemBase, activeCancelId));
 	}
 
 	/**
@@ -1942,7 +1942,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::DIGIT10(int pos) {
 		double number = getTokenValue(pos + 1);
 		double position = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, NumberTheory::digitAtPosition(number, position));
+		f2SetDecreaseRemove(pos, NumberTheory::decimalDigitAtPositionWithCancel(number, position, activeCancelId));
 	}
 
 	/**
@@ -1953,7 +1953,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::FACTVAL(int pos) {
 		double number = getTokenValue(pos + 1);
 		double id = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, NumberTheory::primeFactorValue(number, id));
+		f2SetDecreaseRemove(pos, NumberTheory::primeFactorValueWithCancel(number, id, activeCancelId));
 	}
 
 	/**
@@ -1964,7 +1964,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::FACTEXP(int pos) {
 		double number = getTokenValue(pos + 1);
 		double id = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, NumberTheory::primeFactorExponent(number, id));
+		f2SetDecreaseRemove(pos, NumberTheory::primeFactorExponentWithCancel(number, id, activeCancelId));
 	}
 
 	/**
@@ -1986,7 +1986,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::INC_GAMMA_LOWER(int pos) {
 		double s = getTokenValue(pos + 1);
 		double x = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, SpecialFunctions::incompleteGammaLower(s, x));
+		f2SetDecreaseRemove(pos, SpecialFunctions::incompleteGammaLowerWithCancel(s, x, activeCancelId));
 	}
 
 	/**
@@ -1997,7 +1997,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::INC_GAMMA_UPPER(int pos) {
 		double s = getTokenValue(pos + 1);
 		double x = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, SpecialFunctions::incompleteGammaUpper(s, x));
+		f2SetDecreaseRemove(pos, SpecialFunctions::incompleteGammaUpperWithCancel(s, x, activeCancelId));
 	}
 
 	/**
@@ -2008,7 +2008,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::REG_GAMMA_LOWER(int pos) {
 		double s = getTokenValue(pos + 1);
 		double x = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, SpecialFunctions::regularizedGammaLowerP(s, x));
+		f2SetDecreaseRemove(pos, SpecialFunctions::regularizedGammaLowerPWithCancel(s, x, activeCancelId));
 	}
 
 	/**
@@ -2019,7 +2019,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::REG_GAMMA_UPPER(int pos) {
 		double s = getTokenValue(pos + 1);
 		double x = getTokenValue(pos + 2);
-		f2SetDecreaseRemove(pos, SpecialFunctions::regularizedGammaUpperQ(s, x));
+		f2SetDecreaseRemove(pos, SpecialFunctions::regularizedGammaUpperQWithCancel(s, x, activeCancelId));
 	}
 
 	/**
@@ -2044,7 +2044,7 @@ namespace org::mariuszgromada::math::mxparser {
 		                                     UDFVariadicParamsAtRunTime);
 		if (verboseMode)
 			ifExp->setVerboseMode();
-		ifSetRemove(pos, ifExp->calculate());
+		ifSetRemove(pos, ifExp->calculateWithCancel(activeCancelId));
 	}
 
 	/**
@@ -2073,7 +2073,7 @@ namespace org::mariuszgromada::math::mxparser {
 			if (verboseMode)
 				iffExp->setVerboseMode();
 			iffCon = true;
-			iffValue = iffExp->calculate();
+			iffValue = iffExp->calculateWithCancel(activeCancelId);
 			if (iffValue == 0 || Double::isNaN(iffValue)) {
 				paramNumber += 2;
 				iffCon = false;
@@ -2262,7 +2262,7 @@ namespace org::mariuszgromada::math::mxparser {
 		double x = getTokenValue(pos + 1);
 		double d1 = getTokenValue(pos + 2);
 		double d2 = getTokenValue(pos + 3);
-		f3SetDecreaseRemove(pos, ProbabilityDistributions::pdfSnedecordF(x, d1, d2));
+		f3SetDecreaseRemove(pos, ProbabilityDistributions::pdfSnedecordFWithCancel(x, d1, d2, activeCancelId));
 	}
 
 	/**
@@ -2274,7 +2274,7 @@ namespace org::mariuszgromada::math::mxparser {
 		double x = getTokenValue(pos + 1);
 		double d1 = getTokenValue(pos + 2);
 		double d2 = getTokenValue(pos + 3);
-		f3SetDecreaseRemove(pos, ProbabilityDistributions::cdfSnedecordF(x, d1, d2));
+		f3SetDecreaseRemove(pos, ProbabilityDistributions::cdfSnedecordFWithCancel(x, d1, d2, activeCancelId));
 	}
 
 	/**
@@ -2286,7 +2286,7 @@ namespace org::mariuszgromada::math::mxparser {
 		double p = getTokenValue(pos + 1);
 		double d1 = getTokenValue(pos + 2);
 		double d2 = getTokenValue(pos + 3);
-		f3SetDecreaseRemove(pos, ProbabilityDistributions::qntSnedecordF(p, d1, d2));
+		f3SetDecreaseRemove(pos, ProbabilityDistributions::qntSnedecordFWithCancel(p, d1, d2, activeCancelId));
 	}
 
 	const API_VISIBLE double Expression::PP = Math::round(MathConstants::PI * 1e8);
@@ -2306,7 +2306,7 @@ namespace org::mariuszgromada::math::mxparser {
 			value = 1 + License::getUseType() * 10 + mXparser::VERSION_PATCH * 100 + mXparser::VERSION_MINOR * 10000 +
 			        mXparser::VERSION_MAJOR * 1000000;
 		} else
-			value = NumberTheory::digitAtPosition(number, position, numeralSystemBase);
+			value = NumberTheory::digitAtPositionWithCancel(number, position, numeralSystemBase, activeCancelId);
 		f3SetDecreaseRemove(pos, value);
 	}
 
@@ -2318,7 +2318,7 @@ namespace org::mariuszgromada::math::mxparser {
 		double x = getTokenValue(pos + 1);
 		double a = getTokenValue(pos + 2);
 		double b = getTokenValue(pos + 3);
-		f3SetDecreaseRemove(pos, SpecialFunctions::incompleteBeta(a, b, x));
+		f3SetDecreaseRemove(pos, SpecialFunctions::incompleteBetaWithCancel(a, b, x, activeCancelId));
 	}
 
 	/**
@@ -2329,7 +2329,7 @@ namespace org::mariuszgromada::math::mxparser {
 		double x = getTokenValue(pos + 1);
 		double a = getTokenValue(pos + 2);
 		double b = getTokenValue(pos + 3);
-		f3SetDecreaseRemove(pos, SpecialFunctions::regularizedBeta(a, b, x));
+		f3SetDecreaseRemove(pos, SpecialFunctions::regularizedBetaWithCancel(a, b, x, activeCancelId));
 	}
 
 	/**
@@ -2405,8 +2405,8 @@ namespace org::mariuszgromada::math::mxparser {
 		/*
 		 * Evaluate range
 		 */
-		iterParams->from = iterParams->fromExp->calculate();
-		iterParams->to = iterParams->toExp->calculate();
+		iterParams->from = iterParams->fromExp->calculateWithCancel(activeCancelId);
+		iterParams->to = iterParams->toExp->calculateWithCancel(activeCancelId);
 		iterParams->delta = 1.0;
 		if (iterParams->to < iterParams->from) iterParams->delta = -1.0;
 		if (iterParams->withDelta) {
@@ -2419,7 +2419,7 @@ namespace org::mariuszgromada::math::mxparser {
 			}
 			if (verboseMode)
 				iterParams->deltaExp->setVerboseMode();
-			iterParams->delta = iterParams->deltaExp->calculate();
+			iterParams->delta = iterParams->deltaExp->calculateWithCancel(activeCancelId);
 		}
 	}
 
@@ -2439,8 +2439,8 @@ namespace org::mariuszgromada::math::mxparser {
 		ArgumentParameterPtr index = getParamArgument(iterParams->indexParam->paramStr);
 		updateMissingTokens(index, iterParams);
 		evalFromToDeltaParameters(index, iterParams);
-		double sigma = NumberTheory::sigmaSummation(iterParams->funExp, index->argument, iterParams->from,
-		                                            iterParams->to, iterParams->delta);
+		double sigma = NumberTheory::sigmaSummationWithCancel(iterParams->funExp, index->argument, iterParams->from,
+		                                            iterParams->to, iterParams->delta, activeCancelId);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, sigma, true);
 	}
@@ -2461,8 +2461,8 @@ namespace org::mariuszgromada::math::mxparser {
 		ArgumentParameterPtr index = getParamArgument(iterParams->indexParam->paramStr);
 		updateMissingTokens(index, iterParams);
 		evalFromToDeltaParameters(index, iterParams);
-		double product = NumberTheory::piProduct(iterParams->funExp, index->argument, iterParams->from, iterParams->to,
-		                                         iterParams->delta);
+		double product = NumberTheory::piProductWithCancel(iterParams->funExp, index->argument, iterParams->from, iterParams->to,
+		                                         iterParams->delta, activeCancelId);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, product, true);
 	}
@@ -2483,8 +2483,8 @@ namespace org::mariuszgromada::math::mxparser {
 		ArgumentParameterPtr index = getParamArgument(iterParams->indexParam->paramStr);
 		updateMissingTokens(index, iterParams);
 		evalFromToDeltaParameters(index, iterParams);
-		double min = NumberTheory::min(iterParams->funExp, index->argument, iterParams->from, iterParams->to,
-		                               iterParams->delta);
+		double min = NumberTheory::minWithCancel(iterParams->funExp, index->argument, iterParams->from, iterParams->to,
+		                               iterParams->delta, activeCancelId);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, min);
 	}
@@ -2505,8 +2505,8 @@ namespace org::mariuszgromada::math::mxparser {
 		ArgumentParameterPtr index = getParamArgument(iterParams->indexParam->paramStr);
 		updateMissingTokens(index, iterParams);
 		evalFromToDeltaParameters(index, iterParams);
-		double max = NumberTheory::max(iterParams->funExp, index->argument, iterParams->from, iterParams->to,
-		                               iterParams->delta);
+		double max = NumberTheory::maxWithCancel(iterParams->funExp, index->argument, iterParams->from, iterParams->to,
+		                               iterParams->delta, activeCancelId);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, max);
 	}
@@ -2527,8 +2527,8 @@ namespace org::mariuszgromada::math::mxparser {
 		ArgumentParameterPtr index = getParamArgument(iterParams->indexParam->paramStr);
 		updateMissingTokens(index, iterParams);
 		evalFromToDeltaParameters(index, iterParams);
-		double avg = Statistics::avg(iterParams->funExp, index->argument, iterParams->from, iterParams->to,
-		                             iterParams->delta);
+		double avg = Statistics::avgWithCancel(iterParams->funExp, index->argument, iterParams->from, iterParams->to,
+		                             iterParams->delta, activeCancelId);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, avg, true);
 	}
@@ -2549,8 +2549,8 @@ namespace org::mariuszgromada::math::mxparser {
 		ArgumentParameterPtr index = getParamArgument(iterParams->indexParam->paramStr);
 		updateMissingTokens(index, iterParams);
 		evalFromToDeltaParameters(index, iterParams);
-		double var = Statistics::var(iterParams->funExp, index->argument, iterParams->from, iterParams->to,
-		                             iterParams->delta);
+		double var = Statistics::varWithCancel(iterParams->funExp, index->argument, iterParams->from, iterParams->to,
+		                             iterParams->delta, activeCancelId);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, var, true);
 	}
@@ -2571,8 +2571,8 @@ namespace org::mariuszgromada::math::mxparser {
 		ArgumentParameterPtr index = getParamArgument(iterParams->indexParam->paramStr);
 		updateMissingTokens(index, iterParams);
 		evalFromToDeltaParameters(index, iterParams);
-		double std = Statistics::std(iterParams->funExp, index->argument, iterParams->from, iterParams->to,
-		                             iterParams->delta);
+		double std = Statistics::stdWithCancel(iterParams->funExp, index->argument, iterParams->from, iterParams->to,
+		                             iterParams->delta, activeCancelId);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, std, true);
 	}
@@ -2623,7 +2623,7 @@ namespace org::mariuszgromada::math::mxparser {
 		 * der( f(x), x, eps, maxsteps )
 		 */
 		if (derParams->size() == 2 || derParams->size() == 4)
-			x0 = x->argument->getArgumentValue();
+			x0 = x->argument->getArgumentValueWithCancel(activeCancelId);
 		/*
 		 * der( f(x), x, x0 )
 		 * der( f(x), x, x0, eps, maxsteps )
@@ -2635,7 +2635,7 @@ namespace org::mariuszgromada::math::mxparser {
 			ExpressionPtr x0Expr = new_Expression(x0Param->paramStr, x0Param->tokens, argumentsList, functionsList,
 			                                      constantsList, DISABLE_ROUNDING, UDFExpression,
 			                                      UDFVariadicParamsAtRunTime);
-			x0 = x0Expr->calculate();
+			x0 = x0Expr->calculateWithCancel(activeCancelId);
 		}
 		double eps = DEF_EPS;
 		int maxSteps = DEF_MAX_STEPS;
@@ -2663,17 +2663,17 @@ namespace org::mariuszgromada::math::mxparser {
 			ExpressionPtr maxStepsExp = new_Expression(maxStepsParam->paramStr, maxStepsParam->tokens, argumentsList,
 			                                           functionsList, constantsList, DISABLE_ROUNDING, UDFExpression,
 			                                           UDFVariadicParamsAtRunTime);
-			eps = epsExpr->calculate();
-			maxSteps = native_numeric_detail::roundedNativeInt(Math::round(maxStepsExp->calculate()));
+			eps = epsExpr->calculateWithCancel(activeCancelId);
+			maxSteps = native_numeric_detail::roundedNativeInt(Math::round(maxStepsExp->calculateWithCancel(activeCancelId)));
 		}
 		if (derivativeType == Calculus::GENERAL_DERIVATIVE) {
-			double general = Calculus::derivative(funExp, x->argument, x0, Calculus::GENERAL_DERIVATIVE, eps, maxSteps);
+			double general = Calculus::derivativeWithCancel(funExp, x->argument, x0, Calculus::GENERAL_DERIVATIVE, eps, maxSteps, activeCancelId);
 			calcSetDecreaseRemove(pos, general);
 		} else if (derivativeType == Calculus::LEFT_DERIVATIVE) {
-			double left = Calculus::derivative(funExp, x->argument, x0, Calculus::LEFT_DERIVATIVE, eps, maxSteps);
+			double left = Calculus::derivativeWithCancel(funExp, x->argument, x0, Calculus::LEFT_DERIVATIVE, eps, maxSteps, activeCancelId);
 			calcSetDecreaseRemove(pos, left);
 		} else {
-			double right = Calculus::derivative(funExp, x->argument, x0, Calculus::RIGHT_DERIVATIVE, eps, maxSteps);
+			double right = Calculus::derivativeWithCancel(funExp, x->argument, x0, Calculus::RIGHT_DERIVATIVE, eps, maxSteps, activeCancelId);
 			calcSetDecreaseRemove(pos, right);
 		}
 		clearParamArgument(x);
@@ -2715,7 +2715,7 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 		ExpressionPtr nExp = new_Expression(nParam->paramStr, nParam->tokens, argumentsList, functionsList,
 		                                    constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-		double n = nExp->calculate();
+		double n = nExp->calculateWithCancel(activeCancelId);
 		int nInt = (int)Math::round(n);
 
 		StringPtr funParamStr;
@@ -2776,7 +2776,7 @@ namespace org::mariuszgromada::math::mxparser {
 									  constantsList, DISABLE_ROUNDING, UDFExpression,
 									  UDFVariadicParamsAtRunTime);
 
-		double x0 = x->argument->getArgumentValue();
+		double x0 = x->argument->getArgumentValueWithCancel(activeCancelId);
 		double eps = DEF_EPS;
 		int maxSteps = DEF_MAX_STEPS;
 		if (derParams->size() == 5) {
@@ -2792,17 +2792,17 @@ namespace org::mariuszgromada::math::mxparser {
 			ExpressionPtr maxStepsExp = new_Expression(maxStepsParam->paramStr, maxStepsParam->tokens, argumentsList,
 			                                           functionsList, constantsList, DISABLE_ROUNDING, UDFExpression,
 			                                           UDFVariadicParamsAtRunTime);
-			eps = epsExpr->calculate();
-			maxSteps = native_numeric_detail::roundedNativeInt(Math::round(maxStepsExp->calculate()));
+			eps = epsExpr->calculateWithCancel(activeCancelId);
+			maxSteps = native_numeric_detail::roundedNativeInt(Math::round(maxStepsExp->calculateWithCancel(activeCancelId)));
 		}
 		if (derivativeType == Calculus::GENERAL_DERIVATIVE) {
-			double general = Calculus::derivative(funExp, x->argument, x0, Calculus::GENERAL_DERIVATIVE, eps, maxSteps);
+			double general = Calculus::derivativeWithCancel(funExp, x->argument, x0, Calculus::GENERAL_DERIVATIVE, eps, maxSteps, activeCancelId);
 			calcSetDecreaseRemove(pos, general);
 		} else if (derivativeType == Calculus::LEFT_DERIVATIVE) {
-			double left = Calculus::derivative(funExp, x->argument, x0, Calculus::LEFT_DERIVATIVE, eps, maxSteps);
+			double left = Calculus::derivativeWithCancel(funExp, x->argument, x0, Calculus::LEFT_DERIVATIVE, eps, maxSteps, activeCancelId);
 			calcSetDecreaseRemove(pos, left);
 		} else {
-			double right = Calculus::derivative(funExp, x->argument, x0, Calculus::RIGHT_DERIVATIVE, eps, maxSteps);
+			double right = Calculus::derivativeWithCancel(funExp, x->argument, x0, Calculus::RIGHT_DERIVATIVE, eps, maxSteps, activeCancelId);
 			calcSetDecreaseRemove(pos, right);
 		}
 		clearParamArgument(x);
@@ -2856,7 +2856,7 @@ namespace org::mariuszgromada::math::mxparser {
 		double eps = DEF_EPS;
 		int maxSteps = DEF_MAX_STEPS;
 		calcSetDecreaseRemove(
-			pos, Calculus::integralTrapezoid(funExp, x->argument, aExp->calculate(), bExp->calculate(), eps, maxSteps));
+			pos, Calculus::integralTrapezoidWithCancel(funExp, x->argument, aExp->calculateWithCancel(activeCancelId), bExp->calculateWithCancel(activeCancelId), eps, maxSteps, activeCancelId));
 		clearParamArgument(x);
 	}
 
@@ -2908,7 +2908,7 @@ namespace org::mariuszgromada::math::mxparser {
 		double eps = DEF_EPS;
 		int maxSteps = DEF_MAX_STEPS;
 		calcSetDecreaseRemove(
-			pos, Calculus::solveBrent(funExp, x->argument, aExp->calculate(), bExp->calculate(), eps, maxSteps));
+			pos, Calculus::solveBrentWithCancel(funExp, x->argument, aExp->calculateWithCancel(activeCancelId), bExp->calculateWithCancel(activeCancelId), eps, maxSteps, activeCancelId));
 		clearParamArgument(x);
 	}
 
@@ -2935,9 +2935,9 @@ namespace org::mariuszgromada::math::mxparser {
 			                                    UDFVariadicParamsAtRunTime);
 			if (verboseMode)
 				hExp->setVerboseMode();
-			h = hExp->calculate();
+			h = hExp->calculateWithCancel(activeCancelId);
 		}
-		calcSetDecreaseRemove(pos, Calculus::forwardDifference(funExp, h, x->argument));
+		calcSetDecreaseRemove(pos, Calculus::forwardDifferenceWithCancel(funExp, h, x->argument, activeCancelId));
 		clearParamArgument(x);
 	}
 
@@ -2964,9 +2964,9 @@ namespace org::mariuszgromada::math::mxparser {
 			                                    UDFVariadicParamsAtRunTime);
 			if (verboseMode)
 				hExp->setVerboseMode();
-			h = hExp->calculate();
+			h = hExp->calculateWithCancel(activeCancelId);
 		}
-		calcSetDecreaseRemove(pos, Calculus::backwardDifference(funExp, h, x->argument));
+		calcSetDecreaseRemove(pos, Calculus::backwardDifferenceWithCancel(funExp, h, x->argument, activeCancelId));
 		clearParamArgument(x);
 	}
 
@@ -2979,7 +2979,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::MIN_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::min(numbersArray), numbers->size());
+		variadicSetDecreaseRemove(pos, NumberTheory::minWithCancel(numbersArray, activeCancelId), numbers->size());
 	}
 
 	/**
@@ -2991,7 +2991,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::MAX_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::max(numbersArray), numbers->size());
+		variadicSetDecreaseRemove(pos, NumberTheory::maxWithCancel(numbersArray, activeCancelId), numbers->size());
 	}
 
 	/**
@@ -3003,7 +3003,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::SUM_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::sum(numbersArray), numbers->size(), true);
+		variadicSetDecreaseRemove(pos, NumberTheory::sumWithCancel(numbersArray, activeCancelId), numbers->size(), true);
 	}
 
 	/**
@@ -3015,7 +3015,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::PROD_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::prod(numbersArray), numbers->size(), true);
+		variadicSetDecreaseRemove(pos, NumberTheory::prodWithCancel(numbersArray, activeCancelId), numbers->size(), true);
 	}
 
 	/**
@@ -3027,7 +3027,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::AVG_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, Statistics::avg(numbersArray), numbers->size(), true);
+		variadicSetDecreaseRemove(pos, Statistics::avgWithCancel(numbersArray, activeCancelId), numbers->size(), true);
 	}
 
 	/**
@@ -3039,7 +3039,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::VAR_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, Statistics::var(numbersArray), numbers->size(), true);
+		variadicSetDecreaseRemove(pos, Statistics::varWithCancel(numbersArray, activeCancelId), numbers->size(), true);
 	}
 
 	/**
@@ -3051,7 +3051,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::STD_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, Statistics::std(numbersArray), numbers->size(), true);
+		variadicSetDecreaseRemove(pos, Statistics::stdWithCancel(numbersArray, activeCancelId), numbers->size(), true);
 	}
 
 	/**
@@ -3062,7 +3062,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::CONTINUED_FRACTION(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, MathFunctions::continuedFraction(numbersArray), numbers->size());
+		variadicSetDecreaseRemove(pos, MathFunctions::continuedFractionWithCancel(numbersArray, activeCancelId), numbers->size());
 	}
 
 	/**
@@ -3073,7 +3073,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::CONTINUED_POLYNOMIAL(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, MathFunctions::continuedPolynomial(numbersArray), numbers->size());
+		variadicSetDecreaseRemove(pos, MathFunctions::continuedPolynomialWithCancel(numbersArray, activeCancelId), numbers->size());
 	}
 
 	/**
@@ -3084,7 +3084,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::GCD(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::gcd(numbersArray), numbers->size());
+		variadicSetDecreaseRemove(pos, NumberTheory::gcdWithCancel(numbersArray, activeCancelId), numbers->size());
 	}
 
 	/**
@@ -3095,7 +3095,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::LCM(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::lcm(numbersArray), numbers->size());
+		variadicSetDecreaseRemove(pos, NumberTheory::lcmWithCancel(numbersArray, activeCancelId), numbers->size());
 	}
 
 	/**
@@ -3118,7 +3118,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::COALESCE(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, MathFunctions::coalesce(numbersArray), numbers->size());
+		variadicSetDecreaseRemove(pos, MathFunctions::coalesceWithCancel(numbersArray, activeCancelId), numbers->size());
 	}
 
 	/**
@@ -3129,7 +3129,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::OR_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, BooleanAlgebra::orVariadic(numbersArray), numbers->size());
+		variadicSetDecreaseRemove(pos, BooleanAlgebra::orVariadicWithCancel(numbersArray, activeCancelId), numbers->size());
 	}
 
 	/**
@@ -3140,7 +3140,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::AND_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, BooleanAlgebra::andVariadic(numbersArray), numbers->size());
+		variadicSetDecreaseRemove(pos, BooleanAlgebra::andVariadicWithCancel(numbersArray, activeCancelId), numbers->size());
 	}
 
 	/**
@@ -3151,7 +3151,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::XOR_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, BooleanAlgebra::xorVariadic(numbersArray), numbers->size());
+		variadicSetDecreaseRemove(pos, BooleanAlgebra::xorVariadicWithCancel(numbersArray, activeCancelId), numbers->size());
 	}
 
 	/**
@@ -3162,7 +3162,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::ARGMIN_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::argmin(numbersArray), numbers->size());
+		variadicSetDecreaseRemove(pos, NumberTheory::argminWithCancel(numbersArray, activeCancelId), numbers->size());
 	}
 
 	/**
@@ -3173,7 +3173,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::ARGMAX_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::argmax(numbersArray), numbers->size());
+		variadicSetDecreaseRemove(pos, NumberTheory::argmaxWithCancel(numbersArray, activeCancelId), numbers->size());
 	}
 
 	/**
@@ -3184,7 +3184,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::MEDIAN_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, Statistics::median(numbersArray), numbers->size());
+		variadicSetDecreaseRemove(pos, Statistics::medianWithCancel(numbersArray, activeCancelId), numbers->size());
 	}
 
 	/**
@@ -3195,7 +3195,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::MODE_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, Statistics::mode(numbersArray), numbers->size());
+		variadicSetDecreaseRemove(pos, Statistics::modeWithCancel(numbersArray, activeCancelId), numbers->size());
 	}
 
 	/**
@@ -3206,7 +3206,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::BASE_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::convOthBase2Decimal(numbersArray), numbers->size());
+		variadicSetDecreaseRemove(pos, NumberTheory::convOthBase2DecimalWithCancel(numbersArray, activeCancelId), numbers->size());
 	}
 
 	/**
@@ -3217,7 +3217,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::NDIST_VARIADIC(int pos) {
 		ListPtr<double> numbers = getNumbers(pos);
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::numberOfDistValues(numbersArray), numbers->size());
+		variadicSetDecreaseRemove(pos, NumberTheory::numberOfDistValuesWithCancel(numbersArray, activeCancelId), numbers->size());
 	}
 
 	/**

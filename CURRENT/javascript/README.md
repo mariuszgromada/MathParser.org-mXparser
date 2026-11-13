@@ -158,3 +158,16 @@ The package remains `private: true`; publication requires the maintainer's
 separate decision. The original [dual license](LICENSE.txt) applies, including
 its use-confirmation requirements. No use confirmation is made on a consumer's
 behalf. Third-party notices are in [docs/THIRD_PARTY_LICENSES.md](docs/THIRD_PARTY_LICENSES.md).
+
+## Per-calculation cancellation (6.2.0, unreleased)
+
+Use `calculateWithCancel(id)` or `calculateWithCancel(steps, id)` and the six
+`mXparser` domain-control methods. The public surface follows Java/C#, including
+fixed parameter arrays and the inherited no-index RecursiveArgument getter.
+See [cancellation API, lifecycle and WASM delivery limits](docs/CANCELLATION.md).
+Synchronous calls block same-thread timers and Worker message handlers; module
+instances keep independent registries. Reentrant callbacks can signal native
+cancellation. The source and package metadata target 6.2.0 development; release preparation is deferred.
+
+Run `npm run test:cancellation` for domain, callback, overload, full-pool and actual
+Worker delivery checks; `npm run test:types` includes positive and negative types.

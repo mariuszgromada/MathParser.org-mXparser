@@ -1,5 +1,5 @@
 #/*
-# @(#)CMakeLists.txt        6.2.0    2026-11-11
+# @(#)CMakeLists.txt        6.2.0    2026-11-13
 #
 # MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
 # The most up-to-date license is available at the below link:
@@ -245,6 +245,12 @@ add_executable(UnitTests ExpressionTest.cpp
 		TestsRun.cpp
 		UnicodeTest.cpp
 		OwnershipTest.cpp)
+
+# The existing API suite now includes all typed cancellation entry probes.
+# Keep its stable suite/IDs while allowing the resulting COFF section count.
+if (MSVC)
+	target_compile_options(UnitTests PRIVATE /bigobj)
+endif()
 
 
 if (UNIX)

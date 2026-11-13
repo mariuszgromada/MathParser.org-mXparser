@@ -54,11 +54,12 @@
     "docs/API.md",
     "docs/LIMITS.md",
     "docs/THIRD_PARTY_LICENSES.md",
-    "examples"
+    "examples",
+    "docs/CANCELLATION.md"
   ],
   "scripts": {
     "build": "python scripts/build.py",
-    "test": "node test/public-runtime.mjs && node test/browser-host-assertions.mjs && node test/varargs.mjs && node test/numeric-types.mts && node test/behavior-runtime.mjs && node test/extension-serialization.mjs && node test/resilience.mjs && node test/worker.mjs && node test/interop.mjs && node test/latex-runtime.mjs",
+    "test": "node test/public-runtime.mjs && node test/browser-host-assertions.mjs && node test/varargs.mjs && node test/numeric-types.mts && node test/behavior-runtime.mjs && node test/extension-serialization.mjs && node test/resilience.mjs && node test/worker.mjs && node test/interop.mjs && node test/latex-runtime.mjs && node test/cancellation.mjs",
     "test:types": "tsc --noEmit --project tsconfig.json",
     "test:browser": "node scripts/serve.mjs",
     "test:browser:headless": "node scripts/browser-test.mjs",
@@ -69,7 +70,8 @@
     "validate": "python scripts/validate.py",
     "test:resilience": "node test/resilience.mjs && node test/worker.mjs",
     "test:browser:conformance": "python scripts/browser-conformance.py",
-    "test:latex": "node test/latex-runtime.mjs"
+    "test:latex": "node test/latex-runtime.mjs",
+    "test:cancellation": "node test/cancellation.mjs"
   },
   "devDependencies": {
     "typescript": "7.0.2"

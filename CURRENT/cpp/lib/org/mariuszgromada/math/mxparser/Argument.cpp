@@ -1,5 +1,5 @@
 /*
- * @(#)Argument.cpp        6.1.0    2024-10-06
+ * @(#)Argument.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -823,6 +823,17 @@ namespace org::mariuszgromada::math::mxparser {
 	 *             based on the argument expression.
 	 */
 	API_VISIBLE double Argument::getArgumentValue(const CalcStepsRegisterPtr &calcStepsRegister) {
+		return getArgumentValueCoreWithCancel(calcStepsRegister, 0);
+	}
+
+	API_VISIBLE double Argument::getArgumentValueWithCancel(const CalcStepsRegisterPtr &calcStepsRegister, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
+		if (cancelId == 0) return getArgumentValue(calcStepsRegister);
+		return getArgumentValueCoreWithCancel(calcStepsRegister, cancelId);
+	}
+
+	API_VISIBLE double Argument::getArgumentValueCoreWithCancel(const CalcStepsRegisterPtr &calcStepsRegister, int cancelId) {
 		CalcStepsRegister::setUserArgument(calcStepsRegister, THIS(Argument));
 		computingTime = 0;
 
@@ -846,7 +857,7 @@ namespace org::mariuszgromada::math::mxparser {
 			recursionCallsCounter--;
 			return Double::NaN;
 		}
-		value = argumentExpression->calculate(calcStepsRegister);
+		value = argumentExpression->calculateWithCancel(calcStepsRegister, cancelId);
 		recursionCallsCounter--;
 		computingTime = argumentExpression->computingTime;
 		return value;
@@ -1459,4 +1470,10 @@ namespace org::mariuszgromada::math::mxparser {
 		return argumentClone;
 	}
 
+
+	API_VISIBLE double Argument::getArgumentValueWithCancel(int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID) throw std::invalid_argument("cancelId out of range");
+		if (cancelId == 0) return getArgumentValue();
+		return getArgumentValueWithCancel(CalcStepsRegister::Null, cancelId);
+	}
 } // org::mariuszgromada::math::mxparser

@@ -136,3 +136,10 @@ these do not imply that every fragment produced by the full exporter is accepted
 by this intentionally smaller parser. Use the general Worker guidance for
 untrusted work. C++ implementation helpers (`LaTeXExporter`, `ReadOnlyList`,
 `new_Node`, string overloads) are not exposed as public JS/TS APIs.
+
+## Per-calculation cancellation
+
+[Cancellation](CANCELLATION.md) documents the 148 new canonical public methods,
+MAX_CANCELLATION_TOKEN_ID, strict ID conversion, fixed-array overloads,
+RecursiveArgument dispatch and actual synchronous WASM delivery limitations.
+Native implementation-only cores and recursion-counter helpers stay hidden.

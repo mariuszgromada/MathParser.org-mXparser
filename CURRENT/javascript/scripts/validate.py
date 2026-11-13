@@ -1,5 +1,5 @@
 #/*
-# @(#)validate.py        6.2.0    2026-11-11
+# @(#)validate.py        6.2.0    2026-11-13
 #
 # MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
 # The most up-to-date license is available at the below link:
@@ -308,7 +308,7 @@ def main():
                         'MXPARSER_SERIALIZATION_ARCHIVES_OUT']:
                 env.pop(key,None)
             run(prefix+'-node-version',[node,'--version'])
-            for filename in ['public-runtime.mjs','varargs.mjs','numeric-types.mts','behavior-runtime.mjs','latex-runtime.mjs','extension-serialization.mjs']:
+            for filename in ['public-runtime.mjs','varargs.mjs','numeric-types.mts','behavior-runtime.mjs','latex-runtime.mjs','extension-serialization.mjs','cancellation.mjs']:
                 if args.asan_conformance_only: continue
                 run(prefix+'-'+Path(filename).stem,[node,'test/'+filename],env=env)
             if prefix != 'asan':
@@ -389,20 +389,23 @@ def main():
                 if source.is_file():
                     assert hashlib.sha256(source.read_bytes()).digest()==hashlib.sha256((installed/'dist'/source.name).read_bytes()).digest(), 'Packed dist differs: '+source.name
             env=os.environ.copy();env['MXPARSER_MODULE']=(installed/'dist/index.js').as_uri()
-            for filename in ['public-runtime.mjs','varargs.mjs','numeric-types.mts','behavior-runtime.mjs','latex-runtime.mjs','extension-serialization.mjs','resilience.mjs']:
+            for filename in ['public-runtime.mjs','varargs.mjs','numeric-types.mts','behavior-runtime.mjs','latex-runtime.mjs','extension-serialization.mjs','resilience.mjs','cancellation.mjs']:
                 run('consumer-'+Path(filename).stem,[node,str(PROJECT/'test'/filename)],env=env)
             run('consumer-basic',[node,str(installed/'examples/basic.mjs')],cwd=consumer)
             run('consumer-isolated-example',[node,str(installed/'examples/untrusted-input.mjs'),'2+2'],cwd=consumer)
             shutil.copy2(PROJECT/'test/public-types.mts',consumer/'public-types.mts')
             shutil.copy2(PROJECT/'test/numeric-types.mts',consumer/'numeric-types.mts')
             shutil.copy2(PROJECT/'test/latex-types.mts',consumer/'latex-types.mts')
-            config=json.loads((PROJECT/'tsconfig.json').read_text());config['files']=['public-types.mts','numeric-types.mts','latex-types.mts']
+            shutil.copy2(PROJECT/'test/cancellation-types.mts',consumer/'cancellation-types.mts')
+            config=json.loads((PROJECT/'tsconfig.json').read_text());config['files']=['public-types.mts','numeric-types.mts','latex-types.mts','cancellation-types.mts']
             (consumer/'tsconfig.json').write_text(json.dumps(config),encoding='utf8')
             run('consumer-typescript',[node,str(PROJECT/'node_modules/typescript/bin/tsc'),'--noEmit','--project',str(consumer/'tsconfig.json')],cwd=consumer)
             for index,browser in enumerate(args.browser):
                 for isolated in [False,True]:
                     env=os.environ.copy();env['MXPARSER_ISOLATED']='1' if isolated else '0'
                     run('browser-'+str(index)+'-'+('isolated' if isolated else 'ordinary'),[node,'scripts/browser-test.mjs',browser],env=env)
+                    cancellation_env={**env,'MXPARSER_BROWSER_PATH':'/test/cancellation-browser.html','MXPARSER_BROWSER_CHECKS':'1180'}
+                    run('browser-'+str(index)+'-cancellation-'+('isolated' if isolated else 'ordinary'),[node,'scripts/browser-test.mjs',browser],env=cancellation_env)
                 if args.browser_conformance:
                     for scope in ['regression','tutorial']:
                         run('browser-'+str(index)+'-full-'+scope,[sys.executable,'scripts/browser-conformance.py','--browser',browser,'--node',node,'--suite',scope,'--out',str(target/f'browser-{index}-{scope}')])

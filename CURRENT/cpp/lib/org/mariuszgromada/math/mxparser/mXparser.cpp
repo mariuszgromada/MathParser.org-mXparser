@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cpp        6.1.1    2026-05-16
+ * @(#)mXparser.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -245,6 +245,84 @@ namespace org::mariuszgromada::math::mxparser {
 	using namespace org::mariuszgromada::math::mxparser::miscellaneous;
 	using namespace org::mariuszgromada::math::mxparser::mathcollection;
 
+	namespace {
+		// One private registry per loaded library image. Explicit C++17 initialization.
+		struct AtomicCancellationWord { std::atomic<std::uint32_t> value{std::uint32_t{0}}; };
+		AtomicCancellationWord cancellations[1024];
+		AtomicCancellationWord reservations[1024];
+
+		class CancellationRegistry final {
+		public:
+			// The facade validates a positive ID before this bitmap-only read.
+			static bool isCancelled(int id) {
+				return (cancellations[id >> 5].value.load() & (std::uint32_t{1} << (id & 31))) != 0;
+			}
+			static void cancel(int id) { validate(id); update(cancellations, id, true); }
+			static void reset(int id) { validate(id); update(cancellations, id, false); }
+			static int acquire() {
+				for (int word = 0; word < 1024; word++) {
+					std::uint32_t previous = reservations[word].value.load();
+					while (true) {
+						std::uint32_t available = ~previous;
+						if (word == 0) available &= ~std::uint32_t{1};
+						if (available == 0) break;
+						int bit = numberOfTrailingZeros(available);
+						std::uint32_t mask = std::uint32_t{1} << bit;
+						if (reservations[word].value.compare_exchange_strong(previous, previous | mask)) {
+							int id = (word << 5) + bit;
+							reset(id);
+							return id;
+						}
+						previous = reservations[word].value.load();
+					}
+				}
+				throw std::logic_error("No cancellation token ID available");
+			}
+			static bool reserve(int id) {
+				validate(id);
+				int word = id >> 5;
+				std::uint32_t mask = std::uint32_t{1} << (id & 31);
+				std::uint32_t previous = reservations[word].value.load();
+				while (true) {
+					if ((previous & mask) != 0) return false;
+					if (reservations[word].value.compare_exchange_strong(previous, previous | mask)) {
+						reset(id);
+						return true;
+					}
+					previous = reservations[word].value.load();
+				}
+			}
+			static void release(int id) {
+				validate(id);
+				std::uint32_t mask = std::uint32_t{1} << (id & 31);
+				if ((reservations[id >> 5].value.load() & mask) == 0)
+					throw std::logic_error("Cancellation token ID is not reserved");
+				reset(id);
+				update(reservations, id, false);
+			}
+		private:
+			static void validate(int id) {
+				if (id < 1 || id > mXparser::MAX_CANCELLATION_TOKEN_ID)
+					throw std::invalid_argument("cancelId out of range");
+			}
+			static void update(AtomicCancellationWord (&words)[1024], int id, bool set) {
+				int word = id >> 5;
+				std::uint32_t mask = std::uint32_t{1} << (id & 31);
+				std::uint32_t previous = words[word].value.load();
+				while (true) {
+					std::uint32_t next = set ? previous | mask : previous & ~mask;
+					if (words[word].value.compare_exchange_strong(previous, next)) return;
+					previous = words[word].value.load();
+				}
+			}
+			static int numberOfTrailingZeros(std::uint32_t value) {
+				int bit = 0;
+				while ((value & std::uint32_t{1}) == 0) { bit++; value >>= 1; }
+				return bit;
+			}
+		};
+	}
+
 	API_VISIBLE bool mXparser::isWarmedUpBeforeConcurrentUse = false;
 	API_VISIBLE StringBuilderPtr mXparser::CONSOLE_OUTPUT = new_StringBuilder();
 	API_VISIBLE StringPtr mXparser::CONSOLE_PREFIX = nullptr;
@@ -263,7 +341,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE bool mXparser::unicodeKeyWordsEnabled = true;
 	API_VISIBLE bool mXparser::attemptToFixExpStrEnabled = true;
 	API_VISIBLE int mXparser::optionsChangesetNumber = 0;
-	API_VISIBLE bool mXparser::cancelCurrentCalculationFlag = false;
+	API_VISIBLE std::atomic<bool> mXparser::cancelCurrentCalculationFlag{false};
 	API_VISIBLE bool mXparser::selectBestMatchingLanguage = true;
 
 	API_VISIBLE PrimesCachePtr mXparser::primesCache = nullptr;
@@ -2292,6 +2370,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 * Method give a signal to other methods to cancel current calculation. This is a flag,
 	 * remember to reset this flag after process is cancelled and you are going to start
 	 * new calculation process.
+	  * Sets only the global cancellation signal; individual domains are unaffected.
 	 */
 	API_VISIBLE void mXparser::cancelCurrentCalculation() {
 		cancelCurrentCalculationFlag = true;
@@ -2301,6 +2380,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 * Resets a flag giving signal to the engine to cancel current calculation.
 	 *
 	 * {cancelCurrentCalculation()}
+	  * Resets only the global cancellation signal; domain signals remain unchanged.
 	 */
 	API_VISIBLE void mXparser::resetCancelCurrentCalculationFlag() {
 		cancelCurrentCalculationFlag = false;
@@ -2314,8 +2394,37 @@ namespace org::mariuszgromada::math::mxparser {
 	 *
 	 * @return true in case cancel calculation flag is active,
 	 *        otherwise false
+	  * Reads only the global signal, independently of an active domain ID.
 	 */
 	API_VISIBLE bool mXparser::isCurrentCalculationCancelled() {
 		return cancelCurrentCalculationFlag;
+	}
+
+	API_VISIBLE bool mXparser::isCalculationCancelled(int cancelId) {
+		if (cancelId == 0) return cancelCurrentCalculationFlag.load();
+		if (cancelId < 0 || cancelId > MAX_CANCELLATION_TOKEN_ID) throw std::invalid_argument("cancelId out of range");
+		return cancelCurrentCalculationFlag.load() || CancellationRegistry::isCancelled(cancelId);
+	}
+
+	API_VISIBLE void mXparser::cancelCalculation(int cancelId) {
+		if (cancelId == 0) { cancelCurrentCalculation(); return; }
+		CancellationRegistry::cancel(cancelId);
+	}
+
+	API_VISIBLE void mXparser::resetCalculationCancellation(int cancelId) {
+		if (cancelId == 0) { resetCancelCurrentCalculationFlag(); return; }
+		CancellationRegistry::reset(cancelId);
+	}
+
+	API_VISIBLE int mXparser::acquireCancellationTokenId() {
+		return CancellationRegistry::acquire();
+	}
+
+	API_VISIBLE bool mXparser::reserveCancellationTokenId(int cancelId) {
+		return CancellationRegistry::reserve(cancelId);
+	}
+
+	API_VISIBLE void mXparser::releaseCancellationTokenId(int cancelId) {
+		CancellationRegistry::release(cancelId);
 	}
 } // org::mariuszgromada::math::mxparser

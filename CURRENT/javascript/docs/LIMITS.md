@@ -109,3 +109,11 @@ constructor `new Function('f', 'x+y')` follows a native overload and can produce
 zero-parameter function; Java would reject an ambiguous overload at compile time.
 Advanced public JavaCC productions remain exposed for compatibility; they are
 subject to the same native failure/lifetime rules and are not a safer input API.
+
+## Per-calculation domains
+
+The [cancellation API](CANCELLATION.md) preserves cooperative native checkpoints.
+An ID does not add shared memory between module/Worker instances. Timers, messages
+and AbortSignal handlers on a blocked execution thread cannot interrupt the
+synchronous call. A synchronous callback can set a native signal; results and
+latency remain those of existing checks, including cached values and solver bounds.

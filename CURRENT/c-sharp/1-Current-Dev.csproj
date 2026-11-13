@@ -23,7 +23,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationVersion>6.2.0.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\Argument.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\CancellationRegistry.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\CalcStepRecord.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\CalcStepsRegister.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\CloneCache.cs" />

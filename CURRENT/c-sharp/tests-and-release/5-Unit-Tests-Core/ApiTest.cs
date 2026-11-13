@@ -1,5 +1,5 @@
 /*
- * @(#)ApiTest.cs        6.2.0    2026-11-11
+ * @(#)ApiTest.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -12219,6 +12219,924 @@ namespace org.mariuszgromada.math.mxparser.test {
         foreach (String input in new String[]{"x^\\quad2", "x^\\,2", "\\frac\\quad{x}{y}",
                 "\\frac{x}\\quad{y}", "\\operatorname\\quad{rem}(x,y)"})
             Assert.ThrowsException<ArgumentException>( () => LaTeXParser.parse(input), input);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+
+    // Cancellation resource/synchronization adapters remain inside the existing API suite.
+    private sealed class CancelDomain : IDisposable {
+        internal readonly int id = mXparser.acquireCancellationTokenId();
+        public void Dispose() { mXparser.releaseCancellationTokenId(id); }
+    }
+    private sealed class CancelCounter {
+        private int value;
+        internal int get() { return Volatile.Read(ref value); }
+        internal int incrementAndGet() { return Interlocked.Increment(ref value); }
+    }
+    private sealed class CancelFlag {
+        private int value;
+        internal bool get() { return Volatile.Read(ref value) != 0; }
+        internal void set(bool next) { Volatile.Write(ref value, next ? 1 : 0); }
+        internal bool compareAndSet(bool previous, bool next) {
+            return Interlocked.CompareExchange(ref value, next ? 1 : 0, previous ? 1 : 0) == (previous ? 1 : 0);
+        }
+    }
+    private sealed class CancelLatch {
+        private int remaining;
+        private readonly ManualResetEventSlim signal;
+        internal CancelLatch(int count) { remaining = count; signal = new ManualResetEventSlim(count == 0); }
+        internal void countDown() { if (Interlocked.Decrement(ref remaining) <= 0) signal.Set(); }
+        internal bool Wait(int seconds) { return signal.Wait(TimeSpan.FromSeconds(seconds)); }
+        internal long getCount() { return Math.Max(0, Volatile.Read(ref remaining)); }
+    }
+    private sealed class CancelGateState {
+        internal readonly CancelLatch entered = new CancelLatch(1), proceed = new CancelLatch(1);
+        internal readonly CancelFlag armed = new CancelFlag();
+        internal readonly CancelCounter calls = new CancelCounter();
+        internal Action action;
+        internal int skipCalls;
+        internal void visit() {
+            calls.incrementAndGet();
+            if (armed.get() && skipCalls > 0) { skipCalls--; return; }
+            if (!armed.compareAndSet(true, false)) return;
+            entered.countDown();
+            if (action != null) { action(); return; }
+            Assert.IsTrue(proceed.Wait(15), "Cancellation callback release timed out");
+        }
+    }
+    private sealed class CancelGate : FunctionExtension {
+        internal readonly CancelGateState state;
+        private double value;
+        internal CancelGate(CancelGateState state) { this.state = state; }
+        public int getParametersNumber() { return 1; }
+        public String getParameterName(int index) { return "x"; }
+        public void setParameterValue(int index, double value) { this.value = value; }
+        public double calculate() { state.visit(); return value; }
+        public FunctionExtension clone() { return new CancelGate(state); }
+    }
+    private sealed class CancelExecutor {
+        private readonly SemaphoreSlim slots;
+        private readonly List<System.Threading.Tasks.Task> submitted = new List<System.Threading.Tasks.Task>();
+        internal CancelExecutor(int workers) { slots = new SemaphoreSlim(workers); }
+        internal System.Threading.Tasks.Task<T> submit<T>(Func<T> calculation) {
+            var task = System.Threading.Tasks.Task.Factory.StartNew(() => {
+                slots.Wait();
+                try { return calculation(); }
+                finally { slots.Release(); }
+            }, System.Threading.CancellationToken.None, System.Threading.Tasks.TaskCreationOptions.LongRunning,
+               System.Threading.Tasks.TaskScheduler.Default);
+            submitted.Add(task);
+            return task;
+        }
+        internal System.Threading.Tasks.Task submit(Action action) { return submit(() => { action(); return true; }); }
+        internal void Finish() {
+            Assert.IsTrue(System.Threading.Tasks.Task.WaitAll(submitted.ToArray(), 15000), "Worker did not finish");
+            slots.Dispose();
+        }
+    }
+    private static void cancelAwait(CancelLatch latch) { Assert.IsTrue(latch.Wait(15), "Worker never reached callback"); }
+    private static void cancelShutdown(CancelExecutor pool) { pool.Finish(); }
+    private static T cancelResult<T>(System.Threading.Tasks.Task<T> task) {
+        Assert.IsTrue(task.Wait(15000), "Worker timed out");
+        return task.GetAwaiter().GetResult();
+    }
+    private static void cancelResult(System.Threading.Tasks.Task task) { Assert.IsTrue(task.Wait(15000), "Worker timed out"); }
+    private static double cancelDuring(Func<double> calculation, CancelGateState state, int id) {
+        CancelExecutor pool = new CancelExecutor(1);state.armed.set(true);
+        var result = pool.submit(calculation);
+        try { cancelAwait(state.entered);mXparser.cancelCalculation(id);state.proceed.countDown();return cancelResult(result); }
+        finally { state.proceed.countDown();cancelShutdown(pool); }
+    }
+    private static double[] cancelPair(int first, int second, bool global) {
+        CancelGateState a = new CancelGateState(), b = new CancelGateState();
+        Expression ea = new Expression("sum(i,1,100,gate(i))",new Function("gate",new CancelGate(a)));
+        Expression eb = new Expression("sum(i,1,100,gate(i))",new Function("gate",new CancelGate(b)));
+        CancelExecutor pool = new CancelExecutor(2);a.armed.set(true);b.armed.set(true);
+        var fa = pool.submit(() => first < 0 ? ea.calculate() : ea.calculateWithCancel(first));
+        var fb = pool.submit(() => second < 0 ? eb.calculate() : eb.calculateWithCancel(second));
+        try {
+            cancelAwait(a.entered);cancelAwait(b.entered);
+            if (global) mXparser.cancelCurrentCalculation();else mXparser.cancelCalculation(first < 0 ? second : first);
+            a.proceed.countDown();b.proceed.countDown();return new double[]{cancelResult(fa),cancelResult(fb)};
+        } finally { a.proceed.countDown();b.proceed.countDown();cancelShutdown(pool);if(global)mXparser.resetCancelCurrentCalculationFlag(); }
+    }
+    private static int cancelFrame(Expression expression) {
+        return (int)typeof(Expression).GetField("activeCancelId",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).GetValue(expression);
+    }
+    private static void cancelNaN(double value) { Assert.IsTrue(Double.IsNaN(value)); }
+    private sealed class CancelRandom : Random {
+        private readonly int id;
+        private readonly CancelCounter calls;
+        internal CancelRandom(int id, CancelCounter calls) { this.id=id;this.calls=calls; }
+        public override double NextDouble() { if(calls.incrementAndGet()==2)mXparser.cancelCalculation(id);return 0; }
+    }
+
+    [TestMethod]
+    public void testApi0423() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: legacy signatures, null, varargs and ID0";
+        TestCommonTools.consolePrintTestApiStart(423, testDescr);
+        Expression e = new Expression("2+2");
+        CalcStepsRegister csr = new CalcStepsRegister();
+        Assert.AreEqual(4, e.calculate());
+        Assert.AreEqual(4, e.calculate((CalcStepsRegister)null));
+        Assert.AreEqual(4, e.calculate(csr));
+        Assert.IsFalse(csr.calcStepRecords.Count == 0);
+        Assert.AreEqual(4, e.calculateWithCancel(0));
+        Assert.AreEqual(4, e.calculateWithCancel(csr, 0));
+        Argument a = new Argument("a=2+2");
+        Assert.AreEqual(a.getArgumentValue(), a.getArgumentValueWithCancel((CalcStepsRegister)null, 0));
+        Function f = new Function("f(x)=x*x");
+        Assert.AreEqual(4, f.calculate(2));
+        Assert.AreEqual(4, f.calculateWithCancel(new double[]{2}, 0));
+        Assert.AreEqual(4, f.calculateWithCancel(new Argument[]{new Argument("x",2)}, 0));
+        cancelNaN(f.calculate((double[])null));
+        cancelNaN(f.calculateWithCancel((double[])null, 0));
+        Func<double> oldReference = e.calculate;
+        Assert.AreEqual(4, oldReference());
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0424() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: all 142 public calculation entries validate ID before work";
+        TestCommonTools.consolePrintTestApiStart(424, testDescr);
+        Type[] classes = {typeof(Expression),typeof(Argument),typeof(Function),typeof(RecursiveArgument),
+            typeof(BooleanAlgebra),typeof(Calculus),typeof(MathFunctions),typeof(NumberTheory),
+            typeof(ProbabilityDistributions),typeof(SpecialFunctions),typeof(Statistics)};
+        int count = 0;
+        foreach(Type type in classes) foreach(var method in type.GetMethods(System.Reflection.BindingFlags.Public|System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.DeclaredOnly)) {
+            if (!method.Name.EndsWith("WithCancel")) continue;
+            count++;
+            object receiver = type==typeof(Expression)?(object)new Expression("2+2"):type==typeof(Argument)?(object)new Argument("a",4):
+                type==typeof(Function)?(object)new Function("f(x)=x*x"):type==typeof(RecursiveArgument)?(object)new RecursiveArgument("r(n)=n"):null;
+            var parameters=method.GetParameters();object[] values=new object[parameters.Length];
+            for(int i=0;i<values.Length;i++)values[i]=parameters[i].ParameterType==typeof(int)?(object)0:
+                parameters[i].ParameterType==typeof(long)?(object)0L:parameters[i].ParameterType==typeof(double)?(object)0.0:
+                parameters[i].ParameterType==typeof(bool)?(object)false:null;
+            foreach(int invalid in new int[]{-1,32768,int.MinValue,int.MaxValue}) {
+                values[values.Length-1]=invalid;
+                var failure=Assert.ThrowsException<System.Reflection.TargetInvocationException>(()=>method.Invoke(receiver,values),method.ToString());
+                Assert.IsTrue(failure.InnerException is ArgumentOutOfRangeException,method.ToString());
+            }
+        }
+        Assert.AreEqual(142, count);
+        // Invalid IDs must be rejected before evaluating user callbacks or dependent parameters.
+        CancelGateState callback = new CancelGateState();
+        Function gate = new Function("gate", new CancelGate(callback));
+        Expression expression = new Expression("gate(1)", gate);
+        Argument dependent = new Argument("a=gate(1)", gate);
+        Function function = new Function("f(x)=gate(x)", gate);
+        RecursiveArgument recursive = new RecursiveArgument("r(n)=gate(n)", gate);
+        foreach (int invalid in  new int[]{-1, 32768, int.MinValue, int.MaxValue}) {
+            Assert.ThrowsException<ArgumentOutOfRangeException>( () => expression.calculateWithCancel(invalid));
+            Assert.ThrowsException<ArgumentOutOfRangeException>( () => expression.calculateWithCancel(new CalcStepsRegister(), invalid));
+            Assert.ThrowsException<ArgumentOutOfRangeException>( () => dependent.getArgumentValueWithCancel(invalid));
+            Assert.ThrowsException<ArgumentOutOfRangeException>( () => dependent.getArgumentValueWithCancel(new CalcStepsRegister(), invalid));
+            Assert.ThrowsException<ArgumentOutOfRangeException>( () => function.calculateWithCancel(invalid));
+            Assert.ThrowsException<ArgumentOutOfRangeException>( () => function.calculateWithCancel(new CalcStepsRegister(), invalid));
+            Assert.ThrowsException<ArgumentOutOfRangeException>( () => function.calculateWithCancel(new double[]{1}, invalid));
+            Assert.ThrowsException<ArgumentOutOfRangeException>( () => function.calculateWithCancel(new Argument[]{dependent}, invalid));
+            Assert.ThrowsException<ArgumentOutOfRangeException>( () => gate.calculateWithCancel(new double[]{1}, invalid));
+            Assert.ThrowsException<ArgumentOutOfRangeException>( () => recursive.getArgumentValueWithCancel(1.0, invalid));
+            Assert.AreEqual(0, callback.calls.get(), "Invalid ID executed a user callback");
+        }
+        Assert.AreEqual(1, expression.calculateWithCancel(0));
+        Assert.IsTrue(callback.calls.get() > 0, "Positive control must execute the same callback");
+
+        foreach (int invalid in  new int[]{-1,32768,int.MinValue,int.MaxValue}) {
+            Assert.ThrowsException<ArgumentOutOfRangeException>( () => mXparser.cancelCalculation(invalid));
+            Assert.ThrowsException<ArgumentOutOfRangeException>( () => mXparser.resetCalculationCancellation(invalid));
+            Assert.ThrowsException<ArgumentOutOfRangeException>( () => mXparser.isCalculationCancelled(invalid));
+            Assert.ThrowsException<ArgumentOutOfRangeException>( () => mXparser.reserveCancellationTokenId(invalid));
+            Assert.ThrowsException<ArgumentOutOfRangeException>( () => mXparser.releaseCancellationTokenId(invalid));
+        }
+        Assert.ThrowsException<ArgumentOutOfRangeException>( () => mXparser.reserveCancellationTokenId(0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>( () => mXparser.releaseCancellationTokenId(0));
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0425() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: global OR domain, sticky state and default options";
+        TestCommonTools.consolePrintTestApiStart(425, testDescr);
+        using (CancelDomain a = new CancelDomain()) using (CancelDomain b = new CancelDomain()) {
+            Assert.IsFalse(mXparser.isCalculationCancelled(a.id));
+            mXparser.cancelCalculation(a.id);
+            Assert.IsTrue(mXparser.isCalculationCancelled(a.id));
+            Assert.IsFalse(mXparser.isCalculationCancelled(b.id));
+            Assert.IsFalse(mXparser.isCurrentCalculationCancelled());
+            mXparser.cancelCurrentCalculation();
+            Assert.IsTrue(mXparser.isCalculationCancelled(b.id));
+            foreach (int invalid in  new int[]{-1, 32768, int.MinValue, int.MaxValue})
+                Assert.ThrowsException<ArgumentOutOfRangeException>( () => mXparser.isCalculationCancelled(invalid));
+            mXparser.setDefaultOptions();
+            Assert.IsFalse(mXparser.isCalculationCancelled(b.id));
+            Assert.IsTrue(mXparser.isCalculationCancelled(a.id));
+            Assert.IsFalse(mXparser.reserveCancellationTokenId(a.id));
+            cancelNaN(new Expression("sum(i,1,10,i)").calculateWithCancel(a.id));
+            Assert.IsTrue(mXparser.isCalculationCancelled(a.id));
+            mXparser.resetCalculationCancellation(a.id);
+            Assert.IsFalse(mXparser.isCalculationCancelled(a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0426() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: cross-thread publication and adjacent atomic bits";
+        TestCommonTools.consolePrintTestApiStart(426, testDescr);
+        int[] ids = {1,2,3,4,31,32,63,64,32767};
+        CancelExecutor pool = new CancelExecutor(ids.Length);
+        foreach (int id in ids) Assert.IsTrue(mXparser.reserveCancellationTokenId(id));
+        try {
+            List<System.Threading.Tasks.Task> work = new List<System.Threading.Tasks.Task>();
+            CancelLatch start = new CancelLatch(1);
+            foreach (int id in ids) work.Add(pool.submit(() => { cancelAwait(start); mXparser.cancelCalculation(id); return (object)null; }));
+            start.countDown();
+            foreach (System.Threading.Tasks.Task f in work) cancelResult(f);
+            foreach (int id in ids) Assert.IsTrue(mXparser.isCalculationCancelled(id));
+            work.Clear();
+            foreach (int id in ids) work.Add(pool.submit(() => mXparser.resetCalculationCancellation(id)));
+            foreach (System.Threading.Tasks.Task f in work) cancelResult(f);
+            foreach (int id in ids) Assert.IsFalse(mXparser.isCalculationCancelled(id));
+            CancelLatch listening = new CancelLatch(1);
+            System.Threading.Tasks.Task<bool> consumer = pool.submit(() => {
+                listening.countDown();
+                long deadline = System.Diagnostics.Stopwatch.GetTimestamp() + 10 * System.Diagnostics.Stopwatch.Frequency;
+                while (!mXparser.isCalculationCancelled(31)) if (System.Diagnostics.Stopwatch.GetTimestamp() > deadline) return false;
+                return true;
+            });
+            cancelAwait(listening);
+            mXparser.cancelCalculation(31); // No following barrier publishes this write to the consumer.
+            Assert.IsTrue(cancelResult(consumer));
+            // Global publication uses the original volatile flag, through either API.
+            var signalField=typeof(mXparser).GetField("cancelCurrentCalculationFlag",System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic);
+            Assert.IsTrue(Array.IndexOf(signalField.GetRequiredCustomModifiers(),typeof(System.Runtime.CompilerServices.IsVolatile))>=0);
+            foreach (bool legacy in  new bool[]{true, false}) {
+                CancelLatch globalListening = new CancelLatch(1);
+                System.Threading.Tasks.Task<bool> globalConsumer = pool.submit(() => {
+                    globalListening.countDown();
+                    long deadline = System.Diagnostics.Stopwatch.GetTimestamp() + 10 * System.Diagnostics.Stopwatch.Frequency;
+                    while (!mXparser.isCurrentCalculationCancelled())
+                        if (System.Diagnostics.Stopwatch.GetTimestamp() > deadline) return false;
+                    return mXparser.isCalculationCancelled(0) && mXparser.isCalculationCancelled(32);
+                });
+                cancelAwait(globalListening);
+                if (legacy) mXparser.cancelCurrentCalculation();
+                else mXparser.cancelCalculation(0);
+                Assert.IsTrue(cancelResult(globalConsumer));
+                if (legacy) mXparser.resetCalculationCancellation(0);
+                else mXparser.resetCancelCurrentCalculationFlag();
+                Assert.IsFalse(mXparser.isCurrentCalculationCancelled());
+                Assert.IsFalse(mXparser.isCalculationCancelled(0));
+                Assert.IsFalse(mXparser.isCalculationCancelled(32));
+                Assert.IsTrue(mXparser.isCalculationCancelled(31));
+            }
+
+        } finally {
+            cancelShutdown(pool);
+            foreach (int id in ids) mXparser.releaseCancellationTokenId(id);
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0427() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: reserve/acquire clear only successfully claimed signals";
+        TestCommonTools.consolePrintTestApiStart(427, testDescr);
+        int id = 31;
+        mXparser.cancelCalculation(id);
+        Assert.IsTrue(mXparser.reserveCancellationTokenId(id));
+        try {
+            Assert.IsFalse(mXparser.isCalculationCancelled(id));
+            mXparser.cancelCalculation(id);
+            Assert.IsFalse(mXparser.reserveCancellationTokenId(id));
+            Assert.IsTrue(mXparser.isCalculationCancelled(id));
+        } finally { mXparser.releaseCancellationTokenId(id); }
+        for (int i=1;i<=32767;i++) mXparser.cancelCalculation(i);
+        try { using (CancelDomain acquired = new CancelDomain()) {
+            Assert.IsFalse(mXparser.isCalculationCancelled(acquired.id));
+            Assert.IsTrue(mXparser.isCalculationCancelled(acquired.id == 1 ? 2 : 1));
+        } } finally { for (int i=1;i<=32767;i++) mXparser.resetCalculationCancellation(i); }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0428() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: exhaustion, reuse and simultaneous unique acquire";
+        TestCommonTools.consolePrintTestApiStart(428, testDescr);
+        HashSet<int> reserved = new HashSet<int>();
+        try {
+            for (int i=1;i<=32767;i++) Assert.IsTrue(reserved.Add(mXparser.acquireCancellationTokenId()));
+            Assert.ThrowsException<InvalidOperationException>( () => mXparser.acquireCancellationTokenId());
+            mXparser.releaseCancellationTokenId(32); reserved.Remove(32);
+            Assert.AreEqual(32,mXparser.acquireCancellationTokenId()); reserved.Add(32);
+        } finally { foreach (int id in reserved) mXparser.releaseCancellationTokenId(id); }
+        CancelExecutor pool=new CancelExecutor(8);
+        CancelLatch start=new CancelLatch(1);
+        List<System.Threading.Tasks.Task<int>> futures=new List<System.Threading.Tasks.Task<int>>(); reserved.Clear();
+        try {
+            for(int i=0;i<8;i++) futures.Add(pool.submit(() => { cancelAwait(start); return mXparser.acquireCancellationTokenId(); }));
+            start.countDown();
+            foreach (System.Threading.Tasks.Task<int> f in futures) Assert.IsTrue(reserved.Add(cancelResult(f)));
+        } finally { start.countDown(); cancelShutdown(pool); foreach (int id in reserved)mXparser.releaseCancellationTokenId(id); }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0429() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: release order, neighbours and unreserved rejection";
+        TestCommonTools.consolePrintTestApiStart(429, testDescr);
+        Assert.IsTrue(mXparser.reserveCancellationTokenId(31));
+        Assert.IsTrue(mXparser.reserveCancellationTokenId(30));
+        try {
+            mXparser.cancelCalculation(31); mXparser.cancelCalculation(30);
+            mXparser.releaseCancellationTokenId(31);
+            Assert.IsTrue(mXparser.reserveCancellationTokenId(31));
+            Assert.IsFalse(mXparser.isCalculationCancelled(31));
+            Assert.IsTrue(mXparser.isCalculationCancelled(30));
+        } finally { mXparser.releaseCancellationTokenId(31); mXparser.releaseCancellationTokenId(30); }
+        mXparser.cancelCalculation(31);
+        Assert.ThrowsException<InvalidOperationException>( () => mXparser.releaseCancellationTokenId(31));
+        Assert.IsTrue(mXparser.isCalculationCancelled(31));
+        mXparser.resetCalculationCancellation(31);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0430() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: two workers with independent domains";
+        TestCommonTools.consolePrintTestApiStart(430, testDescr);
+        using (CancelDomain a=new CancelDomain()) using (CancelDomain b=new CancelDomain()) {
+            double[] values=cancelPair(a.id,b.id,false);
+            cancelNaN(values[0]);Assert.AreEqual(5050,values[1]);
+            Assert.IsFalse(mXparser.isCurrentCalculationCancelled());
+            Assert.IsFalse(mXparser.isCalculationCancelled(b.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0431() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: a separate controller globally cancels both workers";
+        TestCommonTools.consolePrintTestApiStart(431, testDescr);
+        using (CancelDomain a=new CancelDomain()) using (CancelDomain b=new CancelDomain()) {
+            double[] values=cancelPair(a.id,b.id,true);cancelNaN(values[0]);cancelNaN(values[1]);
+            Assert.IsFalse(mXparser.isCalculationCancelled(a.id));
+            Assert.IsFalse(mXparser.isCalculationCancelled(b.id));
+            Assert.AreEqual(55,new Expression("sum(i,1,10,i)").calculateWithCancel(a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0432() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: legacy and token calculations side by side";
+        TestCommonTools.consolePrintTestApiStart(432, testDescr);
+        using (CancelDomain a=new CancelDomain()) {
+            double[] values=cancelPair(-1,a.id,false);Assert.AreEqual(5050,values[0]);cancelNaN(values[1]);
+            mXparser.resetCalculationCancellation(a.id);
+            values=cancelPair(-1,a.id,true);cancelNaN(values[0]);cancelNaN(values[1]);
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0433() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: deliberate shared ID group and explicit reset";
+        TestCommonTools.consolePrintTestApiStart(433, testDescr);
+        using (CancelDomain a=new CancelDomain()) {
+            double[] values=cancelPair(a.id,a.id,false);cancelNaN(values[0]);cancelNaN(values[1]);
+            Assert.IsTrue(mXparser.isCalculationCancelled(a.id));mXparser.resetCalculationCancellation(a.id);
+            Assert.AreEqual(5050,new Expression("sum(i,1,100,i)").calculateWithCancel(a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0434() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: pre-cancel first reduction and reset";
+        TestCommonTools.consolePrintTestApiStart(434, testDescr);
+        using (CancelDomain a=new CancelDomain()) {
+            mXparser.cancelCalculation(a.id);cancelNaN(new Expression("sum(i,1,10,i)").calculateWithCancel(a.id));
+            mXparser.resetCalculationCancellation(a.id);Assert.AreEqual(55,new Expression("sum(i,1,10,i)").calculateWithCancel(a.id));
+            mXparser.cancelCurrentCalculation();cancelNaN(new Expression("sum(i,1,10,i)").calculate());
+            mXparser.resetCancelCurrentCalculationFlag();
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0435() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: cached literal, free and recursive base fast returns";
+        TestCommonTools.consolePrintTestApiStart(435, testDescr);
+        using (CancelDomain a=new CancelDomain()) {
+            Expression e=new Expression("7");e.calculateWithCancel(a.id);e.calculateWithCancel(a.id);
+            RecursiveArgument r=new RecursiveArgument("r(n)=n");r.addBaseCase(2,7);
+            mXparser.cancelCalculation(a.id);
+            Assert.AreEqual(7,e.calculateWithCancel(a.id));
+            Assert.AreEqual(7,new Argument("a",7).getArgumentValueWithCancel(a.id));
+            Assert.AreEqual(7,r.getArgumentValueWithCancel(2.0,a.id));
+            Assert.IsTrue(mXparser.isCalculationCancelled(a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0436() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: replay propagates existing negative evaluator result";
+        TestCommonTools.consolePrintTestApiStart(436, testDescr);
+        using (CancelDomain a=new CancelDomain()) {
+            foreach (int id in new int[]{a.id,0}) {
+                CancelGateState s=new CancelGateState();s.action=() => mXparser.cancelCalculation(id);
+                Expression e=new Expression("gate(1)+2",new Function("gate",new CancelGate(s)));
+                Assert.AreEqual(3,e.calculateWithCancel(id));
+                s.armed.set(true);cancelNaN(e.calculateWithCancel(id));
+                mXparser.resetCalculationCancellation(id);Assert.AreEqual(3,e.calculateWithCancel(id));
+            }
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0437() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: active frame restored after result, cancellation and exception";
+        TestCommonTools.consolePrintTestApiStart(437, testDescr);
+        using (CancelDomain a=new CancelDomain()) using (CancelDomain b=new CancelDomain()) {
+            CancelGateState s=new CancelGateState();Expression e=new Expression("gate(1)+2",new Function("gate",new CancelGate(s)));
+            Assert.AreEqual(3,e.calculateWithCancel(a.id));Assert.AreEqual(0,cancelFrame(e));
+            s.action=() => mXparser.cancelCalculation(a.id);s.armed.set(true);cancelNaN(e.calculateWithCancel(a.id));
+            Assert.AreEqual(0,cancelFrame(e));
+            s.action=() => {throw new InvalidOperationException("test callback");};s.armed.set(true);
+            cancelNaN(e.calculateWithCancel(b.id));Assert.AreEqual(0,cancelFrame(e));
+            Assert.AreEqual(3,e.calculateWithCancel(b.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0438() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: nested independent expression retains its own ID on the same worker";
+        TestCommonTools.consolePrintTestApiStart(438, testDescr);
+        using (CancelDomain a=new CancelDomain()) using (CancelDomain b=new CancelDomain()) {
+            CancelGateState s=new CancelGateState();Expression inner=new Expression("sum(i,1,10,i)");
+            s.action=() => {mXparser.cancelCalculation(a.id);Assert.AreEqual(55,inner.calculateWithCancel(b.id));};
+            s.armed.set(true);Expression outer=new Expression("gate(1)+2",new Function("gate",new CancelGate(s)));
+            cancelNaN(outer.calculateWithCancel(a.id));Assert.AreEqual(0,cancelFrame(inner));Assert.AreEqual(0,cancelFrame(outer));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0439() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: active ID excluded from clones and trusted serialization";
+        TestCommonTools.consolePrintTestApiStart(439, testDescr);
+        using (CancelDomain a=new CancelDomain()) using (CancelDomain b=new CancelDomain()) {
+            Expression e=new Expression("2+2");
+            var field=typeof(Expression).GetField("activeCancelId",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
+            field.SetValue(e,a.id);Assert.IsTrue(Attribute.IsDefined(field,typeof(NonSerializedAttribute)));
+            var clone=typeof(Expression).GetMethod("clone",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
+            Expression shallow=(Expression)clone.Invoke(e,null),independent=e.cloneForThreadSafe();
+            Assert.AreEqual(0,cancelFrame(shallow));Assert.AreEqual(0,cancelFrame(independent));
+            Assert.AreEqual(4,independent.calculateWithCancel(b.id));
+#if !NET7_0_OR_GREATER
+            SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
+            try {
+                Expression restored=SerializationUtils.deserializeFromBytes<Expression>(SerializationUtils.serializeToBytes(e));
+                Assert.IsNotNull(restored);Assert.AreEqual(0,cancelFrame(restored));Assert.AreEqual(4,restored.calculateWithCancel(b.id));
+            } finally {SerializationUtils.disableBinarySerialization();field.SetValue(e,0);}
+#else
+            Assert.IsNull(typeof(Expression).Assembly.GetType("org.mariuszgromada.math.mxparser.SerializationUtils"));field.SetValue(e,0);
+#endif
+            CancelGateState s=new CancelGateState();CancelGate original=new CancelGate(s);CancelGate copied=(CancelGate)original.clone();
+            Assert.AreSame(original.state,copied.state);s.action=() => {};s.armed.set(true);original.calculate();copied.calculate();
+            Assert.AreEqual(0,s.entered.getCount());Assert.IsFalse(s.armed.get());
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0440() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: dependent Argument and runtime Function propagation with trace";
+        TestCommonTools.consolePrintTestApiStart(440, testDescr);
+        using (CancelDomain a=new CancelDomain()) {
+            CancelGateState s=new CancelGateState();Function gate=new Function("gate",new CancelGate(s));
+            Argument x=new Argument("x=sum(i,1,100,gate(i))",gate);Function f=new Function("f(t)=x+t");f.addDefinitions(x);
+            Assert.AreEqual(5050,x.getArgumentValueWithCancel(a.id));Assert.AreEqual(5051,f.calculateWithCancel(new double[]{1},a.id));
+            cancelNaN(cancelDuring(() => x.getArgumentValueWithCancel(new CalcStepsRegister(),a.id),s,a.id));
+            mXparser.resetCalculationCancellation(a.id);
+            CancelGateState t=new CancelGateState();Argument y=new Argument("y=sum(i,1,100,gate(i))",new Function("gate",new CancelGate(t)));
+            Function g=new Function("g(t)=y+t");g.addDefinitions(y);g.setArgumentValue(0,1);
+            cancelNaN(cancelDuring(() => g.calculateWithCancel(new CalcStepsRegister(),a.id),t,a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0441() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: all typed Function entries and dependent argument arrays";
+        TestCommonTools.consolePrintTestApiStart(441, testDescr);
+        using (CancelDomain a=new CancelDomain()) {
+            for(int variant=0;variant<4;variant++) {
+                CancelGateState s=new CancelGateState();Function f=new Function("f(x)=sum(i,1,x,gate(i))",new Function("gate",new CancelGate(s)));f.setArgumentValue(0,100);
+                int v=variant;
+                Func<double> call=() => v==0?f.calculateWithCancel(new double[]{100},a.id):v==1?f.calculateWithCancel(new Argument[]{new Argument("x",100)},a.id):v==2?f.calculateWithCancel(new CalcStepsRegister(),a.id):f.calculateWithCancel(a.id);
+                Assert.AreEqual(5050,call());cancelNaN(cancelDuring(call,s,a.id));mXparser.resetCalculationCancellation(a.id);
+            }
+            CancelGateState parameterState=new CancelGateState();Argument dependent=new Argument("x=sum(i,1,100,gate(i))",new Function("gate",new CancelGate(parameterState)));
+            Function parameterFunction=new Function("f(x)=x");cancelNaN(cancelDuring(() => parameterFunction.calculateWithCancel(new Argument[]{dependent},a.id),parameterState,a.id));
+            cancelNaN(parameterFunction.calculateWithCancel((double[])null,a.id));cancelNaN(parameterFunction.calculateWithCancel(new double[0],a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0442() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: recursive Argument and Function including cloned callback rendezvous";
+        TestCommonTools.consolePrintTestApiStart(442, testDescr);
+        using (CancelDomain a=new CancelDomain()) {
+            CancelGateState s=new CancelGateState();Function gate=new Function("gate",new CancelGate(s));
+            RecursiveArgument r=new RecursiveArgument("r(n)=r(n-1)+gate(n)",gate);r.addBaseCase(0,0);
+            Assert.AreEqual(55,r.getArgumentValueWithCancel(10.0,a.id));
+            r=new RecursiveArgument("r(n)=r(n-1)+gate(n)",gate);r.addBaseCase(0,0);RecursiveArgument cold=r;
+            cancelNaN(cancelDuring(() => cold.getArgumentValueWithCancel(10.0,a.id),s,a.id));mXparser.resetCalculationCancellation(a.id);
+            CancelGateState t=new CancelGateState();Function recursive=new Function("f(n)=if(n<=0,0,f(n-1)+gate(n))",new Function("gate",new CancelGate(t)));
+            Assert.AreEqual(55,recursive.calculateWithCancel(new double[]{10},a.id));
+            cancelNaN(cancelDuring(() => recursive.calculateWithCancel(new double[]{10},a.id),t,a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0443() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: IF/IFF preserve lazy inactive branches";
+        TestCommonTools.consolePrintTestApiStart(443, testDescr);
+        using (CancelDomain a=new CancelDomain()) {
+            foreach (String text in new String[]{"if(1,sum(i,1,10,gate(i)),other(99))","iff(1,sum(i,1,10,gate(i)),1,other(99))"}) {
+                CancelGateState s=new CancelGateState(),other=new CancelGateState();
+                Expression e=new Expression(text,new Function("gate",new CancelGate(s)),new Function("other",new CancelGate(other)));
+                Assert.AreEqual(55,e.calculateWithCancel(a.id));Assert.AreEqual(0,other.calls.get());
+                cancelNaN(cancelDuring(() => e.calculateWithCancel(a.id),s,a.id));Assert.AreEqual(0,other.calls.get());mXparser.resetCalculationCancellation(a.id);
+            }
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0444() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: iteration, sample variance and range parameter expressions";
+        TestCommonTools.consolePrintTestApiStart(444, testDescr);
+        using (CancelDomain a=new CancelDomain()) {
+            String[] operators={"sum","prod","avg","vari","stdi"};double[] expected={15,120,3,2.5,Math.Sqrt(2.5)};
+            for(int i=0;i<operators.Length;i++) {
+                CancelGateState s=new CancelGateState();Expression e=new Expression(operators[i]+"(i,1,5,gate(i))",new Function("gate",new CancelGate(s)));
+                Assert.AreEqual(expected[i],e.calculateWithCancel(a.id),1e-12);
+                double cancelledValue=cancelDuring(() => e.calculateWithCancel(a.id),s,a.id);
+                Assert.IsTrue(Double.IsNaN(cancelledValue),operators[i]+" returned "+cancelledValue);
+                mXparser.resetCalculationCancellation(a.id);
+            }
+            foreach (String range in new String[]{"sum(i,gate(1),10,i)","sum(i,1,gate(10),i)","sum(i,1,10,i,gate(1))"}) {
+                CancelGateState s=new CancelGateState();Expression e=new Expression(range,new Function("gate",new CancelGate(s)));
+                cancelNaN(cancelDuring(() => e.calculateWithCancel(a.id),s,a.id));mXparser.resetCalculationCancellation(a.id);
+            }
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0445() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: calculus helpers and all expression-valued calculus parameters";
+        TestCommonTools.consolePrintTestApiStart(445, testDescr);
+        using (CancelDomain a=new CancelDomain()) {
+            for(int variant=0;variant<4;variant++) {
+                CancelGateState s=new CancelGateState();Argument x=new Argument("x",0.5);
+                Expression f=new Expression(variant==2?"gate(x)-0.5":variant==3?"gate(x)^2":"gate(x)",x,new Function("gate",new CancelGate(s)));
+                int v=variant;
+                Func<double> call=() => v==0?Calculus.derivativeWithCancel(f,x,0.5,Calculus.GENERAL_DERIVATIVE,1e-8,20,a.id):v==1?Calculus.integralTrapezoidWithCancel(f,x,0,1,1e-8,20,a.id):v==2?Calculus.solveBrentWithCancel(f,x,0,1,1e-8,20,a.id):Calculus.derivativeNthWithCancel(f,2,x,0.5,Calculus.RIGHT_DERIVATIVE,1e-8,20,a.id);
+                Assert.AreEqual(new double[]{1,0.5,0.5,2}[variant],call(),1e-5);
+                if (variant == 2) s.skipCalls = 2; // Reach Brent's iteration, past its endpoint/early-return paths.
+                cancelNaN(cancelDuring(call,s,a.id));mXparser.resetCalculationCancellation(a.id);
+            }
+            foreach (String text in new String[]{"der(x,x,gate(0.5))","der(x,x,0.5,gate(0.00000001),20)","der(x,x,0.5,0.00000001,gate(20))","dern(x^2,gate(2),x)","int(x,x,gate(0),1)","solve(x-0.5,x,0,gate(1))","diff(x,x,gate(1))"}) {
+                CancelGateState s=new CancelGateState();Expression e=new Expression(text,new Argument("x",0.5),new Function("gate",new CancelGate(s)));
+                Assert.IsTrue(e.checkSyntax(),e.getErrorMessage());
+                double cancelledValue=cancelDuring(() => e.calculateWithCancel(a.id),s,a.id);
+                if (text.StartsWith("solve(")) {
+                    // A cancelled bound can leave Brent with NaN endpoint values, skip its
+                    // controlled loop and return b. Preserve this existing global behaviour.
+                    Assert.AreEqual(1,cancelledValue);
+                    Assert.IsTrue(mXparser.isCalculationCancelled(a.id));
+                    CancelGateState legacyState=new CancelGateState();
+                    Expression legacy=new Expression(text,new Argument("x",0.5),new Function("gate",new CancelGate(legacyState)));
+                    try { Assert.AreEqual(cancelledValue,cancelDuring(legacy.calculate,legacyState,0)); }
+                    finally { mXparser.resetCancelCurrentCalculationFlag(); }
+                } else Assert.IsTrue(Double.IsNaN(cancelledValue),text+" returned "+cancelledValue);
+                mXparser.resetCalculationCancellation(a.id);
+            }
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0446() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: foreign expression syntax frame and base conversion";
+        TestCommonTools.consolePrintTestApiStart(446, testDescr);
+        using (CancelDomain a=new CancelDomain()) {
+            var syntax=typeof(Expression).GetMethod("checkSyntaxWithCancel",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
+            Expression foreign=new Expression("b2.101");Assert.IsTrue((bool)syntax.Invoke(foreign,new object[]{"",false,a.id}));Assert.AreEqual(0,cancelFrame(foreign));
+            Argument arg=new Argument("a=b2.101");Function fun=new Function("f(x)=x+b2.101");RecursiveArgument recursive=new RecursiveArgument("r(n)=n+b2.101");
+            Expression e=new Expression("a+f(1)+r(1)",arg,fun,recursive);Assert.AreEqual(17,e.calculateWithCancel(a.id));
+            mXparser.cancelCalculation(a.id);Expression pending=new Expression("a+f(1)+r(1)",new Argument("a=b2.101"),new Function("f(x)=x+b2.101"),new RecursiveArgument("r(n)=n+b2.101"));
+            cancelNaN(pending.calculateWithCancel(a.id));Assert.AreEqual(0,cancelFrame(pending));
+            mXparser.resetCalculationCancellation(a.id);Assert.IsTrue(new Expression("b2.101").checkSyntax());
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0447() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: getFunctionValues forwards ID without adding count-loop polls";
+        TestCommonTools.consolePrintTestApiStart(447, testDescr);
+        using (CancelDomain a=new CancelDomain()) {
+            Argument x=new Argument("x");Expression f=new Expression("gate(x)+1",x,new Function("gate",new CancelGate(new CancelGateState())));
+            CollectionAssert.AreEqual(new double[]{1,2,3},MathFunctions.getFunctionValuesWithCancel(f,x,0,2,1,a.id));
+            CollectionAssert.AreEqual(new double[]{3,2,1},MathFunctions.getFunctionValuesWithCancel(f,x,2,0,-1,a.id));
+            CollectionAssert.AreEqual(new double[]{2},MathFunctions.getFunctionValuesWithCancel(f,x,1,1,1,a.id));
+            Assert.IsNull(MathFunctions.getFunctionValuesWithCancel(f,x,0,2,0,a.id));
+            mXparser.cancelCalculation(a.id);double[] samples=MathFunctions.getFunctionValuesWithCancel(f,x,0,2,1,a.id);
+            Assert.AreEqual(3,samples.Length);foreach (double sample in samples)cancelNaN(sample);
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0448() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: NumberTheory rounding modes, sorting, bases and typed factor sentinels";
+        TestCommonTools.consolePrintTestApiStart(448, testDescr);
+        using (CancelDomain a=new CancelDomain()) {
+            foreach (bool canonical in new bool[]{true,false}) {
+                if(canonical)mXparser.enableCanonicalRounding();else mXparser.disableCanonicalRounding();
+                Assert.AreEqual(6,NumberTheory.sumWithCancel(new double[]{1,2,3},a.id));
+                mXparser.cancelCalculation(a.id);cancelNaN(NumberTheory.sumWithCancel(new double[]{1,2,3},a.id));mXparser.resetCalculationCancellation(a.id);
+            }
+            CollectionAssert.AreEqual(new long[]{2,2,3},NumberTheory.primeFactorsWithCancel(12L,a.id));
+            CollectionAssert.AreEqual(new double[]{2,2,3},NumberTheory.primeFactorsWithCancel(12.0,a.id));
+            double[] sorted={3,1,2};CollectionAssert.AreEqual(new int[]{1,2,0},NumberTheory.sortAscWithCancel(sorted,a.id));CollectionAssert.AreEqual(new double[]{1,2,3},sorted);
+            Assert.AreEqual(5,NumberTheory.convOthBase2DecimalWithCancel(2.0,new double[]{1,0,1},a.id));
+            mXparser.cancelCalculation(a.id);Assert.AreEqual(0,NumberTheory.primeFactorsWithCancel(12L,a.id).Length);Assert.AreEqual(0,NumberTheory.primeFactorsWithCancel(12.0,a.id).Length);
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0449() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: mathematical families, exact integral sentinels and lcm exception";
+        TestCommonTools.consolePrintTestApiStart(449, testDescr);
+        using (CancelDomain a=new CancelDomain()) {
+            Assert.AreEqual(3628800,MathFunctions.factorialWithCancel(10,a.id));
+            Assert.AreEqual(MathFunctions.binomCoeff(30,15),MathFunctions.binomCoeffWithCancel(30,15L,a.id));
+            Assert.AreEqual(MathFunctions.harmonicNumber(10),MathFunctions.ordinaryHarmonicNumberWithCancel(10,a.id));
+            Assert.AreEqual(MathFunctions.harmonicNumber(2.0,10),MathFunctions.generalizedHarmonicNumberWithCancel(2.0,10,a.id));
+            Assert.AreEqual(MathFunctions.eulerNumber(10,4),MathFunctions.eulerNumberWithCancel(10,4,a.id));
+            Assert.AreEqual(MathFunctions.Stirling1Number(10,4),MathFunctions.Stirling1NumberWithCancel(10,4,a.id));
+            Assert.AreEqual(MathFunctions.Stirling2Number(10,4),MathFunctions.Stirling2NumberWithCancel(10,4,a.id));
+            Assert.AreEqual(6765,MathFunctions.fibonacciNumberWithCancel(20,a.id));Assert.AreEqual(15127,MathFunctions.lucasNumberWithCancel(20,a.id));
+            Assert.AreEqual(1,BooleanAlgebra.andVariadicWithCancel(new double[]{1,1},a.id));Assert.AreEqual(2.5,Statistics.varWithCancel(new double[]{1,2,3,4,5},a.id));
+            Assert.AreEqual(SpecialFunctions.exponentialIntegralEi(2),SpecialFunctions.exponentialIntegralEiWithCancel(2,a.id));
+            Assert.AreEqual(6,NumberTheory.gcdWithCancel(12L,18L,a.id));Assert.AreEqual(6,NumberTheory.gcdWithCancel(new long[]{12,18,24},a.id));
+            Assert.AreEqual(72,NumberTheory.lcmWithCancel(new long[]{12,18,24},a.id));Assert.AreEqual(4,NumberTheory.primeCountWithCancel(10L,a.id));
+            Assert.AreEqual(7,NumberTheory.numberOfDigitsWithCancel(123L,2L,a.id));Assert.AreEqual(2,NumberTheory.digitAtPositionWithCancel(123L,2,10,a.id));
+            foreach (int id in new int[]{a.id,0}) {
+                mXparser.cancelCalculation(id);
+                Assert.AreEqual(0L,NumberTheory.gcdWithCancel(12L,18L,id));Assert.AreEqual(0L,NumberTheory.gcdWithCancel(new long[]{12,18,24},id));
+                Assert.AreEqual(0L,NumberTheory.lcmWithCancel(new long[]{12,18,24},id));Assert.AreEqual(0L,NumberTheory.primeCountWithCancel(10L,id));
+                Assert.AreEqual(0L,NumberTheory.numberOfDigitsWithCancel(123L,2L,id));Assert.AreEqual(0,NumberTheory.digitAtPositionWithCancel(123L,2,10,id));
+                Assert.ThrowsException<DivideByZeroException>(() => NumberTheory.lcmWithCancel(12L,18L,id));
+                if(id==0)Assert.ThrowsException<DivideByZeroException>(() => NumberTheory.lcm(12L,18L));
+                cancelNaN(MathFunctions.factorialWithCancel(10,id));cancelNaN(MathFunctions.eulerNumberWithCancel(10,4,id));cancelNaN(MathFunctions.Stirling1NumberWithCancel(10,4,id));cancelNaN(MathFunctions.Stirling2NumberWithCancel(10,4,id));
+                cancelNaN(MathFunctions.fibonacciNumberWithCancel(20,id));cancelNaN(MathFunctions.lucasNumberWithCancel(20,id));cancelNaN(MathFunctions.ordinaryHarmonicNumberWithCancel(10,id));cancelNaN(MathFunctions.generalizedHarmonicNumberWithCancel(2.0,10,id));
+                cancelNaN(BooleanAlgebra.andVariadicWithCancel(new double[]{1,1},id));cancelNaN(Statistics.varWithCancel(new double[]{1,2,3},id));cancelNaN(SpecialFunctions.exponentialIntegralEiWithCancel(2,id));
+                cancelNaN(new Expression("lcm(12,18)").calculateWithCancel(id));mXparser.resetCalculationCancellation(id);
+            }
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0450() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: rejection sampling retains RNG identity and draw order";
+        TestCommonTools.consolePrintTestApiStart(450, testDescr);
+        using (CancelDomain a=new CancelDomain()) {
+            CancelCounter calls=new CancelCounter();
+            Random random=new CancelRandom(a.id,calls);
+            cancelNaN(ProbabilityDistributions.rndNormalWithCancel(0,1,random,a.id));Assert.AreEqual(2,calls.get());
+            Assert.AreEqual(3,ProbabilityDistributions.rndNormalWithCancel(3,0,random,a.id));Assert.AreEqual(2,calls.get());
+            mXparser.resetCalculationCancellation(a.id);
+            Assert.AreEqual(ProbabilityDistributions.rndNormal(0,1,new Random(123)),ProbabilityDistributions.rndNormalWithCancel(0,1,new Random(123),a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0451() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: syntax errors, corrected definitions and frame restoration";
+        TestCommonTools.consolePrintTestApiStart(451, testDescr);
+        mXparser.disableAttemptToFixExpStrMode(); // Keep the intended malformed input malformed in both APIs.
+        using (CancelDomain a=new CancelDomain()) {
+            Expression legacy=new Expression("1+"),token=new Expression("1+");cancelNaN(legacy.calculate());cancelNaN(token.calculateWithCancel(a.id));
+            Assert.AreEqual(legacy.getErrorMessage(),token.getErrorMessage());Assert.AreEqual(0,cancelFrame(token));
+            Argument bad=new Argument("a=1+");Expression e=new Expression("a",bad);cancelNaN(e.calculateWithCancel(a.id));
+            bad.setArgumentExpressionString("2+2");Assert.AreEqual(4,e.calculateWithCancel(a.id));
+            token.setExpressionString("2+2");Assert.IsTrue(token.checkSyntax());Assert.AreEqual(4,token.calculateWithCancel(a.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0452() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: exact nine legacy dispatch boundaries and positive private cores";
+        TestCommonTools.consolePrintTestApiStart(452, testDescr);
+        Expression e=new Expression("2+2");Argument a=new Argument("a=2+2");
+        Function f=new Function("f(x)=x*x");f.setArgumentValue(0,2);
+        RecursiveArgument r=new RecursiveArgument("r(n)=n+100");
+        double[] actual={e.calculateWithCancel(0),e.calculateWithCancel((CalcStepsRegister)null,0),a.getArgumentValueWithCancel(0),a.getArgumentValueWithCancel((CalcStepsRegister)null,0),f.calculateWithCancel(0),f.calculateWithCancel((CalcStepsRegister)null,0),f.calculateWithCancel(new double[]{2},0),f.calculateWithCancel(new Argument[]{new Argument("x",2)},0),r.getArgumentValueWithCancel(2.0,0)};
+        CollectionAssert.AreEqual(new double[]{4,4,4,4,4,4,4,4,102},actual);
+        Assert.IsFalse(typeof(Expression).GetMethod("calculate",new Type[0]).IsVirtual);
+        Assert.IsFalse(typeof(Argument).GetMethod("getArgumentValue",new Type[0]).IsVirtual);
+        Assert.IsFalse(typeof(Function).GetMethod("calculate",new Type[0]).IsVirtual);
+        using (CancelDomain id=new CancelDomain()) {
+            Assert.AreEqual(4,e.calculateWithCancel(id.id));Assert.AreEqual(4,e.calculateWithCancel((CalcStepsRegister)null,id.id));
+            Assert.AreEqual(4,a.getArgumentValueWithCancel(id.id));Assert.AreEqual(4,a.getArgumentValueWithCancel((CalcStepsRegister)null,id.id));
+            Assert.AreEqual(4,f.calculateWithCancel(id.id));Assert.AreEqual(4,f.calculateWithCancel((CalcStepsRegister)null,id.id));
+            Assert.AreEqual(4,f.calculateWithCancel(new double[]{2},id.id));Assert.AreEqual(4,f.calculateWithCancel(new Argument[]{new Argument("x",2)},id.id));
+            Assert.AreEqual(102,r.getArgumentValueWithCancel(2.0,id.id));
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0453() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: explicit mathematical names and inherited no-index RecursiveArgument getter";
+        TestCommonTools.consolePrintTestApiStart(453, testDescr);
+        using (CancelDomain a=new CancelDomain()) {
+            Assert.AreEqual(MathFunctions.harmonicNumber(2.0,3),MathFunctions.generalizedHarmonicNumberWithCancel(2.0,3,a.id));
+            Assert.AreEqual(MathFunctions.harmonicNumber(2),MathFunctions.ordinaryHarmonicNumberWithCancel(2,a.id));
+            Assert.AreEqual(6,NumberTheory.sum(1,2,3));Assert.AreEqual(6,NumberTheory.sumWithCancel(new double[]{1,2,3},a.id));
+            Assert.AreEqual(5,NumberTheory.convOthBase2DecimalWithCancel("101",2,a.id));
+            Assert.AreEqual(NumberTheory.convDecimal2OthBase(5,2),NumberTheory.formatNumberInBaseWithCancel(5,2,a.id));
+            Assert.AreEqual(NumberTheory.digitAtPosition(123.0,2),NumberTheory.decimalDigitAtPositionWithCancel(123.0,2,a.id));
+            Argument n=new Argument("n",2);RecursiveArgument r=new RecursiveArgument("r","n+100",n);r.addBaseCase(2,999);
+            Assert.AreEqual(102,r.getArgumentValueWithCancel(a.id));Assert.AreEqual(999,r.getArgumentValueWithCancel(2.0,a.id));
+            n.setArgumentValue(5);Assert.AreEqual(105,r.getArgumentValueWithCancel(a.id));Assert.AreEqual(105,r.getArgumentValueWithCancel(5.0,a.id));
+            n.setArgumentValue(8);Assert.AreEqual(108,r.getArgumentValueWithCancel(a.id));Assert.AreEqual(105,r.getArgumentValueWithCancel(5.0,a.id));
+            Assert.AreEqual(108,r.getArgumentValueWithCancel((CalcStepsRegister)null,a.id));
+            Assert.AreEqual(typeof(Argument),typeof(RecursiveArgument).GetMethod("getArgumentValueWithCancel",new Type[]{typeof(int)}).DeclaringType);
+            Assert.AreEqual(typeof(Argument),typeof(RecursiveArgument).GetMethod("getArgumentValueWithCancel",new Type[]{typeof(CalcStepsRegister),typeof(int)}).DeclaringType);
+            Assert.AreEqual(typeof(RecursiveArgument),typeof(RecursiveArgument).GetMethod("getArgumentValueWithCancel",new Type[]{typeof(double),typeof(int)}).DeclaringType);
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    [TestMethod]
+    public void testApi0454() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "cancellation: repeated pool ownership, cancellation, join and reuse";
+        TestCommonTools.consolePrintTestApiStart(454, testDescr);
+        for(int round=0;round<8;round++) {
+            using (CancelDomain a=new CancelDomain()) using (CancelDomain b=new CancelDomain()) {
+                double[] values=cancelPair(a.id,b.id,false);cancelNaN(values[0]);Assert.AreEqual(5050,values[1]);
+                mXparser.resetCalculationCancellation(a.id);Assert.AreEqual(55,new Expression("sum(i,1,10,i)").calculateWithCancel(a.id));
+            }
+        }
+        int reused=mXparser.acquireCancellationTokenId();mXparser.releaseCancellationTokenId(reused);
+        Assert.IsTrue(mXparser.reserveCancellationTokenId(reused));mXparser.releaseCancellationTokenId(reused);
         testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assert.IsTrue(testResult);

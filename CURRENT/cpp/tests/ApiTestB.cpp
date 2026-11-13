@@ -1,5 +1,5 @@
 /*
- * @(#)ApiTestB.cpp        6.2.0    2026-11-11
+ * @(#)ApiTestB.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -8188,3 +8188,1076 @@ struct LatexRandomRestore { ~LatexRandomRestore() { mXparser::resetCancelCurrent
     }
 
 }
+
+#include <atomic>
+#include <condition_variable>
+#include <future>
+#include <set>
+#include "org/mariuszgromada/math/mxparser/wrapper/Random.hpp"
+
+namespace org::mariuszgromada::math::mxparser {
+    // Same test-only friend convention as the existing ownership scenarios.
+    struct CancellationTestAccess {
+        static int frame(const ExpressionPtr &e) { return e->activeCancelId; }
+        static void frame(const ExpressionPtr &e, int id) { e->activeCancelId = id; }
+        static ExpressionPtr shallow(const ExpressionPtr &e) { return e->clone(); }
+        static bool syntax(const ExpressionPtr &e, int id) { return e->checkSyntaxWithCancel(S(UTF("")), false, id); }
+        static_assert(std::is_same<decltype(mXparser::cancelCurrentCalculationFlag), std::atomic<bool>>::value, "atomic global signal");
+    };
+}
+
+namespace {
+    struct CancelDomain {
+        const int id = mXparser::acquireCancellationTokenId();
+        ~CancelDomain() { mXparser::releaseCancellationTokenId(id); }
+        CancelDomain() = default;
+        CancelDomain(const CancelDomain &) = delete;
+        CancelDomain &operator=(const CancelDomain &) = delete;
+    };
+    struct CancelFinally {
+        std::function<void()> action;
+        ~CancelFinally() { action(); }
+    };
+    struct CancelLatch {
+        std::mutex mutex;
+        std::condition_variable changed;
+        int count;
+        explicit CancelLatch(int count = 1) : count(count) {}
+        void countDown() { std::lock_guard<std::mutex> lock(mutex); if (count > 0) --count; changed.notify_all(); }
+        bool await() { std::unique_lock<std::mutex> lock(mutex); return changed.wait_for(lock, std::chrono::seconds(15), [&] { return count == 0; }); }
+        int getCount() { std::lock_guard<std::mutex> lock(mutex); return count; }
+    };
+    struct CancelCounter {
+        std::atomic<int> value{0};
+        int get() const { return value.load(); }
+        int incrementAndGet() { return ++value; }
+    };
+    struct CancelArmed {
+        std::atomic<bool> value{false};
+        void set(bool set) { value.store(set); }
+        bool get() const { return value.load(); }
+        bool compareAndSet(bool expected, bool desired) { return value.compare_exchange_strong(expected, desired); }
+    };
+    struct CancelGateState {
+        CancelLatch entered, proceed;
+        CancelArmed armed;
+        CancelCounter calls;
+        std::function<void()> action;
+        int skipCalls = 0;
+        void visit() {
+            calls.incrementAndGet();
+            if (armed.get() && skipCalls > 0) { skipCalls--; return; }
+            if (!armed.compareAndSet(true, false)) return;
+            entered.countDown();
+            if (action) { action(); return; }
+            if (!proceed.await()) throw std::runtime_error("Cancellation callback release timed out");
+        }
+    };
+    struct CancelGate : FunctionExtension {
+        Ptr<CancelGateState> state;
+        double value = 0;
+        explicit CancelGate(const Ptr<CancelGateState> &state) : state(state) {}
+        int getParametersNumber() override { return 1; }
+        StringPtr getParameterName(int) override { return S(UTF("x")); }
+        void setParameterValue(int, double parameter) override { value = parameter; }
+        double calculate() override { state->visit(); return value; }
+        FunctionExtensionPtr clone() override { return std::make_shared<CancelGate>(state); }
+    };
+    struct CancelRandom : Random {
+        int id;
+        CancelCounter &calls;
+        CancelRandom(int id, CancelCounter &calls) : id(id), calls(calls) {}
+        double nextDouble() override { if (calls.incrementAndGet() == 2) mXparser::cancelCalculation(id); return 0; }
+    };
+    FunctionExtensionPtr cancelExtension(const Ptr<CancelGateState> &state) { return std::make_shared<CancelGate>(state); }
+    FunctionPtr cancelFunction(const char *name, const Ptr<CancelGateState> &state) {
+        const FunctionExtensionPtr callback = cancelExtension(state);
+        return new_Function(name, callback);
+    }
+    template<typename T> ArrayPtr<T> cancelArray(std::initializer_list<T> values) {
+        auto result = new_Array<T>(static_cast<int>(values.size()));
+        int index = 0; for (const auto &value : values) (*result)(index++) = value;
+        return result;
+    }
+    template<typename T> ListPtr<T> cancelList(std::initializer_list<T> values) {
+        auto result = new_List<T>(); for (const auto &value : values) result->add(value); return result;
+    }
+    void cancelTrue(bool value) { REQUIRE(value); }
+    template<typename Message> void cancelTrue(bool value, const Message &) { REQUIRE(value); }
+    void cancelFalse(bool value) { REQUIRE_FALSE(value); }
+    template<typename T> void cancelNull(const T &value) { REQUIRE(value == nullptr); }
+    template<typename T> void cancelNotNull(const T &value) { REQUIRE(value != nullptr); }
+    template<typename A, typename B> void cancelEquals(const A &a, const B &b) { REQUIRE(a == b); }
+    void cancelEquals(const StringPtr &a, const StringPtr &b) { REQUIRE(a != nullptr); REQUIRE(b != nullptr); REQUIRE(*a == *b); }
+    void cancelEquals(double a, double b, double tolerance) { REQUIRE(std::fabs(a - b) <= tolerance); }
+    template<typename A, typename B> void cancelEquals(const A &a, const B &b, const char *) { REQUIRE(a == b); }
+    template<typename A, typename B> void cancelArrayEquals(const ArrayPtr<A> &a, const ArrayPtr<B> &b) {
+        REQUIRE(a != nullptr); REQUIRE(b != nullptr); REQUIRE(a->length == b->length);
+        for (int i = 0; i < a->length; ++i) REQUIRE((*a)(i) == (*b)(i));
+    }
+    template<typename A, typename B> void cancelArrayEquals(const std::vector<A> &a, const std::vector<B> &b) { REQUIRE(a == b); }
+    template<typename Error, typename F> void cancelThrows(F call) { REQUIRE_THROWS_AS(call(), Error); }
+    void cancelNaN(double value) { REQUIRE(Double::isNaN(value)); }
+    int cancelFrame(const ExpressionPtr &e) { return CancellationTestAccess::frame(e); }
+    void cancelAwait(CancelLatch &latch) { if (!latch.await()) throw std::runtime_error("Worker never reached callback"); }
+    template<typename T> T cancelResult(std::future<T> &future) {
+        if (future.wait_for(std::chrono::seconds(15)) != std::future_status::ready) throw std::runtime_error("Worker did not finish");
+        return future.get();
+    }
+    double cancelDuring(std::function<double()> calculation, const Ptr<CancelGateState> &state, int id) {
+        state->armed.set(true);
+        auto result = std::async(std::launch::async, calculation);
+        CancelFinally cleanup{[&] { state->proceed.countDown(); if (result.valid()) cancelResult(result); }};
+        cancelAwait(state->entered);
+        mXparser::cancelCalculation(id);
+        state->proceed.countDown();
+        return cancelResult(result);
+    }
+    std::vector<double> cancelPair(int first, int second, bool global) {
+        auto a = std::make_shared<CancelGateState>(), b = std::make_shared<CancelGateState>();
+        auto ea = new_Expression("sum(i,1,100,gate(i))", cancelFunction("gate", a));
+        auto eb = new_Expression("sum(i,1,100,gate(i))", cancelFunction("gate", b));
+        a->armed.set(true); b->armed.set(true);
+        auto fa = std::async(std::launch::async, [&] { return first < 0 ? ea->calculate() : ea->calculateWithCancel(first); });
+        auto fb = std::async(std::launch::async, [&] { return second < 0 ? eb->calculate() : eb->calculateWithCancel(second); });
+        CancelFinally cleanup{[&] { a->proceed.countDown(); b->proceed.countDown(); if (fa.valid()) cancelResult(fa); if (fb.valid()) cancelResult(fb); if (global) mXparser::resetCancelCurrentCalculationFlag(); }};
+        cancelAwait(a->entered); cancelAwait(b->entered);
+        if (global) mXparser::cancelCurrentCalculation(); else mXparser::cancelCalculation(first < 0 ? second : first);
+        a->proceed.countDown(); b->proceed.countDown();
+        return {cancelResult(fa), cancelResult(fb)};
+    }
+}
+
+    TEST_CASE("testApi0423", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: legacy signatures, null, varargs and ID0";
+        TestCommonTools::consolePrintTestApiStart(423, testDescr);
+        ExpressionPtr e= new_Expression("2+2");
+        CalcStepsRegisterPtr csr= new_CalcStepsRegister();
+        cancelEquals(4, e->calculate());
+        cancelEquals(4,e->calculate(0));cancelEquals(4,e->calculate(NULL));cancelEquals(4,e->calculate(nullptr));
+        cancelEquals(4, e->calculate(CalcStepsRegister::Null));
+        cancelEquals(4, e->calculate(csr));
+        cancelFalse(csr->calcStepRecords->isEmpty());
+        cancelEquals(4, e->calculateWithCancel(0));
+        cancelEquals(4, e->calculateWithCancel(csr, 0));
+        ArgumentPtr a= new_Argument("a=2+2");
+        cancelEquals(a->getArgumentValue(), a->getArgumentValueWithCancel(CalcStepsRegister::Null, 0));
+        FunctionPtr f= new_Function("f(x)=x*x");
+        cancelEquals(4, f->calculate(2));
+        cancelEquals(4, f->calculateWithCancel(cancelList<double>({2}), 0));
+        cancelEquals(4, f->calculateWithCancel(cancelList<ArgumentPtr>({new_Argument("x",2)}), 0));
+        cancelNaN(f->calculate(CONST_LIST_DOUBLE(ListPtr<double>{})));
+        cancelNaN(f->calculateWithCancel(ListPtr<double>{}, 0));
+        std::function<double()> oldReference = [&] { return e->calculate(); };
+        cancelEquals(4, oldReference());
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0424", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: all 142 public calculation entries validate ID before work";
+        TestCommonTools::consolePrintTestApiStart(424, testDescr);
+        {
+        auto expression = new_Expression("2+2"); auto dependent = new_Argument("a",4);
+        auto function = new_Function("f(x)=x*x"); auto recursive = new_RecursiveArgument("r(n)=n");
+        std::vector<std::function<void(int)>> canonicalEntries = {
+            [&](int invalid) { const CalcStepsRegisterPtr p0{}; (void)dependent->getArgumentValueWithCancel(p0, invalid); },
+            [&](int invalid) { const CalcStepsRegisterPtr p0{}; (void)expression->calculateWithCancel(p0, invalid); },
+            [&](int invalid) { const CalcStepsRegisterPtr p0{}; (void)function->calculateWithCancel(p0, invalid); },
+            [&](int invalid) { const ListPtr<double> p0{}; (void)function->calculateWithCancel(p0, invalid); },
+            [&](int invalid) { const ListPtr<ArgumentPtr> p0{}; (void)function->calculateWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)BooleanAlgebra::andVariadicWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)BooleanAlgebra::orVariadicWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)BooleanAlgebra::xorVariadicWithCancel(p0, invalid); },
+            [&](int invalid) { const ExpressionPtr p0{}; const ArgumentPtr p1{}; double p2{}; double p3{}; double p4{}; int p5{}; (void)Calculus::integralTrapezoidWithCancel(p0, p1, p2, p3, p4, p5, invalid); },
+            [&](int invalid) { const ExpressionPtr p0{}; const ArgumentPtr p1{}; double p2{}; int p3{}; double p4{}; int p5{}; (void)Calculus::derivativeWithCancel(p0, p1, p2, p3, p4, p5, invalid); },
+            [&](int invalid) { const ExpressionPtr p0{}; double p1{}; const ArgumentPtr p2{}; double p3{}; int p4{}; double p5{}; int p6{}; (void)Calculus::derivativeNthWithCancel(p0, p1, p2, p3, p4, p5, p6, invalid); },
+            [&](int invalid) { const ExpressionPtr p0{}; double p1{}; const ArgumentPtr p2{}; (void)Calculus::forwardDifferenceWithCancel(p0, p1, p2, invalid); },
+            [&](int invalid) { const ExpressionPtr p0{}; double p1{}; const ArgumentPtr p2{}; (void)Calculus::backwardDifferenceWithCancel(p0, p1, p2, invalid); },
+            [&](int invalid) { const ExpressionPtr p0{}; const ArgumentPtr p1{}; double p2{}; double p3{}; double p4{}; double p5{}; (void)Calculus::solveBrentWithCancel(p0, p1, p2, p3, p4, p5, invalid); },
+            [&](int invalid) { int p0{}; (void)MathFunctions::bellNumberWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; (void)MathFunctions::bellNumberWithCancel(p0, invalid); },
+            [&](int invalid) { int p0{}; int p1{}; (void)MathFunctions::eulerNumberWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)MathFunctions::eulerNumberWithCancel(p0, p1, invalid); },
+            [&](int invalid) { int p0{}; (void)MathFunctions::factorialWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; (void)MathFunctions::factorialWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)MathFunctions::factorialFallingWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)MathFunctions::factorialRisingWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; Long p1{}; (void)MathFunctions::binomCoeffWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)MathFunctions::binomCoeffWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; Long p1{}; (void)MathFunctions::numberOfPermutationsWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)MathFunctions::numberOfPermutationsWithCancel(p0, p1, invalid); },
+            [&](int invalid) { int p0{}; int p1{}; (void)MathFunctions::bernoulliNumberWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)MathFunctions::bernoulliNumberWithCancel(p0, p1, invalid); },
+            [&](int invalid) { int p0{}; int p1{}; (void)MathFunctions::Stirling1NumberWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)MathFunctions::Stirling1NumberWithCancel(p0, p1, invalid); },
+            [&](int invalid) { int p0{}; int p1{}; (void)MathFunctions::Stirling2NumberWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)MathFunctions::Stirling2NumberWithCancel(p0, p1, invalid); },
+            [&](int invalid) { int p0{}; int p1{}; (void)MathFunctions::worpitzkyNumberWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)MathFunctions::worpitzkyNumberWithCancel(p0, p1, invalid); },
+            [&](int invalid) { int p0{}; (void)MathFunctions::ordinaryHarmonicNumberWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; (void)MathFunctions::ordinaryHarmonicNumberWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; int p1{}; (void)MathFunctions::generalizedHarmonicNumberWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)MathFunctions::generalizedHarmonicNumberWithCancel(p0, p1, invalid); },
+            [&](int invalid) { int p0{}; (void)MathFunctions::fibonacciNumberWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; (void)MathFunctions::fibonacciNumberWithCancel(p0, invalid); },
+            [&](int invalid) { int p0{}; (void)MathFunctions::lucasNumberWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; (void)MathFunctions::lucasNumberWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)MathFunctions::continuedFractionWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)MathFunctions::continuedPolynomialWithCancel(p0, invalid); },
+            [&](int invalid) { int p0{}; double p1{}; (void)MathFunctions::eulerPolynomialWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)MathFunctions::eulerPolynomialWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)MathFunctions::tetrationWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; int p1{}; (void)MathFunctions::roundWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; int p1{}; (void)MathFunctions::roundHalfUpWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; int p1{}; (void)MathFunctions::roundDownWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; (void)MathFunctions::lengthRoundWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)MathFunctions::coalesceWithCancel(p0, invalid); },
+            [&](int invalid) { const ExpressionPtr p0{}; const ArgumentPtr p1{}; double p2{}; (void)MathFunctions::getFunctionValueWithCancel(p0, p1, p2, invalid); },
+            [&](int invalid) { const ExpressionPtr p0{}; const ArgumentPtr p1{}; double p2{}; double p3{}; double p4{}; (void)MathFunctions::getFunctionValuesWithCancel(p0, p1, p2, p3, p4, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)NumberTheory::minWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)NumberTheory::argminWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)NumberTheory::maxWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)NumberTheory::argmaxWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)NumberTheory::sortAscWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; bool p1{}; (void)NumberTheory::getDistValuesWithCancel(p0, p1, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)NumberTheory::numberOfDistValuesWithCancel(p0, invalid); },
+            [&](int invalid) { Long p0{}; Long p1{}; (void)NumberTheory::gcdWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)NumberTheory::gcdWithCancel(p0, p1, invalid); },
+            [&](int invalid) { const ArrayPtr<Long> p0{}; (void)NumberTheory::gcdWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)NumberTheory::gcdWithCancel(p0, invalid); },
+            [&](int invalid) { Long p0{}; Long p1{}; (void)NumberTheory::lcmWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)NumberTheory::lcmWithCancel(p0, p1, invalid); },
+            [&](int invalid) { const ArrayPtr<Long> p0{}; (void)NumberTheory::lcmWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)NumberTheory::lcmWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)NumberTheory::sumWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)NumberTheory::prodWithCancel(p0, invalid); },
+            [&](int invalid) { Long p0{}; (void)NumberTheory::primeTestWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; (void)NumberTheory::primeTestWithCancel(p0, invalid); },
+            [&](int invalid) { Long p0{}; (void)NumberTheory::primeCountWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; (void)NumberTheory::primeCountWithCancel(p0, invalid); },
+            [&](int invalid) { const ExpressionPtr p0{}; const ArgumentPtr p1{}; double p2{}; double p3{}; double p4{}; (void)NumberTheory::sigmaSummationWithCancel(p0, p1, p2, p3, p4, invalid); },
+            [&](int invalid) { const ExpressionPtr p0{}; const ArgumentPtr p1{}; double p2{}; double p3{}; double p4{}; (void)NumberTheory::piProductWithCancel(p0, p1, p2, p3, p4, invalid); },
+            [&](int invalid) { const ExpressionPtr p0{}; const ArgumentPtr p1{}; double p2{}; double p3{}; double p4{}; (void)NumberTheory::minWithCancel(p0, p1, p2, p3, p4, invalid); },
+            [&](int invalid) { const ExpressionPtr p0{}; const ArgumentPtr p1{}; double p2{}; double p3{}; double p4{}; (void)NumberTheory::maxWithCancel(p0, p1, p2, p3, p4, invalid); },
+            [&](int invalid) { const StringPtr p0{}; int p1{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, p1, invalid); },
+            [&](int invalid) { int p0{}; const ArrayPtr<int> p1{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; const ArrayPtr<double> p1{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, p1, invalid); },
+            [&](int invalid) { const ArrayPtr<int> p0{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; int p1{}; (void)NumberTheory::formatNumberInBaseWithCancel(p0, p1, invalid); },
+            [&](int invalid) { Long p0{}; Long p1{}; (void)NumberTheory::numberOfDigitsWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)NumberTheory::numberOfDigitsWithCancel(p0, p1, invalid); },
+            [&](int invalid) { Long p0{}; int p1{}; int p2{}; (void)NumberTheory::digitAtPositionWithCancel(p0, p1, p2, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; double p2{}; (void)NumberTheory::digitAtPositionWithCancel(p0, p1, p2, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)NumberTheory::decimalDigitAtPositionWithCancel(p0, p1, invalid); },
+            [&](int invalid) { Long p0{}; (void)NumberTheory::primeFactorsWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; (void)NumberTheory::primeFactorsWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; (void)NumberTheory::numberOfPrimeFactorsWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)NumberTheory::primeFactorValueWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)NumberTheory::primeFactorExponentWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; (void)NumberTheory::toFractionWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; const RandomPtr p2{}; (void)ProbabilityDistributions::rndNormalWithCancel(p0, p1, p2, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)ProbabilityDistributions::pdfStudentTWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)ProbabilityDistributions::cdfStudentTWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)ProbabilityDistributions::qntStudentTWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; (void)ProbabilityDistributions::rndStudentTWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)ProbabilityDistributions::pdfChiSquaredWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)ProbabilityDistributions::cdfChiSquaredWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)ProbabilityDistributions::qntChiSquaredWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; (void)ProbabilityDistributions::rndChiSquaredWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; double p2{}; (void)ProbabilityDistributions::pdfSnedecordFWithCancel(p0, p1, p2, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; double p2{}; (void)ProbabilityDistributions::cdfSnedecordFWithCancel(p0, p1, p2, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; double p2{}; (void)ProbabilityDistributions::qntSnedecordFWithCancel(p0, p1, p2, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)ProbabilityDistributions::rndSnedecordFWithCancel(p0, p1, invalid); },
+            [&](int invalid) { int p0{}; (void)ProbabilityDistributions::getRandomVariableValueWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; (void)SpecialFunctions::exponentialIntegralEiWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; (void)SpecialFunctions::logarithmicIntegralLiWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; (void)SpecialFunctions::offsetLogarithmicIntegralLiWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; (void)SpecialFunctions::gammaWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; (void)SpecialFunctions::lanchosGammaWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; (void)SpecialFunctions::logGammaWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; (void)SpecialFunctions::sgnGammaWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)SpecialFunctions::regularizedGammaLowerPWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)SpecialFunctions::inverseRegularizedGammaLowerPWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)SpecialFunctions::incompleteGammaLowerWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)SpecialFunctions::regularizedGammaUpperQWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)SpecialFunctions::incompleteGammaUpperWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; (void)SpecialFunctions::diGammaWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)SpecialFunctions::logBetaWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)SpecialFunctions::betaWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; double p2{}; (void)SpecialFunctions::incompleteBetaWithCancel(p0, p1, p2, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; double p2{}; (void)SpecialFunctions::regularizedBetaWithCancel(p0, p1, p2, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; double p2{}; (void)SpecialFunctions::inverseRegularizedBetaWithCancel(p0, p1, p2, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; (void)SpecialFunctions::lambertWWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; double p1{}; double p2{}; double p3{}; double p4{}; double p5{}; (void)SpecialFunctions::hypergeometricFWithCancel(p0, p1, p2, p3, p4, p5, invalid); },
+            [&](int invalid) { const ExpressionPtr p0{}; const ArgumentPtr p1{}; double p2{}; double p3{}; double p4{}; (void)Statistics::avgWithCancel(p0, p1, p2, p3, p4, invalid); },
+            [&](int invalid) { const ExpressionPtr p0{}; const ArgumentPtr p1{}; double p2{}; double p3{}; double p4{}; (void)Statistics::varWithCancel(p0, p1, p2, p3, p4, invalid); },
+            [&](int invalid) { const ExpressionPtr p0{}; const ArgumentPtr p1{}; double p2{}; double p3{}; double p4{}; (void)Statistics::stdWithCancel(p0, p1, p2, p3, p4, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)Statistics::avgWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)Statistics::varWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)Statistics::stdWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)Statistics::medianWithCancel(p0, invalid); },
+            [&](int invalid) { const ArrayPtr<double> p0{}; (void)Statistics::modeWithCancel(p0, invalid); },
+            [&](int invalid) { double p0{}; (void)recursive->getArgumentValueWithCancel(p0, invalid); },
+            [&](int invalid) {  (void)expression->calculateWithCancel(invalid); },
+            [&](int invalid) {  (void)dependent->getArgumentValueWithCancel(invalid); },
+            [&](int invalid) {  (void)function->calculateWithCancel(invalid); }
+        };
+        cancelEquals(142,static_cast<int>(canonicalEntries.size()));
+        for (auto &entry : canonicalEntries) for (int invalid : std::vector<int>{-1,32768,(std::numeric_limits<int>::min)(),(std::numeric_limits<int>::max)()})
+            cancelThrows<std::invalid_argument>([&] { entry(invalid); });
+        std::vector<std::function<void(int)>> nativeEntries = {
+            [&](int invalid) { const ListPtr<double> p0{}; (void)NumberTheory::minWithCancel(p0, invalid); },
+            [&](int invalid) { const ListPtr<double> p0{}; (void)NumberTheory::argminWithCancel(p0, invalid); },
+            [&](int invalid) { const ListPtr<double> p0{}; (void)NumberTheory::maxWithCancel(p0, invalid); },
+            [&](int invalid) { const ListPtr<double> p0{}; (void)NumberTheory::argmaxWithCancel(p0, invalid); },
+            [&](int invalid) { CalcStepsRegisterPtr p0{}; (void)dependent->getArgumentValueWithCancel(p0, invalid); },
+            [&](int invalid) { CalcStepsRegisterPtr p0{}; (void)expression->calculateWithCancel(p0, invalid); },
+            [&](int invalid) { ListPtr<double> p0{}; (void)function->calculateWithCancel(p0, invalid); },
+            [&](int invalid) { ListPtr<ArgumentPtr> p0{}; (void)function->calculateWithCancel(p0, invalid); },
+            [&](int invalid) { CalcStepsRegisterPtr p0{}; (void)function->calculateWithCancel(p0, invalid); },
+            [&](int invalid) { ListPtr<double> p0{}; (void)NumberTheory::minWithCancel(p0, invalid); },
+            [&](int invalid) { ArrayPtr<double> p0{}; (void)NumberTheory::minWithCancel(p0, invalid); },
+            [&](int invalid) { ListPtr<double> p0{}; (void)NumberTheory::argminWithCancel(p0, invalid); },
+            [&](int invalid) { ArrayPtr<double> p0{}; (void)NumberTheory::argminWithCancel(p0, invalid); },
+            [&](int invalid) { ListPtr<double> p0{}; (void)NumberTheory::maxWithCancel(p0, invalid); },
+            [&](int invalid) { ArrayPtr<double> p0{}; (void)NumberTheory::maxWithCancel(p0, invalid); },
+            [&](int invalid) { ListPtr<double> p0{}; (void)NumberTheory::argmaxWithCancel(p0, invalid); },
+            [&](int invalid) { ArrayPtr<double> p0{}; (void)NumberTheory::argmaxWithCancel(p0, invalid); },
+            [&](int invalid) { const ListPtr<double> p0{}; (void)NumberTheory::numberOfDistValuesWithCancel(p0, invalid); },
+            [&](int invalid) { ListPtr<double> p0{}; (void)NumberTheory::numberOfDistValuesWithCancel(p0, invalid); },
+            [&](int invalid) { ArrayPtr<double> p0{}; (void)NumberTheory::numberOfDistValuesWithCancel(p0, invalid); },
+            [&](int invalid) { const ListPtr<double> p0{}; (void)NumberTheory::gcdWithCancel(p0, invalid); },
+            [&](int invalid) { ListPtr<double> p0{}; (void)NumberTheory::gcdWithCancel(p0, invalid); },
+            [&](int invalid) { ArrayPtr<double> p0{}; (void)NumberTheory::gcdWithCancel(p0, invalid); },
+            [&](int invalid) { const ListPtr<double> p0{}; (void)NumberTheory::lcmWithCancel(p0, invalid); },
+            [&](int invalid) { ListPtr<double> p0{}; (void)NumberTheory::lcmWithCancel(p0, invalid); },
+            [&](int invalid) { ArrayPtr<double> p0{}; (void)NumberTheory::lcmWithCancel(p0, invalid); },
+            [&](int invalid) { const ListPtr<double> p0{}; (void)NumberTheory::sumWithCancel(p0, invalid); },
+            [&](int invalid) { ListPtr<double> p0{}; (void)NumberTheory::sumWithCancel(p0, invalid); },
+            [&](int invalid) { ArrayPtr<double> p0{}; (void)NumberTheory::sumWithCancel(p0, invalid); },
+            [&](int invalid) { const ListPtr<double> p0{}; (void)NumberTheory::prodWithCancel(p0, invalid); },
+            [&](int invalid) { ListPtr<double> p0{}; (void)NumberTheory::prodWithCancel(p0, invalid); },
+            [&](int invalid) { ArrayPtr<double> p0{}; (void)NumberTheory::prodWithCancel(p0, invalid); },
+            [&](int invalid) { ExpressionPtr p0{}; ArgumentPtr p1{}; double p2{}; double p3{}; double p4{}; (void)NumberTheory::sigmaSummationWithCancel(p0, p1, p2, p3, p4, invalid); },
+            [&](int invalid) { ExpressionPtr p0{}; ArgumentPtr p1{}; double p2{}; double p3{}; double p4{}; (void)NumberTheory::piProductWithCancel(p0, p1, p2, p3, p4, invalid); },
+            [&](int invalid) { ExpressionPtr p0{}; ArgumentPtr p1{}; double p2{}; double p3{}; double p4{}; (void)NumberTheory::minWithCancel(p0, p1, p2, p3, p4, invalid); },
+            [&](int invalid) { ExpressionPtr p0{}; ArgumentPtr p1{}; double p2{}; double p3{}; double p4{}; (void)NumberTheory::maxWithCancel(p0, p1, p2, p3, p4, invalid); },
+            [&](int invalid) { StringPtr p0{}; int p1{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, p1, invalid); },
+            [&](int invalid) { const String p0{}; int p1{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, p1, invalid); },
+            [&](int invalid) { const std::string p0{}; int p1{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, p1, invalid); },
+            [&](int invalid) { const Char* p0{}; int p1{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, p1, invalid); },
+            [&](int invalid) { const char* p0{}; int p1{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, p1, invalid); },
+            [&](int invalid) { int p0{}; const ListPtr<int> p1{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, p1, invalid); },
+            [&](int invalid) { int p0{}; ListPtr<int> p1{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, p1, invalid); },
+            [&](int invalid) { int p0{}; ArrayPtr<int> p1{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; const ListPtr<double> p1{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; ListPtr<double> p1{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, p1, invalid); },
+            [&](int invalid) { double p0{}; ArrayPtr<double> p1{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, p1, invalid); },
+            [&](int invalid) { ArrayPtr<int> p0{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, invalid); },
+            [&](int invalid) { ArrayPtr<double> p0{}; (void)NumberTheory::convOthBase2DecimalWithCancel(p0, invalid); },
+            [&](int invalid) { ExpressionPtr p0{}; ArgumentPtr p1{}; double p2{}; double p3{}; double p4{}; (void)Statistics::avgWithCancel(p0, p1, p2, p3, p4, invalid); },
+            [&](int invalid) { ExpressionPtr p0{}; ArgumentPtr p1{}; double p2{}; double p3{}; double p4{}; (void)Statistics::varWithCancel(p0, p1, p2, p3, p4, invalid); },
+            [&](int invalid) { ExpressionPtr p0{}; ArgumentPtr p1{}; double p2{}; double p3{}; double p4{}; (void)Statistics::stdWithCancel(p0, p1, p2, p3, p4, invalid); },
+            [&](int invalid) { const ListPtr<double> p0{}; (void)Statistics::avgWithCancel(p0, invalid); },
+            [&](int invalid) { ListPtr<double> p0{}; (void)Statistics::avgWithCancel(p0, invalid); },
+            [&](int invalid) { ArrayPtr<double> p0{}; (void)Statistics::avgWithCancel(p0, invalid); },
+            [&](int invalid) { const ListPtr<double> p0{}; (void)Statistics::varWithCancel(p0, invalid); },
+            [&](int invalid) { ListPtr<double> p0{}; (void)Statistics::varWithCancel(p0, invalid); },
+            [&](int invalid) { ArrayPtr<double> p0{}; (void)Statistics::varWithCancel(p0, invalid); },
+            [&](int invalid) { const ListPtr<double> p0{}; (void)Statistics::stdWithCancel(p0, invalid); },
+            [&](int invalid) { ListPtr<double> p0{}; (void)Statistics::stdWithCancel(p0, invalid); },
+            [&](int invalid) { ArrayPtr<double> p0{}; (void)Statistics::stdWithCancel(p0, invalid); },
+            [&](int invalid) { const ListPtr<double> p0{}; (void)Statistics::medianWithCancel(p0, invalid); },
+            [&](int invalid) { ListPtr<double> p0{}; (void)Statistics::medianWithCancel(p0, invalid); },
+            [&](int invalid) { ArrayPtr<double> p0{}; (void)Statistics::medianWithCancel(p0, invalid); },
+            [&](int invalid) { const ListPtr<double> p0{}; (void)Statistics::modeWithCancel(p0, invalid); },
+            [&](int invalid) { ListPtr<double> p0{}; (void)Statistics::modeWithCancel(p0, invalid); },
+            [&](int invalid) { ArrayPtr<double> p0{}; (void)Statistics::modeWithCancel(p0, invalid); }
+        };
+        cancelEquals(67,static_cast<int>(nativeEntries.size()));
+        for (auto &entry : nativeEntries) for (int invalid : std::vector<int>{-1,32768,(std::numeric_limits<int>::min)(),(std::numeric_limits<int>::max)()})
+            cancelThrows<std::invalid_argument>([&] { entry(invalid); });
+        }
+        // Invalid IDs must be rejected before evaluating user callbacks or dependent parameters.
+        auto callback=std::make_shared<CancelGateState>();
+        FunctionPtr gate= cancelFunction("gate",callback);
+        ExpressionPtr expression= new_Expression("gate(1)", gate);
+        ArgumentPtr dependent= new_Argument("a=gate(1)", gate);
+        FunctionPtr function= new_Function("f(x)=gate(x)", gate);
+        RecursiveArgumentPtr recursive= new_RecursiveArgument("r(n)=gate(n)", gate);
+        for(int invalid:std::vector<int>{-1, 32768, (std::numeric_limits<int>::min)(), (std::numeric_limits<int>::max)()}) {
+            cancelThrows<std::invalid_argument>( [&] { return expression->calculateWithCancel(invalid); });
+            cancelThrows<std::invalid_argument>( [&] { return expression->calculateWithCancel(new_CalcStepsRegister(), invalid); });
+            cancelThrows<std::invalid_argument>( [&] { return dependent->getArgumentValueWithCancel(invalid); });
+            cancelThrows<std::invalid_argument>( [&] { return dependent->getArgumentValueWithCancel(new_CalcStepsRegister(), invalid); });
+            cancelThrows<std::invalid_argument>( [&] { return function->calculateWithCancel(invalid); });
+            cancelThrows<std::invalid_argument>( [&] { return function->calculateWithCancel(new_CalcStepsRegister(), invalid); });
+            cancelThrows<std::invalid_argument>( [&] { return function->calculateWithCancel(cancelList<double>({1}), invalid); });
+            cancelThrows<std::invalid_argument>( [&] { return function->calculateWithCancel(cancelList<ArgumentPtr>({dependent}), invalid); });
+            cancelThrows<std::invalid_argument>( [&] { return gate->calculateWithCancel(cancelList<double>({1}), invalid); });
+            cancelThrows<std::invalid_argument>( [&] { return recursive->getArgumentValueWithCancel(1.0, invalid); });
+            cancelEquals(0, callback->calls.get(), "Invalid ID executed a user callback");
+        }
+        cancelEquals(1, expression->calculateWithCancel(0));
+        cancelTrue(callback->calls.get() > 0, "Positive control must execute the same callback");
+
+        for(int invalid:std::vector<int>{-1,32768,(std::numeric_limits<int>::min)(),(std::numeric_limits<int>::max)()}) {
+            cancelThrows<std::invalid_argument>( [&] { return mXparser::cancelCalculation(invalid); });
+            cancelThrows<std::invalid_argument>( [&] { return mXparser::resetCalculationCancellation(invalid); });
+            cancelThrows<std::invalid_argument>( [&] { return mXparser::isCalculationCancelled(invalid); });
+            cancelThrows<std::invalid_argument>( [&] { return mXparser::reserveCancellationTokenId(invalid); });
+            cancelThrows<std::invalid_argument>( [&] { return mXparser::releaseCancellationTokenId(invalid); });
+        }
+        cancelThrows<std::invalid_argument>( [&] { return mXparser::reserveCancellationTokenId(0); });
+        cancelThrows<std::invalid_argument>( [&] { return mXparser::releaseCancellationTokenId(0); });
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0425", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: global OR domain, sticky state and default options";
+        TestCommonTools::consolePrintTestApiStart(425, testDescr);
+        { CancelDomain a; CancelDomain b;
+            cancelFalse(mXparser::isCalculationCancelled(a.id));
+            mXparser::cancelCalculation(a.id);
+            cancelTrue(mXparser::isCalculationCancelled(a.id));
+            cancelFalse(mXparser::isCalculationCancelled(b.id));
+            cancelFalse(mXparser::isCurrentCalculationCancelled());
+            mXparser::cancelCurrentCalculation();
+            cancelTrue(mXparser::isCalculationCancelled(b.id));
+            for(int invalid:std::vector<int>{-1, 32768, (std::numeric_limits<int>::min)(), (std::numeric_limits<int>::max)()})
+                cancelThrows<std::invalid_argument>( [&] { return mXparser::isCalculationCancelled(invalid); });
+            mXparser::setDefaultOptions();
+            cancelFalse(mXparser::isCalculationCancelled(b.id));
+            cancelTrue(mXparser::isCalculationCancelled(a.id));
+            cancelFalse(mXparser::reserveCancellationTokenId(a.id));
+            cancelNaN(new_Expression("sum(i,1,10,i)")->calculateWithCancel(a.id));
+            cancelTrue(mXparser::isCalculationCancelled(a.id));
+            mXparser::resetCalculationCancellation(a.id);
+            cancelFalse(mXparser::isCalculationCancelled(a.id));
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0426", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: cross-thread publication and adjacent atomic bits";
+        TestCommonTools::consolePrintTestApiStart(426, testDescr);
+        std::vector<int> ids={1,2,3,4,31,32,63,64,32767};
+        for(int id:ids) cancelTrue(mXparser::reserveCancellationTokenId(id));
+        CancelFinally release{[&] { for(int id:ids)mXparser::releaseCancellationTokenId(id); }};
+        std::vector<std::future<void>> work;CancelLatch start;
+        for(int id:ids)work.push_back(std::async(std::launch::async,[&,id] {cancelAwait(start);mXparser::cancelCalculation(id);}));
+        start.countDown();for(auto &f:work)cancelResult(f);
+        for(int id:ids)cancelTrue(mXparser::isCalculationCancelled(id));work.clear();
+        for(int id:ids)work.push_back(std::async(std::launch::async,[id] {mXparser::resetCalculationCancellation(id);}));
+        for(auto &f:work)cancelResult(f);for(int id:ids)cancelFalse(mXparser::isCalculationCancelled(id));
+        CancelLatch listening;
+        auto consumer=std::async(std::launch::async,[&] {listening.countDown();auto deadline=std::chrono::steady_clock::now()+std::chrono::seconds(10);while(!mXparser::isCalculationCancelled(31))if(std::chrono::steady_clock::now()>deadline)return false;return true;});
+        cancelAwait(listening);mXparser::cancelCalculation(31);cancelTrue(cancelResult(consumer));
+        for(bool legacy:std::vector<bool>{true,false}) {
+            CancelLatch globalListening;
+            auto globalConsumer=std::async(std::launch::async,[&] {globalListening.countDown();auto deadline=std::chrono::steady_clock::now()+std::chrono::seconds(10);while(!mXparser::isCurrentCalculationCancelled())if(std::chrono::steady_clock::now()>deadline)return false;return mXparser::isCalculationCancelled(0)&&mXparser::isCalculationCancelled(32);});
+            cancelAwait(globalListening);if(legacy)mXparser::cancelCurrentCalculation();else mXparser::cancelCalculation(0);
+            cancelTrue(cancelResult(globalConsumer));if(legacy)mXparser::resetCalculationCancellation(0);else mXparser::resetCancelCurrentCalculationFlag();
+            cancelFalse(mXparser::isCurrentCalculationCancelled());cancelFalse(mXparser::isCalculationCancelled(0));cancelFalse(mXparser::isCalculationCancelled(32));cancelTrue(mXparser::isCalculationCancelled(31));
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0427", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: reserve/acquire clear only successfully claimed signals";
+        TestCommonTools::consolePrintTestApiStart(427, testDescr);
+        int id = 31;
+        mXparser::cancelCalculation(id);
+        cancelTrue(mXparser::reserveCancellationTokenId(id));
+        { CancelFinally finally1{[&] { mXparser::releaseCancellationTokenId(id); }};
+            cancelFalse(mXparser::isCalculationCancelled(id));
+            mXparser::cancelCalculation(id);
+            cancelFalse(mXparser::reserveCancellationTokenId(id));
+            cancelTrue(mXparser::isCalculationCancelled(id));
+        }
+        for (int i=1;i<=32767;i++) mXparser::cancelCalculation(i);
+        { CancelFinally finally2{[&] { for (int i=1;i<=32767;i++) mXparser::resetCalculationCancellation(i); }}; CancelDomain acquired;
+            cancelFalse(mXparser::isCalculationCancelled(acquired.id));
+            cancelTrue(mXparser::isCalculationCancelled(acquired.id == 1 ? 2 : 1));
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0428", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: exhaustion, reuse and simultaneous unique acquire";
+        TestCommonTools::consolePrintTestApiStart(428, testDescr);
+        std::set<int> reserved;
+        {
+            CancelFinally cleanup{[&] {for(int id:reserved)mXparser::releaseCancellationTokenId(id);}};
+            for(int i=1;i<=32767;i++)cancelTrue(reserved.insert(mXparser::acquireCancellationTokenId()).second);
+            cancelThrows<std::logic_error>([&] {mXparser::acquireCancellationTokenId();});
+            mXparser::releaseCancellationTokenId(32);reserved.erase(32);
+            cancelEquals(32,mXparser::acquireCancellationTokenId());reserved.insert(32);
+        }
+        reserved.clear();CancelLatch start;std::vector<std::future<int>> futures;
+        CancelFinally cleanup{[&] {start.countDown();for(auto &f:futures)if(f.valid())reserved.insert(cancelResult(f));for(int id:reserved)mXparser::releaseCancellationTokenId(id);}};
+        for(int i=0;i<8;i++)futures.push_back(std::async(std::launch::async,[&] {cancelAwait(start);return mXparser::acquireCancellationTokenId();}));
+        start.countDown();for(auto &f:futures)cancelTrue(reserved.insert(cancelResult(f)).second);
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0429", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: release order, neighbours and unreserved rejection";
+        TestCommonTools::consolePrintTestApiStart(429, testDescr);
+        cancelTrue(mXparser::reserveCancellationTokenId(31));
+        cancelTrue(mXparser::reserveCancellationTokenId(30));
+        { CancelFinally finally3{[&] { mXparser::releaseCancellationTokenId(31); mXparser::releaseCancellationTokenId(30); }};
+            mXparser::cancelCalculation(31); mXparser::cancelCalculation(30);
+            mXparser::releaseCancellationTokenId(31);
+            cancelTrue(mXparser::reserveCancellationTokenId(31));
+            cancelFalse(mXparser::isCalculationCancelled(31));
+            cancelTrue(mXparser::isCalculationCancelled(30));
+        }
+        mXparser::cancelCalculation(31);
+        cancelThrows<std::logic_error>( [&] { return mXparser::releaseCancellationTokenId(31); });
+        cancelTrue(mXparser::isCalculationCancelled(31));
+        mXparser::resetCalculationCancellation(31);
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0430", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: two workers with independent domains";
+        TestCommonTools::consolePrintTestApiStart(430, testDescr);
+        { CancelDomain a; CancelDomain b;
+            std::vector<double> values=cancelPair(a.id,b.id,false);
+            cancelNaN(values[0]);cancelEquals(5050,values[1]);
+            cancelFalse(mXparser::isCurrentCalculationCancelled());
+            cancelFalse(mXparser::isCalculationCancelled(b.id));
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0431", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: a separate controller globally cancels both workers";
+        TestCommonTools::consolePrintTestApiStart(431, testDescr);
+        { CancelDomain a; CancelDomain b;
+            std::vector<double> values=cancelPair(a.id,b.id,true);cancelNaN(values[0]);cancelNaN(values[1]);
+            cancelFalse(mXparser::isCalculationCancelled(a.id));
+            cancelFalse(mXparser::isCalculationCancelled(b.id));
+            cancelEquals(55,new_Expression("sum(i,1,10,i)")->calculateWithCancel(a.id));
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0432", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: legacy and token calculations side by side";
+        TestCommonTools::consolePrintTestApiStart(432, testDescr);
+        { CancelDomain a;
+            std::vector<double> values=cancelPair(-1,a.id,false);cancelEquals(5050,values[0]);cancelNaN(values[1]);
+            mXparser::resetCalculationCancellation(a.id);
+            values=cancelPair(-1,a.id,true);cancelNaN(values[0]);cancelNaN(values[1]);
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0433", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: deliberate shared ID group and explicit reset";
+        TestCommonTools::consolePrintTestApiStart(433, testDescr);
+        { CancelDomain a;
+            std::vector<double> values=cancelPair(a.id,a.id,false);cancelNaN(values[0]);cancelNaN(values[1]);
+            cancelTrue(mXparser::isCalculationCancelled(a.id));mXparser::resetCalculationCancellation(a.id);
+            cancelEquals(5050,new_Expression("sum(i,1,100,i)")->calculateWithCancel(a.id));
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0434", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: pre-cancel first reduction and reset";
+        TestCommonTools::consolePrintTestApiStart(434, testDescr);
+        { CancelDomain a;
+            mXparser::cancelCalculation(a.id);cancelNaN(new_Expression("sum(i,1,10,i)")->calculateWithCancel(a.id));
+            mXparser::resetCalculationCancellation(a.id);cancelEquals(55,new_Expression("sum(i,1,10,i)")->calculateWithCancel(a.id));
+            mXparser::cancelCurrentCalculation();cancelNaN(new_Expression("sum(i,1,10,i)")->calculate());
+            mXparser::resetCancelCurrentCalculationFlag();
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0435", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: cached literal, free and recursive base fast returns";
+        TestCommonTools::consolePrintTestApiStart(435, testDescr);
+        { CancelDomain a;
+            ExpressionPtr e=new_Expression("7");e->calculateWithCancel(a.id);e->calculateWithCancel(a.id);
+            RecursiveArgumentPtr r=new_RecursiveArgument("r(n)=n");r->addBaseCase(2,7);
+            mXparser::cancelCalculation(a.id);
+            cancelEquals(7,e->calculateWithCancel(a.id));
+            cancelEquals(7,new_Argument("a",7)->getArgumentValueWithCancel(a.id));
+            cancelEquals(7,r->getArgumentValueWithCancel(2.0,a.id));
+            cancelTrue(mXparser::isCalculationCancelled(a.id));
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0436", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: replay propagates existing negative evaluator result";
+        TestCommonTools::consolePrintTestApiStart(436, testDescr);
+        { CancelDomain a;
+            for(int id:std::vector<int>{a.id,0}) {
+                auto s=std::make_shared<CancelGateState>();s->action=[&] { return mXparser::cancelCalculation(id); };
+                ExpressionPtr e=new_Expression("gate(1)+2",cancelFunction("gate",s));
+                cancelEquals(3,e->calculateWithCancel(id));
+                s->armed.set(true);cancelNaN(e->calculateWithCancel(id));
+                mXparser::resetCalculationCancellation(id);cancelEquals(3,e->calculateWithCancel(id));
+            }
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0437", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: active frame restored after result, cancellation and exception";
+        TestCommonTools::consolePrintTestApiStart(437, testDescr);
+        { CancelDomain a; CancelDomain b;
+            auto s=std::make_shared<CancelGateState>();ExpressionPtr e=new_Expression("gate(1)+2",cancelFunction("gate",s));
+            cancelEquals(3,e->calculateWithCancel(a.id));cancelEquals(0,cancelFrame(e));
+            s->action=[&] { return mXparser::cancelCalculation(a.id); };s->armed.set(true);cancelNaN(e->calculateWithCancel(a.id));
+            cancelEquals(0,cancelFrame(e));
+            s->action=[&] {throw std::logic_error("test callback");};s->armed.set(true);
+            cancelNaN(e->calculateWithCancel(b.id));cancelEquals(0,cancelFrame(e));
+            cancelEquals(3,e->calculateWithCancel(b.id));
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0438", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: nested independent expression retains its own ID on the same worker";
+        TestCommonTools::consolePrintTestApiStart(438, testDescr);
+        { CancelDomain a; CancelDomain b;
+            auto s=std::make_shared<CancelGateState>();ExpressionPtr inner=new_Expression("sum(i,1,10,i)");
+            s->action=[&] {mXparser::cancelCalculation(a.id);cancelEquals(55,inner->calculateWithCancel(b.id));};
+            s->armed.set(true);ExpressionPtr outer=new_Expression("gate(1)+2",cancelFunction("gate",s));
+            cancelNaN(outer->calculateWithCancel(a.id));cancelEquals(0,cancelFrame(inner));cancelEquals(0,cancelFrame(outer));
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0439", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: active ID excluded from clones and trusted serialization";
+        TestCommonTools::consolePrintTestApiStart(439, testDescr);
+        { CancelDomain a; CancelDomain b;
+            ExpressionPtr e=new_Expression("2+2");CancellationTestAccess::frame(e,a.id);
+            ExpressionPtr shallow=CancellationTestAccess::shallow(e), independent=e->cloneForThreadSafe();
+            cancelEquals(0,cancelFrame(shallow));cancelEquals(0,cancelFrame(independent));
+            cancelEquals(4,independent->calculateWithCancel(b.id));
+            SerializationUtils::enableBinarySerializationIamAwareOfSecurityRisks();
+            { CancelFinally finally4{[&] {SerializationUtils::disableBinarySerialization();CancellationTestAccess::frame(e,0);}};
+                ExpressionPtr restored=SerializationUtils::deserializeFromBytes<Expression>(SerializationUtils::serializeToBytes(e));
+                cancelNotNull(restored);cancelEquals(0,cancelFrame(restored));cancelEquals(4,restored->calculateWithCancel(b.id));
+            }
+            auto s=std::make_shared<CancelGateState>();Ptr<CancelGate> original=std::make_shared<CancelGate>(s);Ptr<CancelGate> copied=std::static_pointer_cast<CancelGate>(original->clone());
+            cancelEquals(original->state,copied->state);s->action=[&] {};s->armed.set(true);original->calculate();copied->calculate();
+            cancelEquals(0,s->entered.getCount());cancelFalse(s->armed.get());
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0440", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: dependent Argument and runtime Function propagation with trace";
+        TestCommonTools::consolePrintTestApiStart(440, testDescr);
+        { CancelDomain a;
+            auto s=std::make_shared<CancelGateState>();FunctionPtr gate=cancelFunction("gate",s);
+            ArgumentPtr x=new_Argument("x=sum(i,1,100,gate(i))",gate);FunctionPtr f=new_Function("f(t)=x+t");f->addDefinitions(x);
+            cancelEquals(5050,x->getArgumentValueWithCancel(a.id));cancelEquals(5051,f->calculateWithCancel(cancelList<double>({1}),a.id));
+            cancelNaN(cancelDuring([&] { return x->getArgumentValueWithCancel(new_CalcStepsRegister(),a.id); },s,a.id));
+            mXparser::resetCalculationCancellation(a.id);
+            auto t=std::make_shared<CancelGateState>();ArgumentPtr y=new_Argument("y=sum(i,1,100,gate(i))",cancelFunction("gate",t));
+            FunctionPtr g=new_Function("g(t)=y+t");g->addDefinitions(y);g->setArgumentValue(0,1);
+            cancelNaN(cancelDuring([&] { return g->calculateWithCancel(new_CalcStepsRegister(),a.id); },t,a.id));
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0441", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: all typed Function entries and dependent argument arrays";
+        TestCommonTools::consolePrintTestApiStart(441, testDescr);
+        { CancelDomain a;
+            for(int variant=0;variant<4;variant++) {
+                auto s=std::make_shared<CancelGateState>();FunctionPtr f=new_Function("f(x)=sum(i,1,x,gate(i))",cancelFunction("gate",s));f->setArgumentValue(0,100);
+                const int v=variant;
+                std::function<double()> call=[&] { return v==0?f->calculateWithCancel(cancelList<double>({100}),a.id):v==1?f->calculateWithCancel(cancelList<ArgumentPtr>({new_Argument("x",100)}),a.id):v==2?f->calculateWithCancel(new_CalcStepsRegister(),a.id):f->calculateWithCancel(a.id); };
+                cancelEquals(5050,call());cancelNaN(cancelDuring(call,s,a.id));mXparser::resetCalculationCancellation(a.id);
+            }
+            auto s=std::make_shared<CancelGateState>();ArgumentPtr dependent=new_Argument("x=sum(i,1,100,gate(i))",cancelFunction("gate",s));
+            FunctionPtr f=new_Function("f(x)=x");cancelNaN(cancelDuring([&] { return f->calculateWithCancel(cancelList<ArgumentPtr>({dependent}),a.id); },s,a.id));
+            cancelNaN(f->calculateWithCancel(ListPtr<double>{},a.id));cancelNaN(f->calculateWithCancel(new_List<double>(),a.id));
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0442", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: recursive Argument and Function including cloned callback rendezvous";
+        TestCommonTools::consolePrintTestApiStart(442, testDescr);
+        { CancelDomain a;
+            auto s=std::make_shared<CancelGateState>();FunctionPtr gate=cancelFunction("gate",s);
+            RecursiveArgumentPtr r=new_RecursiveArgument("r(n)=r(n-1)+gate(n)",gate);r->addBaseCase(0,0);
+            cancelEquals(55,r->getArgumentValueWithCancel(10.0,a.id));
+            r=new_RecursiveArgument("r(n)=r(n-1)+gate(n)",gate);r->addBaseCase(0,0);RecursiveArgumentPtr cold=r;
+            cancelNaN(cancelDuring([&] { return cold->getArgumentValueWithCancel(10.0,a.id); },s,a.id));mXparser::resetCalculationCancellation(a.id);
+            auto t=std::make_shared<CancelGateState>();FunctionPtr recursive=new_Function("f(n)=if(n<=0,0,f(n-1)+gate(n))",cancelFunction("gate",t));
+            cancelEquals(55,recursive->calculateWithCancel(cancelList<double>({10}),a.id));
+            cancelNaN(cancelDuring([&] { return recursive->calculateWithCancel(cancelList<double>({10}),a.id); },t,a.id));
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0443", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: IF/IFF preserve lazy inactive branches";
+        TestCommonTools::consolePrintTestApiStart(443, testDescr);
+        { CancelDomain a;
+            for(std::string text:std::vector<std::string>{"if(1,sum(i,1,10,gate(i)),other(99))","iff(1,sum(i,1,10,gate(i)),1,other(99))"}) {
+                auto s=std::make_shared<CancelGateState>();auto other=std::make_shared<CancelGateState>();
+                ExpressionPtr e=new_Expression(text,cancelFunction("gate",s),cancelFunction("other",other));
+                cancelEquals(55,e->calculateWithCancel(a.id));cancelEquals(0,other->calls.get());
+                cancelNaN(cancelDuring([&] { return e->calculateWithCancel(a.id); },s,a.id));cancelEquals(0,other->calls.get());mXparser::resetCalculationCancellation(a.id);
+            }
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0444", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: iteration, sample variance and range parameter expressions";
+        TestCommonTools::consolePrintTestApiStart(444, testDescr);
+        { CancelDomain a;
+            std::vector<std::string> operators={"sum","prod","avg","vari","stdi"};std::vector<double> expected={15,120,3,2.5,std::sqrt(2.5)};
+            for(int i=0;i<operators.size();i++) {
+                auto s=std::make_shared<CancelGateState>();const std::string expressionText=operators[i]+"(i,1,5,gate(i))";ExpressionPtr e=new_Expression(expressionText,cancelFunction("gate",s));
+                cancelEquals(expected[i],e->calculateWithCancel(a.id),1e-12);
+                double cancelledValue=cancelDuring([&] { return e->calculateWithCancel(a.id); },s,a.id);
+                cancelTrue(Double::isNaN(cancelledValue),operators[i]+" returned "+std::to_string(cancelledValue));
+                mXparser::resetCalculationCancellation(a.id);
+            }
+            for(std::string range:std::vector<std::string>{"sum(i,gate(1),10,i)","sum(i,1,gate(10),i)","sum(i,1,10,i,gate(1))"}) {
+                auto s=std::make_shared<CancelGateState>();ExpressionPtr e=new_Expression(range,cancelFunction("gate",s));
+                cancelNaN(cancelDuring([&] { return e->calculateWithCancel(a.id); },s,a.id));mXparser::resetCalculationCancellation(a.id);
+            }
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0445", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: calculus helpers and all expression-valued calculus parameters";
+        TestCommonTools::consolePrintTestApiStart(445, testDescr);
+        { CancelDomain a;
+            for(int variant=0;variant<4;variant++) {
+                auto s=std::make_shared<CancelGateState>();ArgumentPtr x=new_Argument("x",0.5);
+                ExpressionPtr f=new_Expression(variant==2?"gate(x)-0.5":variant==3?"gate(x)^2":"gate(x)",x,cancelFunction("gate",s));
+                const int v=variant;
+                std::function<double()> call=[&] { return v==0?Calculus::derivativeWithCancel(f,x,0.5,Calculus::GENERAL_DERIVATIVE,1e-8,20,a.id):v==1?Calculus::integralTrapezoidWithCancel(f,x,0,1,1e-8,20,a.id):v==2?Calculus::solveBrentWithCancel(f,x,0,1,1e-8,20,a.id):Calculus::derivativeNthWithCancel(f,2,x,0.5,Calculus::RIGHT_DERIVATIVE,1e-8,20,a.id); };
+                cancelEquals(std::vector<double>{1,0.5,0.5,2}[variant],call(),1e-5);
+                if (variant == 2) s->skipCalls = 2; // Reach Brent's iteration, past its endpoint/early-return paths.
+                cancelNaN(cancelDuring(call,s,a.id));mXparser::resetCalculationCancellation(a.id);
+            }
+            for(std::string text:std::vector<std::string>{"der(x,x,gate(0.5))","der(x,x,0.5,gate(0.00000001),20)","der(x,x,0.5,0.00000001,gate(20))","dern(x^2,gate(2),x)","int(x,x,gate(0),1)","solve(x-0.5,x,0,gate(1))","diff(x,x,gate(1))"}) {
+                auto s=std::make_shared<CancelGateState>();ExpressionPtr e=new_Expression(text,new_Argument("x",0.5),cancelFunction("gate",s));
+                cancelTrue(e->checkSyntax(),e->getErrorMessage());
+                double cancelledValue=cancelDuring([&] { return e->calculateWithCancel(a.id); },s,a.id);
+                if (text.rfind("solve(",0)==0) {
+                    // A cancelled bound can leave Brent with NaN endpoint values, skip its
+                    // controlled loop and return b. Preserve this existing global behaviour.
+                    cancelEquals(1,cancelledValue);
+                    cancelTrue(mXparser::isCalculationCancelled(a.id));
+                    auto legacyState=std::make_shared<CancelGateState>();
+                    ExpressionPtr legacy=new_Expression(text,new_Argument("x",0.5),cancelFunction("gate",legacyState));
+                    { CancelFinally finally5{[&] { mXparser::resetCancelCurrentCalculationFlag(); }}; cancelEquals(cancelledValue,cancelDuring([&] { return legacy->calculate(); },legacyState,0)); }
+                } else cancelTrue(Double::isNaN(cancelledValue),text+" returned "+std::to_string(cancelledValue));
+                mXparser::resetCalculationCancellation(a.id);
+            }
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0446", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: foreign expression syntax frame and base conversion";
+        TestCommonTools::consolePrintTestApiStart(446, testDescr);
+        { CancelDomain a;
+
+            ExpressionPtr foreign=new_Expression("b2.101");cancelTrue(CancellationTestAccess::syntax(foreign,a.id));cancelEquals(0,cancelFrame(foreign));
+            ArgumentPtr arg=new_Argument("a=b2.101");FunctionPtr fun=new_Function("f(x)=x+b2.101");RecursiveArgumentPtr recursive=new_RecursiveArgument("r(n)=n+b2.101");
+            ExpressionPtr e=new_Expression("a+f(1)+r(1)",arg,fun,recursive);cancelEquals(17,e->calculateWithCancel(a.id));
+            mXparser::cancelCalculation(a.id);ExpressionPtr pending=new_Expression("a+f(1)+r(1)",new_Argument("a=b2.101"),new_Function("f(x)=x+b2.101"),new_RecursiveArgument("r(n)=n+b2.101"));
+            cancelNaN(pending->calculateWithCancel(a.id));cancelEquals(0,cancelFrame(pending));
+            mXparser::resetCalculationCancellation(a.id);cancelTrue(new_Expression("b2.101")->checkSyntax());
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0447", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: getFunctionValues forwards ID without adding count-loop polls";
+        TestCommonTools::consolePrintTestApiStart(447, testDescr);
+        { CancelDomain a;
+            ArgumentPtr x=new_Argument("x");ExpressionPtr f=new_Expression("gate(x)+1",x,cancelFunction("gate",std::make_shared<CancelGateState>()));
+            cancelArrayEquals(cancelArray<double>({1,2,3}),MathFunctions::getFunctionValuesWithCancel(f,x,0,2,1,a.id));
+            cancelArrayEquals(cancelArray<double>({3,2,1}),MathFunctions::getFunctionValuesWithCancel(f,x,2,0,-1,a.id));
+            cancelArrayEquals(cancelArray<double>({2}),MathFunctions::getFunctionValuesWithCancel(f,x,1,1,1,a.id));
+            cancelNull(MathFunctions::getFunctionValuesWithCancel(f,x,0,2,0,a.id));
+            mXparser::cancelCalculation(a.id);ArrayPtr<double> samples=MathFunctions::getFunctionValuesWithCancel(f,x,0,2,1,a.id);
+            cancelEquals(3,samples->length);for(double sample:*samples)cancelNaN(sample);
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0448", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: NumberTheory rounding modes, sorting, bases and typed factor sentinels";
+        TestCommonTools::consolePrintTestApiStart(448, testDescr);
+        { CancelDomain a;
+            for(bool canonical:std::vector<bool>{true,false}) {
+                if(canonical)mXparser::enableCanonicalRounding();else mXparser::disableCanonicalRounding();
+                cancelEquals(6,NumberTheory::sumWithCancel(cancelArray<double>({1,2,3}),a.id));
+                mXparser::cancelCalculation(a.id);cancelNaN(NumberTheory::sumWithCancel(cancelArray<double>({1,2,3}),a.id));mXparser::resetCalculationCancellation(a.id);
+            }
+            cancelArrayEquals(cancelArray<Long>({2,2,3}),NumberTheory::primeFactorsWithCancel(12LL,a.id));
+            cancelArrayEquals(cancelArray<double>({2,2,3}),NumberTheory::primeFactorsWithCancel(12.0,a.id));
+            auto sorted=cancelArray<double>({3,1,2});cancelArrayEquals(cancelArray<int>({1,2,0}),NumberTheory::sortAscWithCancel(sorted,a.id));cancelArrayEquals(cancelArray<double>({1,2,3}),sorted);
+            cancelEquals(5,NumberTheory::convOthBase2DecimalWithCancel(2.0,cancelArray<double>({1,0,1}),a.id));
+            mXparser::cancelCalculation(a.id);cancelEquals(0,NumberTheory::primeFactorsWithCancel(12LL,a.id)->length);cancelEquals(0,NumberTheory::primeFactorsWithCancel(12.0,a.id)->length);
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0449", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: mathematical families, exact integral sentinels and lcm exception";
+        TestCommonTools::consolePrintTestApiStart(449, testDescr);
+        { CancelDomain a;
+            cancelEquals(3628800,MathFunctions::factorialWithCancel(10,a.id));
+            cancelEquals(MathFunctions::binomCoeff(30,15LL),MathFunctions::binomCoeffWithCancel(30,15LL,a.id));
+            cancelEquals(MathFunctions::harmonicNumber(10),MathFunctions::ordinaryHarmonicNumberWithCancel(10,a.id));
+            cancelEquals(MathFunctions::harmonicNumber(2.0,10),MathFunctions::generalizedHarmonicNumberWithCancel(2.0,10,a.id));
+            cancelEquals(MathFunctions::eulerNumber(10,4),MathFunctions::eulerNumberWithCancel(10,4,a.id));
+            cancelEquals(MathFunctions::Stirling1Number(10,4),MathFunctions::Stirling1NumberWithCancel(10,4,a.id));
+            cancelEquals(MathFunctions::Stirling2Number(10,4),MathFunctions::Stirling2NumberWithCancel(10,4,a.id));
+            cancelEquals(6765,MathFunctions::fibonacciNumberWithCancel(20,a.id));cancelEquals(15127,MathFunctions::lucasNumberWithCancel(20,a.id));
+            cancelEquals(1,BooleanAlgebra::andVariadicWithCancel(cancelArray<double>({1,1}),a.id));cancelEquals(2.5,Statistics::varWithCancel(cancelArray<double>({1,2,3,4,5}),a.id));
+            cancelEquals(SpecialFunctions::exponentialIntegralEi(2),SpecialFunctions::exponentialIntegralEiWithCancel(2,a.id));
+            cancelEquals(6,NumberTheory::gcdWithCancel(12LL,18LL,a.id));cancelEquals(6,NumberTheory::gcdWithCancel(cancelArray<Long>({12,18,24}),a.id));
+            cancelEquals(72,NumberTheory::lcmWithCancel(cancelArray<Long>({12,18,24}),a.id));cancelEquals(4,NumberTheory::primeCountWithCancel(10LL,a.id));
+            cancelEquals(7,NumberTheory::numberOfDigitsWithCancel(123LL,2LL,a.id));cancelEquals(2,NumberTheory::digitAtPositionWithCancel(123LL,2,10,a.id));
+            for(int id:std::vector<int>{a.id,0}) {
+                mXparser::cancelCalculation(id);
+                cancelEquals(0LL,NumberTheory::gcdWithCancel(12LL,18LL,id));cancelEquals(0LL,NumberTheory::gcdWithCancel(cancelArray<Long>({12,18,24}),id));
+                cancelEquals(0LL,NumberTheory::lcmWithCancel(cancelArray<Long>({12,18,24}),id));cancelEquals(0LL,NumberTheory::primeCountWithCancel(10LL,id));
+                cancelEquals(0LL,NumberTheory::numberOfDigitsWithCancel(123LL,2LL,id));cancelEquals(0,NumberTheory::digitAtPositionWithCancel(123LL,2,10,id));
+                cancelThrows<std::invalid_argument>([&] { return NumberTheory::lcmWithCancel(12LL,18LL,id); });
+                if(id==0)cancelThrows<std::invalid_argument>([&] { return NumberTheory::lcm(12LL,18LL); });
+                cancelNaN(MathFunctions::factorialWithCancel(10,id));cancelNaN(MathFunctions::eulerNumberWithCancel(10,4,id));cancelNaN(MathFunctions::Stirling1NumberWithCancel(10,4,id));cancelNaN(MathFunctions::Stirling2NumberWithCancel(10,4,id));
+                cancelNaN(MathFunctions::fibonacciNumberWithCancel(20,id));cancelNaN(MathFunctions::lucasNumberWithCancel(20,id));cancelNaN(MathFunctions::ordinaryHarmonicNumberWithCancel(10,id));cancelNaN(MathFunctions::generalizedHarmonicNumberWithCancel(2.0,10,id));
+                cancelNaN(BooleanAlgebra::andVariadicWithCancel(cancelArray<double>({1,1}),id));cancelNaN(Statistics::varWithCancel(cancelArray<double>({1,2,3}),id));cancelNaN(SpecialFunctions::exponentialIntegralEiWithCancel(2,id));
+                cancelNaN(new_Expression("lcm(12,18)")->calculateWithCancel(id));mXparser::resetCalculationCancellation(id);
+            }
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0450", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: rejection sampling retains RNG identity and draw order";
+        TestCommonTools::consolePrintTestApiStart(450, testDescr);
+        { CancelDomain a;
+            CancelCounter calls;
+            RandomPtr random=std::make_shared<CancelRandom>(a.id,calls);
+            cancelNaN(ProbabilityDistributions::rndNormalWithCancel(0,1,random,a.id));cancelEquals(2,calls.get());
+            cancelEquals(3,ProbabilityDistributions::rndNormalWithCancel(3,0,random,a.id));cancelEquals(2,calls.get());
+            mXparser::resetCalculationCancellation(a.id);
+            cancelEquals(ProbabilityDistributions::rndNormal(0,1,new_Random(123)),ProbabilityDistributions::rndNormalWithCancel(0,1,new_Random(123),a.id));
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0451", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: syntax errors, corrected definitions and frame restoration";
+        TestCommonTools::consolePrintTestApiStart(451, testDescr);
+        mXparser::disableAttemptToFixExpStrMode(); // Keep the intended malformed input malformed in both APIs.
+        { CancelDomain a;
+            ExpressionPtr legacy=new_Expression("1+"),token=new_Expression("1+");cancelNaN(legacy->calculate());cancelNaN(token->calculateWithCancel(a.id));
+            cancelEquals(legacy->getErrorMessage(),token->getErrorMessage());cancelEquals(0,cancelFrame(token));
+            ArgumentPtr bad=new_Argument("a=1+");ExpressionPtr e=new_Expression("a",bad);cancelNaN(e->calculateWithCancel(a.id));
+            bad->setArgumentExpressionString("2+2");cancelEquals(4,e->calculateWithCancel(a.id));
+            token->setExpressionString("2+2");cancelTrue(token->checkSyntax());cancelEquals(4,token->calculateWithCancel(a.id));
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0452", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: exact nine legacy dispatch boundaries and positive private cores";
+        TestCommonTools::consolePrintTestApiStart(452, testDescr);
+        ExpressionPtr e=new_Expression("2+2");ArgumentPtr a=new_Argument("a=2+2");
+        FunctionPtr f=new_Function("f(x)=x*x");f->setArgumentValue(0,2);RecursiveArgumentPtr r=new_RecursiveArgument("r(n)=n+100");
+        std::vector<double> actual={e->calculateWithCancel(0),e->calculateWithCancel(CalcStepsRegister::Null,0),a->getArgumentValueWithCancel(0),a->getArgumentValueWithCancel(CalcStepsRegister::Null,0),f->calculateWithCancel(0),f->calculateWithCancel(CalcStepsRegister::Null,0),f->calculateWithCancel(cancelList<double>({2}),0),f->calculateWithCancel(cancelList<ArgumentPtr>({new_Argument("x",2)}),0),r->getArgumentValueWithCancel(2.0,0)};
+        cancelArrayEquals(std::vector<double>{4,4,4,4,4,4,4,4,102},actual);
+        { CancelDomain id;
+            cancelEquals(4,e->calculateWithCancel(id.id));cancelEquals(4,e->calculateWithCancel(CalcStepsRegister::Null,id.id));
+            cancelEquals(4,a->getArgumentValueWithCancel(id.id));cancelEquals(4,a->getArgumentValueWithCancel(CalcStepsRegister::Null,id.id));
+            cancelEquals(4,f->calculateWithCancel(id.id));cancelEquals(4,f->calculateWithCancel(CalcStepsRegister::Null,id.id));
+            cancelEquals(4,f->calculateWithCancel(cancelList<double>({2}),id.id));cancelEquals(4,f->calculateWithCancel(cancelList<ArgumentPtr>({new_Argument("x",2)}),id.id));
+            cancelEquals(102,r->getArgumentValueWithCancel(2.0,id.id));
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0453", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: explicit mathematical names and inherited no-index RecursiveArgument getter";
+        TestCommonTools::consolePrintTestApiStart(453, testDescr);
+        { CancelDomain a;
+            cancelEquals(MathFunctions::harmonicNumber(2.0,3),MathFunctions::generalizedHarmonicNumberWithCancel(2.0,3,a.id));
+            cancelEquals(MathFunctions::harmonicNumber(2),MathFunctions::ordinaryHarmonicNumberWithCancel(2,a.id));
+            cancelEquals(6,NumberTheory::sum(1,2,3));cancelEquals(6,NumberTheory::sumWithCancel(cancelArray<double>({1,2,3}),a.id));
+            cancelEquals(5,NumberTheory::convOthBase2DecimalWithCancel("101",2,a.id));
+            cancelEquals(NumberTheory::convDecimal2OthBase(5,2),NumberTheory::formatNumberInBaseWithCancel(5,2,a.id));
+            cancelEquals(NumberTheory::digitAtPosition(123.0,2.0),NumberTheory::decimalDigitAtPositionWithCancel(123.0,2,a.id));
+            ArgumentPtr n=new_Argument("n",2);RecursiveArgumentPtr r=new_RecursiveArgument("r","n+100",n);r->addBaseCase(2,999);
+            cancelEquals(102,r->getArgumentValueWithCancel(a.id));cancelEquals(999,r->getArgumentValueWithCancel(2.0,a.id));
+            n->setArgumentValue(5);cancelEquals(105,r->getArgumentValueWithCancel(a.id));cancelEquals(105,r->getArgumentValueWithCancel(5.0,a.id));
+            n->setArgumentValue(8);cancelEquals(108,r->getArgumentValueWithCancel(a.id));cancelEquals(105,r->getArgumentValueWithCancel(5.0,a.id));
+            cancelEquals(108,r->getArgumentValueWithCancel(CalcStepsRegister::Null,a.id));
+            // C++ implicit conversion:2.5 selects inherited ID2, never the indexed getter.
+            cancelEquals(108,r->getArgumentValueWithCancel(2.5));
+            cancelEquals(999,r->getArgumentValueWithCancel(2.0,a.id));
+        }
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+
+    TEST_CASE("testApi0454", "[API]") {
+        TestCommonTools::testApiSettingsInit();
+        bool testResult = false;
+        std::string testDescr = "cancellation: repeated pool ownership, cancellation, join and reuse";
+        TestCommonTools::consolePrintTestApiStart(454, testDescr);
+        for(int round=0;round<8;round++) {
+            { CancelDomain a; CancelDomain b;
+                std::vector<double> values=cancelPair(a.id,b.id,false);cancelNaN(values[0]);cancelEquals(5050,values[1]);
+                mXparser::resetCalculationCancellation(a.id);cancelEquals(55,new_Expression("sum(i,1,10,i)")->calculateWithCancel(a.id));
+            }
+        }
+        int reused=mXparser::acquireCancellationTokenId();mXparser::releaseCancellationTokenId(reused);
+        cancelTrue(mXparser::reserveCancellationTokenId(reused));mXparser::releaseCancellationTokenId(reused);
+        testResult = true;
+        TestCommonTools::consolePrintTestApiEnd(testResult);
+        cancelTrue(testResult);
+    }
+

@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.cpp        6.1.0    2024-10-06
+ * @(#)MathFunctions.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -383,6 +383,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::bellNumber(int n) {
+		return bellNumberWithCancel(n, 0);
+	}
+
+	API_VISIBLE double MathFunctions::bellNumberWithCancel(int n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		double result = Double::NaN;
 		if (n > 1) {
 			n -= 1;
@@ -396,7 +402,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 					(*bellTriangle)(r, k + 1) = (*bellTriangle)(r - 1, k) + (*bellTriangle)(r, k);
 				if (r < n)
 					(*bellTriangle)(r + 1, 0) = (*bellTriangle)(r, r);
-				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			}
 			result = static_cast<double>((*bellTriangle)(n, n));
 		} else if (n >= 0)
@@ -412,9 +418,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise return Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::bellNumber(double n) {
+		return bellNumberWithCancel(n, 0);
+	}
+
+	API_VISIBLE double MathFunctions::bellNumberWithCancel(double n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(n) || n < Integer::MIN_VALUE || n > Integer::MAX_VALUE)
 			return Double::NaN;
-		return bellNumber(CAST_INT(Math::round(n)));
+		return bellNumberWithCancel(CAST_INT(Math::round(n)), cancelId);
 	}
 
 	/**
@@ -432,11 +444,17 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see mXparser#setMaxAllowedRecursionDepth(int)
 	 */
 	API_VISIBLE double MathFunctions::eulerNumber(int n, int k) {
-		refreshMaxAllowedRecursionDepth();
-		return eulerNumber(n, k, 1);
+		return eulerNumberWithCancel(n, k, 0);
 	}
 
-	API_VISIBLE double MathFunctions::eulerNumber(int n, int k, int recursionCall) {
+	API_VISIBLE double MathFunctions::eulerNumberWithCancel(int n, int k, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
+		refreshMaxAllowedRecursionDepth();
+		return eulerNumberWithCancel(n, k, 1, cancelId);
+	}
+
+	API_VISIBLE double MathFunctions::eulerNumberWithCancel(int n, int k, int recursionCall, int cancelId) {
 		if (recursionCall > MAX_RECURSION_CALLS)
 			return Double::NaN;
 		if (n < 0)
@@ -447,11 +465,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			if (k == 0) return 1;
 			return 0;
 		}
-		if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-		double e1 = eulerNumber(n - 1, k, recursionCall + 1);
+		if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+		double e1 = eulerNumberWithCancel(n - 1, k, recursionCall + 1, cancelId);
 		if (Double::isNaN(e1))
 			return Double::NaN;
-		double e2 = eulerNumber(n - 1, k - 1, recursionCall + 1);
+		double e2 = eulerNumberWithCancel(n - 1, k - 1, recursionCall + 1, cancelId);
 		if (Double::isNaN(e2))
 			return Double::NaN;
 		return (k + 1) * e1 + (n - k) * e2;
@@ -467,8 +485,14 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise return Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::eulerNumber(double n, double k) {
+		return eulerNumberWithCancel(n, k, 0);
+	}
+
+	API_VISIBLE double MathFunctions::eulerNumberWithCancel(double n, double k, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(n) || Double::isNaN(k)) return Double::NaN;
-		return eulerNumber(checkedMathIntConversion(Math::round(n), "eulerNumber"), checkedMathIntConversion(Math::round(k), "eulerNumber"));
+		return eulerNumberWithCancel(checkedMathIntConversion(Math::round(n), "eulerNumber"), checkedMathIntConversion(Math::round(k), "eulerNumber"), cancelId);
 	}
 
 	/**
@@ -479,6 +503,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return     Factorial if n &gt;=0, otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::factorial(int n) {
+		return factorialWithCancel(n, 0);
+	}
+
+	API_VISIBLE double MathFunctions::factorialWithCancel(int n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		double f = Double::NaN;
 		if (n >= 0) {
 			if (n < 2) {
@@ -487,7 +517,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				f = 1;
 				for (int i = 1; i <= n; i++) {
 					f = f * i;
-					if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 				}
 			}
 		}
@@ -503,9 +533,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::factorial(double n) {
+		return factorialWithCancel(n, 0);
+	}
+
+	API_VISIBLE double MathFunctions::factorialWithCancel(double n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(n))
 			return Double::NaN;
-		return factorial(checkedMathIntConversion(Math::round(n), "factorial"));
+		return factorialWithCancel(checkedMathIntConversion(Math::round(n), "factorial"), cancelId);
 	}
 
 	/**
@@ -515,6 +551,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return   Falling factorial polynomial of degree n at point x
 	 */
 	API_VISIBLE double MathFunctions::factorialFalling(double x, double n) {
+		return factorialFallingWithCancel(x, n, 0);
+	}
+
+	API_VISIBLE double MathFunctions::factorialFallingWithCancel(double x, double n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x)) return Double::NaN;
 		if (Double::isNaN(n)) return Double::NaN;
 		if (n < 0) return Double::NaN;
@@ -522,7 +564,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double k, y;
 		y = 1;
 		for (k = 0; k <= n - 1; k = k + 1) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			y = y * (x - k);
 		}
 		return y;
@@ -535,6 +577,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return   Rising factorial polynomial of degree n at point x
 	 */
 	API_VISIBLE double MathFunctions::factorialRising(double x, double n) {
+		return factorialRisingWithCancel(x, n, 0);
+	}
+
+	API_VISIBLE double MathFunctions::factorialRisingWithCancel(double x, double n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x)) return Double::NaN;
 		if (Double::isNaN(n)) return Double::NaN;
 		if (n < 0) return Double::NaN;
@@ -542,7 +590,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double k, y;
 		y = 1;
 		for (k = 0; k <= n - 1; k = k + 1) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			y = y * (x + k);
 		}
 		return y;
@@ -558,6 +606,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             n = Double::NaN or k &lt; 0 returns Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::binomCoeff(double n, Long k) {
+		return binomCoeffWithCancel(n, k, 0);
+	}
+
+	API_VISIBLE double MathFunctions::binomCoeffWithCancel(double n, Long k, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(n))
 			return Double::NaN;
 		double result = Double::NaN;
@@ -566,13 +620,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			if (k > 0)
 				for (Long i = 0; i <= k - 1; i++) {
 					numerator *= (n - CAST_DOUBLE(i));
-					if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 				}
 			double denominator = 1;
 			if (k > 1)
 				for (Long i = 1; i <= k; i++) {
 					denominator *= CAST_DOUBLE(i);
-					if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 				}
 			result = numerator / denominator;
 		}
@@ -589,9 +643,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::binomCoeff(double n, double k) {
+		return binomCoeffWithCancel(n, k, 0);
+	}
+
+	API_VISIBLE double MathFunctions::binomCoeffWithCancel(double n, double k, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(n) || Double::isNaN(k))
 			return Double::NaN;
-		return binomCoeff(n, checkedMathLongConversion(Math::round(k), "binomCoeff"));
+		return binomCoeffWithCancel(n, checkedMathLongConversion(Math::round(k), "binomCoeff"), cancelId);
 	}
 
 	/**
@@ -605,6 +665,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *           returns Double::NaN
 	 */
 	API_VISIBLE double MathFunctions::numberOfPermutations(double n, Long k) {
+		return numberOfPermutationsWithCancel(n, k, 0);
+	}
+
+	API_VISIBLE double MathFunctions::numberOfPermutationsWithCancel(double n, Long k, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(n)) return Double::NaN;
 		double result = Double::NaN;
 		if (k >= 0) {
@@ -612,7 +678,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			if (k > 0)
 				for (Long i = 0; i <= k - 1; i++) {
 					numerator *= (n - CAST_DOUBLE(i));
-					if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 				}
 			result = numerator;
 		}
@@ -630,9 +696,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *           returns Double::NaN
 	 */
 	API_VISIBLE double MathFunctions::numberOfPermutations(double n, double k) {
+		return numberOfPermutationsWithCancel(n, k, 0);
+	}
+
+	API_VISIBLE double MathFunctions::numberOfPermutationsWithCancel(double n, double k, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(n) || Double::isNaN(k)) return Double::NaN;
 		Long lk = checkedMathLongConversion(Math::round(k), "numberOfPermutations");
-		return numberOfPermutations(n, lk);
+		return numberOfPermutationsWithCancel(n, lk, cancelId);
 	}
 
 	/**
@@ -645,14 +717,20 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::bernoulliNumber(int m, int n) {
+		return bernoulliNumberWithCancel(m, n, 0);
+	}
+
+	API_VISIBLE double MathFunctions::bernoulliNumberWithCancel(int m, int n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		double result = Double::NaN;
 		if ((m >= 0) && (n >= 0)) {
 			result = 0;
 			for (int k = 0; k <= m; k++)
 				for (int v = 0; v <= k; v++) {
-					result += Math::pow(-1, v) * binomCoeff(k, CAST_LONG(v))
+					result += Math::pow(-1, v) * binomCoeffWithCancel(k, CAST_LONG(v), cancelId)
 							* (Math::pow(n + v, m) / (k + 1));
-					if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 				}
 		}
 		return result;
@@ -668,9 +746,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::bernoulliNumber(double m, double n) {
+		return bernoulliNumberWithCancel(m, n, 0);
+	}
+
+	API_VISIBLE double MathFunctions::bernoulliNumberWithCancel(double m, double n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(m) || Double::isNaN(n))
 			return Double::NaN;
-		return bernoulliNumber(checkedMathIntConversion(Math::round(m), "bernoulliNumber"), checkedMathIntConversion(Math::round(n), "bernoulliNumber"));
+		return bernoulliNumberWithCancel(checkedMathIntConversion(Math::round(m), "bernoulliNumber"), checkedMathIntConversion(Math::round(n), "bernoulliNumber"), cancelId);
 	}
 
 	/**
@@ -687,11 +771,17 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see mXparser#setMaxAllowedRecursionDepth(int)
 	 */
 	API_VISIBLE double MathFunctions::Stirling1Number(int n, int k) {
-		refreshMaxAllowedRecursionDepth();
-		return Stirling1Number(n, k, 1);
+		return Stirling1NumberWithCancel(n, k, 0);
 	}
 
-	API_VISIBLE double MathFunctions::Stirling1Number(int n, int k, int recursionCall) {
+	API_VISIBLE double MathFunctions::Stirling1NumberWithCancel(int n, int k, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
+		refreshMaxAllowedRecursionDepth();
+		return Stirling1NumberWithCancel(n, k, 1, cancelId);
+	}
+
+	API_VISIBLE double MathFunctions::Stirling1NumberWithCancel(int n, int k, int recursionCall, int cancelId) {
 		if (recursionCall > MAX_RECURSION_CALLS)
 			return Double::NaN;
 		if (k > n) return 0;
@@ -701,11 +791,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		}
 		if (k == 0) return 0;
 
-		if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-		double s1 = Stirling1Number(n - 1, k, recursionCall + 1);
+		if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+		double s1 = Stirling1NumberWithCancel(n - 1, k, recursionCall + 1, cancelId);
 		if (Double::isNaN(s1))
 			return Double::NaN;
-		double s2 = Stirling1Number(n - 1, k - 1, recursionCall + 1);
+		double s2 = Stirling1NumberWithCancel(n - 1, k - 1, recursionCall + 1, cancelId);
 		if (Double::isNaN(s2))
 			return Double::NaN;
 		return (n - 1) * s1 + s2;
@@ -721,9 +811,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::Stirling1Number(double n, double k) {
+		return Stirling1NumberWithCancel(n, k, 0);
+	}
+
+	API_VISIBLE double MathFunctions::Stirling1NumberWithCancel(double n, double k, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(n) || Double::isNaN(k))
 			return Double::NaN;
-		return Stirling1Number(checkedMathIntConversion(Math::round(n), "Stirling1Number"), checkedMathIntConversion(Math::round(k), "Stirling1Number"));
+		return Stirling1NumberWithCancel(checkedMathIntConversion(Math::round(n), "Stirling1Number"), checkedMathIntConversion(Math::round(k), "Stirling1Number"), cancelId);
 	}
 
 	/**
@@ -740,11 +836,17 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see mXparser#setMaxAllowedRecursionDepth(int)
 	 */
 	API_VISIBLE double MathFunctions::Stirling2Number(int n, int k) {
-		refreshMaxAllowedRecursionDepth();
-		return Stirling2Number(n, k, 1);
+		return Stirling2NumberWithCancel(n, k, 0);
 	}
 
-	API_VISIBLE double MathFunctions::Stirling2Number(int n, int k, int recursionCall) {
+	API_VISIBLE double MathFunctions::Stirling2NumberWithCancel(int n, int k, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
+		refreshMaxAllowedRecursionDepth();
+		return Stirling2NumberWithCancel(n, k, 1, cancelId);
+	}
+
+	API_VISIBLE double MathFunctions::Stirling2NumberWithCancel(int n, int k, int recursionCall, int cancelId) {
 		if (recursionCall > MAX_RECURSION_CALLS)
 			return Double::NaN;
 		if (k > n) return 0;
@@ -754,11 +856,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		}
 		if (k == 0) return 0;
 
-		if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-		double s1 = Stirling2Number(n - 1, k, recursionCall + 1);
+		if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+		double s1 = Stirling2NumberWithCancel(n - 1, k, recursionCall + 1, cancelId);
 		if (Double::isNaN(s1))
 			return Double::NaN;
-		double s2 = Stirling2Number(n - 1, k - 1, recursionCall + 1);
+		double s2 = Stirling2NumberWithCancel(n - 1, k - 1, recursionCall + 1, cancelId);
 		if (Double::isNaN(s2))
 			return Double::NaN;
 		return k * s1 + s2;
@@ -774,9 +876,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::Stirling2Number(double n, double k) {
+		return Stirling2NumberWithCancel(n, k, 0);
+	}
+
+	API_VISIBLE double MathFunctions::Stirling2NumberWithCancel(double n, double k, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(n) || Double::isNaN(k))
 			return Double::NaN;
-		return Stirling2Number(checkedMathIntConversion(Math::round(n), "Stirling2Number"), checkedMathIntConversion(Math::round(k), "Stirling2Number"));
+		return Stirling2NumberWithCancel(checkedMathIntConversion(Math::round(n), "Stirling2Number"), checkedMathIntConversion(Math::round(k), "Stirling2Number"), cancelId);
 	}
 
 	/**
@@ -789,12 +897,18 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise return Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::worpitzkyNumber(int n, int k) {
+		return worpitzkyNumberWithCancel(n, k, 0);
+	}
+
+	API_VISIBLE double MathFunctions::worpitzkyNumberWithCancel(int n, int k, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		double result = Double::NaN;
 		if (k >= 0 && k <= n) {
 			result = 0;
 			for (int v = 0; v <= k; v++) {
-				result += Math::pow(-1, v + k) * Math::pow(v + 1, n) * binomCoeff(k, CAST_LONG(v));
-				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+				result += Math::pow(-1, v + k) * Math::pow(v + 1, n) * binomCoeffWithCancel(k, CAST_LONG(v), cancelId);
+				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			}
 		}
 		return result;
@@ -810,9 +924,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise return Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::worpitzkyNumber(double n, double k) {
+		return worpitzkyNumberWithCancel(n, k, 0);
+	}
+
+	API_VISIBLE double MathFunctions::worpitzkyNumberWithCancel(double n, double k, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(n) || Double::isNaN(k))
 			return Double::NaN;
-		return worpitzkyNumber(checkedMathIntConversion(Math::round(n), "worpitzkyNumber"), checkedMathIntConversion(Math::round(k), "worpitzkyNumber"));
+		return worpitzkyNumberWithCancel(checkedMathIntConversion(Math::round(n), "worpitzkyNumber"), checkedMathIntConversion(Math::round(k), "worpitzkyNumber"), cancelId);
 	}
 
 	/**
@@ -824,6 +944,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             (empty summation operator)
 	 */
 	API_VISIBLE double MathFunctions::harmonicNumber(int n) {
+		return ordinaryHarmonicNumberWithCancel(n, 0);
+	}
+
+	API_VISIBLE double MathFunctions::ordinaryHarmonicNumberWithCancel(int n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (n <= 0)
 			return 0;
 		if (n == 1)
@@ -831,7 +957,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double h = 1;
 		for (double k = 2.0; k <= n; k++) {
 			h += 1.0 / k;
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		return h;
 	}
@@ -845,9 +971,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN
 	 */
 	API_VISIBLE double MathFunctions::harmonicNumber(double n) {
+		return ordinaryHarmonicNumberWithCancel(n, 0);
+	}
+
+	API_VISIBLE double MathFunctions::ordinaryHarmonicNumberWithCancel(double n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(n))
 			return Double::NaN;
-		return harmonicNumber(checkedMathIntConversion(Math::round(n), "harmonicNumber"));
+		return ordinaryHarmonicNumberWithCancel(checkedMathIntConversion(Math::round(n), "harmonicNumber"), cancelId);
 	}
 
 	/**
@@ -860,6 +992,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::harmonicNumber(double x, int n) {
+		return generalizedHarmonicNumberWithCancel(x, n, 0);
+	}
+
+	API_VISIBLE double MathFunctions::generalizedHarmonicNumberWithCancel(double x, int n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if ((Double::isNaN(x)) || (x < 0))
 			return Double::NaN;
 		if (n <= 0)
@@ -869,7 +1007,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double h = 1;
 		for (double k = 2.0; k <= n; k++) {
 			h += 1 / power(k, x);
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		return h;
 	}
@@ -884,9 +1022,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::harmonicNumber(double x, double n) {
+		return generalizedHarmonicNumberWithCancel(x, n, 0);
+	}
+
+	API_VISIBLE double MathFunctions::generalizedHarmonicNumberWithCancel(double x, double n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if ((Double::isNaN(x)) || (Double::isNaN(n)))
 			return Double::NaN;
-		return harmonicNumber(x, checkedMathIntConversion(Math::round(n), "harmonicNumber"));
+		return generalizedHarmonicNumberWithCancel(x, checkedMathIntConversion(Math::round(n), "harmonicNumber"), cancelId);
 	}
 
 	/**
@@ -928,11 +1072,17 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see mXparser#setMaxAllowedRecursionDepth(int)
 	 */
 	API_VISIBLE double MathFunctions::fibonacciNumber(int n) {
-		refreshMaxAllowedRecursionDepth();
-		return fibonacciNumber(n, 1);
+		return fibonacciNumberWithCancel(n, 0);
 	}
 
-	API_VISIBLE double MathFunctions::fibonacciNumber(int n, int recursionCall) {
+	API_VISIBLE double MathFunctions::fibonacciNumberWithCancel(int n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
+		refreshMaxAllowedRecursionDepth();
+		return fibonacciNumberWithCancel(n, 1, cancelId);
+	}
+
+	API_VISIBLE double MathFunctions::fibonacciNumberWithCancel(int n, int recursionCall, int cancelId) {
 		if (recursionCall > MAX_RECURSION_CALLS)
 			return Double::NaN;
 		if (n < 0)
@@ -941,11 +1091,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return 0;
 		if (n == 1)
 			return 1;
-		if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-		double f1 = fibonacciNumber(n - 1, recursionCall + 1);
+		if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+		double f1 = fibonacciNumberWithCancel(n - 1, recursionCall + 1, cancelId);
 		if (Double::isNaN(f1))
 			return Double::NaN;
-		double f2 = fibonacciNumber(n - 2, recursionCall + 1);
+		double f2 = fibonacciNumberWithCancel(n - 2, recursionCall + 1, cancelId);
 		if (Double::isNaN(f2))
 			return Double::NaN;
 		return f1 + f2;
@@ -960,9 +1110,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::fibonacciNumber(double n) {
+		return fibonacciNumberWithCancel(n, 0);
+	}
+
+	API_VISIBLE double MathFunctions::fibonacciNumberWithCancel(double n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(n))
 			return Double::NaN;
-		return fibonacciNumber(checkedMathIntConversion(Math::round(n), "fibonacciNumber"));
+		return fibonacciNumberWithCancel(checkedMathIntConversion(Math::round(n), "fibonacciNumber"), cancelId);
 	}
 
 	/**
@@ -979,11 +1135,17 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see mXparser#setMaxAllowedRecursionDepth(int)
 	 */
 	API_VISIBLE double MathFunctions::lucasNumber(int n) {
-		refreshMaxAllowedRecursionDepth();
-		return lucasNumber(n, 1);
+		return lucasNumberWithCancel(n, 0);
 	}
 
-	API_VISIBLE double MathFunctions::lucasNumber(int n, int recursionCall) {
+	API_VISIBLE double MathFunctions::lucasNumberWithCancel(int n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
+		refreshMaxAllowedRecursionDepth();
+		return lucasNumberWithCancel(n, 1, cancelId);
+	}
+
+	API_VISIBLE double MathFunctions::lucasNumberWithCancel(int n, int recursionCall, int cancelId) {
 		if (recursionCall > MAX_RECURSION_CALLS)
 			return Double::NaN;
 		if (n < 0)
@@ -992,11 +1154,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return 2;
 		if (n == 1)
 			return 1;
-		if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-		double l1 = lucasNumber(n - 1, recursionCall + 1);
+		if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+		double l1 = lucasNumberWithCancel(n - 1, recursionCall + 1, cancelId);
 		if (Double::isNaN(l1))
 			return Double::NaN;
-		double l2 = lucasNumber(n - 2, recursionCall + 1);
+		double l2 = lucasNumberWithCancel(n - 2, recursionCall + 1, cancelId);
 		if (Double::isNaN(l2))
 			return Double::NaN;
 		return l1 + l2;
@@ -1011,9 +1173,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::lucasNumber(double n) {
+		return lucasNumberWithCancel(n, 0);
+	}
+
+	API_VISIBLE double MathFunctions::lucasNumberWithCancel(double n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(n))
 			return Double::NaN;
-		return lucasNumber(checkedMathIntConversion(Math::round(n), "lucasNumber"));
+		return lucasNumberWithCancel(checkedMathIntConversion(Math::round(n), "lucasNumber"), cancelId);
 	}
 
 	/**
@@ -1059,6 +1227,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             value, otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::continuedFraction(const ArrayPtr<double> &sequence) {
+		return continuedFractionWithCancel(sequence, 0);
+	}
+
+	API_VISIBLE double MathFunctions::continuedFractionWithCancel(const ArrayPtr<double> &sequence, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (sequence == nullptr) return Double::NaN;
 		if (sequence->length == 0) return Double::NaN;
 		double cf = 0;
@@ -1077,7 +1251,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 					return Double::NaN;
 				cf = a + 1.0 / cf;
 			}
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		return cf;
 	}
@@ -1091,15 +1265,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *
 	 * @return     continued polynomial value
 	 */
-	API_VISIBLE double MathFunctions::continuedPolynomial(int n, const ArrayPtr<double> &x) {
+	API_VISIBLE double MathFunctions::continuedPolynomialWithCancel(int n, const ArrayPtr<double> &x, int cancelId) {
 		if (x == nullptr) return Double::NaN;
 		if (x->length == 0) return Double::NaN;
 		if (n == 0)
 			return 1;
 		if (n == 1)
 			return (*x)(0);
-		if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-		return (*x)(n - 1) * continuedPolynomial(n - 1, x) + continuedPolynomial(n - 2, x);
+		if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+		return (*x)(n - 1) * continuedPolynomialWithCancel(n - 1, x, cancelId) + continuedPolynomialWithCancel(n - 2, x, cancelId);
 	}
 
 	/**
@@ -1112,14 +1286,20 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::continuedPolynomial(const ArrayPtr<double> &x) {
+		return continuedPolynomialWithCancel(x, 0);
+	}
+
+	API_VISIBLE double MathFunctions::continuedPolynomialWithCancel(const ArrayPtr<double> &x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (x == nullptr) return Double::NaN;
 		if (x->length == 0) return Double::NaN;
 		for (double d: *x) {
 			if (Double::isNaN(d))
 				return Double::NaN;
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
-		return continuedPolynomial(x->length, x);
+		return continuedPolynomialWithCancel(x->length, x, cancelId);
 	}
 
 	/**
@@ -1132,6 +1312,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::eulerPolynomial(int m, double x) {
+		return eulerPolynomialWithCancel(m, x, 0);
+	}
+
+	API_VISIBLE double MathFunctions::eulerPolynomialWithCancel(int m, double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x))
 			return Double::NaN;
 		double sumTotal = Double::NaN;
@@ -1140,8 +1326,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			for (int n = 0; n <= m; n++) {
 				double sumPartial = 0;
 				for (int k = 0; k <= n; k++) {
-					sumPartial += Math::pow(-1, k) * binomCoeff(n, CAST_LONG(k)) * Math::pow(x + k, m);
-					if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+					sumPartial += Math::pow(-1, k) * binomCoeffWithCancel(n, CAST_LONG(k), cancelId) * Math::pow(x + k, m);
+					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 				}
 				sumPartial /= Math::pow(2, n);
 				sumTotal += sumPartial;
@@ -1160,9 +1346,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::eulerPolynomial(double m, double x) {
+		return eulerPolynomialWithCancel(m, x, 0);
+	}
+
+	API_VISIBLE double MathFunctions::eulerPolynomialWithCancel(double m, double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(m) || Double::isNaN(x))
 			return Double::NaN;
-		return eulerPolynomial(checkedMathIntConversion(Math::round(m), "eulerPolynomial"), x);
+		return eulerPolynomialWithCancel(checkedMathIntConversion(Math::round(m), "eulerPolynomial"), x, cancelId);
 	}
 
 	/**
@@ -1379,6 +1571,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return    Tetration result.
 	 */
 	API_VISIBLE double MathFunctions::tetration(double a, double n) {
+		return tetrationWithCancel(a, n, 0);
+	}
+
+	API_VISIBLE double MathFunctions::tetrationWithCancel(double a, double n, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(a)) return Double::NaN;
 		if (Double::isNaN(n)) return Double::NaN;
 		if (n == Double::POSITIVE_INFINITY) {
@@ -1388,7 +1586,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			if (abs(a - MathConstants::EXP_1_OVER_E) <= BinaryRelations::DEFAULT_COMPARISON_EPSILON)
 				return MathConstants::E;
 			if ((a > MathConstants::EXP_MINUS_E) && (a < MathConstants::EXP_1_OVER_E))
-				return SpecialFunctions::lambertW(-MathFunctions::ln(a), 0) / (-MathFunctions::ln(a));
+				return SpecialFunctions::lambertWWithCancel(-MathFunctions::ln(a), 0, cancelId) / (-MathFunctions::ln(a));
 			if (a > MathConstants::EXP_1_OVER_E) return Double::POSITIVE_INFINITY;
 			if (a < MathConstants::EXP_MINUS_E) return Double::NaN;
 		}
@@ -1411,7 +1609,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double r = a;
 		for (double i = 2; i <= n; i++) {
 			r = Math::pow(a, r);
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		return r;
 	}
@@ -2127,6 +2325,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return         Rounded value
 	 */
 	API_VISIBLE double MathFunctions::round(double value, int places) {
+		return roundWithCancel(value, places, 0);
+	}
+
+	API_VISIBLE double MathFunctions::roundWithCancel(double value, int places, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(value)) return Double::NaN;
 		if (Double::isInfinite(value)) return value;
 
@@ -2377,6 +2581,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return         Rounded value
 	 */
 	API_VISIBLE double MathFunctions::roundHalfUp(double value, int places) {
+		return roundHalfUpWithCancel(value, places, 0);
+	}
+
+	API_VISIBLE double MathFunctions::roundHalfUpWithCancel(double value, int places, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(value)) return Double::NaN;
 		if (places < 0) return Double::NaN;
 		if (value == Double::NEGATIVE_INFINITY) return Double::NEGATIVE_INFINITY;
@@ -2394,7 +2604,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double multiplier = 1;
 		for (int place = 0; place < places; place++) {
 			multiplier = Math::floor(multiplier * 10);
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		double valueMultiplied = value * multiplier;
 		double valueFloor = Math::floor(valueMultiplied);
@@ -2410,6 +2620,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return         Rounded value
 	 */
 	API_VISIBLE double MathFunctions::roundDown(double value, int places) {
+		return roundDownWithCancel(value, places, 0);
+	}
+
+	API_VISIBLE double MathFunctions::roundDownWithCancel(double value, int places, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(value)) return Double::NaN;
 		if (places < 0) return Double::NaN;
 		if (value == Double::NEGATIVE_INFINITY) return Double::NEGATIVE_INFINITY;
@@ -2427,7 +2643,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double multiplier = 1;
 		for (int place = 0; place < places; place++) {
 			multiplier = Math::floor(multiplier * 10);
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		double valueMultiplied = value * multiplier;
 		double valueFloor = Math::floor(valueMultiplied);
@@ -2536,13 +2752,19 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *                the number by a minimum of 9 places. Otherwise, returns original number.
 	 */
 	API_VISIBLE double MathFunctions::lengthRound(double value) {
+		return lengthRoundWithCancel(value, 0);
+	}
+
+	API_VISIBLE double MathFunctions::lengthRoundWithCancel(double value, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(value)) return value;
 		if (Double::isInfinite(value)) return value;
 		if (Double::doubleGoodToGo(value)) return value;
 		if (ulpDecimalDigitsBefore(value) < 6) return value;
 		int decPartLen = Double::fractionalPartLength(value);
 		if (decPartLen < 11) return value;
-		double valueRound = round(value, decPartLen - 2);
+		double valueRound = roundWithCancel(value, decPartLen - 2, cancelId);
 		int decPartLenRound = fractionalPartLength(valueRound);
 		double valueFinal;
 		if (decPartLen - decPartLenRound >= 9) valueFinal = valueRound;
@@ -2559,10 +2781,16 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *                 then returns Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::coalesce(const ArrayPtr<double> &values) {
+		return coalesceWithCancel(values, 0);
+	}
+
+	API_VISIBLE double MathFunctions::coalesceWithCancel(const ArrayPtr<double> &values, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (values == nullptr) return Double::NaN;
 		for (double v: *values) {
 			if (!Double::isNaN(v)) return v;
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		return Double::NaN;
 	}
@@ -2613,10 +2841,16 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see        Expression
 	 */
 	API_VISIBLE double MathFunctions::getFunctionValue(const ExpressionPtr &f, const ArgumentPtr &x, double x0) {
+		return getFunctionValueWithCancel(f, x, x0, 0);
+	}
+
+	API_VISIBLE double MathFunctions::getFunctionValueWithCancel(const ExpressionPtr &f, const ArgumentPtr &x, double x0, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (x == nullptr) throw std::invalid_argument("MathFunctions.getFunctionValue requires a non-null argument");
 		x->setArgumentValue(x0);
 		if (f == nullptr) throw std::invalid_argument("MathFunctions.getFunctionValue requires a non-null expression");
-		return f->calculate();
+		return f->calculateWithCancel(cancelId);
 	}
 
 	/**
@@ -2632,6 +2866,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	ArrayPtr<double> API_VISIBLE MathFunctions::getFunctionValues(const ExpressionPtr &f, const ArgumentPtr &index, double from,
 	                                                  double to, double delta) {
+		return getFunctionValuesWithCancel(f, index, from, to, delta, 0);
+	}
+
+	ArrayPtr<double> API_VISIBLE MathFunctions::getFunctionValuesWithCancel(const ExpressionPtr &f, const ArgumentPtr &index, double from,
+	                                                  double to, double delta, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(delta) || Double::isNaN(from) || Double::isNaN(to) || delta == 0)
 			return nullptr;
 		int n = 0;
@@ -2643,10 +2884,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			values = new_double(n);
 			int j = 0;
 			for (double i = from; i < to; i += delta) {
-				(*values)(j) = getFunctionValue(f, index, i);
+				(*values)(j) = getFunctionValueWithCancel(f, index, i, cancelId);
 				j++;
 			}
-			(*values)(j) = getFunctionValue(f, index, to);
+			(*values)(j) = getFunctionValueWithCancel(f, index, to, cancelId);
 		} else if (to <= from && delta < 0) {
 			for (double i = from; i > to; i += delta)
 				n++;
@@ -2654,14 +2895,14 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			values = new_double(n);
 			int j = 0;
 			for (double i = from; i > to; i += delta) {
-				(*values)(j) = getFunctionValue(f, index, i);
+				(*values)(j) = getFunctionValueWithCancel(f, index, i, cancelId);
 				j++;
 			}
-			(*values)(j) = getFunctionValue(f, index, to);
+			(*values)(j) = getFunctionValueWithCancel(f, index, to, cancelId);
 		} else if (from == to) {
 			n = 1;
 			values = new_double(n);
-			(*values)(0) = getFunctionValue(f, index, from);
+			(*values)(0) = getFunctionValueWithCancel(f, index, from, cancelId);
 		} else values = nullptr;
 		return values;
 	}

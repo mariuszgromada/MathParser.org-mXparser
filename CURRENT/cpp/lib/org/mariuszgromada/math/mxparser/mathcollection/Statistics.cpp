@@ -1,5 +1,5 @@
 /*
- * @(#)Statistics.cpp        6.1.0    2024-10-06
+ * @(#)Statistics.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -247,6 +247,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see        Argument
 	 */
 	API_VISIBLE double Statistics::avg(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta) {
+		return avgWithCancel(f, index, from, to, delta, 0);
+	}
+
+	API_VISIBLE double Statistics::avgWithCancel(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if ((Double::isNaN(delta)) || (Double::isNaN(from)) || (Double::isNaN(to)) || (delta == 0))
 			return Double::NaN;
 		double sum = 0;
@@ -254,29 +260,29 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if ((to >= from) && (delta > 0)) {
 			double i;
 			for (i = from; i < to; i += delta) {
-				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-				sum += MathFunctions::getFunctionValue(f, index, i);
+				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+				sum += MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 				n++;
 			}
 			if (delta - (i - to) > 0.5 * delta) {
-				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-				sum += MathFunctions::getFunctionValue(f, index, to);
+				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+				sum += MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 				n++;
 			}
 		} else if ((to <= from) && (delta < 0)) {
 			double i;
 			for (i = from; i > to; i += delta) {
-				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-				sum += MathFunctions::getFunctionValue(f, index, i);
+				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+				sum += MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 				n++;
 			}
 			if (-delta - (to - i) > -0.5 * delta) {
-				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-				sum += MathFunctions::getFunctionValue(f, index, to);
+				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+				sum += MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 				n++;
 			}
 		} else if (from == to)
-			return MathFunctions::getFunctionValue(f, index, from);
+			return MathFunctions::getFunctionValueWithCancel(f, index, from, cancelId);
 		return sum / n;
 	}
 
@@ -295,11 +301,17 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see        Argument
 	 */
 	API_VISIBLE double Statistics::var(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta) {
+		return varWithCancel(f, index, from, to, delta, 0);
+	}
+
+	API_VISIBLE double Statistics::varWithCancel(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if ((Double::isNaN(delta)) || (Double::isNaN(from)) || (Double::isNaN(to)) || (delta == 0))
 			return Double::NaN;
-		const ArrayPtr<double> numbers = static_cast<const ArrayPtr<double> &>(MathFunctions::getFunctionValues(
-			f, index, from, to, delta));
-		return var(numbers);
+		const ArrayPtr<double> numbers = static_cast<const ArrayPtr<double> &>(MathFunctions::getFunctionValuesWithCancel(
+			f, index, from, to, delta, cancelId));
+		return varWithCancel(numbers, cancelId);
 	}
 
 	/**
@@ -317,11 +329,17 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see        Argument
 	 */
 	API_VISIBLE double Statistics::std(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta) {
+		return stdWithCancel(f, index, from, to, delta, 0);
+	}
+
+	API_VISIBLE double Statistics::stdWithCancel(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to, double delta, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if ((Double::isNaN(delta)) || (Double::isNaN(from)) || (Double::isNaN(to)) || (delta == 0))
 			return Double::NaN;
-		const ArrayPtr<double> numbers = static_cast<const ArrayPtr<double> &>(MathFunctions::getFunctionValues(
-			f, index, from, to, delta));
-		return std(numbers);
+		const ArrayPtr<double> numbers = static_cast<const ArrayPtr<double> &>(MathFunctions::getFunctionValuesWithCancel(
+			f, index, from, to, delta, cancelId));
+		return stdWithCancel(numbers, cancelId);
 	}
 
 	/**
@@ -334,13 +352,19 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double Statistics::avg(const ArrayPtr<double> &numbers) {
+		return avgWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double Statistics::avgWithCancel(const ArrayPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers == nullptr) return Double::NaN;
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		if (numbers->length == 1) return (*numbers)(0);
 		double sum = 0;
 		for (double xi: *numbers) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			if (Double::isNaN(xi))
 				return Double::NaN;
 			sum += xi;
@@ -358,6 +382,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double Statistics::var(const ArrayPtr<double> &numbers) {
+		return varWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double Statistics::varWithCancel(const ArrayPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers == nullptr) return Double::NaN;
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
@@ -365,10 +395,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			if (Double::isNaN((*numbers)(0))) return Double::NaN;
 			return 0;
 		}
-		double m = avg(numbers);
+		double m = avgWithCancel(numbers, cancelId);
 		double sum = 0;
 		for (double xi: *numbers) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			if (Double::isNaN(xi))
 				return Double::NaN;
 			sum += (xi - m) * (xi - m);
@@ -386,6 +416,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double Statistics::std(const ArrayPtr<double> &numbers) {
+		return stdWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double Statistics::stdWithCancel(const ArrayPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers == nullptr) return Double::NaN;
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
@@ -393,7 +429,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			if (Double::isNaN((*numbers)(0))) return Double::NaN;
 			return 0;
 		}
-		return MathFunctions::sqrt(var(numbers));
+		return MathFunctions::sqrt(varWithCancel(numbers, cancelId));
 	}
 
 	/**
@@ -402,16 +438,22 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return          Sample median, if table was empty or nullptr then Double::NaN is returned.
 	 */
 	API_VISIBLE double Statistics::median(const ArrayPtr<double> &numbers) {
+		return medianWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double Statistics::medianWithCancel(const ArrayPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers == nullptr) return Double::NaN;
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		if (numbers->length == 1) return (*numbers)(0);
 		if (numbers->length == 2) return ((*numbers)(0) + (*numbers)(1)) / 2.0;
 		for (double v: *numbers) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			if (Double::isNaN(v)) return Double::NaN;
 		}
-		NumberTheory::sortAsc(numbers);
+		NumberTheory::sortAscWithCancel(numbers, cancelId);
 		if ((numbers->length % 2) == 1) {
 			int i = (numbers->length - 1) / 2;
 			return (*numbers)(i);
@@ -427,15 +469,21 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return          Sample median, if table was empty or nullptr then Double::NaN is returned.
 	 */
 	API_VISIBLE double Statistics::mode(const ArrayPtr<double> &numbers) {
+		return modeWithCancel(numbers, 0);
+	}
+
+	API_VISIBLE double Statistics::modeWithCancel(const ArrayPtr<double> &numbers, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (numbers == nullptr) return Double::NaN;
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		if (numbers->length == 1) return (*numbers)(0);
 		for (double v: *numbers) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			if (Double::isNaN(v)) return Double::NaN;
 		}
-		ArrayPtr<double> dist = NumberTheory::getDistValues(numbers, true);
+		ArrayPtr<double> dist = NumberTheory::getDistValuesWithCancel(numbers, true, cancelId);
 		return (*dist)(0, 0);
 	}
 } // org::mariuszgromada::math::mxparser::mathcollection

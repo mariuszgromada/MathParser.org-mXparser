@@ -1,5 +1,5 @@
 /*
- * @(#)RecursiveArgument.hpp        6.1.0    2024-10-06
+ * @(#)RecursiveArgument.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -227,6 +227,7 @@
 #include "org/mariuszgromada/math/mxparser/wrapper/List.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/PtrsMap.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/PtrsSet.hpp"
+#include <stdexcept>
 #include <vector>
 
 namespace org::mariuszgromada::math::mxparser {
@@ -258,6 +259,10 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 
 	public:
+		/** Retains the inherited no-index (id) and (CSR,id) getters.
+		 * Use (double index,int id) for indexed recursion. In C++, a lone2.5
+		 * implicitly converts to ID2; it is not an indexed request. @since 6.2.0 */
+		using Argument::getArgumentValueWithCancel;
 
 		// ***********************************************************
 
@@ -518,6 +523,28 @@ namespace org::mariuszgromada::math::mxparser {
 		// ***********************************************************
 
 		double getArgumentValue(double index);
+		/**
+		 * Gets recursive argument value
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * @param      index               the index
+		 *
+		 * @return     value as double
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see getArgumentValue(double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		double getArgumentValueWithCancel(double index, int cancelId);
 
 		// ***********************************************************
 
@@ -564,6 +591,9 @@ namespace org::mariuszgromada::math::mxparser {
 		);
 
 		STATIC_VARS_INITI_H;
+	private:
+		double getArgumentValueCoreWithCancel(double index, int cancelId);
+
 	};
 
 	// =====================================

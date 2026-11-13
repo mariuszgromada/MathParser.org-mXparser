@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionA.cpp        6.2.0    2026-11-11
+ * @(#)ExpressionA.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -1136,7 +1136,7 @@ namespace org::mariuszgromada::math::mxparser {
 		int argumentIndex = getArgumentIndex(argumentName);
 		if (argumentIndex == NOT_FOUND)
 			return Double::NaN;
-		return argumentsList->get(argumentIndex)->getArgumentValue();
+		return argumentsList->get(argumentIndex)->getArgumentValueWithCancel(activeCancelId);
 	}
 
 	/**
@@ -1608,7 +1608,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 		int precision = MathFunctions::ulpDecimalDigitsBefore(number);
 		if (precision >= 0)
-			token->tokenValue = MathFunctions::round(number, precision);
+			token->tokenValue = MathFunctions::roundWithCancel(number, precision, activeCancelId);
 		else
 			token->tokenValue = number;
 	}
@@ -1963,7 +1963,7 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 		argParam->initialValue = argParam->argument->argumentValue;
 		argParam->initialType = argParam->argument->argumentType;
-		argParam->argument->argumentValue = argParam->argument->getArgumentValue();
+		argParam->argument->argumentValue = argParam->argument->getArgumentValueWithCancel(activeCancelId);
 		argParam->argument->argumentType = Argument::FREE_ARGUMENT;
 		return argParam;
 	}
@@ -2217,10 +2217,10 @@ namespace org::mariuszgromada::math::mxparser {
 			return NO_SYNTAX_ERRORS;
 
 		if (arg->argumentExpression != THIS(Expression) && !arg->argumentExpression->recursionCallPending) {
-			bool syntaxRec = arg->argumentExpression->checkSyntax(
+			bool syntaxRec = arg->argumentExpression->checkSyntaxWithCancel(
 				recursionInfoLevel + StringInvariant::RIGHT_ARROW_SPACE +
 				StringUtils::surroundSquareBrackets(token->tokenStr) + StringInvariant::SPACE_EQUAL_SPACE +
-				StringUtils::surroundSquareBracketsAddSpace(arg->argumentExpression->expressionString), false);
+				StringUtils::surroundSquareBracketsAddSpace(arg->argumentExpression->expressionString), false, activeCancelId);
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT,
@@ -2249,10 +2249,10 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 
 		if ((arg->argumentExpression != THIS(Expression)) && !arg->argumentExpression->recursionCallPending) {
-			bool syntaxRec = arg->argumentExpression->checkSyntax(
+			bool syntaxRec = arg->argumentExpression->checkSyntaxWithCancel(
 				recursionInfoLevel + StringInvariant::RIGHT_ARROW_SPACE +
 				StringUtils::surroundSquareBrackets(token->tokenStr) + StringInvariant::SPACE_EQUAL_SPACE +
-				StringUtils::surroundSquareBracketsAddSpace(arg->argumentExpression->expressionString), false);
+				StringUtils::surroundSquareBracketsAddSpace(arg->argumentExpression->expressionString), false, activeCancelId);
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT,
@@ -2323,15 +2323,15 @@ namespace org::mariuszgromada::math::mxparser {
 			bool syntaxRec;
 
 			if (fun->getFunctionBodyType() == Function::BODY_RUNTIME)
-				syntaxRec = fun->functionExpression->checkSyntax(
+				syntaxRec = fun->functionExpression->checkSyntaxWithCancel(
 					recursionInfoLevel + StringInvariant::RIGHT_ARROW_SPACE +
 					StringUtils::surroundSquareBrackets(token->tokenStr) + StringInvariant::SPACE_EQUAL_SPACE +
-					StringUtils::surroundSquareBracketsAddSpace(fun->functionExpression->expressionString), false);
+					StringUtils::surroundSquareBracketsAddSpace(fun->functionExpression->expressionString), false, activeCancelId);
 			else
-				syntaxRec = fun->functionExpression->checkSyntax(
+				syntaxRec = fun->functionExpression->checkSyntaxWithCancel(
 					recursionInfoLevel + StringInvariant::RIGHT_ARROW_SPACE +
 					StringUtils::surroundSquareBrackets(token->tokenStr) + StringInvariant::SPACE_EQUAL_SPACE +
-					StringUtils::surroundSquareBracketsAddSpace(fun->functionExpression->expressionString), true);
+					StringUtils::surroundSquareBracketsAddSpace(fun->functionExpression->expressionString), true, activeCancelId);
 
 			if (fun->isVariadic)
 				errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
@@ -2791,6 +2791,23 @@ namespace org::mariuszgromada::math::mxparser {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double Expression::calculate(const CalcStepsRegisterPtr &calcStepsRegister) {
+		return calculateCoreWithCancel(calcStepsRegister, 0);
+	}
+
+	API_VISIBLE double Expression::calculateWithCancel(const CalcStepsRegisterPtr &calcStepsRegister, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
+		if (cancelId == 0) return calculate(calcStepsRegister);
+		return calculateCoreWithCancel(calcStepsRegister, cancelId);
+	}
+
+	API_VISIBLE double Expression::calculateCoreWithCancel(const CalcStepsRegisterPtr &calcStepsRegister, int cancelId) {
+		struct RestoreCancelId {
+			int &field;
+			int previous;
+			~RestoreCancelId() { field = previous; }
+		} restoreCancelId{activeCancelId, activeCancelId};
+		activeCancelId = cancelId;
 		License::checkLicense();
 		int recursionCallsCounterBeforeCalculation = recursionCallsCounter;
 		try {
@@ -2901,7 +2918,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 			storeStepsInRegister = true;
 
-			if (mXparser::cancelCurrentCalculationFlag) {
+			if (mXparser::isCalculationCancelled(activeCancelId)) {
 				registerErrorWhileCalculate(StringModel::STRING_RESOURCES->CANCEL_REQUEST_FINISHING);
 				return -1;
 			}
@@ -3198,7 +3215,7 @@ namespace org::mariuszgromada::math::mxparser {
 		CalcStepRecord::StepType stepTypePrev = CalcStepRecord::StepType::Unknown;
 		bool storeStepsInRegister = true;
 		for (const CompiledElementPtr &compiledElement: *initialCompilationDetails->compiledElements) {
-			if (mXparser::cancelCurrentCalculationFlag) {
+			if (mXparser::isCalculationCancelled(activeCancelId)) {
 				registerErrorWhileCalculate(StringModel::STRING_RESOURCES->CANCEL_REQUEST_FINISHING);
 				return -1;
 			}
@@ -3439,10 +3456,10 @@ namespace org::mariuszgromada::math::mxparser {
 			stepsRegisteredCounter = applySequenceFromCompilation(calcStepsRegister, stepDescription);
 		} else {
 			stepsRegisteredCounter = calculateFirstAndFullyCompile(calcStepsRegister, stepDescription);
-			if (stepsRegisteredCounter < 0) {
-				recursionCallsCounter--;
-				return Double::NaN;
-			}
+		}
+		if (stepsRegisteredCounter < 0) {
+			recursionCallsCounter--;
+			return Double::NaN;
 		}
 
 		if (verboseMode) {
@@ -3458,15 +3475,13 @@ namespace org::mariuszgromada::math::mxparser {
 		if (recursionCallsCounter < mXparser::MAX_RECURSION_CALLS)
 			recursionCallsCounter--;
 
-		if (stepsRegisteredCounter < 0) return Double::NaN;
-
 		double result = tokensList->getRef(0)->tokenValue;
 		if (!disableRounding) {
 			if (mXparser::almostIntRounding) {
 				double resultInt = Math::round(result);
 				if (Math::abs(result-resultInt) <= BinaryRelations::getEpsilon()) result = resultInt;
 			}
-			if (mXparser::canonicalRounding) result = MathFunctions::lengthRound(result);
+			if (mXparser::canonicalRounding) result = MathFunctions::lengthRoundWithCancel(result, activeCancelId);
 		}
 
 		if (calcStepsRegister != nullptr) {
@@ -4152,7 +4167,7 @@ namespace org::mariuszgromada::math::mxparser {
 		int numeralSystemBase = ExpressionUtils::getNumeralSystemBaseFromBaseInd(baseInd);
 		/* if base was found, perform conversion */
 		if (numeralSystemBase > 0 && numeralSystemBase <= 36) {
-			double tokenValue = NumberTheory::convOthBase2Decimal(numberLiteral, numeralSystemBase);
+			double tokenValue = NumberTheory::convOthBase2DecimalWithCancel(numberLiteral, numeralSystemBase, activeCancelId);
 			if (Double::isNaN(tokenValue))
 				return false;
 			token->tokenTypeId = ParserSymbol::NUMBER_TYPE_ID;
@@ -5495,7 +5510,7 @@ namespace org::mariuszgromada::math::mxparser {
 			bool vMode = a->getVerboseMode();
 			a->setSilentMode();
 			printSystemInfo(
-				a->getArgumentName() + StringInvariant::SPACE_EQUAL_SPACE + StringUtils::toString(a->getArgumentValue())
+				a->getArgumentName() + StringInvariant::SPACE_EQUAL_SPACE + StringUtils::toString(a->getArgumentValueWithCancel(activeCancelId))
 				+ StringInvariant::NEW_LINE, WITH_EXP_STR);
 			if (vMode)
 				a->setVerboseMode();
@@ -5593,4 +5608,20 @@ namespace org::mariuszgromada::math::mxparser {
 		return expressionClone;
 	}
 
+
+	API_VISIBLE double Expression::calculateWithCancel(int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID) throw std::invalid_argument("cancelId out of range");
+		if (cancelId == 0) return calculate();
+		return calculateWithCancel(CalcStepsRegister::Null, cancelId);
+	}
+
+	API_VISIBLE bool Expression::checkSyntaxWithCancel(const StringPtr &recursionInfoLevel, bool functionWithBodyExt, int cancelId) {
+		struct RestoreCancelId {
+			int &field;
+			int previous;
+			~RestoreCancelId() { field = previous; }
+		} restoreCancelId{activeCancelId, activeCancelId};
+		activeCancelId = cancelId;
+		return checkSyntax(recursionInfoLevel, functionWithBodyExt);
+	}
 } // org::mariuszgromada::math::mxparser

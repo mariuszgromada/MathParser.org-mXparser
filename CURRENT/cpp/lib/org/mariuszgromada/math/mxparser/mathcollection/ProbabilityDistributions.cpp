@@ -1,5 +1,5 @@
 /*
- * @(#)ProbabilityDistributions.cpp        6.1.1    2026-05-03
+ * @(#)ProbabilityDistributions.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -493,6 +493,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *                          otherwise random number.
 	 */
 	API_VISIBLE double ProbabilityDistributions::rndNormal(double mean, double stddev, const RandomPtr &rnd) {
+		return rndNormalWithCancel(mean, stddev, rnd, 0);
+	}
+
+	API_VISIBLE double ProbabilityDistributions::rndNormalWithCancel(double mean, double stddev, const RandomPtr &rnd, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(mean)) return Double::NaN;
 		if (Double::isNaN(stddev)) return Double::NaN;
 		if (rnd == nullptr) return Double::NaN;
@@ -503,7 +509,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double r, fac;
 		bool polarTransform;
 		do {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			a = rnd->nextDouble();
 			b = rnd->nextDouble();
 			v1 = 2.0 * a - 1.0;
@@ -614,6 +620,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return    Returns the PDF of Student's t-distribution.
 	 */
 	 API_VISIBLE double ProbabilityDistributions::pdfStudentT(double x, double v) {
+		return pdfStudentTWithCancel(x, v, 0);
+	}
+
+	API_VISIBLE double ProbabilityDistributions::pdfStudentTWithCancel(double x, double v, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x)) return Double::NaN;
 		if (Double::isNaN(v)) return Double::NaN;
 		if (v <= 0) return Double::NaN;
@@ -638,8 +650,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (v == Double::POSITIVE_INFINITY)
 			return 1.0 / MathConstants::SQRT2Pi * Math::exp(-x * x / 2.0);
 
-		return SpecialFunctions::gamma((v + 1.0) / 2.0) / (
-			       Math::sqrt(v * MathConstants::PI) * SpecialFunctions::gamma(v / 2.0)) * Math::pow(
+		return SpecialFunctions::gammaWithCancel((v + 1.0) / 2.0, cancelId) / (
+			       Math::sqrt(v * MathConstants::PI) * SpecialFunctions::gammaWithCancel(v / 2.0, cancelId)) * Math::pow(
 			       1.0 + x * x / v, -((v + 1.0) / 2.0));
 	}
 
@@ -651,7 +663,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @param v   Number of degrees of freedom.
 	 * @return    Returns the CDF of Student's t-distribution.
 	 */
-	 API_VISIBLE double ProbabilityDistributions::cdfStudentTPositiveX(double x, double v) {
+	 API_VISIBLE double ProbabilityDistributions::cdfStudentTPositiveXWithCancel(double x, double v, int cancelId) {
 		if (BinaryRelations::isEqualOrAlmost(v, 1.0))
 			return 0.5 + MathConstants::PIINV * Math::atan(x);
 
@@ -673,9 +685,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (v == Double::POSITIVE_INFINITY)
 			return 0.5 * (1.0 + SpecialFunctions::erf(x / MathConstants::SQRT2));
 
-		return 1.0 / 2.0 + x * SpecialFunctions::gamma((v + 1.0) / 2.0) * SpecialFunctions::hypergeometricF(
+		return 1.0 / 2.0 + x * SpecialFunctions::gammaWithCancel((v + 1.0) / 2.0, cancelId) * SpecialFunctions::hypergeometricFWithCancel(
 			       1.0 / 2.0, (v + 1.0) / 2.0, 3.0 / 2.0, -Math::pow(x, 2.0) / v, 300,
-			       1e-14) / (Math::sqrt(MathConstants::PI * v) * SpecialFunctions::gamma(v / 2.0));
+			       1e-14, cancelId) / (Math::sqrt(MathConstants::PI * v) * SpecialFunctions::gammaWithCancel(v / 2.0, cancelId));
 	}
 
 	/**
@@ -686,6 +698,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return    Returns the CDF of Student's t-distribution.
 	 */
 	 API_VISIBLE double ProbabilityDistributions::cdfStudentT(double x, double v) {
+		return cdfStudentTWithCancel(x, v, 0);
+	}
+
+	API_VISIBLE double ProbabilityDistributions::cdfStudentTWithCancel(double x, double v, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x)) return Double::NaN;
 		if (Double::isNaN(v)) return Double::NaN;
 		if (v <= 0) return Double::NaN;
@@ -695,9 +713,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return 0.5;
 
 		if (x > 0)
-			return cdfStudentTPositiveX(x, v);
+			return cdfStudentTPositiveXWithCancel(x, v, cancelId);
 		else
-			return 1.0 - cdfStudentTPositiveX(-x, v);
+			return 1.0 - cdfStudentTPositiveXWithCancel(-x, v, cancelId);
 	}
 
 	/**
@@ -709,6 +727,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return    Returns the quantile of Student's t-distribution
 	 */
 	 API_VISIBLE double ProbabilityDistributions::qntStudentT(double p, double v) {
+		return qntStudentTWithCancel(p, v, 0);
+	}
+
+	API_VISIBLE double ProbabilityDistributions::qntStudentTWithCancel(double p, double v, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(p)) return Double::NaN;
 		if (Double::isNaN(v)) return Double::NaN;
 		if (v <= 0.0) return Double::NaN;
@@ -742,13 +766,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (v == Double::POSITIVE_INFINITY)
 			x = MathConstants::SQRT2 * SpecialFunctions::erfInv(2.0 * Math::max(p, 1.0 - p) - 1);
 		else {
-			x = SpecialFunctions::inverseRegularizedBeta(0.5 * v, 0.5, 2.0 * Math::min(p, 1.0 - p));
+			x = SpecialFunctions::inverseRegularizedBetaWithCancel(0.5 * v, 0.5, 2.0 * Math::min(p, 1.0 - p), cancelId);
 			x = Math::sqrt(v * (1.0 - x) / x);
 		}
 
 		if (Double::isNaN(x)) {
 			if (BinaryRelations::isEqualOrAlmost(Math::mod(v, 2), 0))
-				x = qntChengFuStudentTAlgorithm(p, v);
+				x = qntChengFuStudentTAlgorithmWithCancel(p, v, cancelId);
 			else
 				x = qntHillsAlgorithm396(p, v);
 		}
@@ -756,7 +780,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (Double::isNaN(x)) {
 			pp->setConstantValue(Math::max(p, 1.0 - p));
 			vv->setConstantValue(v);
-			x = qntSolveStud->calculate();
+			x = qntSolveStud->calculateWithCancel(cancelId);
 		}
 
 		return p >= 0.5 ? x : -x;
@@ -769,17 +793,23 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return    returns Pseudo-random number from Student's t-distribution
 	 */
 	 API_VISIBLE double ProbabilityDistributions::rndStudentT(double v) {
+		return rndStudentTWithCancel(v, 0);
+	}
+
+	API_VISIBLE double ProbabilityDistributions::rndStudentTWithCancel(double v, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(v)) return Double::NaN;
 		if (v <= 0) return Double::NaN;
 		if (randomGenerator == nullptr) throw std::invalid_argument("ProbabilityDistributions.rndStudentT requires a non-null random generator");
-		return qntStudentT(randomGenerator->nextDouble(), v);
+		return qntStudentTWithCancel(randomGenerator->nextDouble(), v, cancelId);
 	}
 
 	/*
 	 * Cheng Fu approximation of quantile function of
 	 * Student's t-distribution
 	 */
-	 API_VISIBLE double ProbabilityDistributions::qntChengFuStudentTAlgorithm(double p, double v) {
+	 API_VISIBLE double ProbabilityDistributions::qntChengFuStudentTAlgorithmWithCancel(double p, double v, int cancelId) {
 		if (Double::isNaN(p)) return Double::NaN;
 		if (Double::isNaN(v)) return Double::NaN;
 		if (v <= 0.0) return Double::NaN;
@@ -790,12 +820,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (a != 0.5) {
 			qi = Math::sqrt(2.0 * Math::pow(1.0 - 2.0 * a, 2.0) / (1.0 - Math::pow(1.0 - 2.0 * a, 2.0)));
 			for (i = 0.0; i < 20.0; i = i + 1.0) {
-				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 				gy = 0.0;
 				for (j = 0.0; j <= k - 1.0; j = j + 1.0) {
-					if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-					gy = gy + MathFunctions::factorial(2.0 * j) / Math::pow(2.0, 2.0 * j) /
-					     Math::pow(MathFunctions::factorial(j), 2.0) * Math::pow(
+					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+					gy = gy + MathFunctions::factorialWithCancel(2.0 * j, cancelId) / Math::pow(2.0, 2.0 * j) /
+					     Math::pow(MathFunctions::factorialWithCancel(j, cancelId), 2.0) * Math::pow(
 						     1.0 + Math::pow(qi, 2.0) / (2.0 * k), -j);
 				}
 				qip1 = 1.0 / Math::sqrt(1 / (2.0 * k) * (Math::pow(gy / (1.0 - 2.0 * a), 2.0) - 1.0));
@@ -862,6 +892,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return    Returns the PDF of Chi-Squared t-distribution.
 	 */
 	 API_VISIBLE double ProbabilityDistributions::pdfChiSquared(double x, double k) {
+		return pdfChiSquaredWithCancel(x, k, 0);
+	}
+
+	API_VISIBLE double ProbabilityDistributions::pdfChiSquaredWithCancel(double x, double k, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x)) return Double::NaN;
 		if (Double::isNaN(k)) return Double::NaN;
 		k = Math::round(k);
@@ -869,7 +905,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (x < 0.0) return 0.0;
 		if (BinaryRelations::isEqualOrAlmost(x, 0.0)) return 0.0;
 		return (Math::pow(x, k / 2.0 - 1.0) * Math::exp(-x / 2.0)) / (
-			       Math::pow(2, k / 2.0) * SpecialFunctions::gamma(k / 2.0));
+			       Math::pow(2, k / 2.0) * SpecialFunctions::gammaWithCancel(k / 2.0, cancelId));
 	}
 
 	/**
@@ -880,13 +916,19 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return    Returns the CDF of Chi-Squared distribution.
 	 */
 	 API_VISIBLE double ProbabilityDistributions::cdfChiSquared(double x, double k) {
+		return cdfChiSquaredWithCancel(x, k, 0);
+	}
+
+	API_VISIBLE double ProbabilityDistributions::cdfChiSquaredWithCancel(double x, double k, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x)) return Double::NaN;
 		if (Double::isNaN(k)) return Double::NaN;
 		k = Math::round(k);
 		if (k < 1.0) return Double::NaN;
 		if (x < 0.0) return 0.0;
 		if (BinaryRelations::isEqualOrAlmost(x, 0.0)) return 0.0;
-		return SpecialFunctions::regularizedGammaLowerP(k / 2.0, x / 2.0);
+		return SpecialFunctions::regularizedGammaLowerPWithCancel(k / 2.0, x / 2.0, cancelId);
 	}
 
 	/**
@@ -898,6 +940,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return    Returns the quantile of Chi-Squared distribution
 	 */
 	 API_VISIBLE double ProbabilityDistributions::qntChiSquared(double p, double k) {
+		return qntChiSquaredWithCancel(p, k, 0);
+	}
+
+	API_VISIBLE double ProbabilityDistributions::qntChiSquaredWithCancel(double p, double k, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(p)) return Double::NaN;
 		if (Double::isNaN(k)) return Double::NaN;
 		if (BinaryRelations::isEqualOrAlmost(p, 0.0)) return 0.0;
@@ -905,7 +953,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if ((p < 0.0) || (p > 1.0)) return Double::NaN;
 		k = Math::round(k);
 		if (k < 1.0) return Double::NaN;
-		return 2.0 * SpecialFunctions::inverseRegularizedGammaLowerP(k / 2.0, p);
+		return 2.0 * SpecialFunctions::inverseRegularizedGammaLowerPWithCancel(k / 2.0, p, cancelId);
 	}
 
 	/**
@@ -915,11 +963,17 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return    returns Pseudo-random number from Chi-Squared distribution
 	 */
 	 API_VISIBLE double ProbabilityDistributions::rndChiSquared(double k) {
+		return rndChiSquaredWithCancel(k, 0);
+	}
+
+	API_VISIBLE double ProbabilityDistributions::rndChiSquaredWithCancel(double k, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(k)) return Double::NaN;
 		k = Math::round(k);
 		if (k < 1.0) return Double::NaN;
 		if (randomGenerator == nullptr) throw std::invalid_argument("ProbabilityDistributions.rndChiSquared requires a non-null random generator");
-		return qntChiSquared(randomGenerator->nextDouble(), k);
+		return qntChiSquaredWithCancel(randomGenerator->nextDouble(), k, cancelId);
 	}
 
 	/**
@@ -933,6 +987,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * also known as Fisher–Snedecor distribution)
 	 */
 	 API_VISIBLE double ProbabilityDistributions::pdfSnedecordF(double x, double d1, double d2) {
+		return pdfSnedecordFWithCancel(x, d1, d2, 0);
+	}
+
+	API_VISIBLE double ProbabilityDistributions::pdfSnedecordFWithCancel(double x, double d1, double d2, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x)) return Double::NaN;
 		if (Double::isNaN(d1)) return Double::NaN;
 		if (Double::isNaN(d2)) return Double::NaN;
@@ -949,7 +1009,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double d1div2 = d1 / 2.0;
 		double d2div2 = d2 / 2.0;
 		return ((Math::pow(d1 * x, d1div2) * Math::pow(d2, d2div2)) / Math::pow(d1 * x + d2, d1div2 + d2div2)) / (
-			       x * SpecialFunctions::beta(d1div2, d2div2));
+			       x * SpecialFunctions::betaWithCancel(d1div2, d2div2, cancelId));
 	}
 
 	/**
@@ -963,6 +1023,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *              also known as Fisher–Snedecor distribution)
 	 */
 	 API_VISIBLE double ProbabilityDistributions::cdfSnedecordF(double x, double d1, double d2) {
+		return cdfSnedecordFWithCancel(x, d1, d2, 0);
+	}
+
+	API_VISIBLE double ProbabilityDistributions::cdfSnedecordFWithCancel(double x, double d1, double d2, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x)) return Double::NaN;
 		if (Double::isNaN(d1)) return Double::NaN;
 		if (Double::isNaN(d2)) return Double::NaN;
@@ -976,7 +1042,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (x == Double::NEGATIVE_INFINITY) return 0.0;
 		if (x < 0.0) return 0.0;
 		if (BinaryRelations::isEqualOrAlmost(x, 0.0)) return 0.0;
-		return SpecialFunctions::regularizedBeta(d1 / 2.0, d2 / 2.0, (d1 * x) / (d1 * x + d2));
+		return SpecialFunctions::regularizedBetaWithCancel(d1 / 2.0, d2 / 2.0, (d1 * x) / (d1 * x + d2), cancelId);
 	}
 
 	/**
@@ -990,6 +1056,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *              also known as Fisher–Snedecor distribution)
 	 */
 	 API_VISIBLE double ProbabilityDistributions::qntSnedecordF(double p, double d1, double d2) {
+		return qntSnedecordFWithCancel(p, d1, d2, 0);
+	}
+
+	API_VISIBLE double ProbabilityDistributions::qntSnedecordFWithCancel(double p, double d1, double d2, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(p)) return Double::NaN;
 		if (Double::isNaN(d1)) return Double::NaN;
 		if (Double::isNaN(d2)) return Double::NaN;
@@ -1003,7 +1075,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (BinaryRelations::isEqualOrAlmost(p, 1.0)) return Double::POSITIVE_INFINITY;
 		if (p < 0.0) return Double::NaN;
 		if (p > 1.0) return Double::NaN;
-		double regBetaInv = SpecialFunctions::inverseRegularizedBeta(d1 / 2.0, d2 / 2.0, p);
+		double regBetaInv = SpecialFunctions::inverseRegularizedBetaWithCancel(d1 / 2.0, d2 / 2.0, p, cancelId);
 		return (d2 * regBetaInv) / (d1 * (1 - regBetaInv));
 	}
 
@@ -1017,6 +1089,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *              or F-ratio, also known as Fisher–Snedecor distribution)
 	 */
 	 API_VISIBLE double ProbabilityDistributions::rndSnedecordF(double d1, double d2) {
+		return rndSnedecordFWithCancel(d1, d2, 0);
+	}
+
+	API_VISIBLE double ProbabilityDistributions::rndSnedecordFWithCancel(double d1, double d2, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(d1)) return Double::NaN;
 		if (Double::isNaN(d2)) return Double::NaN;
 		if (Double::isInfinite(d1)) return Double::NaN;
@@ -1026,7 +1104,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (BinaryRelations::isEqualOrAlmost(d1, 0.0)) return Double::NaN;
 		if (BinaryRelations::isEqualOrAlmost(d2, 0.0)) return Double::NaN;
 		if (randomGenerator == nullptr) throw std::invalid_argument("ProbabilityDistributions.rndSnedecordF requires a non-null random generator");
-		return qntSnedecordF(randomGenerator->nextDouble(), d1, d2);
+		return qntSnedecordFWithCancel(randomGenerator->nextDouble(), d1, d2, cancelId);
 	}
 
 	/**
@@ -1039,6 +1117,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see RandomVariable
 	 */
 	 API_VISIBLE double ProbabilityDistributions::getRandomVariableValue(int randomVariableId) {
+		return getRandomVariableValueWithCancel(randomVariableId, 0);
+	}
+
+	API_VISIBLE double ProbabilityDistributions::getRandomVariableValueWithCancel(int randomVariableId, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		switch (randomVariableId) {
 			case RandomVariable::UNIFORM_ID:
 				return ProbabilityDistributions::rndUniformContinuous(ProbabilityDistributions::randomGenerator);
@@ -1107,7 +1191,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			case RandomVariable::NAT1_9_ID:
 				return ProbabilityDistributions::rndInteger(1, 1000000000, ProbabilityDistributions::randomGenerator);
 			case RandomVariable::NOR_ID:
-				return ProbabilityDistributions::rndNormal(0.0, 1.0, ProbabilityDistributions::randomGenerator);
+				return ProbabilityDistributions::rndNormalWithCancel(0.0, 1.0, ProbabilityDistributions::randomGenerator, cancelId);
 			default: break;
 		}
 		return Double::NaN;

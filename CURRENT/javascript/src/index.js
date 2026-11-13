@@ -1,5 +1,5 @@
 /*
- * @(#)index.js        6.2.0    2026-11-11
+ * @(#)index.js        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -2014,8 +2014,20 @@ export async function initMxParser(options = {}) {
     for (const group of methods.values()) {
         const first = group[0], owner = owners[first.owner], target = first.static ? owner : owner.prototype;
         const inherited = Object.getPrototypeOf(target)?.[first.name];
+        const cancellationEntry = first.name.endsWith('WithCancel') || first.owner === 'mXparser'
+            && ['isCalculationCancelled', 'cancelCalculation', 'resetCalculationCancellation',
+                'reserveCancellationTokenId', 'releaseCancellationTokenId'].includes(first.name);
         Object.defineProperty(target, first.name, {
             configurable: true, value: function (...args) {
+                if (cancellationEntry) {
+                    // Check before overload conversion: Embind int conversion would truncate fractions.
+                    const id = args.at(-1);
+                    if (typeof id !== 'number' || !Number.isInteger(id))
+                        throw new TypeError('cancelId must be a finite integer number');
+                    const minimum = ['reserveCancellationTokenId', 'releaseCancellationTokenId'].includes(first.name) ? 1 : 0;
+                    if (id < minimum || id > 32767)
+                        throw new RangeError(`cancelId must be in ${minimum}..32767`);
+                }
                 managedGuard(first.owner, first.name, first.static, args);
                 // Managed numeric varargs whose native counterpart accepts a single
                 // array/list. Only normalize the container; calculation stays native.
@@ -2287,7 +2299,7 @@ export async function initMxParser(options = {}) {
 
                 // Native RecursiveArgument rounds this double before static_cast<int>.
                 // Validate that conversion domain without changing native index rounding.
-                if (item.owner === 'RecursiveArgument' && item.name === 'getArgumentValue' &&
+                if (item.owner === 'RecursiveArgument' && ['getArgumentValue', 'getArgumentValueWithCancel'].includes(item.name) &&
                     (!Number.isFinite(values[0]) || values[0] <= -2147483648.5 || values[0] >= 2147483647.5))
                     throw new TypeError('RecursiveArgument index must round to a representable native int32');
                 if (item.owner === 'wrapper::Math' && item.name === 'abs' && item.parameters[0].kind === 'int' && values[0] === -2147483648)

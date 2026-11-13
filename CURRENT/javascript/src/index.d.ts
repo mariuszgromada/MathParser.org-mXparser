@@ -1,5 +1,5 @@
 /*
- * @(#)index.d.ts        6.2.0    2026-11-11
+ * @(#)index.d.ts        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -642,6 +642,25 @@ export interface PrimitiveElementConstructor {
 }
 
 export interface Argument extends PrimitiveElement {
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "getArgumentValueWithCancel"(calcStepsRegister: CalcStepsRegister | null, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "getArgumentValueWithCancel"(cancelId: number): number;
+
     cloneHandle(): Argument;
 
     "addDefinitions"(p0: Array<PrimitiveElement | null> | NativeList<PrimitiveElement | null, "PrimitiveElementPtr"> | NullNativeList<"PrimitiveElementPtr"> | null): void;
@@ -823,6 +842,25 @@ export interface ArgumentConstructor extends Omit<PrimitiveElementConstructor, '
 }
 
 export interface Expression extends PrimitiveElement {
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "calculateWithCancel"(calcStepsRegister: CalcStepsRegister | null, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "calculateWithCancel"(cancelId: number): number;
+
     cloneHandle(): Expression;
 
     "addDefinitions"(p0: Array<PrimitiveElement | null> | NativeList<PrimitiveElement | null, "PrimitiveElementPtr"> | NullNativeList<"PrimitiveElementPtr"> | null): void;
@@ -1145,6 +1183,43 @@ export interface ConstantConstructor extends Omit<PrimitiveElementConstructor, '
 }
 
 export interface Function extends PrimitiveElement {
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "calculateWithCancel"(calcStepsRegister: CalcStepsRegister | null, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "calculateWithCancel"(parameters: ReadonlyArray<number> | Float64Array | null, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "calculateWithCancel"(arguments: ReadonlyArray<Argument | null> | null, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "calculateWithCancel"(cancelId: number): number;
+
     cloneHandle(): Function;
 
     "setFunction"(p0: string | null, ...p1: DefinitionInput[]): void;
@@ -1322,6 +1397,23 @@ export interface FunctionConstructor extends Omit<PrimitiveElementConstructor, '
 }
 
 export interface RecursiveArgument extends Argument {
+
+    /** No index: the sole argument is the cancellation ID. */
+    "getArgumentValueWithCancel"(cancelId: number): number;
+
+    /** Tracing/no index; null is a register, distinct from numeric index 0. */
+    "getArgumentValueWithCancel"(steps: CalcStepsRegister | null, cancelId: number): number;
+
+    /**
+     * Indexed access requires both index and ID; the inherited one-argument getter takes an ID.
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "getArgumentValueWithCancel"(index: number, cancelId: number): number;
+
     cloneHandle(): RecursiveArgument;
 
     "addBaseCase"(p0: number | Int32Value, p1: number): void;
@@ -2659,6 +2751,63 @@ export interface StringModelStatics {
 }
 
 export interface mXparserStatics {
+    /** Maximum cancellation domain ID; ID 0 is the global domain. @since 6.2.0 */
+    readonly "MAX_CANCELLATION_TOKEN_ID": number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "isCalculationCancelled"(cancelId: number): boolean;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "cancelCalculation"(cancelId: number): void;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "resetCalculationCancellation"(cancelId: number): void;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * Reserves a positive ID and resets its signal before returning. Throws on exhaustion.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "acquireCancellationTokenId"(): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 1..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "reserveCancellationTokenId"(cancelId: number): boolean;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 1..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "releaseCancellationTokenId"(cancelId: number): void;
+
     readonly "VERSION_MAJOR": number;
     readonly "VERSION_MINOR": number;
     readonly "VERSION_PATCH": number;
@@ -3109,6 +3258,34 @@ export interface mathcollection_BinaryRelationsStatics {
 }
 
 export interface mathcollection_BooleanAlgebraStatics {
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "andVariadicWithCancel"(values: ReadonlyArray<number> | Float64Array, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "orVariadicWithCancel"(values: ReadonlyArray<number> | Float64Array, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "xorVariadicWithCancel"(values: ReadonlyArray<number> | Float64Array, cancelId: number): number;
+
     readonly "FALSE": number;
     readonly "TRUE": number;
     readonly "NULL": number;
@@ -3163,6 +3340,61 @@ export interface mathcollection_BooleanAlgebraStatics {
 }
 
 export interface mathcollection_CalculusStatics {
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "integralTrapezoidWithCancel"(f: Expression | null, x: Argument | null, a: number, b: number, eps: number, maxSteps: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "derivativeWithCancel"(f: Expression | null, x: Argument | null, x0: number, derType: number | Int32Value, eps: number, maxSteps: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "derivativeNthWithCancel"(f: Expression | null, n: number, x: Argument | null, x0: number, derType: number | Int32Value, eps: number, maxSteps: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "forwardDifferenceWithCancel"(f: Expression | null, h: number, x: Argument | null, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "backwardDifferenceWithCancel"(f: Expression | null, h: number, x: Argument | null, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "solveBrentWithCancel"(f: Expression | null, x: Argument | null, a: number, b: number, eps: number, maxSteps: number, cancelId: number): number;
+
     readonly "LEFT_DERIVATIVE": number;
     readonly "RIGHT_DERIVATIVE": number;
     readonly "GENERAL_DERIVATIVE": number;
@@ -3266,6 +3498,367 @@ export interface mathcollection_MathConstantsStatics {
 }
 
 export interface mathcollection_MathFunctionsStatics {
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "bellNumberWithCancel"(n: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "bellNumberWithCancel"(n: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "eulerNumberWithCancel"(n: number | Int32Value, k: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "eulerNumberWithCancel"(n: number, k: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "factorialWithCancel"(n: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "factorialWithCancel"(n: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "factorialFallingWithCancel"(x: number, n: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "factorialRisingWithCancel"(x: number, n: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "binomCoeffWithCancel"(n: number, k: bigint, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "binomCoeffWithCancel"(n: number, k: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "numberOfPermutationsWithCancel"(n: number, k: bigint, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "numberOfPermutationsWithCancel"(n: number, k: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "bernoulliNumberWithCancel"(m: number | Int32Value, n: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "bernoulliNumberWithCancel"(m: number, n: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "Stirling1NumberWithCancel"(n: number | Int32Value, k: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "Stirling1NumberWithCancel"(n: number, k: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "Stirling2NumberWithCancel"(n: number | Int32Value, k: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "Stirling2NumberWithCancel"(n: number, k: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "worpitzkyNumberWithCancel"(n: number | Int32Value, k: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "worpitzkyNumberWithCancel"(n: number, k: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "ordinaryHarmonicNumberWithCancel"(n: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "ordinaryHarmonicNumberWithCancel"(n: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "generalizedHarmonicNumberWithCancel"(x: number, n: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "generalizedHarmonicNumberWithCancel"(x: number, n: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "fibonacciNumberWithCancel"(n: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "fibonacciNumberWithCancel"(n: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "lucasNumberWithCancel"(n: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "lucasNumberWithCancel"(n: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "continuedFractionWithCancel"(sequence: ReadonlyArray<number> | Float64Array | null, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "continuedPolynomialWithCancel"(x: ReadonlyArray<number> | Float64Array | null, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "eulerPolynomialWithCancel"(m: number | Int32Value, x: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "eulerPolynomialWithCancel"(m: number, x: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "tetrationWithCancel"(a: number, n: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "roundWithCancel"(value: number, places: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "roundHalfUpWithCancel"(value: number, places: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "roundDownWithCancel"(value: number, places: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "lengthRoundWithCancel"(value: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "coalesceWithCancel"(values: ReadonlyArray<number> | Float64Array | null, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "getFunctionValueWithCancel"(f: Expression | null, x: Argument | null, x0: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "getFunctionValuesWithCancel"(f: Expression | null, index: Argument | null, from: number, to: number, delta: number, cancelId: number): Array<number> | null;
+
     "plus"(p0: number, p1: number): number;
 
     "minus"(p0: number, p1: number): number;
@@ -3482,6 +4075,385 @@ export interface mathcollection_MathFunctionsStatics {
 }
 
 export interface mathcollection_NumberTheoryStatics {
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "minWithCancel"(numbers: ReadonlyArray<number> | Float64Array, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "argminWithCancel"(numbers: ReadonlyArray<number> | Float64Array, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "maxWithCancel"(numbers: ReadonlyArray<number> | Float64Array, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "argmaxWithCancel"(numbers: ReadonlyArray<number> | Float64Array, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "sortAscWithCancel"(array: Array<number> | Float64Array | null, cancelId: number): Array<number> | null;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "getDistValuesWithCancel"(array: Array<number> | Float64Array | null, returnOrderByDescFreqAndAscOrigPos: boolean, cancelId: number): Array<Array<number>> | null;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "numberOfDistValuesWithCancel"(numbers: ReadonlyArray<number> | Float64Array, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "gcdWithCancel"(a: bigint, b: bigint, cancelId: number): bigint;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "gcdWithCancel"(a: number, b: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "gcdWithCancel"(numbers: Array<bigint> | BigInt64Array, cancelId: number): bigint;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "gcdWithCancel"(numbers: Array<number> | Float64Array, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "lcmWithCancel"(a: bigint, b: bigint, cancelId: number): bigint;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "lcmWithCancel"(a: number, b: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "lcmWithCancel"(numbers: Array<bigint> | BigInt64Array, cancelId: number): bigint;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "lcmWithCancel"(numbers: Array<number> | Float64Array, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "sumWithCancel"(numbers: ReadonlyArray<number> | Float64Array, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "prodWithCancel"(numbers: ReadonlyArray<number> | Float64Array, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "primeTestWithCancel"(n: bigint, cancelId: number): boolean;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "primeTestWithCancel"(n: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "primeCountWithCancel"(n: bigint, cancelId: number): bigint;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "primeCountWithCancel"(n: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "sigmaSummationWithCancel"(f: Expression | null, index: Argument | null, from: number, to: number, delta: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "piProductWithCancel"(f: Expression | null, index: Argument | null, from: number, to: number, delta: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "minWithCancel"(f: Expression | null, index: Argument | null, from: number, to: number, delta: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "maxWithCancel"(f: Expression | null, index: Argument | null, from: number, to: number, delta: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "convOthBase2DecimalWithCancel"(numberLiteral: string | null, numeralSystemBase: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "convOthBase2DecimalWithCancel"(numeralSystemBase: number | Int32Value, digits: ReadonlyArray<number> | Int32Array, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "convOthBase2DecimalWithCancel"(numeralSystemBase: number, digits: ReadonlyArray<number> | Float64Array, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "convOthBase2DecimalWithCancel"(baseAndDigits: ReadonlyArray<number> | Int32Array | null, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "convOthBase2DecimalWithCancel"(baseAndDigits: ReadonlyArray<number> | Float64Array | null, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "formatNumberInBaseWithCancel"(decimalNumber: number, numeralSystemBase: number | Int32Value, cancelId: number): string | null;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "numberOfDigitsWithCancel"(number: bigint, numeralSystemBase: bigint, cancelId: number): bigint;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "numberOfDigitsWithCancel"(number: number, numeralSystemBase: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "digitAtPositionWithCancel"(number: bigint, position: number | Int32Value, numeralSystemBase: number | Int32Value, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "digitAtPositionWithCancel"(number: number, position: number, numeralSystemBase: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "decimalDigitAtPositionWithCancel"(number: number, position: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "primeFactorsWithCancel"(number: bigint, cancelId: number): Array<bigint> | null;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "primeFactorsWithCancel"(number: number, cancelId: number): Array<number> | null;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "numberOfPrimeFactorsWithCancel"(number: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "primeFactorValueWithCancel"(number: number, id: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "primeFactorExponentWithCancel"(number: number, id: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "toFractionWithCancel"(value: number, cancelId: number): Array<number> | null;
+
     readonly "DEFAULT_TO_FRACTION_INIT_SEARCH_SIZE": bigint;
 
     "setToFractionInitSearchSize"(p0: bigint): void;
@@ -3662,6 +4634,133 @@ export interface mathcollection_PhysicalConstantsStatics {
 }
 
 export interface mathcollection_ProbabilityDistributionsStatics {
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "rndNormalWithCancel"(mean: number, stddev: number, rnd: IRandom | null, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "pdfStudentTWithCancel"(x: number, v: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "cdfStudentTWithCancel"(x: number, v: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "qntStudentTWithCancel"(p: number, v: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "rndStudentTWithCancel"(v: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "pdfChiSquaredWithCancel"(x: number, k: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "cdfChiSquaredWithCancel"(x: number, k: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "qntChiSquaredWithCancel"(p: number, k: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "rndChiSquaredWithCancel"(k: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "pdfSnedecordFWithCancel"(x: number, d1: number, d2: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "cdfSnedecordFWithCancel"(x: number, d1: number, d2: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "qntSnedecordFWithCancel"(p: number, d1: number, d2: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "rndSnedecordFWithCancel"(d1: number, d2: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "getRandomVariableValueWithCancel"(randomVariableId: number | Int32Value, cancelId: number): number;
+
     "randomGenerator": IRandom | null;
 
     "rndUniformContinuous"(p0: number, p1: number, p2: IRandom | null): number;
@@ -3730,6 +4829,187 @@ export interface mathcollection_ProbabilityDistributionsStatics {
 }
 
 export interface mathcollection_SpecialFunctionsStatics {
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "exponentialIntegralEiWithCancel"(x: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "logarithmicIntegralLiWithCancel"(x: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "offsetLogarithmicIntegralLiWithCancel"(x: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "gammaWithCancel"(x: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "lanchosGammaWithCancel"(x: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "logGammaWithCancel"(x: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "sgnGammaWithCancel"(x: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "regularizedGammaLowerPWithCancel"(s: number, x: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "inverseRegularizedGammaLowerPWithCancel"(a: number, p: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "incompleteGammaLowerWithCancel"(s: number, x: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "regularizedGammaUpperQWithCancel"(s: number, x: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "incompleteGammaUpperWithCancel"(s: number, x: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "diGammaWithCancel"(x: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "logBetaWithCancel"(x: number, y: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "betaWithCancel"(x: number, y: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "incompleteBetaWithCancel"(a: number, b: number, x: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "regularizedBetaWithCancel"(a: number, b: number, x: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "inverseRegularizedBetaWithCancel"(a: number, b: number, p: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "lambertWWithCancel"(x: number, branch: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "hypergeometricFWithCancel"(a: number, b: number, c: number, z: number, maxIterations: number, precision: number, cancelId: number): number;
+
     "exponentialIntegralEi"(p0: number): number;
 
     "logarithmicIntegralLi"(p0: number): number;
@@ -3780,6 +5060,79 @@ export interface mathcollection_SpecialFunctionsStatics {
 }
 
 export interface mathcollection_StatisticsStatics {
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "avgWithCancel"(f: Expression | null, index: Argument | null, from: number, to: number, delta: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "varWithCancel"(f: Expression | null, index: Argument | null, from: number, to: number, delta: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "stdWithCancel"(f: Expression | null, index: Argument | null, from: number, to: number, delta: number, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "avgWithCancel"(numbers: ReadonlyArray<number> | Float64Array, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "varWithCancel"(numbers: ReadonlyArray<number> | Float64Array, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "stdWithCancel"(numbers: ReadonlyArray<number> | Float64Array, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "medianWithCancel"(numbers: ReadonlyArray<number> | Float64Array, cancelId: number): number;
+
+    /**
+     * Native cooperative cancellation; ID 0 uses the global flag, positive IDs also observe their domain.
+     * cancelId must be an integer in 0..32767. Signals remain set until reset/release.
+     * Existing checks determine the result; a set signal does not prove this call stopped.
+     * Synchronous WASM blocks timers/messages; see docs/CANCELLATION.md for delivery and lifecycle limits.
+     * @since 6.2.0
+     */
+    "modeWithCancel"(numbers: ReadonlyArray<number> | Float64Array, cancelId: number): number;
+
     "avg"(p0: Expression, p1: Argument, p2: number, p3: number, p4: number): number;
 
     "avg"(...p0: (number | readonly (number)[] | NativeList<number, "double"> | Float64Array | null)[]): number;

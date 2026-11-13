@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        6.2.0    2026-11-11
+ * @(#)Expression.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -260,6 +260,9 @@ namespace org.mariuszgromada.math.mxparser {
 	 */
 	[CLSCompliant(true), Serializable]
 	public class Expression : PrimitiveElement {
+		[NonSerialized]
+		private int activeCancelId = 0;
+
 		/**
 		 * Expression type id
 		 */
@@ -1252,7 +1255,7 @@ namespace org.mariuszgromada.math.mxparser {
 			int argumentIndex = getArgumentIndex(argumentName);
 			if (argumentIndex == NOT_FOUND)
                 return Double.NaN;
-            return argumentsList[argumentIndex].getArgumentValue();
+			return argumentsList[argumentIndex].getArgumentValueWithCancel(activeCancelId);
 		}
 		/**
 		 * Removes first occurrences of the arguments
@@ -1665,7 +1668,7 @@ namespace org.mariuszgromada.math.mxparser {
 
 			int precision = MathFunctions.ulpDecimalDigitsBefore(number);
 			if (precision >= 0)
-				token.tokenValue = MathFunctions.round(number, precision);
+				token.tokenValue = MathFunctions.roundWithCancel(number, precision, activeCancelId);
 			else
 				token.tokenValue = number;
 		}
@@ -2000,7 +2003,7 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			argParam.initialValue = argParam.argument.argumentValue;
 			argParam.initialType = argParam.argument.argumentType;
-			argParam.argument.argumentValue = argParam.argument.getArgumentValue();
+			argParam.argument.argumentValue = argParam.argument.getArgumentValueWithCancel(activeCancelId);
 			argParam.argument.argumentType = Argument.FREE_ARGUMENT;
 			return argParam;
 		}
@@ -2034,7 +2037,7 @@ namespace org.mariuszgromada.math.mxparser {
 			bool argumentVerboseMode = argument.getVerboseMode();
 			if (verboseMode)
 				argument.setVerboseMode();
-			setToNumber(pos, argument.getArgumentValue());
+			setToNumber(pos, argument.getArgumentValueWithCancel(activeCancelId));
 			if (!argumentVerboseMode)
 				argument.setSilentMode();
 		}
@@ -2062,7 +2065,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 */
 			int tokensListSizeBefore = tokensList.Count;
 			Token tokenBefore = tokensList[pos];
-			double argumentValue = argument.getArgumentValue(calcStepsRegister);
+			double argumentValue = argument.getArgumentValueWithCancel(calcStepsRegister, activeCancelId);
 			if (forwardErrorMessage && this != argument.argumentExpression) {
 				errorMessageCalculate = StringUtils.stringConcatenateMaxLength(errorMessageCalculate, argument.argumentExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
 				errorMessage = StringUtils.stringConcatenateMaxLength(errorMessage, argument.argumentExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
@@ -2113,7 +2116,7 @@ namespace org.mariuszgromada.math.mxparser {
 			Token tokenBefore = tokensList[pos];
 			double value;
 			try {
-				value = function.calculate(calcStepsRegister);
+				value = function.calculateWithCancel(calcStepsRegister, activeCancelId);
 			} catch (StackOverflowException soe) {
 				value = Double.NaN;
 				errorMessage = StringUtils.trimNotNull(soe.Message);
@@ -2159,7 +2162,7 @@ namespace org.mariuszgromada.math.mxparser {
 			bool argumentVerboseMode = argument.getVerboseMode();
 			if (verboseMode)
 				argument.setVerboseMode();
-			double result = argument.getArgumentValue(index);
+			double result = argument.getArgumentValueWithCancel(index, activeCancelId);
 			if (forwardErrorMessage && this != argument.argumentExpression) {
 				errorMessageCalculate = StringUtils.stringConcatenateMaxLength(errorMessageCalculate, argument.argumentExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
 				errorMessage = StringUtils.stringConcatenateMaxLength(errorMessage, argument.argumentExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
@@ -2199,7 +2202,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void RANDOM_VARIABLE(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.RANDOM_VARIABLE, pos);
-            setToNumber(pos, ProbabilityDistributions.getRandomVariableValue(tokensList[pos].tokenId));
+			setToNumber(pos, ProbabilityDistributions.getRandomVariableValueWithCancel(tokensList[pos].tokenId, activeCancelId));
         }
 		/**
 		 * Gets token value
@@ -2219,7 +2222,7 @@ namespace org.mariuszgromada.math.mxparser {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.TETRATION, pos);
 			double a = getTokenValue(pos - 1);
 			double n = getTokenValue(pos + 1);
-			opSetDecreaseRemove(pos, MathFunctions.tetration(a, n), true);
+			opSetDecreaseRemove(pos, MathFunctions.tetrationWithCancel(a, n, activeCancelId), true);
 		}
 		/**
 		 * Power handling.
@@ -2988,7 +2991,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void BELL_NUMBER(int pos) {
 			double n = getTokenValue(pos+1);
-			f1SetDecreaseRemove(pos, MathFunctions.bellNumber(n) );
+			f1SetDecreaseRemove(pos, MathFunctions.bellNumberWithCancel(n, activeCancelId) );
 		}
 		/**
 		 * Lucas numbers
@@ -2997,7 +3000,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void LUCAS_NUMBER(int pos) {
 			double n = getTokenValue(pos+1);
-			f1SetDecreaseRemove(pos, MathFunctions.lucasNumber(n) );
+			f1SetDecreaseRemove(pos, MathFunctions.lucasNumberWithCancel(n, activeCancelId) );
 		}
 		/**
 		 * Fibonacci numbers
@@ -3006,7 +3009,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void FIBONACCI_NUMBER(int pos) {
 			double n = getTokenValue(pos+1);
-			f1SetDecreaseRemove(pos, MathFunctions.fibonacciNumber(n) );
+			f1SetDecreaseRemove(pos, MathFunctions.fibonacciNumberWithCancel(n, activeCancelId) );
 		}
 		/**
 		 * Harmonic numbers
@@ -3015,7 +3018,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void HARMONIC_NUMBER(int pos) {
 			double n = getTokenValue(pos+1);
-			f1SetDecreaseRemove(pos, MathFunctions.harmonicNumber(n) );
+			f1SetDecreaseRemove(pos, MathFunctions.ordinaryHarmonicNumberWithCancel(n, activeCancelId) );
 		}
 		/**
 		 * Prime test
@@ -3024,7 +3027,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void IS_PRIME(int pos) {
 			double n = getTokenValue(pos + 1);
-			f1SetDecreaseRemove(pos, NumberTheory.primeTest(n));
+			f1SetDecreaseRemove(pos, NumberTheory.primeTestWithCancel(n, activeCancelId));
 		}
 		/**
 		 * Prime counting
@@ -3033,7 +3036,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void PRIME_COUNT(int pos) {
 			double n = getTokenValue(pos + 1);
-			f1SetDecreaseRemove(pos, NumberTheory.primeCount(n));
+			f1SetDecreaseRemove(pos, NumberTheory.primeCountWithCancel(n, activeCancelId));
 		}
 		/**
 		 * Exponential integral function
@@ -3042,7 +3045,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void EXP_INT(int pos) {
 			double x = getTokenValue(pos + 1);
-			f1SetDecreaseRemove(pos, SpecialFunctions.exponentialIntegralEi(x));
+			f1SetDecreaseRemove(pos, SpecialFunctions.exponentialIntegralEiWithCancel(x, activeCancelId));
 		}
 		/**
 		 * Logarithmic exponential integral function
@@ -3051,7 +3054,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void LOG_INT(int pos) {
 			double x = getTokenValue(pos + 1);
-			f1SetDecreaseRemove(pos, SpecialFunctions.logarithmicIntegralLi(x));
+			f1SetDecreaseRemove(pos, SpecialFunctions.logarithmicIntegralLiWithCancel(x, activeCancelId));
 		}
 		/**
 		 * Offset logarithmic exponential integral function
@@ -3060,7 +3063,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void OFF_LOG_INT(int pos) {
 			double x = getTokenValue(pos + 1);
-			f1SetDecreaseRemove(pos, SpecialFunctions.offsetLogarithmicIntegralLi(x));
+			f1SetDecreaseRemove(pos, SpecialFunctions.offsetLogarithmicIntegralLiWithCancel(x, activeCancelId));
 		}
 		/**
 		 * Factorilal function
@@ -3071,7 +3074,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void FACT(int pos) {
 			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.FACT, pos);
 			double a = getTokenValue(pos-1);
-			setToNumber(pos, MathFunctions.factorial(a));
+			setToNumber(pos, MathFunctions.factorialWithCancel(a, activeCancelId));
 			tokensList.RemoveAt(pos-1);
 		}
 		/**
@@ -3173,7 +3176,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void NFACT(int pos) {
 			double n = getTokenValue(pos + 1);
-			f1SetDecreaseRemove(pos, NumberTheory.numberOfPrimeFactors(n));
+			f1SetDecreaseRemove(pos, NumberTheory.numberOfPrimeFactorsWithCancel(n, activeCancelId));
 		}
 		/**
 		 * Arcuus secant
@@ -3203,7 +3206,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void GAMMA(int pos) {
 			double x = getTokenValue(pos + 1);
-			f1SetDecreaseRemove(pos, SpecialFunctions.gamma(x));
+			f1SetDecreaseRemove(pos, SpecialFunctions.gammaWithCancel(x, activeCancelId));
 		}
 		/**
 		 * Lambert-W special function, principal branch 0
@@ -3213,7 +3216,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void LAMBERT_W0(int pos) {
 			double x = getTokenValue(pos + 1);
-			f1SetDecreaseRemove(pos, SpecialFunctions.lambertW(x, 0));
+			f1SetDecreaseRemove(pos, SpecialFunctions.lambertWWithCancel(x, 0, activeCancelId));
 		}
 		/**
 		 * Lambert-W special function, branch = -1
@@ -3223,7 +3226,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void LAMBERT_W1(int pos) {
 			double x = getTokenValue(pos + 1);
-			f1SetDecreaseRemove(pos, SpecialFunctions.lambertW(x, -1));
+			f1SetDecreaseRemove(pos, SpecialFunctions.lambertWWithCancel(x, -1, activeCancelId));
 		}
 		/**
 		 * Signum of Gamma special function
@@ -3233,7 +3236,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void SGN_GAMMA(int pos) {
 			double x = getTokenValue(pos+1);
-			f1SetDecreaseRemove(pos, SpecialFunctions.sgnGamma(x) );
+			f1SetDecreaseRemove(pos, SpecialFunctions.sgnGammaWithCancel(x, activeCancelId) );
 		}
 		/**
 		 * Log Gamma special function
@@ -3243,7 +3246,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void LOG_GAMMA(int pos) {
 			double x = getTokenValue(pos+1);
-			f1SetDecreaseRemove(pos, SpecialFunctions.logGamma(x) );
+			f1SetDecreaseRemove(pos, SpecialFunctions.logGammaWithCancel(x, activeCancelId) );
 		}
 		/**
 		 * Digamma special function
@@ -3253,7 +3256,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void DI_GAMMA(int pos) {
 			double x = getTokenValue(pos+1);
-			f1SetDecreaseRemove(pos, SpecialFunctions.diGamma(x) );
+			f1SetDecreaseRemove(pos, SpecialFunctions.diGammaWithCancel(x, activeCancelId) );
 		}
 		/**
 		 * User Defined Variadic function param value
@@ -3283,11 +3286,11 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		private void RND_STUDENT_T(int pos) {
 			double v = getTokenValue(pos+1);
-			f1SetDecreaseRemove(pos, ProbabilityDistributions.rndStudentT(v) );
+			f1SetDecreaseRemove(pos, ProbabilityDistributions.rndStudentTWithCancel(v, activeCancelId) );
 		}
 		private void RND_CHI2(int pos) {
 			double k = getTokenValue(pos+1);
-			f1SetDecreaseRemove(pos, ProbabilityDistributions.rndChiSquared(k) );
+			f1SetDecreaseRemove(pos, ProbabilityDistributions.rndChiSquaredWithCancel(k, activeCancelId) );
 		}
 		/**
 		 * Logarithm
@@ -3345,7 +3348,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void BINOM_COEFF(int pos) {
 			double n = getTokenValue(pos+1);
 			double k = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, MathFunctions.binomCoeff(n,k) );
+			f2SetDecreaseRemove(pos, MathFunctions.binomCoeffWithCancel(n,k, activeCancelId) );
 		}
 		/**
 		 * Number of permutations
@@ -3355,7 +3358,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void PERMUTATIONS(int pos) {
 			double n = getTokenValue(pos+1);
 			double k = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, MathFunctions.numberOfPermutations(n, k) );
+			f2SetDecreaseRemove(pos, MathFunctions.numberOfPermutationsWithCancel(n, k, activeCancelId) );
 		}
 		/**
 		 * Beta special function
@@ -3364,7 +3367,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void BETA(int pos) {
 			double x = getTokenValue(pos+1);
 			double y = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, SpecialFunctions.beta(x, y) );
+			f2SetDecreaseRemove(pos, SpecialFunctions.betaWithCancel(x, y, activeCancelId) );
 		}
 		/**
 		 * Log beta special function
@@ -3373,37 +3376,37 @@ namespace org.mariuszgromada.math.mxparser {
 		private void LOG_BETA(int pos) {
 			double x = getTokenValue(pos+1);
 			double y = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, SpecialFunctions.logBeta(x, y) );
+			f2SetDecreaseRemove(pos, SpecialFunctions.logBetaWithCancel(x, y, activeCancelId) );
 		}
 		private void PDF_STUDENT_T(int pos) {
 			double x = getTokenValue(pos+1);
 			double v = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, ProbabilityDistributions.pdfStudentT(x, v) );
+			f2SetDecreaseRemove(pos, ProbabilityDistributions.pdfStudentTWithCancel(x, v, activeCancelId) );
 		}
 		private void CDF_STUDENT_T(int pos) {
 			double x = getTokenValue(pos+1);
 			double v = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, ProbabilityDistributions.cdfStudentT(x, v) );
+			f2SetDecreaseRemove(pos, ProbabilityDistributions.cdfStudentTWithCancel(x, v, activeCancelId) );
 		}
 		private void QNT_STUDENT_T(int pos) {
 			double p = getTokenValue(pos+1);
 			double v = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, ProbabilityDistributions.qntStudentT(p, v) );
+			f2SetDecreaseRemove(pos, ProbabilityDistributions.qntStudentTWithCancel(p, v, activeCancelId) );
 		}
 		private void PDF_CHI2(int pos) {
 			double x = getTokenValue(pos+1);
 			double k = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, ProbabilityDistributions.pdfChiSquared(x, k) );
+			f2SetDecreaseRemove(pos, ProbabilityDistributions.pdfChiSquaredWithCancel(x, k, activeCancelId) );
 		}
 		private void CDF_CHI2(int pos) {
 			double x = getTokenValue(pos+1);
 			double k = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, ProbabilityDistributions.cdfChiSquared(x, k) );
+			f2SetDecreaseRemove(pos, ProbabilityDistributions.cdfChiSquaredWithCancel(x, k, activeCancelId) );
 		}
 		private void QNT_CHI2(int pos) {
 			double p = getTokenValue(pos+1);
 			double k = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, ProbabilityDistributions.qntChiSquared(p, k) );
+			f2SetDecreaseRemove(pos, ProbabilityDistributions.qntChiSquaredWithCancel(p, k, activeCancelId) );
 		}
 	/**
 		/**
@@ -3414,7 +3417,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void BERNOULLI_NUMBER(int pos) {
 			double m = getTokenValue(pos+1);
 			double n = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, MathFunctions.bernoulliNumber(m, n) );
+			f2SetDecreaseRemove(pos, MathFunctions.bernoulliNumberWithCancel(m, n, activeCancelId) );
 		}
 		/**
 		 * Stirling number of the first kind
@@ -3424,7 +3427,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void STIRLING1_NUMBER(int pos) {
 			double n = getTokenValue(pos+1);
 			double k = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, MathFunctions.Stirling1Number(n, k) );
+			f2SetDecreaseRemove(pos, MathFunctions.Stirling1NumberWithCancel(n, k, activeCancelId) );
 		}
 		/**
 		 * Stirling number of the second kind.
@@ -3434,7 +3437,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void STIRLING2_NUMBER(int pos) {
 			double n = getTokenValue(pos+1);
 			double k = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, MathFunctions.Stirling2Number(n, k) );
+			f2SetDecreaseRemove(pos, MathFunctions.Stirling2NumberWithCancel(n, k, activeCancelId) );
 		}
 		/**
 		 * Worpitzky number.
@@ -3444,7 +3447,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void WORPITZKY_NUMBER(int pos) {
 			double n = getTokenValue(pos+1);
 			double k = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, MathFunctions.worpitzkyNumber(n, k) );
+			f2SetDecreaseRemove(pos, MathFunctions.worpitzkyNumberWithCancel(n, k, activeCancelId) );
 		}
 		/**
 		 * Euler number
@@ -3454,7 +3457,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void EULER_NUMBER(int pos) {
 			double n = getTokenValue(pos+1);
 			double k = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, MathFunctions.eulerNumber(n, k) );
+			f2SetDecreaseRemove(pos, MathFunctions.eulerNumberWithCancel(n, k, activeCancelId) );
 		}
 		/**
 		 * Kronecker delta
@@ -3474,7 +3477,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void EULER_POLYNOMIAL(int pos) {
 			double m = getTokenValue(pos+1);
 			double x = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, MathFunctions.eulerPolynomial(m, x) );
+			f2SetDecreaseRemove(pos, MathFunctions.eulerPolynomialWithCancel(m, x, activeCancelId) );
 		}
 		/**
 		 * Harmonic numbers
@@ -3484,7 +3487,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void HARMONIC2_NUMBER(int pos) {
 			double x = getTokenValue(pos+1);
 			double n = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, MathFunctions.harmonicNumber(x, n) );
+			f2SetDecreaseRemove(pos, MathFunctions.generalizedHarmonicNumberWithCancel(x, n, activeCancelId) );
 		}
 		/**
 		 * Decimal rounding
@@ -3494,7 +3497,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void ROUND(int pos) {
 			double value = getTokenValue(pos + 1);
 			int places = (int)getTokenValue(pos + 2);
-			f2SetDecreaseRemove(pos, MathFunctions.round(value, places));
+			f2SetDecreaseRemove(pos, MathFunctions.roundWithCancel(value, places, activeCancelId));
 		}
 		/**
 		 * Random number - Uniform Continuous distribution
@@ -3524,7 +3527,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void RND_NORMAL(int pos) {
 			double mean = getTokenValue(pos + 1);
 			double stddev = getTokenValue(pos + 2);
-			f2SetDecreaseRemove(pos, ProbabilityDistributions.rndNormal(mean, stddev, ProbabilityDistributions.randomGenerator));
+			f2SetDecreaseRemove(pos, ProbabilityDistributions.rndNormalWithCancel(mean, stddev, ProbabilityDistributions.randomGenerator, activeCancelId));
 		}
 		/**
 		 * Random number - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)
@@ -3534,7 +3537,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void RND_F_SNEDECOR(int pos) {
 			double d1 = getTokenValue(pos+1);
 			double d2 = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, ProbabilityDistributions.rndSnedecordF(d1, d2) );
+			f2SetDecreaseRemove(pos, ProbabilityDistributions.rndSnedecordFWithCancel(d1, d2, activeCancelId) );
 		}
 		/**
 		 * Number of digits in given numeral system
@@ -3544,7 +3547,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void NDIG(int pos) {
 			double number = getTokenValue(pos + 1);
 			double numeralSystemBase = getTokenValue(pos + 2);
-			f2SetDecreaseRemove(pos, NumberTheory.numberOfDigits(number, numeralSystemBase));
+			f2SetDecreaseRemove(pos, NumberTheory.numberOfDigitsWithCancel(number, numeralSystemBase, activeCancelId));
 		}
 		/**
 		 * Digit at position - base 10 numeral system
@@ -3554,7 +3557,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void DIGIT10(int pos) {
 			double number = getTokenValue(pos + 1);
 			double position = getTokenValue(pos + 2);
-			f2SetDecreaseRemove(pos, NumberTheory.digitAtPosition(number, position));
+			f2SetDecreaseRemove(pos, NumberTheory.decimalDigitAtPositionWithCancel(number, position, activeCancelId));
 		}
 		/**
 		 * Prime factor value
@@ -3564,7 +3567,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void FACTVAL(int pos) {
 			double number = getTokenValue(pos + 1);
 			double id = getTokenValue(pos + 2);
-			f2SetDecreaseRemove(pos, NumberTheory.primeFactorValue(number, id));
+			f2SetDecreaseRemove(pos, NumberTheory.primeFactorValueWithCancel(number, id, activeCancelId));
 		}
 		/**
 		 * Prime factor value exponent
@@ -3574,7 +3577,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void FACTEXP(int pos) {
 			double number = getTokenValue(pos + 1);
 			double id = getTokenValue(pos + 2);
-			f2SetDecreaseRemove(pos, NumberTheory.primeFactorExponent(number, id));
+			f2SetDecreaseRemove(pos, NumberTheory.primeFactorExponentWithCancel(number, id, activeCancelId));
 		}
 		/**
 		 * Nth order root
@@ -3594,7 +3597,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void INC_GAMMA_LOWER(int pos) {
 			double s = getTokenValue(pos+1);
 			double x = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, SpecialFunctions.incompleteGammaLower(s, x) );
+			f2SetDecreaseRemove(pos, SpecialFunctions.incompleteGammaLowerWithCancel(s, x, activeCancelId) );
 		}
 		/**
 		 * Upper incomplete special Gamma function
@@ -3604,7 +3607,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void INC_GAMMA_UPPER(int pos) {
 			double s = getTokenValue(pos+1);
 			double x = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, SpecialFunctions.incompleteGammaUpper(s, x) );
+			f2SetDecreaseRemove(pos, SpecialFunctions.incompleteGammaUpperWithCancel(s, x, activeCancelId) );
 		}
 		/**
 		 * Lower regularized special Gamma function
@@ -3614,7 +3617,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void REG_GAMMA_LOWER(int pos) {
 			double s = getTokenValue(pos+1);
 			double x = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, SpecialFunctions.regularizedGammaLowerP(s, x) );
+			f2SetDecreaseRemove(pos, SpecialFunctions.regularizedGammaLowerPWithCancel(s, x, activeCancelId) );
 		}
 		/**
 		 * Lower regularized special Gamma function
@@ -3624,7 +3627,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void REG_GAMMA_UPPER(int pos) {
 			double s = getTokenValue(pos+1);
 			double x = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, SpecialFunctions.regularizedGammaUpperQ(s, x) );
+			f2SetDecreaseRemove(pos, SpecialFunctions.regularizedGammaUpperQWithCancel(s, x, activeCancelId) );
 		}
 		/**
 		 * IF function
@@ -3646,7 +3649,7 @@ namespace org.mariuszgromada.math.mxparser {
 			Expression ifExp = new Expression(ifParam.paramStr, ifParam.tokens, argumentsList, functionsList, constantsList, KEEP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
 			if (verboseMode)
 				ifExp.setVerboseMode();
-			ifSetRemove(pos, ifExp.calculate());
+			ifSetRemove(pos, ifExp.calculateWithCancel(activeCancelId));
 		}
 		/**
 		 * IFF function
@@ -3673,7 +3676,7 @@ namespace org.mariuszgromada.math.mxparser {
 				if (verboseMode)
 					iffExp.setVerboseMode();
 				iffCon = true;
-				iffValue = iffExp.calculate();
+				iffValue = iffExp.calculateWithCancel(activeCancelId);
 				if (iffValue == 0 || Double.IsNaN(iffValue)) {
 						paramNumber += 2;
 						iffCon = false;
@@ -3850,7 +3853,7 @@ namespace org.mariuszgromada.math.mxparser {
 			double x = getTokenValue(pos+1);
 			double d1 = getTokenValue(pos+2);
 			double d2 = getTokenValue(pos+3);
-			f3SetDecreaseRemove(pos, ProbabilityDistributions.pdfSnedecordF(x, d1, d2) );
+			f3SetDecreaseRemove(pos, ProbabilityDistributions.pdfSnedecordFWithCancel(x, d1, d2, activeCancelId) );
 		}
 		/**
 		 * Cumulative Distribution Function - Snedecor's F distribution
@@ -3861,7 +3864,7 @@ namespace org.mariuszgromada.math.mxparser {
 			double x = getTokenValue(pos+1);
 			double d1 = getTokenValue(pos+2);
 			double d2 = getTokenValue(pos+3);
-			f3SetDecreaseRemove(pos, ProbabilityDistributions.cdfSnedecordF(x, d1, d2) );
+			f3SetDecreaseRemove(pos, ProbabilityDistributions.cdfSnedecordFWithCancel(x, d1, d2, activeCancelId) );
 		}
 		/**
 		 * Quantile Function - Snedecor's F distribution
@@ -3872,7 +3875,7 @@ namespace org.mariuszgromada.math.mxparser {
 			double p = getTokenValue(pos+1);
 			double d1 = getTokenValue(pos+2);
 			double d2 = getTokenValue(pos+3);
-			f3SetDecreaseRemove(pos, ProbabilityDistributions.qntSnedecordF(p, d1, d2) );
+			f3SetDecreaseRemove(pos, ProbabilityDistributions.qntSnedecordFWithCancel(p, d1, d2, activeCancelId) );
 		}
         private readonly double PP = Math.Round(MathConstants.PI * 1e8);
         private readonly double EE = Math.Round(MathConstants.E * 1e8);
@@ -3890,7 +3893,7 @@ namespace org.mariuszgromada.math.mxparser {
 			if (number == PP && position == EE && numeralSystemBase == GG)
                 value = 2 + License.getUseType() * 10 + mXparser.VERSION_PATCH * 100 + mXparser.VERSION_MINOR * 10000 + mXparser.VERSION_MAJOR * 1000000;
             else
-				value = NumberTheory.digitAtPosition(number, position, numeralSystemBase);
+				value = NumberTheory.digitAtPositionWithCancel(number, position, numeralSystemBase, activeCancelId);
 			f3SetDecreaseRemove(pos, value);
 		}
 		/**
@@ -3901,7 +3904,7 @@ namespace org.mariuszgromada.math.mxparser {
 			double x = getTokenValue(pos+1);
 			double a = getTokenValue(pos+2);
 			double b = getTokenValue(pos+3);
-			f3SetDecreaseRemove(pos, SpecialFunctions.incompleteBeta(a, b, x) );
+			f3SetDecreaseRemove(pos, SpecialFunctions.incompleteBetaWithCancel(a, b, x, activeCancelId) );
 		}
 		/**
 		 * Regularized incomplete beta special function
@@ -3911,7 +3914,7 @@ namespace org.mariuszgromada.math.mxparser {
 			double x = getTokenValue(pos+1);
 			double a = getTokenValue(pos+2);
 			double b = getTokenValue(pos+3);
-			f3SetDecreaseRemove(pos, SpecialFunctions.regularizedBeta(a, b, x) );
+			f3SetDecreaseRemove(pos, SpecialFunctions.regularizedBetaWithCancel(a, b, x, activeCancelId) );
 		}
 		/**
 		 * Updating missing tokens (i.e. indexes i sum operator). Used when creating
@@ -3971,8 +3974,8 @@ namespace org.mariuszgromada.math.mxparser {
 			/*
 			 * Evaluate range
 			 */
-			iterParams.from = iterParams.fromExp.calculate();
-			iterParams.to = iterParams.toExp.calculate();
+			iterParams.from = iterParams.fromExp.calculateWithCancel(activeCancelId);
+			iterParams.to = iterParams.toExp.calculateWithCancel(activeCancelId);
 			iterParams.delta = 1;
 			if (iterParams.to < iterParams.from) iterParams.delta = -1;
 			if (iterParams.withDelta) {
@@ -3982,7 +3985,7 @@ namespace org.mariuszgromada.math.mxparser {
 				}
 				if (verboseMode)
 					iterParams.deltaExp.setVerboseMode();
-				iterParams.delta = iterParams.deltaExp.calculate();
+				iterParams.delta = iterParams.deltaExp.calculateWithCancel(activeCancelId);
 			}
 		}
 		/**
@@ -4000,7 +4003,7 @@ namespace org.mariuszgromada.math.mxparser {
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 			updateMissingTokens(index, iterParams);
 			evalFromToDeltaParameters(index, iterParams);
-			double sigma = NumberTheory.sigmaSummation(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
+			double sigma = NumberTheory.sigmaSummationWithCancel(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta, activeCancelId);
 			clearParamArgument(index);
 			calcSetDecreaseRemove(pos, sigma, true);
 		}
@@ -4019,7 +4022,7 @@ namespace org.mariuszgromada.math.mxparser {
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 			updateMissingTokens(index, iterParams);
 			evalFromToDeltaParameters(index, iterParams);
-			double product = NumberTheory.piProduct(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
+			double product = NumberTheory.piProductWithCancel(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta, activeCancelId);
 			clearParamArgument(index);
 			calcSetDecreaseRemove(pos, product, true);
 		}
@@ -4038,7 +4041,7 @@ namespace org.mariuszgromada.math.mxparser {
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 			updateMissingTokens(index, iterParams);
 			evalFromToDeltaParameters(index, iterParams);
-			double min = NumberTheory.min(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
+			double min = NumberTheory.minWithCancel(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta, activeCancelId);
 			clearParamArgument(index);
 			calcSetDecreaseRemove(pos, min);
 		}
@@ -4057,7 +4060,7 @@ namespace org.mariuszgromada.math.mxparser {
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 			updateMissingTokens(index, iterParams);
 			evalFromToDeltaParameters(index, iterParams);
-			double max = NumberTheory.max(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
+			double max = NumberTheory.maxWithCancel(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta, activeCancelId);
 			clearParamArgument(index);
 			calcSetDecreaseRemove(pos, max);
 		}
@@ -4076,7 +4079,7 @@ namespace org.mariuszgromada.math.mxparser {
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 			updateMissingTokens(index, iterParams);
 			evalFromToDeltaParameters(index, iterParams);
-			double avg = Statistics.avg(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
+			double avg = Statistics.avgWithCancel(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta, activeCancelId);
 			clearParamArgument(index);
 			calcSetDecreaseRemove(pos, avg, true);
 		}
@@ -4095,7 +4098,7 @@ namespace org.mariuszgromada.math.mxparser {
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 			updateMissingTokens(index, iterParams);
 			evalFromToDeltaParameters(index, iterParams);
-			double var = Statistics.var(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
+			double var = Statistics.varWithCancel(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta, activeCancelId);
 			clearParamArgument(index);
 			calcSetDecreaseRemove(pos, var, true);
 		}
@@ -4114,7 +4117,7 @@ namespace org.mariuszgromada.math.mxparser {
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 			updateMissingTokens(index, iterParams);
 			evalFromToDeltaParameters(index, iterParams);
-			double std = Statistics.std(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
+			double std = Statistics.stdWithCancel(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta, activeCancelId);
 			clearParamArgument(index);
 			calcSetDecreaseRemove(pos, std, true);
 		}
@@ -4162,7 +4165,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 * der( f(x), x, eps, maxsteps )
 			 */
 			if (derParams.Count == 2 || derParams.Count == 4)
-				x0 = x.argument.getArgumentValue();
+				x0 = x.argument.getArgumentValueWithCancel(activeCancelId);
 			/*
 			 * der( f(x), x, x0 )
 			 * der( f(x), x, x0, eps, maxsteps )
@@ -4172,7 +4175,7 @@ namespace org.mariuszgromada.math.mxparser {
 				if (x.presence == Argument.NOT_FOUND)
 					updateMissingTokens(x0Param.tokens, xParam.paramStr, x.index, Argument.TYPE_ID);
 				Expression x0Expr = new Expression(x0Param.paramStr, x0Param.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-				x0 = x0Expr.calculate();
+				x0 = x0Expr.calculateWithCancel(activeCancelId);
 			}
 			double eps = DEF_EPS;
 			int maxSteps = DEF_MAX_STEPS;
@@ -4196,17 +4199,17 @@ namespace org.mariuszgromada.math.mxparser {
 				}
 				Expression epsExpr = new Expression(epsParam.paramStr, epsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 				Expression maxStepsExp = new Expression(maxStepsParam.paramStr, maxStepsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-				eps = epsExpr.calculate();
-				maxSteps = (int)Math.Round(maxStepsExp.calculate());
+				eps = epsExpr.calculateWithCancel(activeCancelId);
+				maxSteps = (int)Math.Round(maxStepsExp.calculateWithCancel(activeCancelId));
 			}
 			if (derivativeType == Calculus.GENERAL_DERIVATIVE) {
-				double general = Calculus.derivative(funExp, x.argument, x0, Calculus.GENERAL_DERIVATIVE, eps, maxSteps);
+				double general = Calculus.derivativeWithCancel(funExp, x.argument, x0, Calculus.GENERAL_DERIVATIVE, eps, maxSteps, activeCancelId);
 				calcSetDecreaseRemove(pos, general);
 			} else if (derivativeType == Calculus.LEFT_DERIVATIVE) {
-				double left = Calculus.derivative(funExp, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps);
+				double left = Calculus.derivativeWithCancel(funExp, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps, activeCancelId);
 				calcSetDecreaseRemove(pos, left);
 			} else {
-				double right = Calculus.derivative(funExp, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps);
+				double right = Calculus.derivativeWithCancel(funExp, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps, activeCancelId);
 				calcSetDecreaseRemove(pos, right);
 			}
 			clearParamArgument(x);
@@ -4246,7 +4249,7 @@ namespace org.mariuszgromada.math.mxparser {
 				updateMissingTokens(nParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 			}
 			Expression nExp = new Expression(nParam.paramStr, nParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-			double n = nExp.calculate();
+			double n = nExp.calculateWithCancel(activeCancelId);
 			int nInt = (int)Math.Round(n);
 
 			String funParamStr;
@@ -4300,7 +4303,7 @@ namespace org.mariuszgromada.math.mxparser {
 
 			Expression funExp = new Expression(funParamStr, funParamTokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 
-			double x0 = x.argument.getArgumentValue();
+			double x0 = x.argument.getArgumentValueWithCancel(activeCancelId);
 			double eps = DEF_EPS;
 			int maxSteps = DEF_MAX_STEPS;
 			if (derParams.Count == 5) {
@@ -4312,17 +4315,17 @@ namespace org.mariuszgromada.math.mxparser {
 				}
 				Expression epsExpr = new Expression(epsParam.paramStr, epsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 				Expression maxStepsExp = new Expression(maxStepsParam.paramStr, maxStepsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-				eps = epsExpr.calculate();
-				maxSteps = (int)Math.Round(maxStepsExp.calculate());
+				eps = epsExpr.calculateWithCancel(activeCancelId);
+				maxSteps = (int)Math.Round(maxStepsExp.calculateWithCancel(activeCancelId));
 			}
 			if (derivativeType == Calculus.GENERAL_DERIVATIVE) {
-				double general = Calculus.derivative(funExp, x.argument, x0, Calculus.GENERAL_DERIVATIVE, eps, maxSteps);
+				double general = Calculus.derivativeWithCancel(funExp, x.argument, x0, Calculus.GENERAL_DERIVATIVE, eps, maxSteps, activeCancelId);
 				calcSetDecreaseRemove(pos, general);
 			} else if (derivativeType == Calculus.LEFT_DERIVATIVE) {
-				double left = Calculus.derivative(funExp, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps);
+				double left = Calculus.derivativeWithCancel(funExp, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps, activeCancelId);
 				calcSetDecreaseRemove(pos, left);
 			} else {
-				double right = Calculus.derivative(funExp, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps);
+				double right = Calculus.derivativeWithCancel(funExp, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps, activeCancelId);
 				calcSetDecreaseRemove(pos, right);
 			}
 			clearParamArgument(x);
@@ -4371,7 +4374,7 @@ namespace org.mariuszgromada.math.mxparser {
 			Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			double eps = DEF_EPS;
 			int maxSteps = DEF_MAX_STEPS;
-			calcSetDecreaseRemove(pos, Calculus.integralTrapezoid(funExp, x.argument, aExp.calculate(), bExp.calculate(), eps, maxSteps) );
+			calcSetDecreaseRemove(pos, Calculus.integralTrapezoidWithCancel(funExp, x.argument, aExp.calculateWithCancel(activeCancelId), bExp.calculateWithCancel(activeCancelId), eps, maxSteps, activeCancelId) );
 			clearParamArgument(x);
 		}
 		/**
@@ -4417,7 +4420,7 @@ namespace org.mariuszgromada.math.mxparser {
 			Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			double eps = DEF_EPS;
 			int maxSteps = DEF_MAX_STEPS;
-			calcSetDecreaseRemove(pos, Calculus.solveBrent(funExp, x.argument, aExp.calculate(), bExp.calculate(), eps, maxSteps));
+			calcSetDecreaseRemove(pos, Calculus.solveBrentWithCancel(funExp, x.argument, aExp.calculateWithCancel(activeCancelId), bExp.calculateWithCancel(activeCancelId), eps, maxSteps, activeCancelId));
 			clearParamArgument(x);
 		}
 		/**
@@ -4439,9 +4442,9 @@ namespace org.mariuszgromada.math.mxparser {
 				Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 				if (verboseMode)
 					hExp.setVerboseMode();
-				h = hExp.calculate();
+				h = hExp.calculateWithCancel(activeCancelId);
 			}
-			calcSetDecreaseRemove(pos, Calculus.forwardDifference(funExp, h, x.argument) );
+			calcSetDecreaseRemove(pos, Calculus.forwardDifferenceWithCancel(funExp, h, x.argument, activeCancelId) );
 			clearParamArgument(x);
 		}
 		/**
@@ -4463,9 +4466,9 @@ namespace org.mariuszgromada.math.mxparser {
 				Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 				if (verboseMode)
 					hExp.setVerboseMode();
-				h = hExp.calculate();
+				h = hExp.calculateWithCancel(activeCancelId);
 			}
-			calcSetDecreaseRemove(pos, Calculus.backwardDifference(funExp, h, x.argument) );
+			calcSetDecreaseRemove(pos, Calculus.backwardDifferenceWithCancel(funExp, h, x.argument, activeCancelId) );
 			clearParamArgument(x);
 		}
 		/**
@@ -4476,7 +4479,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void MIN_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.min( mXparser.arrayList2double(numbers) ), numbers.Count );
+			variadicSetDecreaseRemove(pos, NumberTheory.minWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
 		/**
 		 * Maximum variadic
@@ -4486,7 +4489,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void MAX_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.max( mXparser.arrayList2double(numbers) ), numbers.Count );
+			variadicSetDecreaseRemove(pos, NumberTheory.maxWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
 		/**
 		 * Sum variadic
@@ -4496,7 +4499,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void SUM_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.sum(mXparser.arrayList2double(numbers)), numbers.Count, true);
+			variadicSetDecreaseRemove(pos, NumberTheory.sumWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count, true);
 		}
 		/**
 		 * Sum variadic
@@ -4506,7 +4509,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void PROD_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.prod(mXparser.arrayList2double(numbers)), numbers.Count, true);
+			variadicSetDecreaseRemove(pos, NumberTheory.prodWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count, true);
 		}
 		/**
 		 * Average variadic
@@ -4516,7 +4519,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void AVG_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, Statistics.avg(mXparser.arrayList2double(numbers)), numbers.Count, true);
+			variadicSetDecreaseRemove(pos, Statistics.avgWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count, true);
 		}
 		/**
 		 * Variance variadic
@@ -4526,7 +4529,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void VAR_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, Statistics.var(mXparser.arrayList2double(numbers)), numbers.Count, true);
+			variadicSetDecreaseRemove(pos, Statistics.varWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count, true);
 		}
 		/**
 		 * Standard deviation variadic
@@ -4536,7 +4539,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void STD_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, Statistics.std(mXparser.arrayList2double(numbers)), numbers.Count, true);
+			variadicSetDecreaseRemove(pos, Statistics.stdWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count, true);
 		}
 		/**
 		 * Continued fraction
@@ -4545,7 +4548,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void CONTINUED_FRACTION(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, MathFunctions.continuedFraction( mXparser.arrayList2double(numbers) ), numbers.Count );
+			variadicSetDecreaseRemove(pos, MathFunctions.continuedFractionWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
 		/**
 		 * Continued polynomial
@@ -4554,7 +4557,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void CONTINUED_POLYNOMIAL(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, MathFunctions.continuedPolynomial( mXparser.arrayList2double(numbers) ), numbers.Count );
+			variadicSetDecreaseRemove(pos, MathFunctions.continuedPolynomialWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
 		/**
 		 * Greates Common Divisor
@@ -4563,7 +4566,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void GCD(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.gcd( mXparser.arrayList2double(numbers) ), numbers.Count );
+			variadicSetDecreaseRemove(pos, NumberTheory.gcdWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
 		/**
 		 * Lowest Common Multiply
@@ -4572,7 +4575,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void LCM(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.lcm( mXparser.arrayList2double(numbers) ), numbers.Count );
+			variadicSetDecreaseRemove(pos, NumberTheory.lcmWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
 		/**
 		 * Random number from list
@@ -4592,7 +4595,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void COALESCE(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, MathFunctions.coalesce(mXparser.arrayList2double(numbers)), numbers.Count);
+			variadicSetDecreaseRemove(pos, MathFunctions.coalesceWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count);
 		}
 		/**
 		 * OR_VARIADIC
@@ -4601,7 +4604,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void OR_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, BooleanAlgebra.orVariadic( mXparser.arrayList2double(numbers) ), numbers.Count );
+			variadicSetDecreaseRemove(pos, BooleanAlgebra.orVariadicWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
 		/**
 		 * AND_VARIADIC
@@ -4610,7 +4613,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void AND_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, BooleanAlgebra.andVariadic( mXparser.arrayList2double(numbers) ), numbers.Count );
+			variadicSetDecreaseRemove(pos, BooleanAlgebra.andVariadicWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
 		/**
 		 * XOR_VARIADIC
@@ -4619,7 +4622,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void XOR_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, BooleanAlgebra.xorVariadic( mXparser.arrayList2double(numbers) ), numbers.Count );
+			variadicSetDecreaseRemove(pos, BooleanAlgebra.xorVariadicWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
 		}
 		/**
 		 * ARGMIN_VARIADIC
@@ -4628,7 +4631,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void ARGMIN_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.argmin(mXparser.arrayList2double(numbers)), numbers.Count );
+			variadicSetDecreaseRemove(pos, NumberTheory.argminWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
 		}
 		/**
 		 * ARGMAX_VARIADIC
@@ -4637,7 +4640,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void ARGMAX_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.argmax(mXparser.arrayList2double(numbers)), numbers.Count );
+			variadicSetDecreaseRemove(pos, NumberTheory.argmaxWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
 		}
 		/**
 		 * MEDIAN_VARIADIC
@@ -4646,7 +4649,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void MEDIAN_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, Statistics.median(mXparser.arrayList2double(numbers)), numbers.Count );
+			variadicSetDecreaseRemove(pos, Statistics.medianWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
 		}
 		/**
 		 * MODE_VARIADIC
@@ -4655,7 +4658,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void MODE_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, Statistics.mode(mXparser.arrayList2double(numbers)), numbers.Count );
+			variadicSetDecreaseRemove(pos, Statistics.modeWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
 		}
 		/**
 		 * BASE_VARIADIC
@@ -4664,7 +4667,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void BASE_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.convOthBase2Decimal(mXparser.arrayList2double(numbers)), numbers.Count );
+			variadicSetDecreaseRemove(pos, NumberTheory.convOthBase2DecimalWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
 		}
 		/**
 		 * NDIST_VARIADIC
@@ -4673,7 +4676,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void NDIST_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.numberOfDistValues(mXparser.arrayList2double(numbers)), numbers.Count );
+			variadicSetDecreaseRemove(pos, NumberTheory.numberOfDistValuesWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
 		}
 		/**
 		 * Parser symbols
@@ -4864,7 +4867,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return NO_SYNTAX_ERRORS;
 
 			if (arg.argumentExpression != this && !arg.argumentExpression.recursionCallPending) {
-				bool syntaxRec = arg.argumentExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
+				bool syntaxRec = arg.argumentExpression.checkSyntaxWithCancel(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false, activeCancelId);
 				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT, tokenInfoMessage, arg.argumentExpression.errorMessage);
 				return syntaxRec;
 			}
@@ -4883,7 +4886,7 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 
 			if ( (arg.argumentExpression != this) && !arg.argumentExpression.recursionCallPending) {
-				bool syntaxRec = arg.argumentExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
+				bool syntaxRec = arg.argumentExpression.checkSyntaxWithCancel(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false, activeCancelId);
 				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT, tokenInfoMessage, arg.argumentExpression.errorMessage);
 				return syntaxRec;
 			}
@@ -4934,9 +4937,9 @@ namespace org.mariuszgromada.math.mxparser {
 				bool syntaxRec;
 
 				if (fun.getFunctionBodyType() == Function.BODY_RUNTIME)
-					syntaxRec = fun.functionExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), false);
+					syntaxRec = fun.functionExpression.checkSyntaxWithCancel(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), false, activeCancelId);
 				else
-					syntaxRec = fun.functionExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), true);
+					syntaxRec = fun.functionExpression.checkSyntaxWithCancel(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), true, activeCancelId);
 
 				if (fun.isVariadic)
 					errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION, tokenInfoMessage, fun.functionExpression.errorMessage);
@@ -5259,23 +5262,63 @@ namespace org.mariuszgromada.math.mxparser {
 		 *             otherwise returns Double.NaN.
 		 */
 		public double calculate(CalcStepsRegister calcStepsRegister) {
-            License.checkLicense();
-            int recursionCallsCounterBeforeCalculation = recursionCallsCounter;
-            try {
-				return calculateInternal(calcStepsRegister);
-			} catch (Exception e) {
-				recursionCallsCounter = recursionCallsCounterBeforeCalculation;
-				if (recursionCallsCounterBeforeCalculation == 0)
-					markAsNotFullyCompiled();
-				registerErrorWhileCalculate(
-						StringModel.STRING_RESOURCES.ERROR_WHILE_EXECUTING_THE_CALCULATE
-								+ StringInvariant.SPACE + StringModel.STRING_RESOURCES.EXCEPTION
-								+ StringInvariant.COLON_SPACE
-								+ StringUtils.getSimpleName(e)
-								+ StringInvariant.COLON_SPACE
-								+ StringUtils.trimNotNull(e.Message)
-				);
-                return Double.NaN;
+			return calculateCoreWithCancel(calcStepsRegister, 0);
+		}
+		/**
+		 * Calculates the expression value
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * @param calcStepsRegister A collection to store list of calculation steps,
+		 *                          steps registered as strings.
+		 *
+		 * @return     The expression value if syntax was ok,
+		 *             otherwise returns Double.NaN.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see calculate(CalcStepsRegister)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public double calculateWithCancel(CalcStepsRegister calcStepsRegister, int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
+			if (cancelId == 0) return calculate(calcStepsRegister);
+			return calculateCoreWithCancel(calcStepsRegister, cancelId);
+		}
+
+		private double calculateCoreWithCancel(CalcStepsRegister calcStepsRegister, int cancelId) {
+			int previousCancelId = activeCancelId;
+			activeCancelId = cancelId;
+			try {
+	            License.checkLicense();
+	            int recursionCallsCounterBeforeCalculation = recursionCallsCounter;
+	            try {
+					return calculateInternal(calcStepsRegister);
+				} catch (Exception e) {
+					recursionCallsCounter = recursionCallsCounterBeforeCalculation;
+					if (recursionCallsCounterBeforeCalculation == 0)
+						markAsNotFullyCompiled();
+					registerErrorWhileCalculate(
+							StringModel.STRING_RESOURCES.ERROR_WHILE_EXECUTING_THE_CALCULATE
+									+ StringInvariant.SPACE + StringModel.STRING_RESOURCES.EXCEPTION
+									+ StringInvariant.COLON_SPACE
+									+ StringUtils.getSimpleName(e)
+									+ StringInvariant.COLON_SPACE
+									+ StringUtils.trimNotNull(e.Message)
+					);
+	                return Double.NaN;
+				}
+		
+			} finally {
+				activeCancelId = previousCancelId;
 			}
 		}
 		private String makeStepDescription() {
@@ -5350,7 +5393,7 @@ namespace org.mariuszgromada.math.mxparser {
 
 				storeStepsInRegister = true;
 
-                if (mXparser.cancelCurrentCalculationFlag) {
+				if (mXparser.isCalculationCancelled(activeCancelId)) {
                     registerErrorWhileCalculate(StringModel.STRING_RESOURCES.CANCEL_REQUEST_FINISHING);
                     return -1;
 				}
@@ -5615,7 +5658,7 @@ namespace org.mariuszgromada.math.mxparser {
 			bool storeStepsInRegister = true;
 			foreach (CompiledElement compiledElement in initialCompilationDetails.compiledElements) {
 
-				if (mXparser.cancelCurrentCalculationFlag) {
+				if (mXparser.isCalculationCancelled(activeCancelId)) {
 					registerErrorWhileCalculate(StringModel.STRING_RESOURCES.CANCEL_REQUEST_FINISHING);
 					return -1;
 				}
@@ -5810,10 +5853,10 @@ namespace org.mariuszgromada.math.mxparser {
 				stepsRegisteredCounter = applySequenceFromCompilation(calcStepsRegister, stepDescription);
 			} else {
 				stepsRegisteredCounter = calculateFirstAndFullyCompile(calcStepsRegister, stepDescription);
-				if (stepsRegisteredCounter < 0) {
-					recursionCallsCounter--;
-					return Double.NaN;
-				}
+			}
+			if (stepsRegisteredCounter < 0) {
+				recursionCallsCounter--;
+				return Double.NaN;
 			}
 
 			if (verboseMode) {
@@ -5833,7 +5876,7 @@ namespace org.mariuszgromada.math.mxparser {
 					double resultInt = Math.Round(result);
 					if (Math.Abs(result- resultInt) <= BinaryRelations.getEpsilon()) result = resultInt;
 				}
-				if (mXparser.canonicalRounding) result = MathFunctions.lengthRound(result);
+				if (mXparser.canonicalRounding) result = MathFunctions.lengthRoundWithCancel(result, activeCancelId);
 			}
 
 			if (calcStepsRegister != null) {
@@ -6316,7 +6359,7 @@ namespace org.mariuszgromada.math.mxparser {
 			int numeralSystemBase = ExpressionUtils.getNumeralSystemBaseFromBaseInd(baseInd);
 			/* if base was found, perform conversion */
 			if (numeralSystemBase > 0 && numeralSystemBase <= 36) {
-				double tokenValue = NumberTheory.convOthBase2Decimal(numberLiteral, numeralSystemBase);
+				double tokenValue = NumberTheory.convOthBase2DecimalWithCancel(numberLiteral, numeralSystemBase, activeCancelId);
 				if (Double.IsNaN(tokenValue))
 					return false;
 				token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
@@ -7628,7 +7671,7 @@ namespace org.mariuszgromada.math.mxparser {
 			foreach (Argument a in argumentsList) {
 				bool vMode = a.getVerboseMode();
 				a.setSilentMode();
-                printSystemInfo(a.getArgumentName() + StringInvariant.SPACE_EQUAL_SPACE + a.getArgumentValue() + StringInvariant.NEW_LINE, WITH_EXP_STR);
+				printSystemInfo(a.getArgumentName() + StringInvariant.SPACE_EQUAL_SPACE + a.getArgumentValueWithCancel(activeCancelId) + StringInvariant.NEW_LINE, WITH_EXP_STR);
                 if (vMode)
 					a.setVerboseMode();
 			}
@@ -7685,6 +7728,41 @@ namespace org.mariuszgromada.math.mxparser {
 			cloneCache.addAllAtTheEndElements();
 			cloneCache.clearCache();
 			return expressionClone;
+		}
+	
+		private bool checkSyntaxWithCancel(String recursionInfoLevel, bool functionWithBodyExt, int cancelId) {
+			int previousCancelId = activeCancelId;
+			activeCancelId = cancelId;
+			try { return checkSyntax(recursionInfoLevel, functionWithBodyExt); }
+			finally { activeCancelId = previousCancelId; }
+		}
+
+		/**
+		 * Calculates the expression value
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+	
+		 * @return     The expression value if syntax was ok,
+		 *             otherwise returns Double.NaN.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see calculate()
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public double calculateWithCancel(int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
+			if (cancelId == 0) return calculate();
+			return calculateWithCancel((CalcStepsRegister)null, cancelId);
 		}
 	}
 }

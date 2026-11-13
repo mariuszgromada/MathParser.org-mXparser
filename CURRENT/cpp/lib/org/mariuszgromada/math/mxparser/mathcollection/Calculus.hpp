@@ -1,5 +1,5 @@
 /*
- * @(#)Calculus.hpp        6.1.0    2024-10-06
+ * @(#)Calculus.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -219,8 +219,10 @@
 #ifndef ORG_MARIUSZGROMADA_MATH_MXPARSER_MATHCOLLECTION_CALCULUS_H
 #define ORG_MARIUSZGROMADA_MATH_MXPARSER_MATHCOLLECTION_CALCULUS_H
 
+#include "org/mariuszgromada/math/mxparser/mXparser.hpp"
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesStd.hpp"
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesUser.hpp"
+#include <stdexcept>
 
 namespace org::mariuszgromada::math::mxparser::mathcollection {
 	class API_VISIBLE Calculus {
@@ -235,17 +237,216 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		static constexpr int GENERAL_DERIVATIVE = 3;
 
 		static double integralTrapezoid(const ExpressionPtr &f, const ArgumentPtr &x, double a, double b, double eps, int maxSteps);
+		/**
+		 * Trapezoid numerical integration
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param      f                   the expression
+		 * @param      x                   the argument
+		 * @param      a                   form a ...
+		 * @param      b                   ... to b
+		 * @param      eps                 the epsilon (error)
+		 * @param      maxSteps            the maximum number of steps
+		 *
+		 * @return     Integral value as double.
+		 *
+		 * @see        Expression
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see integralTrapezoid(org.mariuszgromada.math.mxparser.Expression,org.mariuszgromada.math.mxparser.Argument,double,double,double,int)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double integralTrapezoidWithCancel(const ExpressionPtr &f, const ArgumentPtr &x, double a, double b, double eps, int maxSteps, int cancelId);
 		static double derivative(const ExpressionPtr &f, const ArgumentPtr &x, double x0, int derType, double eps, int maxSteps);
+		/**
+		 * Numerical derivative at x = x0
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param      f                   the expression
+		 * @param      x                   the argument
+		 * @param      x0                  at point x = x0
+		 * @param      derType             derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
+		 *                                 GENERAL_DERIVATIVE
+		 * @param      eps                 the epsilon (error)
+		 * @param      maxSteps            the maximum number of steps
+		 *
+		 * @return     Derivative value as double.
+		 *
+		 * @see        Expression
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see derivative(org.mariuszgromada.math.mxparser.Expression,org.mariuszgromada.math.mxparser.Argument,double,int,double,int)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double derivativeWithCancel(const ExpressionPtr &f, const ArgumentPtr &x, double x0, int derType, double eps, int maxSteps, int cancelId);
 		static double derivativeNth(const ExpressionPtr &f, double n, const ArgumentPtr &x, double x0, int derType, double eps, int maxSteps);
+		/**
+		 * Numerical n-th derivative at x = x0 (you should avoid calculation
+		 * of derivatives with order higher than 2).
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param      f                   the expression
+		 * @param      n                   the deriviative order
+		 * @param      x                   the argument
+		 * @param      x0                  at point x = x0
+		 * @param      derType             derivative type (LEFT_DERIVATIVE, RIGHT_DERIVATIVE,
+		 *                                 GENERAL_DERIVATIVE
+		 * @param      eps                 the epsilon (error)
+		 * @param      maxSteps            the maximum number of steps
+		 *
+		 * @return     Derivative value as double.
+		 *
+		 * @see        Expression
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see derivativeNth(org.mariuszgromada.math.mxparser.Expression,double,org.mariuszgromada.math.mxparser.Argument,double,int,double,int)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double derivativeNthWithCancel(const ExpressionPtr &f, double n, const ArgumentPtr &x, double x0, int derType, double eps, int maxSteps, int cancelId);
 		static double forwardDifference(const ExpressionPtr &f, const ArgumentPtr &x, double x0);
 		static double forwardDifference(const ExpressionPtr &f, const ArgumentPtr &x);
 		static double backwardDifference(const ExpressionPtr &f, const ArgumentPtr &x, double x0);
 		static double backwardDifference(const ExpressionPtr &f, const ArgumentPtr &x);
 		static double forwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x, double x0);
 		static double forwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x);
+		/**
+		 * Forward difference(h) operator (at the current value of the argument x)
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param      f                   the expression
+		 * @param      h                   the difference
+		 * @param      x                   the argument name
+		 *
+		 * @return     Forward difference(h) value calculated at the current value of the argument x.
+		 *
+		 * @see        Expression
+		 * @see        Argument
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see forwardDifference(org.mariuszgromada.math.mxparser.Expression,double,org.mariuszgromada.math.mxparser.Argument)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double forwardDifferenceWithCancel(const ExpressionPtr &f, double h, const ArgumentPtr &x, int cancelId);
 		static double backwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x, double x0);
 		static double backwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x);
+		/**
+		 * Backward difference(h) operator (at the current value of the argument x)
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param      f                   the expression
+		 * @param      h                   the difference
+		 * @param      x                   the argument name
+		 *
+		 * @return     Backward difference(h) value calculated at the current value of the argument x.
+		 *
+		 * @see        Expression
+		 * @see        Argument
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see backwardDifference(org.mariuszgromada.math.mxparser.Expression,double,org.mariuszgromada.math.mxparser.Argument)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double backwardDifferenceWithCancel(const ExpressionPtr &f, double h, const ArgumentPtr &x, int cancelId);
 		static double solveBrent(const ExpressionPtr &f, const ArgumentPtr &x, double a, double b, double eps, double maxSteps);
+		/**
+		 * Brent solver (Brent root finder)
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param f  Function given in the Expression form
+		 * @param x  Argument
+		 * @param a  Left limit
+		 * @param b  Right limit
+		 * @param eps      Epsilon value (accuracy)
+		 * @param maxSteps Maximum number of iterations
+		 * @return   Function root - if found, otherwise Double::NaN.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see solveBrent(org.mariuszgromada.math.mxparser.Expression,org.mariuszgromada.math.mxparser.Argument,double,double,double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double solveBrentWithCancel(const ExpressionPtr &f, const ArgumentPtr &x, double a, double b, double eps, double maxSteps, int cancelId);
 
 	};
 } // namespace org::mariuszgromada::math::mxparser::mathcollection

@@ -1,5 +1,5 @@
 /*
- * @(#)Function.cpp        6.1.0    2024-10-14
+ * @(#)Function.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -855,13 +855,24 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @return     Function value as double.
 	 */
 	API_VISIBLE double Function::calculate(const CalcStepsRegisterPtr &calcStepsRegister) {
+		return calculateCoreWithCancel(calcStepsRegister, 0);
+	}
+
+	API_VISIBLE double Function::calculateWithCancel(const CalcStepsRegisterPtr &calcStepsRegister, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
+		if (cancelId == 0) return calculate(calcStepsRegister);
+		return calculateCoreWithCancel(calcStepsRegister, cancelId);
+	}
+
+	API_VISIBLE double Function::calculateCoreWithCancel(const CalcStepsRegisterPtr &calcStepsRegister, int cancelId) {
 		CalcStepsRegister::setUserFunction(calcStepsRegister, THIS(Function));
 		computingTime = 0;
 		if (!syntaxStatusDefinition)
 			return Double::NaN;
 		double value = Double::NaN;
 		if (functionBodyType == BODY_RUNTIME) {
-			value = functionExpression->calculate(calcStepsRegister);
+			value = functionExpression->calculateWithCancel(calcStepsRegister, cancelId);
 			computingTime = functionExpression->computingTime;
 			return value;
 		}
@@ -888,6 +899,17 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @return     function value as double.
 	 */
 	API_VISIBLE double Function::calculate(const ListPtr<double> &parameters) {
+		return calculateCoreWithCancel(parameters, 0);
+	}
+
+	API_VISIBLE double Function::calculateWithCancel(const ListPtr<double> &parameters, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
+		if (cancelId == 0) return calculate(parameters);
+		return calculateCoreWithCancel(parameters, cancelId);
+	}
+
+	API_VISIBLE double Function::calculateCoreWithCancel(const ListPtr<double> &parameters, int cancelId) {
 		computingTime = 0;
 		if (!syntaxStatusDefinition)
 			return Double::NaN;
@@ -904,7 +926,7 @@ namespace org::mariuszgromada::math::mxparser {
 		double value = Double::NaN;
 		if (isVariadic) {
 			if (functionBodyType == BODY_RUNTIME) {
-				value = functionExpression->calculate();
+				value = functionExpression->calculateWithCancel(cancelId);
 				computingTime = functionExpression->computingTime;
 				return value;
 			}
@@ -923,7 +945,7 @@ namespace org::mariuszgromada::math::mxparser {
 		if (functionBodyType == BODY_RUNTIME) {
 			for (int p = 0; p < parameters->size(); p++)
 				setArgumentValue(p, (*parameters)[p]);
-			value = functionExpression->calculate();
+			value = functionExpression->calculateWithCancel(cancelId);
 			computingTime = functionExpression->computingTime;
 			return value;
 		}
@@ -944,6 +966,17 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @return     function value as double
 	 */
 	API_VISIBLE double Function::calculate(const ListPtr<ArgumentPtr> &arguments) {
+		return calculateCoreWithCancel(arguments, 0);
+	}
+
+	API_VISIBLE double Function::calculateWithCancel(const ListPtr<ArgumentPtr> &arguments, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
+		if (cancelId == 0) return calculate(arguments);
+		return calculateCoreWithCancel(arguments, cancelId);
+	}
+
+	API_VISIBLE double Function::calculateCoreWithCancel(const ListPtr<ArgumentPtr> &arguments, int cancelId) {
 		computingTime = 0;
 		if (!syntaxStatusDefinition)
 			return Double::NaN;
@@ -958,7 +991,7 @@ namespace org::mariuszgromada::math::mxparser {
 		parameters = new_List<double>();
 		double x;
 		for (int i = 0; i < arguments->size(); i++) {
-			x = arguments->getRef(i)->getArgumentValue();
+			x = arguments->getRef(i)->getArgumentValueWithCancel(cancelId);
 			functionExpression->UDFVariadicParamsAtRunTime->add(x);
 			parameters->add(x);
 		}
@@ -966,7 +999,7 @@ namespace org::mariuszgromada::math::mxparser {
 		double value = Double::NaN;
 		if (isVariadic) {
 			if (functionBodyType == BODY_RUNTIME) {
-				value = functionExpression->calculate();
+				value = functionExpression->calculateWithCancel(cancelId);
 				computingTime = functionExpression->computingTime;
 				return value;
 			}
@@ -984,13 +1017,13 @@ namespace org::mariuszgromada::math::mxparser {
 
 		if (functionBodyType == BODY_RUNTIME) {
 			for (int p = 0; p < arguments->size(); p++)
-				setArgumentValue(p, (*arguments)[p]->getArgumentValue());
-			value = functionExpression->calculate();
+				setArgumentValue(p, (*arguments)[p]->getArgumentValueWithCancel(cancelId));
+			value = functionExpression->calculateWithCancel(cancelId);
 			computingTime = functionExpression->computingTime;
 			return value;
 		}
 		for (int p = 0; p < arguments->size(); p++)
-			functionExtension->setParameterValue(p, (*arguments)[p]->getArgumentValue());
+			functionExtension->setParameterValue(p, (*arguments)[p]->getArgumentValueWithCancel(cancelId));
 
 		value = functionExtension->calculate();
 		computingTime = CAST_DOUBLE(SystemUtils::currentTimeMillis() - startTime) / 1000.0;
@@ -1768,6 +1801,12 @@ namespace org::mariuszgromada::math::mxparser {
 		cloneCache->clearCache();
 		return functionClone;
 	}
+
+	API_VISIBLE double Function::calculateWithCancel(int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID) throw std::invalid_argument("cancelId out of range");
+		if (cancelId == 0) return calculate();
+		return calculateWithCancel(CalcStepsRegister::Null, cancelId);
+	}
 } // org::mariuszgromada::math::mxparser
 
 
@@ -1775,4 +1814,5 @@ namespace org::mariuszgromada::math::mxparser {
 // header-defined specialization emitted by the engine as well.
 namespace org::mariuszgromada::math::mxparser::wrapper {
 	template API_VISIBLE ExpressionPtr List<ExpressionPtr>::get(int) const;
+
 }

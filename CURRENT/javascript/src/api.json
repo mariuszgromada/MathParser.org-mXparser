@@ -19453,6 +19453,2821 @@
           "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/LaTeXParser.java",
           "language": "java"
         }
+      ],
+      "Argument|getArgumentValueWithCancel|instance": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "CalcStepsRegister"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Argument.java",
+          "line": 896,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Argument.java",
+          "line": 1489,
+          "language": "java"
+        }
+      ],
+      "Expression|calculateWithCancel|instance": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "CalcStepsRegister"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Expression.java",
+          "line": 5318,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Expression.java",
+          "line": 7771,
+          "language": "java"
+        }
+      ],
+      "Function|calculateWithCancel|instance": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "CalcStepsRegister"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Function.java",
+          "line": 833,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Function.java",
+          "line": 902,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "handle",
+                "name": "Argument"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Function.java",
+          "line": 988,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Function.java",
+          "line": 1744,
+          "language": "java"
+        }
+      ],
+      "mXparser|isCalculationCancelled|static": [
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mXparser.java",
+          "line": 2333,
+          "language": "java"
+        }
+      ],
+      "mXparser|cancelCalculation|static": [
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mXparser.java",
+          "line": 2363,
+          "language": "java"
+        }
+      ],
+      "mXparser|resetCalculationCancellation|static": [
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mXparser.java",
+          "line": 2394,
+          "language": "java"
+        }
+      ],
+      "mXparser|acquireCancellationTokenId|static": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mXparser.java",
+          "line": 2425,
+          "language": "java"
+        }
+      ],
+      "mXparser|reserveCancellationTokenId|static": [
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mXparser.java",
+          "line": 2453,
+          "language": "java"
+        }
+      ],
+      "mXparser|releaseCancellationTokenId|static": [
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mXparser.java",
+          "line": 2481,
+          "language": "java"
+        }
+      ],
+      "RecursiveArgument|getArgumentValueWithCancel|instance": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/RecursiveArgument.java",
+          "line": 425,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "CalcStepsRegister"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Argument.java",
+          "line": 896,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Argument.java",
+          "line": 1489,
+          "language": "java"
+        }
+      ],
+      "mathcollection::BooleanAlgebra|andVariadicWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/BooleanAlgebra.java",
+          "line": 597,
+          "language": "java"
+        }
+      ],
+      "mathcollection::BooleanAlgebra|orVariadicWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/BooleanAlgebra.java",
+          "line": 651,
+          "language": "java"
+        }
+      ],
+      "mathcollection::BooleanAlgebra|xorVariadicWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/BooleanAlgebra.java",
+          "line": 705,
+          "language": "java"
+        }
+      ],
+      "mathcollection::Calculus|integralTrapezoidWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression"
+            },
+            {
+              "kind": "handle",
+              "name": "Argument"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Calculus.java",
+          "line": 298,
+          "language": "java"
+        }
+      ],
+      "mathcollection::Calculus|derivativeWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression"
+            },
+            {
+              "kind": "handle",
+              "name": "Argument"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Calculus.java",
+          "line": 381,
+          "language": "java"
+        }
+      ],
+      "mathcollection::Calculus|derivativeNthWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "handle",
+              "name": "Argument"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Calculus.java",
+          "line": 474,
+          "language": "java"
+        }
+      ],
+      "mathcollection::Calculus|forwardDifferenceWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "handle",
+              "name": "Argument"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Calculus.java",
+          "line": 656,
+          "language": "java"
+        }
+      ],
+      "mathcollection::Calculus|backwardDifferenceWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "handle",
+              "name": "Argument"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Calculus.java",
+          "line": 735,
+          "language": "java"
+        }
+      ],
+      "mathcollection::Calculus|solveBrentWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression"
+            },
+            {
+              "kind": "handle",
+              "name": "Argument"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Calculus.java",
+          "line": 792,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|bellNumberWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 387,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 445,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|eulerNumberWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 502,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 570,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|factorialWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 614,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 667,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|factorialFallingWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 709,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|factorialRisingWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 759,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|binomCoeffWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "bigint"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 815,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 878,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|numberOfPermutationsWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "bigint"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 928,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 987,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|bernoulliNumberWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 1035,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 1090,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|Stirling1NumberWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 1145,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 1209,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|Stirling2NumberWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 1264,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 1328,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|worpitzkyNumberWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 1376,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 1429,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|ordinaryHarmonicNumberWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 1475,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 1527,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|generalizedHarmonicNumberWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 1575,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 1631,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|fibonacciNumberWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 1709,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 1771,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|lucasNumberWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 1826,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 1888,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|continuedFractionWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 1968,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|continuedPolynomialWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 2054,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|eulerPolynomialWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 2107,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 2167,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|tetrationWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 2401,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|roundWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 3143,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|roundHalfUpWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 3194,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|roundDownWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 3258,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|lengthRoundWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 3766,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|coalesceWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 3823,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|getFunctionValueWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression"
+            },
+            {
+              "kind": "handle",
+              "name": "Argument"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 3909,
+          "language": "java"
+        }
+      ],
+      "mathcollection::MathFunctions|getFunctionValuesWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression"
+            },
+            {
+              "kind": "handle",
+              "name": "Argument"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 3961,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|minWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 326,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression"
+            },
+            {
+              "kind": "handle",
+              "name": "Argument"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 1981,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|argminWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 381,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|maxWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 454,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression"
+            },
+            {
+              "kind": "handle",
+              "name": "Argument"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 2058,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|argmaxWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 509,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|sortAscWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 603,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|getDistValuesWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "boolean"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 656,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|numberOfDistValuesWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 840,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|gcdWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "bigint"
+            },
+            {
+              "kind": "bigint"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 889,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 959,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "bigint"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 1030,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 1089,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|lcmWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "bigint"
+            },
+            {
+              "kind": "bigint"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 1143,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 1192,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "bigint"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 1240,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 1298,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|sumWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 1355,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|prodWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 1423,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|primeTestWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "bigint"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 1487,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 1588,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|primeCountWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "bigint"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 1635,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 1684,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|sigmaSummationWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression"
+            },
+            {
+              "kind": "handle",
+              "name": "Argument"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 1734,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|piProductWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression"
+            },
+            {
+              "kind": "handle",
+              "name": "Argument"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 1858,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|convOthBase2DecimalWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "string"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 2344,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "array",
+              "element": {
+                "kind": "int"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 2457,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 2520,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "int"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 2586,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 2643,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|formatNumberInBaseWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 2709,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|numberOfDigitsWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "bigint"
+            },
+            {
+              "kind": "bigint"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 3180,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 3238,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|digitAtPositionWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "bigint"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 3300,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 3375,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|decimalDigitAtPositionWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 3445,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|primeFactorsWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "bigint"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 3486,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 3560,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|numberOfPrimeFactorsWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 3634,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|primeFactorValueWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 3683,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|primeFactorExponentWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 3741,
+          "language": "java"
+        }
+      ],
+      "mathcollection::NumberTheory|toFractionWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.java",
+          "line": 3839,
+          "language": "java"
+        }
+      ],
+      "mathcollection::ProbabilityDistributions|rndNormalWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "handle",
+              "name": "IRandom"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+          "line": 489,
+          "language": "java"
+        }
+      ],
+      "mathcollection::ProbabilityDistributions|pdfStudentTWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+          "line": 636,
+          "language": "java"
+        }
+      ],
+      "mathcollection::ProbabilityDistributions|cdfStudentTWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+          "line": 730,
+          "language": "java"
+        }
+      ],
+      "mathcollection::ProbabilityDistributions|qntStudentTWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+          "line": 788,
+          "language": "java"
+        }
+      ],
+      "mathcollection::ProbabilityDistributions|rndStudentTWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+          "line": 877,
+          "language": "java"
+        }
+      ],
+      "mathcollection::ProbabilityDistributions|pdfChiSquaredWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+          "line": 994,
+          "language": "java"
+        }
+      ],
+      "mathcollection::ProbabilityDistributions|cdfChiSquaredWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+          "line": 1041,
+          "language": "java"
+        }
+      ],
+      "mathcollection::ProbabilityDistributions|qntChiSquaredWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+          "line": 1090,
+          "language": "java"
+        }
+      ],
+      "mathcollection::ProbabilityDistributions|rndChiSquaredWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+          "line": 1136,
+          "language": "java"
+        }
+      ],
+      "mathcollection::ProbabilityDistributions|pdfSnedecordFWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+          "line": 1186,
+          "language": "java"
+        }
+      ],
+      "mathcollection::ProbabilityDistributions|cdfSnedecordFWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+          "line": 1248,
+          "language": "java"
+        }
+      ],
+      "mathcollection::ProbabilityDistributions|qntSnedecordFWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+          "line": 1308,
+          "language": "java"
+        }
+      ],
+      "mathcollection::ProbabilityDistributions|rndSnedecordFWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+          "line": 1367,
+          "language": "java"
+        }
+      ],
+      "mathcollection::ProbabilityDistributions|getRandomVariableValueWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "int"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.java",
+          "line": 1420,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|exponentialIntegralEiWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 271,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|logarithmicIntegralLiWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 413,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|offsetLogarithmicIntegralLiWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 458,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|gammaWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 716,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|lanchosGammaWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 767,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|logGammaWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 824,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|sgnGammaWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 911,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|regularizedGammaLowerPWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 960,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|inverseRegularizedGammaLowerPWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 1084,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|incompleteGammaLowerWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 1168,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|regularizedGammaUpperQWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 1208,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|incompleteGammaUpperWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 1311,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|diGammaWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 1349,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|logBetaWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 1426,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|betaWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 1480,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|incompleteBetaWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 1529,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|regularizedBetaWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 1636,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|inverseRegularizedBetaWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 1761,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|lambertWWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 1939,
+          "language": "java"
+        }
+      ],
+      "mathcollection::SpecialFunctions|hypergeometricFWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.java",
+          "line": 1990,
+          "language": "java"
+        }
+      ],
+      "mathcollection::Statistics|avgWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression"
+            },
+            {
+              "kind": "handle",
+              "name": "Argument"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Statistics.java",
+          "line": 290,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Statistics.java",
+          "line": 479,
+          "language": "java"
+        }
+      ],
+      "mathcollection::Statistics|varWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression"
+            },
+            {
+              "kind": "handle",
+              "name": "Argument"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Statistics.java",
+          "line": 374,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Statistics.java",
+          "line": 536,
+          "language": "java"
+        }
+      ],
+      "mathcollection::Statistics|stdWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression"
+            },
+            {
+              "kind": "handle",
+              "name": "Argument"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Statistics.java",
+          "line": 430,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Statistics.java",
+          "line": 596,
+          "language": "java"
+        }
+      ],
+      "mathcollection::Statistics|medianWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Statistics.java",
+          "line": 641,
+          "language": "java"
+        }
+      ],
+      "mathcollection::Statistics|modeWithCancel|static": [
+        {
+          "parameters": [
+            {
+              "kind": "array",
+              "element": {
+                "kind": "number"
+              }
+            },
+            {
+              "kind": "int"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/Statistics.java",
+          "line": 695,
+          "language": "java"
+        }
       ]
     },
     "constructors": {
@@ -21716,6 +24531,13 @@
       "enum_values": 16,
       "experimental": "LaTeXParser only",
       "native_helpers_exposed": false
+    },
+    "cancellation_review": {
+      "canonical_public_methods": 148,
+      "controls": 6,
+      "constant": "MAX_CANCELLATION_TOKEN_ID",
+      "engine_gate": "3b2d7274743cdc4628976c01201627d01a160e9cc228172cb00df32cb1bca5f8",
+      "policy": "Only Java/C# public declarations with verified C++ counterparts; no private cores or C++ helper overloads. Fixed arrays precede final ID."
     }
   },
   "parse_exception_arrays": true,
@@ -96799,6 +99621,4473 @@
         "C1-LTX-0025"
       ],
       "export": "api_C1_LTX_0025"
+    },
+    {
+      "owner": "Argument",
+      "name": "getArgumentValueWithCancel",
+      "kind": "method",
+      "static": false,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "CalcStepsRegister",
+          "nullable": true
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10001"
+      ],
+      "export": "api_C1_10001"
+    },
+    {
+      "owner": "Argument",
+      "name": "getArgumentValueWithCancel",
+      "kind": "method",
+      "static": false,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10002"
+      ],
+      "export": "api_C1_10002"
+    },
+    {
+      "owner": "Expression",
+      "name": "calculateWithCancel",
+      "kind": "method",
+      "static": false,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "CalcStepsRegister",
+          "nullable": true
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10003"
+      ],
+      "export": "api_C1_10003"
+    },
+    {
+      "owner": "Expression",
+      "name": "calculateWithCancel",
+      "kind": "method",
+      "static": false,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10004"
+      ],
+      "export": "api_C1_10004"
+    },
+    {
+      "owner": "Function",
+      "name": "calculateWithCancel",
+      "kind": "method",
+      "static": false,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "CalcStepsRegister",
+          "nullable": true
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10005"
+      ],
+      "export": "api_C1_10005"
+    },
+    {
+      "owner": "Function",
+      "name": "calculateWithCancel",
+      "kind": "method",
+      "static": false,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": true,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10006"
+      ],
+      "export": "api_C1_10006"
+    },
+    {
+      "owner": "Function",
+      "name": "calculateWithCancel",
+      "kind": "method",
+      "static": false,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "handle",
+            "name": "Argument",
+            "nullable": true
+          },
+          "nullable": true,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10007"
+      ],
+      "export": "api_C1_10007"
+    },
+    {
+      "owner": "Function",
+      "name": "calculateWithCancel",
+      "kind": "method",
+      "static": false,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10008"
+      ],
+      "export": "api_C1_10008"
+    },
+    {
+      "owner": "mXparser",
+      "name": "isCalculationCancelled",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "boolean"
+      },
+      "native_ids": [
+        "C1-10009"
+      ],
+      "export": "api_C1_10009"
+    },
+    {
+      "owner": "mXparser",
+      "name": "cancelCalculation",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "void"
+      },
+      "native_ids": [
+        "C1-10010"
+      ],
+      "export": "api_C1_10010"
+    },
+    {
+      "owner": "mXparser",
+      "name": "resetCalculationCancellation",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "void"
+      },
+      "native_ids": [
+        "C1-10011"
+      ],
+      "export": "api_C1_10011"
+    },
+    {
+      "owner": "mXparser",
+      "name": "acquireCancellationTokenId",
+      "kind": "method",
+      "static": true,
+      "parameters": [],
+      "result": {
+        "kind": "int"
+      },
+      "native_ids": [
+        "C1-10012"
+      ],
+      "export": "api_C1_10012"
+    },
+    {
+      "owner": "mXparser",
+      "name": "reserveCancellationTokenId",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "boolean"
+      },
+      "native_ids": [
+        "C1-10013"
+      ],
+      "export": "api_C1_10013"
+    },
+    {
+      "owner": "mXparser",
+      "name": "releaseCancellationTokenId",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "void"
+      },
+      "native_ids": [
+        "C1-10014"
+      ],
+      "export": "api_C1_10014"
+    },
+    {
+      "owner": "RecursiveArgument",
+      "name": "getArgumentValueWithCancel",
+      "kind": "method",
+      "static": false,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10015"
+      ],
+      "export": "api_C1_10015"
+    },
+    {
+      "owner": "mathcollection::BooleanAlgebra",
+      "name": "andVariadicWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10016"
+      ],
+      "export": "api_C1_10016"
+    },
+    {
+      "owner": "mathcollection::BooleanAlgebra",
+      "name": "orVariadicWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10017"
+      ],
+      "export": "api_C1_10017"
+    },
+    {
+      "owner": "mathcollection::BooleanAlgebra",
+      "name": "xorVariadicWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10018"
+      ],
+      "export": "api_C1_10018"
+    },
+    {
+      "owner": "mathcollection::Calculus",
+      "name": "integralTrapezoidWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        },
+        {
+          "kind": "handle",
+          "name": "Argument",
+          "nullable": true
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10019"
+      ],
+      "export": "api_C1_10019"
+    },
+    {
+      "owner": "mathcollection::Calculus",
+      "name": "derivativeWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        },
+        {
+          "kind": "handle",
+          "name": "Argument",
+          "nullable": true
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10020"
+      ],
+      "export": "api_C1_10020"
+    },
+    {
+      "owner": "mathcollection::Calculus",
+      "name": "derivativeNthWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "handle",
+          "name": "Argument",
+          "nullable": true
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10021"
+      ],
+      "export": "api_C1_10021"
+    },
+    {
+      "owner": "mathcollection::Calculus",
+      "name": "forwardDifferenceWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "handle",
+          "name": "Argument",
+          "nullable": true
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10022"
+      ],
+      "export": "api_C1_10022"
+    },
+    {
+      "owner": "mathcollection::Calculus",
+      "name": "backwardDifferenceWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "handle",
+          "name": "Argument",
+          "nullable": true
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10023"
+      ],
+      "export": "api_C1_10023"
+    },
+    {
+      "owner": "mathcollection::Calculus",
+      "name": "solveBrentWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        },
+        {
+          "kind": "handle",
+          "name": "Argument",
+          "nullable": true
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10024"
+      ],
+      "export": "api_C1_10024"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "bellNumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10025"
+      ],
+      "export": "api_C1_10025"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "bellNumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10026"
+      ],
+      "export": "api_C1_10026"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "eulerNumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10027"
+      ],
+      "export": "api_C1_10027"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "eulerNumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10028"
+      ],
+      "export": "api_C1_10028"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "factorialWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10029"
+      ],
+      "export": "api_C1_10029"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "factorialWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10030"
+      ],
+      "export": "api_C1_10030"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "factorialFallingWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10031"
+      ],
+      "export": "api_C1_10031"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "factorialRisingWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10032"
+      ],
+      "export": "api_C1_10032"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "binomCoeffWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "bigint",
+          "native": "Long"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10033"
+      ],
+      "export": "api_C1_10033"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "binomCoeffWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10034"
+      ],
+      "export": "api_C1_10034"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "numberOfPermutationsWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "bigint",
+          "native": "Long"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10035"
+      ],
+      "export": "api_C1_10035"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "numberOfPermutationsWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10036"
+      ],
+      "export": "api_C1_10036"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "bernoulliNumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10037"
+      ],
+      "export": "api_C1_10037"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "bernoulliNumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10038"
+      ],
+      "export": "api_C1_10038"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "Stirling1NumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10039"
+      ],
+      "export": "api_C1_10039"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "Stirling1NumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10040"
+      ],
+      "export": "api_C1_10040"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "Stirling2NumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10041"
+      ],
+      "export": "api_C1_10041"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "Stirling2NumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10042"
+      ],
+      "export": "api_C1_10042"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "worpitzkyNumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10043"
+      ],
+      "export": "api_C1_10043"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "worpitzkyNumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10044"
+      ],
+      "export": "api_C1_10044"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "ordinaryHarmonicNumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10045"
+      ],
+      "export": "api_C1_10045"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "ordinaryHarmonicNumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10046"
+      ],
+      "export": "api_C1_10046"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "generalizedHarmonicNumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10047"
+      ],
+      "export": "api_C1_10047"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "generalizedHarmonicNumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10048"
+      ],
+      "export": "api_C1_10048"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "fibonacciNumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10049"
+      ],
+      "export": "api_C1_10049"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "fibonacciNumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10050"
+      ],
+      "export": "api_C1_10050"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "lucasNumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10051"
+      ],
+      "export": "api_C1_10051"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "lucasNumberWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10052"
+      ],
+      "export": "api_C1_10052"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "continuedFractionWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": true,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10053"
+      ],
+      "export": "api_C1_10053"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "continuedPolynomialWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": true,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10054"
+      ],
+      "export": "api_C1_10054"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "eulerPolynomialWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10055"
+      ],
+      "export": "api_C1_10055"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "eulerPolynomialWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10056"
+      ],
+      "export": "api_C1_10056"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "tetrationWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10057"
+      ],
+      "export": "api_C1_10057"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "roundWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10058"
+      ],
+      "export": "api_C1_10058"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "roundHalfUpWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10059"
+      ],
+      "export": "api_C1_10059"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "roundDownWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10060"
+      ],
+      "export": "api_C1_10060"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "lengthRoundWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10061"
+      ],
+      "export": "api_C1_10061"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "coalesceWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": true,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10062"
+      ],
+      "export": "api_C1_10062"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "getFunctionValueWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": false
+        },
+        {
+          "kind": "handle",
+          "name": "Argument",
+          "nullable": false
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10063"
+      ],
+      "export": "api_C1_10063"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "getFunctionValuesWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        },
+        {
+          "kind": "handle",
+          "name": "Argument",
+          "nullable": true
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "array",
+        "element": {
+          "kind": "number"
+        },
+        "nullable": true,
+        "native_container": "Array"
+      },
+      "native_ids": [
+        "C1-10064"
+      ],
+      "export": "api_C1_10064"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "minWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": true,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10065"
+      ],
+      "export": "api_C1_10065"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "minWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10066"
+      ],
+      "export": "api_C1_10066"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "argminWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": true,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10067"
+      ],
+      "export": "api_C1_10067"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "argminWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10068"
+      ],
+      "export": "api_C1_10068"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "maxWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": true,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10069"
+      ],
+      "export": "api_C1_10069"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "maxWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10070"
+      ],
+      "export": "api_C1_10070"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "argmaxWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": true,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10071"
+      ],
+      "export": "api_C1_10071"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "argmaxWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10072"
+      ],
+      "export": "api_C1_10072"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "sortAscWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": true,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "array",
+        "element": {
+          "kind": "int",
+          "native": "int"
+        },
+        "nullable": true,
+        "native_container": "Array"
+      },
+      "native_ids": [
+        "C1-10073"
+      ],
+      "export": "api_C1_10073",
+      "inout": [
+        0
+      ]
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "getDistValuesWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": true,
+          "native_container": "Array"
+        },
+        {
+          "kind": "boolean"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "array",
+        "element": {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          }
+        },
+        "nullable": true,
+        "native_container": "Array"
+      },
+      "native_ids": [
+        "C1-10074"
+      ],
+      "export": "api_C1_10074",
+      "inout": [
+        0
+      ]
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "numberOfDistValuesWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10075"
+      ],
+      "export": "api_C1_10075"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "numberOfDistValuesWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10076"
+      ],
+      "export": "api_C1_10076",
+      "inout": [
+        0
+      ]
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "gcdWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "bigint",
+          "native": "Long"
+        },
+        {
+          "kind": "bigint",
+          "native": "Long"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "bigint",
+        "native": "Long"
+      },
+      "native_ids": [
+        "C1-10077"
+      ],
+      "export": "api_C1_10077"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "gcdWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10078"
+      ],
+      "export": "api_C1_10078"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "gcdWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "bigint",
+            "native": "Long"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "bigint",
+        "native": "Long"
+      },
+      "native_ids": [
+        "C1-10079"
+      ],
+      "export": "api_C1_10079",
+      "inout": [
+        0
+      ]
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "gcdWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10080"
+      ],
+      "export": "api_C1_10080"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "gcdWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10081"
+      ],
+      "export": "api_C1_10081",
+      "inout": [
+        0
+      ]
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "lcmWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "bigint",
+          "native": "Long"
+        },
+        {
+          "kind": "bigint",
+          "native": "Long"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "bigint",
+        "native": "Long"
+      },
+      "native_ids": [
+        "C1-10082"
+      ],
+      "export": "api_C1_10082"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "lcmWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10083"
+      ],
+      "export": "api_C1_10083"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "lcmWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "bigint",
+            "native": "Long"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "bigint",
+        "native": "Long"
+      },
+      "native_ids": [
+        "C1-10084"
+      ],
+      "export": "api_C1_10084",
+      "inout": [
+        0
+      ]
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "lcmWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10085"
+      ],
+      "export": "api_C1_10085"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "lcmWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10086"
+      ],
+      "export": "api_C1_10086",
+      "inout": [
+        0
+      ]
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "sumWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10087"
+      ],
+      "export": "api_C1_10087"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "sumWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10088"
+      ],
+      "export": "api_C1_10088"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "prodWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10089"
+      ],
+      "export": "api_C1_10089"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "prodWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10090"
+      ],
+      "export": "api_C1_10090"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "primeTestWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "bigint",
+          "native": "Long"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "boolean"
+      },
+      "native_ids": [
+        "C1-10091"
+      ],
+      "export": "api_C1_10091"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "primeTestWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10092"
+      ],
+      "export": "api_C1_10092"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "primeCountWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "bigint",
+          "native": "Long"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "bigint",
+        "native": "Long"
+      },
+      "native_ids": [
+        "C1-10093"
+      ],
+      "export": "api_C1_10093"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "primeCountWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10094"
+      ],
+      "export": "api_C1_10094"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "sigmaSummationWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        },
+        {
+          "kind": "handle",
+          "name": "Argument",
+          "nullable": true
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10095"
+      ],
+      "export": "api_C1_10095"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "piProductWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        },
+        {
+          "kind": "handle",
+          "name": "Argument",
+          "nullable": true
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10096"
+      ],
+      "export": "api_C1_10096"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "minWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        },
+        {
+          "kind": "handle",
+          "name": "Argument",
+          "nullable": true
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10097"
+      ],
+      "export": "api_C1_10097"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "maxWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        },
+        {
+          "kind": "handle",
+          "name": "Argument",
+          "nullable": true
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10098"
+      ],
+      "export": "api_C1_10098"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "convOthBase2DecimalWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "string",
+          "nullable": true
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10099"
+      ],
+      "export": "api_C1_10099"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "convOthBase2DecimalWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "string"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10100"
+      ],
+      "export": "api_C1_10100"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "convOthBase2DecimalWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "array",
+          "element": {
+            "kind": "int",
+            "native": "int"
+          },
+          "nullable": false,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10101"
+      ],
+      "export": "api_C1_10101"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "convOthBase2DecimalWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "array",
+          "element": {
+            "kind": "int",
+            "native": "int"
+          },
+          "nullable": true,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10102"
+      ],
+      "export": "api_C1_10102"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "convOthBase2DecimalWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10103"
+      ],
+      "export": "api_C1_10103"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "convOthBase2DecimalWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": true,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10104"
+      ],
+      "export": "api_C1_10104"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "convOthBase2DecimalWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "int",
+            "native": "int"
+          },
+          "nullable": true,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10105"
+      ],
+      "export": "api_C1_10105"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "convOthBase2DecimalWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": true,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10106"
+      ],
+      "export": "api_C1_10106"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "formatNumberInBaseWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-10107"
+      ],
+      "export": "api_C1_10107"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "numberOfDigitsWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "bigint",
+          "native": "Long"
+        },
+        {
+          "kind": "bigint",
+          "native": "Long"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "bigint",
+        "native": "Long"
+      },
+      "native_ids": [
+        "C1-10108"
+      ],
+      "export": "api_C1_10108"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "numberOfDigitsWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10109"
+      ],
+      "export": "api_C1_10109"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "digitAtPositionWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "bigint",
+          "native": "Long"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-10110"
+      ],
+      "export": "api_C1_10110"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "digitAtPositionWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10111"
+      ],
+      "export": "api_C1_10111"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "decimalDigitAtPositionWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10112"
+      ],
+      "export": "api_C1_10112"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "primeFactorsWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "bigint",
+          "native": "Long"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "array",
+        "element": {
+          "kind": "bigint",
+          "native": "Long"
+        },
+        "nullable": true,
+        "native_container": "Array"
+      },
+      "native_ids": [
+        "C1-10113"
+      ],
+      "export": "api_C1_10113"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "primeFactorsWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "array",
+        "element": {
+          "kind": "number"
+        },
+        "nullable": true,
+        "native_container": "Array"
+      },
+      "native_ids": [
+        "C1-10114"
+      ],
+      "export": "api_C1_10114"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "numberOfPrimeFactorsWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10115"
+      ],
+      "export": "api_C1_10115"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "primeFactorValueWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10116"
+      ],
+      "export": "api_C1_10116"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "primeFactorExponentWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10117"
+      ],
+      "export": "api_C1_10117"
+    },
+    {
+      "owner": "mathcollection::NumberTheory",
+      "name": "toFractionWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "array",
+        "element": {
+          "kind": "number"
+        },
+        "nullable": true,
+        "native_container": "Array"
+      },
+      "native_ids": [
+        "C1-10118"
+      ],
+      "export": "api_C1_10118"
+    },
+    {
+      "owner": "mathcollection::ProbabilityDistributions",
+      "name": "rndNormalWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "handle",
+          "name": "IRandom",
+          "nullable": true
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10119"
+      ],
+      "export": "api_C1_10119"
+    },
+    {
+      "owner": "mathcollection::ProbabilityDistributions",
+      "name": "pdfStudentTWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10120"
+      ],
+      "export": "api_C1_10120"
+    },
+    {
+      "owner": "mathcollection::ProbabilityDistributions",
+      "name": "cdfStudentTWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10121"
+      ],
+      "export": "api_C1_10121"
+    },
+    {
+      "owner": "mathcollection::ProbabilityDistributions",
+      "name": "qntStudentTWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10122"
+      ],
+      "export": "api_C1_10122"
+    },
+    {
+      "owner": "mathcollection::ProbabilityDistributions",
+      "name": "rndStudentTWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10123"
+      ],
+      "export": "api_C1_10123"
+    },
+    {
+      "owner": "mathcollection::ProbabilityDistributions",
+      "name": "pdfChiSquaredWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10124"
+      ],
+      "export": "api_C1_10124"
+    },
+    {
+      "owner": "mathcollection::ProbabilityDistributions",
+      "name": "cdfChiSquaredWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10125"
+      ],
+      "export": "api_C1_10125"
+    },
+    {
+      "owner": "mathcollection::ProbabilityDistributions",
+      "name": "qntChiSquaredWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10126"
+      ],
+      "export": "api_C1_10126"
+    },
+    {
+      "owner": "mathcollection::ProbabilityDistributions",
+      "name": "rndChiSquaredWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10127"
+      ],
+      "export": "api_C1_10127"
+    },
+    {
+      "owner": "mathcollection::ProbabilityDistributions",
+      "name": "pdfSnedecordFWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10128"
+      ],
+      "export": "api_C1_10128"
+    },
+    {
+      "owner": "mathcollection::ProbabilityDistributions",
+      "name": "cdfSnedecordFWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10129"
+      ],
+      "export": "api_C1_10129"
+    },
+    {
+      "owner": "mathcollection::ProbabilityDistributions",
+      "name": "qntSnedecordFWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10130"
+      ],
+      "export": "api_C1_10130"
+    },
+    {
+      "owner": "mathcollection::ProbabilityDistributions",
+      "name": "rndSnedecordFWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10131"
+      ],
+      "export": "api_C1_10131"
+    },
+    {
+      "owner": "mathcollection::ProbabilityDistributions",
+      "name": "getRandomVariableValueWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "int",
+          "native": "int"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10132"
+      ],
+      "export": "api_C1_10132"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "exponentialIntegralEiWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10133"
+      ],
+      "export": "api_C1_10133"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "logarithmicIntegralLiWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10134"
+      ],
+      "export": "api_C1_10134"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "offsetLogarithmicIntegralLiWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10135"
+      ],
+      "export": "api_C1_10135"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "gammaWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10136"
+      ],
+      "export": "api_C1_10136"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "lanchosGammaWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10137"
+      ],
+      "export": "api_C1_10137"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "logGammaWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10138"
+      ],
+      "export": "api_C1_10138"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "sgnGammaWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10139"
+      ],
+      "export": "api_C1_10139"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "regularizedGammaLowerPWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10140"
+      ],
+      "export": "api_C1_10140"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "inverseRegularizedGammaLowerPWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10141"
+      ],
+      "export": "api_C1_10141"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "incompleteGammaLowerWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10142"
+      ],
+      "export": "api_C1_10142"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "regularizedGammaUpperQWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10143"
+      ],
+      "export": "api_C1_10143"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "incompleteGammaUpperWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10144"
+      ],
+      "export": "api_C1_10144"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "diGammaWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10145"
+      ],
+      "export": "api_C1_10145"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "logBetaWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10146"
+      ],
+      "export": "api_C1_10146"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "betaWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10147"
+      ],
+      "export": "api_C1_10147"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "incompleteBetaWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10148"
+      ],
+      "export": "api_C1_10148"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "regularizedBetaWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10149"
+      ],
+      "export": "api_C1_10149"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "inverseRegularizedBetaWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10150"
+      ],
+      "export": "api_C1_10150"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "lambertWWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10151"
+      ],
+      "export": "api_C1_10151"
+    },
+    {
+      "owner": "mathcollection::SpecialFunctions",
+      "name": "hypergeometricFWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10152"
+      ],
+      "export": "api_C1_10152"
+    },
+    {
+      "owner": "mathcollection::Statistics",
+      "name": "avgWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        },
+        {
+          "kind": "handle",
+          "name": "Argument",
+          "nullable": true
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10153"
+      ],
+      "export": "api_C1_10153"
+    },
+    {
+      "owner": "mathcollection::Statistics",
+      "name": "varWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        },
+        {
+          "kind": "handle",
+          "name": "Argument",
+          "nullable": true
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10154"
+      ],
+      "export": "api_C1_10154"
+    },
+    {
+      "owner": "mathcollection::Statistics",
+      "name": "stdWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        },
+        {
+          "kind": "handle",
+          "name": "Argument",
+          "nullable": true
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10155"
+      ],
+      "export": "api_C1_10155"
+    },
+    {
+      "owner": "mathcollection::Statistics",
+      "name": "avgWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10156"
+      ],
+      "export": "api_C1_10156"
+    },
+    {
+      "owner": "mathcollection::Statistics",
+      "name": "avgWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10157"
+      ],
+      "export": "api_C1_10157"
+    },
+    {
+      "owner": "mathcollection::Statistics",
+      "name": "varWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10158"
+      ],
+      "export": "api_C1_10158"
+    },
+    {
+      "owner": "mathcollection::Statistics",
+      "name": "varWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10159"
+      ],
+      "export": "api_C1_10159"
+    },
+    {
+      "owner": "mathcollection::Statistics",
+      "name": "stdWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10160"
+      ],
+      "export": "api_C1_10160"
+    },
+    {
+      "owner": "mathcollection::Statistics",
+      "name": "stdWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10161"
+      ],
+      "export": "api_C1_10161"
+    },
+    {
+      "owner": "mathcollection::Statistics",
+      "name": "medianWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10162"
+      ],
+      "export": "api_C1_10162"
+    },
+    {
+      "owner": "mathcollection::Statistics",
+      "name": "medianWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10163"
+      ],
+      "export": "api_C1_10163",
+      "inout": [
+        0
+      ]
+    },
+    {
+      "owner": "mathcollection::Statistics",
+      "name": "modeWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "ownership_review": "STRUCTURAL_SNAPSHOT_NOT_LIVE_LIST",
+          "native_container": "List"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10164"
+      ],
+      "export": "api_C1_10164"
+    },
+    {
+      "owner": "mathcollection::Statistics",
+      "name": "modeWithCancel",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "array",
+          "element": {
+            "kind": "number"
+          },
+          "nullable": false,
+          "native_container": "Array"
+        },
+        {
+          "kind": "int",
+          "native": "int"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10165"
+      ],
+      "export": "api_C1_10165",
+      "inout": [
+        0
+      ]
+    },
+    {
+      "owner": "mXparser",
+      "name": "MAX_CANCELLATION_TOKEN_ID",
+      "kind": "field",
+      "static": true,
+      "readonly": true,
+      "parameters": [],
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-10166"
+      ],
+      "export": "api_C1_10166"
     }
   ]
 }

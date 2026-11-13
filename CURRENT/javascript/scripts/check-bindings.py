@@ -1,5 +1,5 @@
 #/*
-# @(#)check-bindings.py        6.2.0    2026-11-04
+# @(#)check-bindings.py        6.2.0    2026-11-13
 #
 # MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
 # The most up-to-date license is available at the below link:
@@ -259,6 +259,30 @@ def main():
     assert current == set(origin['sources']), 'Engine/API source inventory changed; explicit binding review required'
     assert catalog['public_profile']['status'] == 'MAINTAINED_PUBLIC_PROFILE_RUNTIME_VALIDATION_REQUIRED'
     assert catalog['public_profile']['managed_source_counts'] == origin['managed_source_counts']
+    # The new feature follows managed visibility, rather than C++ public helper placement.
+    inventory = json.loads((PROJECT / 'test/cancellation-api.json').read_text(encoding='utf8'))
+    assert len(inventory) == 148
+    controls = {'isCalculationCancelled', 'cancelCalculation', 'resetCalculationCancellation',
+                'acquireCancellationTokenId', 'reserveCancellationTokenId', 'releaseCancellationTokenId'}
+    declaration = re.compile(r'public\s+(?:static\s+)?\w+(?:\[\])*\s+(\w+)\s*\(([^)]*)\)')
+    canonical = set()
+    for path in (REPO / 'CURRENT/java/src').rglob('*.java'):
+        for match in declaration.finditer(path.read_text(encoding='utf8')):
+            if not (match[1].endswith('WithCancel') or match[1] in controls):
+                continue
+            parameters = tuple(parameter.strip().split()[0] for parameter in match[2].split(',') if parameter.strip())
+            canonical.add((path.relative_to(REPO).as_posix(), match[1], parameters))
+    assert canonical == {(row['source'], row['name'], tuple(t for t, n in row['parameters'])) for row in inventory}
+    allowed = {export for row in inventory for export in row['exports']}
+    added = {item['export'] for item in catalog['emitted']
+             if item['name'].endswith('WithCancel') or item['name'] in controls}
+    assert added == allowed, 'Cancellation exposure differs from reviewed Java/C# public signatures'
+    for row in inventory:
+        for export in row['exports']:
+            item = next(item for item in catalog['emitted'] if item['export'] == export)
+            assert item['owner'] == row['owner'] and item['name'] == row['name']
+            assert len(item['parameters']) == len(row['parameters'])
+        assert re.search(r'^\s*"' + row['name'] + r'"\(', types, re.M)
     print(json.dumps({'status':'PASS','nativeRegistrations':len(registered),'publicMethodNames':len(public_methods),'reviewedSourceFiles':len(current)}))
 
 

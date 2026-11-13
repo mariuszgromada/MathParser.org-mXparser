@@ -1,5 +1,5 @@
 /*
- * @(#)BooleanAlgebra.java        6.1.0    2024-10-06
+ * @(#)BooleanAlgebra.java        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -232,7 +232,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        6.2.0
  */
 public final class BooleanAlgebra {
 	/**
@@ -564,6 +564,39 @@ public final class BooleanAlgebra {
 	 *           otherwise returns BooleanAlgebra.FALSE
 	 */
 	public static double andVariadic(double[] values) {
+		return andVariadicWithCancel(values, 0);
+	}
+
+	/**
+	 * Boolean AND variadic
+	 *
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * Array parameters are fixed arrays, not token-bearing varargs.
+	 * At this method's existing cancellation checks it returns Double.NaN.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param values   List of values
+	 * @return   Returns BooleanAlgebra.TRUE if all values on the list are BooleanAlgebra.TURE,
+	 *           otherwise returns BooleanAlgebra.FALSE
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see andVariadic(double[])
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double andVariadicWithCancel(double[] values, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (values == null) return Double.NaN;
 		if (values.length == 0) return Double.NaN;
 		int cntTrue = 0;
@@ -572,7 +605,7 @@ public final class BooleanAlgebra {
 			bv = double2IntBoolean(v);
 			if (bv == FALSE) return FALSE;
 			if (bv == TRUE) cntTrue++;
-			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 		}
 		if (cntTrue == values.length) return TRUE;
 		else return Double.NaN;
@@ -585,6 +618,39 @@ public final class BooleanAlgebra {
 	 *           otherwise returns BooleanAlgebra.FALSE
 	 */
 	public static double orVariadic(double[] values) {
+		return orVariadicWithCancel(values, 0);
+	}
+
+	/**
+	 * Boolean OR variadic
+	 *
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * Array parameters are fixed arrays, not token-bearing varargs.
+	 * At this method's existing cancellation checks it returns Double.NaN.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param values   List of values
+	 * @return   Returns BooleanAlgebra.TRUE if at least one value on the list is BooleanAlgebra.TURE,
+	 *           otherwise returns BooleanAlgebra.FALSE
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see orVariadic(double[])
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double orVariadicWithCancel(double[] values, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (values == null) return Double.NaN;
 		if (values.length == 0) return Double.NaN;
 		int cntFalse = 0;
@@ -593,7 +659,7 @@ public final class BooleanAlgebra {
 			bv = double2IntBoolean(v);
 			if (bv == TRUE) return TRUE;
 			if (bv == FALSE) cntFalse++;
-			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 		}
 		if (cntFalse == values.length) return FALSE;
 		else return Double.NaN;
@@ -606,6 +672,39 @@ public final class BooleanAlgebra {
 	 *           otherwise returns BooleanAlgebra.FALSE
 	 */
 	public static double xorVariadic(double[] values) {
+		return xorVariadicWithCancel(values, 0);
+	}
+
+	/**
+	 * Boolean XOR variadic
+	 *
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * Array parameters are fixed arrays, not token-bearing varargs.
+	 * At this method's existing cancellation checks it returns Double.NaN.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param values   List of values
+	 * @return   Returns BooleanAlgebra.TRUE if exactly one value on the list is BooleanAlgebra.TURE,
+	 *           otherwise returns BooleanAlgebra.FALSE
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see xorVariadic(double[])
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double xorVariadicWithCancel(double[] values, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (values == null) return Double.NaN;
 		if (values.length == 0) return Double.NaN;
 		int cntTrue = 0;
@@ -617,7 +716,7 @@ public final class BooleanAlgebra {
 				if (cntTrue > 1) return FALSE;
 			}
 			if (bv == NULL) return Double.NaN;
-			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 		}
 		if (cntTrue == 1) return TRUE;
 		else return FALSE;

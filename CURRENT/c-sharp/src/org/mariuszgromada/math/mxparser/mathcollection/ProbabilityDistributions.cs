@@ -1,5 +1,5 @@
 /*
- * @(#)ProbabilityDistributions.cs        6.1.0    2024-10-06
+ * @(#)ProbabilityDistributions.cs        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -234,7 +234,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.2.0
+	 * @version        6.2.0
 	 */
 	[CLSCompliant(true)]
 	public class ProbabilityDistributions {
@@ -452,6 +452,39 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *                          otherwise random number.
 		 */
 		public static double rndNormal(double mean, double stddev, Random rnd) {
+			return rndNormalWithCancel(mean, stddev, rnd, 0);
+		}
+		/**
+		 * Random number from normal distribution N(mean, stddev).
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * At this method's existing cancellation checks it returns Double.NaN.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param mean              Mean value.
+		 * @param stddev            Standard deviation.
+		 * @param rnd               Random number generator.
+		 * @return                  Double.NaN if mean or stddev or rnd is null or stddev is lower than 0 -
+		 *                          otherwise random number.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see rndNormal(double,double,java.util.Random)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public static double rndNormalWithCancel(double mean, double stddev, Random rnd, int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
 			if (Double.IsNaN(mean)) return Double.NaN;
 			if (Double.IsNaN(stddev)) return Double.NaN;
 			if (rnd == null) return Double.NaN;
@@ -462,7 +495,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double r, fac;
 			bool polarTransform;
 			do {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 				a = rnd.NextDouble();
 				b = rnd.NextDouble();
 				v1 = 2.0 * a - 1.0;
@@ -568,6 +601,36 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return    Returns the PDF of Student's t-distribution.
 		 */
 		public static double pdfStudentT(double x, double v){
+			return pdfStudentTWithCancel(x, v, 0);
+		}
+		/**
+		 * Probability distribution function - Student's t-distribution
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x   Given point.
+		 * @param v   Number of degrees of freedom.
+		 * @return    Returns the PDF of Student's t-distribution.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see pdfStudentT(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public static double pdfStudentTWithCancel(double x, double v, int cancelId){
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
 			if (Double.IsNaN(x)) return Double.NaN;
 			if (Double.IsNaN(v)) return Double.NaN;
 			if (v <= 0) return Double.NaN;
@@ -592,7 +655,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (v == Double.PositiveInfinity)
 				return 1.0 / MathConstants.SQRT2Pi * Math.Exp(-x*x / 2.0);
 
-			return SpecialFunctions.gamma((v + 1.0) / 2.0) / (Math.Sqrt(v*MathConstants.PI) * SpecialFunctions.gamma(v/2.0)) * Math.Pow(1.0 + x*x/v, -((v + 1.0)/2.0));
+			return SpecialFunctions.gammaWithCancel((v + 1.0) / 2.0, cancelId) / (Math.Sqrt(v*MathConstants.PI) * SpecialFunctions.gammaWithCancel(v/2.0, cancelId)) * Math.Pow(1.0 + x*x/v, -((v + 1.0)/2.0));
 		}
 		/**
 		 * Cumulative distribution function - Student's t-distribution
@@ -602,7 +665,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param v   Number of degrees of freedom.
 		 * @return    Returns the CDF of Student's t-distribution.
 		 */
-		private static double cdfStudentTPositiveX(double x, double v) {
+		private static double cdfStudentTPositiveXWithCancel(double x, double v, int cancelId) {
 			if (BinaryRelations.isEqualOrAlmost(v, 1.0))
 				return 0.5 + MathConstants.PIINV * Math.Atan(x);
 
@@ -621,7 +684,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (v == Double.PositiveInfinity)
 				return 0.5 * (1.0 + SpecialFunctions.erf(x / MathConstants.SQRT2) );
 
-			return 1.0 / 2.0 + x * SpecialFunctions.gamma((v + 1.0) / 2.0) * SpecialFunctions.hypergeometricF(1.0 / 2.0, (v + 1.0) / 2.0, 3.0/2.0, -Math.Pow(x, 2.0) / v, 300, 1e-14) / (Math.Sqrt(MathConstants.PI * v) * SpecialFunctions.gamma(v / 2.0));
+			return 1.0 / 2.0 + x * SpecialFunctions.gammaWithCancel((v + 1.0) / 2.0, cancelId) * SpecialFunctions.hypergeometricFWithCancel(1.0 / 2.0, (v + 1.0) / 2.0, 3.0/2.0, -Math.Pow(x, 2.0) / v, 300, 1e-14, cancelId) / (Math.Sqrt(MathConstants.PI * v) * SpecialFunctions.gammaWithCancel(v / 2.0, cancelId));
 		}
 		/**
 		 * Cumulative distribution function - Student's t-distribution
@@ -631,6 +694,36 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return    Returns the CDF of Student's t-distribution.
 		 */
 		public static double cdfStudentT(double x, double v){
+			return cdfStudentTWithCancel(x, v, 0);
+		}
+		/**
+		 * Cumulative distribution function - Student's t-distribution
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x   Given point.
+		 * @param v   Number of degrees of freedom.
+		 * @return    Returns the CDF of Student's t-distribution.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see cdfStudentT(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public static double cdfStudentTWithCancel(double x, double v, int cancelId){
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
 			if (Double.IsNaN(x)) return Double.NaN;
 			if (Double.IsNaN(v)) return Double.NaN;
 			if (v <= 0) return Double.NaN;
@@ -640,9 +733,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return 0.5;
 
 			if (x > 0)
-				return cdfStudentTPositiveX(x, v);
+				return cdfStudentTPositiveXWithCancel(x, v, cancelId);
 			else
-				return 1.0 - cdfStudentTPositiveX(-x, v);
+				return 1.0 - cdfStudentTPositiveXWithCancel(-x, v, cancelId);
 		}
 
 		private static Constant pp = new Constant("p", 1);
@@ -657,6 +750,37 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return    Returns the quantile of Student's t-distribution
 		 */
 		public static double qntStudentT(double p, double v){
+			return qntStudentTWithCancel(p, v, 0);
+		}
+		/**
+		 * Quantile function (Inverse cumulative distribution function)
+		 * - Student's t-distribution
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param p   Probability
+		 * @param v   Number of degrees of freedom.
+		 * @return    Returns the quantile of Student's t-distribution
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see qntStudentT(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public static double qntStudentTWithCancel(double p, double v, int cancelId){
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
 			if (Double.IsNaN(p)) return Double.NaN;
 			if (Double.IsNaN(v)) return Double.NaN;
 			if (v <= 0.0) return Double.NaN;
@@ -690,13 +814,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (v == Double.PositiveInfinity)
 				x = MathConstants.SQRT2 * SpecialFunctions.erfInv(2.0 * Math.Max(p, 1.0 - p) - 1);
 			else {
-				x = SpecialFunctions.inverseRegularizedBeta(0.5 * v, 0.5, 2.0 * Math.Min(p, 1.0 - p));
+				x = SpecialFunctions.inverseRegularizedBetaWithCancel(0.5 * v, 0.5, 2.0 * Math.Min(p, 1.0 - p), cancelId);
 				x = Math.Sqrt(v * (1.0 - x) / x);
 			}
 
 			if (Double.IsNaN(x)) {
 				if (BinaryRelations.isEqualOrAlmost(v % 2, 0))
-					x = qntChengFuStudentTAlgorithm(p, v);
+					x = qntChengFuStudentTAlgorithmWithCancel(p, v, cancelId);
 				else
 					x = qntHillsAlgorithm396(p, v);
 			}
@@ -704,7 +828,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNaN(x)) {
 				pp.setConstantValue(Math.Max(p, 1.0 - p));
 				vv.setConstantValue(v);
-				x = qntSolveStud.calculate();
+				x = qntSolveStud.calculateWithCancel(cancelId);
 			}
 
 			return p >= 0.5 ? x : -x;
@@ -717,15 +841,44 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return    returns Pseudo-random number from Student's t-distribution
 		 */
 		public static double rndStudentT(double v) {
+			return rndStudentTWithCancel(v, 0);
+		}
+		/**
+		 * Pseudo-random number from Student's t-distribution
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param v   Number of degrees of freedom.
+		 * @return    returns Pseudo-random number from Student's t-distribution
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see rndStudentT(double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public static double rndStudentTWithCancel(double v, int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
 			if (Double.IsNaN(v)) return Double.NaN;
 			if (v <= 0) return Double.NaN;
-			return qntStudentT(randomGenerator.NextDouble(), v);
+			return qntStudentTWithCancel(randomGenerator.NextDouble(), v, cancelId);
 		}
 		/*
 		 * Cheng Fu approximation of quantile function of
 		 * Student's t-distribution
 		 */
-		private static double qntChengFuStudentTAlgorithm(double p, double v){
+		private static double qntChengFuStudentTAlgorithmWithCancel(double p, double v, int cancelId){
 			if (Double.IsNaN(p)) return Double.NaN;
 			if (Double.IsNaN(v)) return Double.NaN;
 			if (v <= 0.0) return Double.NaN;
@@ -736,11 +889,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (a != 0.5) {
 				qi = Math.Sqrt( 2.0 * Math.Pow(1.0 - 2.0*a, 2.0)/(1.0 - Math.Pow(1.0 - 2.0*a, 2.0)));
 				for (i = 0.0; i < 20.0; i = i + 1.0){
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 					gy = 0.0;
 					for (j = 0.0; j <= k - 1.0; j = j + 1.0){
-						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						gy = gy + MathFunctions.factorial(2.0*j) / Math.Pow(2.0, 2.0*j) / Math.Pow( MathFunctions.factorial(j), 2.0) * Math.Pow(1.0 + Math.Pow(qi, 2.0)/(2.0*k), -j);
+						if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
+						gy = gy + MathFunctions.factorialWithCancel(2.0*j, cancelId) / Math.Pow(2.0, 2.0*j) / Math.Pow( MathFunctions.factorialWithCancel(j, cancelId), 2.0) * Math.Pow(1.0 + Math.Pow(qi, 2.0)/(2.0*k), -j);
 					}
 					qip1 = 1.0 / Math.Sqrt(1/(2.0*k) * (Math.Pow(gy/(1.0 - 2.0*a), 2.0) - 1.0));
 					qi = qip1;
@@ -803,13 +956,43 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return    Returns the PDF of Chi-Squared t-distribution.
 		 */
 		public static double pdfChiSquared(double x, double k) {
+			return pdfChiSquaredWithCancel(x, k, 0);
+		}
+		/**
+		 * Probability distribution function - Chi-Squared distribution
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x   Given point.
+		 * @param k   Number of degrees of freedom.
+		 * @return    Returns the PDF of Chi-Squared t-distribution.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see pdfChiSquared(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public static double pdfChiSquaredWithCancel(double x, double k, int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
 			if (Double.IsNaN(x)) return Double.NaN;
 			if (Double.IsNaN(k)) return Double.NaN;
 			k = Math.Round(k);
 			if (k < 1.0) return Double.NaN;
 			if (x < 0.0) return 0.0;
 			if (BinaryRelations.isEqualOrAlmost(x, 0.0)) return 0.0;
-			return ( Math.Pow(x, k/2.0 - 1.0) * Math.Exp(-x/2.0) ) / ( Math.Pow(2, k/2.0) * SpecialFunctions.gamma(k / 2.0) );
+			return ( Math.Pow(x, k/2.0 - 1.0) * Math.Exp(-x/2.0) ) / ( Math.Pow(2, k/2.0) * SpecialFunctions.gammaWithCancel(k / 2.0, cancelId) );
 		}
 		/**
 		 * Cumulative distribution function - Chi-Squared distribution
@@ -819,13 +1002,43 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return    Returns the CDF of Chi-Squared distribution.
 		 */
 		public static double cdfChiSquared(double x, double k) {
+			return cdfChiSquaredWithCancel(x, k, 0);
+		}
+		/**
+		 * Cumulative distribution function - Chi-Squared distribution
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x   Given point.
+		 * @param k   Number of degrees of freedom.
+		 * @return    Returns the CDF of Chi-Squared distribution.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see cdfChiSquared(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public static double cdfChiSquaredWithCancel(double x, double k, int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
 			if (Double.IsNaN(x)) return Double.NaN;
 			if (Double.IsNaN(k)) return Double.NaN;
 			k = Math.Round(k);
 			if (k < 1.0) return Double.NaN;
 			if (x < 0.0) return 0.0;
 			if (BinaryRelations.isEqualOrAlmost(x, 0.0)) return 0.0;
-			return SpecialFunctions.regularizedGammaLowerP(k/2.0, x/2.0);
+			return SpecialFunctions.regularizedGammaLowerPWithCancel(k/2.0, x/2.0, cancelId);
 		}
 		/**
 		 * Quantile function (Inverse cumulative distribution function)
@@ -836,6 +1049,37 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return    Returns the quantile of Chi-Squared distribution
 		 */
 		public static double qntChiSquared(double p, double k) {
+			return qntChiSquaredWithCancel(p, k, 0);
+		}
+		/**
+		 * Quantile function (Inverse cumulative distribution function)
+		 * - Chi-Squared distribution
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param p   Probability
+		 * @param k   Number of degrees of freedom.
+		 * @return    Returns the quantile of Chi-Squared distribution
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see qntChiSquared(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public static double qntChiSquaredWithCancel(double p, double k, int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
 			if (Double.IsNaN(p)) return Double.NaN;
 			if (Double.IsNaN(k)) return Double.NaN;
 			if (BinaryRelations.isEqualOrAlmost(p, 0.0)) return 0.0;
@@ -843,7 +1087,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if ((p < 0.0) || (p > 1.0)) return Double.NaN;
 			k = Math.Round(k);
 			if (k < 1.0) return Double.NaN;
-			return 2.0 * SpecialFunctions.inverseRegularizedGammaLowerP(k/2.0, p);
+			return 2.0 * SpecialFunctions.inverseRegularizedGammaLowerPWithCancel(k/2.0, p, cancelId);
 		}
 		/**
 		 * Pseudo-random number from Chi-Squared distribution
@@ -852,10 +1096,39 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return    returns Pseudo-random number from Chi-Squared distribution
 		 */
 		public static double rndChiSquared(double k) {
+			return rndChiSquaredWithCancel(k, 0);
+		}
+		/**
+		 * Pseudo-random number from Chi-Squared distribution
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param k   Number of degrees of freedom.
+		 * @return    returns Pseudo-random number from Chi-Squared distribution
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see rndChiSquared(double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public static double rndChiSquaredWithCancel(double k, int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
 			if (Double.IsNaN(k)) return Double.NaN;
 			k = Math.Round(k);
 			if (k < 1.0) return Double.NaN;
-			return qntChiSquared(randomGenerator.NextDouble(), k);
+			return qntChiSquaredWithCancel(randomGenerator.NextDouble(), k, cancelId);
 		}
 		/**
 		 * Probability distribution function - Snedecor's F distribution (F-distribution or F-ratio,
@@ -868,6 +1141,39 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * also known as Fisher–Snedecor distribution)
 		 */
 		public static double pdfSnedecordF(double x, double d1, double d2) {
+			return pdfSnedecordFWithCancel(x, d1, d2, 0);
+		}
+		/**
+		 * Probability distribution function - Snedecor's F distribution (F-distribution or F-ratio,
+		 * also known as Fisher–Snedecor distribution)
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x     Real value
+		 * @param d1    Number of degrees of freedom - 1
+		 * @param d2    Number of degrees of freedom - 2
+		 * @return      Returns the PDF of Snedecor's F distribution (F-distribution or F-ratio,
+		 * also known as Fisher–Snedecor distribution)
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see pdfSnedecordF(double,double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public static double pdfSnedecordFWithCancel(double x, double d1, double d2, int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
 			if (Double.IsNaN(x)) return Double.NaN;
 			if (Double.IsNaN(d1)) return Double.NaN;
 			if (Double.IsNaN(d2)) return Double.NaN;
@@ -883,7 +1189,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (BinaryRelations.isEqualOrAlmost(x, 0.0)) return 0.0;
 			double d1div2 = d1 / 2.0;
 			double d2div2 = d2 / 2.0;
-			return ( ( Math.Pow(d1*x, d1div2) * Math.Pow(d2, d2div2) ) / Math.Pow(d1*x + d2, d1div2 + d2div2 ) ) / ( x * SpecialFunctions.beta(d1div2, d2div2) );
+			return ( ( Math.Pow(d1*x, d1div2) * Math.Pow(d2, d2div2) ) / Math.Pow(d1*x + d2, d1div2 + d2div2 ) ) / ( x * SpecialFunctions.betaWithCancel(d1div2, d2div2, cancelId) );
 		}
 		/**
 		 * Cumulative distribution function - Snedecor's F distribution (F-distribution or F-ratio,
@@ -896,6 +1202,39 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *              also known as Fisher–Snedecor distribution)
 		 */
 		public static double cdfSnedecordF(double x, double d1, double d2) {
+			return cdfSnedecordFWithCancel(x, d1, d2, 0);
+		}
+		/**
+		 * Cumulative distribution function - Snedecor's F distribution (F-distribution or F-ratio,
+		 * also known as Fisher–Snedecor distribution)
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x     Real value
+		 * @param d1    Number of degrees of freedom - 1
+		 * @param d2    Number of degrees of freedom - 2
+		 * @return      Returns the CDF of Snedecor's F distribution (F-distribution or F-ratio,
+		 *              also known as Fisher–Snedecor distribution)
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see cdfSnedecordF(double,double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public static double cdfSnedecordFWithCancel(double x, double d1, double d2, int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
 			if (Double.IsNaN(x)) return Double.NaN;
 			if (Double.IsNaN(d1)) return Double.NaN;
 			if (Double.IsNaN(d2)) return Double.NaN;
@@ -909,7 +1248,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (x == Double.NegativeInfinity) return 0.0;
 			if (x < 0.0) return 0.0;
 			if (BinaryRelations.isEqualOrAlmost(x, 0.0)) return 0.0;
-			return SpecialFunctions.regularizedBeta( d1/2.0, d2/2.0, (d1*x)/(d1*x + d2));
+			return SpecialFunctions.regularizedBetaWithCancel( d1/2.0, d2/2.0, (d1*x)/(d1*x + d2), cancelId);
 		}
 		/**
 		 * Quantile function (Inverse cumulative distribution function) - Snedecor's F distribution (F-distribution
@@ -922,6 +1261,39 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *              also known as Fisher–Snedecor distribution)
 		 */
 		public static double qntSnedecordF(double p, double d1, double d2) {
+			return qntSnedecordFWithCancel(p, d1, d2, 0);
+		}
+		/**
+		 * Quantile function (Inverse cumulative distribution function) - Snedecor's F distribution (F-distribution
+		 * or F-ratio, also known as Fisher–Snedecor distribution)
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param p     Probability
+		 * @param d1    Number of degrees of freedom - 1
+		 * @param d2    Number of degrees of freedom - 2
+		 * @return      Returns the quantile of Snedecor's F distribution (F-distribution or F-ratio,
+		 *              also known as Fisher–Snedecor distribution)
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see qntSnedecordF(double,double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public static double qntSnedecordFWithCancel(double p, double d1, double d2, int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
 			if (Double.IsNaN(p)) return Double.NaN;
 			if (Double.IsNaN(d1)) return Double.NaN;
 			if (Double.IsNaN(d2)) return Double.NaN;
@@ -935,7 +1307,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (BinaryRelations.isEqualOrAlmost(p, 1.0)) return Double.PositiveInfinity;
 			if (p < 0.0) return Double.NaN;
 			if (p > 1.0) return Double.NaN;
-			double regBetaInv = SpecialFunctions.inverseRegularizedBeta(d1/2.0, d2/2.0, p);
+			double regBetaInv = SpecialFunctions.inverseRegularizedBetaWithCancel(d1/2.0, d2/2.0, p, cancelId);
 			return (d2 * regBetaInv) / ( d1 * (1 - regBetaInv) );
 		}
 		/**
@@ -948,6 +1320,38 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *              or F-ratio, also known as Fisher–Snedecor distribution)
 		 */
 		public static double rndSnedecordF(double d1, double d2) {
+			return rndSnedecordFWithCancel(d1, d2, 0);
+		}
+		/**
+		 * Pseudo-random number from Snedecor's F distribution (F-distribution or F-ratio,
+		 * also known as Fisher–Snedecor distribution)
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param d1    Number of degrees of freedom - 1
+		 * @param d2    Number of degrees of freedom - 2
+		 * @return      Returns Pseudo-random number from Snedecor's F distribution (F-distribution
+		 *              or F-ratio, also known as Fisher–Snedecor distribution)
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see rndSnedecordF(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public static double rndSnedecordFWithCancel(double d1, double d2, int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
 			if (Double.IsNaN(d1)) return Double.NaN;
 			if (Double.IsNaN(d2)) return Double.NaN;
 			if (Double.IsInfinity(d1)) return Double.NaN;
@@ -956,7 +1360,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (d2 < 0.0) return Double.NaN;
 			if (BinaryRelations.isEqualOrAlmost(d1, 0.0)) return Double.NaN;
 			if (BinaryRelations.isEqualOrAlmost(d2, 0.0)) return Double.NaN;
-			return qntSnedecordF(randomGenerator.NextDouble(), d1, d2);
+			return qntSnedecordFWithCancel(randomGenerator.NextDouble(), d1, d2, cancelId);
 		}
         /**
 		 * Returns random variable value, where random variable is represented by the
@@ -968,6 +1372,38 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see RandomVariable
 		 */
         public static double getRandomVariableValue(int randomVariableId) {
+			return getRandomVariableValueWithCancel(randomVariableId, 0);
+		}
+		/**
+		 * Returns random variable value, where random variable is represented by the
+		 * token id in the RandomVariable class
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param randomVariableId Please refer to RandomVariable class.
+		 * @return Returns random variable value if id is known, otherwise Double.NaN is returned.
+		 *
+		 * @see RandomVariable
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws ArgumentOutOfRangeException if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see getRandomVariableValue(int)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		public static double getRandomVariableValueWithCancel(int randomVariableId, int cancelId) {
+			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
 			switch (randomVariableId) {
 				case RandomVariable.UNIFORM_ID:
 					return ProbabilityDistributions.rndUniformContinuous(ProbabilityDistributions.randomGenerator);
@@ -1032,7 +1468,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				case RandomVariable.NAT1_9_ID:
 					return ProbabilityDistributions.rndInteger(1, 1000000000, ProbabilityDistributions.randomGenerator);
 				case RandomVariable.NOR_ID:
-					return ProbabilityDistributions.rndNormal(0.0, 1.0, ProbabilityDistributions.randomGenerator);
+					return ProbabilityDistributions.rndNormalWithCancel(0.0, 1.0, ProbabilityDistributions.randomGenerator, cancelId);
 			}
 			return Double.NaN;
 		}

@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        6.2.0    2026-11-11
+ * @(#)Expression.java        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -283,6 +283,8 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
 public class Expression extends PrimitiveElement implements Serializable {
 	private static final int serialClassID = 6;
 	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
+	/** Active operation state; deliberately excluded from cloning and serialization. */
+	private transient int activeCancelId = 0;
 	/**
 	 * Expression type id
 	 */
@@ -1283,7 +1285,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int argumentIndex = getArgumentIndex(argumentName);
 		if (argumentIndex == NOT_FOUND)
 			return Double.NaN;
-		return argumentsList.get(argumentIndex).getArgumentValue();
+		return argumentsList.get(argumentIndex).getArgumentValueWithCancel(activeCancelId);
 	}
 	/**
 	 * Removes first occurrences of the arguments
@@ -1696,7 +1698,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 		int precision = MathFunctions.ulpDecimalDigitsBefore(number);
 		if (precision >= 0)
-			token.tokenValue = MathFunctions.round(number, precision);
+			token.tokenValue = MathFunctions.roundWithCancel(number, precision, activeCancelId);
 		else
 			token.tokenValue = number;
 	}
@@ -2031,7 +2033,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		}
 		argParam.initialValue = argParam.argument.argumentValue;
 		argParam.initialType = argParam.argument.argumentType;
-		argParam.argument.argumentValue = argParam.argument.getArgumentValue();
+		argParam.argument.argumentValue = argParam.argument.getArgumentValueWithCancel(activeCancelId);
 		argParam.argument.argumentType = Argument.FREE_ARGUMENT;
 		return argParam;
 	}
@@ -2065,7 +2067,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		boolean argumentVerboseMode = argument.getVerboseMode();
 		if (verboseMode)
 			argument.setVerboseMode();
-		setToNumber(pos, argument.getArgumentValue());
+		setToNumber(pos, argument.getArgumentValueWithCancel(activeCancelId));
 		if (!argumentVerboseMode)
 			argument.setSilentMode();
 	}
@@ -2092,7 +2094,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 */
 		int tokensListSizeBefore = tokensList.size();
 		Token tokenBefore = tokensList.get(pos);
-		double argumentValue = argument.getArgumentValue(calcStepsRegister);
+		double argumentValue = argument.getArgumentValueWithCancel(calcStepsRegister, activeCancelId);
 		if (forwardErrorMessage && this != argument.argumentExpression) {
 			errorMessageCalculate = StringUtils.stringConcatenateMaxLength(errorMessageCalculate, argument.argumentExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
 			errorMessage = StringUtils.stringConcatenateMaxLength(errorMessage, argument.argumentExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
@@ -2142,7 +2144,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		Token tokenBefore = tokensList.get(pos);
 		double value;
 		try {
-			value = function.calculate(calcStepsRegister);
+			value = function.calculateWithCancel(calcStepsRegister, activeCancelId);
 		} catch (StackOverflowError soe) {
 			value = Double.NaN;
 			errorMessage = StringUtils.trimNotNull(soe.getMessage());
@@ -2188,7 +2190,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		boolean argumentVerboseMode = argument.getVerboseMode();
 		if (verboseMode)
 			argument.setVerboseMode();
-		double result = argument.getArgumentValue(index);
+		double result = argument.getArgumentValueWithCancel(index, activeCancelId);
 		if (forwardErrorMessage && this != argument.argumentExpression) {
 			errorMessageCalculate = StringUtils.stringConcatenateMaxLength(errorMessageCalculate, argument.argumentExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
 			errorMessage = StringUtils.stringConcatenateMaxLength(errorMessage, argument.argumentExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
@@ -2228,7 +2230,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void RANDOM_VARIABLE(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.RANDOM_VARIABLE, pos);
-		setToNumber(pos, ProbabilityDistributions.getRandomVariableValue(tokensList.get(pos).tokenId));
+		setToNumber(pos, ProbabilityDistributions.getRandomVariableValueWithCancel(tokensList.get(pos).tokenId, activeCancelId));
 	}
 	/**
 	 * Gets token value
@@ -2248,7 +2250,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.TETRATION, pos);
 		double a = getTokenValue(pos-1);
 		double n = getTokenValue(pos+1);
-		opSetDecreaseRemove(pos, MathFunctions.tetration(a, n), true);
+		opSetDecreaseRemove(pos, MathFunctions.tetrationWithCancel(a, n, activeCancelId), true);
 	}
 	/**
 	 * Power handling.
@@ -3017,7 +3019,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void BELL_NUMBER(int pos) {
 		double n = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, MathFunctions.bellNumber(n) );
+		f1SetDecreaseRemove(pos, MathFunctions.bellNumberWithCancel(n, activeCancelId) );
 	}
 	/**
 	 * Lucas numbers
@@ -3026,7 +3028,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void LUCAS_NUMBER(int pos) {
 		double n = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, MathFunctions.lucasNumber(n) );
+		f1SetDecreaseRemove(pos, MathFunctions.lucasNumberWithCancel(n, activeCancelId) );
 	}
 	/**
 	 * Fibonacci numbers
@@ -3035,7 +3037,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void FIBONACCI_NUMBER(int pos) {
 		double n = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, MathFunctions.fibonacciNumber(n) );
+		f1SetDecreaseRemove(pos, MathFunctions.fibonacciNumberWithCancel(n, activeCancelId) );
 	}
 	/**
 	 * Harmonic numbers
@@ -3044,7 +3046,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void HARMONIC_NUMBER(int pos) {
 		double n = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, MathFunctions.harmonicNumber(n) );
+		f1SetDecreaseRemove(pos, MathFunctions.ordinaryHarmonicNumberWithCancel(n, activeCancelId) );
 	}
 	/**
 	 * Prime test
@@ -3053,7 +3055,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void IS_PRIME(int pos) {
 		double n = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, NumberTheory.primeTest(n) );
+		f1SetDecreaseRemove(pos, NumberTheory.primeTestWithCancel(n, activeCancelId) );
 	}
 	/**
 	 * Prime counting
@@ -3062,7 +3064,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void PRIME_COUNT(int pos) {
 		double n = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, NumberTheory.primeCount(n) );
+		f1SetDecreaseRemove(pos, NumberTheory.primeCountWithCancel(n, activeCancelId) );
 	}
 	/**
 	 * Exponential integral function
@@ -3071,7 +3073,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void EXP_INT(int pos) {
 		double x = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, SpecialFunctions.exponentialIntegralEi(x) );
+		f1SetDecreaseRemove(pos, SpecialFunctions.exponentialIntegralEiWithCancel(x, activeCancelId) );
 	}
 	/**
 	 * Logarithmic exponential integral function
@@ -3080,7 +3082,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void LOG_INT(int pos) {
 		double x = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, SpecialFunctions.logarithmicIntegralLi(x) );
+		f1SetDecreaseRemove(pos, SpecialFunctions.logarithmicIntegralLiWithCancel(x, activeCancelId) );
 	}
 	/**
 	 * Offset logarithmic exponential integral function
@@ -3089,7 +3091,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void OFF_LOG_INT(int pos) {
 		double x = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, SpecialFunctions.offsetLogarithmicIntegralLi(x) );
+		f1SetDecreaseRemove(pos, SpecialFunctions.offsetLogarithmicIntegralLiWithCancel(x, activeCancelId) );
 	}
 	/**
 	 * Factorilal function
@@ -3100,7 +3102,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void FACT(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.FACT, pos);
 		double a = getTokenValue(pos-1);
-		setToNumber(pos, MathFunctions.factorial(a));
+		setToNumber(pos, MathFunctions.factorialWithCancel(a, activeCancelId));
 		tokensList.remove(pos-1);
 	}
 	/**
@@ -3202,7 +3204,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void NFACT(int pos) {
 		double n = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, NumberTheory.numberOfPrimeFactors(n) );
+		f1SetDecreaseRemove(pos, NumberTheory.numberOfPrimeFactorsWithCancel(n, activeCancelId) );
 	}
 	/**
 	 * Arcuus secant
@@ -3232,7 +3234,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void GAMMA(int pos) {
 		double x = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, SpecialFunctions.gamma(x) );
+		f1SetDecreaseRemove(pos, SpecialFunctions.gammaWithCancel(x, activeCancelId) );
 	}
 	/**
 	 * Lambert-W special function, principal branch 0
@@ -3242,7 +3244,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void LAMBERT_W0(int pos) {
 		double x = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, SpecialFunctions.lambertW(x, 0) );
+		f1SetDecreaseRemove(pos, SpecialFunctions.lambertWWithCancel(x, 0, activeCancelId) );
 	}
 	/**
 	 * Lambert-W special function, branch = -1
@@ -3252,7 +3254,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void LAMBERT_W1(int pos) {
 		double x = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, SpecialFunctions.lambertW(x, -1) );
+		f1SetDecreaseRemove(pos, SpecialFunctions.lambertWWithCancel(x, -1, activeCancelId) );
 	}
 	/**
 	 * Signum of Gamma special function
@@ -3262,7 +3264,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void SGN_GAMMA(int pos) {
 		double x = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, SpecialFunctions.sgnGamma(x) );
+		f1SetDecreaseRemove(pos, SpecialFunctions.sgnGammaWithCancel(x, activeCancelId) );
 	}
 	/**
 	 * Log Gamma special function
@@ -3272,7 +3274,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void LOG_GAMMA(int pos) {
 		double x = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, SpecialFunctions.logGamma(x) );
+		f1SetDecreaseRemove(pos, SpecialFunctions.logGammaWithCancel(x, activeCancelId) );
 	}
 	/**
 	 * Digamma special function
@@ -3282,7 +3284,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void DI_GAMMA(int pos) {
 		double x = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, SpecialFunctions.diGamma(x) );
+		f1SetDecreaseRemove(pos, SpecialFunctions.diGammaWithCancel(x, activeCancelId) );
 	}
 	/**
 	 * User Defined Variadic function param value
@@ -3312,11 +3314,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 	}
 	private void RND_STUDENT_T(int pos) {
 		double v = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, ProbabilityDistributions.rndStudentT(v) );
+		f1SetDecreaseRemove(pos, ProbabilityDistributions.rndStudentTWithCancel(v, activeCancelId) );
 	}
 	private void RND_CHI2(int pos) {
 		double k = getTokenValue(pos+1);
-		f1SetDecreaseRemove(pos, ProbabilityDistributions.rndChiSquared(k) );
+		f1SetDecreaseRemove(pos, ProbabilityDistributions.rndChiSquaredWithCancel(k, activeCancelId) );
 	}
 	/**
 	 * Logarithm
@@ -3374,7 +3376,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void BINOM_COEFF(int pos) {
 		double n = getTokenValue(pos+1);
 		double k = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, MathFunctions.binomCoeff(n, k) );
+		f2SetDecreaseRemove(pos, MathFunctions.binomCoeffWithCancel(n, k, activeCancelId) );
 	}
 	/**
 	 * Number of permutations
@@ -3384,7 +3386,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void PERMUTATIONS(int pos) {
 		double n = getTokenValue(pos+1);
 		double k = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, MathFunctions.numberOfPermutations(n, k) );
+		f2SetDecreaseRemove(pos, MathFunctions.numberOfPermutationsWithCancel(n, k, activeCancelId) );
 	}
 	/**
 	 * Beta special function
@@ -3393,7 +3395,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void BETA(int pos) {
 		double x = getTokenValue(pos+1);
 		double y = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, SpecialFunctions.beta(x, y) );
+		f2SetDecreaseRemove(pos, SpecialFunctions.betaWithCancel(x, y, activeCancelId) );
 	}
 	/**
 	 * Log beta special function
@@ -3402,37 +3404,37 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void LOG_BETA(int pos) {
 		double x = getTokenValue(pos+1);
 		double y = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, SpecialFunctions.logBeta(x, y) );
+		f2SetDecreaseRemove(pos, SpecialFunctions.logBetaWithCancel(x, y, activeCancelId) );
 	}
 	private void PDF_STUDENT_T(int pos) {
 		double x = getTokenValue(pos+1);
 		double v = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, ProbabilityDistributions.pdfStudentT(x, v) );
+		f2SetDecreaseRemove(pos, ProbabilityDistributions.pdfStudentTWithCancel(x, v, activeCancelId) );
 	}
 	private void CDF_STUDENT_T(int pos) {
 		double x = getTokenValue(pos+1);
 		double v = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, ProbabilityDistributions.cdfStudentT(x, v) );
+		f2SetDecreaseRemove(pos, ProbabilityDistributions.cdfStudentTWithCancel(x, v, activeCancelId) );
 	}
 	private void QNT_STUDENT_T(int pos) {
 		double p = getTokenValue(pos+1);
 		double v = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, ProbabilityDistributions.qntStudentT(p, v) );
+		f2SetDecreaseRemove(pos, ProbabilityDistributions.qntStudentTWithCancel(p, v, activeCancelId) );
 	}
 	private void PDF_CHI2(int pos) {
 		double x = getTokenValue(pos+1);
 		double k = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, ProbabilityDistributions.pdfChiSquared(x, k) );
+		f2SetDecreaseRemove(pos, ProbabilityDistributions.pdfChiSquaredWithCancel(x, k, activeCancelId) );
 	}
 	private void CDF_CHI2(int pos) {
 		double x = getTokenValue(pos+1);
 		double k = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, ProbabilityDistributions.cdfChiSquared(x, k) );
+		f2SetDecreaseRemove(pos, ProbabilityDistributions.cdfChiSquaredWithCancel(x, k, activeCancelId) );
 	}
 	private void QNT_CHI2(int pos) {
 		double p = getTokenValue(pos+1);
 		double k = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, ProbabilityDistributions.qntChiSquared(p, k) );
+		f2SetDecreaseRemove(pos, ProbabilityDistributions.qntChiSquaredWithCancel(p, k, activeCancelId) );
 	}
 	/**
 	 * Bernoulli Number
@@ -3442,7 +3444,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void BERNOULLI_NUMBER(int pos) {
 		double m = getTokenValue(pos+1);
 		double n = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, MathFunctions.bernoulliNumber(m, n) );
+		f2SetDecreaseRemove(pos, MathFunctions.bernoulliNumberWithCancel(m, n, activeCancelId) );
 	}
 	/**
 	 * Stirling number of the first kind
@@ -3452,7 +3454,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void STIRLING1_NUMBER(int pos) {
 		double n = getTokenValue(pos+1);
 		double k = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, MathFunctions.Stirling1Number(n, k) );
+		f2SetDecreaseRemove(pos, MathFunctions.Stirling1NumberWithCancel(n, k, activeCancelId) );
 	}
 	/**
 	 * Stirling number of the second kind.
@@ -3462,7 +3464,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void STIRLING2_NUMBER(int pos) {
 		double n = getTokenValue(pos+1);
 		double k = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, MathFunctions.Stirling2Number(n, k) );
+		f2SetDecreaseRemove(pos, MathFunctions.Stirling2NumberWithCancel(n, k, activeCancelId) );
 	}
 	/**
 	 * Worpitzky number.
@@ -3472,7 +3474,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void WORPITZKY_NUMBER(int pos) {
 		double n = getTokenValue(pos+1);
 		double k = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, MathFunctions.worpitzkyNumber(n, k) );
+		f2SetDecreaseRemove(pos, MathFunctions.worpitzkyNumberWithCancel(n, k, activeCancelId) );
 	}
 	/**
 	 * Euler number
@@ -3482,7 +3484,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void EULER_NUMBER(int pos) {
 		double n = getTokenValue(pos+1);
 		double k = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, MathFunctions.eulerNumber(n, k) );
+		f2SetDecreaseRemove(pos, MathFunctions.eulerNumberWithCancel(n, k, activeCancelId) );
 	}
 	/**
 	 * Kronecker delta
@@ -3502,7 +3504,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void EULER_POLYNOMIAL(int pos) {
 		double m = getTokenValue(pos+1);
 		double x = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, MathFunctions.eulerPolynomial(m, x) );
+		f2SetDecreaseRemove(pos, MathFunctions.eulerPolynomialWithCancel(m, x, activeCancelId) );
 	}
 	/**
 	 * Harmonic numbers
@@ -3512,7 +3514,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void HARMONIC2_NUMBER(int pos) {
 		double x = getTokenValue(pos+1);
 		double n = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, MathFunctions.harmonicNumber(x, n) );
+		f2SetDecreaseRemove(pos, MathFunctions.generalizedHarmonicNumberWithCancel(x, n, activeCancelId) );
 	}
 	/**
 	 * Decimal rounding
@@ -3522,7 +3524,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void ROUND(int pos) {
 		double value = getTokenValue(pos+1);
 		int places = (int)getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, MathFunctions.round(value, places) );
+		f2SetDecreaseRemove(pos, MathFunctions.roundWithCancel(value, places, activeCancelId) );
 	}
 	/**
 	 * Random number - Uniform Continuous distribution
@@ -3552,7 +3554,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void RND_NORMAL(int pos) {
 		double mean = getTokenValue(pos+1);
 		double stddev = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, ProbabilityDistributions.rndNormal(mean, stddev, ProbabilityDistributions.randomGenerator) );
+		f2SetDecreaseRemove(pos, ProbabilityDistributions.rndNormalWithCancel(mean, stddev, ProbabilityDistributions.randomGenerator, activeCancelId) );
 	}
 	/**
 	 * Random number - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)
@@ -3562,7 +3564,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void RND_F_SNEDECOR(int pos) {
 		double d1 = getTokenValue(pos+1);
 		double d2 = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, ProbabilityDistributions.rndSnedecordF(d1, d2) );
+		f2SetDecreaseRemove(pos, ProbabilityDistributions.rndSnedecordFWithCancel(d1, d2, activeCancelId) );
 	}
 	/**
 	 * Number of digits in given numeral system
@@ -3572,7 +3574,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void NDIG(int pos) {
 		double number = getTokenValue(pos+1);
 		double numeralSystemBase = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, NumberTheory.numberOfDigits(number, numeralSystemBase) );
+		f2SetDecreaseRemove(pos, NumberTheory.numberOfDigitsWithCancel(number, numeralSystemBase, activeCancelId) );
 	}
 	/**
 	 * Digit at position - base 10 numeral system
@@ -3582,7 +3584,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void DIGIT10(int pos) {
 		double number = getTokenValue(pos+1);
 		double position = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, NumberTheory.digitAtPosition(number, position) );
+		f2SetDecreaseRemove(pos, NumberTheory.decimalDigitAtPositionWithCancel(number, position, activeCancelId) );
 	}
 	/**
 	 * Prime factor value
@@ -3592,7 +3594,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void FACTVAL(int pos) {
 		double number = getTokenValue(pos+1);
 		double id = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, NumberTheory.primeFactorValue(number, id) );
+		f2SetDecreaseRemove(pos, NumberTheory.primeFactorValueWithCancel(number, id, activeCancelId) );
 	}
 	/**
 	 * Prime factor value exponent
@@ -3602,7 +3604,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void FACTEXP(int pos) {
 		double number = getTokenValue(pos+1);
 		double id = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, NumberTheory.primeFactorExponent(number, id) );
+		f2SetDecreaseRemove(pos, NumberTheory.primeFactorExponentWithCancel(number, id, activeCancelId) );
 	}
 	/**
 	 * Nth order root
@@ -3622,7 +3624,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void INC_GAMMA_LOWER(int pos) {
 		double s = getTokenValue(pos+1);
 		double x = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, SpecialFunctions.incompleteGammaLower(s, x) );
+		f2SetDecreaseRemove(pos, SpecialFunctions.incompleteGammaLowerWithCancel(s, x, activeCancelId) );
 	}
 	/**
 	 * Upper incomplete special Gamma function
@@ -3632,7 +3634,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void INC_GAMMA_UPPER(int pos) {
 		double s = getTokenValue(pos+1);
 		double x = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, SpecialFunctions.incompleteGammaUpper(s, x) );
+		f2SetDecreaseRemove(pos, SpecialFunctions.incompleteGammaUpperWithCancel(s, x, activeCancelId) );
 	}
 	/**
 	 * Lower regularized special Gamma function
@@ -3642,7 +3644,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void REG_GAMMA_LOWER(int pos) {
 		double s = getTokenValue(pos+1);
 		double x = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, SpecialFunctions.regularizedGammaLowerP(s, x) );
+		f2SetDecreaseRemove(pos, SpecialFunctions.regularizedGammaLowerPWithCancel(s, x, activeCancelId) );
 	}
 	/**
 	 * Lower regularized special Gamma function
@@ -3652,7 +3654,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void REG_GAMMA_UPPER(int pos) {
 		double s = getTokenValue(pos+1);
 		double x = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, SpecialFunctions.regularizedGammaUpperQ(s, x) );
+		f2SetDecreaseRemove(pos, SpecialFunctions.regularizedGammaUpperQWithCancel(s, x, activeCancelId) );
 	}
 	/**
 	 * IF function
@@ -3674,7 +3676,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		Expression ifExp = new Expression(ifParam.paramStr, ifParam.tokens, argumentsList, functionsList, constantsList, KEEP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
 		if (verboseMode)
 			ifExp.setVerboseMode();
-		ifSetRemove(pos, ifExp.calculate());
+		ifSetRemove(pos, ifExp.calculateWithCancel(activeCancelId));
 	}
 	/**
 	 * IFF function
@@ -3701,7 +3703,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			if (verboseMode)
 				iffExp.setVerboseMode();
 			iffCon = true;
-			iffValue = iffExp.calculate();
+			iffValue = iffExp.calculateWithCancel(activeCancelId);
 			if (iffValue == 0 || Double.isNaN(iffValue)) {
 					paramNumber += 2;
 					iffCon = false;
@@ -3878,7 +3880,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		double x = getTokenValue(pos+1);
 		double d1 = getTokenValue(pos+2);
 		double d2 = getTokenValue(pos+3);
-		f3SetDecreaseRemove(pos, ProbabilityDistributions.pdfSnedecordF(x, d1, d2) );
+		f3SetDecreaseRemove(pos, ProbabilityDistributions.pdfSnedecordFWithCancel(x, d1, d2, activeCancelId) );
 	}
 	/**
 	 * Cumulative Distribution Function - Snedecor's F distribution
@@ -3889,7 +3891,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		double x = getTokenValue(pos+1);
 		double d1 = getTokenValue(pos+2);
 		double d2 = getTokenValue(pos+3);
-		f3SetDecreaseRemove(pos, ProbabilityDistributions.cdfSnedecordF(x, d1, d2) );
+		f3SetDecreaseRemove(pos, ProbabilityDistributions.cdfSnedecordFWithCancel(x, d1, d2, activeCancelId) );
 	}
 	/**
 	 * Quantile Function - Snedecor's F distribution
@@ -3900,7 +3902,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		double p = getTokenValue(pos+1);
 		double d1 = getTokenValue(pos+2);
 		double d2 = getTokenValue(pos+3);
-		f3SetDecreaseRemove(pos, ProbabilityDistributions.qntSnedecordF(p, d1, d2) );
+		f3SetDecreaseRemove(pos, ProbabilityDistributions.qntSnedecordFWithCancel(p, d1, d2, activeCancelId) );
 	}
 	private static final double PP = Math.round(MathConstants.PI * 1e8);
 	private static final double EE = Math.round(MathConstants.E * 1e8);
@@ -3918,7 +3920,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		if (number == PP && position == EE && numeralSystemBase == GG) {
 			value = 1 + License.getUseType() * 10 + mXparser.VERSION_PATCH * 100 + mXparser.VERSION_MINOR * 10000 + mXparser.VERSION_MAJOR * 1000000;
 		} else
-			value = NumberTheory.digitAtPosition(number, position, numeralSystemBase);
+			value = NumberTheory.digitAtPositionWithCancel(number, position, numeralSystemBase, activeCancelId);
 		f3SetDecreaseRemove(pos, value);
 	}
 	/**
@@ -3929,7 +3931,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		double x = getTokenValue(pos+1);
 		double a = getTokenValue(pos+2);
 		double b = getTokenValue(pos+3);
-		f3SetDecreaseRemove(pos, SpecialFunctions.incompleteBeta(a, b, x) );
+		f3SetDecreaseRemove(pos, SpecialFunctions.incompleteBetaWithCancel(a, b, x, activeCancelId) );
 	}
 	/**
 	 * Regularized incomplete beta special function
@@ -3939,7 +3941,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		double x = getTokenValue(pos+1);
 		double a = getTokenValue(pos+2);
 		double b = getTokenValue(pos+3);
-		f3SetDecreaseRemove(pos, SpecialFunctions.regularizedBeta(a, b, x) );
+		f3SetDecreaseRemove(pos, SpecialFunctions.regularizedBetaWithCancel(a, b, x, activeCancelId) );
 	}
 	/**
 	 * Updating missing tokens (i.e. indexes i sum operator). Used when creating
@@ -3999,8 +4001,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 		/*
 		 * Evaluate range
 		 */
-		iterParams.from = iterParams.fromExp.calculate();
-		iterParams.to = iterParams.toExp.calculate();
+		iterParams.from = iterParams.fromExp.calculateWithCancel(activeCancelId);
+		iterParams.to = iterParams.toExp.calculateWithCancel(activeCancelId);
 		iterParams.delta = 1.0;
 		if (iterParams.to < iterParams.from) iterParams.delta = -1.0;
 		if (iterParams.withDelta) {
@@ -4010,7 +4012,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			}
 			if (verboseMode)
 				iterParams.deltaExp.setVerboseMode();
-			iterParams.delta = iterParams.deltaExp.calculate();
+			iterParams.delta = iterParams.deltaExp.calculateWithCancel(activeCancelId);
 		}
 	}
 	/**
@@ -4028,7 +4030,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 		updateMissingTokens(index, iterParams);
 		evalFromToDeltaParameters(index, iterParams);
-		double sigma = NumberTheory.sigmaSummation(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
+		double sigma = NumberTheory.sigmaSummationWithCancel(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta, activeCancelId);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, sigma, true);
 	}
@@ -4047,7 +4049,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 		updateMissingTokens(index, iterParams);
 		evalFromToDeltaParameters(index, iterParams);
-		double product = NumberTheory.piProduct(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
+		double product = NumberTheory.piProductWithCancel(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta, activeCancelId);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, product, true);
 	}
@@ -4066,7 +4068,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 		updateMissingTokens(index, iterParams);
 		evalFromToDeltaParameters(index, iterParams);
-		double min = NumberTheory.min(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
+		double min = NumberTheory.minWithCancel(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta, activeCancelId);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, min);
 	}
@@ -4085,7 +4087,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 		updateMissingTokens(index, iterParams);
 		evalFromToDeltaParameters(index, iterParams);
-		double max = NumberTheory.max(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
+		double max = NumberTheory.maxWithCancel(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta, activeCancelId);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, max);
 	}
@@ -4104,7 +4106,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 		updateMissingTokens(index, iterParams);
 		evalFromToDeltaParameters(index, iterParams);
-		double avg = Statistics.avg(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
+		double avg = Statistics.avgWithCancel(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta, activeCancelId);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, avg, true);
 	}
@@ -4123,7 +4125,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 		updateMissingTokens(index, iterParams);
 		evalFromToDeltaParameters(index, iterParams);
-		double var = Statistics.var(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
+		double var = Statistics.varWithCancel(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta, activeCancelId);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, var, true);
 	}
@@ -4142,7 +4144,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 		updateMissingTokens(index, iterParams);
 		evalFromToDeltaParameters(index, iterParams);
-		double std = Statistics.std(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
+		double std = Statistics.stdWithCancel(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta, activeCancelId);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, std, true);
 	}
@@ -4191,7 +4193,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 * der( f(x), x, eps, maxsteps )
 		 */
 		if (derParams.size() == 2 || derParams.size() == 4)
-			x0 = x.argument.getArgumentValue();
+			x0 = x.argument.getArgumentValueWithCancel(activeCancelId);
 		/*
 		 * der( f(x), x, x0 )
 		 * der( f(x), x, x0, eps, maxsteps )
@@ -4201,7 +4203,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			if (x.presence == Argument.NOT_FOUND)
 				updateMissingTokens(x0Param.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 			Expression x0Expr = new Expression(x0Param.paramStr, x0Param.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-			x0 = x0Expr.calculate();
+			x0 = x0Expr.calculateWithCancel(activeCancelId);
 		}
 		double eps = DEF_EPS;
 		int maxSteps = DEF_MAX_STEPS;
@@ -4225,17 +4227,17 @@ public class Expression extends PrimitiveElement implements Serializable {
 			}
 			Expression epsExpr = new Expression(epsParam.paramStr, epsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			Expression maxStepsExp = new Expression(maxStepsParam.paramStr, maxStepsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-			eps = epsExpr.calculate();
-			maxSteps = (int)Math.round(maxStepsExp.calculate());
+			eps = epsExpr.calculateWithCancel(activeCancelId);
+			maxSteps = (int)Math.round(maxStepsExp.calculateWithCancel(activeCancelId));
 		}
 		if (derivativeType == Calculus.GENERAL_DERIVATIVE) {
-			double general = Calculus.derivative(funExp, x.argument, x0, Calculus.GENERAL_DERIVATIVE, eps, maxSteps);
+			double general = Calculus.derivativeWithCancel(funExp, x.argument, x0, Calculus.GENERAL_DERIVATIVE, eps, maxSteps, activeCancelId);
 			calcSetDecreaseRemove(pos, general);
 		} else if (derivativeType == Calculus.LEFT_DERIVATIVE) {
-			double left = Calculus.derivative(funExp, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps);
+			double left = Calculus.derivativeWithCancel(funExp, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps, activeCancelId);
 			calcSetDecreaseRemove(pos, left);
 		} else {
-			double right = Calculus.derivative(funExp, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps);
+			double right = Calculus.derivativeWithCancel(funExp, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps, activeCancelId);
 			calcSetDecreaseRemove(pos, right);
 		}
 		clearParamArgument(x);
@@ -4275,7 +4277,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			updateMissingTokens(nParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 		}
 		Expression nExp = new Expression(nParam.paramStr, nParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-		double n = nExp.calculate();
+		double n = nExp.calculateWithCancel(activeCancelId);
 		int nInt = (int)Math.round(n);
 
 		String funParamStr;
@@ -4329,7 +4331,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 		Expression funExp = new Expression(funParamStr, funParamTokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 
-		double x0 = x.argument.getArgumentValue();
+		double x0 = x.argument.getArgumentValueWithCancel(activeCancelId);
 		double eps = DEF_EPS;
 		int maxSteps = DEF_MAX_STEPS;
 		if (derParams.size() == 5) {
@@ -4341,17 +4343,17 @@ public class Expression extends PrimitiveElement implements Serializable {
 			}
 			Expression epsExpr = new Expression(epsParam.paramStr, epsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			Expression maxStepsExp = new Expression(maxStepsParam.paramStr, maxStepsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-			eps = epsExpr.calculate();
-			maxSteps = (int)Math.round(maxStepsExp.calculate());
+			eps = epsExpr.calculateWithCancel(activeCancelId);
+			maxSteps = (int)Math.round(maxStepsExp.calculateWithCancel(activeCancelId));
 		}
 		if (derivativeType == Calculus.GENERAL_DERIVATIVE) {
-			double general = Calculus.derivative(funExp, x.argument, x0, Calculus.GENERAL_DERIVATIVE, eps, maxSteps);
+			double general = Calculus.derivativeWithCancel(funExp, x.argument, x0, Calculus.GENERAL_DERIVATIVE, eps, maxSteps, activeCancelId);
 			calcSetDecreaseRemove(pos, general);
 		} else if (derivativeType == Calculus.LEFT_DERIVATIVE) {
-			double left = Calculus.derivative(funExp, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps);
+			double left = Calculus.derivativeWithCancel(funExp, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps, activeCancelId);
 			calcSetDecreaseRemove(pos, left);
 		} else {
-			double right = Calculus.derivative(funExp, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps);
+			double right = Calculus.derivativeWithCancel(funExp, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps, activeCancelId);
 			calcSetDecreaseRemove(pos, right);
 		}
 		clearParamArgument(x);
@@ -4399,7 +4401,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 		double eps = DEF_EPS;
 		int maxSteps = DEF_MAX_STEPS;
-		calcSetDecreaseRemove(pos, Calculus.integralTrapezoid(funExp, x.argument, aExp.calculate(), bExp.calculate(), eps, maxSteps) );
+		calcSetDecreaseRemove(pos, Calculus.integralTrapezoidWithCancel(funExp, x.argument, aExp.calculateWithCancel(activeCancelId), bExp.calculateWithCancel(activeCancelId), eps, maxSteps, activeCancelId) );
 		clearParamArgument(x);
 	}
 	/**
@@ -4445,7 +4447,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 		double eps = DEF_EPS;
 		int maxSteps = DEF_MAX_STEPS;
-		calcSetDecreaseRemove(pos, Calculus.solveBrent(funExp, x.argument, aExp.calculate(), bExp.calculate(), eps, maxSteps) );
+		calcSetDecreaseRemove(pos, Calculus.solveBrentWithCancel(funExp, x.argument, aExp.calculateWithCancel(activeCancelId), bExp.calculateWithCancel(activeCancelId), eps, maxSteps, activeCancelId) );
 		clearParamArgument(x);
 	}
 	/**
@@ -4467,9 +4469,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 			Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			if (verboseMode)
 				hExp.setVerboseMode();
-			h = hExp.calculate();
+			h = hExp.calculateWithCancel(activeCancelId);
 		}
-		calcSetDecreaseRemove(pos, Calculus.forwardDifference(funExp, h, x.argument) );
+		calcSetDecreaseRemove(pos, Calculus.forwardDifferenceWithCancel(funExp, h, x.argument, activeCancelId) );
 		clearParamArgument(x);
 	}
 	/**
@@ -4491,9 +4493,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 			Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			if (verboseMode)
 				hExp.setVerboseMode();
-			h = hExp.calculate();
+			h = hExp.calculateWithCancel(activeCancelId);
 		}
-		calcSetDecreaseRemove(pos, Calculus.backwardDifference(funExp, h, x.argument) );
+		calcSetDecreaseRemove(pos, Calculus.backwardDifferenceWithCancel(funExp, h, x.argument, activeCancelId) );
 		clearParamArgument(x);
 	}
 	/**
@@ -4504,7 +4506,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void MIN_VARIADIC(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, NumberTheory.min( mXparser.arrayList2double(numbers) ), numbers.size() );
+		variadicSetDecreaseRemove(pos, NumberTheory.minWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size() );
 	}
 	/**
 	 * Maximum variadic
@@ -4514,7 +4516,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void MAX_VARIADIC(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, NumberTheory.max( mXparser.arrayList2double(numbers) ), numbers.size() );
+		variadicSetDecreaseRemove(pos, NumberTheory.maxWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size() );
 	}
 	/**
 	 * Sum variadic
@@ -4524,7 +4526,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void SUM_VARIADIC(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, NumberTheory.sum( mXparser.arrayList2double(numbers) ), numbers.size(), true);
+		variadicSetDecreaseRemove(pos, NumberTheory.sumWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size(), true);
 	}
 	/**
 	 * Sum variadic
@@ -4534,7 +4536,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void PROD_VARIADIC(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, NumberTheory.prod( mXparser.arrayList2double(numbers) ), numbers.size(), true);
+		variadicSetDecreaseRemove(pos, NumberTheory.prodWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size(), true);
 	}
 	/**
 	 * Average variadic
@@ -4544,7 +4546,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void AVG_VARIADIC(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, Statistics.avg( mXparser.arrayList2double(numbers) ), numbers.size(), true);
+		variadicSetDecreaseRemove(pos, Statistics.avgWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size(), true);
 	}
 	/**
 	 * Variance variadic
@@ -4554,7 +4556,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void VAR_VARIADIC(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, Statistics.var( mXparser.arrayList2double(numbers) ), numbers.size(), true);
+		variadicSetDecreaseRemove(pos, Statistics.varWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size(), true);
 	}
 	/**
 	 * Standard deviation variadic
@@ -4564,7 +4566,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void STD_VARIADIC(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, Statistics.std( mXparser.arrayList2double(numbers) ), numbers.size(), true);
+		variadicSetDecreaseRemove(pos, Statistics.stdWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size(), true);
 	}
 	/**
 	 * Continued fraction
@@ -4573,7 +4575,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void CONTINUED_FRACTION(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, MathFunctions.continuedFraction( mXparser.arrayList2double(numbers) ), numbers.size() );
+		variadicSetDecreaseRemove(pos, MathFunctions.continuedFractionWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size() );
 	}
 	/**
 	 * Continued polynomial
@@ -4582,7 +4584,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void CONTINUED_POLYNOMIAL(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, MathFunctions.continuedPolynomial( mXparser.arrayList2double(numbers) ), numbers.size() );
+		variadicSetDecreaseRemove(pos, MathFunctions.continuedPolynomialWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size() );
 	}
 	/**
 	 * Greates Common Divisor
@@ -4591,7 +4593,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void GCD(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, NumberTheory.gcd( mXparser.arrayList2double(numbers) ), numbers.size() );
+		variadicSetDecreaseRemove(pos, NumberTheory.gcdWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size() );
 	}
 	/**
 	 * Lowest Common Multiply
@@ -4600,7 +4602,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void LCM(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, NumberTheory.lcm( mXparser.arrayList2double(numbers) ), numbers.size() );
+		variadicSetDecreaseRemove(pos, NumberTheory.lcmWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size() );
 	}
 	/**
 	 * Random number from list
@@ -4620,7 +4622,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void COALESCE(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, MathFunctions.coalesce( mXparser.arrayList2double(numbers) ), numbers.size() );
+		variadicSetDecreaseRemove(pos, MathFunctions.coalesceWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size() );
 	}
 	/**
 	 * OR_VARIADIC
@@ -4629,7 +4631,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void OR_VARIADIC(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, BooleanAlgebra.orVariadic( mXparser.arrayList2double(numbers) ), numbers.size() );
+		variadicSetDecreaseRemove(pos, BooleanAlgebra.orVariadicWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size() );
 	}
 	/**
 	 * AND_VARIADIC
@@ -4638,7 +4640,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void AND_VARIADIC(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, BooleanAlgebra.andVariadic( mXparser.arrayList2double(numbers) ), numbers.size() );
+		variadicSetDecreaseRemove(pos, BooleanAlgebra.andVariadicWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size() );
 	}
 	/**
 	 * XOR_VARIADIC
@@ -4647,7 +4649,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void XOR_VARIADIC(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, BooleanAlgebra.xorVariadic( mXparser.arrayList2double(numbers) ), numbers.size() );
+		variadicSetDecreaseRemove(pos, BooleanAlgebra.xorVariadicWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size() );
 	}
 	/**
 	 * ARGMIN_VARIADIC
@@ -4656,7 +4658,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void ARGMIN_VARIADIC(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, NumberTheory.argmin( mXparser.arrayList2double(numbers) ), numbers.size() );
+		variadicSetDecreaseRemove(pos, NumberTheory.argminWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size() );
 	}
 	/**
 	 * ARGMAX_VARIADIC
@@ -4665,7 +4667,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void ARGMAX_VARIADIC(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, NumberTheory.argmax( mXparser.arrayList2double(numbers) ), numbers.size() );
+		variadicSetDecreaseRemove(pos, NumberTheory.argmaxWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size() );
 	}
 	/**
 	 * MEDIAN_VARIADIC
@@ -4674,7 +4676,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void MEDIAN_VARIADIC(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, Statistics.median( mXparser.arrayList2double(numbers) ), numbers.size() );
+		variadicSetDecreaseRemove(pos, Statistics.medianWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size() );
 	}
 	/**
 	 * MODE_VARIADIC
@@ -4683,7 +4685,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void MODE_VARIADIC(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, Statistics.mode( mXparser.arrayList2double(numbers) ), numbers.size() );
+		variadicSetDecreaseRemove(pos, Statistics.modeWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size() );
 	}
 	/**
 	 * BASE_VARIADIC
@@ -4692,7 +4694,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void BASE_VARIADIC(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, NumberTheory.convOthBase2Decimal( mXparser.arrayList2double(numbers) ), numbers.size() );
+		variadicSetDecreaseRemove(pos, NumberTheory.convOthBase2DecimalWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size() );
 	}
 	/**
 	 * NDIST_VARIADIC
@@ -4701,7 +4703,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void NDIST_VARIADIC(int pos) {
 		List<Double> numbers = getNumbers(pos);
-		variadicSetDecreaseRemove(pos, NumberTheory.numberOfDistValues( mXparser.arrayList2double(numbers) ), numbers.size() );
+		variadicSetDecreaseRemove(pos, NumberTheory.numberOfDistValuesWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size() );
 	}
 	/**
 	 * Parser symbols
@@ -4892,7 +4894,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			return NO_SYNTAX_ERRORS;
 
 		if (arg.argumentExpression != this && !arg.argumentExpression.recursionCallPending) {
-			boolean syntaxRec = arg.argumentExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
+			boolean syntaxRec = arg.argumentExpression.checkSyntaxWithCancel(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false, activeCancelId);
 			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT, tokenInfoMessage, arg.argumentExpression.errorMessage);
 			return syntaxRec;
 		}
@@ -4911,7 +4913,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		}
 
 		if ( (arg.argumentExpression != this) && !arg.argumentExpression.recursionCallPending) {
-			boolean syntaxRec = arg.argumentExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
+			boolean syntaxRec = arg.argumentExpression.checkSyntaxWithCancel(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false, activeCancelId);
 			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT, tokenInfoMessage, arg.argumentExpression.errorMessage);
 			return syntaxRec;
 		}
@@ -4962,9 +4964,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 			boolean syntaxRec;
 
 			if (fun.getFunctionBodyType() == Function.BODY_RUNTIME)
-				syntaxRec = fun.functionExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), false);
+				syntaxRec = fun.functionExpression.checkSyntaxWithCancel(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), false, activeCancelId);
 			else
-				syntaxRec = fun.functionExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), true);
+				syntaxRec = fun.functionExpression.checkSyntaxWithCancel(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), true, activeCancelId);
 
 			if (fun.isVariadic)
 				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION, tokenInfoMessage, fun.functionExpression.errorMessage);
@@ -5287,23 +5289,64 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 *             otherwise returns Double.NaN.
 	 */
 	public double calculate(CalcStepsRegister calcStepsRegister) {
-		License.checkLicense();
-		int recursionCallsCounterBeforeCalculation = recursionCallsCounter;
+		return calculateCoreWithCancel(calcStepsRegister, 0);
+	}
+
+	/**
+	 * Calculates the expression value
+	 *
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * @param calcStepsRegister A collection to store list of calculation steps,
+	 *                          steps registered as strings.
+	 *
+	 * @return     The expression value if syntax was ok,
+	 *             otherwise returns Double.NaN.
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see calculate(org.mariuszgromada.math.mxparser.CalcStepsRegister)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public double calculateWithCancel(CalcStepsRegister calcStepsRegister, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
+		if (cancelId == 0) return calculate(calcStepsRegister);
+		return calculateCoreWithCancel(calcStepsRegister, cancelId);
+	}
+
+	private double calculateCoreWithCancel(CalcStepsRegister calcStepsRegister, int cancelId) {
+		int previousCancelId = activeCancelId;
+		activeCancelId = cancelId;
 		try {
-			return calculateInternal(calcStepsRegister);
-		} catch (Throwable e) {
-			recursionCallsCounter = recursionCallsCounterBeforeCalculation;
-			if (recursionCallsCounterBeforeCalculation == 0)
-				markAsNotFullyCompiled();
-			registerErrorWhileCalculate(
-					StringModel.STRING_RESOURCES.ERROR_WHILE_EXECUTING_THE_CALCULATE
-							+ StringInvariant.SPACE + StringModel.STRING_RESOURCES.EXCEPTION
-							+ StringInvariant.COLON_SPACE
-							+ e.getClass().getSimpleName()
-							+ StringInvariant.COLON_SPACE
-							+ StringUtils.trimNotNull(e.getMessage())
-			);
-			return Double.NaN;
+			License.checkLicense();
+			int recursionCallsCounterBeforeCalculation = recursionCallsCounter;
+			try {
+				return calculateInternal(calcStepsRegister);
+			} catch (Throwable e) {
+				recursionCallsCounter = recursionCallsCounterBeforeCalculation;
+				if (recursionCallsCounterBeforeCalculation == 0)
+					markAsNotFullyCompiled();
+				registerErrorWhileCalculate(
+						StringModel.STRING_RESOURCES.ERROR_WHILE_EXECUTING_THE_CALCULATE
+								+ StringInvariant.SPACE + StringModel.STRING_RESOURCES.EXCEPTION
+								+ StringInvariant.COLON_SPACE
+								+ e.getClass().getSimpleName()
+								+ StringInvariant.COLON_SPACE
+								+ StringUtils.trimNotNull(e.getMessage())
+				);
+				return Double.NaN;
+			}
+	
+		} finally {
+			activeCancelId = previousCancelId;
 		}
 	}
 	private String makeStepDescription() {
@@ -5379,7 +5422,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 			storeStepsInRegister = true;
 
-			if (mXparser.cancelCurrentCalculationFlag) {
+			if (mXparser.isCalculationCancelled(activeCancelId)) {
 				registerErrorWhileCalculate(StringModel.STRING_RESOURCES.CANCEL_REQUEST_FINISHING);
 				return -1;
 			}
@@ -5642,7 +5685,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		boolean storeStepsInRegister = true;
 		for (CompiledElement compiledElement : initialCompilationDetails.compiledElements) {
 
-			if (mXparser.cancelCurrentCalculationFlag) {
+			if (mXparser.isCalculationCancelled(activeCancelId)) {
 				registerErrorWhileCalculate(StringModel.STRING_RESOURCES.CANCEL_REQUEST_FINISHING);
 				return -1;
 			}
@@ -5837,10 +5880,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 			stepsRegisteredCounter = applySequenceFromCompilation(calcStepsRegister, stepDescription);
 		} else {
 			stepsRegisteredCounter = calculateFirstAndFullyCompile(calcStepsRegister, stepDescription);
-			if (stepsRegisteredCounter < 0) {
-				recursionCallsCounter--;
-				return Double.NaN;
-			}
+		}
+		if (stepsRegisteredCounter < 0) {
+			recursionCallsCounter--;
+			return Double.NaN;
 		}
 
 		if (verboseMode) {
@@ -5860,7 +5903,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				double resultInt = Math.round(result);
 				if (Math.abs(result-resultInt) <= BinaryRelations.getEpsilon()) result = resultInt;
 			}
-			if (mXparser.canonicalRounding) result = MathFunctions.lengthRound(result);
+			if (mXparser.canonicalRounding) result = MathFunctions.lengthRoundWithCancel(result, activeCancelId);
 		}
 
 		if (calcStepsRegister != null) {
@@ -6339,7 +6382,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int numeralSystemBase = ExpressionUtils.getNumeralSystemBaseFromBaseInd(baseInd);
 		/* if base was found, perform conversion */
 		if (numeralSystemBase > 0 && numeralSystemBase <= 36) {
-			double tokenValue = NumberTheory.convOthBase2Decimal(numberLiteral, numeralSystemBase);
+			double tokenValue = NumberTheory.convOthBase2DecimalWithCancel(numberLiteral, numeralSystemBase, activeCancelId);
 			if (Double.isNaN(tokenValue))
 				return false;
 			token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
@@ -7634,7 +7677,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		for (Argument a : argumentsList) {
 			boolean vMode = a.getVerboseMode();
 			a.setSilentMode();
-			printSystemInfo(a.getArgumentName() + StringInvariant.SPACE_EQUAL_SPACE + a.getArgumentValue() + StringInvariant.NEW_LINE, WITH_EXP_STR);
+			printSystemInfo(a.getArgumentName() + StringInvariant.SPACE_EQUAL_SPACE + a.getArgumentValueWithCancel(activeCancelId) + StringInvariant.NEW_LINE, WITH_EXP_STR);
 			if (vMode)
 				a.setVerboseMode();
 		}
@@ -7692,5 +7735,43 @@ public class Expression extends PrimitiveElement implements Serializable {
 		cloneCache.addAllAtTheEndElements();
 		cloneCache.clearCache();
 		return expressionClone;
+	}
+
+	private boolean checkSyntaxWithCancel(String recursionInfoLevel, boolean functionWithBodyExt, int cancelId) {
+		int previousCancelId = activeCancelId;
+		activeCancelId = cancelId;
+		try {
+			return checkSyntax(recursionInfoLevel, functionWithBodyExt);
+		} finally {
+			activeCancelId = previousCancelId;
+		}
+	}
+
+	/**
+	 * Calculates the expression value
+	 *
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+
+	 * @return     The expression value if syntax was ok,
+	 *             otherwise returns Double.NaN.
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see calculate()
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public double calculateWithCancel(int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
+		if (cancelId == 0) return calculate();
+		return calculateWithCancel((CalcStepsRegister)null, cancelId);
 	}
 }

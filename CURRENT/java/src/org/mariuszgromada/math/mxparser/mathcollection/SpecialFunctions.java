@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialFunctions.java        6.1.0    2024-10-06
+ * @(#)SpecialFunctions.java        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -232,7 +232,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.1.0
+ * @version        6.2.0
  */
 public final class SpecialFunctions {
 
@@ -242,17 +242,46 @@ public final class SpecialFunctions {
 	 * @return Exponential integral function Ei(x)
 	 */
 	public static double exponentialIntegralEi(double x) {
+		return exponentialIntegralEiWithCancel(x, 0);
+	}
+
+	/**
+	 * Exponential integral function Ei(x)
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param x    Point at which function will be evaluated.
+	 * @return Exponential integral function Ei(x)
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see exponentialIntegralEi(double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double exponentialIntegralEiWithCancel(double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (Double.isNaN(x))
 			return Double.NaN;
 		if (x < -5.0)
-			return continuedFractionEi(x);
+			return continuedFractionEiWithCancel(x, cancelId);
 		if (x == 0.0)
 			return -Double.MAX_VALUE;
 		if (x < 6.8)
-			return powerSeriesEi(x);
+			return powerSeriesEiWithCancel(x, cancelId);
 		if (x < 50.0)
-			return argumentAdditionSeriesEi(x);
-		return continuedFractionEi(x);
+			return argumentAdditionSeriesEiWithCancel(x, cancelId);
+		return continuedFractionEiWithCancel(x, cancelId);
 	}
 	/**
 	 * Constants for Exponential integral function Ei(x) calculation
@@ -263,7 +292,7 @@ public final class SpecialFunctions {
 	 * Supporting function
 	 * while Exponential integral function Ei(x) calculation
 	 */
-	private static double continuedFractionEi(double x) {
+	private static double continuedFractionEiWithCancel(double x, int cancelId) {
 		double Am1 = 1.0;
 		double A0 = 0.0;
 		double Bm1 = 0.0;
@@ -275,7 +304,7 @@ public final class SpecialFunctions {
 		int j = 1;
 		a = 1.0;
 		while (Math.abs(Ap1 * B0 - A0 * Bp1) > EI_EPSILON * Math.abs(A0 * Bp1)) {
-			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 			if (Math.abs(Bp1) > 1.0) {
 				Am1 = A0 / Bp1;
 				A0 = Ap1 / Bp1;
@@ -299,7 +328,7 @@ public final class SpecialFunctions {
 	 * Supporting function
 	 * while Exponential integral function Ei(x) calculation
 	 */
-	private static double powerSeriesEi(double x) {
+	private static double powerSeriesEiWithCancel(double x, int cancelId) {
 		double xn = -x;
 		double Sn = -x;
 		double Sm1 = 0.0;
@@ -310,7 +339,7 @@ public final class SpecialFunctions {
 		if (x == 0.0)
 			return -Double.MAX_VALUE;
 		while (Math.abs(Sn - Sm1) > EI_EPSILON * Math.abs(Sm1)) {
-			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 			Sm1 = Sn;
 			y += 1.0;
 			xn *= (-x);
@@ -325,7 +354,7 @@ public final class SpecialFunctions {
 	 * Supporting function
 	 * while Exponential integral function Ei(x) calculation
 	 */
-	private static double argumentAdditionSeriesEi(double x) {
+	private static double argumentAdditionSeriesEiWithCancel(double x, int cancelId) {
 		final int k = (int) (x + 0.5);
 		int j = 0;
 		final double xx = k;
@@ -338,7 +367,7 @@ public final class SpecialFunctions {
 		double factorial = 1.0;
 		double dxj = 1.0;
 		while (Math.abs(term) > EI_EPSILON * Math.abs(Sn)) {
-			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 			j++;
 			factorial *= j;
 			xxj *= xx;
@@ -355,6 +384,35 @@ public final class SpecialFunctions {
 	 * @return Logarithmic integral function li(x)
 	 */
 	public static double logarithmicIntegralLi(double x) {
+		return logarithmicIntegralLiWithCancel(x, 0);
+	}
+
+	/**
+	 * Logarithmic integral function li(x)
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param x   Point at which function will be evaluated.
+	 * @return Logarithmic integral function li(x)
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see logarithmicIntegralLi(double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double logarithmicIntegralLiWithCancel(double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (Double.isNaN(x))
 			return Double.NaN;
 		if (x < 0)
@@ -363,7 +421,7 @@ public final class SpecialFunctions {
 			return 0;
 		if (x == 2)
 			return MathConstants.LI2;
-		return exponentialIntegralEi( MathFunctions.ln(x) );
+		return exponentialIntegralEiWithCancel( MathFunctions.ln(x) , cancelId);
 	}
 	/**
 	 * Offset logarithmic integral function Li(x)
@@ -371,13 +429,42 @@ public final class SpecialFunctions {
 	 * @return Offset logarithmic integral function Li(x)
 	 */
 	public static double offsetLogarithmicIntegralLi(double x) {
+		return offsetLogarithmicIntegralLiWithCancel(x, 0);
+	}
+
+	/**
+	 * Offset logarithmic integral function Li(x)
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param x   Point at which function will be evaluated.
+	 * @return Offset logarithmic integral function Li(x)
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see offsetLogarithmicIntegralLi(double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double offsetLogarithmicIntegralLiWithCancel(double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (Double.isNaN(x))
 			return Double.NaN;
 		if (x < 0)
 			return Double.NaN;
 		if (x == 0)
 			return -MathConstants.LI2;
-		return logarithmicIntegralLi(x) - MathConstants.LI2;
+		return logarithmicIntegralLiWithCancel(x, cancelId) - MathConstants.LI2;
 	}
 	/**
 	 * Calculates the error function
@@ -570,7 +657,7 @@ public final class SpecialFunctions {
 	 * @param n Integer number
 	 * @return  Returns Gamma function for the integers.
 	 */
-	private static double gammaInt(long n) {
+	private static double gammaIntWithCancel(long n, int cancelId) {
 		if (n == 0) return MathConstants.EULER_MASCHERONI;
 		if (n == 1) return 1;
 		if (n == 2) return 1;
@@ -582,13 +669,13 @@ public final class SpecialFunctions {
 		if (n == 8) return 1.0*2.0*3.0*4.0*5.0*6.0*7.0;
 		if (n == 9) return 1.0*2.0*3.0*4.0*5.0*6.0*7.0*8.0;
 		if (n == 10) return 1.0*2.0*3.0*4.0*5.0*6.0*7.0*8.0*9.0;
-		if (n >= 11) return MathFunctions.factorial(n-1);
+		if (n >= 11) return MathFunctions.factorialWithCancel(n-1, cancelId);
 		if (n <= -1) {
 			long r = -n;
-			double factr = MathFunctions.factorial(r);
+			double factr = MathFunctions.factorialWithCancel(r, cancelId);
 			double sign = -1;
 			if (r % 2 == 0) sign = 1;
-			return sign / (r * factr) - (1.0 / r) * gammaInt(n + 1);
+			return sign / (r * factr) - (1.0 / r) * gammaIntWithCancel(n + 1, cancelId);
 		}
 		return Double.NaN;
 	}
@@ -599,6 +686,36 @@ public final class SpecialFunctions {
 	 * @return  Returns gamma function value.
 	 */
 	public static double gamma(double x) {
+		return gammaWithCancel(x, 0);
+	}
+
+	/**
+	 * Real valued Gamma function
+	 *
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param x   Argument value
+	 * @return  Returns gamma function value.
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see gamma(double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double gammaWithCancel(double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (Double.isNaN(x)) return Double.NaN;
 		if (x == Double.POSITIVE_INFINITY) return Double.POSITIVE_INFINITY;
 		if (x == Double.NEGATIVE_INFINITY) return Double.NaN;
@@ -607,9 +724,9 @@ public final class SpecialFunctions {
 		if ( MathFunctions.abs(xabs-xint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON ) {
 			long n = (long)xint;
 			if (x < 0) n = -n;
-			return gammaInt(n);
+			return gammaIntWithCancel(n, cancelId);
 		}
-		return lanchosGamma(x);
+		return lanchosGammaWithCancel(x, cancelId);
 	}
 	/**
 	 * Gamma function implementation based on
@@ -619,18 +736,49 @@ public final class SpecialFunctions {
 	 * @return     Gamma function value (Lanchos approx).
 	 */
 	public static double lanchosGamma(double x) {
+		return lanchosGammaWithCancel(x, 0);
+	}
+
+	/**
+	 * Gamma function implementation based on
+	 * Lanchos approximation algorithm
+	 *
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param x    Function parameter
+	 * @return     Gamma function value (Lanchos approx).
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see lanchosGamma(double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double lanchosGammaWithCancel(double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (Double.isNaN(x)) return Double.NaN;
 
 		double xabs = MathFunctions.abs(x);
 		double xint = Math.round(xabs);
 		if (x > BinaryRelations.DEFAULT_COMPARISON_EPSILON) {
 			if ( MathFunctions.abs(xabs-xint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON )
-				return MathFunctions.factorial(xint-1);
+				return MathFunctions.factorialWithCancel(xint-1, cancelId);
 		} else if (x < -BinaryRelations.DEFAULT_COMPARISON_EPSILON) {
 			if ( MathFunctions.abs(xabs-xint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON )
 				return Double.NaN;
 		} else return Double.NaN;
-		if (x < 0.5) return MathConstants.PI / (Math.sin(MathConstants.PI * x) * lanchosGamma(1.0-x));
+		if (x < 0.5) return MathConstants.PI / (Math.sin(MathConstants.PI * x) * lanchosGammaWithCancel(1.0-x, cancelId));
 		double g = 7.0;
 		double[] coefficients = Coefficients.lanchosGamma;
 		x -= 1.0;
@@ -647,19 +795,48 @@ public final class SpecialFunctions {
 	 * @return  Returns log value from gamma function.
 	 */
 	public static double logGamma(double x) {
+		return logGammaWithCancel(x, 0);
+	}
+
+	/**
+	 * Real valued log gamma function.
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param x  Argument value
+	 * @return  Returns log value from gamma function.
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see logGamma(double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double logGammaWithCancel(double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (Double.isNaN(x)) return Double.NaN;
 		if (x == Double.POSITIVE_INFINITY) return Double.POSITIVE_INFINITY;
 		if (x == Double.NEGATIVE_INFINITY) return Double.NaN;
 		if (MathFunctions.isInteger(x)) {
 			if (x >= 0)
-				return Math.log( Math.abs( gammaInt( (long)(Math.round(x) ) ) ) );
+				return Math.log( Math.abs( gammaIntWithCancel( (long)(Math.round(x) ) , cancelId) ) );
 			else
-				return Math.log( Math.abs( gammaInt( -(long)(Math.round(-x) ) ) ) );
+				return Math.log( Math.abs( gammaIntWithCancel( -(long)(Math.round(-x) ) , cancelId) ) );
 		}
 		double p, q, w, z;
 		if (x < -34.0) {
 			q = -x;
-			w = logGamma(q);
+			w = logGammaWithCancel(q, cancelId);
 			p = Math.floor(q);
 			if (Math.abs(p-q) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
 			z = q - p;
@@ -705,11 +882,40 @@ public final class SpecialFunctions {
 	 * @return  Returns signum of the gamma(x)
 	 */
 	public static double sgnGamma(double x) {
+		return sgnGammaWithCancel(x, 0);
+	}
+
+	/**
+	 * Signum from the real valued gamma function.
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param x Argument value
+	 * @return  Returns signum of the gamma(x)
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see sgnGamma(double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double sgnGammaWithCancel(double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (Double.isNaN(x)) return Double.NaN;
 		if (x == Double.POSITIVE_INFINITY) return 1;
 		if (x == Double.NEGATIVE_INFINITY) return Double.NaN;
 		if (x > 0) return 1;
-		if (MathFunctions.isInteger(x)) return MathFunctions.sgn( gammaInt( -(long)(Math.round(-x) ) ) );
+		if (MathFunctions.isInteger(x)) return MathFunctions.sgn( gammaIntWithCancel( -(long)(Math.round(-x) ) , cancelId) );
 		x = -x;
 		double fx = Math.floor(x);
 		double div2remainder = Math.floor(fx % 2);
@@ -723,11 +929,42 @@ public final class SpecialFunctions {
 	 * @return Value of the regularized lower gamma function 'P'.
 	 */
 	public static double regularizedGammaLowerP(double s, double x) {
+		return regularizedGammaLowerPWithCancel(s, x, 0);
+	}
+
+	/**
+	 * Regularized lower gamma function 'P'
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * At this method's existing cancellation checks it returns Double.NaN.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param s  Argument value
+	 * @param x  Argument value
+	 * @return Value of the regularized lower gamma function 'P'.
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see regularizedGammaLowerP(double,double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double regularizedGammaLowerPWithCancel(double s, double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (Double.isNaN(x)) return Double.NaN;
 		if (Double.isNaN(s)) return Double.NaN;
 		if (MathFunctions.almostEqual(x, 0)) return 0;
 		if (MathFunctions.almostEqual(s, 0))
-			return 1 + SpecialFunctions.exponentialIntegralEi(-x) / MathConstants.EULER_MASCHERONI;
+			return 1 + SpecialFunctions.exponentialIntegralEiWithCancel(-x, cancelId) / MathConstants.EULER_MASCHERONI;
 
 		if (MathFunctions.almostEqual(s, 1))
 			return 1 - Math.exp(-x);
@@ -737,14 +974,14 @@ public final class SpecialFunctions {
 		if (s < 0) {
 			double sNext = s + 1;
 			if (sNext == s) return Double.NaN;
-			return regularizedGammaLowerP(sNext, x) + ( Math.pow(x,  s) * Math.exp(-x) ) / ( s * gamma(s) );
+			return regularizedGammaLowerPWithCancel(sNext, x, cancelId) + ( Math.pow(x,  s) * Math.exp(-x) ) / ( s * gammaWithCancel(s, cancelId) );
 		}
 
 		final double epsilon = 0.000000000000001;
 		final double bigNumber = 4503599627370496.0;
 		final double bigNumberInverse = 2.22044604925031308085e-16;
 
-		double ax = (s * Math.log(x)) - x - logGamma(s);
+		double ax = (s * Math.log(x)) - x - logGammaWithCancel(s, cancelId);
 		if (ax < -709.78271289338399) {
 			return 1;
 		}
@@ -774,7 +1011,7 @@ public final class SpecialFunctions {
 		double error;
 
         do {
-        	if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+        	if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
         	c++;
         	y += 1;
         	z += 2;
@@ -816,6 +1053,37 @@ public final class SpecialFunctions {
 	 * @return Value of the inverse regularized lower gamma function 'P'.
 	 */
 	public static double inverseRegularizedGammaLowerP(double a, double p) {
+		return inverseRegularizedGammaLowerPWithCancel(a, p, 0);
+	}
+
+	/**
+	 * Inverse of regularized lower gamma function 'P'
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * At this method's existing cancellation checks it returns Double.NaN.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param a  Argument value
+	 * @param p  Argument value
+	 * @return Value of the inverse regularized lower gamma function 'P'.
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see inverseRegularizedGammaLowerP(double,double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double inverseRegularizedGammaLowerPWithCancel(double a, double p, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isNaN(p)) return Double.NaN;
 		if (a <= 0.0) return Double.NaN;
@@ -829,7 +1097,7 @@ public final class SpecialFunctions {
 		double lna1 = 0.0;
 		double afac = 0.0;
 		double a1 = a - 1.0;
-		double gln = logGamma(a);
+		double gln = logGammaWithCancel(a, cancelId);
 
 		if (a > 1.0) {
 			lna1 = Math.log(a1);
@@ -847,9 +1115,9 @@ public final class SpecialFunctions {
 				x = 1.0 - Math.log(1.0 - (p - t) / (1.0 - t));
 		}
 		for (int j = 0; j < 12; j++) {
-			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 			if (x <= 0.0) return 0.0;
-			err = regularizedGammaLowerP(a, x) - p;
+			err = regularizedGammaLowerPWithCancel(a, x, cancelId) - p;
 			if (a > 1.0)
 				t = afac * Math.exp(-(x - a1) + a1 * (Math.log(x) - lna1));
 			else
@@ -870,7 +1138,37 @@ public final class SpecialFunctions {
 	 * @return Value of the incomplete lower gamma function.
 	 */
 	public static double incompleteGammaLower(double s, double x) {
-		return gamma(s) * regularizedGammaLowerP(s, x);
+		return incompleteGammaLowerWithCancel(s, x, 0);
+	}
+
+	/**
+	 * Incomplete lower gamma function
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param s   Argument value
+	 * @param x   Argument value
+	 * @return Value of the incomplete lower gamma function.
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see incompleteGammaLower(double,double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double incompleteGammaLowerWithCancel(double s, double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
+		return gammaWithCancel(s, cancelId) * regularizedGammaLowerPWithCancel(s, x, cancelId);
 	}
 	/**
 	 * Regularized upper gamma function 'Q'
@@ -879,12 +1177,43 @@ public final class SpecialFunctions {
 	 * @return Value of the regularized upper gamma function 'Q'.
 	 */
 	public static double regularizedGammaUpperQ(double s, double x) {
+		return regularizedGammaUpperQWithCancel(s, x, 0);
+	}
+
+	/**
+	 * Regularized upper gamma function 'Q'
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * At this method's existing cancellation checks it returns Double.NaN.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param s  Argument value
+	 * @param x  Argument value
+	 * @return Value of the regularized upper gamma function 'Q'.
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see regularizedGammaUpperQ(double,double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double regularizedGammaUpperQWithCancel(double s, double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (Double.isNaN(x)) return Double.NaN;
 		if (Double.isNaN(s)) return Double.NaN;
 		if (MathFunctions.almostEqual(x, 0)) return 1;
 
 		if (MathFunctions.almostEqual(s, 0))
-			return -SpecialFunctions.exponentialIntegralEi(-x) / MathConstants.EULER_MASCHERONI;
+			return -SpecialFunctions.exponentialIntegralEiWithCancel(-x, cancelId) / MathConstants.EULER_MASCHERONI;
 
 		if (MathFunctions.almostEqual(s, 1))
 			return Math.exp(-x);
@@ -894,10 +1223,10 @@ public final class SpecialFunctions {
 		if (s < 0) {
 			double sNext = s + 1;
 			if (sNext == s) return Double.NaN;
-			return regularizedGammaUpperQ(sNext, x) - ( Math.pow(x,  s) * Math.exp(-x) ) / ( s * gamma(s) );
+			return regularizedGammaUpperQWithCancel(sNext, x, cancelId) - ( Math.pow(x,  s) * Math.exp(-x) ) / ( s * gammaWithCancel(s, cancelId) );
 		}
 
-        double ax = s * Math.log(x) - x - logGamma(s);
+        double ax = s * Math.log(x) - x - logGammaWithCancel(s, cancelId);
         if (ax < -709.78271289338399) {
         	return 0;
         }
@@ -916,7 +1245,7 @@ public final class SpecialFunctions {
         double qkm1 = z * x;
         double ans = pkm1 / qkm1;
         do {
-        	if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+        	if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
         	c = c + 1;
         	y = y + 1;
         	z = z + 2;
@@ -952,7 +1281,37 @@ public final class SpecialFunctions {
 	 * @return Value of the incomplete upper gamma function.
 	 */
 	public static double incompleteGammaUpper(double s, double x) {
-		return gamma(s) * regularizedGammaUpperQ(s, x);
+		return incompleteGammaUpperWithCancel(s, x, 0);
+	}
+
+	/**
+	 * Incomplete upper gamma function
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param s   Argument value
+	 * @param x   Argument value
+	 * @return Value of the incomplete upper gamma function.
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see incompleteGammaUpper(double,double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double incompleteGammaUpperWithCancel(double s, double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
+		return gammaWithCancel(s, cancelId) * regularizedGammaUpperQWithCancel(s, x, cancelId);
 	}
 	/**
 	 * Digamma function as the logarithmic derivative of the Gamma special function
@@ -960,6 +1319,36 @@ public final class SpecialFunctions {
 	 * @return Approximated value of the digamma function.
 	 */
 	public static double diGamma(double x) {
+		return diGammaWithCancel(x, 0);
+	}
+
+	/**
+	 * Digamma function as the logarithmic derivative of the Gamma special function
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * At this method's existing cancellation checks it returns Double.NaN.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param x   Argument value
+	 * @return Approximated value of the digamma function.
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see diGamma(double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double diGammaWithCancel(double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		final double c = 12.0;
 		final double d1 = -0.57721566490153286;
 		final double d2 = 1.6449340668482264365;
@@ -977,13 +1366,13 @@ public final class SpecialFunctions {
 				return Double.NaN;
 
 		// Use inversion formula for negative numbers.
-		if (x < 0) return diGamma(1.0 - x) + (MathConstants.PI/Math.tan(-Math.PI*x));
+		if (x < 0) return diGammaWithCancel(1.0 - x, cancelId) + (MathConstants.PI/Math.tan(-Math.PI*x));
 
 		if (x <= s) return d1 - (1/x) + (d2*x);
 
 		double result = 0;
 		while (x < c) {
-			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 			result -= 1/x;
 			x++;
 		}
@@ -1007,18 +1396,48 @@ public final class SpecialFunctions {
 	 * @return  Return logBeta special function (for positive x and positive y)
 	 */
 	public static double logBeta(double x, double y) {
+		return logBetaWithCancel(x, y, 0);
+	}
+
+	/**
+	 * Log Beta special function
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param x   Argument value
+	 * @param y   Argument value
+	 * @return  Return logBeta special function (for positive x and positive y)
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see logBeta(double,double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double logBetaWithCancel(double x, double y, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (Double.isNaN(x)) return Double.NaN;
 		if (Double.isNaN(y)) return Double.NaN;
 		if ( (x <= 0) || (y <= 0) ) return Double.NaN;
 
-		double lgx = logGamma(x);
-		if (Double.isNaN(lgx)) lgx = Math.log( Math.abs( gamma(x) ) );
+		double lgx = logGammaWithCancel(x, cancelId);
+		if (Double.isNaN(lgx)) lgx = Math.log( Math.abs( gammaWithCancel(x, cancelId) ) );
 
-		double lgy = logGamma(y);
-		if (Double.isNaN(lgy)) lgy = Math.log( Math.abs( gamma(y) ) );
+		double lgy = logGammaWithCancel(y, cancelId);
+		if (Double.isNaN(lgy)) lgy = Math.log( Math.abs( gammaWithCancel(y, cancelId) ) );
 
-		double lgxy = logGamma(x+y);
-		if (Double.isNaN(lgy)) lgxy = Math.log( Math.abs( gamma(x+y) ) );
+		double lgxy = logGammaWithCancel(x+y, cancelId);
+		if (Double.isNaN(lgy)) lgxy = Math.log( Math.abs( gammaWithCancel(x+y, cancelId) ) );
 
 		if ( (!Double.isNaN(lgx)) && (!Double.isNaN(lgy)) && (!Double.isNaN(lgxy)) )
 			return (lgx + lgy - lgxy);
@@ -1031,11 +1450,41 @@ public final class SpecialFunctions {
 	 * @return  Return Beta special function (for positive x and positive y)
 	 */
 	public static double beta(double x, double y) {
+		return betaWithCancel(x, y, 0);
+	}
+
+	/**
+	 * Beta special function
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param x   Argument value
+	 * @param y   Argument value
+	 * @return  Return Beta special function (for positive x and positive y)
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see beta(double,double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double betaWithCancel(double x, double y, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (Double.isNaN(x)) return Double.NaN;
 		if (Double.isNaN(y)) return Double.NaN;
 		if ( (x <= 0) || (y <= 0) ) return Double.NaN;
-		if ( (x > 99) || (y > 99) ) return Math.exp(logBeta(x, y));
-		return gamma(x)*gamma(y) / gamma(x+y);
+		if ( (x > 99) || (y > 99) ) return Math.exp(logBetaWithCancel(x, y, cancelId));
+		return gammaWithCancel(x, cancelId)*gammaWithCancel(y, cancelId) / gammaWithCancel(x+y, cancelId);
 	}
 	/**
 	 * Log Incomplete Beta special function
@@ -1047,6 +1496,39 @@ public final class SpecialFunctions {
 	 *
 	 */
 	public static double incompleteBeta(double a, double b, double x) {
+		return incompleteBetaWithCancel(a, b, x, 0);
+	}
+
+	/**
+	 * Log Incomplete Beta special function
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param a   Argument value
+	 * @param b   Argument value
+	 * @param x   Argument value
+	 * @return  Return incomplete Beta special function
+	 * for positive a and positive b and x between 0 and 1
+	 *
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see incompleteBeta(double,double,double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double incompleteBetaWithCancel(double a, double b, double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isNaN(b)) return Double.NaN;
 		if (Double.isNaN(x)) return Double.NaN;
@@ -1054,7 +1536,7 @@ public final class SpecialFunctions {
 		if (x > 1+BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
 		if ( (a <= 0) || (b <= 0) ) return Double.NaN;
 		if (MathFunctions.almostEqual(x, 0)) return 0;
-		if (MathFunctions.almostEqual(x, 1)) return beta(a, b);
+		if (MathFunctions.almostEqual(x, 1)) return betaWithCancel(a, b, cancelId);
 		boolean aEq0 = MathFunctions.almostEqual(a, 0);
 		boolean bEq0 = MathFunctions.almostEqual(b, 0);
 		boolean aIsInt = MathFunctions.isInteger(a);
@@ -1072,7 +1554,7 @@ public final class SpecialFunctions {
 				if (n == 2) return Math.log(x) + x;
 				double v = Math.log(x);
 				for (long i = 1; i <= n-1; i++)
-					v -= MathFunctions.binomCoeff(n-1, i) * Math.pow(-1, i) * ( Math.pow(x, i) / i );
+					v -= MathFunctions.binomCoeffWithCancel(n-1, i, cancelId) * Math.pow(-1, i) * ( Math.pow(x, i) / i );
 				return v;
 			}
 			if (n <= -1) {
@@ -1100,7 +1582,7 @@ public final class SpecialFunctions {
 				for (long i = 1; i <= -n; i++)
 					v += Math.pow(1-x, -i) / i;
 				for (long i = 1; i <= -n; i++)
-					v -= Math.pow( MathFunctions.factorial(i-1) , 2) / i;
+					v -= Math.pow( MathFunctions.factorialWithCancel(i-1, cancelId) , 2) / i;
 				return v;
 			}
 		}
@@ -1110,7 +1592,7 @@ public final class SpecialFunctions {
 				if (n <= -1) return -( 1/(-n) ) * Math.pow(x, n);
 			}
 		}
-		return regularizedBeta(a, b, x)*beta(a, b);
+		return regularizedBetaWithCancel(a, b, x, cancelId)*betaWithCancel(a, b, cancelId);
 	}
 	/**
 	 * Regularized incomplete Beta special function
@@ -1121,6 +1603,39 @@ public final class SpecialFunctions {
 	 * for positive a and positive b and x between 0 and 1
 	 */
 	public static double regularizedBeta(double a, double b, double x) {
+		return regularizedBetaWithCancel(a, b, x, 0);
+	}
+
+	/**
+	 * Regularized incomplete Beta special function
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * At this method's existing cancellation checks it returns Double.NaN.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param a   Argument value
+	 * @param b   Argument value
+	 * @param x   Argument value
+	 * @return  Return incomplete Beta special function
+	 * for positive a and positive b and x between 0 and 1
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see regularizedBeta(double,double,double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double regularizedBetaWithCancel(double a, double b, double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isNaN(b)) return Double.NaN;
 		if (Double.isNaN(x)) return Double.NaN;
@@ -1138,7 +1653,7 @@ public final class SpecialFunctions {
 
 		double bt = (x == 0.0 || x == 1.0)
 			? 0.0
-			: Math.exp(logGamma(a + b) - logGamma(a) - logGamma(b) + (a*Math.log(x)) + (b*Math.log(1.0 - x)));
+			: Math.exp(logGammaWithCancel(a + b, cancelId) - logGammaWithCancel(a, cancelId) - logGammaWithCancel(b, cancelId) + (a*Math.log(x)) + (b*Math.log(1.0 - x)));
 
 		boolean symmetryTransformation = x >= (a + 1.0)/(a + b + 2.0);
 
@@ -1167,7 +1682,7 @@ public final class SpecialFunctions {
 		double h = d;
 
 		for (int m = 1, m2 = 2; m <= 50000; m++, m2 += 2) {
-			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 			double aa = m*(b - m)*x/((qam + m2)*(a + m2));
 			d = 1.0 + (aa*d);
 
@@ -1214,6 +1729,38 @@ public final class SpecialFunctions {
 	 * for positive a and positive b and x between 0 and 1
 	 */
 	public static double inverseRegularizedBeta(double a, double b, double p) {
+		return inverseRegularizedBetaWithCancel(a, b, p, 0);
+	}
+
+	/**
+	 * Inerse regularized incomplete Beta special function
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param a   Argument value
+	 * @param b   Argument value
+	 * @param p   Argument value
+	 * @return  Return inverse incomplete Beta special function
+	 * for positive a and positive b and x between 0 and 1
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see inverseRegularizedBeta(double,double,double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double inverseRegularizedBetaWithCancel(double a, double b, double p, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isNaN(b)) return Double.NaN;
 
@@ -1252,10 +1799,10 @@ public final class SpecialFunctions {
 			else x = 1.0 - Math.pow(b * w * (1.0 - p), 1.0 / b);
 		}
 
-		double afac = -logGamma(a) - logGamma(b) + logGamma(a + b);
+		double afac = -logGammaWithCancel(a, cancelId) - logGammaWithCancel(b, cancelId) + logGammaWithCancel(a + b, cancelId);
 		for (int j = 0; j < 10; j++) {
 			if (x == 0.0 || x == 1.0) return x;
-			err = regularizedBeta(a, b, x) - p;
+			err = regularizedBetaWithCancel(a, b, x, cancelId) - p;
 			t = Math.exp(a1 * Math.log(x) + b1 * Math.log(1.0 - x) + afac);
 			u = err / t;
 			x -= (t = u / (1.0 - 0.5 * Math.min(1.0, u * (a1 / x - b1 / (1.0 - x)))));
@@ -1276,12 +1823,12 @@ public final class SpecialFunctions {
 	 * @param maxIter   Maximum number of iteration
 	 * @return          Halley's iteration value if successful, otherwise Double.NaN
 	 */
-	private static double halleyIteration(double x, double wInitial, int maxIter) {
+	private static double halleyIterationWithCancel(double x, double wInitial, int maxIter, int cancelId) {
 		double w = wInitial;
 		double tol = 1;
 		double t = 0, p, e;
 		for (int i = 0; i < maxIter; i++) {
-			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 			e = Math.exp(w);
 			p = w + 1.0;
 			t = w * e - x;
@@ -1311,7 +1858,7 @@ public final class SpecialFunctions {
 	 * @param x
 	 * @return Approximation of principal branch of Lambert-W function
 	 */
-	private static double lambertW0(double x) {
+	private static double lambertW0WithCancel(double x, int cancelId) {
 		if (Math.abs(x) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return 0;
 		if (Math.abs(x + MathConstants.EXP_MINUS_1) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return -1;
 		if (Math.abs(x - 1) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return MathConstants.OMEGA;
@@ -1330,7 +1877,7 @@ public final class SpecialFunctions {
 			w = Math.log(x);
 			if (x > 3.0) w -= Math.log(w);
 		}
-		return halleyIteration(x, w, MAX_ITER);
+		return halleyIterationWithCancel(x, w, MAX_ITER, cancelId);
 	}
 	/**
 	 * Minus 1 branch of Lambert-W function
@@ -1361,9 +1908,40 @@ public final class SpecialFunctions {
 	 *               Minus 1 branch for x greater or equal than -1/e and lower than 0, otherwise Double.NaN.
 	 */
 	public static double lambertW(double x, double branch) {
+		return lambertWWithCancel(x, branch, 0);
+	}
+
+	/**
+	 * Real-valued Lambert-W function approximation.
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param x      Point at which function will be approximated
+	 * @param branch Branch id, 0 for principal branch, -1 for the other branch
+	 * @return       Principal branch for x greater or equal than -1/e, otherwise Double.NaN.
+	 *               Minus 1 branch for x greater or equal than -1/e and lower than 0, otherwise Double.NaN.
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see lambertW(double,double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double lambertWWithCancel(double x, double branch, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (Double.isNaN(x)) return Double.NaN;
 		if (Double.isNaN(branch)) return Double.NaN;
-		if (Math.abs(branch) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return lambertW0(x);
+		if (Math.abs(branch) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return lambertW0WithCancel(x, cancelId);
 		if (Math.abs(branch + 1) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return lambertW1(x);
 		return Double.NaN;
 	}
@@ -1378,6 +1956,40 @@ public final class SpecialFunctions {
 	 * @return   Returns hypergeometric special function approximation
 	 */
 	public static double hypergeometricF(double a, double b, double c, double z, double maxIterations, double precision){
+		return hypergeometricFWithCancel(a, b, c, z, maxIterations, precision, 0);
+	}
+
+	/**
+	 * The Gaussian or ordinary hypergeometric special function
+	 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+	 * cancellation; positive IDs combine the global signal with the domain signal.
+	 * This method does not clear either signal. Cached values and fast returns
+	 * may complete normally despite a pending signal. Separate IDs do not make
+	 * a shared mutable expression graph safe for concurrent calculations.
+	 * <p>There is no uniform cancellation result across the WithCancel family.
+	 * The existing returns of this method remain in effect; a caller using a
+	 * sentinel may throw an exception. Querying the signal does not establish
+	 * whether this particular call observed cancellation.
+	 * @param a    Argument value
+	 * @param b    Argument value
+	 * @param c    Argument value
+	 * @param z    Argument value
+	 * @param maxIterations   Stop condition
+	 * @param precision   Stop condition
+	 * @return   Returns hypergeometric special function approximation
+	 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+	 * @throws IllegalArgumentException if cancelId is outside the supported range
+	 * @since 6.2.0
+	 * @see hypergeometricF(double,double,double,double,double,double)
+	 * @see mXparser#cancelCalculation(int)
+	 * @see mXparser#resetCalculationCancellation(int)
+	 * @see mXparser#acquireCancellationTokenId()
+	 * @see mXparser#reserveCancellationTokenId(int)
+	 * @see mXparser#releaseCancellationTokenId(int)
+	 */
+	public static double hypergeometricFWithCancel(double a, double b, double c, double z, double maxIterations, double precision, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
+			throw new IllegalArgumentException("cancelId out of range");
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isNaN(b)) return Double.NaN;
 		if (Double.isNaN(c)) return Double.NaN;
@@ -1388,9 +2000,9 @@ public final class SpecialFunctions {
 		if (precision < 0.0) return Double.NaN;
 		double y;
 		if(Math.abs(z) >= 0.5)
-			y = Math.pow(1.0 - z, -a) * hypergeometricFDirect(a, c - b, c, z/(z - 1.0), maxIterations, precision);
+			y = Math.pow(1.0 - z, -a) * hypergeometricFDirectWithCancel(a, c - b, c, z/(z - 1.0), maxIterations, precision, cancelId);
 		else
-			y = hypergeometricFDirect(a, b, c, z, maxIterations, precision);
+			y = hypergeometricFDirectWithCancel(a, b, c, z, maxIterations, precision, cancelId);
 		return y;
 	}
 	/**
@@ -1403,7 +2015,7 @@ public final class SpecialFunctions {
 	 * @param precision   Stop condition
 	 * @return   Returns hypergeometric special function approximation - direct
 	 */
-	private static double hypergeometricFDirect(double a, double b, double c, double z, double maxIterations, double precision){
+	private static double hypergeometricFDirectWithCancel(double a, double b, double c, double z, double maxIterations, double precision, int cancelId) {
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isNaN(b)) return Double.NaN;
 		if (Double.isNaN(c)) return Double.NaN;
@@ -1417,8 +2029,8 @@ public final class SpecialFunctions {
 		y = 0;
 		done = false;
 		for (n = 0; n < maxIterations && !done; n = n + 1){
-			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-			yp = MathFunctions.factorialRising(a, n) * MathFunctions.factorialRising(b, n) / MathFunctions.factorialRising(c, n) * Math.pow(z, n) / MathFunctions.factorial(n);
+			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
+			yp = MathFunctions.factorialRisingWithCancel(a, n, cancelId) * MathFunctions.factorialRisingWithCancel(b, n, cancelId) / MathFunctions.factorialRisingWithCancel(c, n, cancelId) * Math.pow(z, n) / MathFunctions.factorialWithCancel(n, cancelId);
 			if(Math.abs(yp) < precision)
 				done = true;
 			y = y + yp;

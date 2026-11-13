@@ -1,5 +1,5 @@
 /*
- * @(#)Calculus.cpp        6.1.1    2026-05-17
+ * @(#)Calculus.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -247,10 +247,17 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE double Calculus::integralTrapezoid(const ExpressionPtr &f, const ArgumentPtr &x, double a, double b,
 	                                   double eps, int maxSteps) {
+		return integralTrapezoidWithCancel(f, x, a, b, eps, maxSteps, 0);
+	}
+
+	API_VISIBLE double Calculus::integralTrapezoidWithCancel(const ExpressionPtr &f, const ArgumentPtr &x, double a, double b,
+	                                   double eps, int maxSteps, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		double h = 0.5 * (b - a);
-		double s = MathFunctions::getFunctionValue(f, x, a)
-		           + MathFunctions::getFunctionValue(f, x, b)
-		           + 2 * MathFunctions::getFunctionValue(f, x, a + h);
+		double s = MathFunctions::getFunctionValueWithCancel(f, x, a, cancelId)
+		           + MathFunctions::getFunctionValueWithCancel(f, x, b, cancelId)
+		           + 2 * MathFunctions::getFunctionValueWithCancel(f, x, a + h, cancelId);
 		double intF = s * h * 0.5;
 		double intFprev = 0;
 		double t = a;
@@ -261,15 +268,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			t = a + 0.5 * h;
 			intFprev = intF;
 			for (j = 1; j <= n; j++) {
-				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-				s += 2 * MathFunctions::getFunctionValue(f, x, t);
+				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+				s += 2 * MathFunctions::getFunctionValueWithCancel(f, x, t, cancelId);
 				t += h;
 			}
 			h *= 0.5;
 			intF = s * h * 0.5;
 			if (Math::abs(intF - intFprev) <= eps)
 				return intF;
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		return intF;
 	}
@@ -291,6 +298,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE double Calculus::derivative(const ExpressionPtr &f, const ArgumentPtr &x, double x0,
 	                            int derType, double eps, int maxSteps) {
+		return derivativeWithCancel(f, x, x0, derType, eps, maxSteps, 0);
+	}
+
+	API_VISIBLE double Calculus::derivativeWithCancel(const ExpressionPtr &f, const ArgumentPtr &x, double x0,
+	                            int derType, double eps, int maxSteps, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		const double START_DX = 0.1;
 		int step = 0;
 		double error = 2.0 * eps;
@@ -304,24 +318,24 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			dx = START_DX;
 		double dy = 0.0;
 		if ((derType == LEFT_DERIVATIVE) || (derType == RIGHT_DERIVATIVE)) {
-			y0 = MathFunctions::getFunctionValue(f, x, x0);
-			dy = MathFunctions::getFunctionValue(f, x, x0 + dx) - y0;
+			y0 = MathFunctions::getFunctionValueWithCancel(f, x, x0, cancelId);
+			dy = MathFunctions::getFunctionValueWithCancel(f, x, x0 + dx, cancelId) - y0;
 			derF = dy / dx;
 		} else
-			derF = (MathFunctions::getFunctionValue(f, x, x0 + dx) - MathFunctions::getFunctionValue(f, x, x0 - dx)) / (
+			derF = (MathFunctions::getFunctionValueWithCancel(f, x, x0 + dx, cancelId) - MathFunctions::getFunctionValueWithCancel(f, x, x0 - dx, cancelId)) / (
 				       2.0 * dx);
 		do {
 			derFprev = derF;
 			dx = dx / 2.0;
 			if ((derType == LEFT_DERIVATIVE) || (derType == RIGHT_DERIVATIVE)) {
-				dy = MathFunctions::getFunctionValue(f, x, x0 + dx) - y0;
+				dy = MathFunctions::getFunctionValueWithCancel(f, x, x0 + dx, cancelId) - y0;
 				derF = dy / dx;
 			} else
-				derF = (MathFunctions::getFunctionValue(f, x, x0 + dx) - MathFunctions::getFunctionValue(f, x, x0 - dx))
+				derF = (MathFunctions::getFunctionValueWithCancel(f, x, x0 + dx, cancelId) - MathFunctions::getFunctionValueWithCancel(f, x, x0 - dx, cancelId))
 				       / (2.0 * dx);
 			error = Math::abs(derF - derFprev);
 			step++;
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		} while ((step < maxSteps) && ((error > eps) || Double::isNaN(derF)));
 		return derF;
 	}
@@ -345,6 +359,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE double Calculus::derivativeNth(const ExpressionPtr &f, double n, const ArgumentPtr &x,
 	                               double x0, int derType, double eps, int maxSteps) {
+		return derivativeNthWithCancel(f, n, x, x0, derType, eps, maxSteps, 0);
+	}
+
+	API_VISIBLE double Calculus::derivativeNthWithCancel(const ExpressionPtr &f, double n, const ArgumentPtr &x,
+	                               double x0, int derType, double eps, int maxSteps, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		n = Math::round(n);
 		int step = 0;
 		double error = 2 * eps;
@@ -353,12 +374,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double derF = 0;
 		if (derType == RIGHT_DERIVATIVE)
 			for (int i = 0; i <= n; i++)
-				derF += MathFunctions::binomCoeff(-1, n - i) * MathFunctions::binomCoeff(n, CAST_LONG(i)) *
-						MathFunctions::getFunctionValue(f, x, x0 + i * dx);
+				derF += MathFunctions::binomCoeffWithCancel(-1, n - i, cancelId) * MathFunctions::binomCoeffWithCancel(n, CAST_LONG(i), cancelId) *
+						MathFunctions::getFunctionValueWithCancel(f, x, x0 + i * dx, cancelId);
 		else
 			for (int i = 0; i <= n; i++)
-				derF += MathFunctions::binomCoeff(-1, CAST_LONG(i)) * MathFunctions::binomCoeff(n, CAST_LONG(i)) *
-						MathFunctions::getFunctionValue(f, x, x0 - i * dx);
+				derF += MathFunctions::binomCoeffWithCancel(-1, CAST_LONG(i), cancelId) * MathFunctions::binomCoeffWithCancel(n, CAST_LONG(i), cancelId) *
+						MathFunctions::getFunctionValueWithCancel(f, x, x0 - i * dx, cancelId);
 		derF = derF / Math::pow(dx, n);
 		do {
 			derFprev = derF;
@@ -366,16 +387,16 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			derF = 0;
 			if (derType == RIGHT_DERIVATIVE)
 				for (int i = 0; i <= n; i++)
-					derF += MathFunctions::binomCoeff(-1, n - i) * MathFunctions::binomCoeff(n, CAST_LONG(i)) *
-							MathFunctions::getFunctionValue(f, x, x0 + i * dx);
+					derF += MathFunctions::binomCoeffWithCancel(-1, n - i, cancelId) * MathFunctions::binomCoeffWithCancel(n, CAST_LONG(i), cancelId) *
+							MathFunctions::getFunctionValueWithCancel(f, x, x0 + i * dx, cancelId);
 			else
 				for (int i = 0; i <= n; i++)
-					derF += MathFunctions::binomCoeff(-1, CAST_LONG(i)) * MathFunctions::binomCoeff(n, CAST_LONG(i)) *
-							MathFunctions::getFunctionValue(f, x, x0 - i * dx);
+					derF += MathFunctions::binomCoeffWithCancel(-1, CAST_LONG(i), cancelId) * MathFunctions::binomCoeffWithCancel(n, CAST_LONG(i), cancelId) *
+							MathFunctions::getFunctionValueWithCancel(f, x, x0 - i * dx, cancelId);
 			derF = derF / Math::pow(dx, n);
 			error = Math::abs(derF - derFprev);
 			step++;
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		} while ((step < maxSteps) && ((error > eps) || Double::isNaN(derF)));
 		return derF;
 	}
@@ -508,14 +529,20 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see        Argument
 	 */
 	API_VISIBLE double Calculus::forwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x) {
+		return forwardDifferenceWithCancel(f, h, x, 0);
+	}
+
+	API_VISIBLE double Calculus::forwardDifferenceWithCancel(const ExpressionPtr &f, double h, const ArgumentPtr &x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (x == nullptr) throw std::invalid_argument("Calculus difference requires a non-null argument");
-		double xb = x->getArgumentValue();
+		double xb = x->getArgumentValueWithCancel(cancelId);
 		if (Double::isNaN(xb))
 			return Double::NaN;
 		if (f == nullptr) throw std::invalid_argument("Calculus difference requires a non-null expression");
-		double fv = f->calculate();
+		double fv = f->calculateWithCancel(cancelId);
 		x->setArgumentValue(xb + h);
-		double delta = f->calculate() - fv;
+		double delta = f->calculateWithCancel(cancelId) - fv;
 		x->setArgumentValue(xb);
 		return delta;
 	}
@@ -556,14 +583,20 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see        Argument
 	 */
 	API_VISIBLE double Calculus::backwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x) {
+		return backwardDifferenceWithCancel(f, h, x, 0);
+	}
+
+	API_VISIBLE double Calculus::backwardDifferenceWithCancel(const ExpressionPtr &f, double h, const ArgumentPtr &x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (x == nullptr) throw std::invalid_argument("Calculus difference requires a non-null argument");
-		double xb = x->getArgumentValue();
+		double xb = x->getArgumentValueWithCancel(cancelId);
 		if (Double::isNaN(xb))
 			return Double::NaN;
 		if (f == nullptr) throw std::invalid_argument("Calculus difference requires a non-null expression");
-		double fv = f->calculate();
+		double fv = f->calculateWithCancel(cancelId);
 		x->setArgumentValue(xb - h);
-		double delta = fv - f->calculate();
+		double delta = fv - f->calculateWithCancel(cancelId);
 		x->setArgumentValue(xb);
 		return delta;
 	}
@@ -581,6 +614,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE double Calculus::solveBrent(const ExpressionPtr &f, const ArgumentPtr &x, double a, double b, double eps,
 	                            double maxSteps) {
+		return solveBrentWithCancel(f, x, a, b, eps, maxSteps, 0);
+	}
+
+	API_VISIBLE double Calculus::solveBrentWithCancel(const ExpressionPtr &f, const ArgumentPtr &x, double a, double b, double eps,
+	                            double maxSteps, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		double fa, fb, fc, fs, c, c0, c1, c2;
 		double tmp, d, s;
 		bool mflag;
@@ -593,8 +633,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			a = b;
 			b = tmp;
 		}
-		fa = MathFunctions::getFunctionValue(f, x, a);
-		fb = MathFunctions::getFunctionValue(f, x, b);
+		fa = MathFunctions::getFunctionValueWithCancel(f, x, a, cancelId);
+		fb = MathFunctions::getFunctionValueWithCancel(f, x, b, cancelId);
 		/*
 		 * If already root then no need to solve
 		 */
@@ -615,8 +655,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 					ap = bp;
 					bp = tmp;
 				}
-				fa = MathFunctions::getFunctionValue(f, x, ap);
-				fb = MathFunctions::getFunctionValue(f, x, bp);
+				fa = MathFunctions::getFunctionValueWithCancel(f, x, ap, cancelId);
+				fb = MathFunctions::getFunctionValueWithCancel(f, x, bp, cancelId);
 				if (MathFunctions::abs(fa) <= eps) return ap;
 				if (MathFunctions::abs(fb) <= eps) return bp;
 				if (fa * fb < 0) {
@@ -625,13 +665,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 					b = bp;
 					break;
 				}
-				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			}
 			if (!rndflag) return Double::NaN;
 		}
 		c = a;
 		d = c;
-		fc = MathFunctions::getFunctionValue(f, x, c);
+		fc = MathFunctions::getFunctionValueWithCancel(f, x, c, cancelId);
 		if (MathFunctions::abs(fa) < MathFunctions::abs(fb)) {
 			tmp = a;
 			a = b;
@@ -660,7 +700,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				mflag = true;
 			} else
 				mflag = true;
-			fs = MathFunctions::getFunctionValue(f, x, s);
+			fs = MathFunctions::getFunctionValueWithCancel(f, x, s, cancelId);
 			d = c;
 			c = b;
 			fc = fb;
@@ -677,8 +717,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				fb = tmp;
 			}
 			iter++;
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
-		return MathFunctions::round(b, MathFunctions::decimalDigitsBefore(eps) - 1);
+		return MathFunctions::roundWithCancel(b, MathFunctions::decimalDigitsBefore(eps) - 1, cancelId);
 	}
 } // org::mariuszgromada::math::mxparser::mathcollection

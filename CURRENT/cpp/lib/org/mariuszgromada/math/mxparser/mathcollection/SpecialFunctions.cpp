@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialFunctions.cpp        6.1.0    2024-10-06
+ * @(#)SpecialFunctions.cpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -239,17 +239,23 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return Exponential integral function Ei(x)
 	 */
 	API_VISIBLE double SpecialFunctions::exponentialIntegralEi(double x) {
+		return exponentialIntegralEiWithCancel(x, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::exponentialIntegralEiWithCancel(double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x))
 			return Double::NaN;
 		if (x < -5.0)
-			return continuedFractionEi(x);
+			return continuedFractionEiWithCancel(x, cancelId);
 		if (x == 0.0)
 			return -Double::MAX_VALUE;
 		if (x < 6.8)
-			return powerSeriesEi(x);
+			return powerSeriesEiWithCancel(x, cancelId);
 		if (x < 50.0)
-			return argumentAdditionSeriesEi(x);
-		return continuedFractionEi(x);
+			return argumentAdditionSeriesEiWithCancel(x, cancelId);
+		return continuedFractionEiWithCancel(x, cancelId);
 	}
 
 	/**
@@ -261,7 +267,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * Supporting function
 	 * while Exponential integral function Ei(x) calculation
 	 */
-	API_VISIBLE double SpecialFunctions::continuedFractionEi(double x) {
+	API_VISIBLE double SpecialFunctions::continuedFractionEiWithCancel(double x, int cancelId) {
 		double Am1 = 1.0;
 		double A0 = 0.0;
 		double Bm1 = 0.0;
@@ -273,7 +279,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		int j = 1;
 		a = 1.0;
 		while (Math::abs(Ap1 * B0 - A0 * Bp1) > EI_EPSILON * Math::abs(A0 * Bp1)) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			if (Math::abs(Bp1) > 1.0) {
 				Am1 = A0 / Bp1;
 				A0 = Ap1 / Bp1;
@@ -298,7 +304,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * Supporting function
 	 * while Exponential integral function Ei(x) calculation
 	 */
-	API_VISIBLE double SpecialFunctions::powerSeriesEi(double x) {
+	API_VISIBLE double SpecialFunctions::powerSeriesEiWithCancel(double x, int cancelId) {
 		double xn = -x;
 		double Sn = -x;
 		double Sm1 = 0.0;
@@ -309,7 +315,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (x == 0.0)
 			return -Double::MAX_VALUE;
 		while (Math::abs(Sn - Sm1) > EI_EPSILON * Math::abs(Sm1)) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			Sm1 = Sn;
 			y += 1.0;
 			xn *= (-x);
@@ -324,7 +330,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * Supporting function
 	 * while Exponential integral function Ei(x) calculation
 	 */
-	API_VISIBLE double SpecialFunctions::argumentAdditionSeriesEi(double x) {
+	API_VISIBLE double SpecialFunctions::argumentAdditionSeriesEiWithCancel(double x, int cancelId) {
 		const int k = CAST_INT(x + 0.5);
 		int j = 0;
 		const double xx = k;
@@ -337,7 +343,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double factorial = 1.0;
 		double dxj = 1.0;
 		while (Math::abs(term) > EI_EPSILON * Math::abs(Sn)) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			j++;
 			factorial *= j;
 			xxj *= xx;
@@ -355,6 +361,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return Logarithmic integral function li(x)
 	 */
 	API_VISIBLE double SpecialFunctions::logarithmicIntegralLi(double x) {
+		return logarithmicIntegralLiWithCancel(x, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::logarithmicIntegralLiWithCancel(double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x))
 			return Double::NaN;
 		if (x < 0)
@@ -363,7 +375,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return 0;
 		if (x == 2)
 			return MathConstants::LI2;
-		return exponentialIntegralEi(MathFunctions::ln(x));
+		return exponentialIntegralEiWithCancel(MathFunctions::ln(x), cancelId);
 	}
 
 	/**
@@ -372,13 +384,19 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return Offset logarithmic integral function Li(x)
 	 */
 	API_VISIBLE double SpecialFunctions::offsetLogarithmicIntegralLi(double x) {
+		return offsetLogarithmicIntegralLiWithCancel(x, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::offsetLogarithmicIntegralLiWithCancel(double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x))
 			return Double::NaN;
 		if (x < 0)
 			return Double::NaN;
 		if (x == 0)
 			return -MathConstants::LI2;
-		return logarithmicIntegralLi(x) - MathConstants::LI2;
+		return logarithmicIntegralLiWithCancel(x, cancelId) - MathConstants::LI2;
 	}
 
 	/**
@@ -597,7 +615,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @param n Integer number
 	 * @return  Returns Gamma function for the integers.
 	 */
-	API_VISIBLE double SpecialFunctions::gammaInt(Long n) {
+	API_VISIBLE double SpecialFunctions::gammaIntWithCancel(Long n, int cancelId) {
 		if (n == 0) return MathConstants::EULER_MASCHERONI;
 		if (n == 1) return 1;
 		if (n == 2) return 1;
@@ -609,13 +627,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (n == 8) return 1.0 * 2.0 * 3.0 * 4.0 * 5.0 * 6.0 * 7.0;
 		if (n == 9) return 1.0 * 2.0 * 3.0 * 4.0 * 5.0 * 6.0 * 7.0 * 8.0;
 		if (n == 10) return 1.0 * 2.0 * 3.0 * 4.0 * 5.0 * 6.0 * 7.0 * 8.0 * 9.0;
-		if (n >= 11) return MathFunctions::factorial(static_cast<int>(n - 1));
+		if (n >= 11) return MathFunctions::factorialWithCancel(static_cast<int>(n - 1), cancelId);
 		if (n <= -1) {
 			Long r = -n;
-			double factr = MathFunctions::factorial(static_cast<int>(r));
+			double factr = MathFunctions::factorialWithCancel(static_cast<int>(r), cancelId);
 			double sign = -1;
 			if (r % 2 == 0) sign = 1;
-			return sign / (CAST_DOUBLE(r) * factr) - (1.0 / CAST_DOUBLE(r)) * gammaInt(n + 1);
+			return sign / (CAST_DOUBLE(r) * factr) - (1.0 / CAST_DOUBLE(r)) * gammaIntWithCancel(n + 1, cancelId);
 		}
 		return Double::NaN;
 	}
@@ -627,6 +645,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return  Returns gamma function value.
 	 */
 	API_VISIBLE double SpecialFunctions::gamma(double x) {
+		return gammaWithCancel(x, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::gammaWithCancel(double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x)) return Double::NaN;
 		if (x == Double::POSITIVE_INFINITY) return Double::POSITIVE_INFINITY;
 		if (x == Double::NEGATIVE_INFINITY) return Double::NaN;
@@ -635,9 +659,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (MathFunctions::abs(xabs - xint) <= BinaryRelations::DEFAULT_COMPARISON_EPSILON) {
 			Long n = native_numeric_detail::checkedNativeLong(xint, "SpecialFunctions.gamma");
 			if (x < 0) n = -n;
-			return gammaInt(n);
+			return gammaIntWithCancel(n, cancelId);
 		}
-		return lanchosGamma(x);
+		return lanchosGammaWithCancel(x, cancelId);
 	}
 
 	/**
@@ -648,18 +672,24 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return     Gamma function value (Lanchos approx).
 	 */
 	API_VISIBLE double SpecialFunctions::lanchosGamma(double x) {
+		return lanchosGammaWithCancel(x, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::lanchosGammaWithCancel(double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x)) return Double::NaN;
 
 		double xabs = MathFunctions::abs(x);
 		double xint = Math::round(xabs);
 		if (x > BinaryRelations::DEFAULT_COMPARISON_EPSILON) {
 			if (MathFunctions::abs(xabs - xint) <= BinaryRelations::DEFAULT_COMPARISON_EPSILON)
-				return MathFunctions::factorial(xint - 1);
+				return MathFunctions::factorialWithCancel(xint - 1, cancelId);
 		} else if (x < -BinaryRelations::DEFAULT_COMPARISON_EPSILON) {
 			if (MathFunctions::abs(xabs - xint) <= BinaryRelations::DEFAULT_COMPARISON_EPSILON)
 				return Double::NaN;
 		} else return Double::NaN;
-		if (x < 0.5) return MathConstants::PI / (Math::sin(MathConstants::PI * x) * lanchosGamma(1.0 - x));
+		if (x < 0.5) return MathConstants::PI / (Math::sin(MathConstants::PI * x) * lanchosGammaWithCancel(1.0 - x, cancelId));
 		double g = 7.0;
 		Array<double> coefficients = Coefficients::lanchosGamma;
 		x -= 1.0;
@@ -677,19 +707,25 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return  Returns log value from gamma function->
 	 */
 	API_VISIBLE double SpecialFunctions::logGamma(double x) {
+		return logGammaWithCancel(x, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::logGammaWithCancel(double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x)) return Double::NaN;
 		if (x == Double::POSITIVE_INFINITY) return Double::POSITIVE_INFINITY;
 		if (x == Double::NEGATIVE_INFINITY) return Double::NaN;
 		if (MathFunctions::isInteger(x)) {
 			if (x >= 0)
-				return Math::log(Math::abs(gammaInt(native_numeric_detail::checkedNativeLong(Math::round(x), "SpecialFunctions.logGamma"))));
+				return Math::log(Math::abs(gammaIntWithCancel(native_numeric_detail::checkedNativeLong(Math::round(x), "SpecialFunctions.logGamma"), cancelId)));
 			else
-				return Math::log(Math::abs(gammaInt(-native_numeric_detail::checkedNativeLong(Math::round(-x), "SpecialFunctions.gamma integer argument"))));
+				return Math::log(Math::abs(gammaIntWithCancel(-native_numeric_detail::checkedNativeLong(Math::round(-x), "SpecialFunctions.gamma integer argument"), cancelId)));
 		}
 		double p, q, w, z;
 		if (x < -34.0) {
 			q = -x;
-			w = logGamma(q);
+			w = logGammaWithCancel(q, cancelId);
 			p = Math::floor(q);
 			if (Math::abs(p - q) <= BinaryRelations::DEFAULT_COMPARISON_EPSILON) return Double::NaN;
 			z = q - p;
@@ -736,11 +772,17 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return  Returns signum of the gamma(x)
 	 */
 	API_VISIBLE double SpecialFunctions::sgnGamma(double x) {
+		return sgnGammaWithCancel(x, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::sgnGammaWithCancel(double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x)) return Double::NaN;
 		if (x == Double::POSITIVE_INFINITY) return 1;
 		if (x == Double::NEGATIVE_INFINITY) return Double::NaN;
 		if (x > 0) return 1;
-		if (MathFunctions::isInteger(x)) return MathFunctions::sgn(gammaInt(-native_numeric_detail::checkedNativeLong(Math::round(-x), "SpecialFunctions.gamma integer argument")));
+		if (MathFunctions::isInteger(x)) return MathFunctions::sgn(gammaIntWithCancel(-native_numeric_detail::checkedNativeLong(Math::round(-x), "SpecialFunctions.gamma integer argument"), cancelId));
 		x = -x;
 		double fx = Math::floor(x);
 		double div2remainder = Math::floor(Math::mod(fx, 2));
@@ -755,11 +797,17 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return Value of the regularized lower gamma function 'P'.
 	 */
 	API_VISIBLE double SpecialFunctions::regularizedGammaLowerP(double s, double x) {
+		return regularizedGammaLowerPWithCancel(s, x, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::regularizedGammaLowerPWithCancel(double s, double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x)) return Double::NaN;
 		if (Double::isNaN(s)) return Double::NaN;
 		if (MathFunctions::almostEqual(x, 0)) return 0;
 		if (MathFunctions::almostEqual(s, 0))
-			return 1 + SpecialFunctions::exponentialIntegralEi(-x) / MathConstants::EULER_MASCHERONI;
+			return 1 + SpecialFunctions::exponentialIntegralEiWithCancel(-x, cancelId) / MathConstants::EULER_MASCHERONI;
 
 		if (MathFunctions::almostEqual(s, 1))
 			return 1 - Math::exp(-x);
@@ -769,14 +817,14 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (s < 0) {
 			double sNext = s + 1;
 			if (sNext == s) return Double::NaN;
-			return regularizedGammaLowerP(sNext, x) + (Math::pow(x, s) * Math::exp(-x)) / (s * gamma(s));
+			return regularizedGammaLowerPWithCancel(sNext, x, cancelId) + (Math::pow(x, s) * Math::exp(-x)) / (s * gammaWithCancel(s, cancelId));
 		}
 
 		const double epsilon = 0.000000000000001;
 		const double bigNumber = 4503599627370496.0;
 		const double bigNumberInverse = 2.22044604925031308085e-16;
 
-		double ax = (s * Math::log(x)) - x - logGamma(s);
+		double ax = (s * Math::log(x)) - x - logGammaWithCancel(s, cancelId);
 		if (ax < -709.78271289338399) {
 			return 1;
 		}
@@ -806,7 +854,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double error;
 
 		do {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			c++;
 			y += 1;
 			z += 2;
@@ -849,6 +897,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return Value of the inverse regularized lower gamma function 'P'.
 	 */
 	API_VISIBLE double SpecialFunctions::inverseRegularizedGammaLowerP(double a, double p) {
+		return inverseRegularizedGammaLowerPWithCancel(a, p, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::inverseRegularizedGammaLowerPWithCancel(double a, double p, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(a)) return Double::NaN;
 		if (Double::isNaN(p)) return Double::NaN;
 		if (a <= 0.0) return Double::NaN;
@@ -862,7 +916,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double lna1 = 0.0;
 		double afac = 0.0;
 		double a1 = a - 1.0;
-		double gln = logGamma(a);
+		double gln = logGammaWithCancel(a, cancelId);
 
 		if (a > 1.0) {
 			lna1 = Math::log(a1);
@@ -880,9 +934,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				x = 1.0 - Math::log(1.0 - (p - t) / (1.0 - t));
 		}
 		for (int j = 0; j < 12; j++) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			if (x <= 0.0) return 0.0;
-			err = regularizedGammaLowerP(a, x) - p;
+			err = regularizedGammaLowerPWithCancel(a, x, cancelId) - p;
 			if (a > 1.0)
 				t = afac * Math::exp(-(x - a1) + a1 * (Math::log(x) - lna1));
 			else
@@ -904,7 +958,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return Value of the incomplete lower gamma function->
 	 */
 	API_VISIBLE double SpecialFunctions::incompleteGammaLower(double s, double x) {
-		return gamma(s) * regularizedGammaLowerP(s, x);
+		return incompleteGammaLowerWithCancel(s, x, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::incompleteGammaLowerWithCancel(double s, double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
+		return gammaWithCancel(s, cancelId) * regularizedGammaLowerPWithCancel(s, x, cancelId);
 	}
 
 	/**
@@ -914,12 +974,18 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return Value of the regularized upper gamma function 'Q'.
 	 */
 	API_VISIBLE double SpecialFunctions::regularizedGammaUpperQ(double s, double x) {
+		return regularizedGammaUpperQWithCancel(s, x, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::regularizedGammaUpperQWithCancel(double s, double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x)) return Double::NaN;
 		if (Double::isNaN(s)) return Double::NaN;
 		if (MathFunctions::almostEqual(x, 0)) return 1;
 
 		if (MathFunctions::almostEqual(s, 0))
-			return -SpecialFunctions::exponentialIntegralEi(-x) / MathConstants::EULER_MASCHERONI;
+			return -SpecialFunctions::exponentialIntegralEiWithCancel(-x, cancelId) / MathConstants::EULER_MASCHERONI;
 
 		if (MathFunctions::almostEqual(s, 1))
 			return Math::exp(-x);
@@ -929,10 +995,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (s < 0) {
 			double sNext = s + 1;
 			if (sNext == s) return Double::NaN;
-			return regularizedGammaUpperQ(sNext, x) - (Math::pow(x, s) * Math::exp(-x)) / (s * gamma(s));
+			return regularizedGammaUpperQWithCancel(sNext, x, cancelId) - (Math::pow(x, s) * Math::exp(-x)) / (s * gammaWithCancel(s, cancelId));
 		}
 
-		double ax = s * Math::log(x) - x - logGamma(s);
+		double ax = s * Math::log(x) - x - logGammaWithCancel(s, cancelId);
 		if (ax < -709.78271289338399) {
 			return 0;
 		}
@@ -951,7 +1017,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double qkm1 = z * x;
 		double ans = pkm1 / qkm1;
 		do {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			c = c + 1;
 			y = y + 1;
 			z = z + 2;
@@ -988,7 +1054,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return Value of the incomplete upper gamma function->
 	 */
 	API_VISIBLE double SpecialFunctions::incompleteGammaUpper(double s, double x) {
-		return gamma(s) * regularizedGammaUpperQ(s, x);
+		return incompleteGammaUpperWithCancel(s, x, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::incompleteGammaUpperWithCancel(double s, double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
+		return gammaWithCancel(s, cancelId) * regularizedGammaUpperQWithCancel(s, x, cancelId);
 	}
 
 	/**
@@ -997,6 +1069,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return Approximated value of the digamma function->
 	 */
 	API_VISIBLE double SpecialFunctions::diGamma(double x) {
+		return diGammaWithCancel(x, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::diGammaWithCancel(double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		const double c = 12.0;
 		const double d1 = -0.57721566490153286;
 		const double d2 = 1.6449340668482264365;
@@ -1014,13 +1092,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				return Double::NaN;
 
 		// Use inversion formula for negative numbers.
-		if (x < 0) return diGamma(1.0 - x) + (MathConstants::PI / Math::tan(-Math::PI * x));
+		if (x < 0) return diGammaWithCancel(1.0 - x, cancelId) + (MathConstants::PI / Math::tan(-Math::PI * x));
 
 		if (x <= s) return d1 - (1 / x) + (d2 * x);
 
 		double result = 0;
 		while (x < c) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			result -= 1 / x;
 			x++;
 		}
@@ -1045,18 +1123,24 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return  Return logBeta special function (for positive x and positive y)
 	 */
 	API_VISIBLE double SpecialFunctions::logBeta(double x, double y) {
+		return logBetaWithCancel(x, y, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::logBetaWithCancel(double x, double y, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x)) return Double::NaN;
 		if (Double::isNaN(y)) return Double::NaN;
 		if ((x <= 0) || (y <= 0)) return Double::NaN;
 
-		double lgx = logGamma(x);
-		if (Double::isNaN(lgx)) lgx = Math::log(Math::abs(gamma(x)));
+		double lgx = logGammaWithCancel(x, cancelId);
+		if (Double::isNaN(lgx)) lgx = Math::log(Math::abs(gammaWithCancel(x, cancelId)));
 
-		double lgy = logGamma(y);
-		if (Double::isNaN(lgy)) lgy = Math::log(Math::abs(gamma(y)));
+		double lgy = logGammaWithCancel(y, cancelId);
+		if (Double::isNaN(lgy)) lgy = Math::log(Math::abs(gammaWithCancel(y, cancelId)));
 
-		double lgxy = logGamma(x + y);
-		if (Double::isNaN(lgy)) lgxy = Math::log(Math::abs(gamma(x + y)));
+		double lgxy = logGammaWithCancel(x + y, cancelId);
+		if (Double::isNaN(lgy)) lgxy = Math::log(Math::abs(gammaWithCancel(x + y, cancelId)));
 
 		if ((!Double::isNaN(lgx)) && (!Double::isNaN(lgy)) && (!Double::isNaN(lgxy)))
 			return (lgx + lgy - lgxy);
@@ -1070,11 +1154,17 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return  Return Beta special function (for positive x and positive y)
 	 */
 	API_VISIBLE double SpecialFunctions::beta(double x, double y) {
+		return betaWithCancel(x, y, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::betaWithCancel(double x, double y, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x)) return Double::NaN;
 		if (Double::isNaN(y)) return Double::NaN;
 		if ((x <= 0) || (y <= 0)) return Double::NaN;
-		if ((x > 99) || (y > 99)) return Math::exp(logBeta(x, y));
-		return gamma(x) * gamma(y) / gamma(x + y);
+		if ((x > 99) || (y > 99)) return Math::exp(logBetaWithCancel(x, y, cancelId));
+		return gammaWithCancel(x, cancelId) * gammaWithCancel(y, cancelId) / gammaWithCancel(x + y, cancelId);
 	}
 
 	/**
@@ -1087,6 +1177,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *
 	 */
 	API_VISIBLE double SpecialFunctions::incompleteBeta(double a, double b, double x) {
+		return incompleteBetaWithCancel(a, b, x, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::incompleteBetaWithCancel(double a, double b, double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(a)) return Double::NaN;
 		if (Double::isNaN(b)) return Double::NaN;
 		if (Double::isNaN(x)) return Double::NaN;
@@ -1094,7 +1190,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (x > 1 + BinaryRelations::DEFAULT_COMPARISON_EPSILON) return Double::NaN;
 		if ((a <= 0) || (b <= 0)) return Double::NaN;
 		if (MathFunctions::almostEqual(x, 0)) return 0;
-		if (MathFunctions::almostEqual(x, 1)) return beta(a, b);
+		if (MathFunctions::almostEqual(x, 1)) return betaWithCancel(a, b, cancelId);
 		bool aEq0 = MathFunctions::almostEqual(a, 0);
 		bool bEq0 = MathFunctions::almostEqual(b, 0);
 		bool aIsInt = MathFunctions::isInteger(a);
@@ -1112,7 +1208,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				if (n == 2) return Math::log(x) + x;
 				double v = Math::log(x);
 				for (Long i = 1; i <= n - 1; i++)
-					v -= MathFunctions::binomCoeff(CAST_DOUBLE(n) - 1, i) * Math::pow(-1, i) * (Math::pow(x, i) / CAST_DOUBLE(i));
+					v -= MathFunctions::binomCoeffWithCancel(CAST_DOUBLE(n) - 1, i, cancelId) * Math::pow(-1, i) * (Math::pow(x, i) / CAST_DOUBLE(i));
 				return v;
 			}
 			if (n <= -1) {
@@ -1140,7 +1236,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				for (Long i = 1; i <= -n; i++)
 					v += Math::pow(1 - x, -i) / CAST_DOUBLE(i);
 				for (Long i = 1; i <= -n; i++)
-					v -= Math::pow(MathFunctions::factorial(CAST_INT(i - 1)), 2) / CAST_DOUBLE(i);
+					v -= Math::pow(MathFunctions::factorialWithCancel(CAST_INT(i - 1), cancelId), 2) / CAST_DOUBLE(i);
 				return v;
 			}
 		}
@@ -1150,7 +1246,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				if (n <= -1) return -(1.0 / CAST_DOUBLE(-n)) * Math::pow(x, n);
 			}
 		}
-		return regularizedBeta(a, b, x) * beta(a, b);
+		return regularizedBetaWithCancel(a, b, x, cancelId) * betaWithCancel(a, b, cancelId);
 	}
 
 	/**
@@ -1162,6 +1258,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * for positive a and positive b and x between 0 and 1
 	 */
 	API_VISIBLE double SpecialFunctions::regularizedBeta(double a, double b, double x) {
+		return regularizedBetaWithCancel(a, b, x, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::regularizedBetaWithCancel(double a, double b, double x, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(a)) return Double::NaN;
 		if (Double::isNaN(b)) return Double::NaN;
 		if (Double::isNaN(x)) return Double::NaN;
@@ -1180,7 +1282,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double bt = (x == 0.0 || x == 1.0)
 			            ? 0.0
 			            : Math::exp(
-				            logGamma(a + b) - logGamma(a) - logGamma(b) + (a * Math::log(x)) + (
+				            logGammaWithCancel(a + b, cancelId) - logGammaWithCancel(a, cancelId) - logGammaWithCancel(b, cancelId) + (a * Math::log(x)) + (
 					            b * Math::log(1.0 - x)));
 
 		bool symmetryTransformation = x >= (a + 1.0) / (a + b + 2.0);
@@ -1210,7 +1312,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double h = d;
 
 		for (int m = 1, m2 = 2; m <= 50000; m++, m2 += 2) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			double aa = m * (b - m) * x / ((qam + m2) * (a + m2));
 			d = 1.0 + (aa * d);
 
@@ -1258,6 +1360,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * for positive a and positive b and x between 0 and 1
 	 */
 	API_VISIBLE double SpecialFunctions::inverseRegularizedBeta(double a, double b, double p) {
+		return inverseRegularizedBetaWithCancel(a, b, p, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::inverseRegularizedBetaWithCancel(double a, double b, double p, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(a)) return Double::NaN;
 		if (Double::isNaN(b)) return Double::NaN;
 
@@ -1297,10 +1405,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			else x = 1.0 - Math::pow(b * w * (1.0 - p), 1.0 / b);
 		}
 
-		double afac = -logGamma(a) - logGamma(b) + logGamma(a + b);
+		double afac = -logGammaWithCancel(a, cancelId) - logGammaWithCancel(b, cancelId) + logGammaWithCancel(a + b, cancelId);
 		for (int j = 0; j < 10; j++) {
 			if (x == 0.0 || x == 1.0) return x;
-			err = regularizedBeta(a, b, x) - p;
+			err = regularizedBetaWithCancel(a, b, x, cancelId) - p;
 			t = Math::exp(a1 * Math::log(x) + b1 * Math::log(1.0 - x) + afac);
 			u = err / t;
 			x -= (t = u / (1.0 - 0.5 * Math::min(1.0, u * (a1 / x - b1 / (1.0 - x)))));
@@ -1322,12 +1430,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @param maxIter   Maximum number of iteration
 	 * @return          Halley's iteration value if successful, otherwise Double::NaN
 	 */
-	API_VISIBLE double SpecialFunctions::halleyIteration(double x, double wInitial, int maxIter) {
+	API_VISIBLE double SpecialFunctions::halleyIterationWithCancel(double x, double wInitial, int maxIter, int cancelId) {
 		double w = wInitial;
 		double tol = 1;
 		double t = 0, p, e;
 		for (int i = 0; i < maxIter; i++) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			e = Math::exp(w);
 			p = w + 1.0;
 			t = w * e - x;
@@ -1364,7 +1472,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @param x
 	 * @return Approximation of principal branch of Lambert-W function
 	 */
-	API_VISIBLE double SpecialFunctions::lambertW0(double x) {
+	API_VISIBLE double SpecialFunctions::lambertW0WithCancel(double x, int cancelId) {
 		if (Math::abs(x) <= BinaryRelations::DEFAULT_COMPARISON_EPSILON) return 0;
 		if (Math::abs(x + MathConstants::EXP_MINUS_1) <= BinaryRelations::DEFAULT_COMPARISON_EPSILON) return -1;
 		if (Math::abs(x - 1) <= BinaryRelations::DEFAULT_COMPARISON_EPSILON) return MathConstants::OMEGA;
@@ -1383,7 +1491,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			w = Math::log(x);
 			if (x > 3.0) w -= Math::log(w);
 		}
-		return halleyIteration(x, w, MAX_ITER);
+		return halleyIterationWithCancel(x, w, MAX_ITER, cancelId);
 	}
 
 	/**
@@ -1417,9 +1525,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *               Minus 1 branch for x greater or equal than -1/e and lower than 0, otherwise Double::NaN.
 	 */
 	API_VISIBLE double SpecialFunctions::lambertW(double x, double branch) {
+		return lambertWWithCancel(x, branch, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::lambertWWithCancel(double x, double branch, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(x)) return Double::NaN;
 		if (Double::isNaN(branch)) return Double::NaN;
-		if (Math::abs(branch) <= BinaryRelations::DEFAULT_COMPARISON_EPSILON) return lambertW0(x);
+		if (Math::abs(branch) <= BinaryRelations::DEFAULT_COMPARISON_EPSILON) return lambertW0WithCancel(x, cancelId);
 		if (Math::abs(branch + 1) <= BinaryRelations::DEFAULT_COMPARISON_EPSILON) return lambertW1(x);
 		return Double::NaN;
 	}
@@ -1436,6 +1550,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE double SpecialFunctions::hypergeometricF(double a, double b, double c, double z, double maxIterations,
 	                                         double precision) {
+		return hypergeometricFWithCancel(a, b, c, z, maxIterations, precision, 0);
+	}
+
+	API_VISIBLE double SpecialFunctions::hypergeometricFWithCancel(double a, double b, double c, double z, double maxIterations,
+	                                         double precision, int cancelId) {
+		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
+			throw std::invalid_argument("cancelId out of range");
 		if (Double::isNaN(a)) return Double::NaN;
 		if (Double::isNaN(b)) return Double::NaN;
 		if (Double::isNaN(c)) return Double::NaN;
@@ -1446,9 +1567,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (precision < 0.0) return Double::NaN;
 		double y;
 		if (Math::abs(z) >= 0.5)
-			y = Math::pow(1.0 - z, -a) * hypergeometricFDirect(a, c - b, c, z / (z - 1.0), maxIterations, precision);
+			y = Math::pow(1.0 - z, -a) * hypergeometricFDirectWithCancel(a, c - b, c, z / (z - 1.0), maxIterations, precision, cancelId);
 		else
-			y = hypergeometricFDirect(a, b, c, z, maxIterations, precision);
+			y = hypergeometricFDirectWithCancel(a, b, c, z, maxIterations, precision, cancelId);
 		return y;
 	}
 
@@ -1462,8 +1583,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @param precision   Stop condition
 	 * @return   Returns hypergeometric special function approximation - direct
 	 */
-	API_VISIBLE double SpecialFunctions::hypergeometricFDirect(double a, double b, double c, double z, double maxIterations,
-	                                               double precision) {
+	API_VISIBLE double SpecialFunctions::hypergeometricFDirectWithCancel(double a, double b, double c, double z, double maxIterations,
+	                                               double precision, int cancelId) {
 		if (Double::isNaN(a)) return Double::NaN;
 		if (Double::isNaN(b)) return Double::NaN;
 		if (Double::isNaN(c)) return Double::NaN;
@@ -1477,9 +1598,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		y = 0;
 		done = false;
 		for (n = 0; n < maxIterations && !done; n = n + 1) {
-			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-			yp = MathFunctions::factorialRising(a, n) * MathFunctions::factorialRising(b, n) /
-			     MathFunctions::factorialRising(c, n) * Math::pow(z, n) / MathFunctions::factorial(n);
+			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
+			yp = MathFunctions::factorialRisingWithCancel(a, n, cancelId) * MathFunctions::factorialRisingWithCancel(b, n, cancelId) /
+			     MathFunctions::factorialRisingWithCancel(c, n, cancelId) * Math::pow(z, n) / MathFunctions::factorialWithCancel(n, cancelId);
 			if (Math::abs(yp) < precision)
 				done = true;
 			y = y + yp;

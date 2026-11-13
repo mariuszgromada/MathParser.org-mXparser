@@ -1,5 +1,5 @@
 /*
- * @(#)ProbabilityDistributions.hpp        6.1.0    2024-10-06
+ * @(#)ProbabilityDistributions.hpp        6.2.0    2026-11-13
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -219,9 +219,11 @@
 #ifndef ORG_MARIUSZGROMADA_MATH_MXPARSER_MATHCOLLECTION_PROBABILITYDISTRIBUTIONS_H
 #define ORG_MARIUSZGROMADA_MATH_MXPARSER_MATHCOLLECTION_PROBABILITYDISTRIBUTIONS_H
 
+#include "org/mariuszgromada/math/mxparser/mXparser.hpp"
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesStd.hpp"
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesUser.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/Random.hpp"
+#include <stdexcept>
 
 namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser::wrapper;
@@ -264,6 +266,35 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		// ***********************************************************
 
 		static double rndNormal(double mean, double stddev, const RandomPtr &rnd);
+		/**
+		 * Random number from normal distribution N(mean, stddev).
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * At this method's existing cancellation checks it returns Double::NaN.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param mean              Mean value.
+		 * @param stddev            Standard deviation.
+		 * @param rnd               Random number generator.
+		 * @return                  Double::NaN if mean or stddev or rnd is null or stddev is lower than 0 -
+		 *                          otherwise random number.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see rndNormal(double,double,RandomPtr)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double rndNormalWithCancel(double mean, double stddev, const RandomPtr &rnd, int cancelId);
 		static double rndNormal(double mean, double stddev);
 
 		// ***********************************************************
@@ -275,38 +306,389 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		// ***********************************************************
 
 		static double pdfStudentT(double x, double v);
+		/**
+		 * Probability distribution function - Student's t-distribution
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x   Given point.
+		 * @param v   Number of degrees of freedom.
+		 * @return    Returns the PDF of Student's t-distribution.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see pdfStudentT(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double pdfStudentTWithCancel(double x, double v, int cancelId);
 		static double cdfStudentT(double x, double v);
+		/**
+		 * Cumulative distribution function - Student's t-distribution
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x   Given point.
+		 * @param v   Number of degrees of freedom.
+		 * @return    Returns the CDF of Student's t-distribution.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see cdfStudentT(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double cdfStudentTWithCancel(double x, double v, int cancelId);
 		static double qntStudentT(double p, double v);
+		/**
+		 * Quantile function (Inverse cumulative distribution function)
+		 * - Student's t-distribution
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param p   Probability
+		 * @param v   Number of degrees of freedom.
+		 * @return    Returns the quantile of Student's t-distribution
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see qntStudentT(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double qntStudentTWithCancel(double p, double v, int cancelId);
 		static double rndStudentT(double v);
+		/**
+		 * Pseudo-random number from Student's t-distribution
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param v   Number of degrees of freedom.
+		 * @return    returns Pseudo-random number from Student's t-distribution
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see rndStudentT(double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double rndStudentTWithCancel(double v, int cancelId);
 
 		// ***********************************************************
 
 		static double pdfChiSquared(double x, double k);
+		/**
+		 * Probability distribution function - Chi-Squared distribution
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x   Given point.
+		 * @param k   Number of degrees of freedom.
+		 * @return    Returns the PDF of Chi-Squared t-distribution.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see pdfChiSquared(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double pdfChiSquaredWithCancel(double x, double k, int cancelId);
 		static double cdfChiSquared(double x, double k);
+		/**
+		 * Cumulative distribution function - Chi-Squared distribution
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x   Given point.
+		 * @param k   Number of degrees of freedom.
+		 * @return    Returns the CDF of Chi-Squared distribution.
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see cdfChiSquared(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double cdfChiSquaredWithCancel(double x, double k, int cancelId);
 		static double qntChiSquared(double p, double k);
+		/**
+		 * Quantile function (Inverse cumulative distribution function)
+		 * - Chi-Squared distribution
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param p   Probability
+		 * @param k   Number of degrees of freedom.
+		 * @return    Returns the quantile of Chi-Squared distribution
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see qntChiSquared(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double qntChiSquaredWithCancel(double p, double k, int cancelId);
 		static double rndChiSquared(double k);
+		/**
+		 * Pseudo-random number from Chi-Squared distribution
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param k   Number of degrees of freedom.
+		 * @return    returns Pseudo-random number from Chi-Squared distribution
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see rndChiSquared(double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double rndChiSquaredWithCancel(double k, int cancelId);
 
 		// ***********************************************************
 
 		static double pdfSnedecordF(double x, double d1, double d2);
+		/**
+		 * Probability distribution function - Snedecor's F distribution (F-distribution or F-ratio,
+		 * also known as Fisher–Snedecor distribution)
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x     Real value
+		 * @param d1    Number of degrees of freedom - 1
+		 * @param d2    Number of degrees of freedom - 2
+		 * @return      Returns the PDF of Snedecor's F distribution (F-distribution or F-ratio,
+		 * also known as Fisher–Snedecor distribution)
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see pdfSnedecordF(double,double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double pdfSnedecordFWithCancel(double x, double d1, double d2, int cancelId);
 		static double cdfSnedecordF(double x, double d1, double d2);
+		/**
+		 * Cumulative distribution function - Snedecor's F distribution (F-distribution or F-ratio,
+		 * also known as Fisher–Snedecor distribution)
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param x     Real value
+		 * @param d1    Number of degrees of freedom - 1
+		 * @param d2    Number of degrees of freedom - 2
+		 * @return      Returns the CDF of Snedecor's F distribution (F-distribution or F-ratio,
+		 *              also known as Fisher–Snedecor distribution)
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see cdfSnedecordF(double,double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double cdfSnedecordFWithCancel(double x, double d1, double d2, int cancelId);
 		static double qntSnedecordF(double p, double d1, double d2);
+		/**
+		 * Quantile function (Inverse cumulative distribution function) - Snedecor's F distribution (F-distribution
+		 * or F-ratio, also known as Fisher–Snedecor distribution)
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param p     Probability
+		 * @param d1    Number of degrees of freedom - 1
+		 * @param d2    Number of degrees of freedom - 2
+		 * @return      Returns the quantile of Snedecor's F distribution (F-distribution or F-ratio,
+		 *              also known as Fisher–Snedecor distribution)
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see qntSnedecordF(double,double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double qntSnedecordFWithCancel(double p, double d1, double d2, int cancelId);
 		static double rndSnedecordF(double d1, double d2);
+		/**
+		 * Pseudo-random number from Snedecor's F distribution (F-distribution or F-ratio,
+		 * also known as Fisher–Snedecor distribution)
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param d1    Number of degrees of freedom - 1
+		 * @param d2    Number of degrees of freedom - 2
+		 * @return      Returns Pseudo-random number from Snedecor's F distribution (F-distribution
+		 *              or F-ratio, also known as Fisher–Snedecor distribution)
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see rndSnedecordF(double,double)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double rndSnedecordFWithCancel(double d1, double d2, int cancelId);
 
 		// ***********************************************************
 
 		static double getRandomVariableValue(int randomVariableId);
+		/**
+		 * Returns random variable value, where random variable is represented by the
+		 * token id in the RandomVariable class
+		 *
+		 * <p>Cancellation is cooperative at the existing checks only. ID 0 uses global
+		 * cancellation; positive IDs combine the global signal with the domain signal.
+		 * This method does not clear either signal. Cached values and fast returns
+		 * may complete normally despite a pending signal. Separate IDs do not make
+		 * a shared mutable expression graph safe for concurrent calculations.
+		 * <p>There is no uniform cancellation result across the WithCancel family.
+		 * The existing returns of this method remain in effect; a caller using a
+		 * sentinel may throw an exception. Querying the signal does not establish
+		 * whether this particular call observed cancellation.
+		 * @param randomVariableId Please refer to RandomVariable class.
+		 * @return Returns random variable value if id is known, otherwise Double::NaN is returned.
+		 *
+		 * @see RandomVariable
+		 * @param cancelId cancellation domain in 0..MAX_CANCELLATION_TOKEN_ID
+		 * @throws std::invalid_argument if cancelId is outside the supported range
+		 * @since 6.2.0
+		 * @see getRandomVariableValue(int)
+		 * @see mXparser#cancelCalculation(int)
+		 * @see mXparser#resetCalculationCancellation(int)
+		 * @see mXparser#acquireCancellationTokenId()
+		 * @see mXparser#reserveCancellationTokenId(int)
+		 * @see mXparser#releaseCancellationTokenId(int)
+		 */
+		static double getRandomVariableValueWithCancel(int randomVariableId, int cancelId);
 
 		// ***********************************************************
 
 	private:
 		static ExpressionPtr createSolveExpression(const ConstantPtr &pp, const ConstantPtr &vv);
-		static double cdfStudentTPositiveX(double x, double v);
+		static double cdfStudentTPositiveXWithCancel(double x, double v, int cancelId);
 
 		static ConstantPtr pp;
 		static ConstantPtr vv;
 		static ExpressionPtr qntSolveStud;
-		static double qntChengFuStudentTAlgorithm(double p, double v);
+		static double qntChengFuStudentTAlgorithmWithCancel(double p, double v, int cancelId);
 		static double qntHillsAlgorithm396(double p, double v);
 
 
