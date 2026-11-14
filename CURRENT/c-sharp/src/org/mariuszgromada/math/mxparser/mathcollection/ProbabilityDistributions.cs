@@ -342,9 +342,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double rndInteger(int a, int b, Random rnd) {
 			if (b < a) return Double.NaN;
 			if (a == b) return a;
-			int n = (b - a) + 1;
-			int r = a + rnd.Next(n);
-			return r;
+			long n = (long)b - a + 1;
+            if (n <= int.MaxValue) return (long)a + rnd.Next((int)n);
+            int value;
+            do {
+                value = unchecked((int)(((uint)rnd.Next(65536) << 16) | (uint)rnd.Next(65536)));
+            } while (value < a || value > b);
+            return value;
 		}
 		/// <summary>Random number from Uniform Discrete distribution.
 		/// over set interval (a, a+1, ..., b-1, b).</summary>
@@ -564,7 +568,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNaN(x)) return Double.NaN;
 			if (Double.IsNaN(v)) return Double.NaN;
 			if (v <= 0) return Double.NaN;
-			if (x == Double.PositiveInfinity) return 0;
+			if (x == Double.NegativeInfinity) return 0;
 			if (x == Double.PositiveInfinity) return 0;
 
 			if (BinaryRelations.isEqualOrAlmost(v, 1))
@@ -584,6 +588,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 
 			if (v == Double.PositiveInfinity)
 				return 1.0 / MathConstants.SQRT2Pi * Math.Exp(-x*x / 2.0);
+			if (v > 200.0)
+				return Math.Exp(SpecialFunctions.logGammaWithCancel((v + 1.0)/2.0, cancelId)
+						- SpecialFunctions.logGammaWithCancel(v/2.0, cancelId)
+						- 0.5 * (Math.Log(v) + Math.Log(MathConstants.PI))
+						- ((v + 1.0)/2.0) * Math.Log(1.0 + x*x/v));
 
 			return SpecialFunctions.gammaWithCancel((v + 1.0) / 2.0, cancelId) / (Math.Sqrt(v*MathConstants.PI) * SpecialFunctions.gammaWithCancel(v/2.0, cancelId)) * Math.Pow(1.0 + x*x/v, -((v + 1.0)/2.0));
 		}
@@ -609,6 +618,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 
 			if (v == Double.PositiveInfinity)
 				return 0.5 * (1.0 + SpecialFunctions.erf(x / MathConstants.SQRT2) );
+			if (v > 200.0)
+				return 1.0 - 0.5 * SpecialFunctions.regularizedBetaWithCancel(v/2.0, 0.5, v/(v+x*x), cancelId);
 
 			return 1.0 / 2.0 + x * SpecialFunctions.gammaWithCancel((v + 1.0) / 2.0, cancelId) * SpecialFunctions.hypergeometricFWithCancel(1.0 / 2.0, (v + 1.0) / 2.0, 3.0/2.0, -Math.Pow(x, 2.0) / v, 300, 1e-14, cancelId) / (Math.Sqrt(MathConstants.PI * v) * SpecialFunctions.gammaWithCancel(v / 2.0, cancelId));
 		}
@@ -655,6 +666,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 
 			if (x > 0)
 				return cdfStudentTPositiveXWithCancel(x, v, cancelId);
+			else if (v > 200.0 && v < Double.PositiveInfinity)
+				return 0.5 * SpecialFunctions.regularizedBetaWithCancel(v/2.0, 0.5, v/(v+x*x), cancelId);
 			else
 				return 1.0 - cdfStudentTPositiveXWithCancel(-x, v, cancelId);
 		}
@@ -898,6 +911,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (k < 1.0) return Double.NaN;
 			if (x < 0.0) return 0.0;
 			if (BinaryRelations.isEqualOrAlmost(x, 0.0)) return 0.0;
+			if (k > 200.0)
+				return Math.Exp((k/2.0 - 1.0)*Math.Log(x) - x/2.0
+						- k/2.0 * 0.69314718055994530942 - SpecialFunctions.logGammaWithCancel(k/2.0, cancelId));
 			return ( Math.Pow(x, k/2.0 - 1.0) * Math.Exp(-x/2.0) ) / ( Math.Pow(2, k/2.0) * SpecialFunctions.gammaWithCancel(k / 2.0, cancelId) );
 		}
 		/// <summary>Cumulative distribution function - Chi-Squared distribution</summary>
@@ -1075,6 +1091,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (BinaryRelations.isEqualOrAlmost(x, 0.0)) return 0.0;
 			double d1div2 = d1 / 2.0;
 			double d2div2 = d2 / 2.0;
+			if (d1 + d2 > 200.0) {
+				double logRatio = Math.Log(d1) - Math.Log(d2) + Math.Log(x);
+				double logSum = logRatio > 0.0 ? logRatio + Math.Log(1.0 + Math.Exp(-logRatio)) : Math.Log(1.0 + Math.Exp(logRatio));
+				return Math.Exp(d1div2*logRatio - (d1div2 + d2div2)*logSum - Math.Log(x)
+						- SpecialFunctions.logBetaWithCancel(d1div2, d2div2, cancelId));
+			}
 			return ( ( Math.Pow(d1*x, d1div2) * Math.Pow(d2, d2div2) ) / Math.Pow(d1*x + d2, d1div2 + d2div2 ) ) / ( x * SpecialFunctions.betaWithCancel(d1div2, d2div2, cancelId) );
 		}
 		/// <summary>Cumulative distribution function - Snedecor's F distribution (F-distribution or F-ratio,

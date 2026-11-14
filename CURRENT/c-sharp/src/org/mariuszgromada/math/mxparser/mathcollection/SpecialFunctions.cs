@@ -281,7 +281,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double A0 = 0.0;
 			double Bm1 = 0.0;
 			double B0 = 1.0;
-			double a = Math.Exp(x);
+			bool scaled = x > 700.0;
+			double a = scaled ? 1.0 : Math.Exp(x);
 			double b = -x + 1.0;
 			double Ap1 = b * A0 + a * Am1;
 			double Bp1 = b * B0 + a * Bm1;
@@ -306,7 +307,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				Bp1 = b * B0 + a * Bm1;
 				j += 1;
 			}
-			return (-Ap1 / Bp1);
+			double result = -Ap1 / Bp1;
+			return scaled ? Math.Exp(x + Math.Log(result)) : result;
 		}
 		/// <summary>Supporting function
 		/// while Exponential integral function Ei(x) calculation</summary>
@@ -623,13 +625,21 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (n == 9) return 1.0*2.0*3.0*4.0*5.0*6.0*7.0*8.0;
 			if (n == 10) return 1.0*2.0*3.0*4.0*5.0*6.0*7.0*8.0*9.0;
 			if (n >= 11) return MathFunctions.factorialWithCancel(n-1, cancelId);
-			//if (n == -1) return MathConstants.EULER_MASCHERONI - 1;
 			if (n <= -1) {
-				long r = -n;
-				double factr = MathFunctions.factorialWithCancel(r, cancelId);
-				double sign = -1;
-				if (r % 2 == 0) sign = 1;
-				return sign / (r * factr) - (1.0 / r) * gammaIntWithCancel(n + 1, cancelId);
+				// Preserve the finite pole convention: (-1)^r * (H_r + gamma) / r!.
+				// The recurrence underflows after fewer than 180 steps, even for huge |n|.
+				double result = MathConstants.EULER_MASCHERONI;
+				double inverseFactorial = 1.0;
+				double sign = 1.0;
+				for (int r = 1; -((long)r) >= n; r++) {
+					if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
+					inverseFactorial /= r;
+					sign = -sign;
+					result = sign * inverseFactorial / r - result / r;
+					if (result == 0.0 && inverseFactorial == 0.0)
+						return n % 2 == 0 ? 0.0 : -0.0;
+				}
+				return result;
 			}
 			return Double.NaN;
 		}
@@ -721,13 +731,18 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					return Double.NaN;
 			} else return Double.NaN;
 			if (x < 0.5) return MathConstants.PI / (Math.Sin(MathConstants.PI * x) * lanchosGammaWithCancel(1.0-x, cancelId));
-            double g = 7.0;
-            double[] coefficients = Coefficients.lanchosGamma;
-            x -= 1.0;
+			if (x > 171.0) return Math.Exp(logGammaWithCancel(x, cancelId));
+			double g = 7.0;
+			double[] coefficients = Coefficients.lanchosGamma;
+			x -= 1.0;
 			double a = coefficients[0];
 			double t = x+g+0.5;
 			for (int i = 1; i < coefficients.Length; i++){
 				a += coefficients[i] / (x+i);
+			}
+			if (x > 140.0) {
+				double halfPower = Math.Pow(t, (x+0.5)/2.0);
+				return Math.Sqrt(2.0*MathConstants.PI) * (halfPower * Math.Exp(-t)) * halfPower * a;
 			}
 			return Math.Sqrt(2.0*MathConstants.PI) * Math.Pow(t, x+0.5) * Math.Exp(-t) * a;
 		}
@@ -764,7 +779,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNaN(x)) return Double.NaN;
 			if (Double.IsPositiveInfinity(x)) return Double.PositiveInfinity;
 			if (Double.IsNegativeInfinity(x)) return Double.NaN;
-			if (MathFunctions.isInteger(x)) {
+			if (x < 172.0 && MathFunctions.isInteger(x)) {
 				if (x >= 0)
 					return Math.Log( Math.Abs( gammaIntWithCancel( (long)(Math.Round(x) ) , cancelId) ) );
 				else
@@ -901,6 +916,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (s < 0) {
 				double sNext = s + 1;
 				if (sNext == s) return Double.NaN;
+				if (MathFunctions.isInteger(s))
+					return 1.0 - incompleteGammaUpperNegativeIntegerWithCancel(s, x, cancelId) / gammaWithCancel(s, cancelId);
 				return regularizedGammaLowerPWithCancel(sNext, x, cancelId) + ( Math.Pow(x,  s) * Math.Exp(-x) ) / ( s * gammaWithCancel(s, cancelId) );
 			}
 
@@ -909,7 +926,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			const double bigNumberInverse = 2.22044604925031308085e-16;
 
 			double ax = (s * Math.Log(x)) - x - logGammaWithCancel(s, cancelId);
-			if (ax < -709.78271289338399) {
+			if (ax < -709.78271289338399 && x > s) {
 				return 1;
 			}
 
@@ -1085,6 +1102,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double incompleteGammaLowerWithCancel(double s, double x, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
+			if (s < 0 && s + 1 != s && MathFunctions.isInteger(s) && x > 0 && !MathFunctions.almostEqual(x, 0))
+				return gammaWithCancel(s, cancelId) - incompleteGammaUpperNegativeIntegerWithCancel(s, x, cancelId);
 			return gammaWithCancel(s, cancelId) * regularizedGammaLowerPWithCancel(s, x, cancelId);
 		}
 		/// <summary>Regularized upper gamma function 'Q'</summary>
@@ -1135,12 +1154,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (s < 0) {
 				double sNext = s + 1;
 				if (sNext == s) return Double.NaN;
+				if (MathFunctions.isInteger(s))
+					return incompleteGammaUpperNegativeIntegerWithCancel(s, x, cancelId) / gammaWithCancel(s, cancelId);
 				return regularizedGammaUpperQWithCancel(sNext, x, cancelId) - ( Math.Pow(x,  s) * Math.Exp(-x) ) / ( s * gammaWithCancel(s, cancelId) );
 			}
 
 			double ax = s * Math.Log(x) - x - logGammaWithCancel(s, cancelId);
-			if (ax < -709.78271289338399) {
-        		return 0;
+			if (ax < -709.78271289338399 && x < s) {
+                return 1;
 			}
 			double t;
 			const double igammaepsilon = 0.000000000000001;
@@ -1218,7 +1239,41 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double incompleteGammaUpperWithCancel(double s, double x, int cancelId) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
+			if (s < 0 && s + 1 != s && MathFunctions.isInteger(s) && x > 0 && !MathFunctions.almostEqual(x, 0))
+				return incompleteGammaUpperNegativeIntegerWithCancel(s, x, cancelId);
 			return gammaWithCancel(s, cancelId) * regularizedGammaUpperQWithCancel(s, x, cancelId);
+		}
+		// DLMF 8.8.2 and 8.9.2; preserve finite full-Gamma pole convention.
+		private static double incompleteGammaUpperNegativeIntegerWithCancel(double s, double x, int cancelId) {
+			if (x > 745.0) return 0.0;
+			double order = Math.Round(-s);
+			if (order <= 100.0 && x <= 2.0) {
+				double result = -exponentialIntegralEiWithCancel(-x, cancelId);
+				double logX = Math.Log(x);
+				for (int k = 1; k <= order; k++) {
+					if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
+					result = Math.Exp(-k*logX - x - Math.Log(k)) - result/k;
+				}
+				return result;
+			}
+			double b = x + 1.0 - s;
+			double c = 1e300;
+			double d = 1.0/b;
+			double h = d;
+			for (int i = 1; i <= 10000; i++) {
+				if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
+				double an = -i*(i-s);
+				b += 2.0;
+				d = an*d + b;
+				if (Math.Abs(d) < 1e-300) d = 1e-300;
+				c = b + an/c;
+				if (Math.Abs(c) < 1e-300) c = 1e-300;
+				d = 1.0/d;
+				double delta = d*c;
+				h *= delta;
+				if (Math.Abs(delta-1.0) < 1e-15) break;
+			}
+			return Math.Exp(s*Math.Log(x) - x + Math.Log(h));
 		}
 		/// <summary>Digamma function as the logarithmic derivative of the Gamma special function</summary>
 		/// <param name="x">Argument value</param>

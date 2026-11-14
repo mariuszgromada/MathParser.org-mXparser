@@ -1196,6 +1196,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/// <summary>Sets default mXparser options</summary>
 		public static void setDefaultOptions() {
 			enableUlpRounding();
+			enableCanonicalRounding();
 			enableAlmostIntRounding();
 			setDefaultMaxAllowedRecursionDepth();
 			setNotToOverrideBuiltinTokens();

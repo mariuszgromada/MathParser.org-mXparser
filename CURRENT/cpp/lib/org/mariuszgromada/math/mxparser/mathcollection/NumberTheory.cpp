@@ -721,22 +721,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (a == 0) return Double::NaN;
 		if (b == 0) return Double::NaN;
 		if (a == b) return a;
-		double quotient;
 		while (b != 0.0) {
 			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
-			if (a > b) {
-				quotient = Math::floor(a / b) - 1;
-				if (quotient > 0)
-					a = Math::floor(a - b * quotient);
-				else
-					a = Math::floor(a - b);
-			} else {
-				quotient = Math::floor(b / a) - 1;
-				if (quotient > 0)
-					b = Math::floor(b - a * quotient);
-				else
-					b = Math::floor(b - a);
-			}
+			double remainder = std::fmod(a, b);
+			a = b;
+			b = remainder;
+			if (Double::isNaN(b)) return Double::NaN;
 		}
 		return a;
 	}
@@ -846,7 +836,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		if (numbers->length == 1)
-			MathFunctions::floor(MathFunctions::abs((*numbers)(0)));
+			return MathFunctions::floor(MathFunctions::abs((*numbers)(0)));
 		if (numbers->length == 2)
 			return lcmWithCancel((*numbers)(0), (*numbers)(1), cancelId);
 		for (int i = 1; i < numbers->length; i++) {

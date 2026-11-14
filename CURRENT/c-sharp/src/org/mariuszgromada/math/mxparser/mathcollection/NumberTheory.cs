@@ -878,23 +878,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (a == 0) return Double.NaN;
 			if (b == 0) return Double.NaN;
 			if (a == b) return a;
-			double quotient;
 			while (b != 0.0) {
 				if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
-				if (a > b) {
-					quotient = Math.Floor(a / b) - 1;
-					if (quotient > 0)
-						a = Math.Floor(a - b * quotient);
-					else
-						a = Math.Floor(a - b);
-				}
-				else {
-					quotient = Math.Floor(b / a) - 1;
-					if (quotient > 0)
-						b = Math.Floor(b - a * quotient);
-					else
-						b = Math.Floor(b - a);
-				}
+				double remainder = a % b;
+				a = b;
+				b = remainder;
+				if (Double.IsNaN(b)) return Double.NaN;
 			}
 			return a;
 		}
@@ -1029,9 +1018,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
 			a = Math.Abs(a);
 			b = Math.Abs(b);
-			if ((a == 0) || (b == 0))
+			if ( (a == 0) || (b == 0) )
 				return 0;
-			return (a * b) / gcdWithCancel(a, b, cancelId);
+			return (a / gcdWithCancel(a, b, cancelId)) * b;
 		}
 		/// <summary>Latest common multiply (LCM)</summary>
 		/// <param name="a">the a function parameter</param>
@@ -1161,7 +1150,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			if (numbers.Length == 1)
-				MathFunctions.floor(MathFunctions.abs(numbers[0]));
+				return MathFunctions.floor(MathFunctions.abs(numbers[0]));
 			if (numbers.Length == 2)
 				return lcmWithCancel(numbers[0], numbers[1], cancelId);
 			for (int i = 1; i < numbers.Length; i++) {

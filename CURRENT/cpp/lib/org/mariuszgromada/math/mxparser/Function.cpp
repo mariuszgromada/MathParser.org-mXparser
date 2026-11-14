@@ -592,8 +592,11 @@ namespace org::mariuszgromada::math::mxparser {
 	                           const ListPtr<PrimitiveElementPtr> &elements) {
 		if (StringUtils::regexMatch(functionDefinitionString, ParserSymbol::functionDefStrRegExp)) {
 			HeadEqBodyPtr headEqBody = new_HeadEqBody(functionDefinitionString);
+			setExpressionModifiedFlags();
+			ExpressionPtr previousExpression = functionExpression;
 			this->functionName = headEqBody->headTokens->get(0)->tokenStr;
 			functionExpression = new_Expression(headEqBody->bodyStr, elements);
+			functionExpression->relatedExpressionsList = previousExpression->relatedExpressionsList;
 			functionExpression->setDescription(headEqBody->headStr);
 			functionExpression->UDFExpression = true;
 			isVariadic = false;
@@ -607,8 +610,11 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 		if (StringUtils::regexMatch(functionDefinitionString, ParserSymbol::functionVariadicDefStrRegExp)) {
 			HeadEqBodyPtr headEqBody = new_HeadEqBody(functionDefinitionString);
+			setExpressionModifiedFlags();
+			ExpressionPtr previousExpression = functionExpression;
 			this->functionName = headEqBody->headTokens->get(0)->tokenStr;
 			functionExpression = new_Expression(headEqBody->bodyStr, elements);
+			functionExpression->relatedExpressionsList = previousExpression->relatedExpressionsList;
 			functionExpression->setDescription(headEqBody->headStr);
 			functionExpression->UDFExpression = true;
 			isVariadic = true;

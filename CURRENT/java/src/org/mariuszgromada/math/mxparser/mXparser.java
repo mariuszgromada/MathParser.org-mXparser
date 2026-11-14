@@ -1351,6 +1351,7 @@ public final class mXparser {
 	 */
 	public static synchronized void setDefaultOptions() {
 		enableUlpRounding();
+		enableCanonicalRounding();
 		enableAlmostIntRounding();
 		setDefaultMaxAllowedRecursionDepth();
 		setNotToOverrideBuiltinTokens();

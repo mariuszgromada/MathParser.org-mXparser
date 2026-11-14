@@ -366,6 +366,9 @@ namespace org::mariuszgromada::math::mxparser {
 			iAmFullyConstructed = true;
 		}
 
+		Expression(char *expressionString, bool parserKeyWordsOnly)
+			: Expression(static_cast<const char *>(expressionString), parserKeyWordsOnly) { }
+
 		// 1 =========================================================================
 
 		/**
@@ -407,6 +410,11 @@ namespace org::mariuszgromada::math::mxparser {
 			addDefinitions(FORWARD_PRIMITIVE(elements)...);
 			iAmFullyConstructed = true;
 		}
+
+		template<typename... PrimitiveElements>
+		explicit Expression(char *expressionString, PrimitiveElements &&... elements)
+			: Expression(static_cast<const char *>(expressionString), FORWARD_PRIMITIVE(elements)...) { }
+
 
 		/**
 		 * \brief Constructor - creates new expression from expression string.
@@ -3078,6 +3086,11 @@ namespace org::mariuszgromada::math::mxparser {
 		return expression;
 	}
 
+	inline ExpressionPtr new_Expression(char *expressionString, bool parserKeyWordsOnly) {
+		return new_Expression(static_cast<const char *>(expressionString), parserKeyWordsOnly);
+	}
+
+
 	/**
 	 * \brief Default constructor - empty expression
 	 * \param elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
@@ -3121,6 +3134,14 @@ namespace org::mariuszgromada::math::mxparser {
 		expression->postConstructorSync();
 		return expression;
 	}
+
+	template<typename... PrimitiveElements>
+	ExpressionPtr new_Expression(char *expressionString, PrimitiveElements &&... elements) {
+		ExpressionPtr expression = std::make_shared<Expression>(static_cast<const char *>(expressionString), FORWARD_PRIMITIVE(elements)...);
+		expression->postConstructorSync();
+		return expression;
+	}
+
 
 	/**
 	 * \brief Constructor - creates new expression from expression string.

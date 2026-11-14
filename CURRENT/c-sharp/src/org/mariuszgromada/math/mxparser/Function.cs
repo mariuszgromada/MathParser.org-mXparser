@@ -542,8 +542,11 @@ namespace org.mariuszgromada.math.mxparser {
 		public void setFunction(String functionDefinitionString, params PrimitiveElement[] elements) {
 			if (StringUtils.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp)) {
 				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+				setExpressionModifiedFlags();
+				Expression previousExpression = functionExpression;
 				this.functionName = headEqBody.headTokens[0].tokenStr;
 				functionExpression = new Expression(headEqBody.bodyStr, elements);
+				functionExpression.relatedExpressionsList = previousExpression.relatedExpressionsList;
 				functionExpression.setDescription(headEqBody.headStr);
 				functionExpression.UDFExpression = true;
 				isVariadic = false;
@@ -557,8 +560,11 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			if (StringUtils.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp)) {
 				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+				setExpressionModifiedFlags();
+				Expression previousExpression = functionExpression;
 				this.functionName = headEqBody.headTokens[0].tokenStr;
 				functionExpression = new Expression(headEqBody.bodyStr, elements);
+				functionExpression.relatedExpressionsList = previousExpression.relatedExpressionsList;
 				functionExpression.setDescription(headEqBody.headStr);
 				functionExpression.UDFExpression = true;
 				isVariadic = true;

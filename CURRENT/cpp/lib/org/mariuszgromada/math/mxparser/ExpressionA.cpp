@@ -1575,7 +1575,8 @@ namespace org::mariuszgromada::math::mxparser {
 			registerSyntaxLexicalError(StringInvariant::EMPTY, syntaxChecker->errorMessages,
 			                           tokenMmanager->errorMessages);
 
-		registerFinalSyntax(StringInvariant::EMPTY, syntax);
+		errorMessage = StringModel::addErrorMassage(errorMessage, StringInvariant::EMPTY,
+			syntax == NO_SYNTAX_ERRORS ? StringModel::STRING_RESOURCES->NO_ERRORS_DETECTED : StringModel::STRING_RESOURCES->ERRORS_HAVE_BEEN_FOUND);
 		return syntax;
 	}
 
@@ -2427,7 +2428,7 @@ namespace org::mariuszgromada::math::mxparser {
 		int depArgPos, recArgPos, f3ArgPos, f2ArgPos;
 		int f1ArgPos, userFunPos, plusPos, minusPos;
 		int multiplyPos, dividePos, divideQuotientPos, powerPos, tetrationPos;
-		int powerNum, factPos, modPos, percPos;
+		int powerNum, powerSignPos, factPos, modPos, percPos;
 		int negPos, rootOperGroupPos, andGroupPos, orGroupPos;
 		int implGroupPos, bolPos, eqPos, neqPos;
 		int ltPos, gtPos, leqPos, geqPos;
@@ -2490,6 +2491,7 @@ namespace org::mariuszgromada::math::mxparser {
 			modPos = -1;
 			percPos = -1;
 			powerNum = 0;
+			powerSignPos = -1;
 			negPos = -1;
 			rootOperGroupPos = -1;
 			andGroupPos = -1;
@@ -2621,8 +2623,8 @@ namespace org::mariuszgromada::math::mxparser {
 						else if (token->tokenTypeId == Function1Arg::TYPE_ID && f1ArgPos < 0) f1ArgPos = pos;
 						else if (token->tokenTypeId == Function::TYPE_ID && userFunPos < 0) userFunPos = pos;
 						else if (token->tokenTypeId == Operator::TYPE_ID) {
-							if (token->tokenId == Operator::POWER_ID && leftIsNumber && rigthIsNumber) {
-								powerPos = pos;
+							if (token->tokenId == Operator::POWER_ID) {
+								powerPos = leftIsNumber && rigthIsNumber ? pos : -1;
 								powerNum++;
 							} else if (token->tokenId == Operator::TETRATION_ID && leftIsNumber && rigthIsNumber) tetrationPos = pos;
 							else if (token->tokenId == Operator::FACT_ID && factPos < 0 && leftIsNumber) factPos = pos;
@@ -2664,15 +2666,22 @@ namespace org::mariuszgromada::math::mxparser {
 					/*
 					 * powering should be done using backwards sequence
 					 */
-					if (powerNum > 1) {
-						powerPos = -1;
-						p = rPos + 1;
+					if (powerNum > 0 && powerPos < 0) {
+						p = rPos+1;
 						do {
 							p--;
-							const TokenPtr & token = tokensList->getRef(p);
-							if (token->tokenTypeId == Operator::TYPE_ID && token->tokenId == Operator::POWER_ID)
-								powerPos = p;
-						} while (p > lPos && powerPos == -1);
+							const TokenPtr &token = tokensList->getRef(p);
+							if (token->tokenTypeId == Operator::TYPE_ID && token->tokenId == Operator::POWER_ID) {
+								if (p + 2 <= rPos) {
+									const TokenPtr &sign = tokensList->getRef(p+1);
+									if (sign->tokenTypeId == Operator::TYPE_ID &&
+											(sign->tokenId == Operator::MINUS_ID || sign->tokenId == Operator::PLUS_ID) &&
+											tokensList->getRef(p+2)->tokenTypeId == ParserSymbol::NUMBER_TYPE_ID)
+										powerSignPos = p+1;
+								}
+								break;
+							}
+						} while (p > lPos);
 					}
 				}
 			}
@@ -2695,6 +2704,10 @@ namespace org::mariuszgromada::math::mxparser {
 			else if (modPos >= 0) MODULO(modPos);
 			else if (negPos >= 0) NEG(negPos);
 			else if (rootOperGroupPos >= 0) rootOperCalc(rootOperGroupPos);
+			else if (powerSignPos >= 0) {
+				if (tokensList->getRef(powerSignPos)->tokenId == Operator::MINUS_ID) MINUS(powerSignPos);
+				else PLUS(powerSignPos);
+			}
 			else if (bitwiseComplPos >= 0) BITWISE_COMPL(bitwiseComplPos);
 			else if (multiplyPos >= 0 || dividePos >= 0 || divideQuotientPos >= 0) {
 				firstPos = ExpressionUtils::findNonNegativeMinimum(multiplyPos, dividePos, divideQuotientPos);
@@ -4518,7 +4531,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::copyInitialTokens() {
 		bool prepareInitialTokensListInfo = false;
-		if (initialCompilationDetails == nullptr) {
+		if (initialCompilationDetails == nullptr || !isFullyCompiled) {
 			initialCompilationDetails = new_CompilationDetails();
 			initialCompilationDetails->compiledElements = new_List<CompiledElementPtr>();
 			prepareInitialTokensListInfo = true;
@@ -4770,7 +4783,7 @@ namespace org::mariuszgromada::math::mxparser {
 		ExpressionPtr newExp = new_Expression(THIS(Expression), false, CloneCache::Null);
 		if (initialTokens != nullptr && !initialTokens->isEmpty()) {
 			newExp->initialTokens = createInitialTokens(0, initialTokens->size() - 1, initialTokens);
-			newExp->initialCompilationDetails = initialCompilationDetails;
+			newExp->initialCompilationDetails = isFullyCompiled ? initialCompilationDetails : nullptr;
 		}
 		return newExp;
 	}
@@ -4813,7 +4826,7 @@ namespace org::mariuszgromada::math::mxparser {
 			expressionClone = new_Expression(thisPtr, true, cloneCache);
 			if (initialTokens != nullptr && !initialTokens->isEmpty()) {
 				expressionClone->initialTokens = createInitialTokens(0, initialTokens->size() - 1, initialTokens);
-				expressionClone->initialCompilationDetails = initialCompilationDetails;
+				expressionClone->initialCompilationDetails = isFullyCompiled ? initialCompilationDetails : nullptr;
 			}
 			cloneCache->clearCloneInProgress(thisPtr);
 			cloneCache->cacheExpressionClone(thisPtr, expressionClone);

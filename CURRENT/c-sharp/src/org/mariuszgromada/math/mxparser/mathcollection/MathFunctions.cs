@@ -404,7 +404,21 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (n > 1) {
 				n -= 1;
 				if ((long)(n + 1) * (n + 1) >= int.MaxValue) return Double.NaN;
-				long[,] bellTriangle = new long[n+1, n+1];
+				// Bell(25) is the last Bell number representable by a signed long.
+				if (n < 25) {
+					long[,] bellTriangleLong = new long[n+1, n+1];
+					bellTriangleLong[0, 0] = 1;
+					bellTriangleLong[1, 0] = 1;
+					for (int r = 1; r <= n; r++) {
+						for (int k = 0; k < r; k++)
+							bellTriangleLong[r, k+1] = bellTriangleLong[r-1, k] + bellTriangleLong[r, k];
+						if (r < n)
+							bellTriangleLong[r+1, 0] = bellTriangleLong[r, r];
+						if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
+					}
+					return bellTriangleLong[n, n];
+				}
+				double[,] bellTriangle = new double[n+1, n+1];
 				bellTriangle[0, 0] = 1;
 				bellTriangle[1, 0] = 1;
 				for (int r = 1; r <= n; r++) {
@@ -1419,7 +1433,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (n <= 0)
 				return 0;
 			if (n == 1)
-				return x;
+				return 1;
 			double h = 1;
 			for (double k = 2.0; k <= n; k++) {
 				h += 1 / power(k, x);
@@ -1535,13 +1549,16 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (n == 1)
 				return 1;
 			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
-			double f1 = fibonacciNumberWithCancel(n - 1, recursionCall + 1, cancelId);
-			if (Double.IsNaN(f1))
-				return Double.NaN;
-			double f2 = fibonacciNumberWithCancel(n - 2, recursionCall + 1, cancelId);
-			if (Double.IsNaN(f2))
-				return Double.NaN;
-			return f1 + f2;
+			if (n > MAX_RECURSION_CALLS - recursionCall + 1) return Double.NaN;
+			double previous = 0;
+			double result = 1;
+			for (int i = 2; i <= n; i++) {
+				if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
+				double next = result + previous;
+				previous = result;
+				result = next;
+			}
+			return result;
 		}
 		/// <summary>Fibonacci numbers</summary>
 		/// <param name="n">the n function parameter</param>
@@ -1634,13 +1651,16 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (n == 1)
 				return 1;
 			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
-			double l1 = lucasNumberWithCancel(n - 1, recursionCall + 1, cancelId);
-			if (Double.IsNaN(l1))
-				return Double.NaN;
-			double l2 = lucasNumberWithCancel(n - 2, recursionCall + 1, cancelId);
-			if (Double.IsNaN(l2))
-				return Double.NaN;
-			return l1 + l2;
+			if (n > MAX_RECURSION_CALLS - recursionCall + 1) return Double.NaN;
+			double previous = 2;
+			double result = 1;
+			for (int i = 2; i <= n; i++) {
+				if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
+				double next = result + previous;
+				previous = result;
+				result = next;
+			}
+			return result;
 		}
 		/// <summary>Lucas numebrs</summary>
 		/// <param name="n">the n function parameter</param>
@@ -2637,15 +2657,27 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double arsinh(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
-			return Math.Log(a + Math.Sqrt(a*a+1));
+			double magnitude = Math.Abs(a);
+			if (magnitude < 1e-8) return a;
+			if (magnitude < 0.01) {
+				double square = a*a;
+				return a * (1.0 - square * (1.0/6.0 - square * (3.0/40.0 - square * (5.0/112.0))));
+			}
+			double result;
+			if (magnitude > 1e150)
+				result = Math.Log(magnitude) + 0.69314718055994530942;
+			else
+				result = Math.Log(magnitude + Math.Sqrt(magnitude*magnitude+1));
+			return a < 0 ? -result : result;
 		}
 		/// <summary>Arcus hyperbolic cosine - inverse hyperbolic cosine function.</summary>
 		/// <param name="a">the a function parameter</param>
 		/// <returns>if a &lt;&gt; Double.NaN returns Math.log(a + Math.sqrt(a*a-1)),
 		///             otherwise returns Double.NaN.</returns>
 		public static double arcosh(double a) {
-			if (Double.IsNaN(a))
+			if (Double.IsNaN(a) || a < 1)
 				return Double.NaN;
+			if (a > 1e150) return Math.Log(a) + 0.69314718055994530942;
 			return Math.Log(a + Math.Sqrt(a*a-1));
 		}
 		/// <summary>Arcus hyperbolic tangent - inverse hyperbolic tangent function.</summary>
@@ -2707,6 +2739,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double result = Double.NaN;
 			if (x != 0)
 				result = Math.Sin(x) / (x);
+			else result = 1.0;
 			return result;
 		}
 		/// <summary>Sinc function.</summary>
@@ -3322,9 +3355,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 #else
             String valueStr = value.ToString("G17", CultureInfo.InvariantCulture);
 #endif
+            int exponentPos = valueStr.IndexOf('E');
+            if (exponentPos < 0) exponentPos = valueStr.IndexOf('e');
+            int mantissaEnd = exponentPos < 0 ? valueStr.Length : exponentPos;
             int dotPos = valueStr.IndexOf('.');
-			if (dotPos >= 0) return valueStr.Length - 1 - dotPos;
-			return 0;
+            int fractionalDigits = dotPos < 0 ? 0 : mantissaEnd - 1 - dotPos;
+            int exponent = exponentPos < 0 ? 0 : int.Parse(valueStr.Substring(exponentPos + 1), CultureInfo.InvariantCulture);
+            return Math.Max(0, fractionalDigits - exponent);
 		}
 		/// <summary>Intelligent rounding of a number within the decimal position of the ULP (Unit in the Last Place),
 		/// provided that the result is significantly shortened in the standard decimal notation. Examples:

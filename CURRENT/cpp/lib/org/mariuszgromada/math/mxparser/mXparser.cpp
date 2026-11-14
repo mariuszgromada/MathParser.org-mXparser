@@ -855,6 +855,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 	API_VISIBLE void mXparser::setDefaultOptions() {
 		enableUlpRounding();
+		enableCanonicalRounding();
 		enableAlmostIntRounding();
 		setDefaultMaxAllowedRecursionDepth();
 		setNotToOverrideBuiltinTokens();

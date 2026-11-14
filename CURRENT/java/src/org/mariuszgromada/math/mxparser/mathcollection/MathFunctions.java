@@ -391,7 +391,21 @@ public final class MathFunctions {
 		if (n > 1) {
 			n -= 1;
 			if ( (long)(n+1)*(n+1) >= Integer.MAX_VALUE ) return Double.NaN;
-			long[][] bellTriangle = new long[n+1][n+1];
+			// Bell(25) is the last Bell number representable by a signed long.
+			if (n < 25) {
+				long[][] bellTriangle = new long[n+1][n+1];
+				bellTriangle[0][0] = 1;
+				bellTriangle[1][0] = 1;
+				for (int r = 1; r <= n; r++) {
+					for (int k = 0; k < r; k++)
+						bellTriangle[r][k+1] = bellTriangle[r-1][k] + bellTriangle[r][k];
+					if (r < n)
+						bellTriangle[r+1][0] = bellTriangle[r][r];
+					if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
+				}
+				return bellTriangle[n][n];
+			}
+			double[][] bellTriangle = new double[n+1][n+1];
 			bellTriangle[0][0] = 1;
 			bellTriangle[1][0] = 1;
 			for (int r = 1; r <= n; r++) {
@@ -1580,7 +1594,7 @@ public final class MathFunctions {
 		if (n <= 0)
 			return 0;
 		if (n == 1)
-			return x;
+			return 1;
 		double h = 1;
 		for (double k = 2.0; k <= n; k++) {
 			h += 1 / power(k, x);
@@ -1722,13 +1736,16 @@ public final class MathFunctions {
 		if (n == 1)
 			return 1;
 		if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
-		double f1 = fibonacciNumberWithCancel(n - 1, recursionCall + 1, cancelId);
-		if (Double.isNaN(f1))
-			return Double.NaN;
-		double f2 = fibonacciNumberWithCancel(n - 2, recursionCall + 1, cancelId);
-		if (Double.isNaN(f2))
-			return Double.NaN;
-		return f1 + f2;
+		if (n > MAX_RECURSION_CALLS - recursionCall + 1) return Double.NaN;
+		double previous = 0;
+		double result = 1;
+		for (int i = 2; i <= n; i++) {
+			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
+			double next = result + previous;
+			previous = result;
+			result = next;
+		}
+		return result;
 	}
 	/**
 	 * Fibonacci numbers
@@ -1839,13 +1856,16 @@ public final class MathFunctions {
 		if (n == 1)
 			return 1;
 		if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
-		double l1 = lucasNumberWithCancel(n - 1, recursionCall + 1, cancelId);
-		if (Double.isNaN(l1))
-			return Double.NaN;
-		double l2 = lucasNumberWithCancel(n - 2, recursionCall + 1, cancelId);
-		if (Double.isNaN(l2))
-			return Double.NaN;
-		return l1 + l2;
+		if (n > MAX_RECURSION_CALLS - recursionCall + 1) return Double.NaN;
+		double previous = 2;
+		double result = 1;
+		for (int i = 2; i <= n; i++) {
+			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
+			double next = result + previous;
+			previous = result;
+			result = next;
+		}
+		return result;
 	}
 	/**
 	 * Lucas numebrs
@@ -2967,7 +2987,18 @@ public final class MathFunctions {
 	public static double arsinh(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
-		return Math.log(a + Math.sqrt(a*a+1));
+		double magnitude = Math.abs(a);
+		if (magnitude < 1e-8) return a;
+		if (magnitude < 0.01) {
+			double square = a*a;
+			return a * (1.0 - square * (1.0/6.0 - square * (3.0/40.0 - square * (5.0/112.0))));
+		}
+		double result;
+		if (magnitude > 1e150)
+			result = Math.log(magnitude) + 0.69314718055994530942;
+		else
+			result = Math.log(magnitude + Math.sqrt(magnitude*magnitude+1));
+		return a < 0 ? -result : result;
 	}
 	/**
 	 * Arcus hyperbolic cosine - inverse hyperbolic cosine function.
@@ -2978,8 +3009,9 @@ public final class MathFunctions {
 	 *             otherwise returns Double.NaN.
 	 */
 	public static double arcosh(double a) {
-		if (Double.isNaN(a))
+		if (Double.isNaN(a) || a < 1)
 			return Double.NaN;
+		if (a > 1e150) return Math.log(a) + 0.69314718055994530942;
 		return Math.log(a + Math.sqrt(a*a-1));
 	}
 	/**

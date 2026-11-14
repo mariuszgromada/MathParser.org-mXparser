@@ -245,10 +245,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE RandomPtr ProbabilityDistributions::randomGenerator = new_Random();
 
 	API_VISIBLE ExpressionPtr ProbabilityDistributions::createSolveExpression(const ConstantPtr &ppp, const ConstantPtr &vvv) {
-		// TODO
-		//ExpressionPtr e = new_Expression(static_cast<const StringPtr &>(S(UTF"solve( cStud(x, v) - p, x, -100000000000000.0, 100000000000000.0)")), ppp, vvv);
-		//e->checkSyntax();
-		return nullptr;
+		return new_Expression(UTF("solve( cStud(x, v) - p, x, -100000000000000.0, 100000000000000.0)"), ppp, vvv);
 	}
 
 	API_VISIBLE ExpressionPtr ProbabilityDistributions::qntSolveStud = nullptr;
@@ -484,6 +481,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		if (v == Double::POSITIVE_INFINITY)
 			return 1.0 / MathConstants::SQRT2Pi * Math::exp(-x * x / 2.0);
+		if (v > 200.0)
+			return Math::exp(SpecialFunctions::logGammaWithCancel((v + 1.0)/2.0, cancelId)
+					- SpecialFunctions::logGammaWithCancel(v/2.0, cancelId)
+					- 0.5 * (Math::log(v) + Math::log(MathConstants::PI))
+					- ((v + 1.0)/2.0) * Math::log(1.0 + x*x/v));
 
 		return SpecialFunctions::gammaWithCancel((v + 1.0) / 2.0, cancelId) / (
 			       Math::sqrt(v * MathConstants::PI) * SpecialFunctions::gammaWithCancel(v / 2.0, cancelId)) * Math::pow(
@@ -519,6 +521,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		if (v == Double::POSITIVE_INFINITY)
 			return 0.5 * (1.0 + SpecialFunctions::erf(x / MathConstants::SQRT2));
+		if (v > 200.0)
+			return 1.0 - 0.5 * SpecialFunctions::regularizedBetaWithCancel(v/2.0, 0.5, v/(v+x*x), cancelId);
 
 		return 1.0 / 2.0 + x * SpecialFunctions::gammaWithCancel((v + 1.0) / 2.0, cancelId) * SpecialFunctions::hypergeometricFWithCancel(
 			       1.0 / 2.0, (v + 1.0) / 2.0, 3.0 / 2.0, -Math::pow(x, 2.0) / v, 300,
@@ -542,6 +546,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		if (x > 0)
 			return cdfStudentTPositiveXWithCancel(x, v, cancelId);
+		else if (v > 200.0 && v < Double::POSITIVE_INFINITY)
+			return 0.5 * SpecialFunctions::regularizedBetaWithCancel(v/2.0, 0.5, v/(v+x*x), cancelId);
 		else
 			return 1.0 - cdfStudentTPositiveXWithCancel(-x, v, cancelId);
 	}
@@ -711,6 +717,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (k < 1.0) return Double::NaN;
 		if (x < 0.0) return 0.0;
 		if (BinaryRelations::isEqualOrAlmost(x, 0.0)) return 0.0;
+		if (k > 200.0)
+			return Math::exp((k/2.0 - 1.0)*Math::log(x) - x/2.0
+					- k/2.0 * 0.69314718055994530942 - SpecialFunctions::logGammaWithCancel(k/2.0, cancelId));
 		return (Math::pow(x, k / 2.0 - 1.0) * Math::exp(-x / 2.0)) / (
 			       Math::pow(2, k / 2.0) * SpecialFunctions::gammaWithCancel(k / 2.0, cancelId));
 	}
@@ -784,6 +793,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (BinaryRelations::isEqualOrAlmost(x, 0.0)) return 0.0;
 		double d1div2 = d1 / 2.0;
 		double d2div2 = d2 / 2.0;
+		if (d1 + d2 > 200.0) {
+			double logRatio = Math::log(d1) - Math::log(d2) + Math::log(x);
+			double logSum = logRatio > 0.0 ? logRatio + Math::log(1.0 + Math::exp(-logRatio)) : Math::log(1.0 + Math::exp(logRatio));
+			return Math::exp(d1div2*logRatio - (d1div2 + d2div2)*logSum - Math::log(x)
+					- SpecialFunctions::logBetaWithCancel(d1div2, d2div2, cancelId));
+		}
 		return ((Math::pow(d1 * x, d1div2) * Math::pow(d2, d2div2)) / Math::pow(d1 * x + d2, d1div2 + d2div2)) / (
 			       x * SpecialFunctions::betaWithCancel(d1div2, d2div2, cancelId));
 	}

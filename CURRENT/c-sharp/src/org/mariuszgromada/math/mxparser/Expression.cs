@@ -3759,7 +3759,8 @@ namespace org.mariuszgromada.math.mxparser {
 				syntax = SYNTAX_ERROR;
                 registerSyntaxLexicalError(StringInvariant.EMPTY, e);
             }
-            registerFinalSyntax(StringInvariant.EMPTY, syntax);
+            errorMessage = StringModel.addErrorMassage(errorMessage, StringInvariant.EMPTY,
+                syntax == NO_SYNTAX_ERRORS ? StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED : StringModel.STRING_RESOURCES.ERRORS_HAVE_BEEN_FOUND);
             return syntax;
 		}
 		/// <summary>Cleans blanks and other cases like "++', "+-", "-+"", "--"</summary>
@@ -4364,7 +4365,7 @@ namespace org.mariuszgromada.math.mxparser {
 			int depArgPos, recArgPos, f3ArgPos, f2ArgPos;
 			int f1ArgPos, userFunPos, plusPos, minusPos;
 			int multiplyPos, dividePos, divideQuotientPos, powerPos, tetrationPos;
-			int powerNum, factPos, modPos, percPos;
+			int powerNum, powerSignPos, factPos, modPos, percPos;
 			int negPos, rootOperGroupPos, andGroupPos, orGroupPos;
 			int implGroupPos, bolPos, eqPos, neqPos;
 			int ltPos, gtPos, leqPos, geqPos;
@@ -4409,7 +4410,7 @@ namespace org.mariuszgromada.math.mxparser {
                 recArgPos = -1; depArgPos = -1; f3ArgPos = -1; f2ArgPos = -1;
                 f1ArgPos = -1; userFunPos = -1; plusPos = -1; minusPos = -1;
                 multiplyPos = -1; dividePos = -1; divideQuotientPos = -1; powerPos = -1; tetrationPos = -1;
-                factPos = -1; modPos = -1; percPos = -1; powerNum = 0;
+                factPos = -1; modPos = -1; percPos = -1; powerNum = 0; powerSignPos = -1;
                 negPos = -1; rootOperGroupPos = -1; andGroupPos = -1; orGroupPos = -1;
                 implGroupPos = -1; bolPos = -1; eqPos = -1; neqPos = -1;
                 ltPos = -1; gtPos = -1; leqPos = -1; geqPos = -1;
@@ -4526,8 +4527,8 @@ namespace org.mariuszgromada.math.mxparser {
 							else if (token.tokenTypeId == Function1Arg.TYPE_ID && f1ArgPos < 0) f1ArgPos = pos;
 							else if (token.tokenTypeId == Function.TYPE_ID && userFunPos < 0) userFunPos = pos;
 							else if (token.tokenTypeId == Operator.TYPE_ID) {
-								if (token.tokenId == Operator.POWER_ID && leftIsNumber && rigthIsNumber) {
-									powerPos = pos;
+								if (token.tokenId == Operator.POWER_ID) {
+									powerPos = leftIsNumber && rigthIsNumber ? pos : -1;
 									powerNum++;
 								} else if (token.tokenId == Operator.TETRATION_ID && leftIsNumber && rigthIsNumber) tetrationPos = pos;
 								else if (token.tokenId == Operator.FACT_ID && factPos < 0 && leftIsNumber) factPos = pos;
@@ -4569,14 +4570,22 @@ namespace org.mariuszgromada.math.mxparser {
 						/*
 						 * powering should be done using backwards sequence
 						 */
-						if (powerNum > 1) {
-							powerPos = -1;
-							p = rPos + 1;
+						if (powerNum > 0 && powerPos < 0) {
+							p = rPos+1;
 							do {
 								p--;
 								token = tokensList[p];
-								if (token.tokenTypeId == Operator.TYPE_ID && token.tokenId == Operator.POWER_ID) powerPos = p;
-							} while (p > lPos && powerPos == -1);
+								if (token.tokenTypeId == Operator.TYPE_ID && token.tokenId == Operator.POWER_ID) {
+									if (p + 2 <= rPos) {
+										Token sign = tokensList[p+1];
+										if (sign.tokenTypeId == Operator.TYPE_ID &&
+												(sign.tokenId == Operator.MINUS_ID || sign.tokenId == Operator.PLUS_ID) &&
+												tokensList[p+2].tokenTypeId == ParserSymbol.NUMBER_TYPE_ID)
+											powerSignPos = p+1;
+									}
+									break;
+								}
+							} while (p > lPos);
 						}
 					}
 				}
@@ -4599,6 +4608,10 @@ namespace org.mariuszgromada.math.mxparser {
 				else if (modPos >= 0) MODULO(modPos);
 				else if (negPos >= 0) NEG(negPos);
 				else if (rootOperGroupPos >= 0) rootOperCalc(rootOperGroupPos);
+                else if (powerSignPos >= 0) {
+                    if (tokensList[powerSignPos].tokenId == Operator.MINUS_ID) MINUS(powerSignPos);
+                    else PLUS(powerSignPos);
+                }
 				else if (bitwiseComplPos >= 0) BITWISE_COMPL(bitwiseComplPos);
 				else if (multiplyPos >= 0 || dividePos >= 0 || divideQuotientPos >= 0) {
 					firstPos = ExpressionUtils.findNonNegativeMinimum(multiplyPos, dividePos, divideQuotientPos);
@@ -6113,7 +6126,7 @@ namespace org.mariuszgromada.math.mxparser {
         /// <summary>copy initial tokens list to tokens list and prepares initial compilation details</summary>
         private void copyInitialTokens() {
 			bool prepareInitialTokensListInfo = false;
-			if (initialCompilationDetails == null) {
+			if (initialCompilationDetails == null || !isFullyCompiled) {
 				initialCompilationDetails = new CompilationDetails();
 				initialCompilationDetails.compiledElements = new List<CompiledElement>();
 				prepareInitialTokensListInfo = true;
@@ -6505,7 +6518,7 @@ namespace org.mariuszgromada.math.mxparser {
 			Expression newExp = new Expression(this, false, null);
             if (initialTokens != null && initialTokens.Count > 0) {
 				newExp.initialTokens = createInitialTokens(0, initialTokens.Count-1, initialTokens);
-				newExp.initialCompilationDetails = initialCompilationDetails;
+				newExp.initialCompilationDetails = isFullyCompiled ? initialCompilationDetails : null;
             }
 			return newExp;
 		}
@@ -6516,7 +6529,7 @@ namespace org.mariuszgromada.math.mxparser {
 				expressionClone = new Expression(this, true, cloneCache);
 				if (initialTokens != null && initialTokens.Count > 0) {
 					expressionClone.initialTokens = createInitialTokens(0, initialTokens.Count-1, initialTokens);
-                    expressionClone.initialCompilationDetails = initialCompilationDetails;
+                    expressionClone.initialCompilationDetails = isFullyCompiled ? initialCompilationDetails : null;
                 }
 				cloneCache.clearCloneInProgress(this);
 				cloneCache.cacheExpressionClone(this, expressionClone);

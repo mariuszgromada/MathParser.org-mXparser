@@ -628,8 +628,11 @@ public class Function extends PrimitiveElement implements Serializable {
 	public void setFunction(String functionDefinitionString, PrimitiveElement... elements) {
 		if (StringUtils.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp)) {
 			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+			setExpressionModifiedFlags();
+			Expression previousExpression = functionExpression;
 			this.functionName = headEqBody.headTokens.get(0).tokenStr;
 			functionExpression = new Expression(headEqBody.bodyStr, elements);
+			functionExpression.relatedExpressionsList = previousExpression.relatedExpressionsList;
 			functionExpression.setDescription(headEqBody.headStr);
 			functionExpression.UDFExpression = true;
 			isVariadic = false;
@@ -643,8 +646,11 @@ public class Function extends PrimitiveElement implements Serializable {
 		}
 		if (StringUtils.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp)) {
 			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+			setExpressionModifiedFlags();
+			Expression previousExpression = functionExpression;
 			this.functionName = headEqBody.headTokens.get(0).tokenStr;
 			functionExpression = new Expression(headEqBody.bodyStr, elements);
+			functionExpression.relatedExpressionsList = previousExpression.relatedExpressionsList;
 			functionExpression.setDescription(headEqBody.headStr);
 			functionExpression.UDFExpression = true;
 			isVariadic = true;

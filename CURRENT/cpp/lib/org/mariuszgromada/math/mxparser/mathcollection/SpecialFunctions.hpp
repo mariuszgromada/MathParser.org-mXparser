@@ -941,6 +941,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		static double erfImp(double z, bool invert);
 		static double erfInvImpl(double p, double q, double s);
 		static double gammaIntWithCancel(Long n, int cancelId);
+		static double incompleteGammaUpperNegativeIntegerWithCancel(double s, double x, int cancelId);
 
 		static double halleyIterationWithCancel(double x, double wInitial, int maxIter, int cancelId);
 		static double seriesEval(double r);
