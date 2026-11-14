@@ -13056,4 +13056,43 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
 
+
+    /** Maintainer's functional adaptation check; intentionally unnumbered. */
+    @Test
+    public void testSyntaxCheckerAdaptation() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        mXparser.consolePrintln("Syntax checker adaptation: Java end-of-input diagnostics");
+
+        // J-01 changes the diagnostic label, not the EOF token or parsing rules.
+        org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker valid =
+                new org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker(
+                        new java.io.StringReader("1+2"));
+        valid.checkSyntax();
+        Assertions.assertEquals(0, valid.getNextToken().kind);
+
+        org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker incomplete =
+                new org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker(
+                        new java.io.StringReader("1+"));
+        org.mariuszgromada.math.mxparser.syntaxchecker.ParseException error =
+                Assertions.assertThrows(org.mariuszgromada.math.mxparser.syntaxchecker.ParseException.class,
+                        incomplete::checkSyntax);
+        Assertions.assertTrue(error.getMessage().contains("<EOL>"), error.getMessage());
+        Assertions.assertFalse(error.getMessage().contains("<EOF>"), error.getMessage());
+
+        org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker empty =
+                new org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker(
+                        new java.io.StringReader(""));
+        Assertions.assertEquals(0, empty.getNextToken().kind);
+
+        // Native parser failures must remain consumable by mXparser's public API.
+        Expression unexpectedClosingBracket = new Expression("1)");
+        Assertions.assertFalse(unexpectedClosingBracket.checkLexSyntax());
+        Assertions.assertFalse(unexpectedClosingBracket.getErrorMessage().isEmpty());
+        Assertions.assertFalse(unexpectedClosingBracket.getErrorMessage().contains("<EOF>"));
+
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
 }

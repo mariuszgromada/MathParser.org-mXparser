@@ -9261,3 +9261,139 @@ namespace {
         cancelTrue(testResult);
     }
 
+
+
+// Maintainer's functional adaptation check; intentionally unnumbered.
+TEST_CASE("testSyntaxCheckerAdaptation", "[API]") {
+    using namespace org::mariuszgromada::math::mxparser::syntaxchecker;
+    using ErrorType = ErrorMessage::ErrorType;
+    TestCommonTools::testApiSettingsInit();
+    bool testResult = false;
+    std::cout << "Syntax checker adaptation: C++ ownership, diagnostics and stream reuse" << std::endl;
+
+    // CPP-04/09/13: every factory overload feeds the real wide-character parser.
+    StringPtr sharedText = S(UTF("1+2"));
+    std::vector<CharStreamPtr> streams = {
+        new_CharStream(sharedText), new_CharStream(String(UTF("1+2"))),
+        new_CharStream(std::string("1+2")), new_CharStream(UTF("1+2")), new_CharStream("1+2")
+    };
+    for (const CharStreamPtr &stream : streams) {
+        auto manager = new_SyntaxCheckerTokenManager(stream);
+        auto parser = new_SyntaxChecker(manager);
+        REQUIRE(parser->checkSyntax());
+        REQUIRE(parser->errorMessages->empty());
+        REQUIRE(manager->errorMessages->empty());
+    }
+    auto utf8Stream = new_CharStream(std::string("\xcf\x80"));
+    REQUIRE(utf8Stream->BeginToken() == L'\u03c0');
+    auto decimalStream = new_CharStream(UTF("2.5"));
+    auto decimalManager = new_SyntaxCheckerTokenManager(decimalStream);
+    std::unique_ptr<JavaCCToken> decimal(decimalManager->getNextToken());
+    REQUIRE(decimal->kind == DECIMAL_NUMBER);
+    REQUIRE(decimal->image == UTF("2.5"));
+    REQUIRE(decimal->beginLine == 0);
+    REQUIRE(decimal->beginColumn == 0);
+
+    // CPP-06: each of the three independent error sources must make syntax false.
+    struct ParserWithErrorFlag : SyntaxChecker {
+        explicit ParserWithErrorFlag(TokenManager *manager) : SyntaxChecker(manager) {}
+        void markError() { hasError = true; }
+    };
+    auto flagStream = new_CharStream(UTF("1+2"));
+    auto flagManager = new_SyntaxCheckerTokenManager(flagStream);
+    ParserWithErrorFlag flagged(flagManager.get());
+    flagged.markError();
+    REQUIRE_FALSE(flagged.checkSyntax());
+    REQUIRE(flagged.errorMessages->empty());
+    REQUIRE(flagManager->errorMessages->empty());
+
+    auto errorStream = new_CharStream(UTF("1+2"));
+    auto errorManager = new_SyntaxCheckerTokenManager(errorStream);
+    auto errorParser = new_SyntaxChecker(errorManager);
+    ErrorHandler parserHandler;
+    parserHandler.handleOtherError(UTF("parser-only error"), errorParser.get());
+    REQUIRE(errorParser->errorMessages->size() == 1);
+    REQUIRE(errorParser->errorMessages->at(0)->errorType == ErrorType::OtherError);
+    REQUIRE(errorParser->errorMessages->at(0)->error == UTF("parser-only error"));
+    REQUIRE(errorManager->errorMessages->empty());
+    REQUIRE_FALSE(errorParser->checkSyntax());
+
+    auto lexicalStream = new_CharStream(UTF("1+2"));
+    auto lexicalManager = new_SyntaxCheckerTokenManager(lexicalStream);
+    auto lexicalParser = new_SyntaxChecker(lexicalManager);
+    TokenManagerErrorHandler lexicalHandler;
+    lexicalHandler.lexicalError(UTF("lexer-only error"), lexicalManager.get());
+    REQUIRE(lexicalParser->errorMessages->empty());
+    REQUIRE(lexicalManager->errorMessages->size() == 1);
+    REQUIRE(lexicalManager->errorMessages->at(0)->errorType == ErrorType::LexicalErrorGeneral);
+    REQUIRE(lexicalManager->errorMessages->at(0)->error == UTF("lexer-only error"));
+    REQUIRE_FALSE(lexicalParser->checkSyntax());
+
+    // CPP-07/08/16: callbacks preserve error type, position, escaping and narrow fixEOF.
+    JavaCCToken unexpected(UNICODE_NAME, UTF("\u03c0"));
+    unexpected.beginLine = 7;
+    unexpected.beginColumn = 9;
+    parserHandler.handleUnexpectedToken(_EOF, UTF("EOF"), &unexpected, errorParser.get());
+    ErrorMessagePtr message = errorParser->errorMessages->back();
+    REQUIRE(message->errorType == ErrorType::UnexpectedToken);
+    REQUIRE(message->encounteredOrExpecting == UTF("EOL"));
+    REQUIRE(message->butGotOrWhileParsingOrAfter == UTF("\\u03c0"));
+    REQUIRE(message->atLine == 7);
+    REQUIRE(message->atColumn == 9);
+    unexpected.image = UTF("<EOF>");
+    parserHandler.handleUnexpectedToken(_EOF, UTF("<EOF>"), &unexpected, errorParser.get());
+    message = errorParser->errorMessages->back();
+    REQUIRE(message->encounteredOrExpecting == UTF("<EOF>"));
+    REQUIRE(message->butGotOrWhileParsingOrAfter == UTF("<EOF>"));
+    parserHandler.handleParseError(nullptr, &unexpected, "expression", errorParser.get());
+    message = errorParser->errorMessages->back();
+    REQUIRE(message->errorType == ErrorType::ParseError);
+    REQUIRE(message->encounteredOrExpecting == UTF("<EOF>"));
+    REQUIRE(message->butGotOrWhileParsingOrAfter == UTF("expression"));
+    REQUIRE(parserHandler.getErrorCount() == 3);
+    lexicalHandler.lexicalError(true, 0, 4, 5, UTF("prefix"), L'\u00e9', lexicalManager.get());
+    message = lexicalManager->errorMessages->back();
+    REQUIRE(message->errorType == ErrorType::LexicalErrorDetails);
+    REQUIRE(message->EOFSeen);
+    REQUIRE(message->atLine == 4);
+    REQUIRE(message->atColumn == 5);
+    REQUIRE(message->encounteredOrExpecting == UTF("\u00e9"));
+    REQUIRE(message->butGotOrWhileParsingOrAfter == UTF("prefix"));
+    REQUIRE(addUnicodeEscapes(JJString(1, L'\x7f')) == std::string(1, '\x7f'));
+    REQUIRE(addUnicodeEscapes(UTF("\u0080\u00e9\u03c0")) == "\\u0080\\u00e9\\u03c0");
+
+    // CPP-10/11: tiny buffers must grow and preserve adjusted positions across a newline.
+    String text = String(5000, L'a') + UTF("\t\nb");
+    CharStream chars(text, 0, 0, 8);
+    chars.BeginToken();
+    for (size_t i = 1; i < text.size(); ++i) chars.readChar();
+    chars.adjustBeginLineColumn(7, 9);
+    REQUIRE(chars.getBeginLine() == 7);
+    REQUIRE(chars.getBeginColumn() == 9);
+    REQUIRE(chars.getEndLine() == 8);
+    REQUIRE(chars.getEndColumn() == 1);
+
+    // CPP-12: keep dependencies alive during repeated valid parses, ReInit and clear.
+    auto reuseStream = new_CharStream(UTF("f(1,2)+3"));
+    auto reuseManager = new_SyntaxCheckerTokenManager(reuseStream);
+    auto reuseParser = new_SyntaxChecker(reuseManager);
+    for (int round = 0; round < 16; ++round) {
+        REQUIRE(reuseParser->checkSyntax());
+        auto nextStream = new_CharStream(round % 2 == 0 ? UTF("1+2") : UTF("f(1,2)+3"));
+        reuseManager->ReInit(nextStream.get());
+        reuseParser->ReInit(reuseManager.get());
+        reuseStream = nextStream;
+    }
+    REQUIRE(reuseParser->checkSyntax());
+    reuseParser->clear();
+    reuseParser->clear();
+
+    // A real malformed expression must also be rejected through the public integration.
+    mXparser::disableAttemptToFixExpStrMode();
+    auto malformed = new_Expression("1+");
+    REQUIRE_FALSE(malformed->checkLexSyntax());
+    REQUIRE_FALSE(malformed->getErrorMessage()->empty());
+    testResult = true;
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}

@@ -216,6 +216,7 @@
  * - online store: https://payhip.com/infima
  */
 
+using Sc = org.mariuszgromada.math.mxparser.syntaxchecker;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13137,6 +13138,64 @@ namespace org.mariuszgromada.math.mxparser.test {
         }
         int reused=mXparser.acquireCancellationTokenId();mXparser.releaseCancellationTokenId(reused);
         Assert.IsTrue(mXparser.reserveCancellationTokenId(reused));mXparser.releaseCancellationTokenId(reused);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
+    private sealed class SyntaxCheckerAdaptationReader : TextReader {
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
+        public override int Read(char[] buffer, int index, int count) {
+            throw new IOException("syntax checker adaptation I/O");
+        }
+    }
+
+    // Maintainer's functional adaptation check; intentionally unnumbered.
+    [TestMethod]
+    public void testSyntaxCheckerAdaptation() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        mXparser.consolePrintln("Syntax checker adaptation: C# diagnostics, Unicode masks and I/O");
+
+        // CS-01: real parse errors use EOL, while the EOF token remains zero.
+        Sc.SyntaxChecker malformed = new Sc.SyntaxChecker(new StringReader("1+"));
+        Sc.ParseException parseError = Assert.ThrowsException<Sc.ParseException>(() => malformed.checkSyntax());
+        StringAssert.Contains(parseError.Message, "<EOL>");
+        Assert.IsFalse(parseError.Message.Contains("<EOF>"));
+        Assert.AreEqual(0, new Sc.SyntaxChecker(new StringReader("")).getNextToken().kind);
+
+        // CS-02: Unicode in the unexpected token must format, not throw Substring's range exception.
+        Sc.Token unexpected = new Sc.Token(Sc.SyntaxCheckerConstants.UNICODE_NAME, "\u03c0");
+        unexpected.beginLine = 7;
+        unexpected.beginColumn = 9;
+        unexpected.next = new Sc.Token(Sc.SyntaxCheckerConstants.EOF, "");
+        Sc.Token previous = new Sc.Token();
+        previous.next = unexpected;
+        Sc.ParseException unicodeError = new Sc.ParseException(previous,
+                new long[][] { new long[] { Sc.SyntaxCheckerConstants.DECIMAL } },
+                new Sc.SyntaxCheckerConstants().tokenImage);
+        StringAssert.Contains(unicodeError.Message, "\\u03c0");
+        StringAssert.Contains(unicodeError.Message, "line 7, column 9");
+
+        // CS-05: exercise Unicode DFA bit masks and buffer growth through the real lexer/parser.
+        foreach (String expression in new String[] { "1+2", "\u03c0+\u221a2", "\u03b1+\u03c0", new String('x', 9000) }) {
+            new Sc.SyntaxChecker(new StringReader(expression)).checkSyntax();
+        }
+        Sc.Token unicodeToken = new Sc.SyntaxChecker(new StringReader("\u03c0")).getNextToken();
+        Assert.AreEqual(Sc.SyntaxCheckerConstants.UNICODE_NAME, unicodeToken.kind);
+        Assert.AreEqual("\u03c0", unicodeToken.image);
+        Assert.AreEqual(1, unicodeToken.beginLine);
+        Assert.AreEqual(1, unicodeToken.beginColumn);
+        Assert.AreEqual(1, unicodeToken.endColumn);
+
+        // CS-03: rethrow must preserve the actual reader's throw frame.
+        using (TextReader reader = new SyntaxCheckerAdaptationReader()) {
+            Sc.SimpleCharStream stream = new Sc.SimpleCharStream(reader);
+            IOException ioError = Assert.ThrowsException<IOException>(() => stream.BeginToken());
+            Assert.AreEqual("syntax checker adaptation I/O", ioError.Message);
+            StringAssert.Contains(ioError.StackTrace, "SyntaxCheckerAdaptationReader.Read");
+        }
+
         testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assert.IsTrue(testResult);
