@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.cs        6.1.2    2026-10-25
+ * @(#)SyntaxTest.cs        6.2.0    2026-11-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -235,7 +235,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        6.1.2
+	 * @version        6.2.0
 	 *
 	 */
 	[TestClass]
@@ -6739,5 +6739,23 @@ namespace org.mariuszgromada.math.mxparser.test {
 				TestCommonTools.testSynSettingsInit();
 			}
 		}
+		[TestMethod]
+		public void testSyn0420() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "NANCOAL lexical syntax through Expression (no evaluator)";
+			TestCommonTools.consolePrintTestSynStart(420, testDescr);
+			mXparser.disableAttemptToFixExpStrMode();
+			Expression testExp = new Expression("1??2");
+			bool allPassed = true;
+			foreach (String text in new String[] {"1??2", "a??b??c", "(1??2)+3", "\u03c0??2"})
+				allPassed &= new Expression(text).checkLexSyntax();
+			foreach (String text in new String[] {"1??", "??2", "1???2"})
+				allPassed &= !new Expression(text).checkLexSyntax();
+			testResult = allPassed;
+			TestCommonTools.consolePrintTestSynEnd(allPassed, true, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+
     }
 }

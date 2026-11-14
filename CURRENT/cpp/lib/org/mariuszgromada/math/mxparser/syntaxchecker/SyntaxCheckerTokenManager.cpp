@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxCheckerTokenManager.cpp        6.1.0    2024-10-06
+ * @(#)SyntaxCheckerTokenManager.cpp        6.2.0    2026-11-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -436,18 +436,20 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 	static JJChar jjstrLiteralChars_119[] = {0};
 	static JJChar jjstrLiteralChars_120[] = {0};
 	static JJChar jjstrLiteralChars_121[] = {0};
-	static JJChar jjstrLiteralChars_122[] = {0};
+	static JJChar jjstrLiteralChars_122[] = {0x3f, 0x3f, 0};
 	static JJChar jjstrLiteralChars_123[] = {0};
 	static JJChar jjstrLiteralChars_124[] = {0};
 	static JJChar jjstrLiteralChars_125[] = {0};
 
-	static JJChar jjstrLiteralChars_126[] = {0x5b, 0x25, 0x5d, 0};
-	static JJChar jjstrLiteralChars_127[] = {0x5b, 0x25, 0x25, 0x5d, 0};
+	static JJChar jjstrLiteralChars_126[] = {0};
 
-	static JJChar jjstrLiteralChars_128[] = {0x5b, 0};
-	static JJChar jjstrLiteralChars_129[] = {0x5d, 0};
-	static JJChar jjstrLiteralChars_130[] = {0};
+	static JJChar jjstrLiteralChars_127[] = {0x5b, 0x25, 0x5d, 0};
+	static JJChar jjstrLiteralChars_128[] = {0x5b, 0x25, 0x25, 0x5d, 0};
+
+	static JJChar jjstrLiteralChars_129[] = {0x5b, 0};
+	static JJChar jjstrLiteralChars_130[] = {0x5d, 0};
 	static JJChar jjstrLiteralChars_131[] = {0};
+	static JJChar jjstrLiteralChars_132[] = {0};
 	static const JJString jjstrLiteralImages[] = {
 		jjstrLiteralChars_0,
 		jjstrLiteralChars_1,
@@ -581,6 +583,7 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 		jjstrLiteralChars_129,
 		jjstrLiteralChars_130,
 		jjstrLiteralChars_131,
+		jjstrLiteralChars_132,
 	};
 
 	/** Lexer state names. */
@@ -590,7 +593,8 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 		lexStateNames_arr_0,
 	};
 	static const unsigned long long jjtoToken[] = {
-		0xffff000000000001ULL, 0xffffffffffffffffULL, 0xfULL,
+		0xffff000000000001ULL, 0xffffffffffffffffULL,
+		0x1fULL,
 	};
 	static const unsigned long long jjtoSkip[] = {
 		0x1eULL, 0x0ULL, 0x0ULL,
@@ -602,25 +606,36 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 	                                                        unsigned long long active1, unsigned long long active2) {
 		switch (pos) {
 			case 0:
-				if ((active1 & 0x40000000ULL) != 0L)
+				if ((active1 & 0x400000000000000ULL) != 0L) {
+				jjmatchedKind = 126;
+				return -1;
+			}
+			if ((active1 & 0x40000000ULL) != 0L)
 					return 268;
 				if ((active1 & 0x2000000ULL) != 0L)
 					return 46;
 				if ((active1 & 0x40000000000ULL) != 0L)
 					return 24;
-				if ((active1 & 0x20000000ULL) != 0L)
-					return 279;
 				if ((active1 & 0x1000000000000ULL) != 0L) {
-					jjmatchedKind = 125;
-					return 73;
-				}
-				if ((active1 & 0x10000000000ULL) != 0L)
+				jjmatchedKind = 126;
+				return 73;
+			}
+			if ((active1 & 0x20000000ULL) != 0L)
+					return 279;
+			if ((active1 & 0x10000000000ULL) != 0L)
 					return 247;
 				if ((active1 & 0x1000000000ULL) != 0L)
 					return 19;
 				return -1;
 			case 1:
-				if ((active1 & 0x1000000000000ULL) != 0L)
+			if ((active1 & 0x400000000000000ULL) != 0L) {
+				if (jjmatchedPos == 0) {
+					jjmatchedKind = 126;
+					jjmatchedPos = 0;
+				}
+				return -1;
+			}
+			if ((active1 & 0x1000000000000ULL) != 0L)
 					return 280;
 				return -1;
 			default:
@@ -663,30 +678,36 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 				return jjStartNfaWithStates_0(0, 104, 247);
 			case 62:
 				return jjStartNfaWithStates_0(0, 106, 24);
-			case 64:
-				return jjMoveStringLiteralDfa1_0(0x1000000000000ULL);
+			case 63:
+			return jjMoveStringLiteralDfa1_0(0x400000000000000ULL, 0x0ULL);
+		case 64:
+				return jjMoveStringLiteralDfa1_0(0x1000000000000ULL, 0x0ULL);
 			case 91:
-				jjmatchedKind = 128;
-				return jjMoveStringLiteralDfa1_0(0xc000000000000000ULL);
+				jjmatchedKind = 129;
+				return jjMoveStringLiteralDfa1_0(0x8000000000000000ULL, 0x1ULL);
 			case 93:
-				return jjStopAtPos(0, 129);
+				return jjStopAtPos(0, 130);
 			case 94:
 				jjmatchedKind = 97;
-				return jjMoveStringLiteralDfa1_0(0x400000000ULL);
+				return jjMoveStringLiteralDfa1_0(0x400000000ULL, 0x0ULL);
 			default:
 				return jjMoveNfa_0(5, 0);
 		}
 	}
 
-	int SyntaxCheckerTokenManager::jjMoveStringLiteralDfa1_0(unsigned long long active1) {
+	int SyntaxCheckerTokenManager::jjMoveStringLiteralDfa1_0(unsigned long long active1, unsigned long long active2) {
 		if (input_stream->endOfInput()) {
-			jjStopStringLiteralDfa_0(0, 0L, active1, 0L);
+			jjStopStringLiteralDfa_0(0, 0L, active1, active2);
 			return 1;
 		}
 		curChar = input_stream->readChar();
 		switch (curChar) {
 			case 37:
-				return jjMoveStringLiteralDfa2_0(active1, 0xc000000000000000ULL);
+				return jjMoveStringLiteralDfa2_0(active1, 0x8000000000000000ULL, active2, 0x1ULL);
+		case 63:
+			if ((active1 & 0x400000000000000ULL) != 0L)
+				return jjStopAtPos(1, 122);
+			break;
 			case 94:
 				if ((active1 & 0x400000000ULL) != 0L)
 					return jjStopAtPos(1, 98);
@@ -698,47 +719,47 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 			default:
 				break;
 		}
-		return jjStartNfa_0(0, 0L, active1, 0L);
+		return jjStartNfa_0(0, 0L, active1, active2);
 	}
 
-	int SyntaxCheckerTokenManager::jjMoveStringLiteralDfa2_0(unsigned long long old1, unsigned long long active1) {
-		if (((active1 &= old1)) == 0L)
-			return jjStartNfa_0(0, 0L, old1, 0L);
+	int SyntaxCheckerTokenManager::jjMoveStringLiteralDfa2_0(unsigned long long old1, unsigned long long active1, unsigned long long old2, unsigned long long active2) {
+		if (((active1 &= old1) | (active2 &= old2)) == 0L)
+			return jjStartNfa_0(0, 0L, old1, old2);
 		if (input_stream->endOfInput()) {
-			jjStopStringLiteralDfa_0(1, 0L, active1, 0L);
+			jjStopStringLiteralDfa_0(1, 0L, active1, active2);
 			return 2;
 		}
 		curChar = input_stream->readChar();
 		switch (curChar) {
 			case 37:
-				return jjMoveStringLiteralDfa3_0(active1, 0x8000000000000000ULL);
+				return jjMoveStringLiteralDfa3_0(active1, 0L, active2, 0x1ULL);
 			case 93:
-				if ((active1 & 0x4000000000000000ULL) != 0L)
-					return jjStopAtPos(2, 126);
+				if ((active1 & 0x8000000000000000ULL) != 0L)
+					return jjStopAtPos(2, 127);
 				break;
 			default:
 				break;
 		}
-		return jjStartNfa_0(1, 0L, active1, 0L);
+		return jjStartNfa_0(1, 0L, active1, active2);
 	}
 
-	int SyntaxCheckerTokenManager::jjMoveStringLiteralDfa3_0(unsigned long long old1, unsigned long long active1) {
-		if (((active1 &= old1)) == 0L)
-			return jjStartNfa_0(1, 0L, old1, 0L);
+	int SyntaxCheckerTokenManager::jjMoveStringLiteralDfa3_0(unsigned long long old1, unsigned long long active1, unsigned long long old2, unsigned long long active2) {
+		if (((active1 &= old1) | (active2 &= old2)) == 0L)
+			return jjStartNfa_0(1, 0L, old1, old2);
 		if (input_stream->endOfInput()) {
-			jjStopStringLiteralDfa_0(2, 0L, active1, 0L);
+			jjStopStringLiteralDfa_0(2, 0L, 0L, active2);
 			return 3;
 		}
 		curChar = input_stream->readChar();
 		switch (curChar) {
 			case 93:
-				if ((active1 & 0x8000000000000000ULL) != 0L)
-					return jjStopAtPos(3, 127);
+				if ((active2 & 0x1ULL) != 0L)
+					return jjStopAtPos(3, 128);
 				break;
 			default:
 				break;
 		}
-		return jjStartNfa_0(2, 0L, active1, 0L);
+		return jjStartNfa_0(2, 0L, 0L, active2);
 	}
 
 	int SyntaxCheckerTokenManager::jjStartNfaWithStates_0(int pos, int kind, int state) {
@@ -785,8 +806,8 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 									jjCheckNAddStates(0, 7);
 								}
 							} else if ((0x8c00c09800000000ULL & l) != 0L) {
-								if (kind > 125)
-									kind = 125;
+								if (kind > 126)
+									kind = 126;
 							} else if (curChar == 45) { jjAddStates(8, 9); } else if (curChar == 60) {
 								jjAddStates(10, 14);
 							} else if (curChar == 43) { jjCheckNAddStates(15, 18); } else if (curChar == 40)
@@ -818,21 +839,21 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 							break;
 						case 279:
 							if ((0x100002600ULL & l) != 0L) { jjCheckNAddTwoStates(58, 59); } else if (curChar == 45) {
-								if (kind > 130)
-									kind = 130;
+								if (kind > 131)
+									kind = 131;
 							} else if (curChar == 43) {
-								if (kind > 130)
-									kind = 130;
+								if (kind > 131)
+									kind = 131;
 							}
 							if ((0x100002600ULL & l) != 0L) { jjCheckNAddTwoStates(56, 57); }
 							break;
 						case 268:
 							if ((0x100002600ULL & l) != 0L) { jjCheckNAddTwoStates(62, 57); } else if (curChar == 43) {
-								if (kind > 130)
-									kind = 130;
+								if (kind > 131)
+									kind = 131;
 							} else if (curChar == 45) {
-								if (kind > 130)
-									kind = 130;
+								if (kind > 131)
+									kind = 131;
 							} else if (curChar == 47)
 								jjstateSet[jjnewStateCnt++] = 269;
 							if ((0x100002600ULL & l) != 0L) { jjCheckNAddTwoStates(61, 59); } else if (curChar == 45)
@@ -973,14 +994,14 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 						case 50:
 							if ((0x3ff000000000000ULL & l) == 0L)
 								break;
-							if (kind > 122)
-								kind = 122; {
+							if (kind > 123)
+								kind = 123; {
 								jjAddStates(23, 24);
 							}
 							break;
 						case 54:
-							if ((0x8c00c09800000000ULL & l) != 0L && kind > 125)
-								kind = 125;
+							if ((0x8c00c09800000000ULL & l) != 0L && kind > 126)
+								kind = 126;
 							break;
 						case 55:
 							if (curChar == 43) { jjCheckNAddStates(15, 18); }
@@ -989,15 +1010,15 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 							if ((0x100002600ULL & l) != 0L) { jjCheckNAddTwoStates(56, 57); }
 							break;
 						case 57:
-							if (curChar == 43 && kind > 130)
-								kind = 130;
+							if (curChar == 43 && kind > 131)
+								kind = 131;
 							break;
 						case 58:
 							if ((0x100002600ULL & l) != 0L) { jjCheckNAddTwoStates(58, 59); }
 							break;
 						case 59:
-							if (curChar == 45 && kind > 130)
-								kind = 130;
+							if (curChar == 45 && kind > 131)
+								kind = 131;
 							break;
 						case 60:
 							if (curChar == 45) { jjCheckNAddStates(19, 22); }
@@ -1009,12 +1030,12 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 							if ((0x100002600ULL & l) != 0L) { jjCheckNAddTwoStates(62, 57); }
 							break;
 						case 64:
-							if (curChar == 43 && kind > 123)
-								kind = 123;
+							if (curChar == 43 && kind > 124)
+								kind = 124;
 							break;
 						case 67:
-							if (curChar == 45 && kind > 123)
-								kind = 123;
+							if (curChar == 45 && kind > 124)
+								kind = 124;
 							break;
 						case 78:
 							if (curChar == 60 && kind > 120)
@@ -1810,13 +1831,13 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 							break;
 						case 5:
 							if ((0x7fffffe87fffffeULL & l) != 0L) {
-								if (kind > 122)
-									kind = 122; {
+								if (kind > 123)
+									kind = 123; {
 									jjCheckNAddTwoStates(50, 52);
 								}
 							} else if ((0x110000001ULL & l) != 0L) {
-								if (kind > 125)
-									kind = 125;
+								if (kind > 126)
+									kind = 126;
 							} else if (curChar == 126) {
 								if (kind > 110)
 									kind = 110; {
@@ -1892,30 +1913,30 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 						case 49:
 							if ((0x7fffffe87fffffeULL & l) == 0L)
 								break;
-							if (kind > 122)
-								kind = 122; {
+							if (kind > 123)
+								kind = 123; {
 								jjCheckNAddTwoStates(50, 52);
 							}
 							break;
 						case 51:
 							if ((0x7fffffe87fffffeULL & l) == 0L)
 								break;
-							if (kind > 122)
-								kind = 122; {
+							if (kind > 123)
+								kind = 123; {
 								jjCheckNAddTwoStates(50, 51);
 							}
 							break;
 						case 52:
 							if ((0x7fffffe87fffffeULL & l) == 0L)
 								break;
-							if (kind > 122)
-								kind = 122; {
+							if (kind > 123)
+								kind = 123; {
 								jjCheckNAddStates(115, 117);
 							}
 							break;
 						case 54:
-							if ((0x110000001ULL & l) != 0L && kind > 125)
-								kind = 125;
+							if ((0x110000001ULL & l) != 0L && kind > 126)
+								kind = 126;
 							break;
 						case 63:
 							if (curChar == 100) { jjAddStates(39, 40); }
@@ -2251,8 +2272,8 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 									kind = 121;
 							}
 							if (jjCanMove_16(hiByte, i1, i2, l1, l2)) {
-								if (kind > 124)
-									kind = 124;
+								if (kind > 125)
+									kind = 125;
 							}
 							if (jjCanMove_17(hiByte, i1, i2, l1, l2)) { jjAddStates(118, 119); }
 							if (jjCanMove_18(hiByte, i1, i2, l1, l2)) {
@@ -2327,8 +2348,8 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 								kind = 121;
 							break;
 						case 53:
-							if (jjCanMove_16(hiByte, i1, i2, l1, l2) && kind > 124)
-								kind = 124;
+							if (jjCanMove_16(hiByte, i1, i2, l1, l2) && kind > 125)
+								kind = 125;
 							break;
 						case 70:
 							if (jjCanMove_17(hiByte, i1, i2, l1, l2)) { jjAddStates(118, 119); }
@@ -2621,8 +2642,8 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 			jjmatchedKind = 0x7fffffff;
 			jjmatchedPos = 0;
 			curPos = jjMoveStringLiteralDfa0_0();
-			if (jjmatchedPos == 0 && jjmatchedKind > 131) {
-				jjmatchedKind = 131;
+			if (jjmatchedPos == 0 && jjmatchedKind > 132) {
+				jjmatchedKind = 132;
 			}
 			if (jjmatchedKind != 0x7fffffff) {
 				if (jjmatchedPos + 1 < curPos)

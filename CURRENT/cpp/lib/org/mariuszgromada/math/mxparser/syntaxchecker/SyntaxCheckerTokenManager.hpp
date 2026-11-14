@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxCheckerTokenManager.hpp        6.1.0    2024-10-06
+ * @(#)SyntaxCheckerTokenManager.hpp        6.2.0    2026-11-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -247,11 +247,11 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 
 		int jjMoveStringLiteralDfa0_0();
 
-		int jjMoveStringLiteralDfa1_0(unsigned long long active1);
+		int jjMoveStringLiteralDfa1_0(unsigned long long active1, unsigned long long active2);
 
-		int jjMoveStringLiteralDfa2_0(unsigned long long old1, unsigned long long active1);
+		int jjMoveStringLiteralDfa2_0(unsigned long long old1, unsigned long long active1, unsigned long long old2, unsigned long long active2);
 
-		int jjMoveStringLiteralDfa3_0(unsigned long long old1, unsigned long long active1);
+		int jjMoveStringLiteralDfa3_0(unsigned long long old1, unsigned long long active1, unsigned long long old2, unsigned long long active2);
 
 		int jjStartNfaWithStates_0(int pos, int kind, int state);
 
@@ -305,7 +305,6 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 		int jjmatchedKind = 0;
 
 		JavaCCToken *getNextToken() override;
-
 #define jjCheckNAdd(state)\
 {\
 if (jjrounds[state] != jjround)\

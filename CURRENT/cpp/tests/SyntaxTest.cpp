@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.cpp        6.1.2    2026-10-25
+ * @(#)SyntaxTest.cpp        6.2.0    2026-11-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -6883,4 +6883,21 @@ TEST_CASE("testSyn0419", "[Syntax]") {
 	check(!syn);
 	check(adjacent->getCopyOfInitialTokens()->size() == 1);
 	testResult = allPassed;
+}
+
+TEST_CASE("testSyn0420", "[Syntax]") {
+	TestCommonTools::testSynSettingsInit();
+	bool testResult = false;
+	string testDescr = "NANCOAL lexical syntax through Expression (no evaluator)";
+	TestCommonTools::consolePrintTestSynStart(420, testDescr);
+	mXparser::disableAttemptToFixExpStrMode();
+	ExpressionPtr testExp = new_Expression("1??2");
+	bool allPassed = true;
+	for (const std::string &text : {"1??2", "a??b??c", "(1??2)+3", "\u03c0??2"})
+		allPassed &= new_Expression(text)->checkLexSyntax();
+	for (const std::string &text : {"1??", "??2", "1???2"})
+		allPassed &= !new_Expression(text)->checkLexSyntax();
+	testResult = allPassed;
+	TestCommonTools::consolePrintTestSynEnd(allPassed, true, testResult, testExp);
+	REQUIRE(testResult);
 }
