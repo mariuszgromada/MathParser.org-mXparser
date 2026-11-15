@@ -34,6 +34,31 @@ signed 32-bit int overload where supported. Native 64-bit integer values use
 `bigint`. Byte transport uses `Uint8Array`. A returned help JSON document remains
 a string; parse it explicitly if needed.
 
+## NaN-coalescing and atan2 (6.2)
+
+In an expression, `a ?? b` returns `a` when its value is not NaN, and `b`
+otherwise. Both operands are evaluated by the ordinary expression reducer,
+including callbacks on the right. The operator supports normal precompilation
+and repeated calculation. This binary operator has the
+lowest precedence within an argument or parenthesized expression; for example,
+`1+2 ?? 9` returns 3 and `2*[NaN] ?? 3` returns 3. Use parentheses to
+choose different grouping. Syntax checking still validates both operands.
+
+The operator preserves the surrounding rounding settings, including inside
+numerical algorithms. With the default settings, `floor((0.7+0.1)*10) ?? 0`
+returns 8. Intermediate values remain available to subsequent operations:
+`((1e-16+0) ?? 0)/1e-16` returns 1.
+Selecting an operand applies no additional ULP rounding, matching `coalesce`.
+Rounding during operand calculations and at the end of the expression still
+follows the current settings.
+
+`atan2(y, x)` returns the angle of the vector `(x, y)`, taking both coordinates
+and their signs into account. Use it in expressions or call
+`mx.MathFunctions.atan2(y, x)`. The current native radian/degree mode applies:
+the result lies in `[-pi, pi]` or `[-180, 180]`. NaN, infinities and signed zero
+follow the native numerical contract. Both new keywords appear in localized help
+in all eight supported languages.
+
 ## Serialization and console
 
 `SerializationUtils` uses the native cereal binary format and its existing

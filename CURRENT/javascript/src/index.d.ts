@@ -4487,6 +4487,8 @@ export interface StringResources extends NativeHandleBase {
     "FUNCTION_1_ARG_LOG_GAMMA": string | null;
     "FUNCTION_1_ARG_DI_GAMMA": string | null;
     "FUNCTION_1_ARG_PARAM": string | null;
+    /** @since 6.2.0 */
+    "FUNCTION_2_ARG_ATAN2": string | null;
     "FUNCTION_2_ARG_LOG": string | null;
     "FUNCTION_2_ARG_MOD": string | null;
     "FUNCTION_2_ARG_BINOM_COEFF": string | null;
@@ -4547,6 +4549,8 @@ export interface StringResources extends NativeHandleBase {
     "OPERATOR_MULTIPLY": string | null;
     "OPERATOR_DIVIDE": string | null;
     "OPERATOR_DIVIDE_QUOTIENT": string | null;
+    /** @since 6.2.0 */
+    "OPERATOR_NAN_COALESCE": string | null;
     "OPERATOR_POWER": string | null;
     "OPERATOR_FACT": string | null;
     "OPERATOR_MOD": string | null;
@@ -8625,6 +8629,8 @@ export interface mXparserStatics {
     readonly "NAMEv52": string | null;
     readonly "NAMEv60": string | null;
     readonly "NAMEv61": string | null;
+    /** @since 6.2.0 */
+    readonly "NAMEv62": string | null;
 }
 
 export interface mathcollection_AstronomicalConstantsStatics {
@@ -11151,6 +11157,16 @@ export interface mathcollection_MathFunctionsStatics {
      * @returns if a <> NaN returns Math.atan(a), otherwise returns NaN.
      */
     "atan"(p0: number): number;
+
+    /**
+     * 2-argument arctangent of the vector (x, y).
+     * Uses the current radian/degree mode, with IEEE NaN, infinity and signed-zero behavior.
+     * @param y - Ordinate.
+     * @param x - Abscissa.
+     * @returns Angle in [-pi, pi], or [-180, 180] in degrees mode.
+     * @since 6.2.0
+     */
+    "atan2"(y: number, x: number): number;
 
     /**
      * Arcus cotangent - inverse trigonometric cotangent function
@@ -16634,6 +16650,8 @@ export interface parsertokens_Function2ArgStatics {
     readonly "CDF_CHI2_ID": number;
     readonly "QNT_CHI2_ID": number;
     readonly "RND_F_SNEDECOR_ID": number;
+    /** @since 6.2.0 */
+    readonly "ATAN2_ID": number;
     readonly "LOG_STR": string | null;
     readonly "MOD_STR": string | null;
     readonly "BINOM_COEFF_STR": string | null;
@@ -16671,6 +16689,8 @@ export interface parsertokens_Function2ArgStatics {
     readonly "CDF_CHI2_STR": string | null;
     readonly "QNT_CHI2_STR": string | null;
     readonly "RND_F_SNEDECOR_STR": string | null;
+    /** @since 6.2.0 */
+    readonly "ATAN2_STR": string | null;
     readonly "LOG_SYN": string | null;
     readonly "MOD_SYN": string | null;
     readonly "BINOM_COEFF_SYN": string | null;
@@ -16708,6 +16728,8 @@ export interface parsertokens_Function2ArgStatics {
     readonly "CDF_CHI2_SYN": string | null;
     readonly "QNT_CHI2_SYN": string | null;
     readonly "RND_F_SNEDECOR_SYN": string | null;
+    /** @since 6.2.0 */
+    readonly "ATAN2_SYN": string | null;
     "LOG_DESC": string | null;
     "MOD_DESC": string | null;
     "BINOM_COEFF_DESC": string | null;
@@ -16742,6 +16764,8 @@ export interface parsertokens_Function2ArgStatics {
     "CDF_CHI2_DESC": string | null;
     "QNT_CHI2_DESC": string | null;
     "RND_F_SNEDECOR_DESC": string | null;
+    /** @since 6.2.0 */
+    "ATAN2_DESC": string | null;
     readonly "LOG_SINCE": string | null;
     readonly "MOD_SINCE": string | null;
     readonly "BINOM_COEFF_SINCE": string | null;
@@ -16777,6 +16801,8 @@ export interface parsertokens_Function2ArgStatics {
     readonly "CDF_CHI2_SINCE": string | null;
     readonly "QNT_CHI2_SINCE": string | null;
     readonly "RND_F_SNEDECOR_SINCE": string | null;
+    /** @since 6.2.0 */
+    readonly "ATAN2_SINCE": string | null;
 }
 
 export interface parsertokens_Function3ArgStatics {
@@ -17009,6 +17035,8 @@ export interface parsertokens_OperatorStatics {
     readonly "CUBE_ROOT_ID": number;
     readonly "FOURTH_ROOT_ID": number;
     readonly "DIVIDE_QUOTIENT_ID": number;
+    /** @since 6.2.0 */
+    readonly "NAN_COALESCE_ID": number;
     readonly "PLUS_STR": string | null;
     readonly "MINUS_STR": string | null;
     readonly "MULTIPLY_STR": string | null;
@@ -17027,6 +17055,8 @@ export interface parsertokens_OperatorStatics {
     readonly "CUBE_ROOT_STR": string | null;
     readonly "FOURTH_ROOT_STR": string | null;
     readonly "DIVIDE_QUOTIENT_STR": string | null;
+    /** @since 6.2.0 */
+    readonly "NAN_COALESCE_STR": string | null;
     readonly "PLUS_SYN": string | null;
     readonly "MINUS_SYN": string | null;
     readonly "MULTIPLY_SYN": string | null;
@@ -17045,6 +17075,8 @@ export interface parsertokens_OperatorStatics {
     readonly "CUBE_ROOT_SYN": string | null;
     readonly "FOURTH_ROOT_SYN": string | null;
     readonly "DIVIDE_QUOTIENT_SYN": string | null;
+    /** @since 6.2.0 */
+    readonly "NAN_COALESCE_SYN": string | null;
     "PLUS_DESC": string | null;
     "MINUS_DESC": string | null;
     "MULTIPLY_DESC": string | null;
@@ -17058,6 +17090,8 @@ export interface parsertokens_OperatorStatics {
     "CUBE_ROOT_DESC": string | null;
     "FOURTH_ROOT_DESC": string | null;
     "DIVIDE_QUOTIENT_DESC": string | null;
+    /** @since 6.2.0 */
+    "NAN_COALESCE_DESC": string | null;
     readonly "PLUS_SINCE": string | null;
     readonly "MINUS_SINCE": string | null;
     readonly "MULTIPLY_SINCE": string | null;
@@ -17076,6 +17110,8 @@ export interface parsertokens_OperatorStatics {
     readonly "CUBE_ROOT_SINCE": string | null;
     readonly "FOURTH_ROOT_SINCE": string | null;
     readonly "DIVIDE_QUOTIENT_SINCE": string | null;
+    /** @since 6.2.0 */
+    readonly "NAN_COALESCE_SINCE": string | null;
 }
 
 export interface parsertokens_ParserSymbolStatics {

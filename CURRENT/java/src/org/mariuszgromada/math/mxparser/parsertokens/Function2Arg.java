@@ -276,6 +276,8 @@ public final class Function2Arg {
 	public static final int CDF_CHI2_ID							= 32;
 	public static final int QNT_CHI2_ID							= 33;
 	public static final int RND_F_SNEDECOR_ID					= 34;
+	/** @since 6.2.0 */
+	public static final int ATAN2_ID							= 35;
 	/*
 	 * BinaryFunction - tokens key words.
 	 */
@@ -316,6 +318,8 @@ public final class Function2Arg {
 	public static final String CDF_CHI2_STR						= "cChi2";
 	public static final String QNT_CHI2_STR						= "qChi2";
 	public static final String RND_F_SNEDECOR_STR				= "rFSned";
+	/** @since 6.2.0 */
+	public static final String ATAN2_STR						= "atan2";
 	/*
 	 * BinaryFunction - syntax.
 	 */
@@ -356,6 +360,8 @@ public final class Function2Arg {
 	public static final String CDF_CHI2_SYN						= SyntaxStringBuilder.binaryFunction(CDF_CHI2_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.k);
 	public static final String QNT_CHI2_SYN						= SyntaxStringBuilder.binaryFunction(QNT_CHI2_STR, SyntaxStringBuilder.p, SyntaxStringBuilder.k);
 	public static final String RND_F_SNEDECOR_SYN				= SyntaxStringBuilder.binaryFunction(RND_F_SNEDECOR_STR, SyntaxStringBuilder.d1, SyntaxStringBuilder.d2);
+	/** @since 6.2.0 */
+	public static final String ATAN2_SYN						= SyntaxStringBuilder.binaryFunction(ATAN2_STR, "y", "x");
 	/*
 	 * BinaryFunction - tokens description.
 	 */
@@ -393,6 +399,8 @@ public final class Function2Arg {
 	public static String CDF_CHI2_DESC = ParserSymbol.NA;
 	public static String QNT_CHI2_DESC = ParserSymbol.NA;
 	public static String RND_F_SNEDECOR_DESC = ParserSymbol.NA;
+	/** @since 6.2.0 */
+	public static String ATAN2_DESC			= ParserSymbol.NA;
 	/*
 	 * BinaryFunction - since.
 	 */
@@ -431,4 +439,6 @@ public final class Function2Arg {
 	public static final String CDF_CHI2_SINCE					= mXparser.NAMEv50;
 	public static final String QNT_CHI2_SINCE					= mXparser.NAMEv50;
 	public static final String RND_F_SNEDECOR_SINCE				= mXparser.NAMEv51;
+	/** @since 6.2.0 */
+	public static final String ATAN2_SINCE						= mXparser.NAMEv62;
 }

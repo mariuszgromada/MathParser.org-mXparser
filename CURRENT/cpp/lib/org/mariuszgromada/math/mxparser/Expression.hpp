@@ -2588,6 +2588,7 @@ namespace org::mariuszgromada::math::mxparser {
 		void MODULO(int pos);
 		void DIVIDE(int pos);
 		void DIVIDE_QUOTIENT(int pos);
+		void NAN_COALESCE(int pos);
 		void MULTIPLY(int pos);
 		void PLUS(int pos);
 		void MINUS(int pos);
@@ -2629,6 +2630,7 @@ namespace org::mariuszgromada::math::mxparser {
 		void ASIN(int pos);
 		void ACOS(int pos);
 		void ATAN(int pos);
+		void ATAN2(int pos);
 		void ACTAN(int pos);
 		void LN(int pos);
 		void LOG2(int pos);

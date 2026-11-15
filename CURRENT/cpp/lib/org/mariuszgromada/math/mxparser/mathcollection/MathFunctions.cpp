@@ -1346,6 +1346,16 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		} else return r;
 	}
 
+	API_VISIBLE double MathFunctions::atan2(double y, double x) {
+		if (Double::isNaN(y) || Double::isNaN(x)) return Double::NaN;
+		double r = Math::atan2(y, x);
+		if (mXparser::checkIfDegreesMode()) {
+			if (r == 0) return r;
+			return intIfAlmostIntOtherwiseOrig(div(r, Units::DEGREE_ARC));
+		}
+		return r;
+	}
+
 	API_VISIBLE double MathFunctions::actan(double a) {
 		if (Double::isNaN(a))
 			return Double::NaN;

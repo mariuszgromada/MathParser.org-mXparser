@@ -255,6 +255,8 @@ public final class Operator {
 	public static final int CUBE_ROOT_ID			= 11;
 	public static final int FOURTH_ROOT_ID			= 12;
 	public static final int DIVIDE_QUOTIENT_ID 		= 13;
+	/** @since 6.2.0 */
+	public static final int NAN_COALESCE_ID			= 14;
 	/*
 	 * Operator - tokens key words.
 	 */
@@ -276,6 +278,8 @@ public final class Operator {
 	public static final String CUBE_ROOT_STR		= "∛";
 	public static final String FOURTH_ROOT_STR		= "∜";
 	public static final String DIVIDE_QUOTIENT_STR 	= "\\";
+	/** @since 6.2.0 */
+	public static final String NAN_COALESCE_STR		= "??";
 	/*
 	 * Operator - syntax.
 	 */
@@ -297,6 +301,8 @@ public final class Operator {
 	public static final String CUBE_ROOT_SYN		= SyntaxStringBuilder.unaryLeftOperator(CUBE_ROOT_STR);
 	public static final String FOURTH_ROOT_SYN		= SyntaxStringBuilder.unaryLeftOperator(FOURTH_ROOT_STR);
 	public static final String DIVIDE_QUOTIENT_SYN	= SyntaxStringBuilder.binaryOperator(DIVIDE_QUOTIENT_STR);
+	/** @since 6.2.0 */
+	public static final String NAN_COALESCE_SYN		= SyntaxStringBuilder.binaryOperator(NAN_COALESCE_STR);
 	/*
 	 * Operator - tokens description.
 	 */
@@ -313,6 +319,8 @@ public final class Operator {
 	public static String CUBE_ROOT_DESC = ParserSymbol.NA;
 	public static String FOURTH_ROOT_DESC = ParserSymbol.NA;
 	public static String DIVIDE_QUOTIENT_DESC = ParserSymbol.NA;
+	/** @since 6.2.0 */
+	public static String NAN_COALESCE_DESC	  = ParserSymbol.NA;
 	/*
 	 * Operator - since.
 	 */
@@ -334,4 +342,6 @@ public final class Operator {
 	public static final String CUBE_ROOT_SINCE			= mXparser.NAMEv50;
 	public static final String FOURTH_ROOT_SINCE		= mXparser.NAMEv50;
 	public static final String DIVIDE_QUOTIENT_SINCE	= mXparser.NAMEv60;
+	/** @since 6.2.0 */
+	public static final String NAN_COALESCE_SINCE		= mXparser.NAMEv62;
 }

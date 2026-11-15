@@ -333,6 +333,7 @@ namespace org.mariuszgromada.math.mxparser {
             addKeyWord(Operator.DIVIDE_STR, Operator.DIVIDE_DESC, Operator.DIVIDE_ID, Operator.DIVIDE_SYN, Operator.DIVIDE_SINCE, Operator.TYPE_ID, keyWordsList);
             addKeyWord(Operator.DIVIDE_EUROPE_STR, Operator.DIVIDE_DESC, Operator.DIVIDE_ID, Operator.DIVIDE_EUROPE_SYN, Operator.DIVIDE_SINCE_EUROPE, Operator.TYPE_ID, keyWordsList);
             addKeyWord(Operator.DIVIDE_QUOTIENT_STR, Operator.DIVIDE_QUOTIENT_DESC, Operator.DIVIDE_QUOTIENT_ID, Operator.DIVIDE_QUOTIENT_SYN, Operator.DIVIDE_QUOTIENT_SINCE, Operator.TYPE_ID, keyWordsList);
+            addKeyWord(Operator.NAN_COALESCE_STR, Operator.NAN_COALESCE_DESC, Operator.NAN_COALESCE_ID, Operator.NAN_COALESCE_SYN, Operator.NAN_COALESCE_SINCE, Operator.TYPE_ID, keyWordsList);
             addKeyWordUnicode(Operator.DIVIDE_STR_UNI_1, Operator.DIVIDE_DESC, Operator.DIVIDE_ID, Operator.DIVIDE_SYN_UNI_1, Operator.DIVIDE_SINCE_UNI_1, Operator.TYPE_ID, unicodeKeyWordsEnabled, keyWordsList);
             addKeyWord(Operator.POWER_STR, Operator.POWER_DESC, Operator.POWER_ID, Operator.POWER_SYN, Operator.POWER_SINCE, Operator.TYPE_ID, keyWordsList);
             addKeyWord(Operator.FACT_STR, Operator.FACT_DESC, Operator.FACT_ID, Operator.FACT_SYN, Operator.FACT_SINCE, Operator.TYPE_ID, keyWordsList);
@@ -551,6 +552,7 @@ namespace org.mariuszgromada.math.mxparser {
                 addKeyWord(Function2Arg.CDF_CHI2_STR, Function2Arg.CDF_CHI2_DESC, Function2Arg.CDF_CHI2_ID, Function2Arg.CDF_CHI2_SYN, Function2Arg.CDF_CHI2_SINCE, Function2Arg.TYPE_ID, keyWordsList);
                 addKeyWord(Function2Arg.QNT_CHI2_STR, Function2Arg.QNT_CHI2_DESC, Function2Arg.QNT_CHI2_ID, Function2Arg.QNT_CHI2_SYN, Function2Arg.QNT_CHI2_SINCE, Function2Arg.TYPE_ID, keyWordsList);
                 addKeyWord(Function2Arg.RND_F_SNEDECOR_STR, Function2Arg.RND_F_SNEDECOR_DESC, Function2Arg.RND_F_SNEDECOR_ID, Function2Arg.RND_F_SNEDECOR_SYN, Function2Arg.RND_F_SNEDECOR_SINCE, Function2Arg.TYPE_ID, keyWordsList);
+                addKeyWord(Function2Arg.ATAN2_STR, Function2Arg.ATAN2_DESC, Function2Arg.ATAN2_ID, Function2Arg.ATAN2_SYN, Function2Arg.ATAN2_SINCE, Function2Arg.TYPE_ID, keyWordsList);
                 /*
                  * 3 args functions keywords
                  */

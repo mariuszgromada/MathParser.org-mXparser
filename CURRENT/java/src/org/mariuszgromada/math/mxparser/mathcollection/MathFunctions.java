@@ -2681,6 +2681,25 @@ public final class MathFunctions {
 		else return r;
 	}
 	/**
+	 * 2-argument arctangent: the angle of the vector (x, y).
+	 * Returns an angle in [-pi, pi], or [-180, 180] in degrees mode.
+	 * NaN, infinities and signed zeros follow Math.atan2(y, x).
+	 * @param y ordinate
+	 * @param x abscissa
+	 * @return the angle in the current angular mode
+	 * @since 6.2.0
+	 */
+	public static double atan2(double y, double x) {
+		if (Double.isNaN(y) || Double.isNaN(x)) return Double.NaN;
+		double r = Math.atan2(y, x);
+		if (mXparser.checkIfDegreesMode()) {
+			if (r == 0) return r;
+			return intIfAlmostIntOtherwiseOrig(div(r, Units.DEGREE_ARC));
+		}
+		return r;
+	}
+
+	/**
 	 * Arcus cotangent - inverse trigonometric cotangent function
 	 *
 	 * @param      a                   the a function parameter

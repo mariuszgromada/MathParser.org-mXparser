@@ -7218,8 +7218,8 @@ struct LatexRandomRestore { ~LatexRandomRestore() { mXparser::resetCancelCurrent
         Set<Long> actual;
         for (KeyWordPtr kw : *keywords) actual.add(latexTokenKey(kw->wordTypeId, kw->wordId));
         // The two additional UDF-context keys are not in the public ordinary-expression vocabulary.
-        latexEquals(527, keywords->size());
-        latexEquals(412, actual.size());
+        latexEquals(529, keywords->size());
+        latexEquals(414, actual.size());
         latexEquals(latexExport(Text(UTF("sqrt(x+1)"))), latexExport(Text(UTF("√(x+1)"))));
         latexEquals(Text(UTF("\\sqrt[{3}]{x}")), latexExport(Text(UTF("root(3,x)"))));
         latexEquals(Text(UTF("\\sqrt[3]{x}")), latexExport(Text(UTF("∛x"))));
@@ -7772,8 +7772,8 @@ struct LatexRandomRestore { ~LatexRandomRestore() { mXparser::resetCancelCurrent
                 rows++;
             }
         }
-        latexEquals(412, seen.size());
-        latexEquals(527 * contexts.size(), rows);
+        latexEquals(414, seen.size());
+        latexEquals(529 * contexts.size(), rows);
         testResult = true;
         TestCommonTools::consolePrintTestApiEnd(testResult);
         latexTrue(testResult);
@@ -9396,4 +9396,81 @@ TEST_CASE("testSyntaxCheckerAdaptation", "[API]") {
     testResult = true;
     TestCommonTools::consolePrintTestApiEnd(testResult);
     REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0455", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    bool testResult = false;
+    string testDescr = "NaN-coalescing and atan2 metadata in all eight languages";
+    TestCommonTools::consolePrintTestApiStart(455, testDescr);
+    std::vector<StringResourcesPtr> languages = {StringResources::languageEnglish(), StringResources::languageChinese(),
+            StringResources::languageFrench(), StringResources::languageGerman(), StringResources::languageItalian(),
+            StringResources::languagePolish(), StringResources::languagePortuguese(), StringResources::languageSpanish()};
+    bool ok = true;
+    for (const StringResourcesPtr& language : languages) {
+        StringModel::setStringResources(language);
+        int found = 0;
+        const ListPtr<KeyWordPtr> keywords = mXparser::getKeyWords();
+        for (const KeyWordPtr& kw : *keywords) {
+            if ((*kw->wordString == UTF("??"))) {
+                INFO("language=" << UTF16toUTF8(*language->USER_LANGUAGE) << " syntax=" << UTF16toUTF8(*kw->syntax)
+                     << " since=" << UTF16toUTF8(*kw->since) << " description=" << UTF16toUTF8(*kw->description)
+                     << " expected=" << UTF16toUTF8(*language->OPERATOR_NAN_COALESCE));
+                found++; ok &= kw->wordId == Operator::NAN_COALESCE_ID && kw->wordTypeId == Operator::TYPE_ID
+                        && (*kw->syntax == UTF("a ?? b")) && (*kw->since == UTF("6.2")) && (*kw->description == *(language->OPERATOR_NAN_COALESCE + StringInvariant::SEPARATOR + language->OPERATOR));
+                CHECK(ok);
+            }
+            if ((*kw->wordString == UTF("atan2"))) {
+                INFO("language=" << UTF16toUTF8(*language->USER_LANGUAGE) << " syntax=" << UTF16toUTF8(*kw->syntax)
+                     << " since=" << UTF16toUTF8(*kw->since) << " description=" << UTF16toUTF8(*kw->description)
+                     << " expected=" << UTF16toUTF8(*language->FUNCTION_2_ARG_ATAN2));
+                found++; ok &= kw->wordId == Function2Arg::ATAN2_ID && kw->wordTypeId == Function2Arg::TYPE_ID
+                        && (*kw->syntax == UTF("atan2(y, x)")) && (*kw->since == UTF("6.2")) && StringUtils::startsWith(kw->description, language->FUNCTION_2_ARG_ATAN2);
+                CHECK(ok);
+            }
+        }
+        ok &= found == 2 && !language->OPERATOR_NAN_COALESCE->empty() && !language->FUNCTION_2_ARG_ATAN2->empty();
+        CHECK(found == 2);
+        ok &= (mXparser::getHelpAsCsv()->find(*language->OPERATOR_NAN_COALESCE) != String::npos)
+                && (mXparser::getHelpAsHtmlTable()->find(*language->FUNCTION_2_ARG_ATAN2) != String::npos)
+                && (mXparser::getHelpAsJson()->find(UTF("atan2")) != String::npos) && (mXparser::getHelpAsMarkdownTable()->find(UTF("??")) != String::npos);
+    }
+    StringModel::setDefaultStringResources();
+    testResult = ok;
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    CHECK(testResult);
+}
+
+TEST_CASE("testApi0456", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    bool testResult = false;
+    string testDescr = "atan2 API IEEE special values, extreme magnitudes and angular modes";
+    TestCommonTools::consolePrintTestApiStart(456, testDescr);
+    std::vector<double> values = {0.0, -0.0, 1, -1, Double::POSITIVE_INFINITY, Double::NEGATIVE_INFINITY, Double::NaN,
+            std::numeric_limits<double>::denorm_min(), -std::numeric_limits<double>::denorm_min(), std::numeric_limits<double>::max(), -std::numeric_limits<double>::max()};
+    bool ok = true;
+    for (double y : values) for (double x : values) {
+        double expected = std::atan2(y, x);
+        double actual = MathFunctions::atan2(y, x);
+        ok &= Double::isNaN(expected) ? Double::isNaN(actual)
+                : expected == actual && (actual != 0 || std::signbit(expected) == std::signbit(actual));
+    }
+    mXparser::setDegreesMode();
+    ok &= std::signbit(MathFunctions::atan2(-0.0, 1))
+            && MathFunctions::atan2(1, -1) == 135 && MathFunctions::atan2(-1, -1) == -135;
+    mXparser::setRadiansMode();
+    testResult = ok;
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    CHECK(testResult);
+}
+
+TEST_CASE("testApi0457", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    bool testResult = false;
+    string testDescr = "New keywords preserve LaTeX export and operand grouping";
+    TestCommonTools::consolePrintTestApiStart(457, testDescr);
+    testResult = new_Expression("atan2(y,x)")->getExpressionAsLaTeX()->compare(UTF("\\operatorname{atan2}(y,x)")) == 0
+            && new_Expression("a??b+c")->getExpressionAsLaTeX()->compare(UTF("\\operatorname{first}_{\\ne\\mathrm{NaN}}(a,b+c)")) == 0;
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    CHECK(testResult);
 }

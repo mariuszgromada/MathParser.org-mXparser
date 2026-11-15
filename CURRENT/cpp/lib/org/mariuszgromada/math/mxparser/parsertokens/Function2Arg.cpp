@@ -267,6 +267,7 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		API_VISIBLE StringPtr Function2Arg::CDF_CHI2_STR = nullptr;
 		API_VISIBLE StringPtr Function2Arg::QNT_CHI2_STR = nullptr;
 		API_VISIBLE StringPtr Function2Arg::RND_F_SNEDECOR_STR = nullptr;
+	API_VISIBLE StringPtr Function2Arg::ATAN2_STR = nullptr;
 		/*
 		 * BinaryFunction - syntax.
 		 */
@@ -307,6 +308,7 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		API_VISIBLE StringPtr Function2Arg::CDF_CHI2_SYN = nullptr;
 		API_VISIBLE StringPtr Function2Arg::QNT_CHI2_SYN = nullptr;
 		API_VISIBLE StringPtr Function2Arg::RND_F_SNEDECOR_SYN = nullptr;
+	API_VISIBLE StringPtr Function2Arg::ATAN2_SYN = nullptr;
 		/*
 		 * BinaryFunction - tokens description.
 		 */
@@ -344,6 +346,7 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		API_VISIBLE StringPtr Function2Arg::CDF_CHI2_DESC = nullptr;
 		API_VISIBLE StringPtr Function2Arg::QNT_CHI2_DESC = nullptr;
 		API_VISIBLE StringPtr Function2Arg::RND_F_SNEDECOR_DESC = nullptr;
+	API_VISIBLE StringPtr Function2Arg::ATAN2_DESC = nullptr;
 		/*
 		 * BinaryFunction - since.
 		 */
@@ -382,6 +385,7 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		API_VISIBLE StringPtr Function2Arg::CDF_CHI2_SINCE = nullptr;
 		API_VISIBLE StringPtr Function2Arg::QNT_CHI2_SINCE = nullptr;
 		API_VISIBLE StringPtr Function2Arg::RND_F_SNEDECOR_SINCE = nullptr;
+	API_VISIBLE StringPtr Function2Arg::ATAN2_SINCE = nullptr;
 
 		STATIC_VARS_INITI_CPP(Function2Arg,
 
@@ -431,6 +435,7 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 			CDF_CHI2_STR = S(UTF("cChi2"));
 			QNT_CHI2_STR = S(UTF("qChi2"));
 			RND_F_SNEDECOR_STR = S(UTF("rFSned"));
+		ATAN2_STR = S(UTF("atan2"));
 			/*
 			 * BinaryFunction - syntax.
 			 */
@@ -471,6 +476,7 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 			CDF_CHI2_SYN = SyntaxStringBuilder::binaryFunction(CDF_CHI2_STR, SyntaxStringBuilder::x, SyntaxStringBuilder::k);
 			QNT_CHI2_SYN = SyntaxStringBuilder::binaryFunction(QNT_CHI2_STR, SyntaxStringBuilder::p, SyntaxStringBuilder::k);
 			RND_F_SNEDECOR_SYN = SyntaxStringBuilder::binaryFunction(RND_F_SNEDECOR_STR, SyntaxStringBuilder::d1, SyntaxStringBuilder::d2);
+		ATAN2_SYN = SyntaxStringBuilder::binaryFunction(ATAN2_STR, S(UTF("y")), S(UTF("x")));
 			/*
 			 * BinaryFunction - tokens description.
 			 */
@@ -508,6 +514,7 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 			INIT_WITH_NA(CDF_CHI2_DESC);
 			INIT_WITH_NA(QNT_CHI2_DESC);
 			INIT_WITH_NA(RND_F_SNEDECOR_DESC);
+		INIT_WITH_NA(ATAN2_DESC);
 			/*
 			 * BinaryFunction - since.
 			 */
@@ -546,5 +553,6 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 			CDF_CHI2_SINCE = mXparser::NAMEv50;
 			QNT_CHI2_SINCE = mXparser::NAMEv50;
 			RND_F_SNEDECOR_SINCE = mXparser::NAMEv51;
+		ATAN2_SINCE = mXparser::NAMEv62;
 	);
 } // namespace org::mariuszgromada::math::mxparser::parsertokens

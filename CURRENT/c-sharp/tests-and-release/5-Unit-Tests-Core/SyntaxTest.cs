@@ -6757,5 +6757,38 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 
+
+    [TestMethod]
+    public void testSyn0421() {
+        TestCommonTools.testSynSettingsInit();
+        bool testResult = false;
+        String testDescr = "NaN-coalescing contextual syntax";
+        TestCommonTools.consolePrintTestSynStart(421, testDescr);
+        mXparser.disableAttemptToFixExpStrMode();
+        Expression testExp = new Expression("1");
+        bool ok = true;
+        foreach (String input in new String[] {"1??2", "[NaN]??2", "(1??2)+3", "min(1??2,3)", "1??2??3", "π??2"}) ok &= new Expression(input).checkSyntax();
+        foreach (String input in new String[] {"1??", "??2", "1???2", "1??unknown", "1??sin(1,2)"}) ok &= !new Expression(input).checkSyntax();
+        testResult = ok;
+        TestCommonTools.consolePrintTestSynEnd(ok, true, testResult, testExp);
+        Assert.IsTrue(testResult);
     }
+    [TestMethod]
+    public void testSyn0422() {
+        TestCommonTools.testSynSettingsInit();
+        bool testResult = false;
+        String testDescr = "atan2 contextual syntax and arity";
+        TestCommonTools.consolePrintTestSynStart(422, testDescr);
+        mXparser.disableAttemptToFixExpStrMode();
+        Expression testExp = new Expression("1");
+        bool ok = true;
+        foreach (String input in new String[] {"atan2(1,2)", "atan2(1;2)", "atan2(sin(1),2)", "atan2(1??2,3)"}) ok &= new Expression(input).checkSyntax();
+        foreach (String input in new String[] {"atan2()", "atan2(1)", "atan2(1,2,3)", "atan2(1,unknown)", "atan2(,2)"}) ok &= !new Expression(input).checkSyntax();
+        testResult = ok;
+        TestCommonTools.consolePrintTestSynEnd(ok, true, testResult, testExp);
+        Assert.IsTrue(testResult);
+    }
+
+
+}
 }

@@ -397,6 +397,8 @@ namespace org::mariuszgromada::math::mxparser {
 		           Operator::DIVIDE_SINCE_EUROPE, Operator::TYPE_ID, keyWordsList);
 		addKeyWord(Operator::DIVIDE_QUOTIENT_STR, Operator::DIVIDE_QUOTIENT_DESC, Operator::DIVIDE_QUOTIENT_ID,
 		           Operator::DIVIDE_QUOTIENT_SYN, Operator::DIVIDE_QUOTIENT_SINCE, Operator::TYPE_ID, keyWordsList);
+		addKeyWord(Operator::NAN_COALESCE_STR, Operator::NAN_COALESCE_DESC, Operator::NAN_COALESCE_ID,
+		           Operator::NAN_COALESCE_SYN, Operator::NAN_COALESCE_SINCE, Operator::TYPE_ID, keyWordsList);
 		addKeyWordUnicode(Operator::DIVIDE_STR_UNI_1, Operator::DIVIDE_DESC, Operator::DIVIDE_ID,
 		                  Operator::DIVIDE_SYN_UNI_1, Operator::DIVIDE_SINCE_UNI_1, Operator::TYPE_ID,
 		                  unicodeKeyWordsEnabled, keyWordsList);
@@ -886,6 +888,9 @@ namespace org::mariuszgromada::math::mxparser {
 			addKeyWord(Function2Arg::RND_F_SNEDECOR_STR, Function2Arg::RND_F_SNEDECOR_DESC,
 			           Function2Arg::RND_F_SNEDECOR_ID, Function2Arg::RND_F_SNEDECOR_SYN,
 			           Function2Arg::RND_F_SNEDECOR_SINCE, Function2Arg::TYPE_ID, keyWordsList);
+			addKeyWord(Function2Arg::ATAN2_STR, Function2Arg::ATAN2_DESC,
+			           Function2Arg::ATAN2_ID, Function2Arg::ATAN2_SYN,
+			           Function2Arg::ATAN2_SINCE, Function2Arg::TYPE_ID, keyWordsList);
 			/*
 			 * 3 args functions keywords
 			 */

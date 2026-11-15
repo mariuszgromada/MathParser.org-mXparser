@@ -6749,4 +6749,36 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
 
+
+    @Test
+    public void testSyn0421() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "NaN-coalescing contextual syntax";
+        TestCommonTools.consolePrintTestSynStart(421, testDescr);
+        mXparser.disableAttemptToFixExpStrMode();
+        Expression testExp = new Expression("1");
+        boolean ok = true;
+        for (String input : new String[] {"1??2", "[NaN]??2", "(1??2)+3", "min(1??2,3)", "1??2??3", "π??2"}) ok &= new Expression(input).checkSyntax();
+        for (String input : new String[] {"1??", "??2", "1???2", "1??unknown", "1??sin(1,2)"}) ok &= !new Expression(input).checkSyntax();
+        testResult = ok;
+        TestCommonTools.consolePrintTestSynEnd(ok, true, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0422() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "atan2 contextual syntax and arity";
+        TestCommonTools.consolePrintTestSynStart(422, testDescr);
+        mXparser.disableAttemptToFixExpStrMode();
+        Expression testExp = new Expression("1");
+        boolean ok = true;
+        for (String input : new String[] {"atan2(1,2)", "atan2(1;2)", "atan2(sin(1),2)", "atan2(1??2,3)"}) ok &= new Expression(input).checkSyntax();
+        for (String input : new String[] {"atan2()", "atan2(1)", "atan2(1,2,3)", "atan2(1,unknown)", "atan2(,2)"}) ok &= !new Expression(input).checkSyntax();
+        testResult = ok;
+        TestCommonTools.consolePrintTestSynEnd(ok, true, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+
 }

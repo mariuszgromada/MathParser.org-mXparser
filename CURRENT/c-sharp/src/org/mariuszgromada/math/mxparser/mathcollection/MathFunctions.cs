@@ -2432,6 +2432,25 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			else return r;
 		}
+		/// <summary>2-argument arctangent of (x, y), in the current radian/degree mode.
+		/// NaN, infinities and signed zeros follow atan2. Since 6.2.0.</summary>
+		/// <param name="y">Ordinate.</param>
+		/// <param name="x">Abscissa.</param>
+		/// <returns>The angle in [-pi, pi], or [-180, 180] in degrees mode.</returns>
+		public static double atan2(double y, double x) {
+			if (Double.IsNaN(y) || Double.IsNaN(x)) return Double.NaN;
+			// .NET Framework returns NaN for two infinite coordinates.
+			// Normalize only that pair to preserve the canonical Java quadrant.
+			double r;
+			if (Double.IsInfinity(y) && Double.IsInfinity(x))
+				r = Math.Atan2(y > 0 ? 1 : -1, x > 0 ? 1 : -1);
+			else r = Math.Atan2(y, x);
+			if (mXparser.checkIfDegreesMode()) {
+				if (r == 0) return r;
+				return intIfAlmostIntOtherwiseOrig(div(r, Units.DEGREE_ARC));
+			}
+			return r;
+		}
 		/// <summary>Arcus cotangent - inverse trigonometric cotangent function</summary>
 		/// <param name="a">the a function parameter</param>
 		/// <returns>if a &lt;&gt; Double.NaN and a &lt;&gt; 0 returns Math.atan(1/a),

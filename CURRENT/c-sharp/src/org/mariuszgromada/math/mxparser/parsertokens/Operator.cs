@@ -251,6 +251,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int CUBE_ROOT_ID			= 11;
 		public const int FOURTH_ROOT_ID			= 12;
 		public const int DIVIDE_QUOTIENT_ID 	= 13;
+		/// <summary>Since 6.2.0.</summary>
+		public const int NAN_COALESCE_ID		= 14;
 		/*
 		 * Operator - tokens key words.
 		 */
@@ -272,6 +274,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String CUBE_ROOT_STR		= "∛";
 		public const String FOURTH_ROOT_STR		= "∜";
 		public const String DIVIDE_QUOTIENT_STR = "\\";
+		/// <summary>Since 6.2.0.</summary>
+		public const String NAN_COALESCE_STR	= "??";
 		/*
 		 * Operator - syntax.
 		 */
@@ -293,6 +297,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public static readonly String CUBE_ROOT_SYN			= SyntaxStringBuilder.unaryLeftOperator(CUBE_ROOT_STR);
 		public static readonly String FOURTH_ROOT_SYN		= SyntaxStringBuilder.unaryLeftOperator(FOURTH_ROOT_STR);
 		public static readonly String DIVIDE_QUOTIENT_SYN	= SyntaxStringBuilder.binaryOperator(DIVIDE_QUOTIENT_STR);
+		/// <summary>Since 6.2.0.</summary>
+		public static readonly String NAN_COALESCE_SYN		= SyntaxStringBuilder.binaryOperator(NAN_COALESCE_STR);
         /*
 		 * Operator - tokens description.
 		 */
@@ -309,6 +315,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
         public static String CUBE_ROOT_DESC = ParserSymbol.NA;
         public static String FOURTH_ROOT_DESC = ParserSymbol.NA;
 		public static String DIVIDE_QUOTIENT_DESC = ParserSymbol.NA;
+		/// <summary>Since 6.2.0.</summary>
+		public static String NAN_COALESCE_DESC	  = ParserSymbol.NA;
         /*
 		 * Operator - since.
 		 */
@@ -330,5 +338,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String CUBE_ROOT_SINCE			= mXparser.NAMEv50;
 		public const String FOURTH_ROOT_SINCE		= mXparser.NAMEv50;
 		public const String DIVIDE_QUOTIENT_SINCE	= mXparser.NAMEv60;
+		/// <summary>Since 6.2.0.</summary>
+		public const String NAN_COALESCE_SINCE		= mXparser.NAMEv62;
 	}
 }

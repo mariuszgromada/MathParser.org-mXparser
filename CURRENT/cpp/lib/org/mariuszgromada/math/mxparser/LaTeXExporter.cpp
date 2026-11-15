@@ -368,6 +368,7 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 		registerRule(rules, ParserSymbol::NUMBER_TYPE_ID, ParserSymbol::NUMBER_ID, Text(UTF("")), Text(UTF("")), Style::LITERAL, 0);
 		// Contextual structural operators use their symbol and Style.OPERATOR handler.
 		// Their empty templates are intentional; only actually executed templates are stored.
+		registerRule(rules, Operator::TYPE_ID, Operator::NAN_COALESCE_ID, Text(UTF("")), Text(UTF("\\operatorname{first}_{\\ne\\mathrm{NaN}}(@-1,@+1)")), Style::OPERATOR);
 		registerRule(rules, Operator::TYPE_ID, Operator::PLUS_ID, Text(UTF("+")), Text(UTF("")), Style::OPERATOR);
 		registerRule(rules, Operator::TYPE_ID, Operator::MINUS_ID, Text(UTF("-")), Text(UTF("")), Style::OPERATOR);
 		registerRule(rules, Operator::TYPE_ID, Operator::MULTIPLY_ID, Text(UTF("\\cdot")), Text(UTF("")), Style::OPERATOR);
@@ -399,6 +400,7 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 		registerRule(rules, BinaryRelation::TYPE_ID, BinaryRelation::GT_ID, Text(UTF(">")), Text(UTF("")), Style::OPERATOR);
 		registerRule(rules, BinaryRelation::TYPE_ID, BinaryRelation::LEQ_ID, Text(UTF("\\le")), Text(UTF("")), Style::OPERATOR);
 		registerRule(rules, BinaryRelation::TYPE_ID, BinaryRelation::GEQ_ID, Text(UTF("\\ge")), Text(UTF("")), Style::OPERATOR);
+		registerRule(rules, Function2Arg::TYPE_ID, Function2Arg::ATAN2_ID, Text(UTF("")), Text(UTF("\\operatorname{atan2}(@+1,@+2)")), Style::TEMPLATE, 2);
 		registerRule(rules, Function1Arg::TYPE_ID, Function1Arg::SIN_ID, Text(UTF("\\sin")), Text(UTF("@0 @+1")), Style::DIRECT_FUNCTION, 1);
 		registerRule(rules, Function1Arg::TYPE_ID, Function1Arg::COS_ID, Text(UTF("\\cos")), Text(UTF("@0 @+1")), Style::DIRECT_FUNCTION, 1);
 		registerRule(rules, Function1Arg::TYPE_ID, Function1Arg::TAN_ID, Text(UTF("\\tan")), Text(UTF("@0 @+1")), Style::DIRECT_FUNCTION, 1);
@@ -846,7 +848,7 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 		if (n->form == Form::PREFIX && Token::isUnicodeRootOperator(n->token)) return true;
 		if (r == nullptr) return n->form == Form::CALL;
 		if (r->style == Style::OPERATOR) return n->token->tokenTypeId == BitwiseOperator::TYPE_ID
-				|| is(n, Operator::TYPE_ID, Operator::MOD_ID) || is(n, Operator::TYPE_ID, Operator::DIVIDE_QUOTIENT_ID);
+				|| is(n, Operator::TYPE_ID, Operator::NAN_COALESCE_ID) || is(n, Operator::TYPE_ID, Operator::MOD_ID) || is(n, Operator::TYPE_ID, Operator::DIVIDE_QUOTIENT_ID);
 		return is(n, Function1Arg::TYPE_ID, Function1Arg::ABS_ID) || is(n, Function1Arg::TYPE_ID, Function1Arg::FLOOR_ID)
 				|| is(n, Function1Arg::TYPE_ID, Function1Arg::CEIL_ID) || is(n, Function1Arg::TYPE_ID, Function1Arg::SQRT_ID)
 				|| is(n, Function2Arg::TYPE_ID, Function2Arg::ROOT_ID) || is(n, Function2Arg::TYPE_ID, Function2Arg::BINOM_COEFF_ID);
@@ -1631,7 +1633,7 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 	}
 	static bool rightAssociative(TokenPtr t) {
 		return t->tokenTypeId == Operator::TYPE_ID
-				&& (t->tokenId == Operator::POWER_ID || t->tokenId == Operator::TETRATION_ID);
+				&& (t->tokenId == Operator::POWER_ID || t->tokenId == Operator::TETRATION_ID || t->tokenId == Operator::NAN_COALESCE_ID);
 	}
 
 	/* Source order in Expression.calculateFirstAndFullyCompile. Keep this catalogue
@@ -1644,13 +1646,14 @@ using NodePtr = Ptr<Node>; using RulePtr = Ptr<const Rule>; using VisitPtr = Ptr
 	enum class Binding {
 		TETRATION, POWER, FACTORIAL, PERCENT, REMAINDER, NEGATION, ROOT,
 		BIT_COMPLEMENT, PRODUCT, SUM, NOT_EQUAL, EQUAL, LESS, GREATER,
-		LESS_EQUAL, GREATER_EQUAL, CONJUNCTION, DISJUNCTION, IMPLICATION, BIT_BINARY
+		LESS_EQUAL, GREATER_EQUAL, CONJUNCTION, DISJUNCTION, IMPLICATION, BIT_BINARY, NAN_COALESCE
 	};
 
 	static Binding binding(TokenPtr t, int index) {
 		int id = t->tokenId;
 		if (t->tokenTypeId == Operator::TYPE_ID) {
 			switch (id) {
+				case Operator::NAN_COALESCE_ID: return Binding::NAN_COALESCE;
 				case Operator::TETRATION_ID: return Binding::TETRATION;
 				case Operator::POWER_ID: return Binding::POWER;
 				case Operator::FACT_ID: return Binding::FACTORIAL;

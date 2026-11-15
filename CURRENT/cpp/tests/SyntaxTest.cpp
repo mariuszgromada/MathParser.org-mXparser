@@ -6901,3 +6901,33 @@ TEST_CASE("testSyn0420", "[Syntax]") {
 	TestCommonTools::consolePrintTestSynEnd(allPassed, true, testResult, testExp);
 	REQUIRE(testResult);
 }
+
+TEST_CASE("testSyn0421", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string testDescr = "NaN-coalescing contextual syntax";
+    TestCommonTools::consolePrintTestSynStart(421, testDescr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr testExp = new_Expression("1");
+    bool ok = true;
+    for (const string& input : std::vector<string> {"1??2", "[NaN]??2", "(1??2)+3", "min(1??2,3)", "1??2??3", "π??2"}) ok &= new_Expression(input)->checkSyntax();
+    for (const string& input : std::vector<string> {"1??", "??2", "1???2", "1??unknown", "1??sin(1,2)"}) ok &= !new_Expression(input)->checkSyntax();
+    testResult = ok;
+    TestCommonTools::consolePrintTestSynEnd(ok, true, testResult, testExp);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0422", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string testDescr = "atan2 contextual syntax and arity";
+    TestCommonTools::consolePrintTestSynStart(422, testDescr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr testExp = new_Expression("1");
+    bool ok = true;
+    for (const string& input : std::vector<string> {"atan2(1,2)", "atan2(1;2)", "atan2(sin(1),2)", "atan2(1??2,3)"}) ok &= new_Expression(input)->checkSyntax();
+    for (const string& input : std::vector<string> {"atan2()", "atan2(1)", "atan2(1,2,3)", "atan2(1,unknown)", "atan2(,2)"}) ok &= !new_Expression(input)->checkSyntax();
+    testResult = ok;
+    TestCommonTools::consolePrintTestSynEnd(ok, true, testResult, testExp);
+    CHECK(testResult);
+}

@@ -248,6 +248,7 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 	API_VISIBLE StringPtr Operator::CUBE_ROOT_STR = nullptr;
 	API_VISIBLE StringPtr Operator::FOURTH_ROOT_STR = nullptr;
 	API_VISIBLE StringPtr Operator::DIVIDE_QUOTIENT_STR = nullptr;
+	API_VISIBLE StringPtr Operator::NAN_COALESCE_STR = nullptr;
 	/*
 	 * Operator - syntax.
 	 */
@@ -269,6 +270,7 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 	API_VISIBLE StringPtr Operator::CUBE_ROOT_SYN = nullptr;
 	API_VISIBLE StringPtr Operator::FOURTH_ROOT_SYN = nullptr;
 	API_VISIBLE StringPtr Operator::DIVIDE_QUOTIENT_SYN = nullptr;
+	API_VISIBLE StringPtr Operator::NAN_COALESCE_SYN = nullptr;
 	/*
 	 * Operator - tokens description.
 	 */
@@ -285,6 +287,7 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 	API_VISIBLE StringPtr Operator::CUBE_ROOT_DESC = nullptr;
 	API_VISIBLE StringPtr Operator::FOURTH_ROOT_DESC = nullptr;
 	API_VISIBLE StringPtr Operator::DIVIDE_QUOTIENT_DESC = nullptr;
+	API_VISIBLE StringPtr Operator::NAN_COALESCE_DESC = nullptr;
 	/*
 	 * Operator - since.
 	 */
@@ -306,6 +309,7 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 	API_VISIBLE StringPtr Operator::CUBE_ROOT_SINCE = nullptr;
 	API_VISIBLE StringPtr Operator::FOURTH_ROOT_SINCE = nullptr;
 	API_VISIBLE StringPtr Operator::DIVIDE_QUOTIENT_SINCE = nullptr;
+	API_VISIBLE StringPtr Operator::NAN_COALESCE_SINCE = nullptr;
 
 	STATIC_VARS_INITI_CPP(Operator,
 
@@ -336,6 +340,7 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		CUBE_ROOT_STR = S(UTF("∛"));
 		FOURTH_ROOT_STR = S(UTF("∜"));
 		DIVIDE_QUOTIENT_STR = S(UTF("\\"));
+		NAN_COALESCE_STR = S(UTF("??"));
 		/*
 		* Operator - syntax.
 		*/
@@ -357,6 +362,7 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		CUBE_ROOT_SYN = SyntaxStringBuilder::unaryLeftOperator(CUBE_ROOT_STR);
 		FOURTH_ROOT_SYN = SyntaxStringBuilder::unaryLeftOperator(FOURTH_ROOT_STR);
 		DIVIDE_QUOTIENT_SYN = SyntaxStringBuilder::binaryOperator(DIVIDE_QUOTIENT_STR);
+		NAN_COALESCE_SYN = SyntaxStringBuilder::binaryOperator(NAN_COALESCE_STR);
 		/*
 		* Operator - tokens description.
 		*/
@@ -373,6 +379,7 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		INIT_WITH_NA(CUBE_ROOT_DESC);
 		INIT_WITH_NA(FOURTH_ROOT_DESC);
 		INIT_WITH_NA(DIVIDE_QUOTIENT_DESC);
+		INIT_WITH_NA(NAN_COALESCE_DESC);
 		/*
 		* Operator - since.
 		*/
@@ -394,6 +401,7 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		CUBE_ROOT_SINCE = mXparser::NAMEv50;
 		FOURTH_ROOT_SINCE = mXparser::NAMEv50;
 		DIVIDE_QUOTIENT_SINCE = mXparser::NAMEv60;
+		NAN_COALESCE_SINCE = mXparser::NAMEv62;
 	);
 
 } // namespace org::mariuszgromada::math::mxparser::parsertokens

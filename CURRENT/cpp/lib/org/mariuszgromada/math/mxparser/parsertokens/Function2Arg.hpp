@@ -264,6 +264,8 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		static constexpr int CDF_CHI2_ID = 32;
 		static constexpr int QNT_CHI2_ID = 33;
 		static constexpr int RND_F_SNEDECOR_ID = 34;
+		/** \since 6.2.0 */
+		static constexpr int ATAN2_ID = 35;
 
 		/*
 		 * BinaryFunction - tokens key words.
@@ -305,6 +307,8 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		static StringPtr CDF_CHI2_STR;
 		static StringPtr QNT_CHI2_STR;
 		static StringPtr RND_F_SNEDECOR_STR;
+		/** \since 6.2.0 */
+		static StringPtr ATAN2_STR;
 		/*
 		 * BinaryFunction - syntax.
 		 */
@@ -345,6 +349,8 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		static StringPtr CDF_CHI2_SYN;
 		static StringPtr QNT_CHI2_SYN;
 		static StringPtr RND_F_SNEDECOR_SYN;
+		/** \since 6.2.0 */
+		static StringPtr ATAN2_SYN;
 		/*
 		 * BinaryFunction - tokens description.
 		 */
@@ -382,6 +388,8 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		static StringPtr CDF_CHI2_DESC;
 		static StringPtr QNT_CHI2_DESC;
 		static StringPtr RND_F_SNEDECOR_DESC;
+		/** \since 6.2.0 */
+		static StringPtr ATAN2_DESC;
 		/*
 		 * BinaryFunction - since.
 		 */
@@ -420,6 +428,8 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		static StringPtr CDF_CHI2_SINCE;
 		static StringPtr QNT_CHI2_SINCE;
 		static StringPtr RND_F_SNEDECOR_SINCE;
+		/** \since 6.2.0 */
+		static StringPtr ATAN2_SINCE;
 
 		STATIC_VARS_INITI_H;
 				

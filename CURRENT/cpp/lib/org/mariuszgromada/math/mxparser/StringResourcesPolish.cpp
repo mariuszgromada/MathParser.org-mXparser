@@ -634,6 +634,7 @@ namespace org::mariuszgromada::math::mxparser {
 		FUNCTION_1_ARG_DI_GAMMA = S(UTF("Digamma jako logarytmiczna pochodna Gamma"));
 		FUNCTION_1_ARG_PARAM = S(UTF("Automatycznie generowana funkcja dla funkcji zdefiniowanych przez użytkownika, zwraca wartość parametru funkcji na indeksie 'i'"));
 		// -------------------------------------------------
+		FUNCTION_2_ARG_ATAN2 = S(UTF("Dwuargumentowa funkcja arcus tangens"));
 		FUNCTION_2_ARG_LOG = S(UTF("Logarytm"));
 		FUNCTION_2_ARG_MOD = S(UTF("Modulo"));
 		FUNCTION_2_ARG_BINOM_COEFF = S(UTF("Współczynnik dwumianowy, liczba k-kombinacji, które można wybrać z n-elementowego zbioru"));
@@ -697,6 +698,7 @@ namespace org::mariuszgromada::math::mxparser {
 		OPERATOR_MULTIPLY = S(UTF("Mnożenie"));
 		OPERATOR_DIVIDE = S(UTF("Dzielenie"));
 		OPERATOR_DIVIDE_QUOTIENT = S(UTF("Dzielenie całkowitoliczbowe (iloraz)"));
+		OPERATOR_NAN_COALESCE = S(UTF("Pierwsza wartość różna od NaN"));
 		OPERATOR_POWER = S(UTF("Potęgowanie"));
 		OPERATOR_FACT = S(UTF("Silnia"));
 		OPERATOR_MOD = S(UTF("Modulo"));

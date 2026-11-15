@@ -518,6 +518,7 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 
 	API_VISIBLE bool StringUtils::canBeSeparatingChar(Char c) {
 		switch (c) {
+			case UTF('?'):
 			case UTF(' '):
 			case UTF(','):
 			case UTF(';'):

@@ -23932,5 +23932,227 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
 			Assert.IsTrue(testResult);
 		}
-	}
+
+    [TestMethod]
+    public void testExpr1447() {
+        TestCommonTools.testExprSettingsInit();
+        bool testResult = false;
+        String expStr = "NaN-coalescing values and complete operand precedence";
+        TestCommonTools.consolePrintTestExprStart(1447, expStr);
+        Expression testExp = new Expression("1");
+        double value = 1;
+        double reg = 1;
+        String[] inputs = {"1??2", "[NaN]??2", "0??9", "-3??9", "[NaN]??[NaN]", "0/0??7",
+                "1+2??9", "[NaN]??2+3*4", "1??2+3", "(1??2)+3", "[NaN]??[NaN]??5", "2^3??9",
+                "1<2??9", "0|1??9", "2@|1??9", "min(9,[NaN]??3)", "atan2(1??2,1)", "2(1??9)",
+                "sum(i,1,3,i??9)", "if(0,1??2,7)", "iff(0,1??2,1,8)", "(0/0??2)*(3??4)",
+                "1??sum(i,1,3,i)", "[NaN]??if(1,8,9)", "[NaN]??2;3"};
+        double[] expected = {1, 2, 0, -3, Double.NaN, 7, 3, 14, 1, 4, 5, 8, 1, 1, 3, 3, MathConstants.PI/4, 2, 6, 7, 8, 6, 1, 8, Double.NaN};
+        bool ok = true;
+        for (int i = 0; i<inputs.Length; i++) {
+            testExp = new Expression(inputs[i]);
+            value = testExp.calculate();
+            reg = expected[i];
+            ok &= Double.IsNaN(reg) ? Double.IsNaN(value) : Math.Abs(value-reg) <= 1e-12;
+        }
+        testResult = ok;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assert.IsTrue(testResult);
+    }
+    private sealed class CoalesceCounter : FunctionExtension {
+        readonly int[] calls;
+        double value;
+        public CoalesceCounter(int[] calls) { this.calls = calls; }
+        public int getParametersNumber() { return 1; }
+        public void setParameterValue(int index, double value) { this.value = value; }
+        public String getParameterName(int index) { return "x"; }
+        public double calculate() { calls[0]++; return value; }
+        public FunctionExtension clone() { return new CoalesceCounter(calls); }
+    }
+    [TestMethod]
+    public void testExpr1448() {
+        TestCommonTools.testExprSettingsInit();
+        bool testResult = false;
+        String expStr = "NaN-coalescing eagerly evaluates both operands and replays side effects";
+        TestCommonTools.consolePrintTestExprStart(1448, expStr);
+        Expression testExp = new Expression("1");
+        double value = 1;
+        double reg = 1;
+        int[] calls = {0};
+        Function tick = new Function("tick", new CoalesceCounter(calls));
+        String[] inputs = {"tick(1)??tick(2)", "1??(tick(2)+tick(3))", "1??sum(i,1,3,tick(i))",
+                "1??if(tick(1),tick(2),tick(3))", "1??([NaN]??tick(2))", "1??d", "if(0,tick(1)??tick(2),1)"};
+        int[] expectedCalls = {2, 2, 3, 2, 1, 1, 0};
+        Argument d = new Argument("d=tick(3)", tick);
+        bool ok = true;
+        for (int i = 0; i < inputs.Length; i++) {
+            testExp = new Expression(inputs[i], tick, d);
+            for (int repeat = 0; repeat < 2; repeat++) {
+                calls[0] = 0;
+                value = testExp.calculate();
+                reg = 1;
+                ok &= value == reg && calls[0] == expectedCalls[i];
+            }
+        }
+        testExp = new Expression("tick([NaN])??tick(2)??tick(3)", tick);
+        for (int repeat = 0; repeat < 2; repeat++) {
+            calls[0] = 0;
+            value = testExp.calculate();
+            reg = 2;
+            ok &= value == reg && calls[0] == 3;
+        }
+        testResult = ok;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testExpr1449() {
+        TestCommonTools.testExprSettingsInit();
+        bool testResult = false;
+        String expStr = "NaN-coalescing repeated evaluation, cloning and invalidation";
+        TestCommonTools.consolePrintTestExprStart(1449, expStr);
+        Expression testExp = new Expression("1");
+        double value = 1;
+        double reg = 1;
+        Argument x = new Argument("x", Double.NaN);
+        Argument y = new Argument("y", 4);
+        testExp = new Expression("x??y+1", x, y);
+        bool ok = true;
+        for (int i = 0; i<16; i++) {
+            x.setArgumentValue(i%2 == 0 ? Double.NaN : i);
+            y.setArgumentValue(i+10);
+            reg = i%2 == 0 ? i+11 : i;
+            value = testExp.calculate();
+            ok &= value == reg && testExp.calculate() == reg;
+        }
+        Expression clone = testExp.cloneForThreadSafe();
+        clone.getArgument("x").setArgumentValue(Double.NaN);
+        clone.getArgument("y").setArgumentValue(50);
+        ok &= clone.calculate() == 51 && testExp.calculate() == 15;
+        testExp.setExpressionString("(x??y)+2");
+        value = testExp.calculate(); reg = 17;
+        testResult = ok && value == reg;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testExpr1450() {
+        TestCommonTools.testExprSettingsInit();
+        bool testResult = false;
+        String expStr = "atan2 quadrants, axes and nested expressions in radians";
+        TestCommonTools.consolePrintTestExprStart(1450, expStr);
+        Expression testExp = new Expression("1");
+        double value = 1;
+        double reg = 1;
+        String[] inputs = {"atan2(1,1)", "atan2(1,-1)", "atan2(-1,-1)", "atan2(-1,1)",
+                "atan2(1,0)", "atan2(-1,0)", "atan2(0,-1)", "atan2(0,1)", "atan2([NaN],1)",
+                "atan2(1,[NaN])", "atan2(1+1,2)", "2atan2(1,1)", "atan2(1,1)??9"};
+        double p = MathConstants.PI;
+        double[] expected = {p/4, 3*p/4, -3*p/4, -p/4, p/2, -p/2, p, 0, Double.NaN, Double.NaN, p/4, p/2, p/4};
+        bool ok = true;
+        for (int i = 0; i<inputs.Length; i++) {
+            testExp = new Expression(inputs[i]); value = testExp.calculate(); reg = expected[i];
+            ok &= Double.IsNaN(reg) ? Double.IsNaN(value) : Math.Abs(value-reg) <= 1e-12;
+        }
+        testResult = ok;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testExpr1451() {
+        TestCommonTools.testExprSettingsInit();
+        bool testResult = false;
+        String expStr = "atan2 repeated calculation in degree and radian modes";
+        TestCommonTools.consolePrintTestExprStart(1451, expStr);
+        Expression testExp = new Expression("1");
+        double value = 1;
+        double reg = 1;
+        Argument y = new Argument("y", 1);
+        Argument x = new Argument("x", 1);
+        testExp = new Expression("atan2(y,x)", y, x);
+        bool ok = true;
+        double[] ys = {1, 1, -1, -1, 1, -1, 0, 0};
+        double[] xs = {1, -1, -1, 1, 0, 0, -1, 1};
+        double[] expected = {45, 135, -135, -45, 90, -90, 180, 0};
+        mXparser.setDegreesMode();
+        for (int i = 0; i<ys.Length; i++) {
+            y.setArgumentValue(ys[i]); x.setArgumentValue(xs[i]);
+            value = testExp.calculate(); reg = expected[i]; ok &= value == reg && testExp.calculate() == reg;
+        }
+        mXparser.setRadiansMode(); y.setArgumentValue(1); x.setArgumentValue(1);
+        value = testExp.calculate(); reg = MathConstants.PI/4;
+        testResult = ok && Math.Abs(value-reg) <= 1e-12;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assert.IsTrue(testResult);
+    }
+
+
+    [TestMethod]
+    public void testExpr1452() {
+        TestCommonTools.testExprSettingsInit();
+        bool testResult = false;
+        String expStr = "NaN-coalescing preserves global rounding and numerical algorithm context";
+        TestCommonTools.consolePrintTestExprStart(1452, expStr);
+        String left = "floor((0.7+0.1)*10)";
+        Expression testExp = new Expression(left + "??0");
+        double value = testExp.calculate();
+        double reg = 8;
+        bool ok = value == reg && new Expression(left).calculate() == reg
+                && new Expression("if(1," + left + ",0)").calculate() == reg;
+        bool canonical = mXparser.checkIfCanonicalRounding();
+        bool ulp = mXparser.checkIfUlpRounding();
+        bool almostInt = mXparser.checkIfAlmostIntRounding();
+        Expression ordinary = new Expression(left);
+        Expression fallback = new Expression("[NaN]??" + left);
+        Expression sum = new Expression("sum(i,1,2," + left + ")");
+        Expression sumCoalesced = new Expression("sum(i,1,2,(" + left + ")??0)");
+        Expression small = new Expression("(1e-16+0)/1e-16");
+        Expression smallCoalesced = new Expression("((1e-16+0)??0)/1e-16");
+        Expression smallChain = new Expression("(([NaN]??(1e-16+0))??0)/1e-16");
+        for (int mode = 0; mode < 8; mode++) {
+            mXparser.setCanonicalRounding((mode & 1) != 0);
+            mXparser.setUlpRounding((mode & 2) != 0);
+            mXparser.setAlmostIntRounding((mode & 4) != 0);
+            double expected = ordinary.calculate();
+            ok &= testExp.calculate() == expected && testExp.calculate() == expected
+                    && fallback.calculate() == expected;
+            double expectedSum = sum.calculate();
+            ok &= sumCoalesced.calculate() == expectedSum
+                    && sumCoalesced.calculate() == expectedSum;
+            double expectedSmall = small.calculate();
+            ok &= expectedSmall == 1 && smallCoalesced.calculate() == expectedSmall
+                    && smallCoalesced.calculate() == expectedSmall
+                    && smallChain.calculate() == expectedSmall;
+        }
+        // Selecting an existing operand must not apply additional ULP rounding.
+        mXparser.setCanonicalRounding(false);
+        mXparser.setAlmostIntRounding(false);
+        Argument selected = new Argument("selected", 0.1 + 0.2);
+        String[] selections = {"selected??0", "[NaN]??selected", "[NaN]??selected??0",
+                "(selected??0)??0", "coalesce(selected,0)", "coalesce([NaN],selected)",
+                "min(selected,selected)", "max(selected,selected)"};
+        double[] supplied = {0.1 + 0.2, -(0.1 + 0.2), 2.5 - 2.2, -(2.5 - 2.2)};
+        foreach (String selection in selections) {
+            Expression selectionExp = new Expression(selection, selected);
+            for (int mode = 0; mode < 2; mode++) {
+                mXparser.setUlpRounding(mode != 0);
+                foreach (double suppliedValue in supplied) {
+                    selected.setArgumentValue(suppliedValue);
+                    for (int repeat = 0; repeat < 2; repeat++) {
+                        double selectedValue = selectionExp.calculate();
+                        ok &= selectedValue == suppliedValue;
+                    }
+                }
+            }
+        }
+        mXparser.setCanonicalRounding(canonical);
+        mXparser.setUlpRounding(ulp);
+        mXparser.setAlmostIntRounding(almostInt);
+        value = testExp.calculate();
+        testResult = ok && value == reg;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assert.IsTrue(testResult);
+    }
+
+}
 }

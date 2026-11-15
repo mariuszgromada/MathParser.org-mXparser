@@ -310,7 +310,7 @@ export function runLaTeXBehavior(mx) {
             aliases++;
             release();
         }
-        equal(aliases, 527); equal(keys.size, 412);
+        equal(aliases, 529); equal(keys.size, 414);
         const udf = keep(new mx.Function('f(...) = par(1)+[npar]'));
         // Ordinary expressions intentionally lack the two UDF-only keywords;
         // exporting user functions preserves calls instead of expanding bodies.

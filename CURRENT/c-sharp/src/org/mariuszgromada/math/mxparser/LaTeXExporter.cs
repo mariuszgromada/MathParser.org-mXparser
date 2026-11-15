@@ -342,6 +342,7 @@ internal sealed class LaTeXExporter {
 		register(rules, ParserSymbol.NUMBER_TYPE_ID, ParserSymbol.NUMBER_ID, "", "", Style.LITERAL, 0);
 		// Contextual structural operators use their symbol and Style.OPERATOR handler.
 		// Their empty templates are intentional; only actually executed templates are stored.
+		register(rules, Operator.TYPE_ID, Operator.NAN_COALESCE_ID, "", "\\operatorname{first}_{\\ne\\mathrm{NaN}}(@-1,@+1)", Style.OPERATOR);
 		register(rules, Operator.TYPE_ID, Operator.PLUS_ID, "+", "", Style.OPERATOR);
 		register(rules, Operator.TYPE_ID, Operator.MINUS_ID, "-", "", Style.OPERATOR);
 		register(rules, Operator.TYPE_ID, Operator.MULTIPLY_ID, "\\cdot", "", Style.OPERATOR);
@@ -373,6 +374,7 @@ internal sealed class LaTeXExporter {
 		register(rules, BinaryRelation.TYPE_ID, BinaryRelation.GT_ID, ">", "", Style.OPERATOR);
 		register(rules, BinaryRelation.TYPE_ID, BinaryRelation.LEQ_ID, "\\le", "", Style.OPERATOR);
 		register(rules, BinaryRelation.TYPE_ID, BinaryRelation.GEQ_ID, "\\ge", "", Style.OPERATOR);
+		register(rules, Function2Arg.TYPE_ID, Function2Arg.ATAN2_ID, "", "\\operatorname{atan2}(@+1,@+2)", Style.TEMPLATE, 2);
 		register(rules, Function1Arg.TYPE_ID, Function1Arg.SIN_ID, "\\sin", "@0 @+1", Style.DIRECT_FUNCTION, 1);
 		register(rules, Function1Arg.TYPE_ID, Function1Arg.COS_ID, "\\cos", "@0 @+1", Style.DIRECT_FUNCTION, 1);
 		register(rules, Function1Arg.TYPE_ID, Function1Arg.TAN_ID, "\\tan", "@0 @+1", Style.DIRECT_FUNCTION, 1);
@@ -820,7 +822,7 @@ internal sealed class LaTeXExporter {
 		if (n.form == Form.PREFIX && n.token.isUnicodeRootOperator()) return true;
 		if (r == null) return n.form == Form.CALL;
 		if (r.style == Style.OPERATOR) return n.token.tokenTypeId == BitwiseOperator.TYPE_ID
-				|| @is(n, Operator.TYPE_ID, Operator.MOD_ID) || @is(n, Operator.TYPE_ID, Operator.DIVIDE_QUOTIENT_ID);
+				|| @is(n, Operator.TYPE_ID, Operator.NAN_COALESCE_ID) || @is(n, Operator.TYPE_ID, Operator.MOD_ID) || @is(n, Operator.TYPE_ID, Operator.DIVIDE_QUOTIENT_ID);
 		return @is(n, Function1Arg.TYPE_ID, Function1Arg.ABS_ID) || @is(n, Function1Arg.TYPE_ID, Function1Arg.FLOOR_ID)
 				|| @is(n, Function1Arg.TYPE_ID, Function1Arg.CEIL_ID) || @is(n, Function1Arg.TYPE_ID, Function1Arg.SQRT_ID)
 				|| @is(n, Function2Arg.TYPE_ID, Function2Arg.ROOT_ID) || @is(n, Function2Arg.TYPE_ID, Function2Arg.BINOM_COEFF_ID);
@@ -1583,7 +1585,7 @@ internal sealed class LaTeXExporter {
 	}
 	private static bool rightAssociative(Token t) {
 		return t.tokenTypeId == Operator.TYPE_ID
-				&& (t.tokenId == Operator.POWER_ID || t.tokenId == Operator.TETRATION_ID);
+				&& (t.tokenId == Operator.POWER_ID || t.tokenId == Operator.TETRATION_ID || t.tokenId == Operator.NAN_COALESCE_ID);
 	}
 
 	/* Source order in Expression.calculateFirstAndFullyCompile. Keep this catalogue
@@ -1594,13 +1596,14 @@ internal sealed class LaTeXExporter {
 	private enum Binding {
 		TETRATION, POWER, FACTORIAL, PERCENT, REMAINDER, NEGATION, ROOT,
 		BIT_COMPLEMENT, PRODUCT, SUM, NOT_EQUAL, EQUAL, LESS, GREATER,
-		LESS_EQUAL, GREATER_EQUAL, CONJUNCTION, DISJUNCTION, IMPLICATION, BIT_BINARY
+		LESS_EQUAL, GREATER_EQUAL, CONJUNCTION, DISJUNCTION, IMPLICATION, BIT_BINARY, NAN_COALESCE
 	}
 
 	private static Binding binding(Token t, int index) {
 		int id = t.tokenId;
 		if (t.tokenTypeId == Operator.TYPE_ID) {
 			switch (id) {
+				case Operator.NAN_COALESCE_ID: return Binding.NAN_COALESCE;
 				case Operator.TETRATION_ID: return Binding.TETRATION;
 				case Operator.POWER_ID: return Binding.POWER;
 				case Operator.FACT_ID: return Binding.FACTORIAL;

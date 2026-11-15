@@ -11,6 +11,7 @@
     "test/public-types.mts",
     "test/numeric-types.mts",
     "test/latex-types.mts",
-    "test/cancellation-types.mts"
+    "test/cancellation-types.mts",
+    "test/nancoal-atan2-types.mts"
   ]
 }

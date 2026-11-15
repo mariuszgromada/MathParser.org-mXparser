@@ -635,6 +635,7 @@ class StringResourcesChinese extends StringResources {
 		FUNCTION_1_ARG_DI_GAMMA = "伽马函数的对数导数（双伽马）";
 		FUNCTION_1_ARG_PARAM = "自动生成的用户定义函数，返回索引为 'i' 的函数参数值";
 		// -------------------------------------------------
+		FUNCTION_2_ARG_ATAN2 = "双参数反正切函数";
 		FUNCTION_2_ARG_LOG = "对数";
 		FUNCTION_2_ARG_MOD = "取模";
 		FUNCTION_2_ARG_BINOM_COEFF = "二项系数，从 n 元素集合中抽取 k 个组合的数量";
@@ -698,6 +699,7 @@ class StringResourcesChinese extends StringResources {
 		OPERATOR_MULTIPLY = "乘法";
 		OPERATOR_DIVIDE = "除法";
 		OPERATOR_DIVIDE_QUOTIENT = "整数除法（商）";
+        OPERATOR_NAN_COALESCE = "第一个非 NaN 值";
 		OPERATOR_POWER = "幂运算";
 		OPERATOR_FACT = "阶乘";
 		OPERATOR_MOD = "取模";

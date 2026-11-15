@@ -272,6 +272,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int CDF_CHI2_ID						= 32;
 		public const int QNT_CHI2_ID						= 33;
 		public const int RND_F_SNEDECOR_ID					= 34;
+		/// <summary>Since 6.2.0.</summary>
+		public const int ATAN2_ID							= 35;
 		/*
 		 * BinaryFunction - tokens key words.
 		 */
@@ -312,6 +314,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String CDF_CHI2_STR					= "cChi2";
 		public const String QNT_CHI2_STR					= "qChi2";
 		public const String RND_F_SNEDECOR_STR				= "rFSned";
+		/// <summary>Since 6.2.0.</summary>
+		public const String ATAN2_STR						= "atan2";
 		/*
 		 * BinaryFunction - syntax.
 		 */
@@ -352,6 +356,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public static readonly String CDF_CHI2_SYN					= SyntaxStringBuilder.binaryFunction(CDF_CHI2_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.k);
 		public static readonly String QNT_CHI2_SYN					= SyntaxStringBuilder.binaryFunction(QNT_CHI2_STR, SyntaxStringBuilder.p, SyntaxStringBuilder.k);
         public static readonly String RND_F_SNEDECOR_SYN			= SyntaxStringBuilder.binaryFunction(RND_F_SNEDECOR_STR, SyntaxStringBuilder.d1, SyntaxStringBuilder.d2);
+		/// <summary>Since 6.2.0.</summary>
+		public static readonly String ATAN2_SYN						= SyntaxStringBuilder.binaryFunction(ATAN2_STR, "y", "x");
         /*
 		 * BinaryFunction - tokens description.
 		 */
@@ -389,6 +395,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
         public static String CDF_CHI2_DESC = ParserSymbol.NA;
         public static String QNT_CHI2_DESC = ParserSymbol.NA;
         public static String RND_F_SNEDECOR_DESC = ParserSymbol.NA;
+		/// <summary>Since 6.2.0.</summary>
+		public static String ATAN2_DESC			= ParserSymbol.NA;
         /*
 		 * BinaryFunction - since.
 		 */
@@ -427,5 +435,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String CDF_CHI2_SINCE					= mXparser.NAMEv50;
 		public const String QNT_CHI2_SINCE					= mXparser.NAMEv50;
         public const String RND_F_SNEDECOR_SINCE			= mXparser.NAMEv51;
+		/// <summary>Since 6.2.0.</summary>
+		public const String ATAN2_SINCE						= mXparser.NAMEv62;
 	}
 }

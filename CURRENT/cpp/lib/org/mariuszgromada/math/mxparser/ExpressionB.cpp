@@ -519,6 +519,17 @@ namespace org::mariuszgromada::math::mxparser {
 		double b = getTokenValue(pos + 1);
 		opSetDecreaseRemove(pos, MathFunctions::divQuotient(a, b), true);
 	}
+	/**
+	 * NaN-coalescing handling.
+	 *
+	 * @param      pos                 the token position
+	 */
+	API_VISIBLE void Expression::NAN_COALESCE(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::NAN_COALESCE, pos);
+		double a = getTokenValue(pos-1);
+		double b = getTokenValue(pos+1);
+		opSetDecreaseRemove(pos, Double::isNaN(a) ? b : a, false);
+	}
 
 	/**
 	 * \brief Multiplication handling.
@@ -969,6 +980,12 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::ATAN(int pos) {
 		double a = getTokenValue(pos + 1);
 		f1SetDecreaseRemove(pos, MathFunctions::atan(a));
+	}
+
+	API_VISIBLE void Expression::ATAN2(int pos) {
+		double y = getTokenValue(pos+1);
+		double x = getTokenValue(pos+2);
+		f2SetDecreaseRemove(pos, MathFunctions::atan2(y, x));
 	}
 
 	/**
@@ -2935,6 +2952,7 @@ namespace org::mariuszgromada::math::mxparser {
 		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
 		variadicSetDecreaseRemove(pos, MathFunctions::coalesceWithCancel(numbersArray, activeCancelId), numbers->size());
 	}
+
 
 	/**
 	 * \brief OR_VARIADIC

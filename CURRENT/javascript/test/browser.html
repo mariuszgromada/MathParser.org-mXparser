@@ -226,6 +226,7 @@ CONTACT
     import {initMxParser} from '../dist/index.js';
     import {runPublicBehavior} from '../test/behavior.mjs';
     import {runLaTeXBehavior} from '../test/latex-behavior.mjs';
+    import {runNaNAtan2Behavior} from '../test/nancoal-atan2-behavior.mjs';
     import {evaluateIsolated} from '../examples/worker-client.mjs';
     import {runWorkerBehavior} from '../test/worker-behavior.mjs';
 
@@ -285,7 +286,9 @@ CONTACT
         checks += worker.checks;
         const latex = runLaTeXBehavior(mx);
         checks += latex.checks;
-        globalThis.testResult = {status: 'PASS', checks, crossOriginIsolated, scenarios: behavior.scenarios, worker, latex};
+        const nancoalAtan2=runNaNAtan2Behavior(mx);
+        checks += nancoalAtan2.checks;
+        globalThis.testResult = {status: 'PASS', checks, crossOriginIsolated, scenarios: behavior.scenarios, worker, latex, nancoalAtan2};
         result.textContent = JSON.stringify(globalThis.testResult, null, 2);
     } catch (error) {
         globalThis.testResult = {status: 'FAIL', checks, error: String(error), stack: error.stack};

@@ -561,6 +561,7 @@ class CompiledElement implements Serializable {
 		,bitwiseCalc
 		,PARENTHESES
 		,Null
+		,NAN_COALESCE
 	}
 
 	ToCall toCall = ToCall.Null;

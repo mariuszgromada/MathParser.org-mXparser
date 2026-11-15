@@ -320,7 +320,7 @@ try {
     }
     console.log(JSON.stringify({...report, browser: executable}));
     if (!report || report.status !== 'PASS' || report.checks < requiredChecks
-        || targetPath === '/' && (report.latex?.status !== 'PASS' || report.latex?.exports !== 232 || report.latex?.shapes !== 25 || report.latex?.aliases !== 527 || report.scenarios?.length !== 10 || report.worker?.status !== 'PASS' || report.worker?.checks !== 13)
+        || targetPath === '/' && (report.latex?.status !== 'PASS' || report.latex?.exports !== 232 || report.latex?.shapes !== 25 || report.latex?.aliases !== 529 || report.scenarios?.length !== 10 || report.nancoalAtan2?.status !== 'PASS' || report.nancoalAtan2?.scenarios?.length !== 12 || report.worker?.status !== 'PASS' || report.worker?.checks !== 13)
         || report.crossOriginIsolated !== (process.env.MXPARSER_ISOLATED === '1')) {
         const summary = {status: report?.status, checks: report?.checks, error: report?.error,
             failedIds: report?.report?.tests?.filter(x => x.status === 'FAIL').map(x => x.cpp_id)};

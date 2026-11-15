@@ -528,6 +528,7 @@ namespace org.mariuszgromada.math.mxparser {
             Function2Arg.CDF_CHI2_DESC = STRING_RESOURCES.CHI_SQUARED_DISTRIBUTION + StringInvariant.SEPARATOR + STRING_RESOURCES.CUMULATIVE_DISTRIBUTION_FUNCTION + StringInvariant.SEPARATOR + STRING_RESOURCES.FUNCTION_2_ARG;
             Function2Arg.QNT_CHI2_DESC = STRING_RESOURCES.CHI_SQUARED_DISTRIBUTION + StringInvariant.SEPARATOR + STRING_RESOURCES.QUANTILE_FUNCTION + StringInvariant.SEPARATOR + STRING_RESOURCES.FUNCTION_2_ARG;
             Function2Arg.RND_F_SNEDECOR_DESC = STRING_RESOURCES.RANDOM_VARIABLE + StringInvariant.SEPARATOR + STRING_RESOURCES.SNEDECORS_F_DISTRIBUTION + StringInvariant.SEPARATOR + STRING_RESOURCES.FUNCTION_2_ARG;
+        Function2Arg.ATAN2_DESC = STRING_RESOURCES.FUNCTION_2_ARG_ATAN2 + StringInvariant.SEPARATOR + STRING_RESOURCES.FUNCTION_2_ARG;
         }
         internal static void setLanguageSpecificDescriptionsFunction3Arg() {
             Function3Arg.TYPE_DESC = STRING_RESOURCES.FUNCTION_3_ARG;
@@ -582,6 +583,7 @@ namespace org.mariuszgromada.math.mxparser {
             Operator.MULTIPLY_DESC = STRING_RESOURCES.OPERATOR_MULTIPLY + StringInvariant.SEPARATOR + STRING_RESOURCES.OPERATOR;
             Operator.DIVIDE_DESC = STRING_RESOURCES.OPERATOR_DIVIDE + StringInvariant.SEPARATOR + STRING_RESOURCES.OPERATOR;
             Operator.DIVIDE_QUOTIENT_DESC = STRING_RESOURCES.OPERATOR_DIVIDE_QUOTIENT + StringInvariant.SEPARATOR + STRING_RESOURCES.OPERATOR;
+        Operator.NAN_COALESCE_DESC = STRING_RESOURCES.OPERATOR_NAN_COALESCE + StringInvariant.SEPARATOR + STRING_RESOURCES.OPERATOR;
             Operator.POWER_DESC = STRING_RESOURCES.OPERATOR_POWER + StringInvariant.SEPARATOR + STRING_RESOURCES.OPERATOR;
             Operator.FACT_DESC = STRING_RESOURCES.OPERATOR_FACT + StringInvariant.SEPARATOR + STRING_RESOURCES.OPERATOR;
             Operator.MOD_DESC = STRING_RESOURCES.OPERATOR_MOD + StringInvariant.SEPARATOR + STRING_RESOURCES.OPERATOR;
@@ -1067,6 +1069,7 @@ namespace org.mariuszgromada.math.mxparser {
             StringUtils.consolePrintln("Function2Arg.CDF_CHI2_DESC = \"" + Function2Arg.CDF_CHI2_DESC + "\";");
             StringUtils.consolePrintln("Function2Arg.QNT_CHI2_DESC = \"" + Function2Arg.QNT_CHI2_DESC + "\";");
             StringUtils.consolePrintln("Function2Arg.RND_F_SNEDECOR_DESC = \"" + Function2Arg.RND_F_SNEDECOR_DESC + "\";");
+            StringUtils.consolePrintln("Function2Arg.ATAN2_DESC = \"" + Function2Arg.ATAN2_DESC + "\";");
             StringUtils.consolePrintln("Function3Arg.IF_DESC = \"" + Function3Arg.IF_DESC + "\";");
             StringUtils.consolePrintln("Function3Arg.CHI_DESC = \"" + Function3Arg.CHI_DESC + "\";");
             StringUtils.consolePrintln("Function3Arg.CHI_LR_DESC = \"" + Function3Arg.CHI_LR_DESC + "\";");
@@ -1116,6 +1119,7 @@ namespace org.mariuszgromada.math.mxparser {
             StringUtils.consolePrintln("Operator.MULTIPLY_DESC = \"" + Operator.MULTIPLY_DESC + "\";");
             StringUtils.consolePrintln("Operator.DIVIDE_DESC = \"" + Operator.DIVIDE_DESC + "\";");
             StringUtils.consolePrintln("Operator.DIVIDE_QUOTIENT_DESC = \"" + Operator.DIVIDE_QUOTIENT_DESC + "\";");
+            StringUtils.consolePrintln("Operator.NAN_COALESCE_DESC = \"" + Operator.NAN_COALESCE_DESC + "\";");
             StringUtils.consolePrintln("Operator.POWER_DESC = \"" + Operator.POWER_DESC + "\";");
             StringUtils.consolePrintln("Operator.FACT_DESC = \"" + Operator.FACT_DESC + "\";");
             StringUtils.consolePrintln("Operator.MOD_DESC = \"" + Operator.MOD_DESC + "\";");

@@ -1931,6 +1931,8 @@ namespace org.mariuszgromada.math.mxparser {
 		public const String NAMEv52 = "5.2";
 		public const String NAMEv60 = "6.0";
 		public const String NAMEv61 = "6.1";
+		/// <summary>Since 6.2.0.</summary>
+		public const String NAMEv62 = "6.2";
 	
 		/// <summary>Reads the current global signal OR the specified domain signal, not an operation completion status.
 		/// <para>An ID denotes an operation domain, not a thread. Multiple independent graphs

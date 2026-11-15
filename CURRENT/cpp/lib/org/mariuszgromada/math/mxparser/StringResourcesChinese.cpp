@@ -620,6 +620,7 @@ namespace org::mariuszgromada::math::mxparser {
 		FUNCTION_1_ARG_DI_GAMMA = S(UTF("伽马函数的对数导数（双伽马）"));
 		FUNCTION_1_ARG_PARAM = S(UTF("自动生成的用户定义函数，返回索引为 'i' 的函数参数值"));
 		// -------------------------------------------------
+		FUNCTION_2_ARG_ATAN2 = S(UTF("双参数反正切函数"));
 		FUNCTION_2_ARG_LOG = S(UTF("对数"));
 		FUNCTION_2_ARG_MOD = S(UTF("取模"));
 		FUNCTION_2_ARG_BINOM_COEFF = S(UTF("二项系数，从 n 元素集合中抽取 k 个组合的数量"));
@@ -683,6 +684,7 @@ namespace org::mariuszgromada::math::mxparser {
 		OPERATOR_MULTIPLY = S(UTF("乘法"));
 		OPERATOR_DIVIDE = S(UTF("除法"));
 		OPERATOR_DIVIDE_QUOTIENT = S(UTF("整数除法（商）"));
+		OPERATOR_NAN_COALESCE = S(UTF("第一个非 NaN 值"));
 		OPERATOR_POWER = S(UTF("幂运算"));
 		OPERATOR_FACT = S(UTF("阶乘"));
 		OPERATOR_MOD = S(UTF("取模"));

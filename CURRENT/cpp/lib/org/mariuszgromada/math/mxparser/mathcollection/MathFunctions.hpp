@@ -1609,6 +1609,14 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 */
 		static double atan(double a);
 		/**
+		 * \brief 2-argument arctangent of (x, y), in the current angular mode.
+		 * \param y Ordinate.
+		 * \param x Abscissa.
+		 * \return Angle in [-pi, pi], or [-180, 180] in degrees mode; IEEE special values.
+		 * \since 6.2.0
+		 */
+		static double atan2(double y, double x);
+		/**
 		 * \brief Arcus cotangent - inverse trigonometric cotangent function
 		 * \param a                   the a function parameter
 		 * \return if a &lt;&gt; Double.NaN and a &lt;&gt; 0 returns Math.atan(1/a),

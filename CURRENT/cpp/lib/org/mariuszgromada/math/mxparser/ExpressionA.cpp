@@ -2433,7 +2433,7 @@ namespace org::mariuszgromada::math::mxparser {
 		int implGroupPos, bolPos, eqPos, neqPos;
 		int ltPos, gtPos, leqPos, geqPos;
 		int commaPos, lParPos, rParPos, bitwisePos;
-		int bitwiseComplPos;
+		int bitwiseComplPos, nanCoalescePos;
 		int tokensNumber, maxPartLevel;
 		bool maxPartLevelNotInterrupted;
 		bool depArgFound;
@@ -2509,6 +2509,7 @@ namespace org::mariuszgromada::math::mxparser {
 			rParPos = -1;
 			bitwisePos = -1;
 			bitwiseComplPos = -1;
+			nanCoalescePos = -1;
 			/* calculus or if or iff operations ... */
 			p = -1;
 			if (compilationDetails->containsCalculus || compilationDetails->containsIf)
@@ -2636,6 +2637,7 @@ namespace org::mariuszgromada::math::mxparser {
 							else if (token->tokenId == Operator::MULTIPLY_ID && multiplyPos < 0 && leftIsNumber && rigthIsNumber) multiplyPos = pos;
 							else if (token->tokenId == Operator::DIVIDE_ID && dividePos < 0 && leftIsNumber && rigthIsNumber) dividePos = pos;
 							else if (token->tokenId == Operator::DIVIDE_QUOTIENT_ID && divideQuotientPos < 0 && leftIsNumber && rigthIsNumber) divideQuotientPos = pos;
+							else if (token->tokenId == Operator::NAN_COALESCE_ID && nanCoalescePos < 0 && leftIsNumber && rigthIsNumber) nanCoalescePos = pos;
 						} else if (token->tokenTypeId == BooleanOperator::TYPE_ID) {
 							if (token->tokenId == BooleanOperator::NEG_ID && negPos < 0 && rigthIsNumber) negPos = pos;
 							else if (leftIsNumber && rigthIsNumber) {
@@ -2733,6 +2735,7 @@ namespace org::mariuszgromada::math::mxparser {
 			else if (implGroupPos >= 0) bolCalc(implGroupPos);
 			else if (bolPos >= 0) bolCalc(bolPos);
 			else if (bitwisePos >= 0) bitwiseCalc(bitwisePos);
+			else if (nanCoalescePos >= 0) NAN_COALESCE(nanCoalescePos);
 			else if (lParPos >= 0 && rParPos > lParPos) {
 				PARENTHESES(lParPos, rParPos);
 				storeStepsInRegister = false;
@@ -2879,6 +2882,8 @@ namespace org::mariuszgromada::math::mxparser {
 				case CompiledElement::ToCall::bolCalc: bolCalc(pos);
 					break;
 				case CompiledElement::ToCall::bitwiseCalc: bitwiseCalc(pos);
+					break;
+				case CompiledElement::ToCall::NAN_COALESCE: NAN_COALESCE(pos);
 					break;
 				case CompiledElement::ToCall::PARENTHESES:
 					PARENTHESES(compiledElement->position1, compiledElement->position2);
@@ -3205,6 +3210,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::f2ArgCalc(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::f2ArgCalc, pos);
 		switch (tokensList->getRef(pos)->tokenId) {
+			case Function2Arg::ATAN2_ID: ATAN2(pos); break;
 			case Function2Arg::LOG_ID: LOG(pos);
 				break;
 			case Function2Arg::MOD_ID: MOD(pos);

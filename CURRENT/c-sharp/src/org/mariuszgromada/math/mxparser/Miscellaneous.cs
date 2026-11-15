@@ -516,6 +516,7 @@ namespace org.mariuszgromada.math.mxparser {
 			,bitwiseCalc
 			,PARENTHESES
 			,Null
+			,NAN_COALESCE
         }
 
         internal ToCall toCall = ToCall.Null;

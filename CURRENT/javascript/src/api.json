@@ -22268,6 +22268,36 @@
           "line": 695,
           "language": "java"
         }
+      ],
+      "mathcollection::MathFunctions|atan2|static": [
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.java",
+          "line": 2692,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "number"
+            },
+            {
+              "kind": "number"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.cs",
+          "line": 2440,
+          "language": "csharp"
+        }
       ]
     },
     "constructors": {
@@ -24538,6 +24568,54 @@
       "constant": "MAX_CANCELLATION_TOKEN_ID",
       "engine_gate": "3b2d7274743cdc4628976c01201627d01a160e9cc228172cb00df32cb1bca5f8",
       "policy": "Only Java/C# public declarations with verified C++ counterparts; no private cores or C++ helper overloads. Fixed arrays precede final ID."
+    },
+    "nancoal_atan2_review": {
+      "issues": [
+        337,
+        330
+      ],
+      "native_gate_task": "docs/ai/tasks/nancoal-atan2-620",
+      "added_public_members": 14,
+      "native_registrations": 18,
+      "exports": [
+        "api_C1_10167",
+        "api_C1_10168",
+        "api_C1_10169",
+        "api_C1_10170",
+        "api_C1_10171",
+        "api_C1_10172",
+        "api_C1_10173",
+        "api_C1_10174",
+        "api_C1_10175",
+        "api_C1_10176",
+        "api_C1_10177",
+        "api_C1_10178",
+        "api_C1_10179",
+        "api_C1_10180"
+      ],
+      "policy": "D0 existing verified C++ members; no JS mathematics, parser or shadow state. Historical full-profile inventory counts are retained; this incremental review enumerates all additions.",
+      "correction_review": {
+        "task": "docs/ai/tasks/nancoal-atan2-review-20261114",
+        "native_cpp_snapshot": "40061fd5f3c2b8a77251e2ee58b2ecec7b4e79f2c44584b61a61fab3b43a17f4",
+        "scope": "Rounding inheritance and deferred final rounding; localized operator suffix and PL/DE/FR descriptions; no new public exports.",
+        "shared_native_scenarios": 11,
+        "binding_scenarios": 12
+      },
+      "eager_review": {
+        "task": "docs/ai/tasks/nancoal-eager-reduction-20261114",
+        "native_cpp_snapshot": "cf9733b743ce9c0208d6bd14351a8fd03a2f037007fcdee841ff000a67d5d538",
+        "scope": "Eager ordinary binary reduction for ??; lowest precedence and normal precompilation; no new public exports.",
+        "shared_native_scenarios": 11,
+        "binding_scenarios": 12
+      },
+      "ulp_selection_review": {
+        "task": "docs/ai/tasks/nancoal-ulp-selection-20261115",
+        "native_cpp_snapshot": "c00b3272af3086e8b03495b35e04985a52048f1f4c32551471780a9d82e22cff",
+        "scope": "Operand selection ?? uses ulpRound=false; shared runtime rounding helpers unchanged.",
+        "validation_scope": "Maintainer-approved targeted tests; no full native Development Gate PASS claimed.",
+        "shared_native_scenarios": 11,
+        "binding_scenarios": 12
+      }
     }
   },
   "parse_exception_arrays": true,
@@ -104088,6 +104166,222 @@
         "C1-10166"
       ],
       "export": "api_C1_10166"
+    },
+    {
+      "owner": "parsertokens::Operator",
+      "name": "NAN_COALESCE_ID",
+      "kind": "field",
+      "static": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "readonly": true,
+      "native_ids": [
+        "C1-10167"
+      ],
+      "export": "api_C1_10167"
+    },
+    {
+      "owner": "parsertokens::Operator",
+      "name": "NAN_COALESCE_STR",
+      "kind": "field",
+      "static": true,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "readonly": true,
+      "native_ids": [
+        "C1-10168"
+      ],
+      "export": "api_C1_10168"
+    },
+    {
+      "owner": "parsertokens::Operator",
+      "name": "NAN_COALESCE_SYN",
+      "kind": "field",
+      "static": true,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "readonly": true,
+      "native_ids": [
+        "C1-10169"
+      ],
+      "export": "api_C1_10169"
+    },
+    {
+      "owner": "parsertokens::Operator",
+      "name": "NAN_COALESCE_DESC",
+      "kind": "field",
+      "static": true,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "readonly": false,
+      "native_ids": [
+        "C1-10170"
+      ],
+      "export": "api_C1_10170"
+    },
+    {
+      "owner": "parsertokens::Operator",
+      "name": "NAN_COALESCE_SINCE",
+      "kind": "field",
+      "static": true,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "readonly": true,
+      "native_ids": [
+        "C1-10171"
+      ],
+      "export": "api_C1_10171"
+    },
+    {
+      "owner": "parsertokens::Function2Arg",
+      "name": "ATAN2_ID",
+      "kind": "field",
+      "static": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "readonly": true,
+      "native_ids": [
+        "C1-10172"
+      ],
+      "export": "api_C1_10172"
+    },
+    {
+      "owner": "parsertokens::Function2Arg",
+      "name": "ATAN2_STR",
+      "kind": "field",
+      "static": true,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "readonly": true,
+      "native_ids": [
+        "C1-10173"
+      ],
+      "export": "api_C1_10173"
+    },
+    {
+      "owner": "parsertokens::Function2Arg",
+      "name": "ATAN2_SYN",
+      "kind": "field",
+      "static": true,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "readonly": true,
+      "native_ids": [
+        "C1-10174"
+      ],
+      "export": "api_C1_10174"
+    },
+    {
+      "owner": "parsertokens::Function2Arg",
+      "name": "ATAN2_DESC",
+      "kind": "field",
+      "static": true,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "readonly": false,
+      "native_ids": [
+        "C1-10175"
+      ],
+      "export": "api_C1_10175"
+    },
+    {
+      "owner": "parsertokens::Function2Arg",
+      "name": "ATAN2_SINCE",
+      "kind": "field",
+      "static": true,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "readonly": true,
+      "native_ids": [
+        "C1-10176"
+      ],
+      "export": "api_C1_10176"
+    },
+    {
+      "owner": "mXparser",
+      "name": "NAMEv62",
+      "kind": "field",
+      "static": true,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "readonly": true,
+      "native_ids": [
+        "C1-10177"
+      ],
+      "export": "api_C1_10177"
+    },
+    {
+      "owner": "StringResources",
+      "name": "OPERATOR_NAN_COALESCE",
+      "kind": "field",
+      "static": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "readonly": false,
+      "native_ids": [
+        "C1-10178"
+      ],
+      "export": "api_C1_10178"
+    },
+    {
+      "owner": "StringResources",
+      "name": "FUNCTION_2_ARG_ATAN2",
+      "kind": "field",
+      "static": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "readonly": false,
+      "native_ids": [
+        "C1-10179"
+      ],
+      "export": "api_C1_10179"
+    },
+    {
+      "owner": "mathcollection::MathFunctions",
+      "name": "atan2",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "number"
+        },
+        {
+          "kind": "number"
+        }
+      ],
+      "result": {
+        "kind": "number"
+      },
+      "native_ids": [
+        "C1-10180"
+      ],
+      "export": "api_C1_10180"
     }
   ]
 }

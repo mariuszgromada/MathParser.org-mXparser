@@ -11158,8 +11158,8 @@ public final class ApiTest {
         Set<Long> actual = new HashSet<>();
         for (KeyWord kw : keywords) actual.add(latexTokenKey(kw.wordTypeId, kw.wordId));
         // The two additional UDF-context keys are not in the public ordinary-expression vocabulary.
-        Assertions.assertEquals(527, keywords.size());
-        Assertions.assertEquals(412, actual.size());
+        Assertions.assertEquals(529, keywords.size());
+        Assertions.assertEquals(414, actual.size());
         Assertions.assertEquals(latexExport("sqrt(x+1)"), latexExport("√(x+1)"));
         Assertions.assertEquals("\\sqrt[{3}]{x}", latexExport("root(3,x)"));
         Assertions.assertEquals("\\sqrt[3]{x}", latexExport("∛x"));
@@ -11726,8 +11726,8 @@ public final class ApiTest {
                 rows++;
             }
         }
-        Assertions.assertEquals(412, seen.size());
-        Assertions.assertEquals(527 * contexts.length, rows);
+        Assertions.assertEquals(414, seen.size());
+        Assertions.assertEquals(529 * contexts.length, rows);
         testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
@@ -13095,4 +13095,73 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
+
+    @Test
+    public void testApi0455() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "NaN-coalescing and atan2 metadata in all eight languages";
+        TestCommonTools.consolePrintTestApiStart(455, testDescr);
+        StringResources[] languages = {StringResources.languageEnglish(), StringResources.languageChinese(),
+                StringResources.languageFrench(), StringResources.languageGerman(), StringResources.languageItalian(),
+                StringResources.languagePolish(), StringResources.languagePortuguese(), StringResources.languageSpanish()};
+        boolean ok = true;
+        for (StringResources language : languages) {
+            StringModel.setStringResources(language);
+            int found = 0;
+            for (KeyWord kw : mXparser.getKeyWords()) {
+                if (kw.wordString.equals("??")) {
+                    found++; ok &= kw.wordId == Operator.NAN_COALESCE_ID && kw.wordTypeId == Operator.TYPE_ID
+                            && kw.syntax.equals("a ?? b") && kw.since.equals("6.2") && kw.description.equals(language.OPERATOR_NAN_COALESCE + " - " + language.OPERATOR);
+                }
+                if (kw.wordString.equals("atan2")) {
+                    found++; ok &= kw.wordId == Function2Arg.ATAN2_ID && kw.wordTypeId == Function2Arg.TYPE_ID
+                            && kw.syntax.equals("atan2(y, x)") && kw.since.equals("6.2") && kw.description.startsWith(language.FUNCTION_2_ARG_ATAN2);
+                }
+            }
+            ok &= found == 2 && !language.OPERATOR_NAN_COALESCE.isEmpty() && !language.FUNCTION_2_ARG_ATAN2.isEmpty();
+            ok &= mXparser.getHelpAsCsv().contains(language.OPERATOR_NAN_COALESCE)
+                    && mXparser.getHelpAsHtmlTable().contains(language.FUNCTION_2_ARG_ATAN2)
+                    && mXparser.getHelpAsJson().contains("atan2") && mXparser.getHelpAsMarkdownTable().contains("??");
+        }
+        StringModel.setDefaultStringResources();
+        testResult = ok;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0456() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "atan2 API IEEE special values, extreme magnitudes and angular modes";
+        TestCommonTools.consolePrintTestApiStart(456, testDescr);
+        double[] values = {0.0, -0.0, 1, -1, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NaN,
+                Double.MIN_VALUE, -Double.MIN_VALUE, Double.MAX_VALUE, -Double.MAX_VALUE};
+        boolean ok = true;
+        for (double y : values) for (double x : values) {
+            double expected = Math.atan2(y, x);
+            double actual = MathFunctions.atan2(y, x);
+            ok &= Double.isNaN(expected) ? Double.isNaN(actual)
+                    : Double.doubleToRawLongBits(expected) == Double.doubleToRawLongBits(actual);
+        }
+        mXparser.setDegreesMode();
+        ok &= Double.doubleToRawLongBits(MathFunctions.atan2(-0.0, 1)) == Double.doubleToRawLongBits(-0.0)
+                && MathFunctions.atan2(1, -1) == 135 && MathFunctions.atan2(-1, -1) == -135;
+        mXparser.setRadiansMode();
+        testResult = ok;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0457() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "New keywords preserve LaTeX export and operand grouping";
+        TestCommonTools.consolePrintTestApiStart(457, testDescr);
+        testResult = new Expression("atan2(y,x)").getExpressionAsLaTeX().equals("\\operatorname{atan2}(y,x)")
+                && new Expression("a??b+c").getExpressionAsLaTeX().equals("\\operatorname{first}_{\\ne\\mathrm{NaN}}(a,b+c)");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
 }

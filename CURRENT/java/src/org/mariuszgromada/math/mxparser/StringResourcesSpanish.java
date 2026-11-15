@@ -648,6 +648,7 @@ class StringResourcesSpanish extends StringResources {
         FUNCTION_1_ARG_DI_GAMMA = "Digamma como la derivada logarítmica de la Gamma";
         FUNCTION_1_ARG_PARAM = "Función generada automáticamente para funciones definidas por el usuario, devuelve el valor del parámetro de la función en el índice 'i'";
         // -------------------------------------------------
+        FUNCTION_2_ARG_ATAN2 = "Arcotangente de dos argumentos";
         FUNCTION_2_ARG_LOG = "Logaritmo";
         FUNCTION_2_ARG_MOD = "Módulo";
         FUNCTION_2_ARG_BINOM_COEFF = "Coeficiente binomial, número de combinaciones k que se pueden sacar de un conjunto de n elementos";
@@ -711,6 +712,7 @@ class StringResourcesSpanish extends StringResources {
         OPERATOR_MULTIPLY = "Multiplicación";
         OPERATOR_DIVIDE = "División";
         OPERATOR_DIVIDE_QUOTIENT = "División entera (cociente)";
+        OPERATOR_NAN_COALESCE = "Primer valor distinto de NaN";
         OPERATOR_POWER = "Exponenciación";
         OPERATOR_FACT = "Factorial";
         OPERATOR_MOD = "Módulo";

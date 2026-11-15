@@ -425,6 +425,7 @@ namespace org.mariuszgromada.math.mxparser {
         }
         internal static bool canBeSeparatingChar(char c) {
             switch (c) {
+                case '?':
                 case ' ':
                 case ',':
                 case ';':

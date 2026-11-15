@@ -2313,6 +2313,8 @@ public final class mXparser {
 	public static final String NAMEv52 = "5.2";
 	public static final String NAMEv60 = "6.0";
 	public static final String NAMEv61 = "6.1";
+	/** @since 6.2.0 */
+	public static final String NAMEv62 = "6.2";
 
 	/**
 	 * Reads the current global signal OR the specified domain signal, not an operation completion status.

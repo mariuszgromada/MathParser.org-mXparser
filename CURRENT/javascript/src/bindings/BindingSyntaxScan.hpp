@@ -664,11 +664,11 @@ namespace mx_binding {
     };
 
     template<>
-    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_argumentList_530_9_27> : SyntaxScanDomain {
+    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_argumentList_531_9_27> : SyntaxScanDomain {
     };
 
     template<>
-    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_unitOrSpecialConstant_525_9_28> : SyntaxScanDomain {
+    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_unitOrSpecialConstant_526_9_28> : SyntaxScanDomain {
     };
 
     template<>
@@ -696,7 +696,7 @@ namespace mx_binding {
     };
 
     template<>
-    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_itemName_520_9_29> : SyntaxScanDomain {
+    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_itemName_521_9_29> : SyntaxScanDomain {
     };
 
     template<>
@@ -708,7 +708,7 @@ namespace mx_binding {
     };
 
     template<>
-    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_otherBaseNumber_515_9_26> : SyntaxScanDomain {
+    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_otherBaseNumber_516_9_26> : SyntaxScanDomain {
     };
 
     template<>
@@ -720,7 +720,7 @@ namespace mx_binding {
     };
 
     template<>
-    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_itemOrFunction_510_9_25> : SyntaxScanDomain {
+    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_itemOrFunction_511_9_25> : SyntaxScanDomain {
     };
 
     template<>
@@ -749,7 +749,7 @@ namespace mx_binding {
 
     template<>
     struct NativeMemberDomain<&
-                BoundSyntaxChecker::jj_3R_itemOrFunctionImpliedMultiplication_505_9_24> : SyntaxScanDomain {
+                BoundSyntaxChecker::jj_3R_itemOrFunctionImpliedMultiplication_506_9_24> : SyntaxScanDomain {
     };
 
     template<>
@@ -782,7 +782,7 @@ namespace mx_binding {
 
     template<>
     struct NativeMemberDomain<&
-                BoundSyntaxChecker::jj_3R_itemOrFunctionOptionalImpliedMultiplication_500_5_22> : SyntaxScanDomain {
+                BoundSyntaxChecker::jj_3R_itemOrFunctionOptionalImpliedMultiplication_501_5_22> : SyntaxScanDomain {
     };
 
     template<>
@@ -794,7 +794,7 @@ namespace mx_binding {
     };
 
     template<>
-    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_bracketedExpression_495_5_23> : SyntaxScanDomain {
+    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_bracketedExpression_496_5_23> : SyntaxScanDomain {
     };
 
     template<>
@@ -815,7 +815,7 @@ namespace mx_binding {
 
     template<>
     struct NativeMemberDomain<&
-                BoundSyntaxChecker::jj_3R_bracketedExpressionOptionalImpliedMultiplication_490_5_21> :
+                BoundSyntaxChecker::jj_3R_bracketedExpressionOptionalImpliedMultiplication_491_5_21> :
             SyntaxScanDomain {
     };
 
@@ -832,11 +832,11 @@ namespace mx_binding {
     };
 
     template<>
-    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_itemExpression_485_5_32> : SyntaxScanDomain {
+    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_itemExpression_486_5_32> : SyntaxScanDomain {
     };
 
     template<>
-    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_unaryLeftOperator_480_9_20> : SyntaxScanDomain {
+    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_unaryLeftOperator_481_9_20> : SyntaxScanDomain {
     };
 
     template<>
@@ -856,7 +856,7 @@ namespace mx_binding {
     };
 
     template<>
-    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_unaryRigthOperator_475_9_19> : SyntaxScanDomain {
+    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_unaryRigthOperator_476_9_19> : SyntaxScanDomain {
     };
 
     template<>
@@ -872,7 +872,7 @@ namespace mx_binding {
     };
 
     template<>
-    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_binaryOperator_470_9_17> : SyntaxScanDomain {
+    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_binaryOperator_471_9_17> : SyntaxScanDomain {
     };
 
     template<>
@@ -892,11 +892,11 @@ namespace mx_binding {
     };
 
     template<>
-    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_unaryLeftExpression_465_9_31> : SyntaxScanDomain {
+    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_unaryLeftExpression_466_9_31> : SyntaxScanDomain {
     };
 
     template<>
-    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_unaryRigthExpression_460_9_18> : SyntaxScanDomain {
+    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_unaryRigthExpression_461_9_18> : SyntaxScanDomain {
     };
 
     template<>
@@ -904,11 +904,11 @@ namespace mx_binding {
     };
 
     template<>
-    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_binaryExpression_455_9_30> : SyntaxScanDomain {
+    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_binaryExpression_456_9_30> : SyntaxScanDomain {
     };
 
     template<>
-    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_expression_450_9_16> : SyntaxScanDomain {
+    struct NativeMemberDomain<&BoundSyntaxChecker::jj_3R_expression_451_9_16> : SyntaxScanDomain {
     };
 
     template<>

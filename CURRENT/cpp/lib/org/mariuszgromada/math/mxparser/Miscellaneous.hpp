@@ -605,7 +605,7 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 			FREE_ARGUMENT, CONSTANT, UNIT, USER_CONSTANT, RANDOM_VARIABLE, DEPENDENT_ARGUMENT, calculusCalc,
 			IF_CONDITION, IFF, RECURSIVE_ARGUMENT, variadicFunCalc, f3ArgCalc, f2ArgCalc, f1ArgCalc, USER_FUNCTION,
 			TETRATION, POWER, FACT, PERC, MODULO, NEG, rootOperCalc, BITWISE_COMPL, MULTIPLY, DIVIDE, DIVIDE_QUOTIENT,
-			MINUS, PLUS, NEQ, EQ, LT, GT, LEQ, GEQ, COMMA, bolCalc, bitwiseCalc, PARENTHESES, Null
+			MINUS, PLUS, NEQ, EQ, LT, GT, LEQ, GEQ, COMMA, bolCalc, bitwiseCalc, PARENTHESES, Null, NAN_COALESCE
 		};
 
 		ToCall toCall;

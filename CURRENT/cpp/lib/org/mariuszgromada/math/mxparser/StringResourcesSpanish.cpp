@@ -634,6 +634,7 @@ namespace org::mariuszgromada::math::mxparser {
 		FUNCTION_1_ARG_DI_GAMMA = S(UTF("Digamma como la derivada logarítmica de la Gamma"));
 		FUNCTION_1_ARG_PARAM = S(UTF("Función generada automáticamente para funciones definidas por el usuario, devuelve el valor del parámetro de la función en el índice 'i'"));
 		// -------------------------------------------------
+		FUNCTION_2_ARG_ATAN2 = S(UTF("Arcotangente de dos argumentos"));
 		FUNCTION_2_ARG_LOG = S(UTF("Logaritmo"));
 		FUNCTION_2_ARG_MOD = S(UTF("Módulo"));
 		FUNCTION_2_ARG_BINOM_COEFF = S(UTF("Coeficiente binomial, número de combinaciones k que se pueden sacar de un conjunto de n elementos"));
@@ -697,6 +698,7 @@ namespace org::mariuszgromada::math::mxparser {
 		OPERATOR_MULTIPLY = S(UTF("Multiplicación"));
 		OPERATOR_DIVIDE = S(UTF("División"));
 		OPERATOR_DIVIDE_QUOTIENT = S(UTF("División entera (cociente)"));
+		OPERATOR_NAN_COALESCE = S(UTF("Primer valor distinto de NaN"));
 		OPERATOR_POWER = S(UTF("Exponenciación"));
 		OPERATOR_FACT = S(UTF("Factorial"));
 		OPERATOR_MOD = S(UTF("Módulo"));

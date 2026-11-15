@@ -651,6 +651,7 @@ class StringResourcesGerman extends StringResources{
         FUNCTION_1_ARG_DI_GAMMA = "Digamma als logarithmische Ableitung von Gamma";
         FUNCTION_1_ARG_PARAM = "Automatisch generierte Funktion für benutzerdefinierte Funktionen, gibt den Funktionsparameterwert am Index 'i' zurück";
         // -------------------------------------------------
+        FUNCTION_2_ARG_ATAN2 = "Arkustangens mit zwei Argumenten";
         FUNCTION_2_ARG_LOG = "Logarithmus";
         FUNCTION_2_ARG_MOD = "Modulo";
         FUNCTION_2_ARG_BINOM_COEFF = "Binomialkoeffizient, Anzahl der k-Kombinationen, die aus einer Menge mit n Elementen gezogen werden können";
@@ -714,6 +715,7 @@ class StringResourcesGerman extends StringResources{
         OPERATOR_MULTIPLY = "Multiplikation";
         OPERATOR_DIVIDE = "Division";
         OPERATOR_DIVIDE_QUOTIENT = "Ganzzahldivision (Quotient)";
+        OPERATOR_NAN_COALESCE = "Erster Wert, der nicht NaN ist";
         OPERATOR_POWER = "Exponentiation";
         OPERATOR_FACT = "Fakultät";
         OPERATOR_MOD = "Modulo";

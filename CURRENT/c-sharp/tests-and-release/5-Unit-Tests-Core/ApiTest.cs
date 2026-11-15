@@ -11228,8 +11228,8 @@ namespace org.mariuszgromada.math.mxparser.test {
         HashSet<long> actual = new HashSet<long>();
         foreach (KeyWord kw in keywords) actual.Add(latexTokenKey(kw.wordTypeId, kw.wordId));
         // The two additional UDF-context keys are not in the public ordinary-expression vocabulary.
-        Assert.AreEqual(527, keywords.Count);
-        Assert.AreEqual(412, actual.Count);
+        Assert.AreEqual(529, keywords.Count);
+        Assert.AreEqual(414, actual.Count);
         Assert.AreEqual(latexExport("sqrt(x+1)"), latexExport("√(x+1)"));
         Assert.AreEqual("\\sqrt[{3}]{x}", latexExport("root(3,x)"));
         Assert.AreEqual("\\sqrt[3]{x}", latexExport("∛x"));
@@ -11793,8 +11793,8 @@ namespace org.mariuszgromada.math.mxparser.test {
                 rows++;
             }
         }
-        Assert.AreEqual(412, seen.Count);
-        Assert.AreEqual(527 * contexts.Length, rows);
+        Assert.AreEqual(414, seen.Count);
+        Assert.AreEqual(529 * contexts.Length, rows);
         testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assert.IsTrue(testResult);
@@ -13200,6 +13200,79 @@ namespace org.mariuszgromada.math.mxparser.test {
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assert.IsTrue(testResult);
     }
+
+
+    [TestMethod]
+    public void testApi0455() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "NaN-coalescing and atan2 metadata in all eight languages";
+        TestCommonTools.consolePrintTestApiStart(455, testDescr);
+        StringResources[] languages = {StringResources.languageEnglish(), StringResources.languageChinese(),
+                StringResources.languageFrench(), StringResources.languageGerman(), StringResources.languageItalian(),
+                StringResources.languagePolish(), StringResources.languagePortuguese(), StringResources.languageSpanish()};
+        bool ok = true;
+        foreach (StringResources language in languages) {
+            StringModel.setStringResources(language);
+            int found = 0;
+            foreach (KeyWord kw in mXparser.getKeyWords()) {
+                if (kw.wordString.Equals("??")) {
+                    found++; ok &= kw.wordId == Operator.NAN_COALESCE_ID && kw.wordTypeId == Operator.TYPE_ID
+                            && kw.syntax.Equals("a ?? b") && kw.since.Equals("6.2") && kw.description.Equals(language.OPERATOR_NAN_COALESCE + " - " + language.OPERATOR);
+                }
+                if (kw.wordString.Equals("atan2")) {
+                    found++; ok &= kw.wordId == Function2Arg.ATAN2_ID && kw.wordTypeId == Function2Arg.TYPE_ID
+                            && kw.syntax.Equals("atan2(y, x)") && kw.since.Equals("6.2") && kw.description.StartsWith(language.FUNCTION_2_ARG_ATAN2);
+                }
+            }
+            ok &= found == 2 && language.OPERATOR_NAN_COALESCE.Length > 0 && language.FUNCTION_2_ARG_ATAN2.Length > 0;
+            ok &= mXparser.getHelpAsCsv().Contains(language.OPERATOR_NAN_COALESCE)
+                    && mXparser.getHelpAsHtmlTable().Contains(language.FUNCTION_2_ARG_ATAN2)
+                    && mXparser.getHelpAsJson().Contains("atan2") && mXparser.getHelpAsMarkdownTable().Contains("??");
+        }
+        StringModel.setDefaultStringResources();
+        testResult = ok;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0456() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "atan2 API IEEE special values, extreme magnitudes and angular modes";
+        TestCommonTools.consolePrintTestApiStart(456, testDescr);
+        double[] values = {0.0, -0.0, 1, -1, Double.PositiveInfinity, Double.NegativeInfinity, Double.NaN,
+                Double.Epsilon, -Double.Epsilon, Double.MaxValue, -Double.MaxValue};
+        bool ok = true;
+        foreach (double y in values) foreach (double x in values) {
+            // Java Math.atan2 defines finite quadrant angles for two infinities;
+            // .NET Framework Math.Atan2 returns NaN for those same inputs.
+            double expected = Double.IsInfinity(y) && Double.IsInfinity(x)
+ ? Math.Atan2(y>0 ? 1 : -1, x>0 ? 1 : -1) : Math.Atan2(y, x);
+            double actual = MathFunctions.atan2(y, x);
+            ok &= Double.IsNaN(expected) ? Double.IsNaN(actual)
+                    : BitConverter.DoubleToInt64Bits(expected) == BitConverter.DoubleToInt64Bits(actual);
+        }
+        mXparser.setDegreesMode();
+        ok &= BitConverter.DoubleToInt64Bits(MathFunctions.atan2(-0.0, 1)) == BitConverter.DoubleToInt64Bits(-0.0)
+                && MathFunctions.atan2(1, -1) == 135 && MathFunctions.atan2(-1, -1) == -135;
+        mXparser.setRadiansMode();
+        testResult = ok;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0457() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "New keywords preserve LaTeX export and operand grouping";
+        TestCommonTools.consolePrintTestApiStart(457, testDescr);
+        testResult = new Expression("atan2(y,x)").getExpressionAsLaTeX().Equals("\\operatorname{atan2}(y,x)")
+                && new Expression("a??b+c").getExpressionAsLaTeX().Equals("\\operatorname{first}_{\\ne\\mathrm{NaN}}(a,b+c)");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
 
 }
 }

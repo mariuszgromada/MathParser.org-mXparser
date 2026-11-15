@@ -756,6 +756,7 @@ namespace org.mariuszgromada.math.mxparser {
         internal const String DEFAULT_FUNCTION_1_ARG_DI_GAMMA = "Digamma as the logarithmic derivative of the Gamma";
         internal const String DEFAULT_FUNCTION_1_ARG_PARAM = "Automatically generated function for user defined functions, returns function parameter value at index 'i'";
         // -------------------------------------------------
+        internal const String DEFAULT_FUNCTION_2_ARG_ATAN2 = "2-argument arctangent";
         internal const String DEFAULT_FUNCTION_2_ARG_LOG = "Logarithm";
         internal const String DEFAULT_FUNCTION_2_ARG_MOD = "Modulo";
         internal const String DEFAULT_FUNCTION_2_ARG_BINOM_COEFF = "Binomial coefficient, number of k-combinations that can be drawn from n-elements set";
@@ -819,6 +820,7 @@ namespace org.mariuszgromada.math.mxparser {
         internal const String DEFAULT_OPERATOR_MULTIPLY = "Multiplication";
         internal const String DEFAULT_OPERATOR_DIVIDE = "Division";
         internal const String DEFAULT_OPERATOR_DIVIDE_QUOTIENT = "Integer division (quotient)";
+        internal const String DEFAULT_OPERATOR_NAN_COALESCE = "First non-NaN value";
         internal const String DEFAULT_OPERATOR_POWER = "Exponentiation";
         internal const String DEFAULT_OPERATOR_FACT = "Factorial";
         internal const String DEFAULT_OPERATOR_MOD = "Modulo";
@@ -1696,6 +1698,8 @@ namespace org.mariuszgromada.math.mxparser {
         /// <summary>Default String = "Automatically generated function for user defined functions, returns function parameter value at index 'i'"</summary>
         public String FUNCTION_1_ARG_PARAM = DEFAULT_FUNCTION_1_ARG_PARAM;
         // -------------------------------------------------
+        /// <summary>Default String = "2-argument arctangent". Since 6.2.0.</summary>
+        public String FUNCTION_2_ARG_ATAN2 = DEFAULT_FUNCTION_2_ARG_ATAN2;
         /// <summary>Default String = "Logarithm"</summary>
         public String FUNCTION_2_ARG_LOG = DEFAULT_FUNCTION_2_ARG_LOG;
         /// <summary>Default String = "Modulo"</summary>
@@ -1819,6 +1823,8 @@ namespace org.mariuszgromada.math.mxparser {
         public String OPERATOR_DIVIDE = DEFAULT_OPERATOR_DIVIDE;
         /// <summary>Default String = "Integer division (quotient)"</summary>
         public String OPERATOR_DIVIDE_QUOTIENT = DEFAULT_OPERATOR_DIVIDE_QUOTIENT;
+        /// <summary>Since 6.2.0.</summary>
+        public String OPERATOR_NAN_COALESCE = DEFAULT_OPERATOR_NAN_COALESCE;
         /// <summary>Default String = "Exponentiation"</summary>
         public String OPERATOR_POWER = DEFAULT_OPERATOR_POWER;
         /// <summary>Default String = "Factorial"</summary>
@@ -2491,6 +2497,7 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("FUNCTION_1_ARG_DI_GAMMA", stringResources.FUNCTION_1_ARG_DI_GAMMA, DEFAULT_FUNCTION_1_ARG_DI_GAMMA, printDefault);
             printCurrentVsDefault("FUNCTION_1_ARG_PARAM", stringResources.FUNCTION_1_ARG_PARAM, DEFAULT_FUNCTION_1_ARG_PARAM, printDefault);
             /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
+            printCurrentVsDefault("FUNCTION_2_ARG_ATAN2", stringResources.FUNCTION_2_ARG_ATAN2, DEFAULT_FUNCTION_2_ARG_ATAN2, printDefault);
             printCurrentVsDefault("FUNCTION_2_ARG_LOG", stringResources.FUNCTION_2_ARG_LOG, DEFAULT_FUNCTION_2_ARG_LOG, printDefault);
             printCurrentVsDefault("FUNCTION_2_ARG_MOD", stringResources.FUNCTION_2_ARG_MOD, DEFAULT_FUNCTION_2_ARG_MOD, printDefault);
             printCurrentVsDefault("FUNCTION_2_ARG_BINOM_COEFF", stringResources.FUNCTION_2_ARG_BINOM_COEFF, DEFAULT_FUNCTION_2_ARG_BINOM_COEFF, printDefault);
@@ -2554,6 +2561,7 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("OPERATOR_MULTIPLY", stringResources.OPERATOR_MULTIPLY, DEFAULT_OPERATOR_MULTIPLY, printDefault);
             printCurrentVsDefault("OPERATOR_DIVIDE", stringResources.OPERATOR_DIVIDE, DEFAULT_OPERATOR_DIVIDE, printDefault);
             printCurrentVsDefault("OPERATOR_DIVIDE_QUOTIENT", stringResources.OPERATOR_DIVIDE_QUOTIENT, DEFAULT_OPERATOR_DIVIDE_QUOTIENT, printDefault);
+            printCurrentVsDefault("OPERATOR_NAN_COALESCE", stringResources.OPERATOR_NAN_COALESCE, DEFAULT_OPERATOR_NAN_COALESCE, printDefault);
             printCurrentVsDefault("OPERATOR_POWER", stringResources.OPERATOR_POWER, DEFAULT_OPERATOR_POWER, printDefault);
             printCurrentVsDefault("OPERATOR_FACT", stringResources.OPERATOR_FACT, DEFAULT_OPERATOR_FACT, printDefault);
             printCurrentVsDefault("OPERATOR_MOD", stringResources.OPERATOR_MOD, DEFAULT_OPERATOR_MOD, printDefault);

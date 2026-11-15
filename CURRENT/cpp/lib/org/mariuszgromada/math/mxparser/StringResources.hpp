@@ -735,6 +735,8 @@ namespace org::mariuszgromada::math::mxparser {
 		StringPtr FUNCTION_1_ARG_LOG_GAMMA;
 		StringPtr FUNCTION_1_ARG_DI_GAMMA;
 		StringPtr FUNCTION_1_ARG_PARAM;
+		/** \brief Default = "2-argument arctangent". \since 6.2.0 */
+		StringPtr FUNCTION_2_ARG_ATAN2;
 		StringPtr FUNCTION_2_ARG_LOG;
 		StringPtr FUNCTION_2_ARG_MOD;
 		StringPtr FUNCTION_2_ARG_BINOM_COEFF;
@@ -795,6 +797,8 @@ namespace org::mariuszgromada::math::mxparser {
 		StringPtr OPERATOR_MULTIPLY;
 		StringPtr OPERATOR_DIVIDE;
 		StringPtr OPERATOR_DIVIDE_QUOTIENT;
+		/** \since 6.2.0 */
+		StringPtr OPERATOR_NAN_COALESCE;
 		StringPtr OPERATOR_POWER;
 		StringPtr OPERATOR_FACT;
 		StringPtr OPERATOR_MOD;
@@ -1351,6 +1355,7 @@ namespace org::mariuszgromada::math::mxparser {
 		static StringPtr DEFAULT_FUNCTION_1_ARG_DI_GAMMA;
 		static StringPtr DEFAULT_FUNCTION_1_ARG_PARAM;
 		// -------------------------------------------------
+		static StringPtr DEFAULT_FUNCTION_2_ARG_ATAN2;
 		static StringPtr DEFAULT_FUNCTION_2_ARG_LOG;
 		static StringPtr DEFAULT_FUNCTION_2_ARG_MOD;
 		static StringPtr DEFAULT_FUNCTION_2_ARG_BINOM_COEFF;
@@ -1414,6 +1419,7 @@ namespace org::mariuszgromada::math::mxparser {
 		static StringPtr DEFAULT_OPERATOR_MULTIPLY;
 		static StringPtr DEFAULT_OPERATOR_DIVIDE;
 		static StringPtr DEFAULT_OPERATOR_DIVIDE_QUOTIENT;
+		static StringPtr DEFAULT_OPERATOR_NAN_COALESCE;
 		static StringPtr DEFAULT_OPERATOR_POWER;
 		static StringPtr DEFAULT_OPERATOR_FACT;
 		static StringPtr DEFAULT_OPERATOR_MOD;

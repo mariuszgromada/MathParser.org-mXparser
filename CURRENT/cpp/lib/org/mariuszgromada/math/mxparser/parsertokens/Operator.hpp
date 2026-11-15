@@ -243,6 +243,8 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		static constexpr int CUBE_ROOT_ID = 11;
 		static constexpr int FOURTH_ROOT_ID = 12;
 		static constexpr int DIVIDE_QUOTIENT_ID = 13;
+		/** \since 6.2.0 */
+		static constexpr int NAN_COALESCE_ID = 14;
 
 		/*
 		 * Operator - tokens key words.
@@ -265,6 +267,8 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		static StringPtr CUBE_ROOT_STR;
 		static StringPtr FOURTH_ROOT_STR;
 		static StringPtr DIVIDE_QUOTIENT_STR;
+		/** \since 6.2.0 */
+		static StringPtr NAN_COALESCE_STR;
 		/*
 		 * Operator - syntax.
 		 */
@@ -286,6 +290,8 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		static StringPtr CUBE_ROOT_SYN;
 		static StringPtr FOURTH_ROOT_SYN;
 		static StringPtr DIVIDE_QUOTIENT_SYN;
+		/** \since 6.2.0 */
+		static StringPtr NAN_COALESCE_SYN;
 		/*
 		 * Operator - tokens description.
 		 */
@@ -302,6 +308,8 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		static StringPtr CUBE_ROOT_DESC;
 		static StringPtr FOURTH_ROOT_DESC;
 		static StringPtr DIVIDE_QUOTIENT_DESC;
+		/** \since 6.2.0 */
+		static StringPtr NAN_COALESCE_DESC;
 		/*
 		 * Operator - since.
 		 */
@@ -323,6 +331,8 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		static StringPtr CUBE_ROOT_SINCE;
 		static StringPtr FOURTH_ROOT_SINCE;
 		static StringPtr DIVIDE_QUOTIENT_SINCE;
+		/** \since 6.2.0 */
+		static StringPtr NAN_COALESCE_SINCE;
 
 		STATIC_VARS_INITI_H;
 	};

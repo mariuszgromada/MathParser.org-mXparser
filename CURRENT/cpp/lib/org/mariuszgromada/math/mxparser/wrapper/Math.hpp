@@ -298,6 +298,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		static double acos(double x) { return std::acos(x); }
 		static double tan(double x) { return std::tan(x); }
 		static double atan(double x) { return std::atan(x); }
+		static double atan2(double y, double x) { return std::atan2(y, x); }
 		static double tanh(double x) { return std::tanh(x); }
 
 

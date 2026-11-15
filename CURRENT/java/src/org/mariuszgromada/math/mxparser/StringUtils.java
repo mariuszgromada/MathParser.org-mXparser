@@ -426,6 +426,7 @@ public final class StringUtils {
     }
     static boolean canBeSeparatingChar(char c) {
         switch (c) {
+            case '?':
             case ' ':
             case ',':
             case ';':

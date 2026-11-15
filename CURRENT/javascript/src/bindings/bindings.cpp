@@ -8944,4 +8944,24 @@ EMSCRIPTEN_BINDINGS (mxparser_public_bindings) {
                          &StaticCallInOut<static_cast<double (*)(const ArrayPtr<double> &, int)>(&mathcollection::Statistics::modeWithCancel)>::call);
     emscripten::function("api_C1_10166_get", &StaticFieldAccess<&mXparser::MAX_CANCELLATION_TOKEN_ID>::get);
 
+
+    // GitHub #337/#330: verified native engine and additive metadata.
+    emscripten::function("api_C1_10167_get", &StaticFieldAccess<&parsertokens::Operator::NAN_COALESCE_ID>::get);
+    emscripten::function("api_C1_10168_get", &StaticFieldAccess<&parsertokens::Operator::NAN_COALESCE_STR>::get);
+    emscripten::function("api_C1_10169_get", &StaticFieldAccess<&parsertokens::Operator::NAN_COALESCE_SYN>::get);
+    emscripten::function("api_C1_10170_get", &StaticFieldAccess<&parsertokens::Operator::NAN_COALESCE_DESC>::get);
+    emscripten::function("api_C1_10170_set", &StaticFieldAccess<&parsertokens::Operator::NAN_COALESCE_DESC>::set);
+    emscripten::function("api_C1_10171_get", &StaticFieldAccess<&parsertokens::Operator::NAN_COALESCE_SINCE>::get);
+    emscripten::function("api_C1_10172_get", &StaticFieldAccess<&parsertokens::Function2Arg::ATAN2_ID>::get);
+    emscripten::function("api_C1_10173_get", &StaticFieldAccess<&parsertokens::Function2Arg::ATAN2_STR>::get);
+    emscripten::function("api_C1_10174_get", &StaticFieldAccess<&parsertokens::Function2Arg::ATAN2_SYN>::get);
+    emscripten::function("api_C1_10175_get", &StaticFieldAccess<&parsertokens::Function2Arg::ATAN2_DESC>::get);
+    emscripten::function("api_C1_10175_set", &StaticFieldAccess<&parsertokens::Function2Arg::ATAN2_DESC>::set);
+    emscripten::function("api_C1_10176_get", &StaticFieldAccess<&parsertokens::Function2Arg::ATAN2_SINCE>::get);
+    emscripten::function("api_C1_10177_get", &StaticFieldAccess<&mXparser::NAMEv62>::get);
+    emscripten::function("api_C1_10178_get", &FieldAccess<&StringResources::OPERATOR_NAN_COALESCE>::get);
+    emscripten::function("api_C1_10178_set", &FieldAccess<&StringResources::OPERATOR_NAN_COALESCE>::set);
+    emscripten::function("api_C1_10179_get", &FieldAccess<&StringResources::FUNCTION_2_ARG_ATAN2>::get);
+    emscripten::function("api_C1_10179_set", &FieldAccess<&StringResources::FUNCTION_2_ARG_ATAN2>::set);
+    emscripten::function("api_C1_10180", &StaticCall<static_cast<double (*)(double, double)>(&mathcollection::MathFunctions::atan2)>::call);
 }

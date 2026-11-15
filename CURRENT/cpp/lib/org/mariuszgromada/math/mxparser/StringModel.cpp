@@ -1109,6 +1109,7 @@ namespace org::mariuszgromada::math::mxparser {
 		Function2Arg::RND_F_SNEDECOR_DESC = STRING_RESOURCES->RANDOM_VARIABLE + StringInvariant::SEPARATOR +
 		                                    STRING_RESOURCES->SNEDECORS_F_DISTRIBUTION + StringInvariant::SEPARATOR +
 		                                    STRING_RESOURCES->FUNCTION_2_ARG;
+		Function2Arg::ATAN2_DESC = STRING_RESOURCES->FUNCTION_2_ARG_ATAN2 + StringInvariant::SEPARATOR + STRING_RESOURCES->FUNCTION_2_ARG;
 	}
 
 	API_VISIBLE void StringModel::setLanguageSpecificDescriptionsFunction3Arg() {
@@ -1237,6 +1238,7 @@ namespace org::mariuszgromada::math::mxparser {
 		                        OPERATOR;
 		Operator::DIVIDE_QUOTIENT_DESC = STRING_RESOURCES->OPERATOR_DIVIDE_QUOTIENT + StringInvariant::SEPARATOR +
 		                                 STRING_RESOURCES->OPERATOR;
+		Operator::NAN_COALESCE_DESC = STRING_RESOURCES->OPERATOR_NAN_COALESCE + StringInvariant::SEPARATOR + STRING_RESOURCES->OPERATOR;
 		Operator::POWER_DESC = STRING_RESOURCES->OPERATOR_POWER + StringInvariant::SEPARATOR + STRING_RESOURCES->
 		                       OPERATOR;
 		Operator::FACT_DESC = STRING_RESOURCES->OPERATOR_FACT + StringInvariant::SEPARATOR + STRING_RESOURCES->OPERATOR;
@@ -2221,6 +2223,8 @@ namespace org::mariuszgromada::math::mxparser {
 		StringUtils::consolePrintln(UTF("Function2Arg::QNT_CHI2_DESC = \"") + Function2Arg::QNT_CHI2_DESC + UTF("\";"));
 		StringUtils::consolePrintln(
 			UTF("Function2Arg::RND_F_SNEDECOR_DESC = \"") + Function2Arg::RND_F_SNEDECOR_DESC + UTF("\";"));
+		StringUtils::consolePrintln(
+			UTF("Function2Arg::ATAN2_DESC = \"") + Function2Arg::ATAN2_DESC + UTF("\";"));
 		StringUtils::consolePrintln(UTF("Function3Arg::IF_DESC = \"") + Function3Arg::IF_DESC + UTF("\";"));
 		StringUtils::consolePrintln(UTF("Function3Arg::CHI_DESC = \"") + Function3Arg::CHI_DESC + UTF("\";"));
 		StringUtils::consolePrintln(UTF("Function3Arg::CHI_LR_DESC = \"") + Function3Arg::CHI_LR_DESC + UTF("\";"));
@@ -2288,6 +2292,8 @@ namespace org::mariuszgromada::math::mxparser {
 		StringUtils::consolePrintln(UTF("Operator::DIVIDE_DESC = \"") + Operator::DIVIDE_DESC + UTF("\";"));
 		StringUtils::consolePrintln(
 			UTF("Operator::DIVIDE_QUOTIENT_DESC = \"") + Operator::DIVIDE_QUOTIENT_DESC + UTF("\";"));
+		StringUtils::consolePrintln(
+			UTF("Operator::NAN_COALESCE_DESC = \"") + Operator::NAN_COALESCE_DESC + UTF("\";"));
 		StringUtils::consolePrintln(UTF("Operator::POWER_DESC = \"") + Operator::POWER_DESC + UTF("\";"));
 		StringUtils::consolePrintln(UTF("Operator::FACT_DESC = \"") + Operator::FACT_DESC + UTF("\";"));
 		StringUtils::consolePrintln(UTF("Operator::MOD_DESC = \"") + Operator::MOD_DESC + UTF("\";"));

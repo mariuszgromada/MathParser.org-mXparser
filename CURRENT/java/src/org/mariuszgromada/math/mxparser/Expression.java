@@ -2302,6 +2302,18 @@ public class Expression extends PrimitiveElement implements Serializable {
 		opSetDecreaseRemove(pos, MathFunctions.divQuotient(a, b), true);
 	}
 	/**
+	 * NaN-coalescing handling.
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void NAN_COALESCE(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.NAN_COALESCE, pos);
+		double a = getTokenValue(pos-1);
+		double b = getTokenValue(pos+1);
+		opSetDecreaseRemove(pos, Double.isNaN(a) ? b : a, false);
+	}
+
+	/**
 	 * Multiplication handling.
 	 *
 	 * @param      pos                 the token position
@@ -2754,6 +2766,13 @@ public class Expression extends PrimitiveElement implements Serializable {
 		double a = getTokenValue(pos+1);
 		f1SetDecreaseRemove(pos, MathFunctions.atan(a) );
 	}
+	/** 2-argument arctangent. */
+	private void ATAN2(int pos) {
+		double y = getTokenValue(pos+1);
+		double x = getTokenValue(pos+2);
+		f2SetDecreaseRemove(pos, MathFunctions.atan2(y, x));
+	}
+
 	/**
 	 * Arcus cotangent / Inverse trigonometric functions
 	 * Sets tokens to number token
@@ -4624,6 +4643,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		List<Double> numbers = getNumbers(pos);
 		variadicSetDecreaseRemove(pos, MathFunctions.coalesceWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.size() );
 	}
+
 	/**
 	 * OR_VARIADIC
 	 *
@@ -5399,7 +5419,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int implGroupPos, bolPos, eqPos, neqPos;
 		int ltPos, gtPos, leqPos, geqPos;
 		int commaPos, lParPos, rParPos, bitwisePos;
-		int bitwiseComplPos;
+		int bitwiseComplPos, nanCoalescePos;
 		int tokensNumber, maxPartLevel;
 		boolean maxPartLevelNotInterrupted;
 		boolean depArgFound;
@@ -5444,7 +5464,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			implGroupPos = -1; bolPos = -1; eqPos = -1; neqPos = -1;
 			ltPos = -1; gtPos = -1; leqPos = -1; geqPos = -1;
 			commaPos = -1; lParPos = -1; rParPos = -1; bitwisePos = -1;
-			bitwiseComplPos = -1;
+			bitwiseComplPos = -1; nanCoalescePos = -1;
 			/* calculus or if or iff operations ... */
 			p = -1;
 			if (compilationDetails.containsCalculus || compilationDetails.containsIf) do {
@@ -5569,6 +5589,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 							else if (token.tokenId == Operator.MULTIPLY_ID && multiplyPos < 0 && leftIsNumber && rigthIsNumber) multiplyPos = pos;
 							else if (token.tokenId == Operator.DIVIDE_ID && dividePos < 0 && leftIsNumber && rigthIsNumber) dividePos = pos;
 							else if (token.tokenId == Operator.DIVIDE_QUOTIENT_ID && divideQuotientPos < 0 && leftIsNumber && rigthIsNumber) divideQuotientPos = pos;
+							else if (token.tokenId == Operator.NAN_COALESCE_ID && nanCoalescePos < 0 && leftIsNumber && rigthIsNumber) nanCoalescePos = pos;
 						} else if (token.tokenTypeId == BooleanOperator.TYPE_ID) {
 							if (token.tokenId == BooleanOperator.NEG_ID && negPos < 0 && rigthIsNumber) negPos = pos;
 							else if (leftIsNumber && rigthIsNumber) {
@@ -5668,6 +5689,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			else if (implGroupPos >= 0) bolCalc(implGroupPos);
 			else if (bolPos >= 0) bolCalc(bolPos);
 			else if (bitwisePos >= 0) bitwiseCalc(bitwisePos);
+			else if (nanCoalescePos >= 0) NAN_COALESCE(nanCoalescePos);
 			else if (lParPos >= 0 && rParPos > lParPos) {
 				PARENTHESES(lParPos,rParPos);
 				storeStepsInRegister = false;
@@ -5780,6 +5802,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 					break;
 				case bolCalc: bolCalc(pos); break;
 				case bitwiseCalc: bitwiseCalc(pos); break;
+				case NAN_COALESCE: NAN_COALESCE(pos); break;
 				case PARENTHESES:
 					PARENTHESES(compiledElement.position1, compiledElement.position2);
 					storeStepsInRegister = false;
@@ -6019,6 +6042,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void f2ArgCalc(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.f2ArgCalc, pos);
 		switch (tokensList.get(pos).tokenId) {
+		case Function2Arg.ATAN2_ID: ATAN2(pos); break;
 		case Function2Arg.LOG_ID: LOG(pos); break;
 		case Function2Arg.MOD_ID: MOD(pos); break;
 		case Function2Arg.BINOM_COEFF_ID: BINOM_COEFF(pos); break;

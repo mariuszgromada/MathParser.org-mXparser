@@ -372,6 +372,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE StringPtr mXparser::NAMEv52 = nullptr;
 	API_VISIBLE StringPtr mXparser::NAMEv60 = nullptr;
 	API_VISIBLE StringPtr mXparser::NAMEv61 = nullptr;
+	API_VISIBLE StringPtr mXparser::NAMEv62 = nullptr;
 
 	STATIC_VARS_INITI_CPP(mXparser,
 		STATIC_VARS_INITI_DEPENDENCY(StringUtils);
@@ -412,6 +413,7 @@ namespace org::mariuszgromada::math::mxparser {
 		NAMEv52 = S(UTF("5.2"));
 		NAMEv60 = S(UTF("6.0"));
 		NAMEv61 = S(UTF("6.1"));
+		NAMEv62 = S(UTF("6.2"));
 
 		CONSOLE_PREFIX = UTF("[mXparser-v.") + VERSION + UTF("] ");
 		CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;

@@ -643,6 +643,7 @@ namespace org.mariuszgromada.math.mxparser {
             FUNCTION_1_ARG_DI_GAMMA = "Digamma, derivata logaritmica della funzione Gamma";
             FUNCTION_1_ARG_PARAM = "Funzione generata automaticamente per le funzioni definite dall'utente, restituisce il valore del parametro della funzione all'indice 'i'";
             // -------------------------------------------------
+            FUNCTION_2_ARG_ATAN2 = "Arcotangente a due argomenti";
             FUNCTION_2_ARG_LOG = "Logaritmo";
             FUNCTION_2_ARG_MOD = "Modulo";
             FUNCTION_2_ARG_BINOM_COEFF = "Coefficiente binomiale, numero di combinazioni k che possono essere estratte da un insieme di n-elementi";
@@ -706,6 +707,7 @@ namespace org.mariuszgromada.math.mxparser {
             OPERATOR_MULTIPLY = "Moltiplicazione";
             OPERATOR_DIVIDE = "Divisione";
             OPERATOR_DIVIDE_QUOTIENT = "Divisione intera (quoziente)";
+            OPERATOR_NAN_COALESCE = "Primo valore diverso da NaN";
             OPERATOR_POWER = "Esponenziazione";
             OPERATOR_FACT = "Fattoriale";
             OPERATOR_MOD = "Modulo";

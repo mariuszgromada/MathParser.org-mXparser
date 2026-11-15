@@ -2316,6 +2316,8 @@ namespace org::mariuszgromada::math::mxparser {
 		static StringPtr NAMEv52;
 		static StringPtr NAMEv60;
 		static StringPtr NAMEv61;
+		/** \since 6.2.0 */
+		static StringPtr NAMEv62;
 
 		mutable std::mutex mtx;
 
