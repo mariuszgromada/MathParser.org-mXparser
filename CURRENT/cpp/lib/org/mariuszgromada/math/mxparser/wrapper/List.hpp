@@ -410,6 +410,18 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 			refreshSelfPins();
 		}
 
+		// Technical native adapter for a newly created owner. Existing add remains
+		// non-consuming; metadata-backed and generic paths use its original logic.
+		void addOwned(T element) {
+			if constexpr (detail::SelfSlotType<T>::supported) {
+				if (!selfSlots) {
+					vectorList->push_back(std::move(element));
+					return;
+				}
+			}
+			add(element);
+		}
+
 		void addAll(const ListPtr<T> &listToAdd) {
 			const int count = listToAdd->size();
 			if constexpr (detail::SelfSlotType<T>::supported) {

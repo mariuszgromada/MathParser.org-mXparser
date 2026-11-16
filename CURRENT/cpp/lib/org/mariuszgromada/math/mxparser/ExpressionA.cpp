@@ -4393,11 +4393,10 @@ namespace org::mariuszgromada::math::mxparser {
 				firstChar = newExpressionString->at(pos);
 				do {
 					kwId++;
-					kw = keyWordsList->getRef(kwId);
-					kwStr = kw->wordString;
-					if (pos + kwStr->length() <= newExpressionString->length()) {
-						sub = S(newExpressionString->substr(pos, kwStr->length()));
-						if (*sub == *kwStr)
+					const KeyWordPtr& candidate = keyWordsList->getRef(kwId);
+					const StringPtr& candidateStr = candidate->wordString;
+					if (pos + candidateStr->length() <= newExpressionString->length()) {
+						if (newExpressionString->compare(pos, candidateStr->length(), *candidateStr) == 0)
 							matchFound = true;
 						/*
 						 * If keyword is known by the parser
@@ -4408,18 +4407,18 @@ namespace org::mariuszgromada::math::mxparser {
 							 * If keyword is in the form of identifier
 							 * then check preceding and following characters
 							 */
-							if (kw->wordTypeId == Argument::TYPE_ID ||
-							    kw->wordTypeId == RecursiveArgument::TYPE_ID_RECURSIVE ||
-							    kw->wordTypeId == Function1Arg::TYPE_ID ||
-							    kw->wordTypeId == Function2Arg::TYPE_ID ||
-							    kw->wordTypeId == Function3Arg::TYPE_ID ||
-							    kw->wordTypeId == FunctionVariadic::TYPE_ID ||
-							    kw->wordTypeId == ConstantValue::TYPE_ID ||
-							    kw->wordTypeId == Constant::TYPE_ID ||
-							    kw->wordTypeId == RandomVariable::TYPE_ID ||
-							    kw->wordTypeId == Unit::TYPE_ID ||
-							    kw->wordTypeId == Function::TYPE_ID ||
-							    kw->wordTypeId == CalculusOperator::TYPE_ID) {
+							if (candidate->wordTypeId == Argument::TYPE_ID ||
+							    candidate->wordTypeId == RecursiveArgument::TYPE_ID_RECURSIVE ||
+							    candidate->wordTypeId == Function1Arg::TYPE_ID ||
+							    candidate->wordTypeId == Function2Arg::TYPE_ID ||
+							    candidate->wordTypeId == Function3Arg::TYPE_ID ||
+							    candidate->wordTypeId == FunctionVariadic::TYPE_ID ||
+							    candidate->wordTypeId == ConstantValue::TYPE_ID ||
+							    candidate->wordTypeId == Constant::TYPE_ID ||
+							    candidate->wordTypeId == RandomVariable::TYPE_ID ||
+							    candidate->wordTypeId == Unit::TYPE_ID ||
+							    candidate->wordTypeId == Function::TYPE_ID ||
+							    candidate->wordTypeId == CalculusOperator::TYPE_ID) {
 								/*
 								 * Checking preceding character
 								 */
@@ -4430,14 +4429,21 @@ namespace org::mariuszgromada::math::mxparser {
 								/*
 								 * Checking following character
 								 */
-								if (matchFound && pos + kwStr->length() < newExpressionString->length()) {
-									followingChar = newExpressionString->at(pos + kwStr->length());
+								if (matchFound && pos + candidateStr->length() < newExpressionString->length()) {
+									followingChar = newExpressionString->at(pos + candidateStr->length());
 									if (!StringUtils::canBeSeparatingChar(followingChar)) matchFound = false;
 								}
 							}
 						}
 					}
 				} while (kwId < keyWordsList->size() - 1 && !matchFound);
+				// Borrow only during the read-only scan. Keep Java-style owning references
+				// before addToken or any other operation that could change the dictionary.
+				if (matchFound) {
+					kw = keyWordsList->getRef(kwId);
+					kwStr = kw->wordString;
+				}
+
 
 				/*
 				 * If keyword was unknown to the parser
@@ -4546,7 +4552,7 @@ namespace org::mariuszgromada::math::mxparser {
 		if (prepareInitialTokensListInfo) {
 			tokensList = new_List<TokenPtr>(initialTokens->size());
 			for (const TokenPtr &token : *initialTokens) {
-				tokensList->add(Token::cloneFast(token));
+				tokensList->addOwned(Token::cloneFast(token));
 				if (token->tokenTypeId == CalculusOperator::TYPE_ID)
 					initialCompilationDetails->containsCalculus = true;
 				else if (token->tokenTypeId == Function3Arg::TYPE_ID && token->tokenId == Function3Arg::IF_CONDITION_ID)
@@ -4557,7 +4563,7 @@ namespace org::mariuszgromada::math::mxparser {
 		} else {
 			tokensList = std::make_shared<List<TokenPtr>>(initialTokens->size());
 			for (const TokenPtr &token : *initialTokens) {
-				tokensList->add(std::make_shared<Token>(token));
+				tokensList->addOwned(std::make_shared<Token>(token));
 			}
 		}
 

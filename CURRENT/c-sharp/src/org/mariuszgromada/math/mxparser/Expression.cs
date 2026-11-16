@@ -5902,7 +5902,6 @@ namespace org.mariuszgromada.math.mxparser {
 			bool matchFoundPrev = false; /* unknown keyword (previous) */
             bool matchFound = false; /* unknown keyword (current) */
 			KeyWord kw = null;
-			String sub = StringInvariant.EMPTY;
 			String kwStr = StringInvariant.EMPTY;
 			char precedingChar;
 			char followingChar;
@@ -6006,8 +6005,7 @@ namespace org.mariuszgromada.math.mxparser {
 						kw = keyWordsList[kwId];
 						kwStr = kw.wordString;
 						if (pos + kwStr.Length <= newExpressionString.Length) {
-							sub = newExpressionString.Substring(pos, kwStr.Length );
-							if (sub.Equals(kwStr))
+							if (String.CompareOrdinal(newExpressionString, pos, kwStr, 0, kwStr.Length) == 0)
 								matchFound = true;
 							/*
 							 * If keyword is known by the parser

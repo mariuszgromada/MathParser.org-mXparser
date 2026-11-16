@@ -6984,7 +6984,6 @@ public class Expression extends PrimitiveElement implements Serializable {
 		boolean matchFoundPrev = false; /* unknown keyword (previous) */
 		boolean matchFound = false; /* unknown keyword (current) */
 		KeyWord kw = null;
-		String sub = StringInvariant.EMPTY;
 		String kwStr = StringInvariant.EMPTY;
 		char precedingChar;
 		char followingChar;
@@ -7083,8 +7082,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 					kw = keyWordsList.get(kwId);
 					kwStr = kw.wordString;
 					if (pos + kwStr.length() <= newExpressionString.length()) {
-						sub = newExpressionString.substring(pos, pos + kwStr.length() );
-						if (sub.equals(kwStr))
+						if (newExpressionString.regionMatches(pos, kwStr, 0, kwStr.length()))
 							matchFound = true;
 						/*
 						 * If keyword is known by the parser
