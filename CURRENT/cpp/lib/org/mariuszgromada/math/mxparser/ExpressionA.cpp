@@ -4294,9 +4294,9 @@ namespace org::mariuszgromada::math::mxparser {
 		StringPtr tokenStr = StringInvariant::EMPTY;
 		bool matchFoundPrev = false; /* unknown keyword (previous) */
 		bool matchFound = false; /* unknown keyword (current) */
-		KeyWordPtr kw = nullptr;
+		KeyWordPtr matchedKw = nullptr;
 		StringPtr sub = StringInvariant::EMPTY;
-		StringPtr kwStr = StringInvariant::EMPTY;
+		StringPtr matchedKwStr = StringInvariant::EMPTY;
 		Char precedingChar;
 		Char followingChar;
 		Char firstChar;
@@ -4393,10 +4393,10 @@ namespace org::mariuszgromada::math::mxparser {
 				firstChar = newExpressionString->at(pos);
 				do {
 					kwId++;
-					const KeyWordPtr& candidate = keyWordsList->getRef(kwId);
-					const StringPtr& candidateStr = candidate->wordString;
-					if (pos + candidateStr->length() <= newExpressionString->length()) {
-						if (newExpressionString->compare(pos, candidateStr->length(), *candidateStr) == 0)
+					const KeyWordPtr& kw = keyWordsList->getRef(kwId);
+					const StringPtr& kwStr = kw->wordString;
+					if (pos + kwStr->length() <= newExpressionString->length()) {
+						if (newExpressionString->compare(pos, kwStr->length(), *kwStr) == 0)
 							matchFound = true;
 						/*
 						 * If keyword is known by the parser
@@ -4407,18 +4407,18 @@ namespace org::mariuszgromada::math::mxparser {
 							 * If keyword is in the form of identifier
 							 * then check preceding and following characters
 							 */
-							if (candidate->wordTypeId == Argument::TYPE_ID ||
-							    candidate->wordTypeId == RecursiveArgument::TYPE_ID_RECURSIVE ||
-							    candidate->wordTypeId == Function1Arg::TYPE_ID ||
-							    candidate->wordTypeId == Function2Arg::TYPE_ID ||
-							    candidate->wordTypeId == Function3Arg::TYPE_ID ||
-							    candidate->wordTypeId == FunctionVariadic::TYPE_ID ||
-							    candidate->wordTypeId == ConstantValue::TYPE_ID ||
-							    candidate->wordTypeId == Constant::TYPE_ID ||
-							    candidate->wordTypeId == RandomVariable::TYPE_ID ||
-							    candidate->wordTypeId == Unit::TYPE_ID ||
-							    candidate->wordTypeId == Function::TYPE_ID ||
-							    candidate->wordTypeId == CalculusOperator::TYPE_ID) {
+							if (kw->wordTypeId == Argument::TYPE_ID ||
+							    kw->wordTypeId == RecursiveArgument::TYPE_ID_RECURSIVE ||
+							    kw->wordTypeId == Function1Arg::TYPE_ID ||
+							    kw->wordTypeId == Function2Arg::TYPE_ID ||
+							    kw->wordTypeId == Function3Arg::TYPE_ID ||
+							    kw->wordTypeId == FunctionVariadic::TYPE_ID ||
+							    kw->wordTypeId == ConstantValue::TYPE_ID ||
+							    kw->wordTypeId == Constant::TYPE_ID ||
+							    kw->wordTypeId == RandomVariable::TYPE_ID ||
+							    kw->wordTypeId == Unit::TYPE_ID ||
+							    kw->wordTypeId == Function::TYPE_ID ||
+							    kw->wordTypeId == CalculusOperator::TYPE_ID) {
 								/*
 								 * Checking preceding character
 								 */
@@ -4429,8 +4429,8 @@ namespace org::mariuszgromada::math::mxparser {
 								/*
 								 * Checking following character
 								 */
-								if (matchFound && pos + candidateStr->length() < newExpressionString->length()) {
-									followingChar = newExpressionString->at(pos + candidateStr->length());
+								if (matchFound && pos + kwStr->length() < newExpressionString->length()) {
+									followingChar = newExpressionString->at(pos + kwStr->length());
 									if (!StringUtils::canBeSeparatingChar(followingChar)) matchFound = false;
 								}
 							}
@@ -4440,8 +4440,8 @@ namespace org::mariuszgromada::math::mxparser {
 				// Borrow only during the read-only scan. Keep Java-style owning references
 				// before addToken or any other operation that could change the dictionary.
 				if (matchFound) {
-					kw = keyWordsList->getRef(kwId);
-					kwStr = kw->wordString;
+					matchedKw = keyWordsList->getRef(kwId);
+					matchedKwStr = matchedKw->wordString;
 				}
 
 
@@ -4487,9 +4487,9 @@ namespace org::mariuszgromada::math::mxparser {
 					 * keyword to the tokens list
 					 */
 					if (matchFound) {
-						tokenStr = S(newExpressionString->substr(pos, kwStr->length()));
-						if (!(kw->wordTypeId == ParserSymbol::TYPE_ID && kw->wordId == ParserSymbol::BLANK_ID)) {
-							addToken(tokenStr, kw);
+						tokenStr = S(newExpressionString->substr(pos, matchedKwStr->length()));
+						if (!(matchedKw->wordTypeId == ParserSymbol::TYPE_ID && matchedKw->wordId == ParserSymbol::BLANK_ID)) {
+							addToken(tokenStr, matchedKw);
 						}
 					} else {
 						tokenStr = specialConstStr;
