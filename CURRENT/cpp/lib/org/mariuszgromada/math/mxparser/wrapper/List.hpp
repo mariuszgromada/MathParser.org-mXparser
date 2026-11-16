@@ -1,5 +1,5 @@
 /*
- * @(#)List.hpp        6.2.0    2026-11-11
+ * @(#)List.hpp        6.2.0    2026-11-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -222,9 +222,11 @@
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesFunctionsStd.hpp"
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesStd.hpp"
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesUser.hpp"
+#include <cstddef>
 #include <mutex>
 #include <memory>
 #include <set>
+#include <utility>
 #include <vector>
 
 namespace org::mariuszgromada::math::mxparser::wrapper {
@@ -245,6 +247,135 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 			static std::shared_ptr<T> lock(const Weak& value) { return value.lock(); }
 			static Weak observe(const std::shared_ptr<T>& value) { return value; }
 			static bool matches(const Weak& owner, const std::shared_ptr<T>& value) { return value && owner.lock() == value; }
+		};
+
+		/*
+		 * Keep the real vector storage, iterator types and serialization shape.
+		 * Only single-element erasure of a shared_ptr gets a specialized path.
+		 * Other value types retain std::vector's original move/exception behavior.
+		 */
+		template<typename T> struct ListElementEraser {
+			static void erase(std::vector<T>& values, std::size_t index) {
+				using Difference = typename std::vector<T>::difference_type;
+				values.erase(values.begin() + static_cast<Difference>(index));
+			}
+		};
+
+		template<typename U> struct ListElementEraser<std::shared_ptr<U>> {
+			using Value = std::shared_ptr<U>;
+			using Vector = std::vector<Value>;
+			using Difference = typename Vector::difference_type;
+
+			static void erase(Vector& values, std::size_t index) {
+#if !defined(NDEBUG) || defined(_GLIBCXX_DEBUG) || defined(_GLIBCXX_ASSERTIONS) || \
+    (defined(_ITERATOR_DEBUG_LEVEL) && _ITERATOR_DEBUG_LEVEL != 0) || \
+    (defined(_MSVC_STL_HARDENING) && _MSVC_STL_HARDENING != 0) || \
+    (defined(_MSVC_STL_HARDENING_VECTOR) && _MSVC_STL_HARDENING_VECTOR != 0) || \
+    (defined(_LIBCPP_ENABLE_ASSERTIONS) && _LIBCPP_ENABLE_ASSERTIONS != 0) || \
+    (defined(_LIBCPP_DEBUG_LEVEL) && _LIBCPP_DEBUG_LEVEL != 0) || \
+    (defined(_LIBCPP_HARDENING_MODE) && defined(_LIBCPP_HARDENING_MODE_NONE) && \
+     _LIBCPP_HARDENING_MODE != _LIBCPP_HARDENING_MODE_NONE)
+				// Keep the standard library's checked-iterator diagnostics in debug builds.
+				values.erase(values.begin() + static_cast<Difference>(index));
+#else
+				const std::size_t count = values.size();
+				// Invalid indices retain the standard library's diagnostics/contract.
+				// Short-circuit before subtracting: the fast path handles valid slots only.
+				if (index >= count || count - index - 1 < 9) {
+					values.erase(values.begin() + static_cast<Difference>(index));
+					return;
+				}
+				eraseLongShift(values, index);
+#endif
+			}
+
+		private:
+			// Keep the long loop separate so the common short-erase dispatch remains
+			// small and can be inlined independently in the evaluator.
+			static void eraseLongShift(Vector& values, std::size_t index) {
+				Value* hole = values.data() + index;
+				Value* const last = values.data() + values.size() - 1;
+				// The first assignment is the same ownership-changing operation as in
+				// vector::erase: replace the erased owner with its successor. This also
+				// handles owning aliases whose stored pointer is nullptr. It leaves the
+				// source slot empty and preserves the normal first-release ordering.
+				*hole = std::move(hole[1]);
+				++hole;
+
+				// The destination is always empty. swap transfers ownership into that
+				// hole and leaves the next source empty, without move-assignment cleanup
+				// for each surviving element. Public shared_ptr operations only: no
+				// memcpy, layout assumptions, manual destruction or deferred reclamation.
+				// A fixed small block exposes adjacent swaps to the optimizer and avoids
+				// a costly dependency chain seen with a simple single-swap loop.
+#if defined(__clang__)
+				while (last - hole >= 8) {
+					hole[0].swap(hole[1]);
+					hole[1].swap(hole[2]);
+					hole[2].swap(hole[3]);
+					hole[3].swap(hole[4]);
+					hole[4].swap(hole[5]);
+					hole[5].swap(hole[6]);
+					hole[6].swap(hole[7]);
+					hole[7].swap(hole[8]);
+					hole += 8;
+				}
+#else
+				while (last - hole >= 32) {
+					hole[0].swap(hole[1]);
+					hole[1].swap(hole[2]);
+					hole[2].swap(hole[3]);
+					hole[3].swap(hole[4]);
+					hole[4].swap(hole[5]);
+					hole[5].swap(hole[6]);
+					hole[6].swap(hole[7]);
+					hole[7].swap(hole[8]);
+					hole[8].swap(hole[9]);
+					hole[9].swap(hole[10]);
+					hole[10].swap(hole[11]);
+					hole[11].swap(hole[12]);
+					hole[12].swap(hole[13]);
+					hole[13].swap(hole[14]);
+					hole[14].swap(hole[15]);
+					hole[15].swap(hole[16]);
+					hole[16].swap(hole[17]);
+					hole[17].swap(hole[18]);
+					hole[18].swap(hole[19]);
+					hole[19].swap(hole[20]);
+					hole[20].swap(hole[21]);
+					hole[21].swap(hole[22]);
+					hole[22].swap(hole[23]);
+					hole[23].swap(hole[24]);
+					hole[24].swap(hole[25]);
+					hole[25].swap(hole[26]);
+					hole[26].swap(hole[27]);
+					hole[27].swap(hole[28]);
+					hole[28].swap(hole[29]);
+					hole[29].swap(hole[30]);
+					hole[30].swap(hole[31]);
+					hole[31].swap(hole[32]);
+					hole += 32;
+				}
+				while (last - hole >= 8) {
+					hole[0].swap(hole[1]);
+					hole[1].swap(hole[2]);
+					hole[2].swap(hole[3]);
+					hole[3].swap(hole[4]);
+					hole[4].swap(hole[5]);
+					hole[5].swap(hole[6]);
+					hole[6].swap(hole[7]);
+					hole[7].swap(hole[8]);
+					hole += 8;
+				}
+#endif
+				while (hole != last) {
+					hole[0].swap(hole[1]);
+					++hole;
+				}
+				// The last shared_ptr is now genuinely empty. No owner is retained in
+				// unused capacity, and every surviving object keeps its control block.
+				values.pop_back();
+			}
 		};
 	} // namespace detail
 
@@ -268,13 +399,26 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		void add(const T &element) {
 			const int index = size();
 			const bool weak = prepareWeakSelfSlot(index, element);
-			try { vectorList->push_back(weak ? T{} : element); }
+			try {
+				if constexpr (detail::SelfSlotType<T>::supported) {
+					// Avoid a temporary strong owner on the ordinary shared_ptr path.
+					if (weak) vectorList->push_back(T{});
+					else vectorList->push_back(element);
+				} else vectorList->push_back(weak ? T{} : element);
+			}
 			catch (...) { if (weak) selfSlots->positions.erase(index); throw; }
 			refreshSelfPins();
 		}
 
 		void addAll(const ListPtr<T> &listToAdd) {
 			const int count = listToAdd->size();
+			if constexpr (detail::SelfSlotType<T>::supported) {
+				if (!listToAdd->selfSlots) {
+					// getRef keeps native aliases and avoids a temporary owner per entry.
+					for (int i = 0; i < count; i++) add(listToAdd->getRef(i));
+					return;
+				}
+			}
 			for (int i = 0; i < count; i++) add(listToAdd->get(i));
 		}
 
@@ -354,7 +498,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 
 		void remove(int index) {
 			eraseSelfPositions(index, index + 1);
-			vectorList->erase(vectorList->begin() + index);
+			eraseVectorElement(index);
 			refreshSelfPins();
 		}
 
@@ -368,7 +512,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 			for (int i = 0; i < CAST_INT(vectorList->size()); i++) {
 				if (*get(i) == *element) {
 					eraseSelfPositions(i, i + 1);
-					vectorList->erase(vectorList->begin() + i);
+					eraseVectorElement(i);
 					refreshSelfPins();
 					return;
 				}
@@ -377,6 +521,19 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 
 		void clearSubList(int startIndexInclusive, int endIndexExclusive) {
 			eraseSelfPositions(startIndexInclusive, endIndexExclusive);
+			if constexpr (detail::SelfSlotType<T>::supported) {
+				// Preserve the range overload for tail erases: some standard libraries
+				// update size before destruction in single erase, but after it in range erase.
+				// Only a valid, non-tail shared_ptr slot has an identical first move and
+				// an empty final destructor. Weak-self lists retain the original overload.
+				if (!selfSlots && startIndexInclusive >= 0 && endIndexExclusive > startIndexInclusive
+					&& endIndexExclusive - startIndexInclusive == 1
+					&& static_cast<std::size_t>(endIndexExclusive) < vectorList->size()) {
+					eraseVectorElement(startIndexInclusive);
+					refreshSelfPins();
+					return;
+				}
+			}
 			auto vectorListBegin = vectorList->begin();
 			vectorList->erase(vectorListBegin + startIndexInclusive, vectorListBegin + endIndexExclusive);
 			refreshSelfPins();
@@ -427,6 +584,16 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		mutable std::mutex mtx;
 
 	private:
+		void eraseVectorElement(int index) const {
+			if (selfSlots) {
+				// Definition lists with weak-self metadata retain the exact old erase
+				// path and its interaction with self pins and destructor callbacks.
+				vectorList->erase(vectorList->begin() + index);
+				return;
+			}
+			detail::ListElementEraser<T>::erase(*vectorList, static_cast<std::size_t>(index));
+		}
+
 		VectorPtr<T> vectorList = nullptr;
 
 		friend class org::mariuszgromada::math::mxparser::Expression;
