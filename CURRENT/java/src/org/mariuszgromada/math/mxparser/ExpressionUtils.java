@@ -221,6 +221,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.regex.Pattern;
 
 /**
  * Utility methods used in Expression class
@@ -1086,21 +1087,27 @@ final class ExpressionUtils {
         List<Token> tokensListCopy = new ArrayList<>();
         if (expressionString.isEmpty()) return tokensListCopy;
         if (initialTokens.isEmpty()) return tokensListCopy;
+        Pattern unitOnlyPattern = null;
+        Pattern nameOnlyPattern = null;
         Token token;
         for (int i = 0; i < initialTokens.size(); i++) {
             token =  initialTokens.get(i);
             if (token.tokenTypeId == Token.NOT_MATCHED) {
-                if (StringUtils.regexMatch(token.tokenStr, ParserSymbol.unitOnlyTokenRegExp)) {
+                if (unitOnlyPattern == null) unitOnlyPattern = Pattern.compile(ParserSymbol.unitOnlyTokenRegExp);
+                if (unitOnlyPattern.matcher(token.tokenStr).matches()) {
                     token.looksLike = UNITCONST;
-                } else if (StringUtils.regexMatch(token.tokenStr, ParserSymbol.nameOnlyTokenRegExp)) {
-                    token.looksLike = ARGUMENT;
-                    if (i < initialTokens.size()-1) {
-                        Token tokenNext = initialTokens.get(i+1);
-                        if ( (tokenNext.tokenTypeId == ParserSymbol.TYPE_ID) && (tokenNext.tokenId == ParserSymbol.LEFT_PARENTHESES_ID) )
-                            token.looksLike = FUNCTION;
-                    }
                 } else {
-                    token.looksLike = ERROR;
+                    if (nameOnlyPattern == null) nameOnlyPattern = Pattern.compile(ParserSymbol.nameOnlyTokenRegExp);
+                    if (nameOnlyPattern.matcher(token.tokenStr).matches()) {
+                        token.looksLike = ARGUMENT;
+                        if (i < initialTokens.size()-1) {
+                            Token tokenNext = initialTokens.get(i+1);
+                            if ( (tokenNext.tokenTypeId == ParserSymbol.TYPE_ID) && (tokenNext.tokenId == ParserSymbol.LEFT_PARENTHESES_ID) )
+                                token.looksLike = FUNCTION;
+                        }
+                    } else {
+                        token.looksLike = ERROR;
+                    }
                 }
             }
             tokensListCopy.add(token.clone());

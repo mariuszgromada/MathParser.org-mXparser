@@ -13164,4 +13164,43 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
 
+    @Test
+    public void testApi0458() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Token classification and returned copy independence";
+        TestCommonTools.consolePrintTestApiStart(458, testDescr);
+        Expression e = new Expression("missing339+[unit339]+fun339(missing339)");
+        List<Token> first = e.getCopyOfInitialTokens();
+        int count = first.size();
+        int arguments = 0;
+        int units = 0;
+        int functions = 0;
+        for (Token token : first) {
+            if (token.tokenStr.equals("missing339") && token.looksLike.equals("argument")) arguments++;
+            if (token.tokenStr.equals("[unit339]") && token.looksLike.equals("unit/const")) units++;
+            if (token.tokenStr.equals("fun339") && token.looksLike.equals("function")) functions++;
+        }
+        Token firstToken = first.get(0);
+        firstToken.tokenStr = "changed339";
+        firstToken.looksLike = "changed339";
+        first.clear();
+        List<Token> second = e.getCopyOfInitialTokens();
+        testResult = arguments == 2 && units == 1 && functions == 1 && first.isEmpty()
+                && second.size() == count && second.get(0) != firstToken
+                && second.get(0).tokenStr.equals("missing339") && second.get(0).looksLike.equals("argument");
+        boolean unicodeArgument = false;
+        boolean errorToken = false;
+        for (Token token : new Expression("α+?").getCopyOfInitialTokens()) {
+            if (token.tokenStr.equals("α") && token.looksLike.equals("argument")) unicodeArgument = true;
+            if (token.tokenStr.equals("?") && token.looksLike.equals("error")) errorToken = true;
+        }
+        boolean knownTokens = true;
+        for (Token token : new Expression("2+3").getCopyOfInitialTokens())
+            knownTokens &= token.tokenTypeId != Token.NOT_MATCHED && token.looksLike.isEmpty();
+        testResult &= unicodeArgument && errorToken && knownTokens;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
 }

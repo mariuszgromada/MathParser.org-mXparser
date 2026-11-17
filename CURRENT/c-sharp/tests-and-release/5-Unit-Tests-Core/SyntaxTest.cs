@@ -6790,5 +6790,24 @@ namespace org.mariuszgromada.math.mxparser.test {
     }
 
 
+    [TestMethod]
+    public void testSyn0423() {
+        TestCommonTools.testSynSettingsInit();
+        bool testResult = false;
+        String testDescr = "Multiple duplicate keywords use ordinal order";
+        String expStr = "B+a";
+        TestCommonTools.consolePrintTestSynStart(423, testDescr + " " + expStr);
+        Expression e = new Expression(expStr, new Argument("a", 1), new Argument("B", 2),
+                new Argument("a", 3), new Argument("B", 4));
+        bool syn = e.checkSyntax();
+        bool reg = false;
+        String errorMessage = e.getErrorMessage();
+        StringResources stringResources = StringModel.getStringResources();
+        testResult = syn == reg && errorMessage.Contains(stringResources.DUPLICATED_KEYWORD)
+                && errorMessage.Contains("'B'") && !errorMessage.Contains("'a'");
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assert.IsTrue(testResult);
+    }
+
 }
 }

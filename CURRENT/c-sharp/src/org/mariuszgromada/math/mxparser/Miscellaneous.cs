@@ -357,7 +357,7 @@ namespace org.mariuszgromada.math.mxparser {
 		public int Compare(KeyWord kw1, KeyWord kw2) {
 			String s1 = kw1.wordString;
 			String s2 = kw2.wordString;
-			return s1.CompareTo(s2);
+			return String.CompareOrdinal(s1, s2);
 		}
 	}
     /// <summary>Comparator for key word list sorting by

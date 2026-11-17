@@ -335,8 +335,8 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 	 * (duplicated key word error)
 	 */
 	API_VISIBLE bool KwStrComparator::operator()(const KeyWordPtr &kw1, const KeyWordPtr &kw2) const {
-		StringPtr s1 = kw1->wordString;
-		StringPtr s2 = kw2->wordString;
+		const StringPtr &s1 = kw1->wordString;
+		const StringPtr &s2 = kw2->wordString;
 		return s1->compare(*s2) < 0;
 	}
 

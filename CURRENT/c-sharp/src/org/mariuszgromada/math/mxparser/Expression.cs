@@ -6148,7 +6148,7 @@ namespace org.mariuszgromada.math.mxparser {
 				prepareInitialTokensListInfo = true;
 			}
 
-			tokensList = new List<Token>();
+			tokensList = new List<Token>(initialTokens.Count);
 
 			if (prepareInitialTokensListInfo) {
 				foreach (Token token in initialTokens) {

@@ -219,6 +219,7 @@ using org.mariuszgromada.math.mxparser.parsertokens;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace org.mariuszgromada.math.mxparser {
     /// <summary>Utility methods used in Expression class</summary>
@@ -1068,17 +1069,19 @@ namespace org.mariuszgromada.math.mxparser {
 			for (int i = 0; i < initialTokens.Count; i++) {
 				token = initialTokens[i];
 				if (token.tokenTypeId == Token.NOT_MATCHED) {
-					if (StringUtils.regexMatch(token.tokenStr, ParserSymbol.unitOnlyTokenRegExp)) {
+					if (Regex.IsMatch(token.tokenStr, "^(" + ParserSymbol.unitOnlyTokenRegExp + ")$")) {
 						token.looksLike = UNITCONST;
-					} else if (StringUtils.regexMatch(token.tokenStr, ParserSymbol.nameOnlyTokenRegExp)) {
-						token.looksLike = ARGUMENT;
-						if (i < initialTokens.Count - 1) {
-							Token tokenNext = initialTokens[i + 1];
-							if ((tokenNext.tokenTypeId == ParserSymbol.TYPE_ID) && (tokenNext.tokenId == ParserSymbol.LEFT_PARENTHESES_ID))
-								token.looksLike = FUNCTION;
-						}
 					} else {
-						token.looksLike = ERROR;
+						if (Regex.IsMatch(token.tokenStr, "^(" + ParserSymbol.nameOnlyTokenRegExp + ")$")) {
+							token.looksLike = ARGUMENT;
+							if (i < initialTokens.Count - 1) {
+								Token tokenNext = initialTokens[i + 1];
+								if ((tokenNext.tokenTypeId == ParserSymbol.TYPE_ID) && (tokenNext.tokenId == ParserSymbol.LEFT_PARENTHESES_ID))
+									token.looksLike = FUNCTION;
+							}
+						} else {
+							token.looksLike = ERROR;
+						}
 					}
 				}
 				tokensListCopy.Add(token.clone());

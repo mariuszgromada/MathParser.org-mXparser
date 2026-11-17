@@ -221,6 +221,7 @@
 #include "org/mariuszgromada/math/mxparser/CalcStepRecord.hpp"
 #include "org/mariuszgromada/math/mxparser/PrimitiveElement.hpp"
 #include "org/mariuszgromada/math/mxparser/LaTeXParser.hpp"
+#include "org/mariuszgromada/math/mxparser/parsertokens/Token.hpp"
 #include <memory>
 
 namespace org::mariuszgromada::math::mxparser::wrapper {
@@ -244,5 +245,6 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 	template int List<LaTeXParser::NodePtr>::size();
 	#endif
 	template parsertokens::KeyWordPtr List<parsertokens::KeyWordPtr>::get(int) const;
+	template void List<parsertokens::TokenPtr>::clear();
 
 } // namespace org::mariuszgromada::math::mxparser::wrapper

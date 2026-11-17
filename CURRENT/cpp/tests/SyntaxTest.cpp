@@ -6931,3 +6931,21 @@ TEST_CASE("testSyn0422", "[Syntax]") {
     TestCommonTools::consolePrintTestSynEnd(ok, true, testResult, testExp);
     CHECK(testResult);
 }
+
+TEST_CASE("testSyn0423", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string testDescr = "Multiple duplicate keywords use ordinal order";
+    string expStr = "B+a";
+    TestCommonTools::consolePrintTestSynStart(423, testDescr + " " + expStr);
+    ExpressionPtr e = new_Expression(expStr, new_Argument("a", 1), new_Argument("B", 2),
+            new_Argument("a", 3), new_Argument("B", 4));
+    bool syn = e->checkSyntax();
+    bool reg = false;
+    StringPtr errorMessage = e->getErrorMessage();
+    StringResourcesPtr stringResources = StringModel::getStringResources();
+    testResult = syn == reg && errorMessage->find(*stringResources->DUPLICATED_KEYWORD) != String::npos
+            && errorMessage->find(UTF("'B'")) != String::npos && errorMessage->find(UTF("'a'")) == String::npos;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    REQUIRE(testResult);
+}

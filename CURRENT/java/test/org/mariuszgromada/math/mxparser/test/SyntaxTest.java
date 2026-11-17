@@ -6781,4 +6781,23 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
 
+    @Test
+    public void testSyn0423() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Multiple duplicate keywords use ordinal order";
+        String expStr = "B+a";
+        TestCommonTools.consolePrintTestSynStart(423, testDescr + " " + expStr);
+        Expression e = new Expression(expStr, new Argument("a", 1), new Argument("B", 2),
+                new Argument("a", 3), new Argument("B", 4));
+        boolean syn = e.checkSyntax();
+        boolean reg = false;
+        String errorMessage = e.getErrorMessage();
+        StringResources stringResources = StringModel.getStringResources();
+        testResult = syn == reg && errorMessage.contains(stringResources.DUPLICATED_KEYWORD)
+                && errorMessage.contains("'B'") && !errorMessage.contains("'a'");
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+
 }

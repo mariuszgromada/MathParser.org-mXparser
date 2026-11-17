@@ -246,6 +246,8 @@
 #include "org/mariuszgromada/math/mxparser/wrapper/Math.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/StringBuilder.hpp"
 #include <algorithm>
+#include <optional>
+#include <regex>
 #include <stdexcept>
 
 namespace org::mariuszgromada::math::mxparser {
@@ -1860,22 +1862,28 @@ namespace org::mariuszgromada::math::mxparser {
 		ListPtr<TokenPtr> tokensListCopy = new_List<TokenPtr>();
 		if (expressionString->empty()) return tokensListCopy;
 		if (initialTokens->isEmpty()) return tokensListCopy;
+		std::optional<std::wregex> unitOnlyPattern;
+		std::optional<std::wregex> nameOnlyPattern;
 		for (int i = 0; i < initialTokens->size(); i++) {
 			const TokenPtr& token = initialTokens->getRef(i);
 			token->looksLike = StringInvariant::EMPTY;
 			if (token->tokenTypeId == parsertokens::Token::NOT_MATCHED) {
-				if (StringUtils::regexMatch(token->tokenStr, ParserSymbol::unitOnlyTokenRegExp)) {
+				if (!unitOnlyPattern) unitOnlyPattern.emplace(UTF("^(") + *ParserSymbol::unitOnlyTokenRegExp + UTF(")$"));
+				if (std::regex_match(*token->tokenStr, *unitOnlyPattern)) {
 					token->looksLike = UNITCONST;
-				} else if (StringUtils::regexMatch(token->tokenStr, ParserSymbol::nameOnlyTokenRegExp)) {
-					token->looksLike = ARGUMENT;
-					if (i < initialTokens->size() - 1) {
-						const TokenPtr& tokenNext = initialTokens->getRef(i + 1);
-						if ((tokenNext->tokenTypeId == ParserSymbol::TYPE_ID) && (
-							    tokenNext->tokenId == ParserSymbol::LEFT_PARENTHESES_ID))
-							token->looksLike = FUNCTION;
-					}
 				} else {
-					token->looksLike = ERROR;
+					if (!nameOnlyPattern) nameOnlyPattern.emplace(UTF("^(") + *ParserSymbol::nameOnlyTokenRegExp + UTF(")$"));
+					if (std::regex_match(*token->tokenStr, *nameOnlyPattern)) {
+						token->looksLike = ARGUMENT;
+						if (i < initialTokens->size() - 1) {
+							const TokenPtr& tokenNext = initialTokens->getRef(i + 1);
+							if ((tokenNext->tokenTypeId == ParserSymbol::TYPE_ID) && (
+								    tokenNext->tokenId == ParserSymbol::LEFT_PARENTHESES_ID))
+								token->looksLike = FUNCTION;
+						}
+					} else {
+						token->looksLike = ERROR;
+					}
 				}
 			}
 			tokensListCopy->add(parsertokens::Token::clone(token));

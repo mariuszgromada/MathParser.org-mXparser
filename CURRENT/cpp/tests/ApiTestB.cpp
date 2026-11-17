@@ -9474,3 +9474,43 @@ TEST_CASE("testApi0457", "[API]") {
     TestCommonTools::consolePrintTestApiEnd(testResult);
     CHECK(testResult);
 }
+
+TEST_CASE("testApi0458", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    bool testResult = false;
+    string testDescr = "Token classification and returned copy independence";
+    TestCommonTools::consolePrintTestApiStart(458, testDescr);
+    ExpressionPtr e = new_Expression("missing339+[unit339]+fun339(missing339)");
+    ListPtr<TokenPtr> first = e->getCopyOfInitialTokens();
+    int count = first->size();
+    int arguments = 0;
+    int units = 0;
+    int functions = 0;
+    for (const TokenPtr& token : *first) {
+        if (*token->tokenStr == UTF("missing339") && *token->looksLike == UTF("argument")) arguments++;
+        if (*token->tokenStr == UTF("[unit339]") && *token->looksLike == UTF("unit/const")) units++;
+        if (*token->tokenStr == UTF("fun339") && *token->looksLike == UTF("function")) functions++;
+    }
+    TokenPtr firstToken = first->get(0);
+    firstToken->tokenStr = S(UTF("changed339"));
+    firstToken->looksLike = S(UTF("changed339"));
+    first->clear();
+    ListPtr<TokenPtr> second = e->getCopyOfInitialTokens();
+    testResult = arguments == 2 && units == 1 && functions == 1 && first->size() == 0
+            && second->size() == count && second->getRef(0) != firstToken
+            && *second->getRef(0)->tokenStr == UTF("missing339") && *second->getRef(0)->looksLike == UTF("argument");
+    bool unicodeArgument = false;
+    bool errorToken = false;
+    ListPtr<TokenPtr> unicodeTokens = new_Expression("α+?")->getCopyOfInitialTokens();
+    for (const TokenPtr& token : *unicodeTokens) {
+        if (*token->tokenStr == UTF("α") && *token->looksLike == UTF("argument")) unicodeArgument = true;
+        if (*token->tokenStr == UTF("?") && *token->looksLike == UTF("error")) errorToken = true;
+    }
+    bool knownTokens = true;
+    ListPtr<TokenPtr> knownTokensList = new_Expression("2+3")->getCopyOfInitialTokens();
+    for (const TokenPtr& token : *knownTokensList)
+        knownTokens &= token->tokenTypeId != parsertokens::Token::NOT_MATCHED && token->looksLike->empty();
+    testResult &= unicodeArgument && errorToken && knownTokens;
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}

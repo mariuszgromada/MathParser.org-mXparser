@@ -13274,5 +13274,44 @@ namespace org.mariuszgromada.math.mxparser.test {
     }
 
 
+    [TestMethod]
+    public void testApi0458() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "Token classification and returned copy independence";
+        TestCommonTools.consolePrintTestApiStart(458, testDescr);
+        Expression e = new Expression("missing339+[unit339]+fun339(missing339)");
+        List<Token> first = e.getCopyOfInitialTokens();
+        int count = first.Count;
+        int arguments = 0;
+        int units = 0;
+        int functions = 0;
+        foreach (Token token in first) {
+            if (token.tokenStr.Equals("missing339") && token.looksLike.Equals("argument")) arguments++;
+            if (token.tokenStr.Equals("[unit339]") && token.looksLike.Equals("unit/const")) units++;
+            if (token.tokenStr.Equals("fun339") && token.looksLike.Equals("function")) functions++;
+        }
+        Token firstToken = first[0];
+        firstToken.tokenStr = "changed339";
+        firstToken.looksLike = "changed339";
+        first.Clear();
+        List<Token> second = e.getCopyOfInitialTokens();
+        testResult = arguments == 2 && units == 1 && functions == 1 && first.Count == 0
+                && second.Count == count && !Object.ReferenceEquals(second[0], firstToken)
+                && second[0].tokenStr.Equals("missing339") && second[0].looksLike.Equals("argument");
+        bool unicodeArgument = false;
+        bool errorToken = false;
+        foreach (Token token in new Expression("α+?").getCopyOfInitialTokens()) {
+            if (token.tokenStr.Equals("α") && token.looksLike.Equals("argument")) unicodeArgument = true;
+            if (token.tokenStr.Equals("?") && token.looksLike.Equals("error")) errorToken = true;
+        }
+        bool knownTokens = true;
+        foreach (Token token in new Expression("2+3").getCopyOfInitialTokens())
+            knownTokens &= token.tokenTypeId != Token.NOT_MATCHED && token.looksLike.Length == 0;
+        testResult &= unicodeArgument && errorToken && knownTokens;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
 }
 }

@@ -7227,7 +7227,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			prepareInitialTokensListInfo = true;
 		}
 
-		tokensList = new ArrayList<>();
+		tokensList = new ArrayList<>(initialTokens.size());
 
 		if (prepareInitialTokensListInfo) {
 			for (Token token : initialTokens) {
