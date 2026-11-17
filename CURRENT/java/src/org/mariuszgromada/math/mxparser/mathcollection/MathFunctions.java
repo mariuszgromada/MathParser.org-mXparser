@@ -251,6 +251,10 @@ public final class MathFunctions {
 	private static int MAX_RECURSION_CALLS = mXparser.getMaxAllowedRecursionDepth();
 	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH)) {{setMaximumFractionDigits(340);}};
 
+	private static boolean isSmallCanonicalInteger(double value) {
+		return value == Math.rint(value) && value >= -0x1.0p26 && value <= 0x1.0p26;
+	}
+
 	private static void refreshMaxAllowedRecursionDepth() {
 		MAX_RECURSION_CALLS = mXparser.getMaxAllowedRecursionDepth();
 	}
@@ -268,6 +272,11 @@ public final class MathFunctions {
 		if (!mXparser.checkIfCanonicalRounding()) return a + b;
 		if (Double.isInfinite(a)) return a + b;
 		if (Double.isInfinite(b)) return a + b;
+		// Integers up to 2^26 have exact sums, differences and products in double.
+		if (isSmallCanonicalInteger(a) && isSmallCanonicalInteger(b)) {
+			double result = a + b;
+			return result == 0 ? 0 : result;
+		}
 		BigDecimal da = BigDecimal.valueOf(a);
 		BigDecimal db = BigDecimal.valueOf(b);
 		return da.add(db).doubleValue();
@@ -286,6 +295,11 @@ public final class MathFunctions {
 		if (!mXparser.checkIfCanonicalRounding()) return a - b;
 		if (Double.isInfinite(a)) return a - b;
 		if (Double.isInfinite(b)) return a - b;
+		// Integers up to 2^26 have exact sums, differences and products in double.
+		if (isSmallCanonicalInteger(a) && isSmallCanonicalInteger(b)) {
+			double result = a - b;
+			return result == 0 ? 0 : result;
+		}
 		BigDecimal da = BigDecimal.valueOf(a);
 		BigDecimal db = BigDecimal.valueOf(b);
 		return da.subtract(db).doubleValue();
@@ -304,6 +318,11 @@ public final class MathFunctions {
 		if (!mXparser.checkIfCanonicalRounding()) return a * b;
 		if (Double.isInfinite(a)) return a * b;
 		if (Double.isInfinite(b)) return a * b;
+		// Integers up to 2^26 have exact sums, differences and products in double.
+		if (isSmallCanonicalInteger(a) && isSmallCanonicalInteger(b)) {
+			double result = a * b;
+			return result == 0 ? 0 : result;
+		}
 		BigDecimal da = BigDecimal.valueOf(a);
 		BigDecimal db = BigDecimal.valueOf(b);
 		return da.multiply(db).doubleValue();
@@ -3765,10 +3784,10 @@ public final class MathFunctions {
 		if (Double.isNaN(value)) return 0;
 		if (Double.isInfinite(value)) return 0;
 		if (ulpDecimalDigitsBefore(value) <= 0) return 0;
-		String valueStr = DECIMAL_FORMAT.format(value);
-		int dotPos = valueStr.indexOf('.');
-		if (dotPos >= 0) return valueStr.length() - 1 - dotPos;
-		return 0;
+		if (value == Math.rint(value)) return 0;
+		java.text.FieldPosition fractionalPart = new java.text.FieldPosition(java.text.NumberFormat.FRACTION_FIELD);
+		DECIMAL_FORMAT.format(value, new StringBuffer(40), fractionalPart);
+		return fractionalPart.getEndIndex() - fractionalPart.getBeginIndex();
 	}
 	/**
 	 * Intelligent rounding of a number within the decimal position of the ULP (Unit in the Last Place),

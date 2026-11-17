@@ -243,6 +243,14 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser::wrapper;
 
 	namespace {
+		// Bound the conversion first: the cast is defined only for finite,
+		// representable values. This is Java's exact-integer predicate on +/-2^26.
+		bool isSmallCanonicalInteger(double value) {
+			static_assert(std::numeric_limits<int>::digits >= 31, "Canonical integer shortcut requires a 32-bit int");
+			return value >= -67108864.0 && value <= 67108864.0
+				&& value == static_cast<int>(value);
+		}
+
 		// These inputs have already been rounded/floored by the original caller.
 		// Guard the C++ conversion, preserving the existing rounding and all
 		// previously defined results. Java/C# have different runtime cast rules.
@@ -286,6 +294,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (!mXparser::checkIfCanonicalRounding()) return a + b;
 		if (Double::isInfinite(a)) return a + b;
 		if (Double::isInfinite(b)) return a + b;
+		// Sums, differences and products in this integer range are exact.
+		if (isSmallCanonicalInteger(a) && isSmallCanonicalInteger(b)) {
+			double result = a + b;
+			// Keep the original platform-specific signed-zero path.
+			if (result != 0) return result;
+		}
 		BigDecimal da = BigDecimal::valueOf(a);
 		BigDecimal db = BigDecimal::valueOf(b);
 		return da.add(db).doubleValue();
@@ -297,6 +311,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (!mXparser::checkIfCanonicalRounding()) return a - b;
 		if (Double::isInfinite(a)) return a - b;
 		if (Double::isInfinite(b)) return a - b;
+		// Sums, differences and products in this integer range are exact.
+		if (isSmallCanonicalInteger(a) && isSmallCanonicalInteger(b)) {
+			double result = a - b;
+			// Keep the original platform-specific signed-zero path.
+			if (result != 0) return result;
+		}
 		BigDecimal da = BigDecimal::valueOf(a);
 		BigDecimal db = BigDecimal::valueOf(b);
 		return da.subtract(db).doubleValue();
@@ -308,6 +328,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (!mXparser::checkIfCanonicalRounding()) return a * b;
 		if (Double::isInfinite(a)) return a * b;
 		if (Double::isInfinite(b)) return a * b;
+		// Sums, differences and products in this integer range are exact.
+		if (isSmallCanonicalInteger(a) && isSmallCanonicalInteger(b)) {
+			double result = a * b;
+			// Keep the original platform-specific signed-zero path.
+			if (result != 0) return result;
+		}
 		BigDecimal da = BigDecimal::valueOf(a);
 		BigDecimal db = BigDecimal::valueOf(b);
 		return da.multiply(db).doubleValue();

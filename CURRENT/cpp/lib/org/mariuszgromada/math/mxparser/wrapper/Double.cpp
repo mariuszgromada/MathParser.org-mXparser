@@ -221,8 +221,80 @@
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesFunctionsStd.hpp"
 
 #include <sstream>
+#include <array>
+// Floating charconv arrived later than C++17 in several standard libraries.
+// Unknown/older libraries retain the original stream implementation.
+#if defined(__has_include)
+#if __has_include(<charconv>)
+#include <charconv>
+#define MXPARSER_CANONICAL_CHARCONV_HEADER 1
+#endif
+#endif
+
+#if defined(MXPARSER_CANONICAL_CHARCONV_HEADER)
+#if defined(_MSVC_STL_UPDATE) && _MSVC_STL_UPDATE >= 202001L
+#define MXPARSER_CANONICAL_FLOAT_CHARCONV 1
+#elif defined(_GLIBCXX_RELEASE) && _GLIBCXX_RELEASE >= 11 && defined(__cpp_lib_to_chars)
+#define MXPARSER_CANONICAL_FLOAT_CHARCONV 1
+#elif defined(_LIBCPP_VERSION) && _LIBCPP_VERSION >= 200000 && !defined(__APPLE__)
+#define MXPARSER_CANONICAL_FLOAT_CHARCONV 1
+#endif
+#endif
+#undef MXPARSER_CANONICAL_CHARCONV_HEADER
+
+#include <cfenv>
+#include <cmath>
+#include <locale>
 
 namespace org::mariuszgromada::math::mxparser::wrapper {
+
+	namespace {
+#if defined(MXPARSER_CANONICAL_FLOAT_CHARCONV)
+		bool canUseCanonicalCharconv() {
+			return *SystemUtils::classicLocale == std::locale::classic()
+				&& std::fegetround() == FE_TONEAREST;
+		}
+
+		bool tryCanonicalDecimalFormat(double value, int maxFractionDigits,
+			int resultPrecisionChange, std::string& result) {
+			if (!std::isfinite(value) || resultPrecisionChange < -340
+				|| resultPrecisionChange > 340 || !canUseCanonicalCharconv()) return false;
+			int maxPrecision = Double::maxPossibleDecimalPrecision(value) + resultPrecisionChange;
+			int precision = std::max(0, std::min(maxFractionDigits, maxPrecision));
+			if (precision > 340) return false;
+			// Finite double needs at most 309 integer digits, a sign, a dot and
+			// 340 fractional digits. Check the library's result before accessing it.
+			std::array<char, 768> buffer;
+			auto converted = std::to_chars(buffer.data(), buffer.data() + buffer.size(),
+				value, std::chars_format::fixed, precision);
+			if (converted.ec != std::errc()) return false;
+			result.assign(buffer.data(), converted.ptr);
+			size_t dotPos = result.find_first_of('.');
+			if (dotPos != std::string::npos) {
+				size_t lastNon0Pos = result.find_last_not_of('0');
+				if (lastNon0Pos == dotPos) lastNon0Pos--;
+				result.erase(lastNon0Pos + 1);
+			}
+			return true;
+		}
+
+#endif
+
+		double parseCanonicalDecimal(const std::string& value) {
+#if defined(MXPARSER_CANONICAL_FLOAT_CHARCONV) && !defined(__GLIBCXX__)
+			// libstdc++ stream extraction can round differently from from_chars.
+			// Keep that backend's established conversion below.
+			if (canUseCanonicalCharconv()) {
+				double result;
+				auto converted = std::from_chars(value.data(), value.data() + value.size(),
+					result, std::chars_format::fixed);
+				if (converted.ec == std::errc() && converted.ptr == value.data() + value.size()
+					&& std::isfinite(result)) return result;
+			}
+#endif
+			return Double::parseDouble(value);
+		}
+	}
 
 	API_VISIBLE bool Double::isNaN(double v) {
 		return std::isnan(v);
@@ -304,12 +376,12 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 			if (fractionalPartLength(valueStr) >= 6) {
 				const std::string& valueStrTrunc = decimalFormat(value, 340, percChange);
 				if (valueStr.length() - valueStrTrunc.length() >= 4) {
-					return parseDouble(valueStrTrunc);
+					return parseCanonicalDecimal(valueStrTrunc);
 				}
 			}
 		}
 
-		return parseDouble(valueStrToReParse);
+		return parseCanonicalDecimal(valueStrToReParse);
 	}
 
 	API_VISIBLE double Double::toDouble(long double ld) {
@@ -342,6 +414,12 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 	}
 
 	API_VISIBLE std::string Double::decimalFormat(double value, int maxFractionDigits, int resultPrecisionChange) {
+#if defined(MXPARSER_CANONICAL_FLOAT_CHARCONV)
+		std::string formatted;
+		if (tryCanonicalDecimalFormat(value, maxFractionDigits, resultPrecisionChange, formatted))
+			return formatted;
+#endif
+
 		std::ostringstream out;
 		out.imbue(*SystemUtils::classicLocale);
 
@@ -1114,3 +1192,4 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		return 309;
 	}
 } // namespace org::mariuszgromada::math::mxparser::wrapper
+#undef MXPARSER_CANONICAL_FLOAT_CHARCONV

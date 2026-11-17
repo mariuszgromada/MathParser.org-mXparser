@@ -241,6 +241,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		private static int MAX_RECURSION_CALLS = mXparser.getMaxAllowedRecursionDepth();
 		private static readonly String DECIMAL_FORMAT = "0." + new String('#', 339);
 
+		private static bool isSmallCanonicalInteger(double value) {
+			return value == Math.Round(value) && value >= -67108864d && value <= 67108864d;
+		}
+
 		private static void refreshMaxAllowedRecursionDepth() {
 			MAX_RECURSION_CALLS = mXparser.getMaxAllowedRecursionDepth();
 		}
@@ -283,6 +287,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (!mXparser.checkIfCanonicalRounding()) return r;
 			if (Double.IsInfinity(a)) return r;
 			if (Double.IsInfinity(b)) return r;
+			// The bounded integer result is exact; retain the decimal path for signed zero.
+			if (isSmallCanonicalInteger(a) && isSmallCanonicalInteger(b)) {
+				if (r != 0) return r;
+			}
 			if (isNotInDecimalRange(a)) return r;
 			if (isNotInDecimalRange(b)) return r;
 			if (isNotInDecimalRange(r)) return r;
@@ -303,6 +311,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (!mXparser.checkIfCanonicalRounding()) return r;
 			if (Double.IsInfinity(a)) return r;
 			if (Double.IsInfinity(b)) return r;
+			// The bounded integer result is exact; retain the decimal path for signed zero.
+			if (isSmallCanonicalInteger(a) && isSmallCanonicalInteger(b)) {
+				if (r != 0) return r;
+			}
 			if (isNotInDecimalRange(a)) return r;
 			if (isNotInDecimalRange(b)) return r;
 			if (isNotInDecimalRange(r)) return r;
@@ -323,6 +335,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (!mXparser.checkIfCanonicalRounding()) return r;
 			if (Double.IsInfinity(a)) return r;
 			if (Double.IsInfinity(b)) return r;
+			// The bounded integer result is exact; retain the decimal path for signed zero.
+			if (isSmallCanonicalInteger(a) && isSmallCanonicalInteger(b)) {
+				if (r != 0) return r;
+			}
 			if (isNotInDecimalRange(a)) return r;
 			if (isNotInDecimalRange(b)) return r;
 			if (isNotInDecimalRange(r)) return r;
@@ -3369,6 +3385,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNaN(value)) return 0;
 			if (Double.IsInfinity(value)) return 0;
 			if (ulpDecimalDigitsBefore(value) <= 0) return 0;
+			if (value == Math.Round(value)) return 0;
+#if NET8_0_OR_GREATER
+            Span<char> valueBuffer = stackalloc char[32];
+            if (value.TryFormat(valueBuffer, out int valueLength, default, CultureInfo.InvariantCulture))
+                return fractionalPartLength(valueBuffer.Slice(0, valueLength));
+#endif
 #if !NETFRAMEWORK
             String valueStr = value.ToString(CultureInfo.InvariantCulture);
 #else
@@ -3382,6 +3404,18 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
             int exponent = exponentPos < 0 ? 0 : int.Parse(valueStr.Substring(exponentPos + 1), CultureInfo.InvariantCulture);
             return Math.Max(0, fractionalDigits - exponent);
 		}
+#if NET8_0_OR_GREATER
+        private static int fractionalPartLength(ReadOnlySpan<char> valueSpan) {
+            int exponentPos = valueSpan.IndexOf('E');
+            if (exponentPos < 0) exponentPos = valueSpan.IndexOf('e');
+            int mantissaEnd = exponentPos < 0 ? valueSpan.Length : exponentPos;
+            int dotPos = valueSpan.IndexOf('.');
+            int fractionalDigits = dotPos < 0 ? 0 : mantissaEnd - 1 - dotPos;
+            int exponent = exponentPos < 0 ? 0 : int.Parse(valueSpan.Slice(exponentPos + 1), CultureInfo.InvariantCulture);
+            return Math.Max(0, fractionalDigits - exponent);
+        }
+#endif
+
 		/// <summary>Intelligent rounding of a number within the decimal position of the ULP (Unit in the Last Place),
 		/// provided that the result is significantly shortened in the standard decimal notation. Examples:
 		/// 30.499999999999992 is rounded to 30.5, but 30.499999999999122 will not be rounded. Rounding is
@@ -3433,6 +3467,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (ulpDecimalDigitsBefore(value) < 6) return value;
 			int decPartLen = fractionalPartLength(value);
 			if (decPartLen < 11) return value;
+			// Decimal.Round cannot accept more than 28 places; its fallback leaves this value unchanged.
+			if (decPartLen > 30) return value;
 			double valueRound = roundWithCancel(value, decPartLen - 2, cancelId);
 			int decPartLenRound = fractionalPartLength(valueRound);
 			if (decPartLen - decPartLenRound >= 9) return valueRound;
