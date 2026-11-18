@@ -359,6 +359,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE void Expression::markAsNotFullyCompiled() {
+		reusableTokensSource = nullptr;
+		reusableTokens = nullptr;
 		isFullyCompiled = false;
 		initialCompilationDetails = nullptr;
 	}
@@ -2344,9 +2346,11 @@ namespace org::mariuszgromada::math::mxparser {
 		struct RestoreCancelId {
 			int &field;
 			int previous;
-			~RestoreCancelId() { field = previous; }
-		} restoreCancelId{activeCancelId, activeCancelId};
+			int &depth;
+			~RestoreCancelId() { --depth; field = previous; }
+		} restoreCancelId{activeCancelId, activeCancelId, activeCalculations};
 		activeCancelId = cancelId;
+		activeCalculations++;
 		License::checkLicense();
 		int recursionCallsCounterBeforeCalculation = recursionCallsCounter;
 		try {
@@ -2768,7 +2772,9 @@ namespace org::mariuszgromada::math::mxparser {
 		int stepsRegisteredCounter = 0;
 		CalcStepRecord::StepType stepTypePrev = CalcStepRecord::StepType::Unknown;
 		bool storeStepsInRegister = true;
-		for (const CompiledElementPtr &compiledElement: *initialCompilationDetails->compiledElements) {
+		// Keep the iterated plan alive across user callbacks, as a Java iterator does.
+		ListPtr<CompiledElementPtr> compiledElements = initialCompilationDetails->compiledElements;
+		for (const CompiledElementPtr &compiledElement: *compiledElements) {
 			if (mXparser::isCalculationCancelled(activeCancelId)) {
 				registerErrorWhileCalculate(StringModel::STRING_RESOURCES->CANCEL_REQUEST_FINISHING);
 				return -1;
@@ -3052,6 +3058,8 @@ namespace org::mariuszgromada::math::mxparser {
 		CompiledElementPtr compiledElement = new_CompiledElement();
 		compiledElement->toCall = toCall;
 		compiledElement->position1 = position;
+		if (initialCompilationDetails == nullptr)
+			throw std::runtime_error("Initial compilation details must not be null");
 		initialCompilationDetails->compiledElements->add(compiledElement);
 	}
 
@@ -3060,6 +3068,8 @@ namespace org::mariuszgromada::math::mxparser {
 		compiledElement->toCall = toCall;
 		compiledElement->position1 = position1;
 		compiledElement->position2 = position2;
+		if (initialCompilationDetails == nullptr)
+			throw std::runtime_error("Initial compilation details must not be null");
 		initialCompilationDetails->compiledElements->add(compiledElement);
 	}
 
@@ -4538,6 +4548,38 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 
+	/** Restore all clone fields before replay; the source tokens stay untouched. */
+	API_VISIBLE void Expression::copyReusableTokens() {
+		if (reusableTokensSource != initialTokens || reusableTokens == nullptr
+				|| reusableTokens->length != initialTokens->size()) {
+			reusableTokens = new_Array<TokenPtr>(initialTokens->size());
+			reusableTokensSource = nullptr;
+			tokensList = new_List<TokenPtr>(initialTokens->size());
+			int index = 0;
+			for (const TokenPtr &token : *initialTokens) {
+				TokenPtr workingToken = Token::cloneFast(token);
+				(*reusableTokens)(index++) = workingToken;
+				tokensList->add(workingToken);
+			}
+			// Commit the cache key only after every token has been cloned.
+			reusableTokensSource = initialTokens;
+			return;
+		}
+		tokensList->clear();
+		int index = 0;
+		for (const TokenPtr &token : *initialTokens) {
+			const TokenPtr &workingToken = (*reusableTokens)(index++);
+			if (workingToken->keyWord != token->keyWord) workingToken->keyWord = token->keyWord;
+			if (workingToken->tokenStr != token->tokenStr) workingToken->tokenStr = token->tokenStr;
+			workingToken->tokenId = token->tokenId;
+			workingToken->tokenLevel = token->tokenLevel;
+			workingToken->tokenTypeId = token->tokenTypeId;
+			workingToken->tokenValue = token->tokenValue;
+			if (workingToken->looksLike != token->looksLike) workingToken->looksLike = token->looksLike;
+			tokensList->add(workingToken);
+		}
+	}
+
 	/**
 	 * \brief copy initial tokens list to tokens list and prepares initial compilation details
 	 */
@@ -4549,7 +4591,11 @@ namespace org::mariuszgromada::math::mxparser {
 			prepareInitialTokensListInfo = true;
 		}
 
-		if (prepareInitialTokensListInfo) {
+		// Re-entry must keep fresh token identities for the outer frame's locals.
+		if (!prepareInitialTokensListInfo && activeCalculations == 1
+				&& !initialCompilationDetails->containsCalculus && !initialCompilationDetails->containsIf) {
+			copyReusableTokens();
+		} else if (prepareInitialTokensListInfo) {
 			tokensList = new_List<TokenPtr>(initialTokens->size());
 			for (const TokenPtr &token : *initialTokens) {
 				tokensList->addOwned(Token::cloneFast(token));

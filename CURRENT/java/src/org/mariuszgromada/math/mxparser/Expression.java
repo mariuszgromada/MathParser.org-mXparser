@@ -392,6 +392,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * element - the result of all calculations.
 	 */
 	private List<Token> tokensList = null;
+	/** Private scratch state, never shared by clones or serialized. */
+	private transient List<Token> reusableTokensSource;
+	private transient Token[] reusableTokens;
+	private transient int activeCalculations;
 	private CompilationDetails compilationDetails = null;
 	/**
 	 * List of related expressions, for example when
@@ -626,6 +630,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 		markAsNotFullyCompiled();
 	}
 	void markAsNotFullyCompiled() {
+		reusableTokensSource = null;
+		reusableTokens = null;
 		isFullyCompiled = false;
 		initialCompilationDetails = null;
 	}
@@ -5346,6 +5352,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private double calculateCoreWithCancel(CalcStepsRegister calcStepsRegister, int cancelId) {
 		int previousCancelId = activeCancelId;
 		activeCancelId = cancelId;
+		activeCalculations++;
 		try {
 			License.checkLicense();
 			int recursionCallsCounterBeforeCalculation = recursionCallsCounter;
@@ -5367,6 +5374,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			}
 	
 		} finally {
+			activeCalculations--;
 			activeCancelId = previousCancelId;
 		}
 	}
@@ -7216,6 +7224,38 @@ public class Expression extends PrimitiveElement implements Serializable {
 		ExpressionUtils.evaluateTokensLevels(initialTokens);
 	}
 
+	/** Restore all clone fields before replay; the source tokens stay untouched. */
+	private void copyReusableTokens() {
+		if (reusableTokensSource != initialTokens || reusableTokens == null
+				|| reusableTokens.length != initialTokens.size()) {
+			reusableTokens = new Token[initialTokens.size()];
+			reusableTokensSource = null;
+			tokensList = new ArrayList<>(initialTokens.size());
+			int index = 0;
+			for (Token token : initialTokens) {
+				Token workingToken = token.clone();
+				reusableTokens[index++] = workingToken;
+				tokensList.add(workingToken);
+			}
+			// Commit the cache key only after every token has been cloned.
+			reusableTokensSource = initialTokens;
+			return;
+		}
+		tokensList.clear();
+		int index = 0;
+		for (Token token : initialTokens) {
+			Token workingToken = reusableTokens[index++];
+			if (workingToken.keyWord != token.keyWord) workingToken.keyWord = token.keyWord;
+			if (workingToken.tokenStr != token.tokenStr) workingToken.tokenStr = token.tokenStr;
+			workingToken.tokenId = token.tokenId;
+			workingToken.tokenLevel = token.tokenLevel;
+			workingToken.tokenTypeId = token.tokenTypeId;
+			workingToken.tokenValue = token.tokenValue;
+			if (workingToken.looksLike != token.looksLike) workingToken.looksLike = token.looksLike;
+			tokensList.add(workingToken);
+		}
+	}
+
 	/**
 	 * copy initial tokens list to tokens list and prepares initial compilation details
 	 */
@@ -7227,21 +7267,27 @@ public class Expression extends PrimitiveElement implements Serializable {
 			prepareInitialTokensListInfo = true;
 		}
 
-		tokensList = new ArrayList<>(initialTokens.size());
-
-		if (prepareInitialTokensListInfo) {
-			for (Token token : initialTokens) {
-				tokensList.add(token.clone());
-				if (token.tokenTypeId == CalculusOperator.TYPE_ID)
-					initialCompilationDetails.containsCalculus = true;
-				else if (token.tokenTypeId == Function3Arg.TYPE_ID && token.tokenId == Function3Arg.IF_CONDITION_ID)
-					initialCompilationDetails.containsIf = true;
-				else if (token.tokenTypeId == FunctionVariadic.TYPE_ID && token.tokenId == FunctionVariadic.IFF_ID)
-					initialCompilationDetails.containsIf = true;
-			}
+		// Re-entry must keep fresh token identities for the outer frame's locals.
+		if (!prepareInitialTokensListInfo && activeCalculations == 1
+				&& !initialCompilationDetails.containsCalculus && !initialCompilationDetails.containsIf) {
+			copyReusableTokens();
 		} else {
-			for (Token token : initialTokens)
-				tokensList.add(token.clone());
+			tokensList = new ArrayList<>(initialTokens.size());
+
+			if (prepareInitialTokensListInfo) {
+				for (Token token : initialTokens) {
+					tokensList.add(token.clone());
+					if (token.tokenTypeId == CalculusOperator.TYPE_ID)
+						initialCompilationDetails.containsCalculus = true;
+					else if (token.tokenTypeId == Function3Arg.TYPE_ID && token.tokenId == Function3Arg.IF_CONDITION_ID)
+						initialCompilationDetails.containsIf = true;
+					else if (token.tokenTypeId == FunctionVariadic.TYPE_ID && token.tokenId == FunctionVariadic.IFF_ID)
+						initialCompilationDetails.containsIf = true;
+				}
+			} else {
+				for (Token token : initialTokens)
+					tokensList.add(token.clone());
+			}
 		}
 
 		if (compilationDetails == null)

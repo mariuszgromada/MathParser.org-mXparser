@@ -293,7 +293,7 @@ namespace org::mariuszgromada::math::mxparser {
 		 * x->getArgumentValue();
 		 */
 		int tokensListSizeBefore = tokensList->size();
-		const TokenPtr& tokenBefore = tokensList->getRef(pos);
+		TokenPtr tokenBefore = tokensList->getRef(pos);
 		double argumentValue = argument->getArgumentValueWithCancel(calcStepsRegister, activeCancelId);
 		if (forwardErrorMessage && THIS(Expression) != argument->argumentExpression) {
 			errorMessageCalculate = StringUtils::stringConcatenateMaxLength(
@@ -348,7 +348,7 @@ namespace org::mariuszgromada::math::mxparser {
 		 * g->addDefinitions(f);
 		 */
 		int tokensListSizeBefore = tokensList->size();
-		const TokenPtr& tokenBefore = tokensList->getRef(pos);
+		TokenPtr tokenBefore = tokensList->getRef(pos);
 		double value;
 		try {
 			value = function->calculateWithCancel(calcStepsRegister, activeCancelId);

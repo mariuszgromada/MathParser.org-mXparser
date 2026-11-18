@@ -2512,6 +2512,9 @@ namespace org::mariuszgromada::math::mxparser {
 		CompilationDetailsPtr initialCompilationDetails = nullptr;
 		PtrsSetPtr<String> neverParseForImpliedMultiplication = nullptr;
 		ListPtr<TokenPtr> tokensList = nullptr;
+		ListPtr<TokenPtr> reusableTokensSource = nullptr;
+		ArrayPtr<TokenPtr> reusableTokens = nullptr;
+		int activeCalculations = 0;
 		CompilationDetailsPtr compilationDetails = nullptr;
 
 		// ***********************************************************
@@ -2928,6 +2931,7 @@ namespace org::mariuszgromada::math::mxparser {
 		void addToken(const StringPtr &tokenStr, const KeyWordPtr &keyWord);
 		void addUserDefinedKeyWords();
 		void tokenizeExpressionString();
+		void copyReusableTokens();
 		void copyInitialTokens();
 		void showArguments() const;
 		void printSystemInfo(const StringPtr &info, bool withExpressionString) const;

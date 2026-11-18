@@ -325,6 +325,10 @@ namespace org.mariuszgromada.math.mxparser {
 		/// At the end of the calculation the tokensList should contain only one
 		/// element - the result of all calculations.</summary>
 		private List<Token> tokensList = null;
+		/// <summary>Private scratch state, never shared by clones or serialized.</summary>
+		[NonSerialized] private List<Token> reusableTokensSource;
+		[NonSerialized] private Token[] reusableTokens;
+		[NonSerialized] private int activeCalculations;
         private CompilationDetails compilationDetails = null;
 		/// <summary>List of related expressions, for example when
 		/// user defined function is used in the expression
@@ -496,6 +500,8 @@ namespace org.mariuszgromada.math.mxparser {
 			markAsNotFullyCompiled();
         }
         internal void markAsNotFullyCompiled() {
+			reusableTokensSource = null;
+			reusableTokens = null;
 			isFullyCompiled = false;
 			initialCompilationDetails = null;
 		}
@@ -4312,6 +4318,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private double calculateCoreWithCancel(CalcStepsRegister calcStepsRegister, int cancelId) {
 			int previousCancelId = activeCancelId;
 			activeCancelId = cancelId;
+			activeCalculations++;
 			try {
 	            License.checkLicense();
 	            int recursionCallsCounterBeforeCalculation = recursionCallsCounter;
@@ -4333,6 +4340,7 @@ namespace org.mariuszgromada.math.mxparser {
 				}
 		
 			} finally {
+				activeCalculations--;
 				activeCancelId = previousCancelId;
 			}
 		}
@@ -6139,6 +6147,38 @@ namespace org.mariuszgromada.math.mxparser {
 			ExpressionUtils.evaluateTokensLevels(initialTokens);
 		}
 
+		/// <summary>Restore all clone fields before replay; source tokens stay untouched.</summary>
+		private void copyReusableTokens() {
+			if (reusableTokensSource != initialTokens || reusableTokens == null
+					|| reusableTokens.Length != initialTokens.Count) {
+				reusableTokens = new Token[initialTokens.Count];
+				reusableTokensSource = null;
+				tokensList = new List<Token>(initialTokens.Count);
+				int initialIndex = 0;
+				foreach (Token token in initialTokens) {
+					Token workingToken = token.clone();
+					reusableTokens[initialIndex++] = workingToken;
+					tokensList.Add(workingToken);
+				}
+				// Commit the cache key only after every token has been cloned.
+				reusableTokensSource = initialTokens;
+				return;
+			}
+			tokensList.Clear();
+			int index = 0;
+			foreach (Token token in initialTokens) {
+				Token workingToken = reusableTokens[index++];
+				if (!Object.ReferenceEquals(workingToken.keyWord, token.keyWord)) workingToken.keyWord = token.keyWord;
+				if (!Object.ReferenceEquals(workingToken.tokenStr, token.tokenStr)) workingToken.tokenStr = token.tokenStr;
+				workingToken.tokenId = token.tokenId;
+				workingToken.tokenLevel = token.tokenLevel;
+				workingToken.tokenTypeId = token.tokenTypeId;
+				workingToken.tokenValue = token.tokenValue;
+				if (!Object.ReferenceEquals(workingToken.looksLike, token.looksLike)) workingToken.looksLike = token.looksLike;
+				tokensList.Add(workingToken);
+			}
+		}
+
         /// <summary>copy initial tokens list to tokens list and prepares initial compilation details</summary>
         private void copyInitialTokens() {
 			bool prepareInitialTokensListInfo = false;
@@ -6148,21 +6188,27 @@ namespace org.mariuszgromada.math.mxparser {
 				prepareInitialTokensListInfo = true;
 			}
 
-			tokensList = new List<Token>(initialTokens.Count);
-
-			if (prepareInitialTokensListInfo) {
-				foreach (Token token in initialTokens) {
-					tokensList.Add(token.clone());
-					if (token.tokenTypeId == CalculusOperator.TYPE_ID)
-						initialCompilationDetails.containsCalculus = true;
-					else if (token.tokenTypeId == Function3Arg.TYPE_ID && token.tokenId == Function3Arg.IF_CONDITION_ID)
-						initialCompilationDetails.containsIf = true;
-					else if (token.tokenTypeId == FunctionVariadic.TYPE_ID && token.tokenId == FunctionVariadic.IFF_ID)
-						initialCompilationDetails.containsIf = true;
-				}
+			// Re-entry must keep fresh token identities for the outer frame's locals.
+			if (!prepareInitialTokensListInfo && activeCalculations == 1
+					&& !initialCompilationDetails.containsCalculus && !initialCompilationDetails.containsIf) {
+				copyReusableTokens();
 			} else {
-				foreach (Token token in initialTokens)
-					tokensList.Add(token.clone());
+				tokensList = new List<Token>(initialTokens.Count);
+
+				if (prepareInitialTokensListInfo) {
+					foreach (Token token in initialTokens) {
+						tokensList.Add(token.clone());
+						if (token.tokenTypeId == CalculusOperator.TYPE_ID)
+							initialCompilationDetails.containsCalculus = true;
+						else if (token.tokenTypeId == Function3Arg.TYPE_ID && token.tokenId == Function3Arg.IF_CONDITION_ID)
+							initialCompilationDetails.containsIf = true;
+						else if (token.tokenTypeId == FunctionVariadic.TYPE_ID && token.tokenId == FunctionVariadic.IFF_ID)
+							initialCompilationDetails.containsIf = true;
+					}
+				} else {
+					foreach (Token token in initialTokens)
+						tokensList.Add(token.clone());
+				}
 			}
 
 			if (compilationDetails == null)

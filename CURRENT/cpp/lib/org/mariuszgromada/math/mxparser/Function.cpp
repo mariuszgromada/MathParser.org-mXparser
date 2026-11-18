@@ -800,7 +800,8 @@ namespace org::mariuszgromada::math::mxparser {
 			return Double::NaN;
 		double value = Double::NaN;
 		if (functionBodyType == BODY_RUNTIME) {
-			value = functionExpression->calculateWithCancel(calcStepsRegister, cancelId);
+			ExpressionPtr executingExpression = functionExpression;
+			value = executingExpression->calculateWithCancel(calcStepsRegister, cancelId);
 			computingTime = functionExpression->computingTime;
 			return value;
 		}
@@ -847,7 +848,8 @@ namespace org::mariuszgromada::math::mxparser {
 		double value = Double::NaN;
 		if (isVariadic) {
 			if (functionBodyType == BODY_RUNTIME) {
-				value = functionExpression->calculateWithCancel(cancelId);
+				ExpressionPtr executingExpression = functionExpression;
+				value = executingExpression->calculateWithCancel(cancelId);
 				computingTime = functionExpression->computingTime;
 				return value;
 			}
@@ -866,7 +868,8 @@ namespace org::mariuszgromada::math::mxparser {
 		if (functionBodyType == BODY_RUNTIME) {
 			for (int p = 0; p < parameters->size(); p++)
 				setArgumentValue(p, (*parameters)[p]);
-			value = functionExpression->calculateWithCancel(cancelId);
+			ExpressionPtr executingExpression = functionExpression;
+			value = executingExpression->calculateWithCancel(cancelId);
 			computingTime = functionExpression->computingTime;
 			return value;
 		}
@@ -913,7 +916,8 @@ namespace org::mariuszgromada::math::mxparser {
 		double value = Double::NaN;
 		if (isVariadic) {
 			if (functionBodyType == BODY_RUNTIME) {
-				value = functionExpression->calculateWithCancel(cancelId);
+				ExpressionPtr executingExpression = functionExpression;
+				value = executingExpression->calculateWithCancel(cancelId);
 				computingTime = functionExpression->computingTime;
 				return value;
 			}
@@ -932,7 +936,8 @@ namespace org::mariuszgromada::math::mxparser {
 		if (functionBodyType == BODY_RUNTIME) {
 			for (int p = 0; p < arguments->size(); p++)
 				setArgumentValue(p, (*arguments)[p]->getArgumentValueWithCancel(cancelId));
-			value = functionExpression->calculateWithCancel(cancelId);
+			ExpressionPtr executingExpression = functionExpression;
+			value = executingExpression->calculateWithCancel(cancelId);
 			computingTime = functionExpression->computingTime;
 			return value;
 		}
