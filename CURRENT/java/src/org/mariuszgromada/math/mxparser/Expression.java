@@ -1787,8 +1787,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void f2SetDecreaseRemove(int pos, double result, boolean ulpRound) {
 		setToNumber(pos, result, ulpRound);
 		tokensList.get(pos).tokenLevel--;
-		tokensList.remove(pos+2);
-		tokensList.remove(pos+1);
+		if (tokensList.size() - pos >= 3)
+			tokensList.subList(pos+1, pos+3).clear();
+		else {
+			tokensList.remove(pos+2);
+			tokensList.remove(pos+1);
+		}
 	}
 	private void f2SetDecreaseRemove(int pos, double result) {
 		f2SetDecreaseRemove(pos, result, false);
@@ -1808,9 +1812,13 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void f3SetDecreaseRemove(int pos, double result, boolean ulpRound) {
 		setToNumber(pos, result, ulpRound);
 		tokensList.get(pos).tokenLevel--;
-		tokensList.remove(pos+3);
-		tokensList.remove(pos+2);
-		tokensList.remove(pos+1);
+		if (tokensList.size() - pos >= 4)
+			tokensList.subList(pos+1, pos+4).clear();
+		else {
+			tokensList.remove(pos+3);
+			tokensList.remove(pos+2);
+			tokensList.remove(pos+1);
+		}
 	}
 	private void f3SetDecreaseRemove(int pos, double result) {
 		f3SetDecreaseRemove(pos, result, false);
@@ -1829,8 +1837,13 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void opSetDecreaseRemove(int pos, double result, boolean ulpRound) {
 		setToNumber(pos, result, ulpRound);
-		tokensList.remove(pos+1);
-		tokensList.remove(pos-1);
+		if (pos > 0 && tokensList.size() - pos >= 2) {
+			tokensList.set(pos-1, tokensList.get(pos));
+			tokensList.subList(pos, pos+2).clear();
+		} else {
+			tokensList.remove(pos+1);
+			tokensList.remove(pos-1);
+		}
 	}
 	private void opSetDecreaseRemove(int pos, double result) {
 		opSetDecreaseRemove(pos, result, false);

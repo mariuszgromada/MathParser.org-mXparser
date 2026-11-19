@@ -227,6 +227,7 @@
 #include <memory>
 #include <set>
 #include <utility>
+#include <type_traits>
 #include <vector>
 
 namespace org::mariuszgromada::math::mxparser::wrapper {
@@ -251,7 +252,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 
 		/*
 		 * Keep the real vector storage, iterator types and serialization shape.
-		 * Only single-element erasure of a shared_ptr gets a specialized path.
+		 * Single and short-range shared_ptr erasure use specialized paths.
 		 * Other value types retain std::vector's original move/exception behavior.
 		 */
 		template<typename T> struct ListElementEraser {
@@ -289,7 +290,85 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 #endif
 			}
 
+			// Native representation adapter. Caller excludes weak-self metadata.
+			// Invalid/short/other-width and hardened cases retain the original range.
+			static bool eraseSmallRange(Vector& values, std::size_t first, std::size_t last) {
+#if !defined(NDEBUG) || defined(_GLIBCXX_DEBUG) || defined(_GLIBCXX_ASSERTIONS) || \
+    (defined(_ITERATOR_DEBUG_LEVEL) && _ITERATOR_DEBUG_LEVEL != 0) || \
+    (defined(_MSVC_STL_HARDENING) && _MSVC_STL_HARDENING != 0) || \
+    (defined(_MSVC_STL_HARDENING_VECTOR) && _MSVC_STL_HARDENING_VECTOR != 0) || \
+    (defined(_LIBCPP_ENABLE_ASSERTIONS) && _LIBCPP_ENABLE_ASSERTIONS != 0) || \
+    (defined(_LIBCPP_DEBUG_LEVEL) && _LIBCPP_DEBUG_LEVEL != 0) || \
+    (defined(_LIBCPP_HARDENING_MODE) && defined(_LIBCPP_HARDENING_MODE_NONE) && \
+     _LIBCPP_HARDENING_MODE != _LIBCPP_HARDENING_MODE_NONE)
+				(void)values; (void)first; (void)last;
+				return false;
+#else
+				if (first >= last || last > values.size()) return false;
+				const std::size_t width = last - first;
+				if (values.size() - last < 9) return false;
+				if (width == 2) eraseSmallRangeShift<2>(values, first);
+				else if (width == 3) eraseSmallRangeShift<3>(values, first);
+				else return false;
+				return true;
+#endif
+			}
+
 		private:
+			template<std::size_t Width>
+			static void eraseSmallRangeShift(Vector& values, std::size_t first) {
+				const std::size_t remaining = values.size() - Width;
+				Value* hole = values.data() + first;
+				Value* const stop = values.data() + remaining;
+				// Reproduce the original range's first ownership-changing moves in order.
+				// The guard guarantees at least Width survivors to move into these slots.
+				for (std::size_t i = 0; i < Width; ++i)
+					hole[i] = std::move(hole[i + Width]);
+				hole += Width;
+				// Each destination is now a moved-from, genuinely empty shared_ptr.
+				while (stop - hole >= 32) {
+					hole[0].swap(hole[0 + Width]);
+					hole[1].swap(hole[1 + Width]);
+					hole[2].swap(hole[2 + Width]);
+					hole[3].swap(hole[3 + Width]);
+					hole[4].swap(hole[4 + Width]);
+					hole[5].swap(hole[5 + Width]);
+					hole[6].swap(hole[6 + Width]);
+					hole[7].swap(hole[7 + Width]);
+					hole[8].swap(hole[8 + Width]);
+					hole[9].swap(hole[9 + Width]);
+					hole[10].swap(hole[10 + Width]);
+					hole[11].swap(hole[11 + Width]);
+					hole[12].swap(hole[12 + Width]);
+					hole[13].swap(hole[13 + Width]);
+					hole[14].swap(hole[14 + Width]);
+					hole[15].swap(hole[15 + Width]);
+					hole[16].swap(hole[16 + Width]);
+					hole[17].swap(hole[17 + Width]);
+					hole[18].swap(hole[18 + Width]);
+					hole[19].swap(hole[19 + Width]);
+					hole[20].swap(hole[20 + Width]);
+					hole[21].swap(hole[21 + Width]);
+					hole[22].swap(hole[22 + Width]);
+					hole[23].swap(hole[23 + Width]);
+					hole[24].swap(hole[24 + Width]);
+					hole[25].swap(hole[25 + Width]);
+					hole[26].swap(hole[26 + Width]);
+					hole[27].swap(hole[27 + Width]);
+					hole[28].swap(hole[28 + Width]);
+					hole[29].swap(hole[29 + Width]);
+					hole[30].swap(hole[30 + Width]);
+					hole[31].swap(hole[31 + Width]);
+					hole += 32;
+				}
+				while (hole != stop) {
+					hole[0].swap(hole[Width]);
+					++hole;
+				}
+				// Retain range-overload size/destruction semantics; all tail owners empty.
+				values.erase(values.begin() + static_cast<Difference>(remaining), values.end());
+			}
+
 			// Keep the long loop separate so the common short-erase dispatch remains
 			// small and can be inlined independently in the evaluator.
 			static void eraseLongShift(Vector& values, std::size_t index) {
@@ -545,6 +624,11 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 					refreshSelfPins();
 					return;
 				}
+				if (!selfSlots && startIndexInclusive >= 0 && detail::ListElementEraser<T>::eraseSmallRange(*vectorList,
+						static_cast<std::size_t>(startIndexInclusive), static_cast<std::size_t>(endIndexExclusive))) {
+					refreshSelfPins();
+					return;
+				}
 			}
 			auto vectorListBegin = vectorList->begin();
 			vectorList->erase(vectorListBegin + startIndexInclusive, vectorListBegin + endIndexExclusive);
@@ -596,6 +680,32 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		mutable std::mutex mtx;
 
 	private:
+		// Engine-only bridge: get() supplies a retained owner for this parameter.
+		// Original public set/get and metadata-backed/hardened paths stay intact.
+		void setRetainedToken(int index, T element) {
+#if !defined(NDEBUG) || defined(_GLIBCXX_DEBUG) || defined(_GLIBCXX_ASSERTIONS) || \
+    (defined(_ITERATOR_DEBUG_LEVEL) && _ITERATOR_DEBUG_LEVEL != 0) || \
+    (defined(_MSVC_STL_HARDENING) && _MSVC_STL_HARDENING != 0) || \
+    (defined(_MSVC_STL_HARDENING_VECTOR) && _MSVC_STL_HARDENING_VECTOR != 0) || \
+    (defined(_LIBCPP_ENABLE_ASSERTIONS) && _LIBCPP_ENABLE_ASSERTIONS != 0) || \
+    (defined(_LIBCPP_DEBUG_LEVEL) && _LIBCPP_DEBUG_LEVEL != 0) || \
+    (defined(_LIBCPP_HARDENING_MODE) && defined(_LIBCPP_HARDENING_MODE_NONE) && \
+     _LIBCPP_HARDENING_MODE != _LIBCPP_HARDENING_MODE_NONE)
+			set(index, element);
+#else
+			if constexpr (std::is_same_v<T, org::mariuszgromada::math::mxparser::parsertokens::TokenPtr>) {
+				if (!selfSlots) {
+					// Keep element alive through any callback caused by overwriting the slot.
+					T& destination = vectorList->at(index);
+					T replacement(element);
+					destination.swap(replacement);
+					return;
+				}
+			}
+			set(index, element);
+#endif
+		}
+
 		void eraseVectorElement(int index) const {
 			if (selfSlots) {
 				// Definition lists with weak-self metadata retain the exact old erase

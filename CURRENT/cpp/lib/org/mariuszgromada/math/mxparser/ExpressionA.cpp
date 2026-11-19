@@ -1277,8 +1277,14 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::f2SetDecreaseRemove(int pos, double result, bool ulpRound) {
 		setToNumber(pos, result, ulpRound);
 		tokensList->getRef(pos)->tokenLevel--;
-		tokensList->remove(pos + 2);
-		tokensList->remove(pos + 1);
+		if (tokensList->size() - pos >= 3)
+			tokensList->clearSubList(pos + 1, pos + 3);
+		else {
+			(void)tokensList->getRef(pos + 2);
+			tokensList->remove(pos + 2);
+			(void)tokensList->getRef(pos + 1);
+			tokensList->remove(pos + 1);
+		}
 	}
 
 	API_VISIBLE void Expression::f2SetDecreaseRemove(int pos, double result) {
@@ -1299,9 +1305,16 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::f3SetDecreaseRemove(int pos, double result, bool ulpRound) {
 		setToNumber(pos, result, ulpRound);
 		tokensList->getRef(pos)->tokenLevel--;
-		tokensList->remove(pos + 3);
-		tokensList->remove(pos + 2);
-		tokensList->remove(pos + 1);
+		if (tokensList->size() - pos >= 4)
+			tokensList->clearSubList(pos + 1, pos + 4);
+		else {
+			(void)tokensList->getRef(pos + 3);
+			tokensList->remove(pos + 3);
+			(void)tokensList->getRef(pos + 2);
+			tokensList->remove(pos + 2);
+			(void)tokensList->getRef(pos + 1);
+			tokensList->remove(pos + 1);
+		}
 	}
 
 	API_VISIBLE void Expression::f3SetDecreaseRemove(int pos, double result) {
@@ -1321,8 +1334,15 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::opSetDecreaseRemove(int pos, double result, bool ulpRound) {
 		setToNumber(pos, result, ulpRound);
-		tokensList->remove(pos + 1);
-		tokensList->remove(pos - 1);
+		if (pos > 0 && tokensList->size() - pos >= 2) {
+			tokensList->setRetainedToken(pos - 1, tokensList->get(pos));
+			tokensList->clearSubList(pos, pos + 2);
+		} else {
+			(void)tokensList->getRef(pos + 1);
+			tokensList->remove(pos + 1);
+			(void)tokensList->getRef(pos - 1);
+			tokensList->remove(pos - 1);
+		}
 	}
 
 	API_VISIBLE void Expression::opSetDecreaseRemove(int pos, double result) {
@@ -2773,6 +2793,8 @@ namespace org::mariuszgromada::math::mxparser {
 		CalcStepRecord::StepType stepTypePrev = CalcStepRecord::StepType::Unknown;
 		bool storeStepsInRegister = true;
 		// Keep the iterated plan alive across user callbacks, as a Java iterator does.
+		if (initialCompilationDetails == nullptr)
+			throw std::runtime_error("Initial compilation details must not be null");
 		ListPtr<CompiledElementPtr> compiledElements = initialCompilationDetails->compiledElements;
 		for (const CompiledElementPtr &compiledElement: *compiledElements) {
 			if (mXparser::isCalculationCancelled(activeCancelId)) {

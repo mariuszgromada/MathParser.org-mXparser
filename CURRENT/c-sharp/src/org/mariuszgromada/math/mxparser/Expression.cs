@@ -1413,8 +1413,12 @@ namespace org.mariuszgromada.math.mxparser {
 		private void f2SetDecreaseRemove(int pos, double result, bool ulpRound) {
 			setToNumber(pos, result, ulpRound);
 			tokensList[pos].tokenLevel--;
-			tokensList.RemoveAt(pos+2);
-			tokensList.RemoveAt(pos+1);
+			if (tokensList.Count - pos >= 3)
+				tokensList.RemoveRange(pos+1, 2);
+			else {
+				tokensList.RemoveAt(pos+2);
+				tokensList.RemoveAt(pos+1);
+			}
 		}
 		private void f2SetDecreaseRemove(int pos, double result) {
 			f2SetDecreaseRemove(pos, result, false);
@@ -1431,9 +1435,13 @@ namespace org.mariuszgromada.math.mxparser {
 		private void f3SetDecreaseRemove(int pos, double result, bool ulpRound) {
 			setToNumber(pos, result, ulpRound);
 			tokensList[pos].tokenLevel--;
-			tokensList.RemoveAt(pos+3);
-			tokensList.RemoveAt(pos+2);
-			tokensList.RemoveAt(pos+1);
+			if (tokensList.Count - pos >= 4)
+				tokensList.RemoveRange(pos+1, 3);
+			else {
+				tokensList.RemoveAt(pos+3);
+				tokensList.RemoveAt(pos+2);
+				tokensList.RemoveAt(pos+1);
+			}
 		}
 		private void f3SetDecreaseRemove(int pos, double result) {
 			f3SetDecreaseRemove(pos, result, false);
@@ -1449,8 +1457,13 @@ namespace org.mariuszgromada.math.mxparser {
 		///                                 intelligent ULP rounding is applied.</param>
 		private void opSetDecreaseRemove(int pos, double result, bool ulpRound) {
 			setToNumber(pos, result, ulpRound);
-			tokensList.RemoveAt(pos+1);
-			tokensList.RemoveAt(pos-1);
+			if (pos > 0 && tokensList.Count - pos >= 2) {
+				tokensList[pos-1] = tokensList[pos];
+				tokensList.RemoveRange(pos, 2);
+			} else {
+				tokensList.RemoveAt(pos+1);
+				tokensList.RemoveAt(pos-1);
+			}
 		}
 		private void opSetDecreaseRemove(int pos, double result) {
 			opSetDecreaseRemove(pos, result, false);
