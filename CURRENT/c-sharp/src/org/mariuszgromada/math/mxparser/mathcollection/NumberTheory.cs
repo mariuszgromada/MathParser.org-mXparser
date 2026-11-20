@@ -472,7 +472,6 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			int j = rightIndex;
 			double x = array[(leftIndex + rightIndex) / 2];
 			double w;
-			int v;
 			do {
 
 				while (BinaryRelations.lt(array[i], x) == BooleanAlgebra.TRUE) {
@@ -487,9 +486,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					w = array[i];
 					array[i] = array[j];
 					array[j] = w;
-					v = initOrder[i];
-					initOrder[i] = initOrder[j];
-					initOrder[j] = v;
+					if (initOrder != null) {
+						int v = initOrder[i];
+						initOrder[i] = initOrder[j];
+						initOrder[j] = v;
+					}
 					i++;
 					j--;
 				}
@@ -531,12 +532,22 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.releaseCancellationTokenId(int)"/>
 		/// <remarks><para>Since: 6.2.0</para></remarks>
 		public static int[] sortAscWithCancel(double[] array, int cancelId) {
+			return sortAscWithCancel(array, cancelId, true);
+		}
+
+		internal static void sortValuesAscWithCancel(double[] array, int cancelId) {
+			sortAscWithCancel(array, cancelId, false);
+		}
+
+		private static int[] sortAscWithCancel(double[] array, int cancelId, bool trackOrder) {
 			if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
 			if (array == null) return null;
-			int[] initOrder = new int[array.Length];
+			int[] initOrder = trackOrder ? new int[array.Length] : null;
+			// Preserve the cancellation checks before the first array mutation.
 			for (int i = 0; i < array.Length; i++) {
-				initOrder[i] = i;
+				if (initOrder != null)
+					initOrder[i] = i;
 				if (mXparser.isCalculationCancelled(cancelId)) return initOrder;
 			}
 			if (array.Length < 2) return initOrder;

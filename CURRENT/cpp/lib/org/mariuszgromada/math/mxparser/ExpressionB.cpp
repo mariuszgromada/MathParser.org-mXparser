@@ -376,8 +376,11 @@ namespace org::mariuszgromada::math::mxparser {
 				    tokenBefore->tokenId == tokenAfter->tokenId)) {
 				setToNumber(pos, value);
 				tokensList->getRef(pos)->tokenLevel--;
-				for (int argIdx = argsNumber; argIdx > 0; argIdx--)
-					tokensList->remove(pos + argIdx);
+				if (argsNumber > 0 && argsNumber < tokensList->size() - pos)
+					removeTokens(pos + 1, pos + argsNumber);
+				else
+					for (int argIdx = argsNumber; argIdx > 0; argIdx--)
+						tokensList->remove(pos + argIdx);
 			}
 		}
 		if (!functionVerboseMode)
@@ -1572,6 +1575,21 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos                 the function position
 	 * \return List of function parameters.
 	 */
+	API_VISIBLE ArrayPtr<double> Expression::getNumbersArray(int pos) {
+		int end = pos;
+		int lastIndex = tokensList->size() - 1;
+		do {
+			const TokenPtr &token = tokensList->getRef(end + 1);
+			if (token->tokenTypeId != ParserSymbol::NUMBER_TYPE_ID || token->tokenId != ParserSymbol::NUMBER_ID)
+				break;
+			end++;
+		} while (end < lastIndex);
+		ArrayPtr<double> numbers = new_double(end - pos);
+		for (int i = 0; i < numbers->length; i++)
+			(*numbers)(i) = tokensList->getRef(pos + i + 1)->tokenValue;
+		return numbers;
+	}
+
 	ListPtr<double> Expression::getNumbers(int pos) {
 		ListPtr<double> numbers = new_List<double>();
 		int pn = pos;
@@ -1970,8 +1988,7 @@ namespace org::mariuszgromada::math::mxparser {
 			if (trueParamNumber < parametersNumber) {
 				to = iffParams->getRef(parametersNumber - 1)->toIndex;
 				from = iffParams->getRef(trueParamNumber)->fromIndex - 1;
-				for (p = to; p >= from; p--)
-					tokensList->remove(p);
+				removeTokensDescending(from, to);
 			}
 			from = iffParams->getRef(trueParamNumber - 1)->fromIndex;
 			to = iffParams->getRef(trueParamNumber - 1)->toIndex;
@@ -1979,14 +1996,18 @@ namespace org::mariuszgromada::math::mxparser {
 				tokensList->getRef(p)->tokenLevel--;
 			to = from - 1;
 			from = pos;
-			for (p = to; p >= from; p--)
-				if (p != pos + 1)
-					tokensList->remove(p);
+			if (from >= 0 && to < tokensList->size()) {
+				removeTokens(pos + 2, to);
+				if (to >= pos)
+					tokensList->remove(pos);
+			} else
+				for (p = to; p >= from; p--)
+					if (p != pos + 1)
+						tokensList->remove(p);
 		} else {
 			to = iffParams->getRef(parametersNumber - 1)->toIndex + 1;
 			from = pos + 1;
-			for (p = to; p >= from; p--)
-				tokensList->remove(p);
+			removeTokensDescending(from, to);
 			setToNumber(pos, Double::NaN);
 			tokensList->getRef(pos)->tokenLevel--;
 		}
@@ -2821,9 +2842,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::MIN_VARIADIC(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::minWithCancel(numbersArray, activeCancelId), numbers->size());
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, NumberTheory::minWithCancel(numbers, activeCancelId), numbers->length);
 	}
 
 	/**
@@ -2832,9 +2852,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos token index (position)
 	 */
 	API_VISIBLE void Expression::MAX_VARIADIC(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::maxWithCancel(numbersArray, activeCancelId), numbers->size());
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, NumberTheory::maxWithCancel(numbers, activeCancelId), numbers->length);
 	}
 
 	/**
@@ -2843,9 +2862,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos token index (position)
 	 */
 	API_VISIBLE void Expression::SUM_VARIADIC(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::sumWithCancel(numbersArray, activeCancelId), numbers->size(), true);
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, NumberTheory::sumWithCancel(numbers, activeCancelId), numbers->length, true);
 	}
 
 	/**
@@ -2854,9 +2872,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos token index (position)
 	 */
 	API_VISIBLE void Expression::PROD_VARIADIC(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::prodWithCancel(numbersArray, activeCancelId), numbers->size(), true);
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, NumberTheory::prodWithCancel(numbers, activeCancelId), numbers->length, true);
 	}
 
 	/**
@@ -2865,9 +2882,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos token index (position)
 	 */
 	API_VISIBLE void Expression::AVG_VARIADIC(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, Statistics::avgWithCancel(numbersArray, activeCancelId), numbers->size(), true);
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, Statistics::avgWithCancel(numbers, activeCancelId), numbers->length, true);
 	}
 
 	/**
@@ -2876,9 +2892,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos token index (position)
 	 */
 	API_VISIBLE void Expression::VAR_VARIADIC(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, Statistics::varWithCancel(numbersArray, activeCancelId), numbers->size(), true);
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, Statistics::varWithCancel(numbers, activeCancelId), numbers->length, true);
 	}
 
 	/**
@@ -2887,9 +2902,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos token index (position)
 	 */
 	API_VISIBLE void Expression::STD_VARIADIC(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, Statistics::stdWithCancel(numbersArray, activeCancelId), numbers->size(), true);
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, Statistics::stdWithCancel(numbers, activeCancelId), numbers->length, true);
 	}
 
 	/**
@@ -2897,9 +2911,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CONTINUED_FRACTION(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, MathFunctions::continuedFractionWithCancel(numbersArray, activeCancelId), numbers->size());
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, MathFunctions::continuedFractionWithCancel(numbers, activeCancelId), numbers->length);
 	}
 
 	/**
@@ -2907,9 +2920,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::CONTINUED_POLYNOMIAL(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, MathFunctions::continuedPolynomialWithCancel(numbersArray, activeCancelId), numbers->size());
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, MathFunctions::continuedPolynomialWithCancel(numbers, activeCancelId), numbers->length);
 	}
 
 	/**
@@ -2917,9 +2929,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::GCD(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::gcdWithCancel(numbersArray, activeCancelId), numbers->size());
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, NumberTheory::gcdWithCancel(numbers, activeCancelId), numbers->length);
 	}
 
 	/**
@@ -2927,9 +2938,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::LCM(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::lcmWithCancel(numbersArray, activeCancelId), numbers->size());
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, NumberTheory::lcmWithCancel(numbers, activeCancelId), numbers->length);
 	}
 
 	/**
@@ -2948,9 +2958,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::COALESCE(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, MathFunctions::coalesceWithCancel(numbersArray, activeCancelId), numbers->size());
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, MathFunctions::coalesceWithCancel(numbers, activeCancelId), numbers->length);
 	}
 
 
@@ -2959,9 +2968,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::OR_VARIADIC(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, BooleanAlgebra::orVariadicWithCancel(numbersArray, activeCancelId), numbers->size());
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, BooleanAlgebra::orVariadicWithCancel(numbers, activeCancelId), numbers->length);
 	}
 
 	/**
@@ -2969,9 +2977,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::AND_VARIADIC(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, BooleanAlgebra::andVariadicWithCancel(numbersArray, activeCancelId), numbers->size());
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, BooleanAlgebra::andVariadicWithCancel(numbers, activeCancelId), numbers->length);
 	}
 
 	/**
@@ -2979,9 +2986,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::XOR_VARIADIC(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, BooleanAlgebra::xorVariadicWithCancel(numbersArray, activeCancelId), numbers->size());
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, BooleanAlgebra::xorVariadicWithCancel(numbers, activeCancelId), numbers->length);
 	}
 
 	/**
@@ -2989,9 +2995,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ARGMIN_VARIADIC(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::argminWithCancel(numbersArray, activeCancelId), numbers->size());
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, NumberTheory::argminWithCancel(numbers, activeCancelId), numbers->length);
 	}
 
 	/**
@@ -2999,9 +3004,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::ARGMAX_VARIADIC(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::argmaxWithCancel(numbersArray, activeCancelId), numbers->size());
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, NumberTheory::argmaxWithCancel(numbers, activeCancelId), numbers->length);
 	}
 
 	/**
@@ -3009,9 +3013,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::MEDIAN_VARIADIC(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, Statistics::medianWithCancel(numbersArray, activeCancelId), numbers->size());
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, Statistics::medianWithCancel(numbers, activeCancelId), numbers->length);
 	}
 
 	/**
@@ -3019,9 +3022,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::MODE_VARIADIC(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, Statistics::modeWithCancel(numbersArray, activeCancelId), numbers->size());
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, Statistics::modeWithCancel(numbers, activeCancelId), numbers->length);
 	}
 
 	/**
@@ -3029,9 +3031,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::BASE_VARIADIC(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::convOthBase2DecimalWithCancel(numbersArray, activeCancelId), numbers->size());
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, NumberTheory::convOthBase2DecimalWithCancel(numbers, activeCancelId), numbers->length);
 	}
 
 	/**
@@ -3039,9 +3040,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param pos                 the token position
 	 */
 	API_VISIBLE void Expression::NDIST_VARIADIC(int pos) {
-		ListPtr<double> numbers = getNumbers(pos);
-		const ArrayPtr<double> numbersArray = mXparser::arrayList2double(numbers);
-		variadicSetDecreaseRemove(pos, NumberTheory::numberOfDistValuesWithCancel(numbersArray, activeCancelId), numbers->size());
+		const ArrayPtr<double> numbers = getNumbersArray(pos);
+		variadicSetDecreaseRemove(pos, NumberTheory::numberOfDistValuesWithCancel(numbers, activeCancelId), numbers->length);
 	}
 
 	/**

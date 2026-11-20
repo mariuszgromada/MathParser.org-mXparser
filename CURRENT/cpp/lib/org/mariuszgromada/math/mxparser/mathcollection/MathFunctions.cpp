@@ -373,30 +373,37 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			if (CAST_LONG(n + 1) * (n + 1) >= Integer::MAX_VALUE) return Double::NaN;
 			// Bell(25) is the last Bell number representable by a signed long.
 			if (n < 25) {
-				ArrayPtr<Long> bellTriangle = new_Array<Long>(n + 1, n + 1);
-				(*bellTriangle)(0, 0) = 1;
-				(*bellTriangle)(1, 0) = 1;
+				ArrayPtr<Long> previous = new_Array<Long>(n + 1);
+				ArrayPtr<Long> current = new_Array<Long>(n + 1);
+				(*previous)(0) = 1;
+				(*current)(0) = 1;
 				for (int r = 1; r <= n; r++) {
 					for (int k = 0; k < r; k++)
-						(*bellTriangle)(r, k + 1) = (*bellTriangle)(r - 1, k) + (*bellTriangle)(r, k);
+						(*current)(k + 1) = (*previous)(k) + (*current)(k);
+					ArrayPtr<Long> completed = current;
+					current = previous;
+					previous = completed;
 					if (r < n)
-						(*bellTriangle)(r + 1, 0) = (*bellTriangle)(r, r);
+						(*current)(0) = (*previous)(r);
 					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 				}
-				return static_cast<double>((*bellTriangle)(n, n));
+				return static_cast<double>((*previous)(n));
 			}
-			ArrayPtr<double> bellTriangle = new_Array<double>(n + 1, n + 1);
-
-			(*bellTriangle)(0, 0) = 1;
-			(*bellTriangle)(1, 0) = 1;
+			ArrayPtr<double> previous = new_Array<double>(n + 1);
+			ArrayPtr<double> current = new_Array<double>(n + 1);
+			(*previous)(0) = 1;
+			(*current)(0) = 1;
 			for (int r = 1; r <= n; r++) {
 				for (int k = 0; k < r; k++)
-					(*bellTriangle)(r, k + 1) = (*bellTriangle)(r - 1, k) + (*bellTriangle)(r, k);
+					(*current)(k + 1) = (*previous)(k) + (*current)(k);
+				ArrayPtr<double> completed = current;
+				current = previous;
+				previous = completed;
 				if (r < n)
-					(*bellTriangle)(r + 1, 0) = (*bellTriangle)(r, r);
+					(*current)(0) = (*previous)(r);
 				if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			}
-			result = static_cast<double>((*bellTriangle)(n, n));
+			result = (*previous)(n);
 		} else if (n >= 0)
 			result = 1;
 		return result;

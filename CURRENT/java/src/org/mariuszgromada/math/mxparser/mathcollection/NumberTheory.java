@@ -537,7 +537,6 @@ public final class NumberTheory {
 		int j = rightIndex;
 		double x = array[(leftIndex+rightIndex)/2];
 		double w;
-		int v;
 		do {
 
 			while ( BinaryRelations.lt(array[i], x) == BooleanAlgebra.TRUE ) {
@@ -552,9 +551,11 @@ public final class NumberTheory {
 				w = array[i];
 				array[i] = array[j];
 				array[j] = w;
-				v = initOrder[i];
-				initOrder[i] = initOrder[j];
-				initOrder[j] = v;
+				if (initOrder != null) {
+					int v = initOrder[i];
+					initOrder[i] = initOrder[j];
+					initOrder[j] = v;
+				}
 				i++;
 				j--;
 			}
@@ -601,12 +602,22 @@ public final class NumberTheory {
 	 * @see mXparser#releaseCancellationTokenId(int)
 	 */
 	public static int[] sortAscWithCancel(double[] array, int cancelId) {
+		return sortAscWithCancel(array, cancelId, true);
+	}
+
+	static void sortValuesAscWithCancel(double[] array, int cancelId) {
+		sortAscWithCancel(array, cancelId, false);
+	}
+
+	private static int[] sortAscWithCancel(double[] array, int cancelId, boolean trackOrder) {
 		if (cancelId < 0 || cancelId > mXparser.MAX_CANCELLATION_TOKEN_ID)
 			throw new IllegalArgumentException("cancelId out of range");
 		if (array == null) return null;
-		int[] initOrder = new int[array.length];
+		int[] initOrder = trackOrder ? new int[array.length] : null;
+		// Preserve the cancellation checks before the first array mutation.
 		for (int i = 0; i < array.length; i++) {
-			initOrder[i] = i;
+			if (initOrder != null)
+				initOrder[i] = i;
 			if (mXparser.isCalculationCancelled(cancelId)) return initOrder;
 		}
 		if (array.length < 2) return initOrder;

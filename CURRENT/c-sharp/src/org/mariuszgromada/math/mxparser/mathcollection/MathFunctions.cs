@@ -422,29 +422,37 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				if ((long)(n + 1) * (n + 1) >= int.MaxValue) return Double.NaN;
 				// Bell(25) is the last Bell number representable by a signed long.
 				if (n < 25) {
-					long[,] bellTriangleLong = new long[n+1, n+1];
-					bellTriangleLong[0, 0] = 1;
-					bellTriangleLong[1, 0] = 1;
+					long[] previousLong = new long[n+1];
+					long[] currentLong = new long[n+1];
+					previousLong[0] = 1;
+					currentLong[0] = 1;
 					for (int r = 1; r <= n; r++) {
 						for (int k = 0; k < r; k++)
-							bellTriangleLong[r, k+1] = bellTriangleLong[r-1, k] + bellTriangleLong[r, k];
+							currentLong[k+1] = previousLong[k] + currentLong[k];
+						long[] completedLong = currentLong;
+						currentLong = previousLong;
+						previousLong = completedLong;
 						if (r < n)
-							bellTriangleLong[r+1, 0] = bellTriangleLong[r, r];
+							currentLong[0] = previousLong[r];
 						if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 					}
-					return bellTriangleLong[n, n];
+					return previousLong[n];
 				}
-				double[,] bellTriangle = new double[n+1, n+1];
-				bellTriangle[0, 0] = 1;
-				bellTriangle[1, 0] = 1;
+				double[] previous = new double[n+1];
+				double[] current = new double[n+1];
+				previous[0] = 1;
+				current[0] = 1;
 				for (int r = 1; r <= n; r++) {
 					for (int k = 0; k < r; k++)
-						bellTriangle[r, k+1] = bellTriangle[r-1, k] + bellTriangle[r, k];
+						current[k+1] = previous[k] + current[k];
+					double[] completed = current;
+					current = previous;
+					previous = completed;
 					if (r < n)
-						bellTriangle[r+1, 0] = bellTriangle[r, r];
+						current[0] = previous[r];
 					if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 				}
-				result = bellTriangle[n, n];
+				result = previous[n];
 			} else if (n >= 0)
 				result = 1;
 			return result;

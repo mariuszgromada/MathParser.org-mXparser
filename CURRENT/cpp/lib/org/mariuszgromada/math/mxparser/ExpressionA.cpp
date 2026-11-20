@@ -1473,6 +1473,14 @@ namespace org::mariuszgromada::math::mxparser {
 			tokensList->remove(from);
 	}
 
+	API_VISIBLE void Expression::removeTokensDescending(int from, int to) {
+		if (from >= 0 && to < tokensList->size())
+			removeTokens(from, to);
+		else
+			for (int p = to; p >= from; p--)
+				tokensList->remove(p);
+	}
+
 	API_VISIBLE void Expression::ifSetRemove(int pos, double ifCondition) {
 		ifSetRemove(pos, ifCondition, false);
 	}
@@ -1497,13 +1505,22 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \brief Return number of functions parameters.
 	 * \param pos                 the function position
 	 */
-	API_VISIBLE int Expression::getParametersNumber(int pos) {
+	API_VISIBLE int Expression::getParametersNumber(int pos, SyntaxParameterCounts *counts) {
 		int lPpos = pos + 1;
 		if (lPpos == initialTokens->size())
 			return -1;
 		if (initialTokens->getRef(lPpos)->tokenTypeId != ParserSymbol::TYPE_ID || initialTokens->getRef(lPpos)->tokenId !=
 		    ParserSymbol::LEFT_PARENTHESES_ID)
 			return -1;
+
+		if (counts != nullptr && counts->tokens == initialTokens) {
+			if (!counts->prepared) {
+				counts->byOpening = countSyntaxParameters(initialTokens);
+				counts->prepared = true;
+			}
+			if (counts->byOpening != nullptr)
+				return (*counts->byOpening)(lPpos);
+		}
 
 		int tokenLevel = initialTokens->getRef(lPpos)->tokenLevel;
 		/*
@@ -1528,6 +1545,36 @@ namespace org::mariuszgromada::math::mxparser {
 				numberOfCommas++;
 		}
 		return numberOfCommas + 1;
+	}
+
+	API_VISIBLE ArrayPtr<int> Expression::countSyntaxParameters(const ListPtr<TokenPtr> &tokens) {
+		ArrayPtr<int> counts = new_int(tokens->size());
+		ArrayPtr<int> openings = new_int(tokens->size());
+		int depth = 0;
+		for (int i = 0; i < tokens->size(); i++) {
+			const TokenPtr &token = tokens->getRef(i);
+			if (token->tokenTypeId != ParserSymbol::TYPE_ID)
+				continue;
+			if (token->tokenId == ParserSymbol::LEFT_PARENTHESES_ID) {
+				if (depth > 0 && token->tokenLevel <= tokens->getRef((*openings)(depth - 1))->tokenLevel)
+					return nullptr;
+				(*openings)(depth++) = i;
+				(*counts)(i) = 1;
+			} else if (token->tokenId == ParserSymbol::COMMA_ID || token->tokenId == ParserSymbol::RIGHT_PARENTHESES_ID) {
+				// Use the original scan for malformed runtime groups so diagnostics keep their order.
+				if (depth == 0 || token->tokenLevel != tokens->getRef((*openings)(depth - 1))->tokenLevel)
+					return nullptr;
+				int opening = (*openings)(depth - 1);
+				if (token->tokenId == ParserSymbol::COMMA_ID)
+					(*counts)(opening)++;
+				else {
+					if (i == opening + 1)
+						(*counts)(opening) = 0;
+					depth--;
+				}
+			}
+		}
+		return depth == 0 ? counts : nullptr;
 	}
 
 	/**
@@ -1768,13 +1815,13 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkPartialSyntaxUserDefinedArgument(const StringPtr &recursionInfoLevel, int tokenIndex,
-	                                                       const TokenPtr &token, const StringPtr &tokenInfoMessage) {
+	                                                       const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != Argument::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
 		ArgumentPtr arg = getArgument(token->tokenId);
 
-		if (getParametersNumber(tokenIndex) >= 0) {
+		if (getParametersNumber(tokenIndex, counts) >= 0) {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->ARGUMENT_WAS_EXPECTED,
 			                                                       tokenInfoMessage);
@@ -1810,13 +1857,13 @@ namespace org::mariuszgromada::math::mxparser {
 
 	API_VISIBLE bool Expression::checkPartialSyntaxUserDefinedRecursiveArgument(const StringPtr &recursionInfoLevel, int tokenIndex,
 	                                                                const TokenPtr &token,
-	                                                                const StringPtr &tokenInfoMessage) {
+	                                                                const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != RecursiveArgument::TYPE_ID_RECURSIVE)
 			return NO_SYNTAX_ERRORS;
 
 		ArgumentPtr arg = getArgument(token->tokenId);
 
-		if (getParametersNumber(tokenIndex) != 1) {
+		if (getParametersNumber(tokenIndex, counts) != 1) {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       RECURSIVE_ARGUMENT_EXPECTING_1_PARAMETER,
@@ -1870,13 +1917,13 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkPartialSyntaxUserDefinedFunction(const StringPtr &recursionInfoLevel, int tokenIndex,
-	                                                       const TokenPtr &token, const StringPtr &tokenInfoMessage) {
+	                                                       const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != Function::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
 		FunctionPtr fun = getFunction(token->tokenId);
 		fun->checkRecursiveMode();
-		int npar = getParametersNumber(tokenIndex);
+		int npar = getParametersNumber(tokenIndex, counts);
 		int fpar = fun->getParametersNumber();
 
 		if (npar <= 0) {
@@ -1929,11 +1976,11 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkPartialSyntaxBuiltinConstant(const StringPtr &recursionInfoLevel, int tokenIndex,
-	                                                   const TokenPtr &token, const StringPtr &tokenInfoMessage) {
+	                                                   const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != ConstantValue::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
-		if (getParametersNumber(tokenIndex) >= 0) {
+		if (getParametersNumber(tokenIndex, counts) >= 0) {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->CONSTANT_WAS_EXPECTED,
 			                                                       tokenInfoMessage);
@@ -1944,11 +1991,11 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkPartialSyntaxUserDefinedConstant(const StringPtr &recursionInfoLevel, int tokenIndex,
-	                                                       const TokenPtr &token, const StringPtr &tokenStr) {
+	                                                       const TokenPtr &token, const StringPtr &tokenStr, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != Constant::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
-		if (getParametersNumber(tokenIndex) >= 0) {
+		if (getParametersNumber(tokenIndex, counts) >= 0) {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       USER_CONSTANT_WAS_EXPECTED, tokenStr);
@@ -1959,11 +2006,11 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkPartialSyntaxUnaryFunction(const StringPtr &recursionInfoLevel, int tokenIndex,
-	                                                 const TokenPtr &token, const StringPtr &tokenInfoMessage) {
+	                                                 const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != Function1Arg::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
-		if (getParametersNumber(tokenIndex) != 1) {
+		if (getParametersNumber(tokenIndex, counts) != 1) {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       UNARY_FUNCTION_EXPECTS_1_PARAMETER,
@@ -1975,11 +2022,11 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkPartialSyntaxBinaryFunction(const StringPtr &recursionInfoLevel, int tokenIndex,
-	                                                  const TokenPtr &token, const StringPtr &tokenInfoMessage) {
+	                                                  const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != Function2Arg::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
-		if (getParametersNumber(tokenIndex) != 2) {
+		if (getParametersNumber(tokenIndex, counts) != 2) {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       BINARY_FUNCTION_EXPECTS_2_PARAMETERS,
@@ -1991,11 +2038,11 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkPartialSyntaxTernaryFunction(const StringPtr &recursionInfoLevel, int tokenIndex,
-	                                                   const TokenPtr &token, const StringPtr &tokenInfoMessage) {
+	                                                   const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != Function3Arg::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
-		if (getParametersNumber(tokenIndex) != 3) {
+		if (getParametersNumber(tokenIndex, counts) != 3) {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       TERNARY_FUNCTION_EXPECTS_3_PARAMETERS,
@@ -2203,11 +2250,11 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkPartialSyntaxVariadicFunction(const StringPtr &recursionInfoLevel, int tokenIndex,
-	                                                    const TokenPtr &token, const StringPtr &tokenInfoMessage) {
+	                                                    const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != FunctionVariadic::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
-		int paramsNumber = getParametersNumber(tokenIndex);
+		int paramsNumber = getParametersNumber(tokenIndex, counts);
 
 		if (paramsNumber < 1) {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
@@ -2232,11 +2279,11 @@ namespace org::mariuszgromada::math::mxparser {
 
 	API_VISIBLE bool Expression::checkPartialSyntaxCalculusOperator(const StringPtr &recursionInfoLevel, int tokenIndex,
 	                                                    const TokenPtr &token, const StringPtr &tokenInfoMessage,
-	                                                    const StackPtr<SyntaxStackElementPtr> &syntaxStack) {
+	                                                    const StackPtr<SyntaxStackElementPtr> &syntaxStack, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != CalculusOperator::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
-		int paramsNumber = getParametersNumber(tokenIndex);
+		int paramsNumber = getParametersNumber(tokenIndex, counts);
 		ListPtr<FunctionParameterPtr> funParams = nullptr;
 
 		if (paramsNumber > 0)
@@ -2303,32 +2350,34 @@ namespace org::mariuszgromada::math::mxparser {
 
 			int tokensNumber = initialTokens->size();
 			StackPtr<SyntaxStackElementPtr> syntaxStack = new_Stack<SyntaxStackElementPtr>();
+			SyntaxParameterCounts parameterCounts(tokensNumber >= 32 ? initialTokens : nullptr);
+			SyntaxParameterCounts *counts = tokensNumber >= 32 ? &parameterCounts : nullptr;
 
 			for (int tokenIndex = 0; tokenIndex < tokensNumber; tokenIndex++) {
 				const TokenPtr& token = initialTokens->getRef(tokenIndex);
 				StringPtr tokenInfoMessage = StringModel::buildTokenString(token->tokenStr, tokenIndex);
 
-				syntax = checkPartialSyntaxUserDefinedArgument(recursionInfoLevel, tokenIndex, token, tokenInfoMessage)
+				syntax = checkPartialSyntaxUserDefinedArgument(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, counts)
 				         && syntax;
 				syntax = checkPartialSyntaxUserDefinedRecursiveArgument(recursionInfoLevel, tokenIndex, token,
-				                                                        tokenInfoMessage) && syntax;
+				                                                        tokenInfoMessage, counts) && syntax;
 				syntax = checkPartialSyntaxInvalidToken(recursionInfoLevel, token, tokenInfoMessage, syntaxStack) &&
 				         syntax;
-				syntax = checkPartialSyntaxUserDefinedFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage)
+				syntax = checkPartialSyntaxUserDefinedFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, counts)
 				         && syntax;
-				syntax = checkPartialSyntaxBuiltinConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) &&
+				syntax = checkPartialSyntaxBuiltinConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, counts) &&
 				         syntax;
-				syntax = checkPartialSyntaxUserDefinedConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage)
+				syntax = checkPartialSyntaxUserDefinedConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, counts)
 				         && syntax;
-				syntax = checkPartialSyntaxUnaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) &&
+				syntax = checkPartialSyntaxUnaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, counts) &&
 				         syntax;
-				syntax = checkPartialSyntaxBinaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) &&
+				syntax = checkPartialSyntaxBinaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, counts) &&
 				         syntax;
-				syntax = checkPartialSyntaxTernaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) &&
+				syntax = checkPartialSyntaxTernaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, counts) &&
 				         syntax;
 				syntax = checkPartialSyntaxCalculusOperator(recursionInfoLevel, tokenIndex, token, tokenInfoMessage,
-				                                            syntaxStack) && syntax;
-				syntax = checkPartialSyntaxVariadicFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) &&
+				                                            syntaxStack, counts) && syntax;
+				syntax = checkPartialSyntaxVariadicFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, counts) &&
 				         syntax;
 
 				performSyntaxStackPopIfEndOfSectionLevel(token, syntaxStack);
@@ -4274,6 +4323,23 @@ namespace org::mariuszgromada::math::mxparser {
 		ExpressionUtils::addConstantsKeyWords(constantsList, keyWordsList);
 	}
 
+	API_VISIBLE ArrayPtr<int> Expression::indexAsciiKeywords() {
+		int size = keyWordsList->size();
+		ArrayPtr<int> candidates = new_int(ASCII_KEYWORD_BUCKETS + size);
+		for (int kwId = size - 1; kwId >= 0; kwId--) {
+			const KeyWordPtr &kw = keyWordsList->getRef(kwId);
+			if (kw == nullptr || kw->wordString == nullptr || kw->wordString->empty())
+				return nullptr;
+			Char first = kw->wordString->at(0);
+			if (static_cast<unsigned int>(first) < ASCII_KEYWORD_BUCKETS) {
+				// Store one-based indices so zero marks an empty bucket or the end.
+				(*candidates)(ASCII_KEYWORD_BUCKETS + kwId) = (*candidates)(CAST_INT(first));
+				(*candidates)(CAST_INT(first)) = kwId + 1;
+			}
+		}
+		return candidates;
+	}
+
 	/**
 	 * \brief Tokenizing expression string
 	 */
@@ -4321,6 +4387,7 @@ namespace org::mariuszgromada::math::mxparser {
 		 * words list and tokens list
 		 */
 		if (newExpressionString->empty()) return;
+		ArrayPtr<int> asciiCandidates = newExpressionString->length() >= 32 ? indexAsciiKeywords() : nullptr;
 		int lastPos = 0; /* position of the keyword previously added*/
 		int pos = 0; /* current position */
 		StringPtr tokenStr = StringInvariant::EMPTY;
@@ -4420,11 +4487,11 @@ namespace org::mariuszgromada::math::mxparser {
 				 * If there is no number which starts with current position
 				 * Check for known keywords
 				 */
-				int kwId = -1;
 				matchFound = false;
 				firstChar = newExpressionString->at(pos);
-				do {
-					kwId++;
+				bool indexed = asciiCandidates != nullptr && static_cast<unsigned int>(firstChar) < ASCII_KEYWORD_BUCKETS;
+				int kwId = indexed ? (*asciiCandidates)(CAST_INT(firstChar)) - 1 : 0;
+				while (kwId >= 0) {
 					const KeyWordPtr& kw = keyWordsList->getRef(kwId);
 					const StringPtr& kwStr = kw->wordString;
 					if (pos + kwStr->length() <= newExpressionString->length()) {
@@ -4468,7 +4535,13 @@ namespace org::mariuszgromada::math::mxparser {
 							}
 						}
 					}
-				} while (kwId < keyWordsList->size() - 1 && !matchFound);
+					if (matchFound)
+						break;
+					if (indexed)
+						kwId = (*asciiCandidates)(ASCII_KEYWORD_BUCKETS + kwId) - 1;
+					else
+						kwId = kwId < keyWordsList->size() - 1 ? kwId + 1 : -1;
+				}
 				// Borrow only during the read-only scan. Keep Java-style owning references
 				// before addToken or any other operation that could change the dictionary.
 				if (matchFound) {

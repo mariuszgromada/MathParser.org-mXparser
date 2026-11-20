@@ -284,10 +284,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		///             otherwise return 0.</returns>
 		public static double eq(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
-			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
-			if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
 			double result = BooleanAlgebra.FALSE;
 			if (epsilonComparison) {
+				double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
+				if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
 				if (MathFunctions.abs(a - b) <= eps) result = BooleanAlgebra.TRUE;
 			} else if (a == b) result = BooleanAlgebra.TRUE;
 			return result;
@@ -308,10 +308,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		///             otherwise return 0.</returns>
 		public static double neq(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
-			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
-			if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
 			double result = BooleanAlgebra.FALSE;
 			if (epsilonComparison) {
+				double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
+				if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
 				if (MathFunctions.abs(a - b) > eps) result = BooleanAlgebra.TRUE;
 			} else if (a != b) result = BooleanAlgebra.TRUE;
 			return result;
@@ -324,10 +324,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		///             otherwise return 0.</returns>
 		public static double lt(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
-			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
-			if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
 			double result = BooleanAlgebra.FALSE;
 			if (epsilonComparison) {
+				double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
+				if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
 				if (a < b - eps) result = BooleanAlgebra.TRUE;
 			} else if (a < b) result = BooleanAlgebra.TRUE;
 			return result;
@@ -340,10 +340,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		///             otherwise return 0.</returns>
 		public static double gt(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
-			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
-			if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
 			double result = BooleanAlgebra.FALSE;
 			if (epsilonComparison) {
+				double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
+				if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
 				if (a > b + eps) result = BooleanAlgebra.TRUE;
 			} else if (a > b) result = BooleanAlgebra.TRUE;
 			return result;
@@ -356,10 +356,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		///             otherwise return 0.</returns>
 		public static double leq(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
-			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
-			if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
 			double result = BooleanAlgebra.FALSE;
 			if (epsilonComparison) {
+				double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
+				if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
 				if (a <= b + eps) result = BooleanAlgebra.TRUE;
 			} else if (a <= b) result = BooleanAlgebra.TRUE;
 			return result;
@@ -372,10 +372,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		///             otherwise return 0.</returns>
 		public static double geq(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
-			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
-			if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
 			double result = BooleanAlgebra.FALSE;
 			if (epsilonComparison) {
+				double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
+				if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
 				if (a >= b - eps) result = BooleanAlgebra.TRUE;
 			} else if (a >= b) result = BooleanAlgebra.TRUE;
 			return result;

@@ -412,29 +412,37 @@ public final class MathFunctions {
 			if ( (long)(n+1)*(n+1) >= Integer.MAX_VALUE ) return Double.NaN;
 			// Bell(25) is the last Bell number representable by a signed long.
 			if (n < 25) {
-				long[][] bellTriangle = new long[n+1][n+1];
-				bellTriangle[0][0] = 1;
-				bellTriangle[1][0] = 1;
+				long[] previous = new long[n+1];
+				long[] current = new long[n+1];
+				previous[0] = 1;
+				current[0] = 1;
 				for (int r = 1; r <= n; r++) {
 					for (int k = 0; k < r; k++)
-						bellTriangle[r][k+1] = bellTriangle[r-1][k] + bellTriangle[r][k];
+						current[k+1] = previous[k] + current[k];
+					long[] completed = current;
+					current = previous;
+					previous = completed;
 					if (r < n)
-						bellTriangle[r+1][0] = bellTriangle[r][r];
+						current[0] = previous[r];
 					if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 				}
-				return bellTriangle[n][n];
+				return previous[n];
 			}
-			double[][] bellTriangle = new double[n+1][n+1];
-			bellTriangle[0][0] = 1;
-			bellTriangle[1][0] = 1;
+			double[] previous = new double[n+1];
+			double[] current = new double[n+1];
+			previous[0] = 1;
+			current[0] = 1;
 			for (int r = 1; r <= n; r++) {
 				for (int k = 0; k < r; k++)
-					bellTriangle[r][k+1] = bellTriangle[r-1][k] + bellTriangle[r][k];
+					current[k+1] = previous[k] + current[k];
+				double[] completed = current;
+				current = previous;
+				previous = completed;
 				if (r < n)
-					bellTriangle[r+1][0] = bellTriangle[r][r];
+					current[0] = previous[r];
 				if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 			}
-			result = bellTriangle[n][n];
+			result = previous[n];
 		} else if (n >= 0)
 			result = 1;
 		return result;

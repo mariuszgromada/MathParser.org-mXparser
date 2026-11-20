@@ -587,7 +587,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 				if (Double.IsNaN(v)) return Double.NaN;
 			}
-			NumberTheory.sortAscWithCancel(numbers, cancelId);
+			NumberTheory.sortValuesAscWithCancel(numbers, cancelId);
 			if ((numbers.Length % 2) == 1) {
 				int i = (numbers.Length - 1) / 2;
 				return numbers[i];

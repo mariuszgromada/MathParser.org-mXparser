@@ -258,10 +258,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 	API_VISIBLE double BinaryRelations::eq(double a, double b) {
 		if ((Double::isNaN(a)) || (Double::isNaN(b))) return Double::NaN;
-		double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));
-		if (Double::isInfinite(a) || Double::isInfinite(b)) eps = 0;
 		double result = BooleanAlgebra::FALSE;
 		if (epsilonComparison) {
+			double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));
+			if (Double::isInfinite(a) || Double::isInfinite(b)) eps = 0;
 			if (MathFunctions::abs(a - b) <= eps) result = BooleanAlgebra::TRUE;
 		} else if (a == b) result = BooleanAlgebra::TRUE;
 		return result;
@@ -273,10 +273,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 	API_VISIBLE double BinaryRelations::neq(double a, double b) {
 		if ((Double::isNaN(a)) || (Double::isNaN(b))) return Double::NaN;
-		double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));
-		if (Double::isInfinite(a) || Double::isInfinite(b)) eps = 0;
 		double result = BooleanAlgebra::FALSE;
 		if (epsilonComparison) {
+			double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));
+			if (Double::isInfinite(a) || Double::isInfinite(b)) eps = 0;
 			if (MathFunctions::abs(a - b) > eps) result = BooleanAlgebra::TRUE;
 		} else if (a != b) result = BooleanAlgebra::TRUE;
 		return result;
@@ -284,10 +284,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 	API_VISIBLE double BinaryRelations::lt(double a, double b) {
 		if ((Double::isNaN(a)) || (Double::isNaN(b))) return Double::NaN;
-		double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));
-		if (Double::isInfinite(a) || Double::isInfinite(b)) eps = 0;
 		double result = BooleanAlgebra::FALSE;
 		if (epsilonComparison) {
+			double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));
+			if (Double::isInfinite(a) || Double::isInfinite(b)) eps = 0;
 			if (a < b - eps) result = BooleanAlgebra::TRUE;
 		} else if (a < b) result = BooleanAlgebra::TRUE;
 		return result;
@@ -295,10 +295,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 	API_VISIBLE double BinaryRelations::gt(double a, double b) {
 		if ((Double::isNaN(a)) || (Double::isNaN(b))) return Double::NaN;
-		double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));
-		if (Double::isInfinite(a) || Double::isInfinite(b)) eps = 0;
 		double result = BooleanAlgebra::FALSE;
 		if (epsilonComparison) {
+			double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));
+			if (Double::isInfinite(a) || Double::isInfinite(b)) eps = 0;
 			if (a > b + eps) result = BooleanAlgebra::TRUE;
 		} else if (a > b) result = BooleanAlgebra::TRUE;
 		return result;
@@ -306,10 +306,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 	API_VISIBLE double BinaryRelations::leq(double a, double b) {
 		if ((Double::isNaN(a)) || (Double::isNaN(b))) return Double::NaN;
-		double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));
-		if (Double::isInfinite(a) || Double::isInfinite(b)) eps = 0;
 		double result = BooleanAlgebra::FALSE;
 		if (epsilonComparison) {
+			double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));
+			if (Double::isInfinite(a) || Double::isInfinite(b)) eps = 0;
 			if (a <= b + eps) result = BooleanAlgebra::TRUE;
 		} else if (a <= b) result = BooleanAlgebra::TRUE;
 		return result;
@@ -317,10 +317,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 	API_VISIBLE double BinaryRelations::geq(double a, double b) {
 		if ((Double::isNaN(a)) || (Double::isNaN(b))) return Double::NaN;
-		double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));
-		if (Double::isInfinite(a) || Double::isInfinite(b)) eps = 0;
 		double result = BooleanAlgebra::FALSE;
 		if (epsilonComparison) {
+			double eps = NumberTheory::max(epsilon, MathFunctions::ulp(b));
+			if (Double::isInfinite(a) || Double::isInfinite(b)) eps = 0;
 			if (a >= b - eps) result = BooleanAlgebra::TRUE;
 		} else if (a >= b) result = BooleanAlgebra::TRUE;
 		return result;

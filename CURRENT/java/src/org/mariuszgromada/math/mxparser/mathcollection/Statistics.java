@@ -649,7 +649,7 @@ public final class Statistics {
 			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 			if (Double.isNaN(v)) return Double.NaN;
 		}
-		NumberTheory.sortAscWithCancel(numbers, cancelId);
+		NumberTheory.sortValuesAscWithCancel(numbers, cancelId);
 		if ((numbers.length % 2) == 1) {
 			int i = (numbers.length-1) / 2;
 			return numbers[i];

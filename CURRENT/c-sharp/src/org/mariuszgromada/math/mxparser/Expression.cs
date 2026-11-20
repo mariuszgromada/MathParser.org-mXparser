@@ -1580,6 +1580,13 @@ namespace org.mariuszgromada.math.mxparser {
 			} else if (from == to)
 				tokensList.RemoveAt(from);
 		}
+		private void removeTokensDescending(int from, int to) {
+			if (from >= 0 && to < tokensList.Count)
+				removeTokens(from, to);
+			else
+				for (int p = to; p >= from; p--)
+					tokensList.RemoveAt(p);
+		}
 		private void ifSetRemove(int pos, double ifCondition) {
 			ifSetRemove(pos, ifCondition, false);
 		}
@@ -1597,12 +1604,21 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		/// <summary>Return number of functions parameters.</summary>
 		/// <param name="pos">the function position</param>
-		private int getParametersNumber(int pos) {
+		private int getParametersNumber(int pos, SyntaxParameterCounts counts) {
 			int lPpos = pos+1;
 			if (lPpos == initialTokens.Count)
 				return -1;
 			if (initialTokens[lPpos].tokenTypeId != ParserSymbol.TYPE_ID || initialTokens[lPpos].tokenId != ParserSymbol.LEFT_PARENTHESES_ID)
 				return -1;
+
+			if (counts != null && counts.tokens == initialTokens) {
+				if (!counts.prepared) {
+					counts.byOpening = countSyntaxParameters(initialTokens);
+					counts.prepared = true;
+				}
+				if (counts.byOpening != null)
+					return counts.byOpening[lPpos];
+			}
 
 			int tokenLevel = initialTokens[lPpos].tokenLevel;
 			/*
@@ -1627,6 +1643,47 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			return numberOfCommas + 1;
 		}
+
+		private sealed class SyntaxParameterCounts {
+			internal readonly List<Token> tokens;
+			internal bool prepared;
+			internal int[] byOpening;
+
+			internal SyntaxParameterCounts(List<Token> tokens) {
+				this.tokens = tokens;
+			}
+		}
+
+		private static int[] countSyntaxParameters(List<Token> tokens) {
+			int[] counts = new int[tokens.Count];
+			int[] openings = new int[tokens.Count];
+			int depth = 0;
+			for (int i = 0; i < tokens.Count; i++) {
+				Token token = tokens[i];
+				if (token.tokenTypeId != ParserSymbol.TYPE_ID)
+					continue;
+				if (token.tokenId == ParserSymbol.LEFT_PARENTHESES_ID) {
+					if (depth > 0 && token.tokenLevel <= tokens[openings[depth - 1]].tokenLevel)
+						return null;
+					openings[depth++] = i;
+					counts[i] = 1;
+				} else if (token.tokenId == ParserSymbol.COMMA_ID || token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID) {
+					// Use the original scan for malformed runtime groups so diagnostics keep their order.
+					if (depth == 0 || token.tokenLevel != tokens[openings[depth - 1]].tokenLevel)
+						return null;
+					int opening = openings[depth - 1];
+					if (token.tokenId == ParserSymbol.COMMA_ID)
+						counts[opening]++;
+					else {
+						if (i == opening + 1)
+							counts[opening] = 0;
+						depth--;
+					}
+				}
+			}
+			return depth == 0 ? counts : null;
+		}
+
 		/// <summary>Gets / returns argument representing given argument name. If
 		/// argument name exists on the list of known arguments
 		/// the initial status of the found argument is remembered, otherwise new
@@ -1767,8 +1824,11 @@ namespace org.mariuszgromada.math.mxparser {
 				if ((tokenBefore.tokenTypeId == tokenAfter.tokenTypeId) && (tokenBefore.tokenId == tokenAfter.tokenId)) {
 					setToNumber(pos, value);
 					tokensList[pos].tokenLevel--;
-					for (int argIdx = argsNumber; argIdx > 0; argIdx--)
-						tokensList.RemoveAt(pos + argIdx);
+					if (argsNumber > 0 && argsNumber < tokensList.Count - pos)
+						removeTokens(pos + 1, pos + argsNumber);
+					else
+						for (int argIdx = argsNumber; argIdx > 0; argIdx--)
+							tokensList.RemoveAt(pos + argIdx);
 				}
 			}
 			if (!functionVerboseMode)
@@ -2628,6 +2688,21 @@ namespace org.mariuszgromada.math.mxparser {
 		/// <summary>Creates ArraList&lt;Double&gt; containing function parameters</summary>
 		/// <param name="pos">the function position</param>
 		/// <returns>List of function parameters.</returns>
+		private double[] getNumbersArray(int pos) {
+			int end = pos;
+			int lastIndex = tokensList.Count - 1;
+			do {
+				Token token = tokensList[end + 1];
+				if (token.tokenTypeId != ParserSymbol.NUMBER_TYPE_ID || token.tokenId != ParserSymbol.NUMBER_ID)
+					break;
+				end++;
+			} while (end < lastIndex);
+			double[] numbers = new double[end - pos];
+			for (int i = 0; i < numbers.Length; i++)
+				numbers[i] = tokensList[pos + i + 1].tokenValue;
+			return numbers;
+		}
+
 		private List<Double> getNumbers(int pos) {
 			List<Double> numbers = new List<Double>();
 			int pn = pos;
@@ -2928,8 +3003,7 @@ namespace org.mariuszgromada.math.mxparser {
 				if (trueParamNumber < parametersNumber) {
 					to = iffParams[parametersNumber-1].toIndex;
 					from = iffParams[trueParamNumber].fromIndex-1;
-					for (p = to; p >= from; p--)
-						tokensList.RemoveAt(p);
+					removeTokensDescending(from, to);
 				}
 				from = iffParams[trueParamNumber-1].fromIndex;
 				to = iffParams[trueParamNumber-1].toIndex;
@@ -2937,14 +3011,18 @@ namespace org.mariuszgromada.math.mxparser {
 					tokensList[p].tokenLevel--;
 				to = from-1;
 				from = pos;
-				for (p = to; p >= from; p--)
-					if (p != pos + 1)
-						tokensList.RemoveAt(p);
+				if (from >= 0 && to < tokensList.Count) {
+					removeTokens(pos + 2, to);
+					if (to >= pos)
+						tokensList.RemoveAt(pos);
+				} else
+					for (p = to; p >= from; p--)
+						if (p != pos + 1)
+							tokensList.RemoveAt(p);
 			} else {
 				to = iffParams[parametersNumber-1].toIndex+1;
 				from = pos+1;
-				for (p = to; p >= from; p--)
-					tokensList.RemoveAt(p);
+				removeTokensDescending(from, to);
 				setToNumber(pos, Double.NaN);
 				tokensList[pos].tokenLevel--;
 			}
@@ -3612,74 +3690,74 @@ namespace org.mariuszgromada.math.mxparser {
 		/// Sets tokens to number token</summary>
 		/// <param name="pos">the token position</param>
 		private void MIN_VARIADIC(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.minWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, NumberTheory.minWithCancel( numbers , activeCancelId), numbers.Length );
 		}
 		/// <summary>Maximum variadic
 		/// Sets tokens to number token</summary>
 		/// <param name="pos">token index (position)</param>
 		private void MAX_VARIADIC(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.maxWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, NumberTheory.maxWithCancel( numbers , activeCancelId), numbers.Length );
 		}
 		/// <summary>Sum variadic
 		/// Sets tokens to number token</summary>
 		/// <param name="pos">token index (position)</param>
 		private void SUM_VARIADIC(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.sumWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count, true);
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, NumberTheory.sumWithCancel(numbers, activeCancelId), numbers.Length, true);
 		}
 		/// <summary>Sum variadic
 		/// Sets tokens to number token</summary>
 		/// <param name="pos">token index (position)</param>
 		private void PROD_VARIADIC(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.prodWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count, true);
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, NumberTheory.prodWithCancel(numbers, activeCancelId), numbers.Length, true);
 		}
 		/// <summary>Average variadic
 		/// Sets tokens to number token</summary>
 		/// <param name="pos">token index (position)</param>
 		private void AVG_VARIADIC(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, Statistics.avgWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count, true);
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, Statistics.avgWithCancel(numbers, activeCancelId), numbers.Length, true);
 		}
 		/// <summary>Variance variadic
 		/// Sets tokens to number token</summary>
 		/// <param name="pos">token index (position)</param>
 		private void VAR_VARIADIC(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, Statistics.varWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count, true);
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, Statistics.varWithCancel(numbers, activeCancelId), numbers.Length, true);
 		}
 		/// <summary>Standard deviation variadic
 		/// Sets tokens to number token</summary>
 		/// <param name="pos">token index (position)</param>
 		private void STD_VARIADIC(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, Statistics.stdWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count, true);
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, Statistics.stdWithCancel(numbers, activeCancelId), numbers.Length, true);
 		}
 		/// <summary>Continued fraction</summary>
 		/// <param name="pos">the token position</param>
 		private void CONTINUED_FRACTION(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, MathFunctions.continuedFractionWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, MathFunctions.continuedFractionWithCancel( numbers , activeCancelId), numbers.Length );
 		}
 		/// <summary>Continued polynomial</summary>
 		/// <param name="pos">the token position</param>
 		private void CONTINUED_POLYNOMIAL(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, MathFunctions.continuedPolynomialWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, MathFunctions.continuedPolynomialWithCancel( numbers , activeCancelId), numbers.Length );
 		}
 		/// <summary>Greates Common Divisor</summary>
 		/// <param name="pos">the token position</param>
 		private void GCD(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.gcdWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, NumberTheory.gcdWithCancel( numbers , activeCancelId), numbers.Length );
 		}
 		/// <summary>Lowest Common Multiply</summary>
 		/// <param name="pos">the token position</param>
 		private void LCM(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.lcmWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, NumberTheory.lcmWithCancel( numbers , activeCancelId), numbers.Length );
 		}
 		/// <summary>Random number from list</summary>
 		/// <param name="pos">the token position</param>
@@ -3692,62 +3770,62 @@ namespace org.mariuszgromada.math.mxparser {
 		/// <summary>Coalesce</summary>
 		/// <param name="pos">the token position</param>
 		private void COALESCE(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, MathFunctions.coalesceWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count);
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, MathFunctions.coalesceWithCancel(numbers, activeCancelId), numbers.Length);
 		}
 		/// <summary>OR_VARIADIC</summary>
 		/// <param name="pos">the token position</param>
 		private void OR_VARIADIC(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, BooleanAlgebra.orVariadicWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, BooleanAlgebra.orVariadicWithCancel( numbers , activeCancelId), numbers.Length );
 		}
 		/// <summary>AND_VARIADIC</summary>
 		/// <param name="pos">the token position</param>
 		private void AND_VARIADIC(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, BooleanAlgebra.andVariadicWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, BooleanAlgebra.andVariadicWithCancel( numbers , activeCancelId), numbers.Length );
 		}
 		/// <summary>XOR_VARIADIC</summary>
 		/// <param name="pos">the token position</param>
 		private void XOR_VARIADIC(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, BooleanAlgebra.xorVariadicWithCancel( mXparser.arrayList2double(numbers) , activeCancelId), numbers.Count );
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, BooleanAlgebra.xorVariadicWithCancel( numbers , activeCancelId), numbers.Length );
 		}
 		/// <summary>ARGMIN_VARIADIC</summary>
 		/// <param name="pos">the token position</param>
 		private void ARGMIN_VARIADIC(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.argminWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, NumberTheory.argminWithCancel(numbers, activeCancelId), numbers.Length );
 		}
 		/// <summary>ARGMAX_VARIADIC</summary>
 		/// <param name="pos">the token position</param>
 		private void ARGMAX_VARIADIC(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.argmaxWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, NumberTheory.argmaxWithCancel(numbers, activeCancelId), numbers.Length );
 		}
 		/// <summary>MEDIAN_VARIADIC</summary>
 		/// <param name="pos">the token position</param>
 		private void MEDIAN_VARIADIC(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, Statistics.medianWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, Statistics.medianWithCancel(numbers, activeCancelId), numbers.Length );
 		}
 		/// <summary>MODE_VARIADIC</summary>
 		/// <param name="pos">the token position</param>
 		private void MODE_VARIADIC(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, Statistics.modeWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, Statistics.modeWithCancel(numbers, activeCancelId), numbers.Length );
 		}
 		/// <summary>BASE_VARIADIC</summary>
 		/// <param name="pos">the token position</param>
 		private void BASE_VARIADIC(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.convOthBase2DecimalWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, NumberTheory.convOthBase2DecimalWithCancel(numbers, activeCancelId), numbers.Length );
 		}
 		/// <summary>NDIST_VARIADIC</summary>
 		/// <param name="pos">the token position</param>
 		private void NDIST_VARIADIC(int pos) {
-			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.numberOfDistValuesWithCancel(mXparser.arrayList2double(numbers), activeCancelId), numbers.Count );
+			double[] numbers = getNumbersArray(pos);
+			variadicSetDecreaseRemove(pos, NumberTheory.numberOfDistValuesWithCancel(numbers, activeCancelId), numbers.Length );
 		}
 		/// <summary>Parser symbols
 		/// Removes comma</summary>
@@ -3894,13 +3972,13 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			return NO_SYNTAX_ERRORS;
 		}
-		private bool checkPartialSyntaxUserDefinedArgument(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage) {
+		private bool checkPartialSyntaxUserDefinedArgument(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, SyntaxParameterCounts counts) {
 			if (token.tokenTypeId != Argument.TYPE_ID)
 				return NO_SYNTAX_ERRORS;
 
 			Argument arg = getArgument(token.tokenId);
 
-			if (getParametersNumber(tokenIndex) >= 0 ) {
+			if (getParametersNumber(tokenIndex, counts) >= 0 ) {
 				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ARGUMENT_WAS_EXPECTED, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
@@ -3921,13 +3999,13 @@ namespace org.mariuszgromada.math.mxparser {
 
 			return NO_SYNTAX_ERRORS;
 		}
-		private bool checkPartialSyntaxUserDefinedRecursiveArgument(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage) {
+		private bool checkPartialSyntaxUserDefinedRecursiveArgument(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, SyntaxParameterCounts counts) {
 			if (token.tokenTypeId != RecursiveArgument.TYPE_ID_RECURSIVE)
 				return NO_SYNTAX_ERRORS;
 
 			Argument arg = getArgument(token.tokenId);
 
-			if (getParametersNumber(tokenIndex) != 1 ) {
+			if (getParametersNumber(tokenIndex, counts) != 1 ) {
 				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.RECURSIVE_ARGUMENT_EXPECTING_1_PARAMETER, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
@@ -3961,13 +4039,13 @@ namespace org.mariuszgromada.math.mxparser {
 
 			return NO_SYNTAX_ERRORS;
 		}
-		private bool checkPartialSyntaxUserDefinedFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage) {
+		private bool checkPartialSyntaxUserDefinedFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, SyntaxParameterCounts counts) {
 			if (token.tokenTypeId != Function.TYPE_ID)
 				return NO_SYNTAX_ERRORS;
 
 			Function fun = getFunction(token.tokenId);
 			fun.checkRecursiveMode();
-			int npar = getParametersNumber(tokenIndex);
+			int npar = getParametersNumber(tokenIndex, counts);
 			int fpar = fun.getParametersNumber();
 
 			if (npar <= 0) {
@@ -3998,55 +4076,55 @@ namespace org.mariuszgromada.math.mxparser {
 
 			return NO_SYNTAX_ERRORS;
 		}
-		private bool checkPartialSyntaxBuiltinConstant(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage) {
+		private bool checkPartialSyntaxBuiltinConstant(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, SyntaxParameterCounts counts) {
 			if (token.tokenTypeId != ConstantValue.TYPE_ID)
 				return NO_SYNTAX_ERRORS;
 
-			if (getParametersNumber(tokenIndex) >= 0) {
+			if (getParametersNumber(tokenIndex, counts) >= 0) {
 				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.CONSTANT_WAS_EXPECTED, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
 			return NO_SYNTAX_ERRORS;
 		}
-		private bool checkPartialSyntaxUserDefinedConstant(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage) {
+		private bool checkPartialSyntaxUserDefinedConstant(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, SyntaxParameterCounts counts) {
 			if (token.tokenTypeId != Constant.TYPE_ID)
 				return NO_SYNTAX_ERRORS;
 
-			if (getParametersNumber(tokenIndex) >= 0) {
+			if (getParametersNumber(tokenIndex, counts) >= 0) {
 				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.USER_CONSTANT_WAS_EXPECTED, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
 			return NO_SYNTAX_ERRORS;
 		}
-		private bool checkPartialSyntaxUnaryFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage) {
+		private bool checkPartialSyntaxUnaryFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, SyntaxParameterCounts counts) {
 			if (token.tokenTypeId != Function1Arg.TYPE_ID)
 				return NO_SYNTAX_ERRORS;
 
-			if (getParametersNumber(tokenIndex) != 1) {
+			if (getParametersNumber(tokenIndex, counts) != 1) {
 				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.UNARY_FUNCTION_EXPECTS_1_PARAMETER, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
 			return NO_SYNTAX_ERRORS;
 		}
-		private bool checkPartialSyntaxBinaryFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage) {
+		private bool checkPartialSyntaxBinaryFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, SyntaxParameterCounts counts) {
 			if (token.tokenTypeId != Function2Arg.TYPE_ID)
 				return NO_SYNTAX_ERRORS;
 
-			if (getParametersNumber(tokenIndex) != 2) {
+			if (getParametersNumber(tokenIndex, counts) != 2) {
 				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.BINARY_FUNCTION_EXPECTS_2_PARAMETERS, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
 			return NO_SYNTAX_ERRORS;
 		}
-		private bool checkPartialSyntaxTernaryFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage) {
+		private bool checkPartialSyntaxTernaryFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, SyntaxParameterCounts counts) {
 			if (token.tokenTypeId != Function3Arg.TYPE_ID)
 				return NO_SYNTAX_ERRORS;
 
-			if (getParametersNumber(tokenIndex) != 3) {
+			if (getParametersNumber(tokenIndex, counts) != 3) {
 				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.TERNARY_FUNCTION_EXPECTS_3_PARAMETERS, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
@@ -4180,11 +4258,11 @@ namespace org.mariuszgromada.math.mxparser {
 
 			return NO_SYNTAX_ERRORS;
 		}
-		private bool checkPartialSyntaxVariadicFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage) {
+		private bool checkPartialSyntaxVariadicFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, SyntaxParameterCounts counts) {
 			if (token.tokenTypeId != FunctionVariadic.TYPE_ID)
 				return NO_SYNTAX_ERRORS;
 
-			int paramsNumber = getParametersNumber(tokenIndex);
+			int paramsNumber = getParametersNumber(tokenIndex, counts);
 
 			if (paramsNumber < 1) {
 				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED, tokenInfoMessage);
@@ -4200,11 +4278,11 @@ namespace org.mariuszgromada.math.mxparser {
 
 			return NO_SYNTAX_ERRORS;
 		}
-		private bool checkPartialSyntaxCalculusOperator(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, Stack<SyntaxStackElement> syntaxStack) {
+		private bool checkPartialSyntaxCalculusOperator(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, Stack<SyntaxStackElement> syntaxStack, SyntaxParameterCounts counts) {
 			if (token.tokenTypeId != CalculusOperator.TYPE_ID)
 				return NO_SYNTAX_ERRORS;
 
-			int paramsNumber = getParametersNumber(tokenIndex);
+			int paramsNumber = getParametersNumber(tokenIndex, counts);
 			List<FunctionParameter> funParams = null;
 
 			if (paramsNumber > 0)
@@ -4257,22 +4335,23 @@ namespace org.mariuszgromada.math.mxparser {
 
 				int tokensNumber = initialTokens.Count;
 				Stack<SyntaxStackElement> syntaxStack = new Stack<SyntaxStackElement>();
+				SyntaxParameterCounts parameterCounts = tokensNumber >= 32 ? new SyntaxParameterCounts(initialTokens) : null;
 
 				for (int tokenIndex = 0; tokenIndex < tokensNumber; tokenIndex++ ) {
 					Token token = initialTokens[tokenIndex];
 					String tokenInfoMessage = StringModel.buildTokenString(token.tokenStr, tokenIndex);
 
-                    syntax = checkPartialSyntaxUserDefinedArgument(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
-                    syntax = checkPartialSyntaxUserDefinedRecursiveArgument(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
+                    syntax = checkPartialSyntaxUserDefinedArgument(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
+                    syntax = checkPartialSyntaxUserDefinedRecursiveArgument(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
                     syntax = checkPartialSyntaxInvalidToken(recursionInfoLevel, token, tokenInfoMessage, syntaxStack) && syntax;
-                    syntax = checkPartialSyntaxUserDefinedFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
-					syntax = checkPartialSyntaxBuiltinConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
-					syntax = checkPartialSyntaxUserDefinedConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
-					syntax = checkPartialSyntaxUnaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
-					syntax = checkPartialSyntaxBinaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
-					syntax = checkPartialSyntaxTernaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
-					syntax = checkPartialSyntaxCalculusOperator(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, syntaxStack) && syntax;
-					syntax = checkPartialSyntaxVariadicFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
+                    syntax = checkPartialSyntaxUserDefinedFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
+					syntax = checkPartialSyntaxBuiltinConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
+					syntax = checkPartialSyntaxUserDefinedConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
+					syntax = checkPartialSyntaxUnaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
+					syntax = checkPartialSyntaxBinaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
+					syntax = checkPartialSyntaxTernaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
+					syntax = checkPartialSyntaxCalculusOperator(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, syntaxStack, parameterCounts) && syntax;
+					syntax = checkPartialSyntaxVariadicFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
 
 					performSyntaxStackPopIfEndOfSectionLevel(token, syntaxStack);
 				}
@@ -5872,6 +5951,25 @@ namespace org.mariuszgromada.math.mxparser {
 			ExpressionUtils.addConstantsKeyWords(constantsList, keyWordsList);
 		}
 
+		private const int ASCII_KEYWORD_BUCKETS = 128;
+
+		private int[] indexAsciiKeywords() {
+			int size = keyWordsList.Count;
+			int[] candidates = new int[ASCII_KEYWORD_BUCKETS + size];
+			for (int kwId = size - 1; kwId >= 0; kwId--) {
+				KeyWord kw = keyWordsList[kwId];
+				if (kw == null || kw.wordString == null || kw.wordString.Length == 0)
+					return null;
+				char first = kw.wordString[0];
+				if (first < ASCII_KEYWORD_BUCKETS) {
+					// Store one-based indices so zero marks an empty bucket or the end.
+					candidates[ASCII_KEYWORD_BUCKETS + kwId] = candidates[first];
+					candidates[first] = kwId + 1;
+				}
+			}
+			return candidates;
+		}
+
 		/// <summary>Tokenizing expressiong string</summary>
 		private void tokenizeExpressionString() {
 			impliedMultiplicationError = false;
@@ -5917,6 +6015,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 * words list and tokens list
 			 */
 			if (newExpressionString.Length == 0) return;
+			int[] asciiCandidates = newExpressionString.Length >= 32 ? indexAsciiKeywords() : null;
 			int lastPos = 0; /* position of the keyword previously added*/
 			int pos = 0; /* current position */
 			String tokenStr = StringInvariant.EMPTY;
@@ -6018,11 +6117,11 @@ namespace org.mariuszgromada.math.mxparser {
 					 * If there is no number which starts with current position
 					 * Check for known keywords
 					 */
-					int kwId = -1;
 					matchFound = false;
 					firstChar = newExpressionString[pos];
-					do {
-						kwId++;
+					bool indexed = asciiCandidates != null && firstChar < ASCII_KEYWORD_BUCKETS;
+					int kwId = indexed ? asciiCandidates[firstChar] - 1 : 0;
+					while (kwId >= 0) {
 						kw = keyWordsList[kwId];
 						kwStr = kw.wordString;
 						if (pos + kwStr.Length <= newExpressionString.Length) {
@@ -6066,7 +6165,13 @@ namespace org.mariuszgromada.math.mxparser {
 								}
 							}
 						}
-					} while (kwId < keyWordsList.Count-1 && !matchFound);
+						if (matchFound)
+							break;
+						if (indexed)
+							kwId = asciiCandidates[ASCII_KEYWORD_BUCKETS + kwId] - 1;
+						else
+							kwId = kwId < keyWordsList.Count - 1 ? kwId + 1 : -1;
+					}
 
 					/*
 					 * If keyword was unknown to the parser

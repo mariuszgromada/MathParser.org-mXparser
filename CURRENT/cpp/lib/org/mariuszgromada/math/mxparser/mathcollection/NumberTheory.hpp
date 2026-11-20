@@ -2760,6 +2760,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 */
 		static inline Long TO_FRACTION_INIT_SEARCH_SIZE = DEFAULT_TO_FRACTION_INIT_SEARCH_SIZE;
 		static void sortAscWithCancel(const ArrayPtr<double> &doubleArray, const ArrayPtr<int> &initOrder, int leftIndex, int rightIndex, int cancelId);
+		static ArrayPtr<int> sortAscWithCancel(const ArrayPtr<double> &array, int cancelId, bool trackOrder);
+		static void sortValuesAscWithCancel(const ArrayPtr<double> &array, int cancelId);
+		friend class Statistics;
 		static StringPtr getRegExpForNumeralSystem(int numeralSystemBase);
 		static ArrayPtr<double> fractionToDoubleArray(double sign, double numerator, double denominator);
 		static ArrayPtr<double> mixedFractionToDoubleArray(double sign, double whole, double numerator, double denominator);

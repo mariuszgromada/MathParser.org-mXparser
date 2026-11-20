@@ -451,7 +451,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		int j = rightIndex;
 		double x = (*array)((leftIndex + rightIndex) / 2);
 		double w;
-		int v;
 		do {
 			while (BinaryRelations::lt((*array)(i), x) == BooleanAlgebra::TRUE) {
 				i++;
@@ -465,9 +464,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				w = (*array)(i);
 				(*array)(i) = (*array)(j);
 				(*array)(j) = w;
-				v = (*initOrder)(i);
-				(*initOrder)(i) = (*initOrder)(j);
-				(*initOrder)(j) = v;
+				if (initOrder != nullptr) {
+					int v = (*initOrder)(i);
+					(*initOrder)(i) = (*initOrder)(j);
+					(*initOrder)(j) = v;
+				}
 				i++;
 				j--;
 			}
@@ -483,12 +484,22 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	ArrayPtr<int> API_VISIBLE NumberTheory::sortAscWithCancel(const ArrayPtr<double> &array, int cancelId) {
+		return sortAscWithCancel(array, cancelId, true);
+	}
+
+	API_VISIBLE void NumberTheory::sortValuesAscWithCancel(const ArrayPtr<double> &array, int cancelId) {
+		sortAscWithCancel(array, cancelId, false);
+	}
+
+	ArrayPtr<int> API_VISIBLE NumberTheory::sortAscWithCancel(const ArrayPtr<double> &array, int cancelId, bool trackOrder) {
 		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 			throw std::invalid_argument("cancelId out of range");
 		if (array == nullptr) return nullptr;
-		ArrayPtr<int> initOrder = new_int(array->length);
+		ArrayPtr<int> initOrder = trackOrder ? new_int(array->length) : nullptr;
+		// Preserve the cancellation checks before the first array mutation.
 		for (int i = 0; i < array->length; i++) {
-			(*initOrder)(i) = i;
+			if (initOrder != nullptr)
+				(*initOrder)(i) = i;
 			if (mXparser::isCalculationCancelled(cancelId)) return initOrder;
 		}
 		if (array->length < 2) return initOrder;
