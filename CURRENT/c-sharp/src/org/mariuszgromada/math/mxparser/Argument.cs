@@ -466,13 +466,26 @@ namespace org.mariuszgromada.math.mxparser {
 				return;
 			}
 			String argumentNameTrim = argumentName.Trim();
-			if (!StringUtils.regexMatch(argumentNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+			if (!isShortAsciiArgumentName(argumentNameTrim) &&
+					!StringUtils.regexMatch(argumentNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
 				registerSyntaxErrorInDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
 				return;
 			}
 			this.argumentName = argumentNameTrim;
 			this.argumentValue = argumentValue;
 			registerNoSyntaxErrorInDefinition();
+		}
+
+		private static bool isShortAsciiArgumentName(String name) {
+			int length = name.Length;
+			if (length == 0 || length > 32) return false;
+			for (int i = 0; i < length; i++) {
+				char c = name[i];
+				if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_') continue;
+				if (i > 0 && c >= '0' && c <= '9') continue;
+				return false;
+			}
+			return true;
 		}
 		/// <summary>Constructor for argument definition based on
 		/// your own source code - this is via implementation

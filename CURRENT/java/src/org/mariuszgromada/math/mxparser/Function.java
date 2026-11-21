@@ -921,7 +921,7 @@ public class Function extends PrimitiveElement implements Serializable {
 		if (parameters.length == 0)
 			return Double.NaN;
 
-		long startTime = System.currentTimeMillis();
+		long startTime = functionBodyType == BODY_RUNTIME ? 0 : System.currentTimeMillis();
 		functionExpression.UDFVariadicParamsAtRunTime = new ArrayList<Double>();
 		for (double x : parameters)
 			functionExpression.UDFVariadicParamsAtRunTime.add(x);

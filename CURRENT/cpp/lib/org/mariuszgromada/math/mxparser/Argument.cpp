@@ -501,6 +501,20 @@ namespace org::mariuszgromada::math::mxparser {
 		argumentType = DEPENDENT_ARGUMENT;
 		registerNoSyntaxErrorInDefinition();
 	}
+	namespace {
+		bool isShortAsciiArgumentName(const String &name) {
+			const size_t length = name.length();
+			if (length == 0 || length > 32) return false;
+			for (size_t i = 0; i < length; i++) {
+				const Char c = name[i];
+				if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_') continue;
+				if (i > 0 && c >= '0' && c <= '9') continue;
+				return false;
+			}
+			return true;
+		}
+	}
+
 	/**
 	 * \brief Constructor - creates free argument->
 	 * \param argumentName   the argument name
@@ -512,7 +526,10 @@ namespace org::mariuszgromada::math::mxparser {
 			return;
 		}
 		StringPtr argumentNameTrim = StringUtils::trim(argumentName);
-		if (!StringUtils::regexMatch(argumentNameTrim, ParserSymbol::nameOnlyTokenRegExp)) {
+		if (!(isShortAsciiArgumentName(*argumentNameTrim) && ParserSymbol::nameOnlyTokenRegExp
+				&& ParserSymbol::defaultArgumentNamePattern
+				&& *ParserSymbol::nameOnlyTokenRegExp == *ParserSymbol::defaultArgumentNamePattern)
+				&& !StringUtils::regexMatch(argumentNameTrim, ParserSymbol::nameOnlyTokenRegExp)) {
 			registerSyntaxErrorInDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
 			return;
 		}

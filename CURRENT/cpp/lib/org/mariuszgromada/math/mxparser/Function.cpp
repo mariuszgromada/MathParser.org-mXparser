@@ -840,7 +840,7 @@ namespace org::mariuszgromada::math::mxparser {
 		if (parameters->isEmpty())
 			return Double::NaN;
 
-		Long startTime = SystemUtils::currentTimeMillis();
+		Long startTime = functionBodyType == BODY_RUNTIME ? 0 : SystemUtils::currentTimeMillis();
 		functionExpression->UDFVariadicParamsAtRunTime = new_List<double>();
 		for (double x : *parameters)
 			functionExpression->UDFVariadicParamsAtRunTime->add(x);

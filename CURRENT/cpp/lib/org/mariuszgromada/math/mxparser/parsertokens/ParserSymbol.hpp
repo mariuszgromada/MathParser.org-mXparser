@@ -222,6 +222,7 @@
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesStd.hpp"
 
 namespace org::mariuszgromada::math::mxparser {
+	class Argument;
 	class Expression;
 }
 
@@ -387,6 +388,8 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 
 	private:
 		friend class org::mariuszgromada::math::mxparser::Expression;
+		friend class org::mariuszgromada::math::mxparser::Argument;
+		static StringPtr defaultArgumentNamePattern;
 		static StringPtr defaultNumberKeyword;
 		static const StringPtr &numberKeywordForReduction();
 

@@ -549,13 +549,26 @@ public class Argument extends PrimitiveElement implements Serializable {
 			return;
 		}
 		String argumentNameTrim = argumentName.trim();
-		if (!StringUtils.regexMatch(argumentNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+		if (!isShortAsciiArgumentName(argumentNameTrim) &&
+				!StringUtils.regexMatch(argumentNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
 			registerSyntaxErrorInDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
 			return;
 		}
 		this.argumentName = argumentNameTrim;
 		this.argumentValue = argumentValue;
 		registerNoSyntaxErrorInDefinition();
+	}
+
+	private static boolean isShortAsciiArgumentName(String name) {
+		int length = name.length();
+		if (length == 0 || length > 32) return false;
+		for (int i = 0; i < length; i++) {
+			char c = name.charAt(i);
+			if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_') continue;
+			if (i > 0 && c >= '0' && c <= '9') continue;
+			return false;
+		}
+		return true;
 	}
 	/**
 	 * Constructor for argument definition based on

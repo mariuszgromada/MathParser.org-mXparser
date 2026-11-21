@@ -788,7 +788,7 @@ namespace org.mariuszgromada.math.mxparser {
 			if (parameters.Length == 0)
 				return Double.NaN;
 
-			long startTime = mXparser.currentTimeMillis();
+			long startTime = functionBodyType == BODY_RUNTIME ? 0L : mXparser.currentTimeMillis();
 			functionExpression.UDFVariadicParamsAtRunTime = new List<Double>();
 			foreach (double x in parameters)
 				functionExpression.UDFVariadicParamsAtRunTime.Add(x);

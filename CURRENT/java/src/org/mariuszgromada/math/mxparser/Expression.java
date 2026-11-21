@@ -642,7 +642,13 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * to all related expressions.
 	 */
 	void setExpressionModifiedFlag() {
+		setExpressionModifiedFlag(null);
+	}
+
+	void setExpressionModifiedFlag(IdentityHashMap<Expression, Boolean> visited) {
 		if (recursionCallPending)
+			return;
+		if (visited != null && visited.put(this, Boolean.TRUE) != null)
 			return;
 		recursionCallPending = true;
 		recursionCallsCounter = 0;
@@ -651,8 +657,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 		syntaxStatus = SYNTAX_STATUS_UNKNOWN;
 		markAsNotFullyCompiled();
 		errorMessage = StringInvariant.EMPTY;
+		// A chain needs no visited map until paths can diverge.
+		if (visited == null && relatedExpressionsList.size() > 1)
+			visited = new IdentityHashMap<>();
 		for (Expression e : relatedExpressionsList)
-			e.setExpressionModifiedFlag();
+			e.setExpressionModifiedFlag(visited);
 		recursionCallPending = false;
 	}
 	/**
@@ -7200,6 +7209,102 @@ public class Expression extends PrimitiveElement implements Serializable {
 		return candidates;
 	}
 
+	/*
+	 * Preserve this port's actual sort order, including ties. Publish only an
+	 * immutable integer layout for the first ordinary case of each definition count.
+	 */
+	private static final TokenizationKeywordOrderSlot[] tokenizationKeywordOrders = {
+			new TokenizationKeywordOrderSlot(), new TokenizationKeywordOrderSlot(),
+			new TokenizationKeywordOrderSlot(), new TokenizationKeywordOrderSlot(),
+			new TokenizationKeywordOrderSlot()
+	};
+
+	private static final class TokenizationKeywordOrderSlot {
+		private volatile TokenizationKeywordOrder order;
+
+		private synchronized void publish(TokenizationKeywordOrder completed) {
+			if (order == null) order = completed;
+		}
+	}
+
+	private static final class TokenizationKeywordOrder {
+		private final int[] lengths;
+		private final int[] swapWith;
+
+		private TokenizationKeywordOrder(int[] lengths, int[] swapWith) {
+			this.lengths = lengths;
+			this.swapWith = swapWith;
+		}
+
+		private boolean matches(List<KeyWord> keywords) {
+			if (lengths.length != keywords.size()) return false;
+			for (int i = 0; i < lengths.length; i++)
+				if (keywordLength(keywords.get(i)) != lengths[i]) return false;
+			return true;
+		}
+
+		private void apply(List<KeyWord> keywords) {
+			for (int i = 0; i < swapWith.length; i++)
+				if (swapWith[i] != i)
+					Collections.swap(keywords, i, swapWith[i]);
+		}
+	}
+
+	private static int keywordLength(KeyWord keyword) {
+		return keyword == null || keyword.wordString == null ? -1 : keyword.wordString.length();
+	}
+
+	private void sortTokenizationKeyWords() {
+		int definitions = parserKeyWordsOnly ? 0 : argumentsList.size() + functionsList.size() + constantsList.size();
+		if (definitions > 4 || keyWordsList.size() > 1024 || parserKeyWordsOnly || UDFExpression || !unicodeKeyWordsEnabled
+				|| mXparser.overrideBuiltinTokens || !mXparser.tokensToRemove.isEmpty() || !mXparser.tokensToModify.isEmpty()) {
+			Collections.sort(keyWordsList, new DescKwLenComparator());
+			return;
+		}
+
+		TokenizationKeywordOrderSlot slot = tokenizationKeywordOrders[definitions];
+		TokenizationKeywordOrder order = slot.order;
+		if (order != null) {
+			if (order.matches(keyWordsList))
+				order.apply(keyWordsList);
+			else
+				Collections.sort(keyWordsList, new DescKwLenComparator());
+			return;
+		}
+
+		int size = keyWordsList.size();
+		int[] lengths = new int[size];
+		IdentityHashMap<KeyWord, Integer> originalPositions = new IdentityHashMap<>(size);
+		for (int i = 0; i < size; i++) {
+			KeyWord keyword = keyWordsList.get(i);
+			lengths[i] = keywordLength(keyword);
+			if (lengths[i] < 0) {
+				Collections.sort(keyWordsList, new DescKwLenComparator());
+				return;
+			}
+			originalPositions.put(keyword, i);
+		}
+		Collections.sort(keyWordsList, new DescKwLenComparator());
+		if (originalPositions.size() != size) return;
+
+		int[] swapWith = new int[size];
+		int[] sourceAt = new int[size];
+		int[] positionOf = new int[size];
+		for (int i = 0; i < size; i++) {
+			sourceAt[i] = i;
+			positionOf[i] = i;
+		}
+		for (int i = 0; i < size; i++) {
+			int source = originalPositions.get(keyWordsList.get(i));
+			int from = positionOf[source];
+			swapWith[i] = from;
+			int displaced = sourceAt[i];
+			sourceAt[from] = displaced;
+			positionOf[displaced] = from;
+		}
+		slot.publish(new TokenizationKeywordOrder(lengths, swapWith));
+	}
+
 	/**
 	 * Tokenizing expression string
 	 */
@@ -7209,7 +7314,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 * Add parser and argument keywords
 		 */
 		initParserKeyWords();
-		java.util.Collections.sort(keyWordsList, new DescKwLenComparator());
+		sortTokenizationKeyWords();
 		/*
 		 * Evaluate position after sorting for the following keywords types
 		 *    number

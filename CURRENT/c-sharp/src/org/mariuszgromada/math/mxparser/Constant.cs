@@ -441,8 +441,10 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		/// <summary>Sets expression modified flag to each related expression.</summary>
 		void setExpressionModifiedFlags() {
+			HashSet<Expression> visited = relatedExpressionsList.Count > 1
+				? new HashSet<Expression>(Expression.ReferenceComparer<Expression>.INSTANCE) : null;
 			foreach (Expression e in relatedExpressionsList)
-				e.setExpressionModifiedFlag();
+				e.setExpressionModifiedFlag(visited);
 		}
 		internal Constant cloneForThreadSafeInternal(CloneCache cloneCache) {
 			Constant constantClone = cloneCache.getConstantClone(this);

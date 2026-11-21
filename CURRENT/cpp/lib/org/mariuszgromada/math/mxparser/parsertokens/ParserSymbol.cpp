@@ -224,6 +224,7 @@
 
 namespace org::mariuszgromada::math::mxparser::parsertokens {
 
+	StringPtr ParserSymbol::defaultArgumentNamePattern;
 	StringPtr ParserSymbol::defaultNumberKeyword;
 
 	API_VISIBLE StringPtr ParserSymbol::NA = nullptr;
@@ -563,6 +564,7 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		FRACTION = UTF("(") + INTEGER + UTF("_)?") + INTEGER + UTF("_") + INTEGER;
 		nameOnlyTokenRegExp = S(UTF("(")) + UTF("([a-zA-Z_])+([a-zA-Z0-9_])*") + UTF("|") + UNICODE_NAME_REG_EXP +
 		UTF(")");
+		defaultArgumentNamePattern = std::make_shared<String>(*nameOnlyTokenRegExp);
 		unitOnlyTokenRegExp = UTF("\\[") + nameOnlyTokenRegExp + UTF("\\]");
 		nameOnlyTokenOptBracketsRegExp = UTF("(") + nameOnlyTokenRegExp + UTF("|") + unitOnlyTokenRegExp + UTF(")");
 		nameTokenRegExp = UTF("(\\s)*") + nameOnlyTokenRegExp + UTF("(\\s)*");

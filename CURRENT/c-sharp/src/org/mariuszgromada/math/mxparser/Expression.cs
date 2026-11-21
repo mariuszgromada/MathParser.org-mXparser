@@ -220,6 +220,7 @@ using System.IO;
 using System.Text;
 using System.Globalization;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 using org.mariuszgromada.math.mxparser;
 using org.mariuszgromada.math.mxparser.mathcollection;
@@ -510,7 +511,25 @@ namespace org.mariuszgromada.math.mxparser {
 		/// Calls setExpressionModifiedFlag() method
 		/// to all related expressions.</summary>
 		internal void setExpressionModifiedFlag() {
+			setExpressionModifiedFlag(null);
+		}
+
+		internal sealed class ReferenceComparer<T> : IEqualityComparer<T> where T : class {
+			internal static readonly ReferenceComparer<T> INSTANCE = new ReferenceComparer<T>();
+
+			public bool Equals(T a, T b) {
+				return Object.ReferenceEquals(a, b);
+			}
+
+			public int GetHashCode(T value) {
+				return RuntimeHelpers.GetHashCode(value);
+			}
+		}
+
+		internal void setExpressionModifiedFlag(HashSet<Expression> visited) {
 			if (recursionCallPending)
+				return;
+			if (visited != null && !visited.Add(this))
 				return;
 			recursionCallPending = true;
 			recursionCallsCounter = 0;
@@ -519,8 +538,11 @@ namespace org.mariuszgromada.math.mxparser {
 			syntaxStatus = SYNTAX_STATUS_UNKNOWN;
 			markAsNotFullyCompiled();
 			errorMessage = StringInvariant.EMPTY;
-            foreach (Expression e in relatedExpressionsList)
-				e.setExpressionModifiedFlag();
+			// A chain needs no visited set until paths can diverge.
+			if (visited == null && relatedExpressionsList.Count > 1)
+				visited = new HashSet<Expression>(ReferenceComparer<Expression>.INSTANCE);
+			foreach (Expression e in relatedExpressionsList)
+				e.setExpressionModifiedFlag(visited);
 			recursionCallPending = false;
 		}
 		/// <summary>Common variables while expression initializing</summary>
@@ -6121,6 +6143,107 @@ namespace org.mariuszgromada.math.mxparser {
 			return candidates;
 		}
 
+		/*
+		 * Preserve this port's actual sort order, including ties. Publish only an
+		 * immutable integer layout for the first ordinary case of each definition count.
+		 */
+		private static readonly TokenizationKeywordOrderSlot[] tokenizationKeywordOrders = {
+			new TokenizationKeywordOrderSlot(), new TokenizationKeywordOrderSlot(),
+			new TokenizationKeywordOrderSlot(), new TokenizationKeywordOrderSlot(),
+			new TokenizationKeywordOrderSlot()
+		};
+
+		private sealed class TokenizationKeywordOrderSlot {
+			internal volatile TokenizationKeywordOrder order;
+
+			internal void publish(TokenizationKeywordOrder completed) {
+				lock (this) {
+					if (order == null) order = completed;
+				}
+			}
+		}
+
+		private sealed class TokenizationKeywordOrder {
+			private readonly int[] lengths;
+			private readonly int[] swapWith;
+
+			internal TokenizationKeywordOrder(int[] lengths, int[] swapWith) {
+				this.lengths = lengths;
+				this.swapWith = swapWith;
+			}
+
+			internal bool matches(List<KeyWord> keywords) {
+				if (lengths.Length != keywords.Count) return false;
+				for (int i = 0; i < lengths.Length; i++)
+					if (keywordLength(keywords[i]) != lengths[i]) return false;
+				return true;
+			}
+
+			internal void apply(List<KeyWord> keywords) {
+				for (int i = 0; i < swapWith.Length; i++)
+					if (swapWith[i] != i) {
+						KeyWord previous = keywords[i];
+						keywords[i] = keywords[swapWith[i]];
+						keywords[swapWith[i]] = previous;
+					}
+			}
+		}
+
+		private static int keywordLength(KeyWord keyword) {
+			return keyword == null || keyword.wordString == null ? -1 : keyword.wordString.Length;
+		}
+
+		private void sortTokenizationKeyWords() {
+			int definitions = parserKeyWordsOnly ? 0 : argumentsList.Count + functionsList.Count + constantsList.Count;
+			if (definitions > 4 || keyWordsList.Count > 1024 || parserKeyWordsOnly || UDFExpression || !unicodeKeyWordsEnabled
+					|| mXparser.overrideBuiltinTokens || mXparser.tokensToRemove.Count != 0 || mXparser.tokensToModify.Count != 0) {
+				keyWordsList.Sort(new DescKwLenComparator());
+				return;
+			}
+
+			TokenizationKeywordOrderSlot slot = tokenizationKeywordOrders[definitions];
+			TokenizationKeywordOrder order = slot.order;
+			if (order != null) {
+				if (order.matches(keyWordsList))
+					order.apply(keyWordsList);
+				else
+					keyWordsList.Sort(new DescKwLenComparator());
+				return;
+			}
+
+			int size = keyWordsList.Count;
+			int[] lengths = new int[size];
+			Dictionary<KeyWord, int> originalPositions = new Dictionary<KeyWord, int>(size, ReferenceComparer<KeyWord>.INSTANCE);
+			for (int i = 0; i < size; i++) {
+				KeyWord keyword = keyWordsList[i];
+				lengths[i] = keywordLength(keyword);
+				if (lengths[i] < 0) {
+					keyWordsList.Sort(new DescKwLenComparator());
+					return;
+				}
+				originalPositions[keyword] = i;
+			}
+			keyWordsList.Sort(new DescKwLenComparator());
+			if (originalPositions.Count != size) return;
+
+			int[] swapWith = new int[size];
+			int[] sourceAt = new int[size];
+			int[] positionOf = new int[size];
+			for (int i = 0; i < size; i++) {
+				sourceAt[i] = i;
+				positionOf[i] = i;
+			}
+			for (int i = 0; i < size; i++) {
+				int source = originalPositions[keyWordsList[i]];
+				int from = positionOf[source];
+				swapWith[i] = from;
+				int displaced = sourceAt[i];
+				sourceAt[from] = displaced;
+				positionOf[displaced] = from;
+			}
+			slot.publish(new TokenizationKeywordOrder(lengths, swapWith));
+		}
+
 		/// <summary>Tokenizing expressiong string</summary>
 		private void tokenizeExpressionString() {
 			impliedMultiplicationError = false;
@@ -6128,7 +6251,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 * Add parser and argument keywords
 			 */
             initParserKeyWords();
-            keyWordsList.Sort(new DescKwLenComparator());
+            sortTokenizationKeyWords();
 			/*
 			 * Evaluate position after sorting for the following keywords types
 			 *    number

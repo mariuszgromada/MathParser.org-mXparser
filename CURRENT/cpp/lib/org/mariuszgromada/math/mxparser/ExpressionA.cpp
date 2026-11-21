@@ -261,6 +261,11 @@
 #include "org/mariuszgromada/math/mxparser/wrapper/PtrsSet.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/SystemUtils.hpp"
 #include <algorithm>
+#include <array>
+#include <atomic>
+#include <cstdint>
+#include <limits>
+#include <unordered_map>
 
 namespace org::mariuszgromada::math::mxparser::parsertokens {
 	namespace {
@@ -407,7 +412,18 @@ namespace org::mariuszgromada::math::mxparser {
 	 * to all related expressions.
 	 */
 	API_VISIBLE void Expression::setExpressionModifiedFlag() {
+		propagateExpressionModifiedFlag(nullptr);
+	}
+
+	void Expression::propagateExpressionModifiedFlag(ModifiedExpressions *visited) {
 		if (recursionCallPending) return;
+		if (visited != nullptr) {
+			// Releasing a native owner may run a caller's deleter and revalidate an earlier node.
+			if (reusableTokensSource || reusableTokens || initialCompilationDetails || errorMessage.use_count() == 1)
+				visited->clear();
+			else if (!visited->insert(this).second)
+				return;
+		}
 		recursionCallPending = true;
 		recursionCallsCounter = 0;
 		internalClone = false;
@@ -415,8 +431,19 @@ namespace org::mariuszgromada::math::mxparser {
 		syntaxStatus = SYNTAX_STATUS_UNKNOWN;
 		markAsNotFullyCompiled();
 		errorMessage = StringInvariant::EMPTY;
-		for (const std::weak_ptr<Expression>& observer : *relatedExpressionsList)
-			if (const ExpressionPtr e = observer.lock()) e->setExpressionModifiedFlag();
+		// A chain needs no visited set until paths can diverge.
+		std::unique_ptr<ModifiedExpressions> branchVisited;
+		if (visited == nullptr && relatedExpressionsList->size() > 1) {
+			branchVisited = std::make_unique<ModifiedExpressions>();
+			visited = branchVisited.get();
+		}
+		for (const std::weak_ptr<Expression>& observer : *relatedExpressionsList) {
+			if (const ExpressionPtr e = observer.lock()) {
+				e->propagateExpressionModifiedFlag(visited);
+				// Releasing the last observer pin can reenter through a caller-owned deleter.
+				if (visited != nullptr && e.use_count() == 1) visited->clear();
+			}
+		}
 		recursionCallPending = false;
 	}
 
@@ -4258,6 +4285,28 @@ namespace org::mariuszgromada::math::mxparser {
 		return false;
 	}
 
+	namespace {
+		double parseTokenDouble(const StringPtr &text) {
+			const size_t length = text->size();
+			if (length == 0) return Double::parseDouble(text);
+			const bool negative = (*text)[0] == '-';
+			size_t i = negative || (*text)[0] == '+' ? 1 : 0;
+			// Up to 15 decimal digits fit exactly in a double, including after applying a sign.
+			if (i == length || length - i > 15) return Double::parseDouble(text);
+			std::uint64_t integer = 0;
+			for (; i < length; i++) {
+				const Char digit = (*text)[i];
+				if (digit < '0' || digit > '9') return Double::parseDouble(text);
+				integer = integer * 10 + static_cast<unsigned int>(digit - '0');
+			}
+			// The public stream locale can be replaced or edited by a native caller.
+			const auto &locale = SystemUtils::classicLocale;
+			if (!locale || *locale != std::locale::classic()) return Double::parseDouble(text);
+			const double value = static_cast<double>(integer);
+			return negative ? -value : value;
+		}
+	}
+
 	/**
 	 * \brief Handles adding token part after single token split
 	 * in the proces of parsing implied multiplication.
@@ -4269,7 +4318,7 @@ namespace org::mariuszgromada::math::mxparser {
 		switch (tokenPart->type) {
 			case TokenPart::INTEGER:
 			case TokenPart::DECIMAL:
-				token->tokenValue = Double::parseDouble(token->tokenStr);
+				token->tokenValue = parseTokenDouble(token->tokenStr);
 				token->tokenTypeId = ParserSymbol::NUMBER_TYPE_ID;
 				token->tokenId = ParserSymbol::NUMBER_ID;
 				initialTokensAdd(token);
@@ -4485,7 +4534,7 @@ namespace org::mariuszgromada::math::mxparser {
 		if (token->tokenTypeId == Argument::TYPE_ID) {
 			token->tokenValue = argumentsList->get(token->tokenId)->argumentValue;
 		} else if (token->tokenTypeId == ParserSymbol::NUMBER_TYPE_ID) {
-			token->tokenValue = Double::parseDouble(token->tokenStr);
+			token->tokenValue = parseTokenDouble(token->tokenStr);
 			token->keyWord = ParserSymbol::NUMBER_STR;
 		} else if (token->tokenTypeId == Token::NOT_MATCHED) {
 			bool alternativeMatchFound = checkArgumentNameInCalculusOperator(token);
@@ -4527,6 +4576,101 @@ namespace org::mariuszgromada::math::mxparser {
 		return candidates;
 	}
 
+	namespace {
+		constexpr int MAX_CACHED_KEYWORDS = 1024;
+
+		size_t keywordLength(const KeyWordPtr &keyword) {
+			return keyword && keyword->wordString ? keyword->wordString->length() : std::numeric_limits<size_t>::max();
+		}
+
+		struct TokenizationKeywordOrder {
+			int size;
+			std::array<std::uint16_t, MAX_CACHED_KEYWORDS> lengths;
+			std::array<std::uint16_t, MAX_CACHED_KEYWORDS> swapWith;
+
+			bool matches(const ListPtr<KeyWordPtr> &keywords) const {
+				if (size != keywords->size()) return false;
+				for (int i = 0; i < size; i++)
+					if (keywordLength(keywords->getRef(i)) != lengths[i]) return false;
+				return true;
+			}
+
+			void apply(const ListPtr<KeyWordPtr> &keywords) const {
+				for (int i = 0; i < size; i++)
+					if (swapWith[i] != i)
+						(*keywords)[i].swap((*keywords)[swapWith[i]]);
+			}
+		};
+
+		struct TokenizationKeywordOrderSlot {
+			std::atomic<bool> ready{false};
+			std::atomic_flag claimed = ATOMIC_FLAG_INIT;
+			TokenizationKeywordOrder order{};
+		};
+
+		// Bounded process storage has no thread-local block or teardown of owning objects.
+		std::array<TokenizationKeywordOrderSlot, 5> tokenizationKeywordOrders{};
+
+		void captureTokenizationKeywordOrder(const ListPtr<KeyWordPtr> &keywords, TokenizationKeywordOrderSlot &slot) {
+			TokenizationKeywordOrder order{};
+			const int size = keywords->size();
+			std::unordered_map<const KeyWord *, int> originalPositions;
+			originalPositions.reserve(size);
+			for (int i = 0; i < size; i++) {
+				const KeyWordPtr &keyword = keywords->getRef(i);
+				const size_t length = keywordLength(keyword);
+				if (length > std::numeric_limits<std::uint16_t>::max()) {
+					std::sort(keywords->begin(), keywords->end(), DescKwLenComparator());
+					return;
+				}
+				order.lengths[i] = static_cast<std::uint16_t>(length);
+				originalPositions[keyword.get()] = i;
+			}
+			std::sort(keywords->begin(), keywords->end(), DescKwLenComparator());
+			if (originalPositions.size() != static_cast<size_t>(size)) return;
+
+			std::vector<int> sourceAt(size);
+			std::vector<int> positionOf(size);
+			for (int i = 0; i < size; i++) {
+				sourceAt[i] = i;
+				positionOf[i] = i;
+			}
+			for (int i = 0; i < size; i++) {
+				int source = originalPositions.at(keywords->getRef(i).get());
+				int from = positionOf[source];
+				order.swapWith[i] = static_cast<std::uint16_t>(from);
+				int displaced = sourceAt[i];
+				sourceAt[from] = displaced;
+				positionOf[displaced] = from;
+			}
+			order.size = size;
+			if (!slot.claimed.test_and_set(std::memory_order_relaxed)) {
+				slot.order = order;
+				slot.ready.store(true, std::memory_order_release);
+			}
+		}
+	}
+
+	void Expression::sortTokenizationKeyWords() {
+		int definitions = parserKeyWordsOnly ? 0 : argumentsList->size() + functionsList->size() + constantsList->size();
+		if (definitions > 4 || keyWordsList->size() > MAX_CACHED_KEYWORDS || parserKeyWordsOnly || UDFExpression || !unicodeKeyWordsEnabled
+				|| mXparser::overrideBuiltinTokens || !mXparser::tokensToRemove->isEmpty() || !mXparser::tokensToModify->isEmpty()) {
+			std::sort(keyWordsList->begin(), keyWordsList->end(), DescKwLenComparator());
+			return;
+		}
+
+		TokenizationKeywordOrderSlot &slot = tokenizationKeywordOrders[definitions];
+		if (slot.ready.load(std::memory_order_acquire)) {
+			if (slot.order.matches(keyWordsList))
+				slot.order.apply(keyWordsList);
+			else
+				std::sort(keyWordsList->begin(), keyWordsList->end(), DescKwLenComparator());
+			return;
+		}
+
+		captureTokenizationKeywordOrder(keyWordsList, slot);
+	}
+
 	/**
 	 * \brief Tokenizing expression string
 	 */
@@ -4536,7 +4680,7 @@ namespace org::mariuszgromada::math::mxparser {
 		 * Add parser and argument keywords
 		 */
 		initParserKeyWords();
-		std::sort(keyWordsList->begin(), keyWordsList->end(), DescKwLenComparator());
+		sortTokenizationKeyWords();
 		/*
 		 * Evaluate position after sorting for the following keywords types
 		 *    number

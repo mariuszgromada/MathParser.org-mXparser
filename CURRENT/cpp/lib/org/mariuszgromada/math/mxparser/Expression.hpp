@@ -231,6 +231,7 @@
 #include <memory>
 #include <mutex>
 #include <stdexcept>
+#include <unordered_set>
 
 namespace org::mariuszgromada::math::mxparser {
 
@@ -2527,6 +2528,9 @@ namespace org::mariuszgromada::math::mxparser {
 		StringPtr errorMessage = StringInvariantEMPTY();
 		StringPtr errorMessageCalculate = StringInvariantEMPTY();
 		static int ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH;
+		using ModifiedExpressions = std::unordered_set<const Expression *>;
+		void propagateExpressionModifiedFlag(ModifiedExpressions *visited);
+
 		bool recursionCallPending = false;
 		int recursionCallsCounter = 0;
 		bool parserKeyWordsOnly = false;
@@ -2954,6 +2958,7 @@ namespace org::mariuszgromada::math::mxparser {
 		void addUserDefinedKeyWords();
 		static constexpr int ASCII_KEYWORD_BUCKETS = 128;
 		ArrayPtr<int> indexAsciiKeywords();
+		void sortTokenizationKeyWords();
 		void tokenizeExpressionString();
 		void copyReusableTokens();
 		void copyInitialTokens();

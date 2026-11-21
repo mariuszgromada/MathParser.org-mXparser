@@ -219,6 +219,7 @@ package org.mariuszgromada.math.mxparser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.IdentityHashMap;
 import java.util.List;
 
 import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
@@ -517,8 +518,9 @@ public class Constant extends PrimitiveElement implements Serializable {
 	 * Sets expression modified flag to each related expression.
 	 */
 	void setExpressionModifiedFlags() {
+		IdentityHashMap<Expression, Boolean> visited = relatedExpressionsList.size() > 1 ? new IdentityHashMap<>() : null;
 		for (Expression e : relatedExpressionsList)
-			e.setExpressionModifiedFlag();
+			e.setExpressionModifiedFlag(visited);
 	}
 	Constant cloneForThreadSafeInternal(CloneCache cloneCache) {
 		Constant constantClone = cloneCache.getConstantClone(this);

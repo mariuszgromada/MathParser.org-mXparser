@@ -426,8 +426,15 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \brief Sets expression modified flag to each related expression.
 	 */
 	API_VISIBLE void Constant::setExpressionModifiedFlags() {
-		for (const std::weak_ptr<Expression>& observer : *relatedExpressionsList)
-			if (const ExpressionPtr e = observer.lock()) e->setExpressionModifiedFlag();
+		std::unique_ptr<Expression::ModifiedExpressions> visited;
+		if (relatedExpressionsList->size() > 1)
+			visited = std::make_unique<Expression::ModifiedExpressions>();
+		for (const std::weak_ptr<Expression>& observer : *relatedExpressionsList) {
+			if (const ExpressionPtr e = observer.lock()) {
+				e->propagateExpressionModifiedFlag(visited.get());
+				if (visited && e.use_count() == 1) visited->clear();
+			}
+		}
 	}
 
 	API_VISIBLE ConstantPtr Constant::cloneForThreadSafeInternal(const CloneCachePtr &cloneCache) {
