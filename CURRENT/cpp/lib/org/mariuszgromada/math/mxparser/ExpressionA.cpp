@@ -1178,7 +1178,7 @@ namespace org::mariuszgromada::math::mxparser {
 		const TokenPtr& token = tokensList->getRef(pos);
 		token->tokenTypeId = ParserSymbol::NUMBER_TYPE_ID;
 		token->tokenId = ParserSymbol::NUMBER_ID;
-		token->keyWord = ParserSymbol::NUMBER_STR;
+		token->keyWord = ParserSymbol::numberKeywordForReduction();
 
 		if (!mXparser::ulpRounding || disableRounding || !ulpRound) {
 			token->tokenValue = number;

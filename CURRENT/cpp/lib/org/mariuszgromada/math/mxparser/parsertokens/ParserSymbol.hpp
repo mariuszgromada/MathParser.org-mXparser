@@ -221,6 +221,10 @@
 
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesStd.hpp"
 
+namespace org::mariuszgromada::math::mxparser {
+	class Expression;
+}
+
 namespace org::mariuszgromada::math::mxparser::parsertokens {
 
 	class API_VISIBLE ParserSymbol {
@@ -380,6 +384,10 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		static StringPtr NUMBER_SINCE;
 
 		STATIC_VARS_INITI_H;
+
+	private:
+		friend class org::mariuszgromada::math::mxparser::Expression;
+		static const StringPtr &numberKeywordForReduction();
 
 	};
 } // namespace org::mariuszgromada::math::mxparser::parsertokens
