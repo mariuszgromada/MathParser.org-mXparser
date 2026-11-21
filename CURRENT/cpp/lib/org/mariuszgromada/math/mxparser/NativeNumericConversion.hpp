@@ -234,6 +234,12 @@ namespace org::mariuszgromada::math::mxparser::native_numeric_detail {
     static_assert((std::numeric_limits<Long>::min)() == -(std::numeric_limits<Long>::max)() - 1,
                   "mXparser requires two's-complement Long");
 
+    inline bool isSmallCanonicalInteger(double value) {
+        // Bound the conversion before the cast. This is Java's exact-integer predicate on +/-2^26.
+        return value >= -67108864.0 && value <= 67108864.0
+            && value == static_cast<int>(value);
+    }
+
     inline int checkedNativeInt(double value, const char* operation) {
         const double integral = std::trunc(value);
         if (!std::isfinite(integral)

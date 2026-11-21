@@ -251,7 +251,7 @@ public final class MathFunctions {
 	private static int MAX_RECURSION_CALLS = mXparser.getMaxAllowedRecursionDepth();
 	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH)) {{setMaximumFractionDigits(340);}};
 
-	private static boolean isSmallCanonicalInteger(double value) {
+	static boolean isSmallCanonicalInteger(double value) {
 		return value == Math.rint(value) && value >= -0x1.0p26 && value <= 0x1.0p26;
 	}
 

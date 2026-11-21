@@ -1706,6 +1706,43 @@ public final class NumberTheory {
 			throw new IllegalArgumentException("cancelId out of range");
 		return primeCountWithCancel((long)n, cancelId);
 	}
+	private static final class CanonicalAccumulator {
+		private static final double EXACT_INTEGER_LIMIT = 0x1.0p53;
+		private double integerResult;
+		private BigDecimal decimalResult;
+
+		CanonicalAccumulator(double initialValue) {
+			integerResult = initialValue;
+		}
+
+		private boolean acceptExactResult(double result) {
+			// A mathematical result outside this range cannot round into its interior.
+			if (result <= -EXACT_INTEGER_LIMIT || result >= EXACT_INTEGER_LIMIT) return false;
+			integerResult = result;
+			return true;
+		}
+
+		void add(double value) {
+			if (decimalResult == null) {
+				if (MathFunctions.isSmallCanonicalInteger(value) && acceptExactResult(integerResult + value)) return;
+				decimalResult = BigDecimal.valueOf((long) integerResult);
+			}
+			decimalResult = decimalResult.add(BigDecimal.valueOf(value));
+		}
+
+		void multiply(double value) {
+			if (decimalResult == null) {
+				if (MathFunctions.isSmallCanonicalInteger(value) && acceptExactResult(integerResult * value)) return;
+				decimalResult = BigDecimal.valueOf((long) integerResult);
+			}
+			decimalResult = decimalResult.multiply(BigDecimal.valueOf(value));
+		}
+
+		double doubleValue() {
+			if (decimalResult != null) return decimalResult.doubleValue();
+			return integerResult == 0 ? 0 : integerResult;
+		}
+	}
 	/**
 	 * Summation operator (SIGMA FROM i = a, to b,  f(i) by delta
 	 *
@@ -1759,37 +1796,37 @@ public final class NumberTheory {
 		double fval;
 		double i;
 		if (mXparser.checkIfCanonicalRounding()) {
-			BigDecimal dresult = BigDecimal.ZERO;
+			CanonicalAccumulator result = new CanonicalAccumulator(0);
 			if ( (to >= from) && (delta > 0) ) {
 				for (i = from; i < to; i+=delta) {
 					if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 					fval = MathFunctions.getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
-					dresult = dresult.add(BigDecimal.valueOf(fval));
+					result.add(fval);
 				}
 				if ( delta - (i - to) > 0.5 * delta) {
 					fval = MathFunctions.getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
-					dresult = dresult.add(BigDecimal.valueOf(fval));
+					result.add(fval);
 				}
 			} else if ( (to <= from) && (delta < 0) ) {
 				for (i = from; i > to; i+=delta) {
 					if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 					fval = MathFunctions.getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
-					dresult = dresult.add(BigDecimal.valueOf(fval));
+					result.add(fval);
 				}
 				if ( -delta - (to - i) > -0.5 * delta) {
 					fval = MathFunctions.getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
-					dresult = dresult.add(BigDecimal.valueOf(fval));
+					result.add(fval);
 				}
 			} else if (from == to) {
 				fval = MathFunctions.getFunctionValueWithCancel(f, index, from, cancelId);
 				if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
-				dresult = dresult.add(BigDecimal.valueOf(fval));
+				result.add(fval);
 			}
-			return dresult.doubleValue();
+			return result.doubleValue();
 		} else {
 			double result = 0;
 			if ( (to >= from) && (delta > 0) ) {
@@ -1883,37 +1920,37 @@ public final class NumberTheory {
 		double fval;
 		double i;
 		if (mXparser.checkIfCanonicalRounding()) {
-			BigDecimal dresult = BigDecimal.ONE;
+			CanonicalAccumulator result = new CanonicalAccumulator(1);
 			if ( (to >= from) && (delta > 0) ) {
 				for (i = from; i < to; i+=delta) {
 					if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 					fval = MathFunctions.getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
-					dresult = dresult.multiply(BigDecimal.valueOf(fval));
+					result.multiply(fval);
 				}
 				if ( delta - (i - to) > 0.5 * delta) {
 					fval = MathFunctions.getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
-					dresult = dresult.multiply(BigDecimal.valueOf(fval));
+					result.multiply(fval);
 				}
 			} else if ( (to <= from) && (delta < 0) ) {
 				for (i = from; i > to; i+=delta) {
 					if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 					fval = MathFunctions.getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
-					dresult = dresult.multiply(BigDecimal.valueOf(fval));
+					result.multiply(fval);
 				}
 				if ( -delta - (to - i) > -0.5 * delta) {
 					fval = MathFunctions.getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
-					dresult = dresult.multiply(BigDecimal.valueOf(fval));
+					result.multiply(fval);
 				}
 			} else if (from == to) {
 				fval = MathFunctions.getFunctionValueWithCancel(f, index, from, cancelId);
 				if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
-				dresult = dresult.multiply(BigDecimal.valueOf(fval));
+				result.multiply(fval);
 			}
-			return dresult.doubleValue();
+			return result.doubleValue();
 		} else {
 			double result = 1;
 			if ( (to >= from) && (delta > 0) ) {

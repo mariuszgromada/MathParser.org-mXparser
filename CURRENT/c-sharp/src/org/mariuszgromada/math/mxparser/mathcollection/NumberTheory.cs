@@ -1548,6 +1548,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			decimal dfval;
 			decimal dresult;
 			bool decimalStillInRange;
+			bool useCanonicalBackend;
 			internal CanonicalResult(bool summation) {
 				if (summation) {
 					fval = 0;
@@ -1564,7 +1565,15 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				}
 			}
 			internal void add() {
+				double previousResult = result;
 				result += fval;
+				if (!useCanonicalBackend) {
+					// Preserve decimal's zero sign when nonzero terms cancel or the sample is negative zero.
+					if (MathFunctions.isSmallCanonicalInteger(fval) && !MathFunctions.isNotInDecimalRange(result)
+					    && (result != 0 || (previousResult == 0 && BitConverter.DoubleToInt64Bits(fval) == 0))) return;
+					dresult = (long)previousResult;
+					useCanonicalBackend = true;
+				}
 				if (decimalStillInRange) {
 					if (MathFunctions.isNotInDecimalRange(fval)) decimalStillInRange = false;
 					if (MathFunctions.isNotInDecimalRange(result)) decimalStillInRange = false;
@@ -1575,7 +1584,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				}
 			}
 			internal void multiply() {
+				double previousResult = result;
 				result *= fval;
+				if (!useCanonicalBackend) {
+					if (MathFunctions.isSmallCanonicalInteger(fval) && !MathFunctions.isNotInDecimalRange(result)
+					    && result != 0) return;
+					dresult = (long)previousResult;
+					useCanonicalBackend = true;
+				}
 				if (decimalStillInRange) {
 					if (MathFunctions.isNotInDecimalRange(fval)) decimalStillInRange = false;
 					if (MathFunctions.isNotInDecimalRange(result)) decimalStillInRange = false;
@@ -1586,6 +1602,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				}
 			}
 			internal double getResult() {
+				if (!useCanonicalBackend) return result;
 				if (decimalStillInRange) return (double)dresult;
 				else return result;
 			}

@@ -241,7 +241,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		private static int MAX_RECURSION_CALLS = mXparser.getMaxAllowedRecursionDepth();
 		private static readonly String DECIMAL_FORMAT = "0." + new String('#', 339);
 
-		private static bool isSmallCanonicalInteger(double value) {
+		internal static bool isSmallCanonicalInteger(double value) {
 			return value == Math.Round(value) && value >= -67108864d && value <= 67108864d;
 		}
 

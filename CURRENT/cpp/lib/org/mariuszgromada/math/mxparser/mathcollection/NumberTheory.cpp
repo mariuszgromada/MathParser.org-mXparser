@@ -233,6 +233,7 @@
 #include "org/mariuszgromada/math/mxparser/wrapper/List.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/Math.hpp"
 #include <cstdio>
+#include <optional>
 #include <stdexcept>
 
 namespace org::mariuszgromada::math::mxparser::mathcollection {
@@ -1055,6 +1056,46 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (Double::isNaN(n)) return 0.0;
 		return CAST_DOUBLE(primeCountWithCancel(native_numeric_detail::checkedNativeLong(n, "NumberTheory.primeCount"), cancelId));
 	}
+	namespace {
+		class CanonicalAccumulator final {
+			static constexpr double EXACT_INTEGER_LIMIT = 0x1.0p53;
+			double integerResult;
+			// Native BigDecimal stores a long double and canonicalizes only when returning a double.
+			std::optional<long double> decimalResult;
+
+			bool acceptExactResult(double result) {
+				// A mathematical result outside this range cannot round into its interior.
+				if (result <= -EXACT_INTEGER_LIMIT || result >= EXACT_INTEGER_LIMIT) return false;
+				integerResult = result;
+				return true;
+			}
+
+		public:
+			explicit CanonicalAccumulator(double initialValue) : integerResult(initialValue) {}
+
+			void add(double value) {
+				if (!decimalResult) {
+					if (native_numeric_detail::isSmallCanonicalInteger(value) && acceptExactResult(integerResult + value)) return;
+					decimalResult.emplace(integerResult);
+				}
+				*decimalResult += static_cast<long double>(value);
+			}
+
+			void multiply(double value) {
+				if (!decimalResult) {
+					if (native_numeric_detail::isSmallCanonicalInteger(value) && acceptExactResult(integerResult * value)) return;
+					decimalResult.emplace(integerResult);
+				}
+				*decimalResult *= static_cast<long double>(value);
+			}
+
+			double doubleValue() const {
+				if (decimalResult) return BigDecimal::valueOf(*decimalResult).doubleValue();
+				// Native reParseDouble already returns exact integers, including signed zero, directly.
+				return integerResult;
+			}
+		};
+	}
 
 	API_VISIBLE double NumberTheory::sigmaSummation(const ExpressionPtr &f, const ArgumentPtr &index, double from, double to,
 	                                    double delta) {
@@ -1070,37 +1111,37 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double fval;
 		double i;
 		if (mXparser::checkIfCanonicalRounding()) {
-			BigDecimal dresult = BigDecimal::ZERO;
+			CanonicalAccumulator result(0);
 			if ((to >= from) && (delta > 0)) {
 				for (i = from; i < to; i += delta) {
 					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 					fval = MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
-					dresult = dresult.add(BigDecimal::valueOf(fval));
+					result.add(fval);
 				}
 				if (delta - (i - to) > 0.5 * delta) {
 					fval = MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
-					dresult = dresult.add(BigDecimal::valueOf(fval));
+					result.add(fval);
 				}
 			} else if ((to <= from) && (delta < 0)) {
 				for (i = from; i > to; i += delta) {
 					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 					fval = MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
-					dresult = dresult.add(BigDecimal::valueOf(fval));
+					result.add(fval);
 				}
 				if (-delta - (to - i) > -0.5 * delta) {
 					fval = MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
-					dresult = dresult.add(BigDecimal::valueOf(fval));
+					result.add(fval);
 				}
 			} else if (from == to) {
 				fval = MathFunctions::getFunctionValueWithCancel(f, index, from, cancelId);
 				if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
-				dresult = dresult.add(BigDecimal::valueOf(fval));
+				result.add(fval);
 			}
-			return dresult.doubleValue();
+			return result.doubleValue();
 		} else {
 			double result = 0;
 			if ((to >= from) && (delta > 0)) {
@@ -1150,37 +1191,37 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double fval;
 		double i;
 		if (mXparser::checkIfCanonicalRounding()) {
-			BigDecimal dresult = BigDecimal::ONE;
+			CanonicalAccumulator result(1);
 			if ((to >= from) && (delta > 0)) {
 				for (i = from; i < to; i += delta) {
 					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 					fval = MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
-					dresult = dresult.multiply(BigDecimal::valueOf(fval));
+					result.multiply(fval);
 				}
 				if (delta - (i - to) > 0.5 * delta) {
 					fval = MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
-					dresult = dresult.multiply(BigDecimal::valueOf(fval));
+					result.multiply(fval);
 				}
 			} else if ((to <= from) && (delta < 0)) {
 				for (i = from; i > to; i += delta) {
 					if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 					fval = MathFunctions::getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
-					dresult = dresult.multiply(BigDecimal::valueOf(fval));
+					result.multiply(fval);
 				}
 				if (-delta - (to - i) > -0.5 * delta) {
 					fval = MathFunctions::getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
-					dresult = dresult.multiply(BigDecimal::valueOf(fval));
+					result.multiply(fval);
 				}
 			} else if (from == to) {
 				fval = MathFunctions::getFunctionValueWithCancel(f, index, from, cancelId);
 				if (Double::isNaN(fval) || Double::isInfinite(fval)) return Double::NaN;
-				dresult = dresult.multiply(BigDecimal::valueOf(fval));
+				result.multiply(fval);
 			}
-			return dresult.doubleValue();
+			return result.doubleValue();
 		} else {
 			double result = 1;
 			if ((to >= from) && (delta > 0)) {

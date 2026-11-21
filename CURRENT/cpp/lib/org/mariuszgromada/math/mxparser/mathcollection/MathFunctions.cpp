@@ -219,6 +219,7 @@
 #include "org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.hpp"
 // --------------------------------------------------------------------------
 #include "org/mariuszgromada/math/mxparser/Argument.hpp"
+#include "org/mariuszgromada/math/mxparser/NativeNumericConversion.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/BinaryRelations.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/MathConstants.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.hpp"
@@ -241,16 +242,9 @@
 namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser;
 	using namespace org::mariuszgromada::math::mxparser::wrapper;
+	using native_numeric_detail::isSmallCanonicalInteger;
 
 	namespace {
-		// Bound the conversion first: the cast is defined only for finite,
-		// representable values. This is Java's exact-integer predicate on +/-2^26.
-		bool isSmallCanonicalInteger(double value) {
-			static_assert(std::numeric_limits<int>::digits >= 31, "Canonical integer shortcut requires a 32-bit int");
-			return value >= -67108864.0 && value <= 67108864.0
-				&& value == static_cast<int>(value);
-		}
-
 		// These inputs have already been rounded/floored by the original caller.
 		// Guard the C++ conversion, preserving the existing rounding and all
 		// previously defined results. Java/C# have different runtime cast rules.
