@@ -4521,6 +4521,13 @@ namespace org.mariuszgromada.math.mxparser {
 			int stepsRegisteredCounter = 0;
 			CalcStepRecord.StepType stepTypePrev = CalcStepRecord.StepType.Unknown;
 
+			bool reuseLevelRange = calcStepsRegister == null && !verboseMode && !internalClone
+					&& activeCalculations == 1 && !compilationDetails.containsCalculus && !compilationDetails.containsIf
+					&& tokensList.Count >= 64;
+			int previousLeft = -1;
+			int previousRight = -1;
+
+
 			/* While exist token which needs to bee evaluated */
             do {
 				if (storeStepsInRegister && calcStepsRegister != null) {
@@ -4536,6 +4543,8 @@ namespace org.mariuszgromada.math.mxparser {
 				}
 
 				tokensNumber = tokensList.Count;
+				bool canReuseLevelRange = reuseLevelRange && !verboseMode;
+				firstPos = -1;
 				maxPartLevel = -1;
                 maxPartLevelNotInterrupted = false;
 				lPos = -1; rPos = -1;
@@ -4563,37 +4572,52 @@ namespace org.mariuszgromada.math.mxparser {
 				} while (p < tokensNumber - 1 && calculusPos < 0 && ifPos < 0 && iffPos < 0);
 				if (calculusPos < 0 && ifPos < 0 && iffPos < 0) {
 					/* Find start index of the tokens with the highest level */
-					for (tokenIndex = 0; tokenIndex < tokensNumber; tokenIndex++) {
-						token = tokensList[tokenIndex];
-						if (token.tokenLevel > maxPartLevel) {
-							maxPartLevel = tokensList[tokenIndex].tokenLevel;
-							lPos = tokenIndex;
-                            maxPartLevelNotInterrupted = true;
-                        }
+					if (previousLeft >= 0) {
+						lPos = previousLeft;
+						rPos = previousRight;
+					} else {
+						for (tokenIndex = 0; tokenIndex < tokensNumber; tokenIndex++) {
+							token = tokensList[tokenIndex];
+							if (token.tokenLevel > maxPartLevel) {
+								maxPartLevel = tokensList[tokenIndex].tokenLevel;
+								lPos = tokenIndex;
+	                            maxPartLevelNotInterrupted = true;
+	                        }
 
-						if (token.tokenLevel < maxPartLevel)
-							maxPartLevelNotInterrupted = false;
+							if (token.tokenLevel < maxPartLevel)
+								maxPartLevelNotInterrupted = false;
 
-						if (maxPartLevelNotInterrupted && token.tokenLevel == maxPartLevel)
-							rPos = tokenIndex;
+							if (maxPartLevelNotInterrupted && token.tokenLevel == maxPartLevel)
+								rPos = tokenIndex;
 
-						if (token.tokenTypeId == Argument.TYPE_ID) {
-							argument = argumentsList[ tokensList[tokenIndex].tokenId ];
-							/*
-							 * Only free arguments can be directly
-							 * replaced with numbers. This is in order to
-							 * avoid tokensList change in possible
-							 * recursive calls from dependent arguments
-							 * as dependent arguments will not work
-							 * on argument clones. Here we are also checking
-							 * if there is dependent argument in expression.
-							 */
-							if (argument.argumentType == Argument.FREE_ARGUMENT) FREE_ARGUMENT(tokenIndex);
-							else depArgPos = tokenIndex;
-						} else if (token.tokenTypeId == ConstantValue.TYPE_ID) CONSTANT(tokenIndex);
-						else if (token.tokenTypeId == Unit.TYPE_ID) UNIT(tokenIndex);
-						else if (token.tokenTypeId == Constant.TYPE_ID) USER_CONSTANT(tokenIndex);
-						else if (token.tokenTypeId == RandomVariable.TYPE_ID) RANDOM_VARIABLE(tokenIndex);
+							if (token.tokenTypeId == Argument.TYPE_ID) {
+								canReuseLevelRange = false;
+								argument = argumentsList[ tokensList[tokenIndex].tokenId ];
+								/*
+								 * Only free arguments can be directly
+								 * replaced with numbers. This is in order to
+								 * avoid tokensList change in possible
+								 * recursive calls from dependent arguments
+								 * as dependent arguments will not work
+								 * on argument clones. Here we are also checking
+								 * if there is dependent argument in expression.
+								 */
+								if (argument.argumentType == Argument.FREE_ARGUMENT) FREE_ARGUMENT(tokenIndex);
+								else depArgPos = tokenIndex;
+							} else if (token.tokenTypeId == ConstantValue.TYPE_ID) {
+								canReuseLevelRange = false;
+								CONSTANT(tokenIndex);
+							} else if (token.tokenTypeId == Unit.TYPE_ID) {
+								canReuseLevelRange = false;
+								UNIT(tokenIndex);
+							} else if (token.tokenTypeId == Constant.TYPE_ID) {
+								canReuseLevelRange = false;
+								USER_CONSTANT(tokenIndex);
+							} else if (token.tokenTypeId == RandomVariable.TYPE_ID) {
+								canReuseLevelRange = false;
+								RANDOM_VARIABLE(tokenIndex);
+							}
+						}
 					}
 					if (lPos < 0) {
                         registerErrorWhileCalculate(StringModel.STRING_RESOURCES.INTERNAL_ERROR_STRANGE_TOKEN_LEVEL_FINISHING);
@@ -4782,6 +4806,13 @@ namespace org.mariuszgromada.math.mxparser {
 					storeStepsInRegister = false;
 				}
 
+				previousLeft = -1;
+				// Only an interior binary arithmetic reduction preserves this highest-level run.
+				if (canReuseLevelRange && firstPos > lPos && firstPos < rPos && tokensList.Count == tokensNumber - 2) {
+					previousLeft = lPos;
+					previousRight = rPos - 2;
+				}
+
 				if (verboseMode) {
 					showParsing(0, tokensList.Count - 1);
                     printSystemInfo(StringInvariant.SPACE + StringModel.STRING_RESOURCES.DONE + StringInvariant.NEW_LINE, NO_EXP_STR);
@@ -4803,11 +4834,91 @@ namespace org.mariuszgromada.math.mxparser {
 			return stepsRegisteredCounter;
 		}
 
+		/*
+		 * Only a flat binary add/subtract plan has a predictable contiguous span
+		 * of dead tokens. Qualify the full plan before executing any of it.
+		 */
+		private bool isFlatAddSubPlan(List<CompiledElement> plan, int firstArithmetic) {
+			int size = tokensList.Count;
+			if (size % 2 == 0 || firstArithmetic < 0) return false;
+
+			int argumentStep = 0;
+			for (int position = 0; position < size; position += 2) {
+				Token operand = tokensList[position];
+				if (operand.tokenTypeId == Argument.TYPE_ID) {
+					if (argumentStep >= firstArithmetic || operand.tokenId < 0 || operand.tokenId >= argumentsList.Count)
+						return false;
+					CompiledElement entry = plan[argumentStep++];
+					if (entry.toCall != CompiledElement.ToCall.FREE_ARGUMENT || entry.position1 != position)
+						return false;
+					Argument argument = argumentsList[operand.tokenId];
+					if (argument.GetType() != typeof(Argument) || argument.argumentType != Argument.FREE_ARGUMENT
+							|| argument.getArgumentBodyType() != Argument.BODY_RUNTIME)
+						return false;
+				} else if (operand.tokenTypeId != ParserSymbol.NUMBER_TYPE_ID)
+					return false;
+
+				if (position + 1 < size) {
+					Token operation = tokensList[position + 1];
+					if (operation.tokenTypeId != Operator.TYPE_ID) return false;
+					CompiledElement entry = plan[firstArithmetic + position / 2];
+					if (entry.position1 != 1) return false;
+					if (operation.tokenId == Operator.PLUS_ID) {
+						if (entry.toCall != CompiledElement.ToCall.PLUS) return false;
+					} else if (operation.tokenId != Operator.MINUS_ID || entry.toCall != CompiledElement.ToCall.MINUS)
+						return false;
+				}
+			}
+			return argumentStep == firstArithmetic;
+		}
+
+		private int applyFlatAddSubPlan(List<CompiledElement> plan, int firstArithmetic) {
+			int step = 0;
+			int operationPos = 1;
+			Token left = null;
+			try {
+				foreach (CompiledElement entry in plan) {
+					if (mXparser.isCalculationCancelled(activeCancelId)) break;
+					if (step < firstArithmetic)
+						FREE_ARGUMENT(entry.position1);
+					else {
+						if (step == firstArithmetic) left = tokensList[0];
+						double a = left.tokenValue;
+						double b = tokensList[operationPos + 1].tokenValue;
+						double result;
+						if (entry.toCall == CompiledElement.ToCall.MINUS)
+							result = disableRounding ? a - b : MathFunctions.minus(a, b);
+						else
+							result = disableRounding ? a + b : MathFunctions.plus(a, b);
+						setToNumber(operationPos, result, true);
+						left = tokensList[operationPos];
+						operationPos += 2;
+					}
+					step++;
+				}
+			} finally {
+				// Make the usual working list visible on success, cancellation and failure.
+				if (operationPos > 1) {
+					tokensList[0] = left;
+					tokensList.RemoveRange(1, operationPos - 1);
+				}
+			}
+			if (step == plan.Count) return 0;
+			registerErrorWhileCalculate(StringModel.STRING_RESOURCES.CANCEL_REQUEST_FINISHING);
+			return -1;
+		}
+
 		private int applySequenceFromCompilation(CalcStepsRegister calcStepsRegister, String stepDescription) {
+			List<CompiledElement> plan = initialCompilationDetails.compiledElements;
+			if (tokensList.Count >= 64 && calcStepsRegister == null && !verboseMode && !internalClone
+					&& activeCalculations == 1) {
+				int firstArithmetic = plan.Count - tokensList.Count / 2;
+				if (isFlatAddSubPlan(plan, firstArithmetic)) return applyFlatAddSubPlan(plan, firstArithmetic);
+			}
 			int stepsRegisteredCounter = 0;
 			CalcStepRecord.StepType stepTypePrev = CalcStepRecord.StepType.Unknown;
 			bool storeStepsInRegister = true;
-			foreach (CompiledElement compiledElement in initialCompilationDetails.compiledElements) {
+			foreach (CompiledElement compiledElement in plan) {
 
 				if (mXparser.isCalculationCancelled(activeCancelId)) {
 					registerErrorWhileCalculate(StringModel.STRING_RESOURCES.CANCEL_REQUEST_FINISHING);

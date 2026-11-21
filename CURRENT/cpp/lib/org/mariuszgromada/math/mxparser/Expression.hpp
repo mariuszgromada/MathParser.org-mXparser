@@ -2912,6 +2912,8 @@ namespace org::mariuszgromada::math::mxparser {
 		// ***********************************************************
 
 		int calculateFirstAndFullyCompile(const CalcStepsRegisterPtr &calcStepsRegister, const StringPtr &stepDescription);
+		bool isFlatAddSubPlan(const ListPtr<CompiledElementPtr> &plan, int firstArithmetic);
+		int applyFlatAddSubPlan(const ListPtr<CompiledElementPtr> &plan, int firstArithmetic);
 		int applySequenceFromCompilation(const CalcStepsRegisterPtr &calcStepsRegister, const StringPtr &stepDescription);
 
 		// ***********************************************************
