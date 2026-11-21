@@ -387,6 +387,7 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 
 	private:
 		friend class org::mariuszgromada::math::mxparser::Expression;
+		static StringPtr defaultNumberKeyword;
 		static const StringPtr &numberKeywordForReduction();
 
 	};

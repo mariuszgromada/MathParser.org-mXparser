@@ -262,6 +262,42 @@
 #include "org/mariuszgromada/math/mxparser/wrapper/SystemUtils.hpp"
 #include <algorithm>
 
+namespace org::mariuszgromada::math::mxparser::parsertokens {
+	namespace {
+		thread_local const StringPtr* cachedNumberKeyword = nullptr;
+
+		struct NumberKeywordCache {
+			StringPtr keyword;
+
+			// An earlier-initialized thread-local object can calculate during its destructor.
+			~NumberKeywordCache() { cachedNumberKeyword = &ParserSymbol::NUMBER_STR; }
+		};
+
+		const StringPtr &updateNumberKeywordCache(const StringPtr &defaultKeyword) {
+			// Retain the original string, with a control block local to the evaluating thread.
+			static thread_local NumberKeywordCache cache;
+			try {
+				cache.keyword = StringPtr(std::make_shared<StringPtr>(defaultKeyword), defaultKeyword.get());
+			} catch (const OutOfMemoryError &) {
+				return ParserSymbol::NUMBER_STR;
+			}
+			cachedNumberKeyword = &cache.keyword;
+			return cache.keyword;
+		}
+	}
+
+	const StringPtr &ParserSymbol::numberKeywordForReduction() {
+		// Preserve the exact owner of any caller-replaced public label.
+		if (!NUMBER_STR || NUMBER_STR != defaultNumberKeyword
+				|| NUMBER_STR.owner_before(defaultNumberKeyword) || defaultNumberKeyword.owner_before(NUMBER_STR))
+			return NUMBER_STR;
+
+		const StringPtr* keyword = cachedNumberKeyword;
+		if (keyword != nullptr && keyword->get() == NUMBER_STR.get()) return *keyword;
+		return updateNumberKeywordCache(defaultNumberKeyword);
+	}
+}
+
 namespace org::mariuszgromada::math::mxparser {
 	using namespace org::mariuszgromada::math::mxparser::expressionutils;
 	using namespace org::mariuszgromada::math::mxparser::wrapper;
@@ -1178,7 +1214,10 @@ namespace org::mariuszgromada::math::mxparser {
 		const TokenPtr& token = tokensList->getRef(pos);
 		token->tokenTypeId = ParserSymbol::NUMBER_TYPE_ID;
 		token->tokenId = ParserSymbol::NUMBER_ID;
-		token->keyWord = ParserSymbol::numberKeywordForReduction();
+		{
+			StringPtr keyword(ParserSymbol::numberKeywordForReduction());
+			token->keyWord.swap(keyword);
+		}
 
 		if (!mXparser::ulpRounding || disableRounding || !ulpRound) {
 			token->tokenValue = number;

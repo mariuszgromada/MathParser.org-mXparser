@@ -224,38 +224,7 @@
 
 namespace org::mariuszgromada::math::mxparser::parsertokens {
 
-	namespace {
-		StringPtr defaultNumberKeyword;
-		thread_local bool numberKeywordCacheReleased = false;
-
-		struct NumberKeywordCache {
-			StringPtr keyword;
-
-			~NumberKeywordCache() { numberKeywordCacheReleased = true; }
-		};
-	}
-
-	const StringPtr &ParserSymbol::numberKeywordForReduction() {
-		// Preserve the exact owner of any caller-replaced public label.
-		if (!NUMBER_STR || NUMBER_STR != defaultNumberKeyword
-				|| NUMBER_STR.owner_before(defaultNumberKeyword) || defaultNumberKeyword.owner_before(NUMBER_STR))
-			return NUMBER_STR;
-
-		// An earlier-initialized thread-local object can calculate during its destructor.
-		if (numberKeywordCacheReleased) return NUMBER_STR;
-
-		// Retain the original string, with a control block local to the evaluating thread.
-		static thread_local NumberKeywordCache cache;
-		StringPtr &keyword = cache.keyword;
-		if (keyword.get() != defaultNumberKeyword.get()) {
-			try {
-				keyword = StringPtr(std::make_shared<StringPtr>(defaultNumberKeyword), defaultNumberKeyword.get());
-			} catch (const OutOfMemoryError &) {
-				return NUMBER_STR;
-			}
-		}
-		return keyword;
-	}
+	StringPtr ParserSymbol::defaultNumberKeyword;
 
 	API_VISIBLE StringPtr ParserSymbol::NA = nullptr;
 	API_VISIBLE StringPtr ParserSymbol::EMPTY = nullptr;
