@@ -4992,10 +4992,29 @@ public class Expression extends PrimitiveElement implements Serializable {
 		}
 		return NO_SYNTAX_ERRORS;
 	}
-	private boolean checkPartialSyntaxUserDefinedArgument(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, SyntaxParameterCounts counts) {
+	private static final class SyntaxTokenInfo {
+		private String tokenStr;
+		private int tokenIndex;
+		private String formatted;
+
+		void reset(String tokenStr, int tokenIndex) {
+			this.tokenStr = tokenStr;
+			this.tokenIndex = tokenIndex;
+			formatted = null;
+		}
+
+		String message() {
+			if (formatted == null)
+				formatted = StringModel.buildTokenString(tokenStr, tokenIndex);
+			return formatted;
+		}
+	}
+	private boolean checkPartialSyntaxUserDefinedArgument(String recursionInfoLevel, int tokenIndex, Token token, SyntaxTokenInfo tokenInfo, SyntaxParameterCounts counts) {
 		if (token.tokenTypeId != Argument.TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
+		// Format before checking user definitions, which can reenter validation or change localization.
+		String tokenInfoMessage = tokenInfo.message();
 		Argument arg = getArgument(token.tokenId);
 
 		if (getParametersNumber(tokenIndex, counts) >= 0 ) {
@@ -5019,10 +5038,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 		return NO_SYNTAX_ERRORS;
 	}
-	private boolean checkPartialSyntaxUserDefinedRecursiveArgument(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, SyntaxParameterCounts counts) {
+	private boolean checkPartialSyntaxUserDefinedRecursiveArgument(String recursionInfoLevel, int tokenIndex, Token token, SyntaxTokenInfo tokenInfo, SyntaxParameterCounts counts) {
 		if (token.tokenTypeId != RecursiveArgument.TYPE_ID_RECURSIVE)
 			return NO_SYNTAX_ERRORS;
 
+		String tokenInfoMessage = tokenInfo.message();
 		Argument arg = getArgument(token.tokenId);
 
 		if (getParametersNumber(tokenIndex, counts) != 1 ) {
@@ -5038,7 +5058,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 		return NO_SYNTAX_ERRORS;
 	}
-	private boolean checkPartialSyntaxInvalidToken(String recursionInfoLevel, Token token, String tokenInfoMessage, Stack<SyntaxStackElement> syntaxStack) {
+	private boolean checkPartialSyntaxInvalidToken(String recursionInfoLevel, Token token, SyntaxTokenInfo tokenInfo, Stack<SyntaxStackElement> syntaxStack) {
 		if (token.tokenTypeId != Token.NOT_MATCHED)
 			return NO_SYNTAX_ERRORS;
 
@@ -5050,19 +5070,20 @@ public class Expression extends PrimitiveElement implements Serializable {
 		if (!calculusToken) {
 
 			if (!impliedMultiplicationMode && StringUtils.regexMatch(token.tokenStr, ParserSymbol.NUMBER_NAME_IMPL_MULTI_REG_EXP))
-				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR, tokenInfo.message());
 			else
-				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.INVALID_TOKEN, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.INVALID_TOKEN, tokenInfo.message());
 
 			return SYNTAX_ERROR;
 		}
 
 		return NO_SYNTAX_ERRORS;
 	}
-	private boolean checkPartialSyntaxUserDefinedFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, SyntaxParameterCounts counts) {
+	private boolean checkPartialSyntaxUserDefinedFunction(String recursionInfoLevel, int tokenIndex, Token token, SyntaxTokenInfo tokenInfo, SyntaxParameterCounts counts) {
 		if (token.tokenTypeId != Function.TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
+		String tokenInfoMessage = tokenInfo.message();
 		Function fun = getFunction(token.tokenId);
 		fun.checkRecursiveMode();
 		int npar = getParametersNumber(tokenIndex, counts);
@@ -5096,67 +5117,67 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 		return NO_SYNTAX_ERRORS;
 	}
-	private boolean checkPartialSyntaxBuiltinConstant(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, SyntaxParameterCounts counts) {
+	private boolean checkPartialSyntaxBuiltinConstant(String recursionInfoLevel, int tokenIndex, Token token, SyntaxTokenInfo tokenInfo, SyntaxParameterCounts counts) {
 		if (token.tokenTypeId != ConstantValue.TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
 		if (getParametersNumber(tokenIndex, counts) >= 0) {
-			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.CONSTANT_WAS_EXPECTED, tokenInfoMessage);
+			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.CONSTANT_WAS_EXPECTED, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
 		return NO_SYNTAX_ERRORS;
 	}
-	private boolean checkPartialSyntaxUserDefinedConstant(String recursionInfoLevel, int tokenIndex, Token token, String tokenStr, SyntaxParameterCounts counts) {
+	private boolean checkPartialSyntaxUserDefinedConstant(String recursionInfoLevel, int tokenIndex, Token token, SyntaxTokenInfo tokenInfo, SyntaxParameterCounts counts) {
 		if (token.tokenTypeId != Constant.TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
 		if (getParametersNumber(tokenIndex, counts) >= 0) {
-			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.USER_CONSTANT_WAS_EXPECTED, tokenStr);
+			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.USER_CONSTANT_WAS_EXPECTED, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
 		return NO_SYNTAX_ERRORS;
 	}
-	private boolean checkPartialSyntaxUnaryFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, SyntaxParameterCounts counts) {
+	private boolean checkPartialSyntaxUnaryFunction(String recursionInfoLevel, int tokenIndex, Token token, SyntaxTokenInfo tokenInfo, SyntaxParameterCounts counts) {
 		if (token.tokenTypeId != Function1Arg.TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
 		if (getParametersNumber(tokenIndex, counts) != 1) {
-			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.UNARY_FUNCTION_EXPECTS_1_PARAMETER, tokenInfoMessage);
+			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.UNARY_FUNCTION_EXPECTS_1_PARAMETER, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
 		return NO_SYNTAX_ERRORS;
 	}
-	private boolean checkPartialSyntaxBinaryFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, SyntaxParameterCounts counts) {
+	private boolean checkPartialSyntaxBinaryFunction(String recursionInfoLevel, int tokenIndex, Token token, SyntaxTokenInfo tokenInfo, SyntaxParameterCounts counts) {
 		if (token.tokenTypeId != Function2Arg.TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
 		if (getParametersNumber(tokenIndex, counts) != 2) {
-			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.BINARY_FUNCTION_EXPECTS_2_PARAMETERS, tokenInfoMessage);
+			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.BINARY_FUNCTION_EXPECTS_2_PARAMETERS, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
 		return NO_SYNTAX_ERRORS;
 	}
-	private boolean checkPartialSyntaxTernaryFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, SyntaxParameterCounts counts) {
+	private boolean checkPartialSyntaxTernaryFunction(String recursionInfoLevel, int tokenIndex, Token token, SyntaxTokenInfo tokenInfo, SyntaxParameterCounts counts) {
 		if (token.tokenTypeId != Function3Arg.TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
 		if (getParametersNumber(tokenIndex, counts) != 3) {
-			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.TERNARY_FUNCTION_EXPECTS_3_PARAMETERS, tokenInfoMessage);
+			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.TERNARY_FUNCTION_EXPECTS_3_PARAMETERS, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
 		return NO_SYNTAX_ERRORS;
 	}
-	private boolean checkInternalSyntaxCalculusOperatorDerivative(String recursionInfoLevel, Token token, String tokenInfoMessage, Stack<SyntaxStackElement> syntaxStack, int paramsNumber, List<FunctionParameter> funParams){
+	private boolean checkInternalSyntaxCalculusOperatorDerivative(String recursionInfoLevel, Token token, SyntaxTokenInfo tokenInfo, Stack<SyntaxStackElement> syntaxStack, int paramsNumber, List<FunctionParameter> funParams){
 		if (token.tokenId != CalculusOperator.DER_ID && token.tokenId != CalculusOperator.DER_LEFT_ID && token.tokenId != CalculusOperator.DER_RIGHT_ID)
 			return NO_SYNTAX_ERRORS;
 
 		if (paramsNumber < 2 || paramsNumber > 5) {
-			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS, tokenInfoMessage);
+			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -5164,7 +5185,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			FunctionParameter argParam = funParams.get(1);
 
 			if (!checkIfKnownArgument(argParam)) {
-				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION, tokenInfo.message());
 				return SYNTAX_ERROR;
 			}
 
@@ -5176,40 +5197,40 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 			int errors = checkCalculusParameter(stackElement.tokenStr);
 			if (errors > 0) {
-				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfo.message());
 				return SYNTAX_ERROR;
 			}
 			if ( !checkIfKnownArgument(argParam) && !checkIfUnknownToken(argParam) ) {
-				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfo.message());
 				return SYNTAX_ERROR;
 			}
 		}
 
 		return NO_SYNTAX_ERRORS;
 	}
-	private boolean checkInternalSyntaxCalculusOperatorDerivativeNth(String recursionInfoLevel, Token token, String tokenInfoMessage, Stack<SyntaxStackElement> syntaxStack, int paramsNumber, List<FunctionParameter> funParams){
+	private boolean checkInternalSyntaxCalculusOperatorDerivativeNth(String recursionInfoLevel, Token token, SyntaxTokenInfo tokenInfo, Stack<SyntaxStackElement> syntaxStack, int paramsNumber, List<FunctionParameter> funParams){
 		if (token.tokenId != CalculusOperator.DERN_ID)
 			return NO_SYNTAX_ERRORS;
 
 		if (paramsNumber != 3 && paramsNumber != 5) {
-			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS, tokenInfoMessage);
+			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
 		FunctionParameter argParam = funParams.get(2);
 		if (!checkIfKnownArgument(argParam)) {
-			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION, tokenInfoMessage);
+			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
 		return NO_SYNTAX_ERRORS;
 	}
-	private boolean checkInternalSyntaxCalculusOperatorIntegralSolve(String recursionInfoLevel, Token token, String tokenInfoMessage, Stack<SyntaxStackElement> syntaxStack, int paramsNumber, List<FunctionParameter> funParams){
+	private boolean checkInternalSyntaxCalculusOperatorIntegralSolve(String recursionInfoLevel, Token token, SyntaxTokenInfo tokenInfo, Stack<SyntaxStackElement> syntaxStack, int paramsNumber, List<FunctionParameter> funParams){
 		if (token.tokenId != CalculusOperator.INT_ID && token.tokenId != CalculusOperator.SOLVE_ID)
 			return NO_SYNTAX_ERRORS;
 
 		if (paramsNumber !=4) {
-			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.INTEGRAL_SOLVE_OPERATOR_EXPECTS_4_CALCULUS_PARAMETERS, tokenInfoMessage);
+			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.INTEGRAL_SOLVE_OPERATOR_EXPECTS_4_CALCULUS_PARAMETERS, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -5219,18 +5240,18 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 		int errors = checkCalculusParameter(stackElement.tokenStr);
 		if (errors > 0) {
-			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
 		if (!checkIfKnownArgument(argParam) && !checkIfUnknownToken(argParam)) {
-			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
 		return NO_SYNTAX_ERRORS;
 	}
-	private boolean checkInternalSyntaxCalculusOperatorIterated(String recursionInfoLevel, Token token, String tokenInfoMessage, Stack<SyntaxStackElement> syntaxStack, int paramsNumber, List<FunctionParameter> funParams){
+	private boolean checkInternalSyntaxCalculusOperatorIterated(String recursionInfoLevel, Token token, SyntaxTokenInfo tokenInfo, Stack<SyntaxStackElement> syntaxStack, int paramsNumber, List<FunctionParameter> funParams){
 		if (token.tokenId != CalculusOperator.PROD_ID
 				&& token.tokenId != CalculusOperator.SUM_ID
 				&& token.tokenId != CalculusOperator.MIN_ID
@@ -5241,7 +5262,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			return NO_SYNTAX_ERRORS;
 
 		if (paramsNumber != 4 && paramsNumber != 5) {
-			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ITERATED_OPERATOR_EXPECTS_4_OR_5_CALCULUS_PARAMETERS, tokenInfoMessage);
+			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ITERATED_OPERATOR_EXPECTS_4_OR_5_CALCULUS_PARAMETERS, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -5251,54 +5272,54 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 		int errors = checkCalculusParameter(stackElement.tokenStr);
 		if (errors > 0) {
-			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 		if (!checkIfKnownArgument(indexParam) && !checkIfUnknownToken(indexParam)) {
-			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
 		return NO_SYNTAX_ERRORS;
 	}
-	private boolean checkInternalSyntaxCalculusOperatorForwardBackwardDiff(String recursionInfoLevel, Token token, String tokenInfoMessage, Stack<SyntaxStackElement> syntaxStack, int paramsNumber, List<FunctionParameter> funParams){
+	private boolean checkInternalSyntaxCalculusOperatorForwardBackwardDiff(String recursionInfoLevel, Token token, SyntaxTokenInfo tokenInfo, Stack<SyntaxStackElement> syntaxStack, int paramsNumber, List<FunctionParameter> funParams){
 		if (token.tokenId != CalculusOperator.FORW_DIFF_ID && token.tokenId != CalculusOperator.BACKW_DIFF_ID)
 			return NO_SYNTAX_ERRORS;
 
 		if (paramsNumber != 2 && paramsNumber != 3) {
-			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS, tokenInfoMessage);
+			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
 		FunctionParameter xParam = funParams.get(1);
 		if (!checkIfKnownArgument(xParam)) {
-			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED, tokenInfoMessage);
+			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
 		return NO_SYNTAX_ERRORS;
 	}
-	private boolean checkPartialSyntaxVariadicFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, SyntaxParameterCounts counts) {
+	private boolean checkPartialSyntaxVariadicFunction(String recursionInfoLevel, int tokenIndex, Token token, SyntaxTokenInfo tokenInfo, SyntaxParameterCounts counts) {
 		if (token.tokenTypeId != FunctionVariadic.TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
 		int paramsNumber = getParametersNumber(tokenIndex, counts);
 
 		if (paramsNumber < 1) {
-			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED, tokenInfoMessage);
+			errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
 		if (token.tokenId == FunctionVariadic.IFF_ID) {
 			if (paramsNumber % 2 != 0 || paramsNumber < 2) {
-				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.EXPECTED_EVEN_NUMBER_OF_ARGUMENTS, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.EXPECTED_EVEN_NUMBER_OF_ARGUMENTS, tokenInfo.message());
 				return SYNTAX_ERROR;
 			}
 		}
 
 		return NO_SYNTAX_ERRORS;
 	}
-	private boolean checkPartialSyntaxCalculusOperator(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, Stack<SyntaxStackElement> syntaxStack, SyntaxParameterCounts counts) {
+	private boolean checkPartialSyntaxCalculusOperator(String recursionInfoLevel, int tokenIndex, Token token, SyntaxTokenInfo tokenInfo, Stack<SyntaxStackElement> syntaxStack, SyntaxParameterCounts counts) {
 		if (token.tokenTypeId != CalculusOperator.TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
@@ -5310,11 +5331,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 		boolean syntax = NO_SYNTAX_ERRORS;
 
-		syntax = checkInternalSyntaxCalculusOperatorDerivative(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams) && syntax;
-		syntax = checkInternalSyntaxCalculusOperatorDerivativeNth(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams) && syntax;
-		syntax = checkInternalSyntaxCalculusOperatorIntegralSolve(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams) && syntax;
-		syntax = checkInternalSyntaxCalculusOperatorIterated(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams) && syntax;
-		syntax = checkInternalSyntaxCalculusOperatorForwardBackwardDiff(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams) && syntax;
+		syntax = checkInternalSyntaxCalculusOperatorDerivative(recursionInfoLevel, token, tokenInfo, syntaxStack, paramsNumber, funParams) && syntax;
+		syntax = checkInternalSyntaxCalculusOperatorDerivativeNth(recursionInfoLevel, token, tokenInfo, syntaxStack, paramsNumber, funParams) && syntax;
+		syntax = checkInternalSyntaxCalculusOperatorIntegralSolve(recursionInfoLevel, token, tokenInfo, syntaxStack, paramsNumber, funParams) && syntax;
+		syntax = checkInternalSyntaxCalculusOperatorIterated(recursionInfoLevel, token, tokenInfo, syntaxStack, paramsNumber, funParams) && syntax;
+		syntax = checkInternalSyntaxCalculusOperatorForwardBackwardDiff(recursionInfoLevel, token, tokenInfo, syntaxStack, paramsNumber, funParams) && syntax;
 
 		return syntax;
 	}
@@ -5360,21 +5381,22 @@ public class Expression extends PrimitiveElement implements Serializable {
 			Stack<SyntaxStackElement> syntaxStack = new Stack<>();
 			SyntaxParameterCounts parameterCounts = tokensNumber >= 32 ? new SyntaxParameterCounts(initialTokens) : null;
 
+			SyntaxTokenInfo tokenInfo = new SyntaxTokenInfo();
 			for (int tokenIndex = 0; tokenIndex < tokensNumber; tokenIndex++ ) {
 				Token token = initialTokens.get(tokenIndex);
-				String tokenInfoMessage = StringModel.buildTokenString(token.tokenStr, tokenIndex);
+				tokenInfo.reset(token.tokenStr, tokenIndex);
 
-				syntax = checkPartialSyntaxUserDefinedArgument(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
-				syntax = checkPartialSyntaxUserDefinedRecursiveArgument(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
-				syntax = checkPartialSyntaxInvalidToken(recursionInfoLevel, token, tokenInfoMessage, syntaxStack) && syntax;
-				syntax = checkPartialSyntaxUserDefinedFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
-				syntax = checkPartialSyntaxBuiltinConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
-				syntax = checkPartialSyntaxUserDefinedConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
-				syntax = checkPartialSyntaxUnaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
-				syntax = checkPartialSyntaxBinaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
-				syntax = checkPartialSyntaxTernaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
-				syntax = checkPartialSyntaxCalculusOperator(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, syntaxStack, parameterCounts) && syntax;
-				syntax = checkPartialSyntaxVariadicFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, parameterCounts) && syntax;
+				syntax = checkPartialSyntaxUserDefinedArgument(recursionInfoLevel, tokenIndex, token, tokenInfo, parameterCounts) && syntax;
+				syntax = checkPartialSyntaxUserDefinedRecursiveArgument(recursionInfoLevel, tokenIndex, token, tokenInfo, parameterCounts) && syntax;
+				syntax = checkPartialSyntaxInvalidToken(recursionInfoLevel, token, tokenInfo, syntaxStack) && syntax;
+				syntax = checkPartialSyntaxUserDefinedFunction(recursionInfoLevel, tokenIndex, token, tokenInfo, parameterCounts) && syntax;
+				syntax = checkPartialSyntaxBuiltinConstant(recursionInfoLevel, tokenIndex, token, tokenInfo, parameterCounts) && syntax;
+				syntax = checkPartialSyntaxUserDefinedConstant(recursionInfoLevel, tokenIndex, token, tokenInfo, parameterCounts) && syntax;
+				syntax = checkPartialSyntaxUnaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfo, parameterCounts) && syntax;
+				syntax = checkPartialSyntaxBinaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfo, parameterCounts) && syntax;
+				syntax = checkPartialSyntaxTernaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfo, parameterCounts) && syntax;
+				syntax = checkPartialSyntaxCalculusOperator(recursionInfoLevel, tokenIndex, token, tokenInfo, syntaxStack, parameterCounts) && syntax;
+				syntax = checkPartialSyntaxVariadicFunction(recursionInfoLevel, tokenIndex, token, tokenInfo, parameterCounts) && syntax;
 
 				performSyntaxStackPopIfEndOfSectionLevel(token, syntaxStack);
 			}
@@ -6050,12 +6072,14 @@ public class Expression extends PrimitiveElement implements Serializable {
 		return result;
 	}
 	private void registerCompiledElement(CompiledElement.ToCall toCall, int position) {
+		if (initialCompilationDetails.containsIf) return;
 		CompiledElement compiledElement = new CompiledElement();
 		compiledElement.toCall = toCall;
 		compiledElement.position1 = position;
 		initialCompilationDetails.compiledElements.add(compiledElement);
 	}
 	private void registerCompiledElement(CompiledElement.ToCall toCall, int position1, int position2) {
+		if (initialCompilationDetails.containsIf) return;
 		CompiledElement compiledElement = new CompiledElement();
 		compiledElement.toCall = toCall;
 		compiledElement.position1 = position1;
@@ -6760,10 +6784,20 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param tokenStr  Token string
 	 * @return known keyword if match found, otherwise not matched keyword
 	 */
-	private KeyWord tryFindKnownKeyword(String tokenStr) {
-		for (KeyWord kw : keyWordsList) {
-			if (kw.wordString.equals(tokenStr))
-				return kw;
+	private KeyWord tryFindKnownKeyword(String tokenStr, int[] asciiCandidates) {
+		if (asciiCandidates != null && !tokenStr.isEmpty() && tokenStr.charAt(0) < ASCII_KEYWORD_BUCKETS) {
+			int kwId = asciiCandidates[tokenStr.charAt(0)] - 1;
+			while (kwId >= 0) {
+				KeyWord kw = keyWordsList.get(kwId);
+				if (kw.wordString.equals(tokenStr))
+					return kw;
+				kwId = asciiCandidates[ASCII_KEYWORD_BUCKETS + kwId] - 1;
+			}
+		} else {
+			for (KeyWord kw : keyWordsList) {
+				if (kw.wordString.equals(tokenStr))
+					return kw;
+			}
 		}
 		return new KeyWord();
 	}
@@ -6775,7 +6809,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @return  true if keyword matched, otherwise false
 	 */
 	private boolean tryAssignKnownKeyword(Token token) {
-		KeyWord keyWord = tryFindKnownKeyword(token.tokenStr);
+		KeyWord keyWord = tryFindKnownKeyword(token.tokenStr, null);
 		if (keyWord.wordTypeId != KeyWord.NO_DEFINITION) {
 			assignKnownKeyword(token, keyWord);
 			return true;
@@ -6821,7 +6855,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param token The token
 	 * @return  returns true in case there was a reason to parse, otherwise returns false
 	 */
-	private boolean checkNumberNameManyImpliedMultiplication(Token token, boolean parenthesisIsOnTheRight) {
+	private boolean checkNumberNameManyImpliedMultiplication(Token token, boolean parenthesisIsOnTheRight, int[] asciiCandidates) {
 		int tokenStrLength = token.tokenStr.length();
 		if (tokenStrLength < 2) return false;
 		char c;
@@ -6886,7 +6920,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				}
 				//  Longest possible keyword checking
 				if (canStartKeyword) {
-					kw = tryFindKnownKeyword(substr);
+					kw = tryFindKnownKeyword(substr, asciiCandidates);
 					if (kw.wordTypeId != KeyWord.NO_DEFINITION) {
 						if (!KeyWord.isFunctionForm(kw) || (rPos == tokenStrLength && parenthesisIsOnTheRight)) {
 							parserKeyword = kw;
@@ -6997,7 +7031,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      tokenStr            the token string
 	 * @param      keyWord             the keyword
 	 */
-	private void addToken(String tokenStr, KeyWord keyWord, boolean parenthesisIsOnTheRight) {
+	private void addToken(String tokenStr, KeyWord keyWord, boolean parenthesisIsOnTheRight, int[] asciiCandidates) {
 		Token token = new Token();
 		token.tokenStr = tokenStr;
 		token.keyWord = keyWord.wordString;
@@ -7015,12 +7049,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 			if (!alternativeMatchFound) alternativeMatchFound = checkSpecialConstantName(token);
 			if (!alternativeMatchFound) alternativeMatchFound = checkOtherNumberBases(token);
 			if (!alternativeMatchFound) alternativeMatchFound = checkFraction(token);
-			if (impliedMultiplicationMode && !alternativeMatchFound) alternativeMatchFound = checkNumberNameManyImpliedMultiplication(token, parenthesisIsOnTheRight);
+			if (impliedMultiplicationMode && !alternativeMatchFound) alternativeMatchFound = checkNumberNameManyImpliedMultiplication(token, parenthesisIsOnTheRight, asciiCandidates);
 			if (!alternativeMatchFound) initialTokensAdd(token);
 		}
 	}
 	private void addToken(String tokenStr, KeyWord keyWord) {
-		addToken(tokenStr, keyWord, false);
+		addToken(tokenStr, keyWord, false, null);
 	}
 
 	private void addUserDefinedKeyWords() {
@@ -7140,7 +7174,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 					 * as unknown keyword word
 					 */
 					tokenStr = newExpressionString.substring(lastPos, pos);
-					addToken(tokenStr, new KeyWord(), StringUtils.charIsLeftParenthesis(newExpressionString, pos));
+					addToken(tokenStr, new KeyWord(), StringUtils.charIsLeftParenthesis(newExpressionString, pos), asciiCandidates);
 				}
 				/*
 				 * Check leading operators ('-' or '+')
@@ -7284,7 +7318,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 						 * as unknown keyword
 						 */
 						tokenStr = newExpressionString.substring(lastPos, pos);
-						addToken(tokenStr, new KeyWord(), StringUtils.charIsLeftParenthesis(newExpressionString, pos));
+						addToken(tokenStr, new KeyWord(), StringUtils.charIsLeftParenthesis(newExpressionString, pos), asciiCandidates);
 					}
 					matchFoundPrev = true;
 					/*
@@ -7298,7 +7332,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 						}
 					} else {
 						tokenStr = specialConstStr;
-						addToken(tokenStr, new KeyWord());
+						addToken(tokenStr, new KeyWord(), false, asciiCandidates);
 					}
 					/*
 					 * Remember position where last added word ends + 1
@@ -7332,7 +7366,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 */
 		if (!matchFound) {
 			tokenStr = newExpressionString.substring(lastPos, pos);
-			addToken(tokenStr, new KeyWord(), StringUtils.charIsLeftParenthesis(newExpressionString, pos));
+			addToken(tokenStr, new KeyWord(), StringUtils.charIsLeftParenthesis(newExpressionString, pos), asciiCandidates);
 		}
 		/*
 		 * Evaluate tokens levels

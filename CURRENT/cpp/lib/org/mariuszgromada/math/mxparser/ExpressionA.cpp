@@ -1814,11 +1814,25 @@ namespace org::mariuszgromada::math::mxparser {
 		return NO_SYNTAX_ERRORS;
 	}
 
+	void Expression::SyntaxTokenInfo::reset(const StringPtr &tokenStr, int tokenIndex) {
+		this->tokenStr = tokenStr;
+		this->tokenIndex = tokenIndex;
+		formatted = nullptr;
+	}
+
+	StringPtr Expression::SyntaxTokenInfo::message() {
+		if (formatted == nullptr)
+			formatted = StringModel::buildTokenString(tokenStr, tokenIndex);
+		return formatted;
+	}
+
 	API_VISIBLE bool Expression::checkPartialSyntaxUserDefinedArgument(const StringPtr &recursionInfoLevel, int tokenIndex,
-	                                                       const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts) {
+	                                                       const TokenPtr &token, SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != Argument::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
+		// Format before checking user definitions, which can reenter validation or change localization.
+		StringPtr tokenInfoMessage = tokenInfo.message();
 		ArgumentPtr arg = getArgument(token->tokenId);
 
 		if (getParametersNumber(tokenIndex, counts) >= 0) {
@@ -1857,10 +1871,11 @@ namespace org::mariuszgromada::math::mxparser {
 
 	API_VISIBLE bool Expression::checkPartialSyntaxUserDefinedRecursiveArgument(const StringPtr &recursionInfoLevel, int tokenIndex,
 	                                                                const TokenPtr &token,
-	                                                                const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts) {
+	                                                                SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != RecursiveArgument::TYPE_ID_RECURSIVE)
 			return NO_SYNTAX_ERRORS;
 
+		StringPtr tokenInfoMessage = tokenInfo.message();
 		ArgumentPtr arg = getArgument(token->tokenId);
 
 		if (getParametersNumber(tokenIndex, counts) != 1) {
@@ -1888,7 +1903,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkPartialSyntaxInvalidToken(const StringPtr &recursionInfoLevel, const TokenPtr &token,
-	                                                const StringPtr &tokenInfoMessage,
+	                                                SyntaxTokenInfo &tokenInfo,
 	                                                const StackPtr<SyntaxStackElementPtr> &syntaxStack) {
 		if (token->tokenTypeId != Token::NOT_MATCHED)
 			return NO_SYNTAX_ERRORS;
@@ -1904,11 +1919,11 @@ namespace org::mariuszgromada::math::mxparser {
 				errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 				                                                       StringModel::STRING_RESOURCES->
 				                                                       INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR,
-				                                                       tokenInfoMessage);
+				                                                       tokenInfo.message());
 			else
 				errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 				                                                       StringModel::STRING_RESOURCES->INVALID_TOKEN,
-				                                                       tokenInfoMessage);
+				                                                       tokenInfo.message());
 
 			return SYNTAX_ERROR;
 		}
@@ -1917,10 +1932,11 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkPartialSyntaxUserDefinedFunction(const StringPtr &recursionInfoLevel, int tokenIndex,
-	                                                       const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts) {
+	                                                       const TokenPtr &token, SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != Function::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
+		StringPtr tokenInfoMessage = tokenInfo.message();
 		FunctionPtr fun = getFunction(token->tokenId);
 		fun->checkRecursiveMode();
 		int npar = getParametersNumber(tokenIndex, counts);
@@ -1976,14 +1992,14 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkPartialSyntaxBuiltinConstant(const StringPtr &recursionInfoLevel, int tokenIndex,
-	                                                   const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts) {
+	                                                   const TokenPtr &token, SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != ConstantValue::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
 		if (getParametersNumber(tokenIndex, counts) >= 0) {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->CONSTANT_WAS_EXPECTED,
-			                                                       tokenInfoMessage);
+			                                                       tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -1991,14 +2007,14 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkPartialSyntaxUserDefinedConstant(const StringPtr &recursionInfoLevel, int tokenIndex,
-	                                                       const TokenPtr &token, const StringPtr &tokenStr, SyntaxParameterCounts *counts) {
+	                                                       const TokenPtr &token, SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != Constant::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
 		if (getParametersNumber(tokenIndex, counts) >= 0) {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
-			                                                       USER_CONSTANT_WAS_EXPECTED, tokenStr);
+			                                                       USER_CONSTANT_WAS_EXPECTED, tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -2006,7 +2022,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkPartialSyntaxUnaryFunction(const StringPtr &recursionInfoLevel, int tokenIndex,
-	                                                 const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts) {
+	                                                 const TokenPtr &token, SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != Function1Arg::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
@@ -2014,7 +2030,7 @@ namespace org::mariuszgromada::math::mxparser {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       UNARY_FUNCTION_EXPECTS_1_PARAMETER,
-			                                                       tokenInfoMessage);
+			                                                       tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -2022,7 +2038,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkPartialSyntaxBinaryFunction(const StringPtr &recursionInfoLevel, int tokenIndex,
-	                                                  const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts) {
+	                                                  const TokenPtr &token, SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != Function2Arg::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
@@ -2030,7 +2046,7 @@ namespace org::mariuszgromada::math::mxparser {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       BINARY_FUNCTION_EXPECTS_2_PARAMETERS,
-			                                                       tokenInfoMessage);
+			                                                       tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -2038,7 +2054,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkPartialSyntaxTernaryFunction(const StringPtr &recursionInfoLevel, int tokenIndex,
-	                                                   const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts) {
+	                                                   const TokenPtr &token, SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != Function3Arg::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
@@ -2046,7 +2062,7 @@ namespace org::mariuszgromada::math::mxparser {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       TERNARY_FUNCTION_EXPECTS_3_PARAMETERS,
-			                                                       tokenInfoMessage);
+			                                                       tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -2055,7 +2071,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 	API_VISIBLE bool Expression::checkInternalSyntaxCalculusOperatorDerivative(const StringPtr &recursionInfoLevel,
 	                                                               const TokenPtr &token,
-	                                                               const StringPtr &tokenInfoMessage,
+	                                                               SyntaxTokenInfo &tokenInfo,
 	                                                               const StackPtr<SyntaxStackElementPtr> &syntaxStack,
 	                                                               int paramsNumber,
 	                                                               const ListPtr<FunctionParameterPtr> &funParams) {
@@ -2067,7 +2083,7 @@ namespace org::mariuszgromada::math::mxparser {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS,
-			                                                       tokenInfoMessage);
+			                                                       tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -2078,7 +2094,7 @@ namespace org::mariuszgromada::math::mxparser {
 				errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 				                                                       StringModel::STRING_RESOURCES->
 				                                                       ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION,
-				                                                       tokenInfoMessage);
+				                                                       tokenInfo.message());
 				return SYNTAX_ERROR;
 			}
 		} else {
@@ -2091,14 +2107,14 @@ namespace org::mariuszgromada::math::mxparser {
 				errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 				                                                       StringModel::STRING_RESOURCES->
 				                                                       DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION,
-				                                                       tokenInfoMessage);
+				                                                       tokenInfo.message());
 				return SYNTAX_ERROR;
 			}
 			if (!checkIfKnownArgument(argParam) && !checkIfUnknownToken(argParam)) {
 				errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 				                                                       StringModel::STRING_RESOURCES->
 				                                                       ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION,
-				                                                       tokenInfoMessage);
+				                                                       tokenInfo.message());
 				return SYNTAX_ERROR;
 			}
 		}
@@ -2108,7 +2124,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 	API_VISIBLE bool Expression::checkInternalSyntaxCalculusOperatorDerivativeNth(const StringPtr &recursionInfoLevel,
 	                                                                  const TokenPtr &token,
-	                                                                  const StringPtr &tokenInfoMessage,
+	                                                                  SyntaxTokenInfo &tokenInfo,
 	                                                                  const StackPtr<SyntaxStackElementPtr> &
 	                                                                  syntaxStack, int paramsNumber,
 	                                                                  const ListPtr<FunctionParameterPtr> &funParams) {
@@ -2119,7 +2135,7 @@ namespace org::mariuszgromada::math::mxparser {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS,
-			                                                       tokenInfoMessage);
+			                                                       tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -2128,7 +2144,7 @@ namespace org::mariuszgromada::math::mxparser {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION,
-			                                                       tokenInfoMessage);
+			                                                       tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -2137,7 +2153,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 	API_VISIBLE bool Expression::checkInternalSyntaxCalculusOperatorIntegralSolve(const StringPtr &recursionInfoLevel,
 	                                                                  const TokenPtr &token,
-	                                                                  const StringPtr &tokenInfoMessage,
+	                                                                  SyntaxTokenInfo &tokenInfo,
 	                                                                  const StackPtr<SyntaxStackElementPtr> &
 	                                                                  syntaxStack, int paramsNumber,
 	                                                                  const ListPtr<FunctionParameterPtr> &funParams) {
@@ -2148,7 +2164,7 @@ namespace org::mariuszgromada::math::mxparser {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       INTEGRAL_SOLVE_OPERATOR_EXPECTS_4_CALCULUS_PARAMETERS,
-			                                                       tokenInfoMessage);
+			                                                       tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -2161,7 +2177,7 @@ namespace org::mariuszgromada::math::mxparser {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION,
-			                                                       tokenInfoMessage);
+			                                                       tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -2169,7 +2185,7 @@ namespace org::mariuszgromada::math::mxparser {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION,
-			                                                       tokenInfoMessage);
+			                                                       tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -2178,7 +2194,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 	API_VISIBLE bool Expression::checkInternalSyntaxCalculusOperatorIterated(const StringPtr &recursionInfoLevel,
 	                                                             const TokenPtr &token,
-	                                                             const StringPtr &tokenInfoMessage,
+	                                                             SyntaxTokenInfo &tokenInfo,
 	                                                             const StackPtr<SyntaxStackElementPtr> &syntaxStack,
 	                                                             int paramsNumber,
 	                                                             const ListPtr<FunctionParameterPtr> &funParams) {
@@ -2195,7 +2211,7 @@ namespace org::mariuszgromada::math::mxparser {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       ITERATED_OPERATOR_EXPECTS_4_OR_5_CALCULUS_PARAMETERS,
-			                                                       tokenInfoMessage);
+			                                                       tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -2208,14 +2224,14 @@ namespace org::mariuszgromada::math::mxparser {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION,
-			                                                       tokenInfoMessage);
+			                                                       tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 		if (!checkIfKnownArgument(indexParam) && !checkIfUnknownToken(indexParam)) {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION,
-			                                                       tokenInfoMessage);
+			                                                       tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -2223,7 +2239,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkInternalSyntaxCalculusOperatorForwardBackwardDiff(
-		const StringPtr &recursionInfoLevel, const TokenPtr &token, const StringPtr &tokenInfoMessage,
+		const StringPtr &recursionInfoLevel, const TokenPtr &token, SyntaxTokenInfo &tokenInfo,
 		const StackPtr<SyntaxStackElementPtr> &syntaxStack, int paramsNumber,
 		const ListPtr<FunctionParameterPtr> &funParams) {
 		if (token->tokenId != CalculusOperator::FORW_DIFF_ID && token->tokenId != CalculusOperator::BACKW_DIFF_ID)
@@ -2233,7 +2249,7 @@ namespace org::mariuszgromada::math::mxparser {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS,
-			                                                       tokenInfoMessage);
+			                                                       tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -2242,7 +2258,7 @@ namespace org::mariuszgromada::math::mxparser {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED,
-			                                                       tokenInfoMessage);
+			                                                       tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -2250,7 +2266,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkPartialSyntaxVariadicFunction(const StringPtr &recursionInfoLevel, int tokenIndex,
-	                                                    const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts) {
+	                                                    const TokenPtr &token, SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != FunctionVariadic::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
 
@@ -2260,7 +2276,7 @@ namespace org::mariuszgromada::math::mxparser {
 			errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 			                                                       StringModel::STRING_RESOURCES->
 			                                                       AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED,
-			                                                       tokenInfoMessage);
+			                                                       tokenInfo.message());
 			return SYNTAX_ERROR;
 		}
 
@@ -2269,7 +2285,7 @@ namespace org::mariuszgromada::math::mxparser {
 				errorMessage = StringModel::addErrorMassageTokenString(errorMessage, recursionInfoLevel,
 				                                                       StringModel::STRING_RESOURCES->
 				                                                       EXPECTED_EVEN_NUMBER_OF_ARGUMENTS,
-				                                                       tokenInfoMessage);
+				                                                       tokenInfo.message());
 				return SYNTAX_ERROR;
 			}
 		}
@@ -2278,7 +2294,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE bool Expression::checkPartialSyntaxCalculusOperator(const StringPtr &recursionInfoLevel, int tokenIndex,
-	                                                    const TokenPtr &token, const StringPtr &tokenInfoMessage,
+	                                                    const TokenPtr &token, SyntaxTokenInfo &tokenInfo,
 	                                                    const StackPtr<SyntaxStackElementPtr> &syntaxStack, SyntaxParameterCounts *counts) {
 		if (token->tokenTypeId != CalculusOperator::TYPE_ID)
 			return NO_SYNTAX_ERRORS;
@@ -2291,15 +2307,15 @@ namespace org::mariuszgromada::math::mxparser {
 
 		bool syntax = NO_SYNTAX_ERRORS;
 
-		syntax = checkInternalSyntaxCalculusOperatorDerivative(recursionInfoLevel, token, tokenInfoMessage, syntaxStack,
+		syntax = checkInternalSyntaxCalculusOperatorDerivative(recursionInfoLevel, token, tokenInfo, syntaxStack,
 		                                                       paramsNumber, funParams) && syntax;
-		syntax = checkInternalSyntaxCalculusOperatorDerivativeNth(recursionInfoLevel, token, tokenInfoMessage,
+		syntax = checkInternalSyntaxCalculusOperatorDerivativeNth(recursionInfoLevel, token, tokenInfo,
 		                                                          syntaxStack, paramsNumber, funParams) && syntax;
-		syntax = checkInternalSyntaxCalculusOperatorIntegralSolve(recursionInfoLevel, token, tokenInfoMessage,
+		syntax = checkInternalSyntaxCalculusOperatorIntegralSolve(recursionInfoLevel, token, tokenInfo,
 		                                                          syntaxStack, paramsNumber, funParams) && syntax;
-		syntax = checkInternalSyntaxCalculusOperatorIterated(recursionInfoLevel, token, tokenInfoMessage, syntaxStack,
+		syntax = checkInternalSyntaxCalculusOperatorIterated(recursionInfoLevel, token, tokenInfo, syntaxStack,
 		                                                     paramsNumber, funParams) && syntax;
-		syntax = checkInternalSyntaxCalculusOperatorForwardBackwardDiff(recursionInfoLevel, token, tokenInfoMessage,
+		syntax = checkInternalSyntaxCalculusOperatorForwardBackwardDiff(recursionInfoLevel, token, tokenInfo,
 		                                                                syntaxStack, paramsNumber, funParams) && syntax;
 
 		return syntax;
@@ -2353,31 +2369,32 @@ namespace org::mariuszgromada::math::mxparser {
 			SyntaxParameterCounts parameterCounts(tokensNumber >= 32 ? initialTokens : nullptr);
 			SyntaxParameterCounts *counts = tokensNumber >= 32 ? &parameterCounts : nullptr;
 
+			SyntaxTokenInfo tokenInfo;
 			for (int tokenIndex = 0; tokenIndex < tokensNumber; tokenIndex++) {
 				const TokenPtr& token = initialTokens->getRef(tokenIndex);
-				StringPtr tokenInfoMessage = StringModel::buildTokenString(token->tokenStr, tokenIndex);
+				tokenInfo.reset(token->tokenStr, tokenIndex);
 
-				syntax = checkPartialSyntaxUserDefinedArgument(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, counts)
+				syntax = checkPartialSyntaxUserDefinedArgument(recursionInfoLevel, tokenIndex, token, tokenInfo, counts)
 				         && syntax;
 				syntax = checkPartialSyntaxUserDefinedRecursiveArgument(recursionInfoLevel, tokenIndex, token,
-				                                                        tokenInfoMessage, counts) && syntax;
-				syntax = checkPartialSyntaxInvalidToken(recursionInfoLevel, token, tokenInfoMessage, syntaxStack) &&
+				                                                        tokenInfo, counts) && syntax;
+				syntax = checkPartialSyntaxInvalidToken(recursionInfoLevel, token, tokenInfo, syntaxStack) &&
 				         syntax;
-				syntax = checkPartialSyntaxUserDefinedFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, counts)
+				syntax = checkPartialSyntaxUserDefinedFunction(recursionInfoLevel, tokenIndex, token, tokenInfo, counts)
 				         && syntax;
-				syntax = checkPartialSyntaxBuiltinConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, counts) &&
+				syntax = checkPartialSyntaxBuiltinConstant(recursionInfoLevel, tokenIndex, token, tokenInfo, counts) &&
 				         syntax;
-				syntax = checkPartialSyntaxUserDefinedConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, counts)
+				syntax = checkPartialSyntaxUserDefinedConstant(recursionInfoLevel, tokenIndex, token, tokenInfo, counts)
 				         && syntax;
-				syntax = checkPartialSyntaxUnaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, counts) &&
+				syntax = checkPartialSyntaxUnaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfo, counts) &&
 				         syntax;
-				syntax = checkPartialSyntaxBinaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, counts) &&
+				syntax = checkPartialSyntaxBinaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfo, counts) &&
 				         syntax;
-				syntax = checkPartialSyntaxTernaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, counts) &&
+				syntax = checkPartialSyntaxTernaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfo, counts) &&
 				         syntax;
-				syntax = checkPartialSyntaxCalculusOperator(recursionInfoLevel, tokenIndex, token, tokenInfoMessage,
+				syntax = checkPartialSyntaxCalculusOperator(recursionInfoLevel, tokenIndex, token, tokenInfo,
 				                                            syntaxStack, counts) && syntax;
-				syntax = checkPartialSyntaxVariadicFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, counts) &&
+				syntax = checkPartialSyntaxVariadicFunction(recursionInfoLevel, tokenIndex, token, tokenInfo, counts) &&
 				         syntax;
 
 				performSyntaxStackPopIfEndOfSectionLevel(token, syntaxStack);
@@ -3126,21 +3143,23 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE void Expression::registerCompiledElement(CompiledElement::ToCall toCall, int position) {
+		if (initialCompilationDetails == nullptr)
+			throw std::runtime_error("Initial compilation details must not be null");
+		if (initialCompilationDetails->containsIf) return;
 		CompiledElementPtr compiledElement = new_CompiledElement();
 		compiledElement->toCall = toCall;
 		compiledElement->position1 = position;
-		if (initialCompilationDetails == nullptr)
-			throw std::runtime_error("Initial compilation details must not be null");
 		initialCompilationDetails->compiledElements->add(compiledElement);
 	}
 
 	API_VISIBLE void Expression::registerCompiledElement(CompiledElement::ToCall toCall, int position1, int position2) {
+		if (initialCompilationDetails == nullptr)
+			throw std::runtime_error("Initial compilation details must not be null");
+		if (initialCompilationDetails->containsIf) return;
 		CompiledElementPtr compiledElement = new_CompiledElement();
 		compiledElement->toCall = toCall;
 		compiledElement->position1 = position1;
 		compiledElement->position2 = position2;
-		if (initialCompilationDetails == nullptr)
-			throw std::runtime_error("Initial compilation details must not be null");
 		initialCompilationDetails->compiledElements->add(compiledElement);
 	}
 
@@ -4048,10 +4067,20 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param tokenStr  Token string
 	 * \return known keyword if match found, otherwise not matched keyword
 	 */
-	API_VISIBLE KeyWordPtr Expression::tryFindKnownKeyword(const StringPtr &tokenStr) {
-		for (const KeyWordPtr &kw : *keyWordsList) {
-			if (*kw->wordString == *tokenStr)
-				return kw;
+	API_VISIBLE KeyWordPtr Expression::tryFindKnownKeyword(const StringPtr &tokenStr, const ArrayPtr<int> &asciiCandidates) {
+		if (asciiCandidates != nullptr && !tokenStr->empty() && static_cast<unsigned int>(tokenStr->at(0)) < ASCII_KEYWORD_BUCKETS) {
+			int kwId = (*asciiCandidates)(CAST_INT(tokenStr->at(0))) - 1;
+			while (kwId >= 0) {
+				const KeyWordPtr &kw = keyWordsList->getRef(kwId);
+				if (*kw->wordString == *tokenStr)
+					return kw;
+				kwId = (*asciiCandidates)(ASCII_KEYWORD_BUCKETS + kwId) - 1;
+			}
+		} else {
+			for (const KeyWordPtr &kw : *keyWordsList) {
+				if (*kw->wordString == *tokenStr)
+					return kw;
+			}
 		}
 		return new_KeyWord();
 	}
@@ -4063,7 +4092,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \return true if keyword matched, otherwise false
 	 */
 	API_VISIBLE bool Expression::tryAssignKnownKeyword(const TokenPtr &token) {
-		KeyWordPtr keyWord = tryFindKnownKeyword(token->tokenStr);
+		KeyWordPtr keyWord = tryFindKnownKeyword(token->tokenStr, nullptr);
 		if (keyWord->wordTypeId != KeyWord::NO_DEFINITION) {
 			assignKnownKeyword(token, keyWord);
 			return true;
@@ -4111,7 +4140,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \return returns true in case there was a reason to parse, otherwise returns false
 	 * \param parenthesisIsOnTheRight Whether a parenthesis follows this token.
 	 */
-	API_VISIBLE bool Expression::checkNumberNameManyImpliedMultiplication(const TokenPtr &token, bool parenthesisIsOnTheRight) {
+	API_VISIBLE bool Expression::checkNumberNameManyImpliedMultiplication(const TokenPtr &token, bool parenthesisIsOnTheRight, const ArrayPtr<int> &asciiCandidates) {
 		int tokenStrLength = CAST_INT(token->tokenStr->length());
 		if (tokenStrLength < 2) return false;
 		Char c;
@@ -4176,7 +4205,7 @@ namespace org::mariuszgromada::math::mxparser {
 				}
 				//  Longest possible keyword checking
 				if (canStartKeyword) {
-					kw = tryFindKnownKeyword(substr);
+					kw = tryFindKnownKeyword(substr, asciiCandidates);
 					if (kw->wordTypeId != KeyWord::NO_DEFINITION) {
 						if (!KeyWord::isFunctionForm(kw) || (rPos == tokenStrLength && parenthesisIsOnTheRight)) {
 							parserKeyword = kw;
@@ -4287,7 +4316,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param keyWord             the keyword
 	 * \param parenthesisIsOnTheRight Whether a parenthesis follows this token.
 	 */
-	API_VISIBLE void Expression::addToken(const StringPtr &tokenStr, const KeyWordPtr &keyWord, bool parenthesisIsOnTheRight) {
+	API_VISIBLE void Expression::addToken(const StringPtr &tokenStr, const KeyWordPtr &keyWord, bool parenthesisIsOnTheRight, const ArrayPtr<int> &asciiCandidates) {
 		TokenPtr token = new_Token();
 		token->tokenStr = tokenStr;
 		token->keyWord = keyWord->wordString;
@@ -4306,13 +4335,13 @@ namespace org::mariuszgromada::math::mxparser {
 			if (!alternativeMatchFound) alternativeMatchFound = checkOtherNumberBases(token);
 			if (!alternativeMatchFound) alternativeMatchFound = checkFraction(token);
 			if (impliedMultiplicationMode && !alternativeMatchFound)
-				alternativeMatchFound = checkNumberNameManyImpliedMultiplication(token, parenthesisIsOnTheRight);
+				alternativeMatchFound = checkNumberNameManyImpliedMultiplication(token, parenthesisIsOnTheRight, asciiCandidates);
 			if (!alternativeMatchFound) initialTokensAdd(token);
 		}
 	}
 
 	API_VISIBLE void Expression::addToken(const StringPtr &tokenStr, const KeyWordPtr &keyWord) {
-		addToken(tokenStr, keyWord, false);
+		addToken(tokenStr, keyWord, false, nullptr);
 	}
 
 	API_VISIBLE void Expression::addUserDefinedKeyWords() {
@@ -4431,7 +4460,7 @@ namespace org::mariuszgromada::math::mxparser {
 					 * as unknown keyword word
 					 */
 					tokenStr = S(newExpressionString->substr(lastPos, pos - lastPos));
-					addToken(tokenStr, new_KeyWord(), StringUtils::charIsLeftParenthesis(newExpressionString, pos));
+					addToken(tokenStr, new_KeyWord(), StringUtils::charIsLeftParenthesis(newExpressionString, pos), asciiCandidates);
 				}
 				/*
 				 * Check leading operators ('-' or '+')
@@ -4584,7 +4613,7 @@ namespace org::mariuszgromada::math::mxparser {
 						 * as unknown keyword
 						 */
 						tokenStr = S(newExpressionString->substr(lastPos, pos - lastPos));
-						addToken(tokenStr, new_KeyWord(), StringUtils::charIsLeftParenthesis(newExpressionString, pos));
+						addToken(tokenStr, new_KeyWord(), StringUtils::charIsLeftParenthesis(newExpressionString, pos), asciiCandidates);
 					}
 					matchFoundPrev = true;
 					/*
@@ -4598,7 +4627,7 @@ namespace org::mariuszgromada::math::mxparser {
 						}
 					} else {
 						tokenStr = specialConstStr;
-						addToken(tokenStr, new_KeyWord());
+						addToken(tokenStr, new_KeyWord(), false, asciiCandidates);
 					}
 					/*
 					 * Remember position where last added word ends + 1
@@ -4632,7 +4661,7 @@ namespace org::mariuszgromada::math::mxparser {
 		 */
 		if (!matchFound) {
 			tokenStr = S(newExpressionString->substr(lastPos, pos - lastPos));
-			addToken(tokenStr, new_KeyWord(), StringUtils::charIsLeftParenthesis(newExpressionString, pos));
+			addToken(tokenStr, new_KeyWord(), StringUtils::charIsLeftParenthesis(newExpressionString, pos), asciiCandidates);
 		}
 		/*
 		 * Evaluate tokens levels

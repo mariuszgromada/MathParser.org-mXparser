@@ -2571,6 +2571,15 @@ namespace org::mariuszgromada::math::mxparser {
 
 		// ***********************************************************
 
+		struct SyntaxTokenInfo {
+			StringPtr tokenStr;
+			int tokenIndex = 0;
+			StringPtr formatted;
+
+			void reset(const StringPtr &tokenStr, int tokenIndex);
+			StringPtr message();
+		};
+
 		struct SyntaxParameterCounts {
 			const ListPtr<TokenPtr> tokens;
 			bool prepared = false;
@@ -2834,54 +2843,54 @@ namespace org::mariuszgromada::math::mxparser {
 		bool checkPartialSyntaxImpliedMultiplication(const StringPtr &recursionInfoLevel);
 		bool checkPartialSyntaxDuplicatedKeywords(const StringPtr &recursionInfoLevel);
 		bool checkPartialSyntaxUserDefinedArgument(const StringPtr &recursionInfoLevel, int tokenIndex,
-		                                           const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts);
+		                                           const TokenPtr &token, SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts);
 		bool checkPartialSyntaxUserDefinedRecursiveArgument(const StringPtr &recursionInfoLevel, int tokenIndex,
-		                                                    const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts);
+		                                                    const TokenPtr &token, SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts);
 		bool checkPartialSyntaxInvalidToken(const StringPtr &recursionInfoLevel, const TokenPtr &token,
-		                                    const StringPtr &tokenInfoMessage,
+		                                    SyntaxTokenInfo &tokenInfo,
 		                                    const StackPtr<SyntaxStackElementPtr> &syntaxStack);
 		bool checkPartialSyntaxUserDefinedFunction(const StringPtr &recursionInfoLevel, int tokenIndex,
-		                                           const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts);
+		                                           const TokenPtr &token, SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts);
 		bool checkPartialSyntaxBuiltinConstant(const StringPtr &recursionInfoLevel, int tokenIndex,
-		                                       const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts);
+		                                       const TokenPtr &token, SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts);
 		bool checkPartialSyntaxUserDefinedConstant(const StringPtr &recursionInfoLevel, int tokenIndex,
-		                                           const TokenPtr &token, const StringPtr &tokenStr, SyntaxParameterCounts *counts);
+		                                           const TokenPtr &token, SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts);
 		bool checkPartialSyntaxUnaryFunction(const StringPtr &recursionInfoLevel, int tokenIndex, const TokenPtr &token,
-		                                     const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts);
+		                                     SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts);
 		bool checkPartialSyntaxBinaryFunction(const StringPtr &recursionInfoLevel, int tokenIndex,
-		                                      const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts);
+		                                      const TokenPtr &token, SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts);
 		bool checkPartialSyntaxTernaryFunction(const StringPtr &recursionInfoLevel, int tokenIndex,
-		                                       const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts);
+		                                       const TokenPtr &token, SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts);
 		bool checkInternalSyntaxCalculusOperatorDerivative(const StringPtr &recursionInfoLevel, const TokenPtr &token,
-		                                                   const StringPtr &tokenInfoMessage,
+		                                                   SyntaxTokenInfo &tokenInfo,
 		                                                   const StackPtr<SyntaxStackElementPtr> &syntaxStack,
 		                                                   int paramsNumber,
 		                                                   const ListPtr<FunctionParameterPtr> &funParams);
 		bool checkInternalSyntaxCalculusOperatorDerivativeNth(const StringPtr &recursionInfoLevel,
-		                                                      const TokenPtr &token, const StringPtr &tokenInfoMessage,
+		                                                      const TokenPtr &token, SyntaxTokenInfo &tokenInfo,
 		                                                      const StackPtr<SyntaxStackElementPtr> &syntaxStack,
 		                                                      int paramsNumber,
 		                                                      const ListPtr<FunctionParameterPtr> &funParams);
 		bool checkInternalSyntaxCalculusOperatorIntegralSolve(const StringPtr &recursionInfoLevel,
-		                                                      const TokenPtr &token, const StringPtr &tokenInfoMessage,
+		                                                      const TokenPtr &token, SyntaxTokenInfo &tokenInfo,
 		                                                      const StackPtr<SyntaxStackElementPtr> &syntaxStack,
 		                                                      int paramsNumber,
 		                                                      const ListPtr<FunctionParameterPtr> &funParams);
 		bool checkInternalSyntaxCalculusOperatorIterated(const StringPtr &recursionInfoLevel, const TokenPtr &token,
-		                                                 const StringPtr &tokenInfoMessage,
+		                                                 SyntaxTokenInfo &tokenInfo,
 		                                                 const StackPtr<SyntaxStackElementPtr> &syntaxStack,
 		                                                 int paramsNumber,
 		                                                 const ListPtr<FunctionParameterPtr> &funParams);
 		bool checkInternalSyntaxCalculusOperatorForwardBackwardDiff(const StringPtr &recursionInfoLevel,
 		                                                            const TokenPtr &token,
-		                                                            const StringPtr &tokenInfoMessage,
+		                                                            SyntaxTokenInfo &tokenInfo,
 		                                                            const StackPtr<SyntaxStackElementPtr> &syntaxStack,
 		                                                            int paramsNumber,
 		                                                            const ListPtr<FunctionParameterPtr> &funParams);
 		bool checkPartialSyntaxVariadicFunction(const StringPtr &recursionInfoLevel, int tokenIndex,
-		                                        const TokenPtr &token, const StringPtr &tokenInfoMessage, SyntaxParameterCounts *counts);
+		                                        const TokenPtr &token, SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts);
 		bool checkPartialSyntaxCalculusOperator(const StringPtr &recursionInfoLevel, int tokenIndex,
-		                                        const TokenPtr &token, const StringPtr &tokenInfoMessage,
+		                                        const TokenPtr &token, SyntaxTokenInfo &tokenInfo,
 		                                        const StackPtr<SyntaxStackElementPtr> &syntaxStack, SyntaxParameterCounts *counts);
 
 		static void performSyntaxStackPopIfEndOfSectionLevel(const TokenPtr &token, const StackPtr<SyntaxStackElementPtr> &syntaxStack);
@@ -2934,11 +2943,11 @@ namespace org::mariuszgromada::math::mxparser {
 		static int findFractionLiteralEnd(const StringPtr &str, int start);
 		void initialTokensAdd(const TokenPtr &token);
 		void assignKnownKeyword(const TokenPtr &token, const KeyWordPtr &keyWord);
-		KeyWordPtr tryFindKnownKeyword(const StringPtr &tokenStr);
+		KeyWordPtr tryFindKnownKeyword(const StringPtr &tokenStr, const ArrayPtr<int> &asciiCandidates);
 		bool tryAssignKnownKeyword(const TokenPtr &token);
 		void initialTokensAddTokenPart(const TokenPartPtr &tokenPart);
-		bool checkNumberNameManyImpliedMultiplication(const TokenPtr &token, bool parenthesisIsOnTheRight);
-		void addToken(const StringPtr &tokenStr, const KeyWordPtr &keyWord, bool parenthesisIsOnTheRight);
+		bool checkNumberNameManyImpliedMultiplication(const TokenPtr &token, bool parenthesisIsOnTheRight, const ArrayPtr<int> &asciiCandidates);
+		void addToken(const StringPtr &tokenStr, const KeyWordPtr &keyWord, bool parenthesisIsOnTheRight, const ArrayPtr<int> &asciiCandidates);
 		void addToken(const StringPtr &tokenStr, const KeyWordPtr &keyWord);
 		void addUserDefinedKeyWords();
 		static constexpr int ASCII_KEYWORD_BUCKETS = 128;

@@ -615,87 +615,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			 * Sort ascending by value
 			 */
 			int[] initPos = sortAscWithCancel(array, cancelId);
-			/*
-			 * Building unique values list
-			 */
-			double unqValue = array[0];
-			int unqValCnt = 1;
-			int unqValMinPos = initPos[0];
-			/*
-			 * This will be the number of found unique values
-			 */
-			int unqCnt = 0;
-			/*
-			 * Iterating from the second element
-			 * First element is considered above
-			 */
-			for (int i = 1; i < array.Length; i++) {
-				if (mXparser.isCalculationCancelled(cancelId)) break;
-				/* if the same value */
-				if (BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.TRUE) {
-					/*
-					 * - increase counter
-					 * - check if found smaller original position
-					 */
-					unqValCnt++;
-					if (initPos[i] < unqValMinPos)
-						unqValMinPos = initPos[i];
-				}
-				if ((BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.FALSE) && (i < array.Length - 1)) {
-					/* if new value found and not end of the list */
-					/*
-					 * Store analyzed value
-					 */
-					distVal[unqCnt, value] = unqValue;
-					distVal[unqCnt, count] = unqValCnt;
-					distVal[unqCnt, initPosFirst] = unqValMinPos;
-					/*
-					 * Increase unique values counter
-					 */
-					unqCnt++;
-					/*
-					 * Initiate new value to be further iterated
-					 */
-					unqValue = array[i];
-					unqValCnt = 1;
-					unqValMinPos = initPos[i];
-				} else if ((BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.FALSE) && (i == array.Length - 1)) {
-					/* if new value found and end of the list */
-					/*
-					 * Store analyzed value
-					 */
-					distVal[unqCnt, value] = unqValue;
-					distVal[unqCnt, count] = unqValCnt;
-					distVal[unqCnt, initPosFirst] = unqValMinPos;
-					/*
-					 * Increase unique values counter
-					 */
-					unqCnt++;
-					/*
-					 * Store last value
-					 */
-					distVal[unqCnt, value] = array[i];
-					distVal[unqCnt, count] = 1;
-					distVal[unqCnt, initPosFirst] = initPos[i];
-					/*
-					 * Increase unique values counter
-					 */
-					unqCnt++;
-				}
-				else if (i == array.Length - 1) {
-					/* if no new vale and end of the list */
-					/*
-					 * Store analyzed value
-					 */
-					distVal[unqCnt, value] = unqValue;
-					distVal[unqCnt, count] = unqValCnt;
-					distVal[unqCnt, initPosFirst] = unqValMinPos;
-					/*
-					 * Increase unique values counter
-					 */
-					unqCnt++;
-				}
-			}
+			int unqCnt = collectDistinctGroups(array, initPos, distVal, cancelId);
 			double[,] distValFinal = new double[unqCnt, 3];
 			double maxBase = 0;
 			for (int i = 0; i < unqCnt; i++) {
@@ -738,6 +658,103 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return distValFinal;
 		}
+
+		private static int collectDistinctGroups(double[] array, int[] initPos, double[,] distVal, int cancelId) {
+			const int value = 0;
+			const int count = 1;
+			const int initPosFirst = 2;
+			bool storeGroups = distVal != null;
+			/*
+			 * Building unique values list
+			 */
+			double unqValue = array[0];
+			int unqValCnt = 1;
+			int unqValMinPos = storeGroups ? initPos[0] : 0;
+			/*
+			 * This will be the number of found unique values
+			 */
+			int unqCnt = 0;
+			/*
+			 * Iterating from the second element
+			 * First element is considered above
+			 */
+			for (int i = 1; i < array.Length; i++) {
+				if (mXparser.isCalculationCancelled(cancelId)) break;
+				/* if the same value */
+				if ( BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.TRUE && storeGroups ) {
+					/*
+					 * - increase counter
+					 * - check if found smaller original position
+					 */
+					unqValCnt++;
+					if (initPos[i] < unqValMinPos)
+						unqValMinPos = initPos[i];
+				}
+				if ( ( BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.FALSE ) && (i < array.Length-1) ) {
+					/* if new value found and not end of the list */
+					/*
+					 * Store analyzed value
+					 */
+					if (storeGroups) {
+						distVal[unqCnt, value] = unqValue;
+						distVal[unqCnt, count] = unqValCnt;
+						distVal[unqCnt, initPosFirst] = unqValMinPos;
+					}
+					/*
+					 * Increase unique values counter
+					 */
+					unqCnt++;
+					/*
+					 * Initiate new value to be further iterated
+					 */
+					unqValue = array[i];
+					unqValCnt = 1;
+					if (storeGroups) unqValMinPos = initPos[i];
+				} else if ( ( BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.FALSE ) && (i == array.Length-1) ) {
+					/* if new value found and end of the list */
+					/*
+					 * Store analyzed value
+					 */
+					if (storeGroups) {
+						distVal[unqCnt, value] = unqValue;
+						distVal[unqCnt, count] = unqValCnt;
+						distVal[unqCnt, initPosFirst] = unqValMinPos;
+					}
+					/*
+					 * Increase unique values counter
+					 */
+					unqCnt++;
+					/*
+					 * Store last value
+					 */
+					if (storeGroups) {
+						distVal[unqCnt, value] = array[i];
+						distVal[unqCnt, count] = 1;
+						distVal[unqCnt, initPosFirst] = initPos[i];
+					}
+					/*
+					 * Increase unique values counter
+					 */
+					unqCnt++;
+				} else if (i == array.Length-1) {
+					/* if no new vale and end of the list */
+					/*
+					 * Store analyzed value
+					 */
+					if (storeGroups) {
+						distVal[unqCnt, value] = unqValue;
+						distVal[unqCnt, count] = unqValCnt;
+						distVal[unqCnt, initPosFirst] = unqValMinPos;
+					}
+					/*
+					 * Increase unique values counter
+					 */
+					unqCnt++;
+				}
+			}
+			return unqCnt;
+		}
+
 		/// <summary>Returns number of unique values found the list of numbers</summary>
 		/// <param name="numbers">The list of numbers</param>
 		/// <returns>Number of unique values. If list is null or any Double.NaN
@@ -779,7 +796,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 			}
 			if (numbers.Length == 1) return 1;
-			return getDistValuesWithCancel(numbers, false, cancelId).GetLength(0);
+			if (numbers.Length * 3 >= int.MaxValue) return 0;
+			int[] initPos = sortAscWithCancel(numbers, cancelId);
+			return collectDistinctGroups(numbers, initPos, null, cancelId);
 		}
 		/// <summary>Greatest common divisor (GCD)</summary>
 		/// <param name="a">the a function parameter</param>

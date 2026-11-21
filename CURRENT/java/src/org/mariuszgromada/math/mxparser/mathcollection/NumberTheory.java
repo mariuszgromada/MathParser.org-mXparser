@@ -690,86 +690,7 @@ public final class NumberTheory {
 		 * Sort ascending by value
 		 */
 		int[] initPos = sortAscWithCancel(array, cancelId);
-		/*
-		 * Building unique values list
-		 */
-		double unqValue = array[0];
-		int unqValCnt = 1;
-		int unqValMinPos = initPos[0];
-		/*
-		 * This will be the number of found unique values
-		 */
-		int unqCnt = 0;
-		/*
-		 * Iterating from the second element
-		 * First element is considered above
-		 */
-		for (int i = 1; i < array.length; i++) {
-			if (mXparser.isCalculationCancelled(cancelId)) break;
-			/* if the same value */
-			if ( BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.TRUE ) {
-				/*
-				 * - increase counter
-				 * - check if found smaller original position
-				 */
-				unqValCnt++;
-				if (initPos[i] < unqValMinPos)
-					unqValMinPos = initPos[i];
-			}
-			if ( ( BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.FALSE ) && (i < array.length-1) ) {
-				/* if new value found and not end of the list */
-				/*
-				 * Store analyzed value
-				 */
-				distVal[unqCnt][value] = unqValue;
-				distVal[unqCnt][count] = unqValCnt;
-				distVal[unqCnt][initPosFirst] = unqValMinPos;
-				/*
-				 * Increase unique values counter
-				 */
-				unqCnt++;
-				/*
-				 * Initiate new value to be further iterated
-				 */
-				unqValue = array[i];
-				unqValCnt = 1;
-				unqValMinPos = initPos[i];
-			} else if ( ( BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.FALSE ) && (i == array.length-1) ) {
-				/* if new value found and end of the list */
-				/*
-				 * Store analyzed value
-				 */
-				distVal[unqCnt][value] = unqValue;
-				distVal[unqCnt][count] = unqValCnt;
-				distVal[unqCnt][initPosFirst] = unqValMinPos;
-				/*
-				 * Increase unique values counter
-				 */
-				unqCnt++;
-				/*
-				 * Store last value
-				 */
-				distVal[unqCnt][value] = array[i];
-				distVal[unqCnt][count] = 1;
-				distVal[unqCnt][initPosFirst] = initPos[i];
-				/*
-				 * Increase unique values counter
-				 */
-				unqCnt++;
-			} else if (i == array.length-1) {
-				/* if no new vale and end of the list */
-				/*
-				 * Store analyzed value
-				 */
-				distVal[unqCnt][value] = unqValue;
-				distVal[unqCnt][count] = unqValCnt;
-				distVal[unqCnt][initPosFirst] = unqValMinPos;
-				/*
-				 * Increase unique values counter
-				 */
-				unqCnt++;
-			}
-		}
+		int unqCnt = collectDistinctGroups(array, initPos, distVal, cancelId);
 		double[][] distValFinal = new double[unqCnt][3];
 		double maxBase = 0;
 		for (int i = 0; i < unqCnt; i++) {
@@ -811,6 +732,102 @@ public final class NumberTheory {
 			distValFinal[i][initPosFirst] = distVal[ keyInitOrder[i] ][initPosFirst];
 		}
 		return distValFinal;
+	}
+
+	private static int collectDistinctGroups(double[] array, int[] initPos, double[][] distVal, int cancelId) {
+		final int value = 0;
+		final int count = 1;
+		final int initPosFirst = 2;
+		boolean storeGroups = distVal != null;
+		/*
+		 * Building unique values list
+		 */
+		double unqValue = array[0];
+		int unqValCnt = 1;
+		int unqValMinPos = storeGroups ? initPos[0] : 0;
+		/*
+		 * This will be the number of found unique values
+		 */
+		int unqCnt = 0;
+		/*
+		 * Iterating from the second element
+		 * First element is considered above
+		 */
+		for (int i = 1; i < array.length; i++) {
+			if (mXparser.isCalculationCancelled(cancelId)) break;
+			/* if the same value */
+			if ( BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.TRUE && storeGroups ) {
+				/*
+				 * - increase counter
+				 * - check if found smaller original position
+				 */
+				unqValCnt++;
+				if (initPos[i] < unqValMinPos)
+					unqValMinPos = initPos[i];
+			}
+			if ( ( BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.FALSE ) && (i < array.length-1) ) {
+				/* if new value found and not end of the list */
+				/*
+				 * Store analyzed value
+				 */
+				if (storeGroups) {
+					distVal[unqCnt][value] = unqValue;
+					distVal[unqCnt][count] = unqValCnt;
+					distVal[unqCnt][initPosFirst] = unqValMinPos;
+				}
+				/*
+				 * Increase unique values counter
+				 */
+				unqCnt++;
+				/*
+				 * Initiate new value to be further iterated
+				 */
+				unqValue = array[i];
+				unqValCnt = 1;
+				if (storeGroups) unqValMinPos = initPos[i];
+			} else if ( ( BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.FALSE ) && (i == array.length-1) ) {
+				/* if new value found and end of the list */
+				/*
+				 * Store analyzed value
+				 */
+				if (storeGroups) {
+					distVal[unqCnt][value] = unqValue;
+					distVal[unqCnt][count] = unqValCnt;
+					distVal[unqCnt][initPosFirst] = unqValMinPos;
+				}
+				/*
+				 * Increase unique values counter
+				 */
+				unqCnt++;
+				/*
+				 * Store last value
+				 */
+				if (storeGroups) {
+					distVal[unqCnt][value] = array[i];
+					distVal[unqCnt][count] = 1;
+					distVal[unqCnt][initPosFirst] = initPos[i];
+				}
+				/*
+				 * Increase unique values counter
+				 */
+				unqCnt++;
+			} else if (i == array.length-1) {
+				/* if no new vale and end of the list */
+				/*
+				 * Store analyzed value
+				 */
+				if (storeGroups) {
+					distVal[unqCnt][value] = unqValue;
+					distVal[unqCnt][count] = unqValCnt;
+					distVal[unqCnt][initPosFirst] = unqValMinPos;
+				}
+				/*
+				 * Increase unique values counter
+				 */
+				unqCnt++;
+			}
+		}
+		return unqCnt;
 	}
 	/**
 	 * Returns number of unique values found the list of numbers
@@ -858,7 +875,9 @@ public final class NumberTheory {
 			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 		}
 		if (numbers.length == 1) return 1;
-		return getDistValuesWithCancel(numbers, false, cancelId).length;
+		if (numbers.length *3 >= Integer.MAX_VALUE) return 0;
+		int[] initPos = sortAscWithCancel(numbers, cancelId);
+		return collectDistinctGroups(numbers, initPos, null, cancelId);
 	}
 	/**
 	 * Greatest common divisor (GCD)

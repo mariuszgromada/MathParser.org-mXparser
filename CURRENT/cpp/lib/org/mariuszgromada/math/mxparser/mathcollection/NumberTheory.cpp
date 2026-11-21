@@ -539,87 +539,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * Sort ascending by value
 		 */
 		ArrayPtr<int> initPos = sortAscWithCancel(array, cancelId); 
-		/*
-		 * Building unique values list
-		 */
-		double unqValue = (*array)(0);
-		int unqValCnt = 1;
-		int unqValMinPos = (*initPos)(0);
-		/*
-		 * This will be the number of found unique values
-		 */
-		int unqCnt = 0;
-		/*
-		 * Iterating from the second element
-		 * First element is considered above
-		 */
-		for (int i = 1; i < array->rows; i++) {
-			if (mXparser::isCalculationCancelled(cancelId)) break;
-			/* if the same value */
-			if (BinaryRelations::eq(unqValue, (*array)(i)) == BooleanAlgebra::TRUE) {
-				/*
-				 * - increase counter
-				 * - check if found smaller original position
-				 */
-				unqValCnt++;
-				if ((*initPos)(i) < unqValMinPos)
-					unqValMinPos = (*initPos)(i);
-			}
-			if ((BinaryRelations::eq(unqValue, (*array)(i)) == BooleanAlgebra::FALSE) && (i < array->length - 1)) {
-				/* if new value found and not end of the list */
-				/*
-				 * Store analyzed value
-				 */
-				(*distVal)(unqCnt, value) = unqValue;
-				(*distVal)(unqCnt, count) = unqValCnt;
-				(*distVal)(unqCnt, initPosFirst) = unqValMinPos;
-				/*
-				 * Increase unique values counter
-				 */
-				unqCnt++;
-				/*
-				 * Initiate new value to be further iterated
-				 */
-				unqValue = (*array)(i);
-				unqValCnt = 1;
-				unqValMinPos = (*initPos)(i);
-			} else if ((BinaryRelations::eq(unqValue, (*array)(i)) == BooleanAlgebra::FALSE) && (
-				           i == array->length - 1)) {
-				/* if new value found and end of the list */
-				/*
-				 * Store analyzed value
-				 */
-				(*distVal)(unqCnt, value) = unqValue;
-				(*distVal)(unqCnt, count) = unqValCnt;
-				(*distVal)(unqCnt, initPosFirst) = unqValMinPos;
-				/*
-				 * Increase unique values counter
-				 */
-				unqCnt++;
-				/*
-				 * Store last value
-				 */
-				(*distVal)(unqCnt, value) = (*array)(i);
-				(*distVal)(unqCnt, count) = 1;
-				(*distVal)(unqCnt, initPosFirst) = (*initPos)(i);
-				/*
-				 * Increase unique values counter
-				 */
-				unqCnt++;
-			} else if (i == array->rows - 1) {
-				/* if no new vale and end of the list */
-				/*
-				 * Store analyzed value
-				 */
-				(*distVal)(unqCnt, value) = unqValue;
-				(*distVal)(unqCnt, count) = unqValCnt;
-				(*distVal)(unqCnt, initPosFirst) = unqValMinPos;
-				/*
-				 * Increase unique values counter
-				 */
-				unqCnt++;
-			}
-		}
+		int unqCnt = collectDistinctGroups(array, initPos, distVal, cancelId);
 		ArrayPtr<double> distValFinal = new_Array<double>(unqCnt, 3);
 		double maxBase = 0;
 		for (int i = 0; i < unqCnt; i++) {
@@ -663,6 +583,104 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		return distValFinal;
 	}
 
+	int NumberTheory::collectDistinctGroups(const ArrayPtr<double> &array, const ArrayPtr<int> &initPos,
+	                                        const ArrayPtr<double> &distVal, int cancelId) {
+		const int value = 0;
+		const int count = 1;
+		const int initPosFirst = 2;
+		bool storeGroups = distVal != nullptr;
+		/*
+		 * Building unique values list
+		 */
+		double unqValue = (*array)(0);
+		int unqValCnt = 1;
+		int unqValMinPos = storeGroups ? (*initPos)(0) : 0;
+		/*
+		 * This will be the number of found unique values
+		 */
+		int unqCnt = 0;
+		/*
+		 * Iterating from the second element
+		 * First element is considered above
+		 */
+		for (int i = 1; i < array->rows; i++) {
+			if (mXparser::isCalculationCancelled(cancelId)) break;
+			/* if the same value */
+			if (BinaryRelations::eq(unqValue, (*array)(i)) == BooleanAlgebra::TRUE && storeGroups) {
+				/*
+				 * - increase counter
+				 * - check if found smaller original position
+				 */
+				unqValCnt++;
+				if ((*initPos)(i) < unqValMinPos)
+					unqValMinPos = (*initPos)(i);
+			}
+			if ((BinaryRelations::eq(unqValue, (*array)(i)) == BooleanAlgebra::FALSE) && (i < array->length - 1)) {
+				/* if new value found and not end of the list */
+				/*
+				 * Store analyzed value
+				 */
+				if (storeGroups) {
+					(*distVal)(unqCnt, value) = unqValue;
+					(*distVal)(unqCnt, count) = unqValCnt;
+					(*distVal)(unqCnt, initPosFirst) = unqValMinPos;
+				}
+				/*
+				 * Increase unique values counter
+				 */
+				unqCnt++;
+				/*
+				 * Initiate new value to be further iterated
+				 */
+				unqValue = (*array)(i);
+				unqValCnt = 1;
+				if (storeGroups) unqValMinPos = (*initPos)(i);
+			} else if ((BinaryRelations::eq(unqValue, (*array)(i)) == BooleanAlgebra::FALSE) && (
+				           i == array->length - 1)) {
+				/* if new value found and end of the list */
+				/*
+				 * Store analyzed value
+				 */
+				if (storeGroups) {
+					(*distVal)(unqCnt, value) = unqValue;
+					(*distVal)(unqCnt, count) = unqValCnt;
+					(*distVal)(unqCnt, initPosFirst) = unqValMinPos;
+				}
+				/*
+				 * Increase unique values counter
+				 */
+				unqCnt++;
+				/*
+				 * Store last value
+				 */
+				if (storeGroups) {
+					(*distVal)(unqCnt, value) = (*array)(i);
+					(*distVal)(unqCnt, count) = 1;
+					(*distVal)(unqCnt, initPosFirst) = (*initPos)(i);
+				}
+				/*
+				 * Increase unique values counter
+				 */
+				unqCnt++;
+			} else if (i == array->rows - 1) {
+				/* if no new vale and end of the list */
+				/*
+				 * Store analyzed value
+				 */
+				if (storeGroups) {
+					(*distVal)(unqCnt, value) = unqValue;
+					(*distVal)(unqCnt, count) = unqValCnt;
+					(*distVal)(unqCnt, initPosFirst) = unqValMinPos;
+				}
+				/*
+				 * Increase unique values counter
+				 */
+				unqCnt++;
+			}
+		}
+		return unqCnt;
+	}
+
 	API_VISIBLE double NumberTheory::numberOfDistValues(const ArrayPtr<double> &numbers) {
 		return numberOfDistValuesWithCancel(numbers, 0);
 	}
@@ -677,7 +695,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 		}
 		if (numbers->rows == 1) return 1;
-		return getDistValuesWithCancel(numbers, false, cancelId)->rows;
+		// The native array wrapper also accepts multidimensional inputs.
+		if (numbers->rows != numbers->length)
+			return getDistValuesWithCancel(numbers, false, cancelId)->rows;
+		if (numbers->rows >= Integer::MAX_VALUE) return 0;
+		ArrayPtr<int> initPos = sortAscWithCancel(numbers, cancelId);
+		return collectDistinctGroups(numbers, initPos, nullptr, cancelId);
 	}
 
 	API_VISIBLE Long NumberTheory::gcd(Long a, Long b) {
