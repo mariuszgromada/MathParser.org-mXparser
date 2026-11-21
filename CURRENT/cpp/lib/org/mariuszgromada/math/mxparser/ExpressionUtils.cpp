@@ -1859,9 +1859,14 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	ListPtr<TokenPtr> ExpressionUtils::getCopyOfInitialTokens(const StringPtr &expressionString,
 	                                                          const ListPtr<TokenPtr> &initialTokens) {
-		ListPtr<TokenPtr> tokensListCopy = new_List<TokenPtr>();
-		if (expressionString->empty()) return tokensListCopy;
-		if (initialTokens->isEmpty()) return tokensListCopy;
+		return classifyInitialTokens(expressionString, initialTokens, true);
+	}
+
+	ListPtr<TokenPtr> ExpressionUtils::classifyInitialTokens(const StringPtr &expressionString,
+	                                                         const ListPtr<TokenPtr> &initialTokens, bool copyTokens) {
+		ListPtr<TokenPtr> result = copyTokens ? new_List<TokenPtr>() : initialTokens;
+		if (expressionString->empty()) return result;
+		if (initialTokens->isEmpty()) return result;
 		std::optional<std::wregex> unitOnlyPattern;
 		std::optional<std::wregex> nameOnlyPattern;
 		for (int i = 0; i < initialTokens->size(); i++) {
@@ -1886,9 +1891,9 @@ namespace org::mariuszgromada::math::mxparser {
 					}
 				}
 			}
-			tokensListCopy->add(parsertokens::Token::clone(token));
+			if (copyTokens) result->add(parsertokens::Token::clone(token));
 		}
-		return tokensListCopy;
+		return result;
 	}
 
 	/**

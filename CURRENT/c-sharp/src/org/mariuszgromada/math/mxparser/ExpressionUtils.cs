@@ -294,7 +294,7 @@ namespace org.mariuszgromada.math.mxparser {
             List<KeyWord> baseKeyWordsList = getBaseKeyWordsList(parserKeyWordsOnly, UDFExpression, unicodeKeyWordsEnabled);
             keyWordsList.AddRange(baseKeyWordsList);
         }
-        static List<KeyWord> getBaseKeyWordsList(bool parserKeyWordsOnly, bool UDFExpression, bool unicodeKeyWordsEnabled) {
+        internal static List<KeyWord> getBaseKeyWordsList(bool parserKeyWordsOnly, bool UDFExpression, bool unicodeKeyWordsEnabled) {
             if (parserKeyWordsOnly && UDFExpression && unicodeKeyWordsEnabled) return baseKeyWordsListParUdfUni111;
             if (parserKeyWordsOnly && UDFExpression && !unicodeKeyWordsEnabled) return baseKeyWordsListParUdfUni110;
             if (parserKeyWordsOnly && !UDFExpression && unicodeKeyWordsEnabled) return baseKeyWordsListParUdfUni101;
@@ -1062,9 +1062,13 @@ namespace org.mariuszgromada.math.mxparser {
 		/// <seealso cref="org.mariuszgromada.math.mxparser.parsertokens.Token"/>
 		/// <seealso cref="org.mariuszgromada.math.mxparser.mXparser.consolePrintTokens(List{Token})"/>
 		internal static List<Token> getCopyOfInitialTokens(String expressionString, List<Token> initialTokens) {
-			List<Token> tokensListCopy = new List<Token>();
-			if (expressionString.Length == 0) return tokensListCopy;
-			if (initialTokens.Count == 0) return tokensListCopy;
+			return classifyInitialTokens(expressionString, initialTokens, true);
+		}
+
+		internal static List<Token> classifyInitialTokens(String expressionString, List<Token> initialTokens, bool copyTokens) {
+			List<Token> result = copyTokens ? new List<Token>() : initialTokens;
+			if (expressionString.Length == 0) return result;
+			if (initialTokens.Count == 0) return result;
 			Token token;
 			for (int i = 0; i < initialTokens.Count; i++) {
 				token = initialTokens[i];
@@ -1084,9 +1088,9 @@ namespace org.mariuszgromada.math.mxparser {
 						}
 					}
 				}
-				tokensListCopy.Add(token.clone());
+				if (copyTokens) result.Add(token.clone());
 			}
-			return tokensListCopy;
+			return result;
 		}
 		/// <summary>Returns missing user defined arguments names, i.e.
 		/// sin(x) + cos(y) where x and y are not defined

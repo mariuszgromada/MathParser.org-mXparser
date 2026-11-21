@@ -2994,6 +2994,7 @@ namespace org::mariuszgromada::math::mxparser {
 		// ***********************************************************
 
 		bool UDFExpression = false;
+		bool skipSampleTiming = false;
 		ListPtr<double> UDFVariadicParamsAtRunTime = nullptr;
 
 		// ***********************************************************

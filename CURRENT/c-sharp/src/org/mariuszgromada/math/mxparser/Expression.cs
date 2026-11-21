@@ -343,6 +343,7 @@ namespace org.mariuszgromada.math.mxparser {
 		internal List<Expression> relatedExpressionsList = null;
 		/// <summary>Keeps computing time</summary>
 		internal double computingTime;
+		[NonSerialized] private bool skipSampleTiming;
 		/// <summary>if true then new tokenizing is required
 		/// (the initialTokens list needs to be updated)</summary>
 		internal bool expressionWasModified = false;
@@ -3251,6 +3252,7 @@ namespace org.mariuszgromada.math.mxparser {
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 			updateMissingTokens(index, iterParams);
 			evalFromToDeltaParameters(index, iterParams);
+			iterParams.funExp.skipSampleTiming = true;
 			double sigma = NumberTheory.sigmaSummationWithCancel(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta, activeCancelId);
 			clearParamArgument(index);
 			calcSetDecreaseRemove(pos, sigma, true);
@@ -3598,6 +3600,7 @@ namespace org.mariuszgromada.math.mxparser {
 			Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			double eps = DEF_EPS;
 			int maxSteps = DEF_MAX_STEPS;
+			funExp.skipSampleTiming = true;
 			calcSetDecreaseRemove(pos, Calculus.integralTrapezoidWithCancel(funExp, x.argument, aExp.calculateWithCancel(activeCancelId), bExp.calculateWithCancel(activeCancelId), eps, maxSteps, activeCancelId) );
 			clearParamArgument(x);
 		}
@@ -5019,7 +5022,8 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		private double calculateInternal(CalcStepsRegister calcStepsRegister) {
 			computingTime = 0;
-			long startTime = mXparser.currentTimeMillis();
+			bool measureTime = !skipSampleTiming || verboseMode || calcStepsRegister != null;
+			long startTime = measureTime ? mXparser.currentTimeMillis() : 0;
 			if (verboseMode) {
                 printSystemInfo(StringInvariant.NEW_LINE, NO_EXP_STR);
                 printSystemInfo(StringInvariant.NEW_LINE, WITH_EXP_STR);
@@ -5128,8 +5132,10 @@ namespace org.mariuszgromada.math.mxparser {
                 printSystemInfo(StringInvariant.NEW_LINE, NO_EXP_STR);
             }
 
-            long endTime = mXparser.currentTimeMillis();
-			computingTime = (endTime - startTime) / 1000.0;
+			if (measureTime) {
+				long endTime = mXparser.currentTimeMillis();
+				computingTime = (endTime - startTime) / 1000.0;
+			}
 			if (recursionCallsCounter < mXparser.MAX_RECURSION_CALLS)
 				recursionCallsCounter--;
 

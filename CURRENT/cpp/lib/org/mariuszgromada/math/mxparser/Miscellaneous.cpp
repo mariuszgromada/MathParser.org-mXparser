@@ -217,6 +217,7 @@
  */
 
 #include "org/mariuszgromada/math/mxparser/Miscellaneous.hpp"
+#include "org/mariuszgromada/math/mxparser/parsertokens/Token.hpp"
 // --------------------------------------------------------------------------
 #include "org/mariuszgromada/math/mxparser/Expression.hpp"
 #include "org/mariuszgromada/math/mxparser/mXparser.hpp"
@@ -391,9 +392,12 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 		if ((matchStatus == mXparser::FOUND) && (eqPos > 0) && (eqPos <= definitionString->length() - 2)) {
 			headStr = S(StringUtils::trim(definitionString->substr(0, eqPos)));
 			bodyStr = S(StringUtils::trim(definitionString->substr(eqPos + 1)));
-			ExpressionPtr headExpression = new_Expression(headStr, ONLY_PARSER_KEYWORDS);
-			headExpression->disableImpliedMultiplicationMode();
-			headTokens = headExpression->getCopyOfInitialTokens();
+			headTokens = simpleHeadTokens(headStr);
+			if (headTokens == nullptr) {
+				ExpressionPtr headExpression = new_Expression(headStr, ONLY_PARSER_KEYWORDS);
+				headExpression->disableImpliedMultiplicationMode();
+				headTokens = headExpression->getCopyOfInitialTokens();
+			}
 		} else {
 			definitionError = true;
 			headStr = StringInvariant::EMPTY;
@@ -401,6 +405,73 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 			headTokens = nullptr;
 			eqPos = -1;
 		}
+	}
+
+	API_VISIBLE bool HeadEqBody::isAsciiHeadNameStart(Char c) {
+		return (c >= UTF('a') && c <= UTF('z')) || (c >= UTF('A') && c <= UTF('Z')) || c == UTF('_');
+	}
+
+	API_VISIBLE ListPtr<TokenPtr> HeadEqBody::simpleHeadTokens(StringPtr head) {
+		if (head->empty() || mXparser::tokensToRemove == nullptr || mXparser::tokensToModify == nullptr
+		        || !mXparser::tokensToRemove->isEmpty() || !mXparser::tokensToModify->isEmpty()) return nullptr;
+		if (head->find(UTF(' ')) != String::npos) head = ExpressionUtils::cleanExpressionString(head, false);
+		for (std::size_t i = 0; i < head->length(); i++) {
+			Char c = head->at(i);
+			if (!isAsciiHeadNameStart(c) && !(c >= UTF('0') && c <= UTF('9')) && c != UTF('(') && c != UTF(',') && c != UTF(')')) return nullptr;
+		}
+
+		// Only the three ordinary separators may match the live parser-only vocabulary.
+		KeyWordPtr left = nullptr, right = nullptr, comma = nullptr;
+		ListPtr<KeyWordPtr> keywords = ExpressionUtils::getBaseKeyWordsList(true, false, mXparser::unicodeKeyWordsEnabled);
+		if (keywords == nullptr) return nullptr;
+		for (const KeyWordPtr &kw : *keywords) {
+			if (kw == nullptr || kw->wordString == nullptr || kw->wordString->empty()) return nullptr;
+			const StringPtr &word = kw->wordString;
+			if (head->find(*word) == String::npos) continue;
+			if (kw->wordTypeId != ParserSymbol::TYPE_ID) return nullptr;
+			if (*word == UTF("(") && kw->wordId == ParserSymbol::LEFT_PARENTHESES_ID && left == nullptr) left = kw;
+			else if (*word == UTF(")") && kw->wordId == ParserSymbol::RIGHT_PARENTHESES_ID && right == nullptr) right = kw;
+			else if (*word == UTF(",") && kw->wordId == ParserSymbol::COMMA_ID && comma == nullptr) comma = kw;
+			else return nullptr;
+		}
+
+		ListPtr<TokenPtr> tokens = new_List<TokenPtr>();
+		std::size_t pos = 0;
+		bool inParameters = false;
+		while (pos < head->length()) {
+			std::size_t start = pos;
+			if (!isAsciiHeadNameStart(head->at(pos++))) return nullptr;
+			while (pos < head->length()) {
+				Char c = head->at(pos);
+				if (!isAsciiHeadNameStart(c) && !(c >= UTF('0') && c <= UTF('9'))) break;
+				pos++;
+			}
+			TokenPtr name = new_Token();
+			name->tokenStr = S(head->substr(start, pos - start));
+			name->keyWord = ParserSymbol::EMPTY;
+			tokens->add(name);
+			if (pos == head->length()) {
+				if (inParameters) return nullptr;
+				break;
+			}
+			Char delimiter = head->at(pos++);
+			KeyWordPtr separator;
+			if (!inParameters && delimiter == UTF('(')) {
+				separator = left;
+				inParameters = true;
+			} else if (inParameters && delimiter == UTF(',')) separator = comma;
+			else if (inParameters && delimiter == UTF(')')) separator = right;
+			else return nullptr;
+			if (separator == nullptr || (delimiter == UTF(')')) != (pos == head->length())) return nullptr;
+			TokenPtr token = new_Token();
+			token->tokenStr = S(head->substr(pos - 1, 1));
+			token->keyWord = separator->wordString;
+			token->tokenTypeId = separator->wordTypeId;
+			token->tokenId = separator->wordId;
+			tokens->add(token);
+		}
+		ExpressionUtils::evaluateTokensLevels(tokens);
+		return ExpressionUtils::classifyInitialTokens(head, tokens, false);
 	}
 
 	/**

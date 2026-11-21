@@ -424,9 +424,12 @@ namespace org.mariuszgromada.math.mxparser {
 			if ((matchStatus == mXparser.FOUND) && (eqPos > 0) && (eqPos <= definitionString.Length - 2)) {
 				headStr = definitionString.Substring(0, eqPos).Trim();
 				bodyStr = definitionString.Substring(eqPos + 1).Trim();
-				Expression headExpression = new Expression(headStr, ONLY_PARSER_KEYWORDS);
-				headExpression.disableImpliedMultiplicationMode();
-				headTokens = headExpression.getCopyOfInitialTokens();
+				headTokens = simpleHeadTokens(headStr);
+				if (headTokens == null) {
+					Expression headExpression = new Expression(headStr, ONLY_PARSER_KEYWORDS);
+					headExpression.disableImpliedMultiplicationMode();
+					headTokens = headExpression.getCopyOfInitialTokens();
+				}
 			} else {
 				definitionError = true;
 				headStr = StringInvariant.EMPTY;
@@ -434,6 +437,70 @@ namespace org.mariuszgromada.math.mxparser {
 				headTokens = null;
 				eqPos = -1;
 			}
+		}
+
+		private static bool isAsciiHeadNameStart(char c) {
+			return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
+		}
+
+		private static List<Token> simpleHeadTokens(String head) {
+			if (head.Length == 0 || mXparser.tokensToRemove.Count != 0 || mXparser.tokensToModify.Count != 0) return null;
+			if (head.IndexOf(' ') >= 0) head = ExpressionUtils.cleanExpressionString(head, false);
+			for (int i = 0; i < head.Length; i++) {
+				char c = head[i];
+				if (!isAsciiHeadNameStart(c) && !(c >= '0' && c <= '9') && c != '(' && c != ',' && c != ')') return null;
+			}
+
+			// Only the three ordinary separators may match the live parser-only vocabulary.
+			KeyWord left = null, right = null, comma = null;
+			foreach (KeyWord kw in ExpressionUtils.getBaseKeyWordsList(true, false, mXparser.unicodeKeyWordsEnabled)) {
+				if (kw == null || kw.wordString == null || kw.wordString.Length == 0) return null;
+				String word = kw.wordString;
+				if (head.IndexOf(word, StringComparison.Ordinal) < 0) continue;
+				if (kw.wordTypeId != ParserSymbol.TYPE_ID) return null;
+				if (word.Equals("(") && kw.wordId == ParserSymbol.LEFT_PARENTHESES_ID && left == null) left = kw;
+				else if (word.Equals(")") && kw.wordId == ParserSymbol.RIGHT_PARENTHESES_ID && right == null) right = kw;
+				else if (word.Equals(",") && kw.wordId == ParserSymbol.COMMA_ID && comma == null) comma = kw;
+				else return null;
+			}
+
+			List<Token> tokens = new List<Token>();
+			int pos = 0;
+			bool inParameters = false;
+			while (pos < head.Length) {
+				int start = pos;
+				if (!isAsciiHeadNameStart(head[pos++])) return null;
+				while (pos < head.Length) {
+					char c = head[pos];
+					if (!isAsciiHeadNameStart(c) && !(c >= '0' && c <= '9')) break;
+					pos++;
+				}
+				Token name = new Token();
+				name.tokenStr = head.Substring(start, pos - start);
+				name.keyWord = ParserSymbol.EMPTY;
+				tokens.Add(name);
+				if (pos == head.Length) {
+					if (inParameters) return null;
+					break;
+				}
+				char delimiter = head[pos++];
+				KeyWord separator;
+				if (!inParameters && delimiter == '(') {
+					separator = left;
+					inParameters = true;
+				} else if (inParameters && delimiter == ',') separator = comma;
+				else if (inParameters && delimiter == ')') separator = right;
+				else return null;
+				if (separator == null || (delimiter == ')') != (pos == head.Length)) return null;
+				Token token = new Token();
+				token.tokenStr = head.Substring(pos - 1, 1);
+				token.keyWord = separator.wordString;
+				token.tokenTypeId = separator.wordTypeId;
+				token.tokenId = separator.wordId;
+				tokens.Add(token);
+			}
+			ExpressionUtils.evaluateTokensLevels(tokens);
+			return ExpressionUtils.classifyInitialTokens(head, tokens, false);
 		}
 	}
     /// <summary>Data structure used internally for token to be modified list</summary>

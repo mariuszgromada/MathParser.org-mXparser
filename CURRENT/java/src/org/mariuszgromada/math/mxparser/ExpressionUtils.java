@@ -1084,9 +1084,13 @@ final class ExpressionUtils {
 	 * @see mXparser#consolePrintTokens(List)
 	 */
     static List<Token> getCopyOfInitialTokens(String expressionString, List<Token> initialTokens) {
-        List<Token> tokensListCopy = new ArrayList<>();
-        if (expressionString.isEmpty()) return tokensListCopy;
-        if (initialTokens.isEmpty()) return tokensListCopy;
+        return classifyInitialTokens(expressionString, initialTokens, true);
+    }
+
+    static List<Token> classifyInitialTokens(String expressionString, List<Token> initialTokens, boolean copyTokens) {
+        List<Token> result = copyTokens ? new ArrayList<>() : initialTokens;
+        if (expressionString.isEmpty()) return result;
+        if (initialTokens.isEmpty()) return result;
         Pattern unitOnlyPattern = null;
         Pattern nameOnlyPattern = null;
         Token token;
@@ -1110,9 +1114,9 @@ final class ExpressionUtils {
                     }
                 }
             }
-            tokensListCopy.add(token.clone());
+            if (copyTokens) result.add(token.clone());
         }
-        return tokensListCopy;
+        return result;
     }
 
     /**

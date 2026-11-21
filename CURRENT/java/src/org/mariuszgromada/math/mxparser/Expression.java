@@ -414,6 +414,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * Keeps computing time
 	 */
 	double computingTime = 0;
+	private transient boolean skipSampleTiming;
 	/**
 	 * if true then new tokenizing is required
 	 * (the initialTokens list needs to be updated)
@@ -4146,6 +4147,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 		updateMissingTokens(index, iterParams);
 		evalFromToDeltaParameters(index, iterParams);
+		iterParams.funExp.skipSampleTiming = true;
 		double sigma = NumberTheory.sigmaSummationWithCancel(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta, activeCancelId);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, sigma, true);
@@ -4517,6 +4519,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 		double eps = DEF_EPS;
 		int maxSteps = DEF_MAX_STEPS;
+		funExp.skipSampleTiming = true;
 		calcSetDecreaseRemove(pos, Calculus.integralTrapezoidWithCancel(funExp, x.argument, aExp.calculateWithCancel(activeCancelId), bExp.calculateWithCancel(activeCancelId), eps, maxSteps, activeCancelId) );
 		clearParamArgument(x);
 	}
@@ -6051,7 +6054,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 	}
 	private double calculateInternal(CalcStepsRegister calcStepsRegister) {
 		computingTime = 0;
-		long startTime = System.currentTimeMillis();
+		boolean measureTime = !skipSampleTiming || verboseMode || calcStepsRegister != null;
+		long startTime = measureTime ? System.currentTimeMillis() : 0;
 		if (verboseMode) {
 			printSystemInfo(StringInvariant.NEW_LINE, NO_EXP_STR);
 			printSystemInfo(StringInvariant.NEW_LINE, WITH_EXP_STR);
@@ -6160,8 +6164,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 			printSystemInfo(StringInvariant.NEW_LINE, NO_EXP_STR);
 		}
 
-		long endTime = System.currentTimeMillis();
-		computingTime = (endTime - startTime)/1000.0;
+		if (measureTime) {
+			long endTime = System.currentTimeMillis();
+			computingTime = (endTime - startTime)/1000.0;
+		}
 		if (recursionCallsCounter < mXparser.MAX_RECURSION_CALLS)
 			recursionCallsCounter--;
 

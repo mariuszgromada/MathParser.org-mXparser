@@ -288,6 +288,8 @@ namespace org::mariuszgromada::math::mxparser::expressionutils {
 			const ExpressionPtr &relatedExpressionThatInitiatedClone, const ListPtr<ConstantPtr> &constantsListToClone, const CloneCachePtr &cloneCache);
 
 	private:
+		friend class miscellaneous::HeadEqBody;
+		static ListPtr<TokenPtr> classifyInitialTokens(const StringPtr &expressionString, const ListPtr<TokenPtr> &initialTokens, bool copyTokens);
 		static void makeParserKeyWords(bool parserKeyWordsOnly, bool UDFExpression, bool unicodeKeyWordsEnabled, const ListPtr<KeyWordPtr> &keyWordsList);
 		static StringPtr cleanMinusMinus(const StringPtr &expressionStringPtr);
 

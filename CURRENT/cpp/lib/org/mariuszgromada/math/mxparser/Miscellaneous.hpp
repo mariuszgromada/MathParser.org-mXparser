@@ -482,6 +482,8 @@ namespace org::mariuszgromada::math::mxparser::miscellaneous {
 
 	private:
 		bool ONLY_PARSER_KEYWORDS;
+		static bool isAsciiHeadNameStart(Char c);
+		static ListPtr<TokenPtr> simpleHeadTokens(StringPtr head);
 
 		SERIALIZE(88,
 			(

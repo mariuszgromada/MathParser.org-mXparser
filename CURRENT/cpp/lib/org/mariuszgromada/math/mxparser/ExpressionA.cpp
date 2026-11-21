@@ -3116,7 +3116,8 @@ namespace org::mariuszgromada::math::mxparser {
 
 	API_VISIBLE double Expression::calculateInternal(const CalcStepsRegisterPtr &calcStepsRegister) {
 		computingTime = 0;
-		Long startTime = SystemUtils::currentTimeMillis();
+		bool measureTime = !skipSampleTiming || verboseMode || calcStepsRegister != nullptr;
+		Long startTime = measureTime ? SystemUtils::currentTimeMillis() : 0;
 		if (verboseMode) {
 			printSystemInfo(StringInvariant::NEW_LINE, NO_EXP_STR);
 			printSystemInfo(StringInvariant::NEW_LINE, WITH_EXP_STR);
@@ -3236,8 +3237,10 @@ namespace org::mariuszgromada::math::mxparser {
 			printSystemInfo(StringInvariant::NEW_LINE, NO_EXP_STR);
 		}
 
-		Long endTime = SystemUtils::currentTimeMillis();
-		computingTime = CAST_DOUBLE(endTime - startTime) / 1000.0;
+		if (measureTime) {
+			Long endTime = SystemUtils::currentTimeMillis();
+			computingTime = CAST_DOUBLE(endTime - startTime) / 1000.0;
+		}
 		if (recursionCallsCounter < mXparser::MAX_RECURSION_CALLS)
 			recursionCallsCounter--;
 

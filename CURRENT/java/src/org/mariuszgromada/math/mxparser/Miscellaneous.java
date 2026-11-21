@@ -218,11 +218,13 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Comparator;
 
 import org.mariuszgromada.math.mxparser.parsertokens.ConstantValue;
 import org.mariuszgromada.math.mxparser.parsertokens.KeyWord;
+import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
 import org.mariuszgromada.math.mxparser.parsertokens.Token;
 
 /*=================================================
@@ -460,9 +462,12 @@ class HeadEqBody implements Serializable {
 		if ( (matchStatus == mXparser.FOUND) && (eqPos > 0) && (eqPos <= definitionString.length()-2) ) {
 			headStr = definitionString.substring(0, eqPos).trim();
 			bodyStr  = definitionString.substring(eqPos+1).trim();
-			Expression headExpression = new Expression(headStr, ONLY_PARSER_KEYWORDS);
-			headExpression.disableImpliedMultiplicationMode();
-			headTokens = headExpression.getCopyOfInitialTokens();
+			headTokens = simpleHeadTokens(headStr);
+			if (headTokens == null) {
+				Expression headExpression = new Expression(headStr, ONLY_PARSER_KEYWORDS);
+				headExpression.disableImpliedMultiplicationMode();
+				headTokens = headExpression.getCopyOfInitialTokens();
+			}
 		} else {
 			definitionError = true;
 			headStr = StringInvariant.EMPTY;
@@ -470,6 +475,70 @@ class HeadEqBody implements Serializable {
 			headTokens = null;
 			eqPos = -1;
 		}
+	}
+
+	private static boolean isAsciiHeadNameStart(char c) {
+		return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
+	}
+
+	private static List<Token> simpleHeadTokens(String head) {
+		if (head.isEmpty() || !mXparser.tokensToRemove.isEmpty() || !mXparser.tokensToModify.isEmpty()) return null;
+		if (head.indexOf(' ') >= 0) head = ExpressionUtils.cleanExpressionString(head, false);
+		for (int i = 0; i < head.length(); i++) {
+			char c = head.charAt(i);
+			if (!isAsciiHeadNameStart(c) && !(c >= '0' && c <= '9') && c != '(' && c != ',' && c != ')') return null;
+		}
+
+		// Only the three ordinary separators may match the live parser-only vocabulary.
+		KeyWord left = null, right = null, comma = null;
+		for (KeyWord kw : ExpressionUtils.getBaseKeyWordsList(true, false, mXparser.unicodeKeyWordsEnabled)) {
+			if (kw == null || kw.wordString == null || kw.wordString.isEmpty()) return null;
+			String word = kw.wordString;
+			if (head.indexOf(word) < 0) continue;
+			if (kw.wordTypeId != ParserSymbol.TYPE_ID) return null;
+			if (word.equals("(") && kw.wordId == ParserSymbol.LEFT_PARENTHESES_ID && left == null) left = kw;
+			else if (word.equals(")") && kw.wordId == ParserSymbol.RIGHT_PARENTHESES_ID && right == null) right = kw;
+			else if (word.equals(",") && kw.wordId == ParserSymbol.COMMA_ID && comma == null) comma = kw;
+			else return null;
+		}
+
+		List<Token> tokens = new ArrayList<>();
+		int pos = 0;
+		boolean inParameters = false;
+		while (pos < head.length()) {
+			int start = pos;
+			if (!isAsciiHeadNameStart(head.charAt(pos++))) return null;
+			while (pos < head.length()) {
+				char c = head.charAt(pos);
+				if (!isAsciiHeadNameStart(c) && !(c >= '0' && c <= '9')) break;
+				pos++;
+			}
+			Token name = new Token();
+			name.tokenStr = head.substring(start, pos);
+			name.keyWord = ParserSymbol.EMPTY;
+			tokens.add(name);
+			if (pos == head.length()) {
+				if (inParameters) return null;
+				break;
+			}
+			char delimiter = head.charAt(pos++);
+			KeyWord separator;
+			if (!inParameters && delimiter == '(') {
+				separator = left;
+				inParameters = true;
+			} else if (inParameters && delimiter == ',') separator = comma;
+			else if (inParameters && delimiter == ')') separator = right;
+			else return null;
+			if (separator == null || (delimiter == ')') != (pos == head.length())) return null;
+			Token token = new Token();
+			token.tokenStr = head.substring(pos - 1, pos);
+			token.keyWord = separator.wordString;
+			token.tokenTypeId = separator.wordTypeId;
+			token.tokenId = separator.wordId;
+			tokens.add(token);
+		}
+		ExpressionUtils.evaluateTokensLevels(tokens);
+		return ExpressionUtils.classifyInitialTokens(head, tokens, false);
 	}
 }
 /**

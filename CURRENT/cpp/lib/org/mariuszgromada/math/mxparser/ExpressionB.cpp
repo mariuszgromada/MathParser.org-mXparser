@@ -2317,6 +2317,7 @@ namespace org::mariuszgromada::math::mxparser {
 		ArgumentParameterPtr index = getParamArgument(iterParams->indexParam->paramStr);
 		updateMissingTokens(index, iterParams);
 		evalFromToDeltaParameters(index, iterParams);
+		iterParams->funExp->skipSampleTiming = true;
 		double sigma = NumberTheory::sigmaSummationWithCancel(iterParams->funExp, index->argument, iterParams->from,
 		                                            iterParams->to, iterParams->delta, activeCancelId);
 		clearParamArgument(index);
@@ -2724,6 +2725,7 @@ namespace org::mariuszgromada::math::mxparser {
 		                                    constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 		double eps = DEF_EPS;
 		int maxSteps = DEF_MAX_STEPS;
+		funExp->skipSampleTiming = true;
 		calcSetDecreaseRemove(
 			pos, Calculus::integralTrapezoidWithCancel(funExp, x->argument, aExp->calculateWithCancel(activeCancelId), bExp->calculateWithCancel(activeCancelId), eps, maxSteps, activeCancelId));
 		clearParamArgument(x);
