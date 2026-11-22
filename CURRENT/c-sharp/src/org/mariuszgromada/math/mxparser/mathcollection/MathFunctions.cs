@@ -2874,6 +2874,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNaN(value)) return Double.NaN;
 			if (Double.IsInfinity(value)) return value;
 			if (places < 0) return Double.NaN;
+			if (places <= 16 && value != 0 && isSmallCanonicalInteger(value)) return value;
 			try {
 				Decimal bd = Convert.ToDecimal(value);
 				bd = Math.Round(bd, places, MidpointRounding.AwayFromZero);

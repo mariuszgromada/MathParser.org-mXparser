@@ -1933,7 +1933,7 @@ namespace org::mariuszgromada::math::mxparser {
 		 * Example: If(1=1, 2, sin(3) ) - here sin(3) does not
 		 * require to be calculated.
 		 */
-		ListPtr<FunctionParameterPtr> ifParams = ExpressionUtils::getFunctionParameters(pos, tokensList);
+		ListPtr<FunctionParameterPtr> ifParams = ExpressionUtils::getFunctionParametersWithContents(pos, tokensList, ExpressionUtils::ParameterContents::FIRST);
 		const FunctionParameterPtr& ifParam = ifParams->getRef(0);
 		ExpressionPtr ifExp = new_Expression(ifParam->paramStr, ifParam->tokens, argumentsList, functionsList,
 		                                     constantsList, KEEP_ROUNDING_SETTINGS, UDFExpression,
@@ -1953,7 +1953,7 @@ namespace org::mariuszgromada::math::mxparser {
 		 * Get condition string
 		 * 1st parameter
 		 */
-		ListPtr<FunctionParameterPtr> iffParams = ExpressionUtils::getFunctionParameters(pos, tokensList);
+		ListPtr<FunctionParameterPtr> iffParams = ExpressionUtils::getFunctionParametersWithContents(pos, tokensList, ExpressionUtils::ParameterContents::CONDITIONS);
 		FunctionParameterPtr iffParam = iffParams->getRef(0);
 		int parametersNumber = iffParams->size();
 		int trueParamNumber;

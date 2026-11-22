@@ -246,5 +246,9 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 	#endif
 	template parsertokens::KeyWordPtr List<parsertokens::KeyWordPtr>::get(int) const;
 	template void List<parsertokens::TokenPtr>::clear();
+	#if defined(__MINGW32__) && !defined(__clang__)
+	// Preserve the previous MinGW GCC DLL export when parameter extraction is inlined.
+	template void List<miscellaneous::FunctionParameterPtr>::add(const miscellaneous::FunctionParameterPtr&);
+	#endif
 
 } // namespace org::mariuszgromada::math::mxparser::wrapper

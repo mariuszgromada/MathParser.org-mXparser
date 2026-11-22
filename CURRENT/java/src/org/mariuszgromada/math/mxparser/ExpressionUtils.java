@@ -929,6 +929,12 @@ final class ExpressionUtils {
 	 * @see        FunctionParameter
 	 */
     static List<FunctionParameter> getFunctionParameters(int pos, List<Token> tokensList) {
+        return getFunctionParameters(pos, tokensList, ParameterContents.ALL);
+    }
+
+    enum ParameterContents { ALL, FIRST, CONDITIONS }
+
+    static List<FunctionParameter> getFunctionParameters(int pos, List<Token> tokensList, ParameterContents contents) {
         List<FunctionParameter> functionParameters = new ArrayList<FunctionParameter>();
         int cPos = pos+2;
         int tokenLevel = tokensList.get(pos+1).tokenLevel;
@@ -936,6 +942,7 @@ final class ExpressionUtils {
         boolean comma;
         boolean paren;
         boolean end = false;
+        boolean readParam = true;
         List<Token> paramTkones = new ArrayList<>();
         StringBuilder paramStrBuilder = new StringBuilder();
         do {
@@ -952,12 +959,15 @@ final class ExpressionUtils {
                 }
             if (paren || comma) {
                 if (cPos > pos + 2) {
-                    functionParameters.add( new FunctionParameter(paramTkones, paramStrBuilder.toString(), pPos, cPos-1 ) );
-                    paramTkones = new ArrayList<>();
-                    paramStrBuilder = new StringBuilder();
+                    functionParameters.add(new FunctionParameter(paramTkones,
+                            readParam ? paramStrBuilder.toString() : null, pPos, cPos-1));
+                    if (paren || contents == ParameterContents.FIRST) break;
+                    if (contents == ParameterContents.CONDITIONS) readParam = !readParam;
+                    paramTkones = readParam ? new ArrayList<>() : null;
+                    paramStrBuilder = readParam ? new StringBuilder() : null;
                     pPos = cPos+1;
                 }
-            } else {
+            } else if (readParam) {
                 paramTkones.add(t);
                 paramStrBuilder.append(t.tokenStr);
             }

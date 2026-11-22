@@ -1696,6 +1696,11 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \sa org::mariuszgromada::math::mxparser::miscellaneous::FunctionParameter
 	 */
 	ListPtr<FunctionParameterPtr> ExpressionUtils::getFunctionParameters(int pos, const ListPtr<TokenPtr> &tokensList) {
+		return getFunctionParametersWithContents(pos, tokensList, ParameterContents::ALL);
+	}
+
+	ListPtr<FunctionParameterPtr> ExpressionUtils::getFunctionParametersWithContents(int pos, const ListPtr<TokenPtr> &tokensList,
+	                                                                                 ParameterContents contents) {
 		ListPtr<FunctionParameterPtr> functionParameters = new_List<FunctionParameterPtr>();
 		int cPos = pos + 2;
 		int tokenLevel = tokensList->getRef(pos + 1)->tokenLevel;
@@ -1703,6 +1708,7 @@ namespace org::mariuszgromada::math::mxparser {
 		bool comma;
 		bool paren;
 		bool end = false;
+		bool readParam = true;
 		ListPtr<TokenPtr> paramTkones = new_List<TokenPtr>();
 		StringBuilderPtr paramStrBuilder = new_StringBuilder();
 		do {
@@ -1718,13 +1724,15 @@ namespace org::mariuszgromada::math::mxparser {
 				}
 			if (paren || comma) {
 				if (cPos > pos + 2) {
-					functionParameters->add(
-						new_FunctionParameter(paramTkones, paramStrBuilder->toString(), pPos, cPos - 1));
-					paramTkones = new_List<TokenPtr>();
-					paramStrBuilder = new_StringBuilder();
+					functionParameters->add(new_FunctionParameter(paramTkones,
+						readParam ? paramStrBuilder->toString() : nullptr, pPos, cPos - 1));
+					if (paren || contents == ParameterContents::FIRST) break;
+					if (contents == ParameterContents::CONDITIONS) readParam = !readParam;
+					paramTkones = readParam ? new_List<TokenPtr>() : nullptr;
+					paramStrBuilder = readParam ? new_StringBuilder() : nullptr;
 					pPos = cPos + 1;
 				}
-			} else {
+			} else if (readParam) {
 				paramTkones->add(t);
 				paramStrBuilder->append(t->tokenStr);
 			}

@@ -2765,6 +2765,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		                                 const ArrayPtr<double> &distVal, int cancelId);
 		static void sortValuesAscWithCancel(const ArrayPtr<double> &array, int cancelId);
 		friend class Statistics;
+		static double getModeWithCancel(const ArrayPtr<double> &array, int cancelId);
+		static ArrayPtr<double> getDistValuesWithCancel(const ArrayPtr<double> &array, bool returnOrderByDescFreqAndAscOrigPos,
+		                                               bool firstGroupOnly, int cancelId);
 		static StringPtr getRegExpForNumeralSystem(int numeralSystemBase);
 		static ArrayPtr<double> fractionToDoubleArray(double sign, double numerator, double denominator);
 		static ArrayPtr<double> mixedFractionToDoubleArray(double sign, double whole, double numerator, double denominator);

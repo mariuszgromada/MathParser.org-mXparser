@@ -278,6 +278,19 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 			return result;
 		}
 
+#if defined(_MSC_VER)
+		__declspec(noinline)
+#endif
+		int tryCanonicalFractionalPartLength(double value) {
+			if (!canUseCanonicalCharconv()) return -1;
+			CanonicalDecimalBuffer buffer;
+			std::string_view formatted = formatCanonicalDecimalInto(value, 340, 0, buffer);
+			if (formatted.empty()) return -1;
+			size_t dot = formatted.find('.');
+			if (dot == std::string_view::npos) return 0;
+			return static_cast<int>(formatted.size() - 1 - dot);
+		}
+
 		// Keep the same formatted extraction and locale for the stream backend,
 		// while reading the existing buffer instead of copying it into a stringbuf.
 		class CanonicalDecimalInput : public std::streambuf {
@@ -518,6 +531,10 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		if (isNaN(value)) return 0;
 		if (isInfinite(value)) return 0;
 		if (ulpDecimalDigitsBefore(value) <= 0) return 0;
+#if defined(MXPARSER_CANONICAL_FLOAT_CHARCONV)
+		int length = tryCanonicalFractionalPartLength(value);
+		if (length >= 0) return length;
+#endif
 		std::string valueStr = decimalFormat(value, 340);
 		return fractionalPartLength(valueStr);
 	}

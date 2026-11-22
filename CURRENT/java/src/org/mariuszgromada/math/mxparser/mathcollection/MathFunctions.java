@@ -3240,6 +3240,7 @@ public final class MathFunctions {
 		if (Double.isNaN(value)) return Double.NaN;
 		if (Double.isInfinite(value)) return value;
 		if (places < 0) return Double.NaN;
+		if (places <= 16 && value != 0 && isSmallCanonicalInteger(value)) return value;
 		try {
 			BigDecimal bd = new BigDecimal(Double.toString(value));
 			bd = bd.setScale(places, RoundingMode.HALF_UP);

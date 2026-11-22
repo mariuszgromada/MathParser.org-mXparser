@@ -404,7 +404,6 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			if (mXparser::isCalculationCancelled(cancelId)) return Double::NaN;
 			if (Double::isNaN(v)) return Double::NaN;
 		}
-		ArrayPtr<double> dist = NumberTheory::getDistValuesWithCancel(numbers, true, cancelId);
-		return (*dist)(0, 0);
+		return NumberTheory::getModeWithCancel(numbers, cancelId);
 	}
 } // org::mariuszgromada::math::mxparser::mathcollection

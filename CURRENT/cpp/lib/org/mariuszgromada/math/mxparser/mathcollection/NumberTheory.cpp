@@ -515,6 +515,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 	API_VISIBLE ArrayPtr<double> NumberTheory::getDistValuesWithCancel(const ArrayPtr<double> &array,
 	                                                bool returnOrderByDescFreqAndAscOrigPos, int cancelId) {
+		return getDistValuesWithCancel(array, returnOrderByDescFreqAndAscOrigPos, false, cancelId);
+	}
+
+	double NumberTheory::getModeWithCancel(const ArrayPtr<double> &array, int cancelId) {
+		return (*getDistValuesWithCancel(array, true, true, cancelId))(0, 0);
+	}
+
+	ArrayPtr<double> NumberTheory::getDistValuesWithCancel(const ArrayPtr<double> &array, bool returnOrderByDescFreqAndAscOrigPos,
+	                                                      bool firstGroupOnly, int cancelId) {
 		if (cancelId < 0 || cancelId > mXparser::MAX_CANCELLATION_TOKEN_ID)
 			throw std::invalid_argument("cancelId out of range");
 		if (array == nullptr) return nullptr;
@@ -543,13 +552,14 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		int unqCnt = collectDistinctGroups(array, initPos, distVal, cancelId);
 		ArrayPtr<double> distValFinal = new_Array<double>(unqCnt, 3);
 		double maxBase = 0;
-		for (int i = 0; i < unqCnt; i++) {
+		int copied = 0;
+		for (; copied < unqCnt; copied++) {
 			if (mXparser::isCalculationCancelled(cancelId)) break;
-			(*distValFinal)(i, value) = (*distVal)(i, value);
-			(*distValFinal)(i, count) = (*distVal)(i, count);
-			(*distValFinal)(i, initPosFirst) = (*distVal)(i, initPosFirst);
-			if ((*distVal)(i, count) > maxBase) maxBase = (*distVal)(i, count);
-			if ((*distVal)(i, initPosFirst) > maxBase) maxBase = (*distVal)(i, initPosFirst);
+			(*distValFinal)(copied, value) = (*distVal)(copied, value);
+			(*distValFinal)(copied, count) = (*distVal)(copied, count);
+			(*distValFinal)(copied, initPosFirst) = (*distVal)(copied, initPosFirst);
+			if ((*distVal)(copied, count) > maxBase) maxBase = (*distVal)(copied, count);
+			if ((*distVal)(copied, initPosFirst) > maxBase) maxBase = (*distVal)(copied, initPosFirst);
 		}
 		if (!returnOrderByDescFreqAndAscOrigPos) return distValFinal;
 		/*
@@ -564,9 +574,26 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * - lower position lower ordering key value at second component
 		 */
 		ArrayPtr<double> key = new_double(unqCnt);
-		for (int i = 0; i < unqCnt; i++) {
+		int keyed = 0;
+		for (; keyed < unqCnt; keyed++) {
 			if (mXparser::isCalculationCancelled(cancelId)) break;
-			(*key)(i) = (maxBase - (*distVal)(i, count) - 1) * maxBase + (*distVal)(i, initPosFirst);
+			(*key)(keyed) = (maxBase - (*distVal)(keyed, count) - 1) * maxBase + (*distVal)(keyed, initPosFirst);
+		}
+
+		// Bounded, distinct integer keys are strictly ordered even with a small epsilon.
+		if (firstGroupOnly && unqCnt > 0 && copied == unqCnt && keyed == unqCnt
+				&& array->length <= (1 << 20)
+				&& (BinaryRelations::checkIfExactMode() || BinaryRelations::getEpsilon() <= 0.25)) {
+			int firstGroup = 0;
+			int searched = 1;
+			for (; searched < unqCnt; searched++) {
+				if (mXparser::isCalculationCancelled(cancelId)) break;
+				if ((*key)(searched) < (*key)(firstGroup)) firstGroup = searched;
+			}
+			if (searched == unqCnt && !mXparser::isCalculationCancelled(cancelId)) {
+				(*distValFinal)(0, value) = (*distVal)(firstGroup, value);
+				return distValFinal;
+			}
 		}
 		/*
 		 * Sorting descending

@@ -916,6 +916,12 @@ namespace org.mariuszgromada.math.mxparser {
         /// <returns>the list of function parameters</returns>
         /// <seealso cref="org.mariuszgromada.math.mxparser.FunctionParameter"/>
         internal static List<FunctionParameter> getFunctionParameters(int pos, List<Token> tokensList) {
+			return getFunctionParameters(pos, tokensList, ParameterContents.ALL);
+		}
+
+		internal enum ParameterContents { ALL, FIRST, CONDITIONS }
+
+		internal static List<FunctionParameter> getFunctionParameters(int pos, List<Token> tokensList, ParameterContents contents) {
 			List<FunctionParameter> functionParameters = new List<FunctionParameter>();
 			int cPos = pos+2;
 			int tokenLevel = tokensList[pos+1].tokenLevel;
@@ -923,6 +929,7 @@ namespace org.mariuszgromada.math.mxparser {
 			bool comma;
 			bool paren;
 			bool end = false;
+			bool readParam = true;
 			List<Token> paramTkones = new List<Token>();
             StringBuilder paramStrBuilder = new StringBuilder();
             do {
@@ -939,12 +946,15 @@ namespace org.mariuszgromada.math.mxparser {
 					}
 				if (paren || comma) {
 					if (cPos > pos + 2) {
-						functionParameters.Add( new FunctionParameter(paramTkones, paramStrBuilder.ToString(), pPos, cPos-1 ) );
-						paramTkones = new List<Token>();
-                        paramStrBuilder = new StringBuilder();
+						functionParameters.Add(new FunctionParameter(paramTkones,
+							readParam ? paramStrBuilder.ToString() : null, pPos, cPos-1));
+						if (paren || contents == ParameterContents.FIRST) break;
+						if (contents == ParameterContents.CONDITIONS) readParam = !readParam;
+						paramTkones = readParam ? new List<Token>() : null;
+						paramStrBuilder = readParam ? new StringBuilder() : null;
 						pPos = cPos+1;
 					}
-				} else {
+				} else if (readParam) {
 					paramTkones.Add(t);
 					paramStrBuilder.Append(t.tokenStr);
                 }

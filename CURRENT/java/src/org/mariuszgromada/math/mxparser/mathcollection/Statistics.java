@@ -702,7 +702,6 @@ public final class Statistics {
 			if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 			if (Double.isNaN(v)) return Double.NaN;
 		}
-		double[][] dist = NumberTheory.getDistValuesWithCancel(numbers, true, cancelId);
-		return dist[0][0];
+		return NumberTheory.getModeWithCancel(numbers, cancelId);
 	}
 }

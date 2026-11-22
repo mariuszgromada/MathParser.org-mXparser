@@ -2977,7 +2977,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 * Example: If(1=1, 2, sin(3) ) - here sin(3) does not
 			 * require to be calculated.
 			 */
-            List<FunctionParameter> ifParams = ExpressionUtils.getFunctionParameters(pos, tokensList);
+            List<FunctionParameter> ifParams = ExpressionUtils.getFunctionParameters(pos, tokensList, ExpressionUtils.ParameterContents.FIRST);
 			FunctionParameter ifParam = ifParams[0];
 			Expression ifExp = new Expression(ifParam.paramStr, ifParam.tokens, argumentsList, functionsList, constantsList, KEEP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
 			if (verboseMode)
@@ -2992,7 +2992,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 * Get condition string
 			 * 1st parameter
 			 */
-			List<FunctionParameter> iffParams = ExpressionUtils.getFunctionParameters(pos, tokensList);
+			List<FunctionParameter> iffParams = ExpressionUtils.getFunctionParameters(pos, tokensList, ExpressionUtils.ParameterContents.CONDITIONS);
 			FunctionParameter iffParam = iffParams[0];
 			int parametersNumber = iffParams.Count;
 			int trueParamNumber;

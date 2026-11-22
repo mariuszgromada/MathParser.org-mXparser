@@ -289,6 +289,10 @@ namespace org::mariuszgromada::math::mxparser::expressionutils {
 
 	private:
 		friend class miscellaneous::HeadEqBody;
+		friend class ::org::mariuszgromada::math::mxparser::Expression;
+		enum class ParameterContents { ALL, FIRST, CONDITIONS };
+		static ListPtr<FunctionParameterPtr> getFunctionParametersWithContents(int pos, const ListPtr<TokenPtr> &tokensList,
+		                                                                      ParameterContents contents);
 		static ListPtr<TokenPtr> classifyInitialTokens(const StringPtr &expressionString, const ListPtr<TokenPtr> &initialTokens, bool copyTokens);
 		static void makeParserKeyWords(bool parserKeyWordsOnly, bool UDFExpression, bool unicodeKeyWordsEnabled, const ListPtr<KeyWordPtr> &keyWordsList);
 		static StringPtr cleanMinusMinus(const StringPtr &expressionStringPtr);
