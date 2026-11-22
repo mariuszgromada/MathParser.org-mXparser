@@ -1474,13 +1474,17 @@ public final class NumberTheory {
 		if (numbers.length == 1) return numbers[0];
 		if (mXparser.checkIfCanonicalRounding()) {
 			BigDecimal dprod = BigDecimal.ONE;
+			DecimalProduct grouped = numbers.length >= DecimalProduct.MIN_GROUPED_FACTORS
+					? new DecimalProduct(dprod) : null;
 			for (double xi : numbers) {
 				if ( Double.isNaN(xi) ) return Double.NaN;
 				if ( Double.isInfinite(xi)) return Double.NaN;
-				dprod = dprod.multiply(BigDecimal.valueOf(xi));
+				BigDecimal factor = BigDecimal.valueOf(xi);
+				if (grouped == null) dprod = dprod.multiply(factor);
+				else grouped.multiply(factor);
 				if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 			}
-			return dprod.doubleValue();
+			return (grouped == null ? dprod : grouped.value()).doubleValue();
 		} else {
 			double prod = 1;
 			for (double xi : numbers) {
@@ -1732,10 +1736,44 @@ public final class NumberTheory {
 			throw new IllegalArgumentException("cancelId out of range");
 		return primeCountWithCancel((long)n, cancelId);
 	}
+	private static final class DecimalProduct {
+		private static final int BLOCK_SIZE = 32;
+		private static final int MIN_GROUPED_FACTORS = 5000;
+		// Even at this limit the sum of the absolute scales and the total
+		// coefficient bit length of finite double factors fit in Java's ranges.
+		private static final int MAX_GROUPED_FACTORS = 1 << 20;
+
+		private BigDecimal product;
+		private BigDecimal block;
+		private int factors;
+
+		DecimalProduct(BigDecimal prefix) {
+			product = prefix;
+		}
+
+		void multiply(BigDecimal factor) {
+			if (factors == MAX_GROUPED_FACTORS) {
+				product = product.multiply(factor);
+				return;
+			}
+			block = block == null ? factor : block.multiply(factor);
+			if (++factors % BLOCK_SIZE == 0) {
+				product = product.multiply(block);
+				block = null;
+			}
+		}
+
+		BigDecimal value() {
+			return block == null ? product : product.multiply(block);
+		}
+	}
+
 	private static final class CanonicalAccumulator {
 		private static final double EXACT_INTEGER_LIMIT = 0x1.0p53;
 		private double integerResult;
 		private BigDecimal decimalResult;
+		private DecimalProduct groupedProduct;
+		private int decimalMultiplications;
 
 		CanonicalAccumulator(double initialValue) {
 			integerResult = initialValue;
@@ -1756,12 +1794,23 @@ public final class NumberTheory {
 			decimalResult = decimalResult.add(BigDecimal.valueOf(value));
 		}
 
-		void multiply(double value) {
+		void multiply(double value, boolean groupProduct) {
 			if (decimalResult == null) {
 				if (MathFunctions.isSmallCanonicalInteger(value) && acceptExactResult(integerResult * value)) return;
 				decimalResult = BigDecimal.valueOf((long) integerResult);
 			}
-			decimalResult = decimalResult.multiply(BigDecimal.valueOf(value));
+			BigDecimal factor = BigDecimal.valueOf(value);
+			if (groupedProduct != null) {
+				groupedProduct.multiply(factor);
+			} else {
+				decimalResult = decimalResult.multiply(factor);
+				if (groupProduct && ++decimalMultiplications == DecimalProduct.BLOCK_SIZE)
+					groupedProduct = new DecimalProduct(decimalResult);
+			}
+		}
+
+		double productValue() {
+			return groupedProduct == null ? doubleValue() : groupedProduct.value().doubleValue();
 		}
 
 		double doubleValue() {
@@ -1947,36 +1996,38 @@ public final class NumberTheory {
 		double i;
 		if (mXparser.checkIfCanonicalRounding()) {
 			CanonicalAccumulator result = new CanonicalAccumulator(1);
+			// Estimate the workload only. Iteration and endpoint selection below are unchanged.
+			boolean groupProduct = (to - from) / delta >= DecimalProduct.MIN_GROUPED_FACTORS - 1;
 			if ( (to >= from) && (delta > 0) ) {
 				for (i = from; i < to; i+=delta) {
 					if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 					fval = MathFunctions.getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
-					result.multiply(fval);
+					result.multiply(fval, groupProduct);
 				}
 				if ( delta - (i - to) > 0.5 * delta) {
 					fval = MathFunctions.getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
-					result.multiply(fval);
+					result.multiply(fval, groupProduct);
 				}
 			} else if ( (to <= from) && (delta < 0) ) {
 				for (i = from; i > to; i+=delta) {
 					if (mXparser.isCalculationCancelled(cancelId)) return Double.NaN;
 					fval = MathFunctions.getFunctionValueWithCancel(f, index, i, cancelId);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
-					result.multiply(fval);
+					result.multiply(fval, groupProduct);
 				}
 				if ( -delta - (to - i) > -0.5 * delta) {
 					fval = MathFunctions.getFunctionValueWithCancel(f, index, to, cancelId);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
-					result.multiply(fval);
+					result.multiply(fval, groupProduct);
 				}
 			} else if (from == to) {
 				fval = MathFunctions.getFunctionValueWithCancel(f, index, from, cancelId);
 				if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
-				result.multiply(fval);
+				result.multiply(fval, groupProduct);
 			}
-			return result.doubleValue();
+			return result.productValue();
 		} else {
 			double result = 1;
 			if ( (to >= from) && (delta > 0) ) {

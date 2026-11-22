@@ -2356,6 +2356,19 @@ public final class MathFunctions {
 		double aint = Math.round(a);
 		return abs(a - aint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON;
 	}
+	private static final MathContext POWER_LOWER_BOUND = new MathContext(34, RoundingMode.FLOOR);
+	private static final MathContext POWER_UPPER_BOUND = new MathContext(34, RoundingMode.CEILING);
+
+	private static double positivePowerBound(BigDecimal base, int exponent, MathContext context) {
+		BigDecimal result = BigDecimal.ONE;
+		while (exponent > 0) {
+			if ((exponent & 1) != 0) result = result.multiply(base, context);
+			exponent >>>= 1;
+			if (exponent != 0) base = base.multiply(base, context);
+		}
+		return result.doubleValue();
+	}
+
 	/**
 	 * Applies the integer exponent to the base a
 	 *
@@ -2382,8 +2395,18 @@ public final class MathFunctions {
 			}
 			BigDecimal da = BigDecimal.valueOf(a);
 			try {
-				if (n >= 0) return da.pow(n).doubleValue();
-				else return BigDecimal.ONE.divide(da, MathContext.DECIMAL128).pow(-n).doubleValue();
+				BigDecimal base = n >= 0 ? da : BigDecimal.ONE.divide(da, MathContext.DECIMAL128);
+				int exponent = Math.abs(n);
+				// This bound keeps the scale and coefficient of the exact power in range
+				// for both a finite double and its DECIMAL128 reciprocal.
+				if (exponent >= 128 && exponent <= 1000000 && exponent * base.precision() >= 2048) {
+					BigDecimal magnitude = base.abs();
+					// Multiplication of positive numbers preserves the order of the bounds.
+					double lower = positivePowerBound(magnitude, exponent, POWER_LOWER_BOUND);
+					double upper = positivePowerBound(magnitude, exponent, POWER_UPPER_BOUND);
+					if (lower == upper) return base.signum() < 0 && (exponent & 1) != 0 ? -lower : lower;
+				}
+				return base.pow(exponent).doubleValue();
 			} catch (Throwable e) {
 				return Math.pow(a, n);
 			}
