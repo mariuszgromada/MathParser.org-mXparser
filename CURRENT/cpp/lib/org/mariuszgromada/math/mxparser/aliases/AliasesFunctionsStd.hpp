@@ -232,8 +232,8 @@ namespace org::mariuszgromada::math::mxparser {
 
 
 	namespace native_utf_detail {
-	inline std::wstring decodeUtf8(std::string_view utf8NarrowStr) {
-	    std::wstring unicodeWideString;
+	inline String decodeUtf8(std::string_view utf8NarrowStr) {
+	    String unicodeWideString;
 	    size_t i = 0;
 	    size_t len = utf8NarrowStr.size();
 	    unicodeWideString.reserve(len);
@@ -299,11 +299,11 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 	}
 
-	inline std::wstring UTF8toUTF16(const std::string& utf8NarrowStr) {
+	inline String UTF8toUTF16(const std::string& utf8NarrowStr) {
 	    return native_utf_detail::decodeUtf8(utf8NarrowStr);
 	}
 
-	inline std::string UTF16toUTF8(const std::wstring& unicodeWideStr) {
+	inline std::string UTF16toUTF8(const String& unicodeWideStr) {
 	    std::string utf8String;
 	    utf8String.reserve(unicodeWideStr.size());
 

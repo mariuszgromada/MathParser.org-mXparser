@@ -656,7 +656,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (x < 0.5) return MathConstants::PI / (Math::sin(MathConstants::PI * x) * lanchosGammaWithCancel(1.0-x, cancelId));
 		if (x > 171.0) return Math::exp(logGammaWithCancel(x, cancelId));
 		double g = 7.0;
-		Array<double> coefficients = Coefficients::lanchosGamma;
+		const Array<double>& coefficients = Coefficients::lanchosGamma;
 		x -= 1.0;
 		double a = coefficients(0);
 		double t = x+g+0.5;

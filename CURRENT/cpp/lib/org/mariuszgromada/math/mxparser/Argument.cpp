@@ -733,7 +733,11 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE double Argument::getArgumentValueCoreWithCancel(const CalcStepsRegisterPtr &calcStepsRegister, int cancelId) {
-		CalcStepsRegister::setUserArgument(calcStepsRegister, THIS(Argument));
+		// Preserve bad_weak_ptr even when an absent register needs no strong owner.
+		if (calcStepsRegister != nullptr)
+			CalcStepsRegister::setUserArgument(calcStepsRegister, THIS(Argument));
+		else if (weak_from_this().expired())
+			throw std::bad_weak_ptr();
 		computingTime = 0;
 
 		if (!syntaxStatusDefinition)
