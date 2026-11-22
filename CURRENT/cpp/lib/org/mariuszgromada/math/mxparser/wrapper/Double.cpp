@@ -531,6 +531,10 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		if (isNaN(value)) return 0;
 		if (isInfinite(value)) return 0;
 		if (ulpDecimalDigitsBefore(value) <= 0) return 0;
+		return formattedFractionalPartLength(value);
+	}
+
+	int Double::formattedFractionalPartLength(double value) {
 #if defined(MXPARSER_CANONICAL_FLOAT_CHARCONV)
 		int length = tryCanonicalFractionalPartLength(value);
 		if (length >= 0) return length;

@@ -224,6 +224,10 @@
 #include <cmath>
 #include <locale>
 
+namespace org::mariuszgromada::math::mxparser::mathcollection {
+	class MathFunctions;
+}
+
 namespace org::mariuszgromada::math::mxparser::wrapper {
 
 	constexpr double constexpr_pow(double base, int exp) {
@@ -279,6 +283,9 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		static int decimalDigitsBefore(double anyValue);
 		static int numberOfIntegerDigits(double anyValue);
 
+	private:
+		friend class org::mariuszgromada::math::mxparser::mathcollection::MathFunctions;
+		static int formattedFractionalPartLength(double value);
 	};
 } // namespace org::mariuszgromada::math::mxparser::wrapper
 

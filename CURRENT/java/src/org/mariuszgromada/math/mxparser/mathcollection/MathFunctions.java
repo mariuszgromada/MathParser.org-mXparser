@@ -249,10 +249,30 @@ import org.mariuszgromada.math.mxparser.mXparser;
  */
 public final class MathFunctions {
 	private static int MAX_RECURSION_CALLS = mXparser.getMaxAllowedRecursionDepth();
-	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH)) {{setMaximumFractionDigits(340);}};
+	private static final ThreadLocal<DecimalFormat> DECIMAL_FORMAT = new ThreadLocal<>();
+
+	private static DecimalFormat getDecimalFormat() {
+		DecimalFormat format = DECIMAL_FORMAT.get();
+		if (format != null) return format;
+		format = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+		format.setMaximumFractionDigits(340);
+		DECIMAL_FORMAT.set(format);
+		return format;
+	}
 
 	static boolean isSmallCanonicalInteger(double value) {
 		return value == Math.rint(value) && value >= -0x1.0p26 && value <= 0x1.0p26;
+	}
+
+	// Bounded values on a four-place decimal grid have a unique short representation.
+	// Even the product of the two scaled inputs is exactly representable in double.
+	private static int canonicalScaledFraction(double value) {
+		if (Math.abs(value) > 8192) return Integer.MIN_VALUE;
+		double product = value * 10000;
+		int scaled = (int) Math.rint(product);
+		// A four-place input's two binary rounding errors total less than 2e-8 at this bound.
+		if (Math.abs(product - scaled) > 2e-8) return Integer.MIN_VALUE;
+		return value == scaled / 10000.0 ? scaled : Integer.MIN_VALUE;
 	}
 
 	private static void refreshMaxAllowedRecursionDepth() {
@@ -277,6 +297,11 @@ public final class MathFunctions {
 			double result = a + b;
 			return result == 0 ? 0 : result;
 		}
+		int scaledA = canonicalScaledFraction(a);
+		if (scaledA != Integer.MIN_VALUE) {
+			int scaledB = canonicalScaledFraction(b);
+			if (scaledB != Integer.MIN_VALUE) return (scaledA + scaledB) / 10000.0;
+		}
 		BigDecimal da = BigDecimal.valueOf(a);
 		BigDecimal db = BigDecimal.valueOf(b);
 		return da.add(db).doubleValue();
@@ -300,6 +325,11 @@ public final class MathFunctions {
 			double result = a - b;
 			return result == 0 ? 0 : result;
 		}
+		int scaledA = canonicalScaledFraction(a);
+		if (scaledA != Integer.MIN_VALUE) {
+			int scaledB = canonicalScaledFraction(b);
+			if (scaledB != Integer.MIN_VALUE) return (scaledA - scaledB) / 10000.0;
+		}
 		BigDecimal da = BigDecimal.valueOf(a);
 		BigDecimal db = BigDecimal.valueOf(b);
 		return da.subtract(db).doubleValue();
@@ -322,6 +352,11 @@ public final class MathFunctions {
 		if (isSmallCanonicalInteger(a) && isSmallCanonicalInteger(b)) {
 			double result = a * b;
 			return result == 0 ? 0 : result;
+		}
+		int scaledA = canonicalScaledFraction(a);
+		if (scaledA != Integer.MIN_VALUE) {
+			int scaledB = canonicalScaledFraction(b);
+			if (scaledB != Integer.MIN_VALUE) return ((long) scaledA * scaledB) / 100000000.0;
 		}
 		BigDecimal da = BigDecimal.valueOf(a);
 		BigDecimal db = BigDecimal.valueOf(b);
@@ -3797,7 +3832,7 @@ public final class MathFunctions {
 	 *                excluding trailing zeros (fractional part)
 	 */
 	public static int decimalNumberLength(double value) {
-		return DECIMAL_FORMAT.format(value).length();
+		return getDecimalFormat().format(value).length();
 	}
 	/**
 	 * Fractional part length of a number represented in a standard decimal format
@@ -3810,8 +3845,12 @@ public final class MathFunctions {
 		if (Double.isInfinite(value)) return 0;
 		if (ulpDecimalDigitsBefore(value) <= 0) return 0;
 		if (value == Math.rint(value)) return 0;
+		return formattedFractionalPartLength(value);
+	}
+
+	private static int formattedFractionalPartLength(double value) {
 		java.text.FieldPosition fractionalPart = new java.text.FieldPosition(java.text.NumberFormat.FRACTION_FIELD);
-		DECIMAL_FORMAT.format(value, new StringBuffer(40), fractionalPart);
+		getDecimalFormat().format(value, new StringBuffer(40), fractionalPart);
 		return fractionalPart.getEndIndex() - fractionalPart.getBeginIndex();
 	}
 	/**
@@ -3867,10 +3906,18 @@ public final class MathFunctions {
 		if (value == -4d || value == 4d || value == -5d || value == 5d || value == -6d || value == 6d) return value;
 		if (value == -7d || value == 7d || value == -8d || value == 8d || value == -9d || value == 9d) return value;
 		if (value == -10d || value == 10d || value == -11d || value == 11d || value == -12d || value == 12d) return value;
+		// With this bound, multiples of 2^-10 have at most ten decimal places.
+		if (Math.abs(value) <= 1048576) {
+			double scaled = value * 1024;
+			if (scaled == Math.rint(scaled)) return value;
+		}
+		if (canonicalScaledFraction(value) != Integer.MIN_VALUE) return value;
 		if (ulpDecimalDigitsBefore(value) < 6) return value;
-		int decPartLen = fractionalPartLength(value);
+		if (value == Math.rint(value)) return value;
+		int decPartLen = formattedFractionalPartLength(value);
 		if (decPartLen < 11) return value;
 		double valueRound = roundWithCancel(value, decPartLen - 2, cancelId);
+		if (Double.doubleToRawLongBits(valueRound) == Double.doubleToRawLongBits(value)) return value;
 		int decPartLenRound = fractionalPartLength(valueRound);
 		if (decPartLen - decPartLenRound >= 9) return valueRound;
 		return value;

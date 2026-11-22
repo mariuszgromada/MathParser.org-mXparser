@@ -245,6 +245,17 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			return value == Math.Round(value) && value >= -67108864d && value <= 67108864d;
 		}
 
+		// Bounded values on a four-place decimal grid have a unique short representation.
+		// Even the product of the two scaled inputs is exactly representable in double.
+		private static int canonicalScaledFraction(double value) {
+			if (Math.Abs(value) > 8192) return int.MinValue;
+			double product = value * 10000;
+			int scaled = (int)Math.Round(product);
+			// A four-place input's two binary rounding errors total less than 2e-8 at this bound.
+			if (Math.Abs(product - scaled) > 2e-8) return int.MinValue;
+			return value == scaled / 10000.0 ? scaled : int.MinValue;
+		}
+
 		private static void refreshMaxAllowedRecursionDepth() {
 			MAX_RECURSION_CALLS = mXparser.getMaxAllowedRecursionDepth();
 		}
@@ -291,6 +302,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (isSmallCanonicalInteger(a) && isSmallCanonicalInteger(b)) {
 				if (r != 0) return r;
 			}
+			// Keep the decimal conversion for signed zero.
+			if (r != 0) {
+				int scaledA = canonicalScaledFraction(a);
+				if (scaledA != int.MinValue) {
+					int scaledB = canonicalScaledFraction(b);
+					if (scaledB != int.MinValue) return (scaledA + scaledB) / 10000.0;
+				}
+			}
 			if (isNotInDecimalRange(a)) return r;
 			if (isNotInDecimalRange(b)) return r;
 			if (isNotInDecimalRange(r)) return r;
@@ -315,6 +334,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (isSmallCanonicalInteger(a) && isSmallCanonicalInteger(b)) {
 				if (r != 0) return r;
 			}
+			// Keep the decimal conversion for signed zero.
+			if (r != 0) {
+				int scaledA = canonicalScaledFraction(a);
+				if (scaledA != int.MinValue) {
+					int scaledB = canonicalScaledFraction(b);
+					if (scaledB != int.MinValue) return (scaledA - scaledB) / 10000.0;
+				}
+			}
 			if (isNotInDecimalRange(a)) return r;
 			if (isNotInDecimalRange(b)) return r;
 			if (isNotInDecimalRange(r)) return r;
@@ -338,6 +365,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			// The bounded integer result is exact; retain the decimal path for signed zero.
 			if (isSmallCanonicalInteger(a) && isSmallCanonicalInteger(b)) {
 				if (r != 0) return r;
+			}
+			// Keep the decimal conversion for signed zero.
+			if (r != 0) {
+				int scaledA = canonicalScaledFraction(a);
+				if (scaledA != int.MinValue) {
+					int scaledB = canonicalScaledFraction(b);
+					if (scaledB != int.MinValue) return ((long)scaledA * scaledB) / 100000000.0;
+				}
 			}
 			if (isNotInDecimalRange(a)) return r;
 			if (isNotInDecimalRange(b)) return r;
@@ -3417,6 +3452,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsInfinity(value)) return 0;
 			if (ulpDecimalDigitsBefore(value) <= 0) return 0;
 			if (value == Math.Round(value)) return 0;
+			return formattedFractionalPartLength(value);
+		}
+
+		private static int formattedFractionalPartLength(double value) {
 #if NET8_0_OR_GREATER
             Span<char> valueBuffer = stackalloc char[32];
             if (value.TryFormat(valueBuffer, out int valueLength, default, CultureInfo.InvariantCulture))
@@ -3495,12 +3534,23 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (value == -4d || value == 4d || value == -5d || value == 5d || value == -6d || value == 6d) return value;
 			if (value == -7d || value == 7d || value == -8d || value == 8d || value == -9d || value == 9d) return value;
 			if (value == -10d || value == 10d || value == -11d || value == 11d || value == -12d || value == 12d) return value;
+			// With this bound, multiples of 2^-10 have at most ten decimal places.
+			if (Math.Abs(value) <= 1048576) {
+				double scaled = value * 1024;
+				if (scaled == Math.Round(scaled)) return value;
+			}
+#if !NETFRAMEWORK
+			// The legacy G17 formatter can expose the binary tail of a short decimal.
+			if (canonicalScaledFraction(value) != int.MinValue) return value;
+#endif
 			if (ulpDecimalDigitsBefore(value) < 6) return value;
-			int decPartLen = fractionalPartLength(value);
+			if (value == Math.Round(value)) return value;
+			int decPartLen = formattedFractionalPartLength(value);
 			if (decPartLen < 11) return value;
 			// Decimal.Round cannot accept more than 28 places; its fallback leaves this value unchanged.
 			if (decPartLen > 30) return value;
 			double valueRound = roundWithCancel(value, decPartLen - 2, cancelId);
+			if (BitConverter.DoubleToInt64Bits(valueRound) == BitConverter.DoubleToInt64Bits(value)) return value;
 			int decPartLenRound = fractionalPartLength(valueRound);
 			if (decPartLen - decPartLenRound >= 9) return valueRound;
 			return value;

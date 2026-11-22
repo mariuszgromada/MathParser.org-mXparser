@@ -246,6 +246,20 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using native_numeric_detail::isSmallCanonicalInteger;
 
 	namespace {
+		int canonicalHundredths(double value) {
+			if (std::fabs(value) > 16384) return Integer::MIN_VALUE;
+			// Quarter units are the hundredths exactly representable by the native binary backend.
+			double quarters = value * 4;
+			if (quarters != std::trunc(quarters)) return Integer::MIN_VALUE;
+			return static_cast<int>(quarters) * 25;
+		}
+
+		bool canUseCanonicalFractionShortcut() {
+			return std::fegetround() == FE_TONEAREST
+				&& SystemUtils::classicLocale != nullptr
+				&& *SystemUtils::classicLocale == std::locale::classic();
+		}
+
 		// These inputs have already been rounded/floored by the original caller.
 		// Guard the C++ conversion, preserving the existing rounding and all
 		// previously defined results. Java/C# have different runtime cast rules.
@@ -295,6 +309,16 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			// Keep the original platform-specific signed-zero path.
 			if (result != 0) return result;
 		}
+		int scaledA = canonicalHundredths(a);
+		if (scaledA != Integer::MIN_VALUE) {
+			int scaledB = canonicalHundredths(b);
+			if (scaledB != Integer::MIN_VALUE) {
+				auto scaled = scaledA + scaledB;
+				// A zero still uses the native signed-zero path.
+				if (scaled != 0 && canUseCanonicalFractionShortcut())
+					return scaled / 100.0;
+			}
+		}
 		BigDecimal da = BigDecimal::valueOf(a);
 		BigDecimal db = BigDecimal::valueOf(b);
 		return da.add(db).doubleValue();
@@ -312,6 +336,16 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			// Keep the original platform-specific signed-zero path.
 			if (result != 0) return result;
 		}
+		int scaledA = canonicalHundredths(a);
+		if (scaledA != Integer::MIN_VALUE) {
+			int scaledB = canonicalHundredths(b);
+			if (scaledB != Integer::MIN_VALUE) {
+				auto scaled = scaledA - scaledB;
+				// A zero still uses the native signed-zero path.
+				if (scaled != 0 && canUseCanonicalFractionShortcut())
+					return scaled / 100.0;
+			}
+		}
 		BigDecimal da = BigDecimal::valueOf(a);
 		BigDecimal db = BigDecimal::valueOf(b);
 		return da.subtract(db).doubleValue();
@@ -328,6 +362,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			double result = a * b;
 			// Keep the original platform-specific signed-zero path.
 			if (result != 0) return result;
+		}
+		int scaledA = canonicalHundredths(a);
+		if (scaledA != Integer::MIN_VALUE) {
+			int scaledB = canonicalHundredths(b);
+			if (scaledB != Integer::MIN_VALUE) {
+				// Keep the native multiplication precision, including the active x87 precision.
+				if (scaledA != 0 && scaledB != 0 && canUseCanonicalFractionShortcut())
+					return static_cast<double>(static_cast<long double>(a) * static_cast<long double>(b));
+			}
 		}
 		BigDecimal da = BigDecimal::valueOf(a);
 		BigDecimal db = BigDecimal::valueOf(b);
@@ -2017,10 +2060,17 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (Double::isNaN(value)) return value;
 		if (Double::isInfinite(value)) return value;
 		if (Double::doubleGoodToGo(value)) return value;
+		// With this bound, multiples of 2^-10 have at most ten decimal places.
+		if (std::fabs(value) <= 1048576) {
+			double scaled = value * 1024;
+			if (scaled == std::trunc(scaled) && canUseCanonicalFractionShortcut()) return value;
+		}
 		if (ulpDecimalDigitsBefore(value) < 6) return value;
-		int decPartLen = Double::fractionalPartLength(value);
+		int decPartLen = Double::formattedFractionalPartLength(value);
 		if (decPartLen < 11) return value;
 		double valueRound = roundWithCancel(value, decPartLen - 2, cancelId);
+		if (valueRound == value && canUseCanonicalFractionShortcut())
+			return Double::reParseDouble(value);
 		int decPartLenRound = fractionalPartLength(valueRound);
 		double valueFinal;
 		if (decPartLen - decPartLenRound >= 9) valueFinal = valueRound;
