@@ -823,6 +823,46 @@ else()
 	target_link_libraries(MathParserOrgMxParser PUBLIC cereal::cereal)
 endif()
 
+option(MXPARSER_ENABLE_IPO "Enable link-time optimization for single-config MSVC Release builds" ON)
+if (MXPARSER_ENABLE_IPO AND COMP_CL AND NOT CMAKE_CONFIGURATION_TYPES)
+	string(TOUPPER "${CMAKE_BUILD_TYPE}" mxparser_build_type)
+	if (mxparser_build_type STREQUAL "RELEASE")
+		include(CheckIPOSupported)
+		check_ipo_supported(RESULT mxparser_ipo_supported OUTPUT mxparser_ipo_error LANGUAGES CXX)
+		if (mxparser_ipo_supported)
+			# CMake's Windows export scanner needs regular COFF objects, since /GL objects contain IR.
+			# MXPARSER_ENABLE_IPO=OFF restores CMake's ordinary automatic export path.
+			# Embedders adding sources later must export their own symbols or disable IPO here.
+			get_target_property(mxparser_sources MathParserOrgMxParser SOURCES)
+			add_library(MathParserOrgMxParserExportObjects OBJECT EXCLUDE_FROM_ALL ${mxparser_sources})
+			set_target_properties(MathParserOrgMxParserExportObjects PROPERTIES
+				INTERPROCEDURAL_OPTIMIZATION_RELEASE FALSE)
+			target_include_directories(MathParserOrgMxParserExportObjects PRIVATE
+				$<TARGET_PROPERTY:MathParserOrgMxParser,INCLUDE_DIRECTORIES>)
+			target_compile_definitions(MathParserOrgMxParserExportObjects PRIVATE
+				MathParserOrgMxParser_EXPORTS $<TARGET_PROPERTY:MathParserOrgMxParser,COMPILE_DEFINITIONS>)
+			target_compile_options(MathParserOrgMxParserExportObjects PRIVATE
+				$<TARGET_PROPERTY:MathParserOrgMxParser,COMPILE_OPTIONS>)
+			target_link_libraries(MathParserOrgMxParserExportObjects PRIVATE cereal::cereal)
+
+			set(mxparser_exports "${CMAKE_CURRENT_BINARY_DIR}/mxparser-exports.def")
+			set(mxparser_export_objects "${CMAKE_CURRENT_BINARY_DIR}/mxparser-exports.objects")
+			file(GENERATE OUTPUT "${mxparser_export_objects}"
+				CONTENT "$<JOIN:$<TARGET_OBJECTS:MathParserOrgMxParserExportObjects>,\n>\n")
+			add_custom_command(OUTPUT "${mxparser_exports}"
+				COMMAND "${CMAKE_COMMAND}" -E __create_def "${mxparser_exports}" "${mxparser_export_objects}"
+				DEPENDS "${mxparser_export_objects}" $<TARGET_OBJECTS:MathParserOrgMxParserExportObjects>
+				VERBATIM)
+			add_dependencies(MathParserOrgMxParser MathParserOrgMxParserExportObjects)
+			target_sources(MathParserOrgMxParser PRIVATE "${mxparser_exports}")
+			set_target_properties(MathParserOrgMxParser PROPERTIES
+				WINDOWS_EXPORT_ALL_SYMBOLS FALSE INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE)
+		else()
+			message(STATUS "mXparser Release IPO unavailable: ${mxparser_ipo_error}")
+		endif()
+	endif()
+endif()
+
 message(STATUS "CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
 message(STATUS "CMAKE_CXX_FLAGS for MathParserOrgMxParser: ${CMAKE_CXX_FLAGS}")
 
