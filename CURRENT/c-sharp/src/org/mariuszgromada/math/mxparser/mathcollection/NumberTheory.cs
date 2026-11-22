@@ -1567,7 +1567,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				throw new ArgumentOutOfRangeException("cancelId", "cancelId out of range");
 			return primeCountWithCancel((long)n, cancelId);
 		}
-		class CanonicalResult {
+		class CanonicalAccumulator {
 			internal const bool SUMMATION = true;
 			internal const bool MULTIPLICATION = false;
 			internal double fval;
@@ -1576,7 +1576,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			decimal dresult;
 			bool decimalStillInRange;
 			bool useCanonicalBackend;
-			internal CanonicalResult(bool summation) {
+			internal CanonicalAccumulator(bool summation) {
 				if (summation) {
 					fval = 0;
 					dfval = Decimal.Zero;
@@ -1677,7 +1677,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if ( (Double.IsNaN(delta) ) || (Double.IsNaN(from) ) || (Double.IsNaN(to) ) || (delta == 0) )
 				return Double.NaN;
 			double i;
-			CanonicalResult opRes = new CanonicalResult(CanonicalResult.SUMMATION);
+			CanonicalAccumulator opRes = new CanonicalAccumulator(CanonicalAccumulator.SUMMATION);
 			if (mXparser.checkIfCanonicalRounding()) {
 				if ( (to >= from) && (delta > 0) ) {
 					for (i = from; i < to; i+=delta) {
@@ -1791,7 +1791,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
 				return Double.NaN;
 			double i;
-			CanonicalResult opRes = new CanonicalResult(CanonicalResult.MULTIPLICATION);
+			CanonicalAccumulator opRes = new CanonicalAccumulator(CanonicalAccumulator.MULTIPLICATION);
 			if (mXparser.checkIfCanonicalRounding()) {
 				if ( (to >= from) && (delta > 0) ) {
 					for (i = from; i < to; i+=delta) {

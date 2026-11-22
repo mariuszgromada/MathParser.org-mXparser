@@ -2105,6 +2105,48 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (BitConverter.DoubleToInt64Bits(resround) == BitConverter.DoubleToInt64Bits(res)) return res;
 			return length - shorterResultLength(resround, false) >= 4 ? resround : res;
 		}
+		private static bool sameDecimalRepresentation(decimal a, decimal b) {
+			int[] aBits = Decimal.GetBits(a);
+			int[] bBits = Decimal.GetBits(b);
+			return aBits[0] == bBits[0] && aBits[1] == bBits[1]
+				&& aBits[2] == bBits[2] && aBits[3] == bBits[3];
+		}
+		private static double powIntSequential(double a, decimal da, int n) {
+			if (a == 1 || a == -1) return (n & 1) == 0 ? 1 : a;
+			double r = a * a * a * a;
+			bool decimalStillInRange = !isNotInDecimalRange(r);
+			decimal dr = decimalStillInRange ? da * da * da * da : Decimal.Zero;
+			int nabs = Math.Abs(n);
+			const int blockSize = 256;
+			int i = 4;
+			while (i < nabs) {
+				bool checkForRepeat = nabs - i >= 2 * blockSize;
+				int end = checkForRepeat ? i + blockSize : nabs;
+				double previousR = r;
+				decimal previousDr = dr;
+				bool previousInRange = decimalStillInRange;
+				for (; i < end; i++) {
+					r = r * a;
+					if (isNotInDecimalRange(r)) decimalStillInRange = false;
+					if (decimalStillInRange) dr = dr * da;
+				}
+				// An identical block state repeats exactly, including zero signs and decimal scale.
+				// Skip whole blocks and run the remaining steps in the original order.
+				if (checkForRepeat && decimalStillInRange == previousInRange
+					&& BitConverter.DoubleToInt64Bits(r) == BitConverter.DoubleToInt64Bits(previousR)
+					&& (!decimalStillInRange || sameDecimalRepresentation(dr, previousDr))) {
+					i = nabs - (nabs - i) % blockSize;
+				}
+			}
+			if (decimalStillInRange) {
+				if (n >= 0) return shorterResult(dr, r);
+				else return shorterResult(Decimal.One / dr, 1.0 / r);
+			}
+			else {
+				if (n >= 0) return r;
+				else return 1.0 / r;
+			}
+		}
 		/// <summary>Applies the integer exponent to the base a</summary>
 		/// <param name="a">The base</param>
 		/// <param name="n">The integer exponent</param>
@@ -2127,12 +2169,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				}
 			}
 			double r = Math.Pow(a, n);
-			if (isNotInDecimalRange(a)) return r;
-			if (isNotInDecimalRange(r)) return r;
-			decimal dr = (decimal)r;
-			double apow = 1;
 			if (canonical) {
+				if (isNotInDecimalRange(a)) return r;
+				if (isNotInDecimalRange(r)) return r;
 				decimal da = (decimal)a;
+				decimal dr;
+				double apow;
 				if (n == 2) {
 					r = a * a;
 					if (MathFunctions.isNotInDecimalRange(r)) return r;
@@ -2178,24 +2220,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					dr = Decimal.One / (da * da * da * da);
 					return shorterResult(dr, r);
 				}
-				r = a * a * a * a;
-				bool decimalStillInRange = true;
-				if (MathFunctions.isNotInDecimalRange(r)) decimalStillInRange = false;
-				if (decimalStillInRange) dr = da * da * da * da;
-				int nabs = Math.Abs(n);
-				for (int i = 5; i <= nabs; i++) {
-					r = r * a;
-					if (MathFunctions.isNotInDecimalRange(r)) decimalStillInRange = false;
-					if (decimalStillInRange) dr = dr * da;
-				}
-				if (decimalStillInRange) {
-					if (n >= 0) return shorterResult(dr, r);
-					else return shorterResult(Decimal.One / dr, 1.0 / r);
-				}
-				else {
-					if (n >= 0) return r;
-					else return 1.0 / r;
-				}
+				return powIntSequential(a, da, n);
 			} else {
 				return r;
 			}
