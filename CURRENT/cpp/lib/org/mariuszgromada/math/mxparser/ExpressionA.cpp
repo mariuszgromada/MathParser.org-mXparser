@@ -265,6 +265,7 @@
 #include <atomic>
 #include <cstdint>
 #include <limits>
+#include <optional>
 #include <unordered_map>
 
 namespace org::mariuszgromada::math::mxparser::parsertokens {
@@ -300,6 +301,120 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		const StringPtr* keyword = cachedNumberKeyword;
 		if (keyword != nullptr && keyword->get() == NUMBER_STR.get()) return *keyword;
 		return updateNumberKeywordCache(defaultNumberKeyword);
+	}
+}
+
+namespace org::mariuszgromada::math::mxparser::syntaxchecker {
+	const SyntaxCheckerTokenManager *exchangePooledExpressionSyntaxTokenManager(
+			const SyntaxCheckerTokenManager *manager) noexcept;
+
+	namespace {
+		constexpr int SHORT_SYNTAX_BUFFER_SIZE = 256;
+		thread_local bool tokenCacheClosed = false;
+
+		struct TokenBlockCache {
+			std::array<void *, 32> blocks{};
+			std::size_t count = 0;
+
+			~TokenBlockCache() {
+				tokenCacheClosed = true;
+				while (count != 0) ::operator delete(blocks[--count]);
+			}
+		};
+
+		TokenBlockCache *tokenBlockCache() {
+			if (tokenCacheClosed) return nullptr;
+			static thread_local TokenBlockCache cache;
+			return &cache;
+		}
+
+		class RecycledSyntaxToken final : public JavaCCToken {
+		public:
+			RecycledSyntaxToken(int kind, const JJString &image) : JavaCCToken(kind, image) {}
+
+			void *operator new(std::size_t size) {
+				TokenBlockCache *cache = tokenBlockCache();
+				if (cache != nullptr && cache->count != 0) return cache->blocks[--cache->count];
+				return ::operator new(size);
+			}
+
+			void operator delete(void *block) noexcept {
+				TokenBlockCache *cache = tokenBlockCache();
+				if (cache != nullptr && cache->count < cache->blocks.size())
+					cache->blocks[cache->count++] = block;
+				else
+					::operator delete(block);
+			}
+		};
+
+		class ScopedExpressionSyntaxTokenPool {
+			const SyntaxCheckerTokenManager *previous;
+		public:
+			explicit ScopedExpressionSyntaxTokenPool(const SyntaxCheckerTokenManager *manager)
+				: previous(exchangePooledExpressionSyntaxTokenManager(manager)) {}
+
+			~ScopedExpressionSyntaxTokenPool() { exchangePooledExpressionSyntaxTokenManager(previous); }
+		};
+	}
+
+	JavaCCToken *newPooledExpressionSyntaxToken(int kind, const JJString &image) {
+		return new RecycledSyntaxToken(kind, image);
+	}
+
+	namespace {
+		class ExpressionGrammarValidation {
+		public:
+			const bool shortInput;
+			const CharStreamPtr stream;
+			SyntaxCheckerTokenManagerPtr tokenManager;
+			const SyntaxCheckerPtr parser;
+			std::optional<String> acceptedText;
+
+			ExpressionGrammarValidation(const StringPtr &text, bool shortInput)
+				: shortInput(shortInput),
+				  stream(shortInput ? std::make_shared<CharStream>(*text, 0, 0, SHORT_SYNTAX_BUFFER_SIZE)
+				                    : new_CharStream(text)),
+				  tokenManager(new_SyntaxCheckerTokenManager(stream)),
+				  parser(new_SyntaxChecker(tokenManager)) {}
+
+			void reset(const StringPtr &text) {
+				acceptedText.reset();
+				stream->ReInit(*text, 0, 0, SHORT_SYNTAX_BUFFER_SIZE);
+				tokenManager->ReInit(stream.get(), 0);
+				parser->ReInit(tokenManager.get());
+			}
+
+			bool check(const StringPtr &text) {
+				if (acceptedText && *acceptedText == *text) return true;
+				if (!shortInput) return parser->checkSyntax();
+				ScopedExpressionSyntaxTokenPool pool(tokenManager.get());
+				if (!parser->checkSyntax()) return false;
+				acceptedText = *text;
+				return true;
+			}
+		};
+
+		thread_local bool grammarValidationClosed = false;
+
+		struct GrammarValidationSlot {
+			std::unique_ptr<ExpressionGrammarValidation> context;
+
+			~GrammarValidationSlot() { grammarValidationClosed = true; }
+		};
+
+		GrammarValidationSlot &grammarValidationSlot() {
+			static thread_local GrammarValidationSlot slot;
+			return slot;
+		}
+
+		std::unique_ptr<ExpressionGrammarValidation> prepareGrammarValidation(const StringPtr &text) {
+			if (grammarValidationClosed || text->empty() || text->size() >= SHORT_SYNTAX_BUFFER_SIZE)
+				return std::make_unique<ExpressionGrammarValidation>(text, false);
+			auto validation = std::move(grammarValidationSlot().context);
+			if (!validation) return std::make_unique<ExpressionGrammarValidation>(text, true);
+			if (!validation->acceptedText || *validation->acceptedText != *text) validation->reset(text);
+			return validation;
+		}
 	}
 }
 
@@ -1701,14 +1816,14 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 		cleanExpressionString();
 
-		CharStreamPtr charStream = new_CharStream(expressionStringCleaned);
-		SyntaxCheckerTokenManagerPtr tokenMmanager = new_SyntaxCheckerTokenManager(charStream);
-		SyntaxCheckerPtr syntaxChecker = new_SyntaxChecker(tokenMmanager);
-		syntax = syntaxChecker->checkSyntax();
+		auto validation = syntaxchecker::prepareGrammarValidation(expressionStringCleaned);
+		syntax = validation->check(expressionStringCleaned);
+		if (syntax && validation->shortInput)
+			syntaxchecker::grammarValidationSlot().context = std::move(validation);
 
 		if (!syntax)
-			registerSyntaxLexicalError(StringInvariant::EMPTY, syntaxChecker->errorMessages,
-			                           tokenMmanager->errorMessages);
+			registerSyntaxLexicalError(StringInvariant::EMPTY, validation->parser->errorMessages,
+			                           validation->tokenManager->errorMessages);
 
 		errorMessage = StringModel::addErrorMassage(errorMessage, StringInvariant::EMPTY,
 			syntax == NO_SYNTAX_ERRORS ? StringModel::STRING_RESOURCES->NO_ERRORS_DETECTED : StringModel::STRING_RESOURCES->ERRORS_HAVE_BEEN_FOUND);
@@ -2419,10 +2534,10 @@ namespace org::mariuszgromada::math::mxparser {
 			registerFinalSyntaxExpressionStringIsEmpty(recursionInfoLevel);
 			return SYNTAX_ERROR;
 		}
-		CharStreamPtr charStream = new_CharStream(expressionStringCleaned);
-		SyntaxCheckerTokenManagerPtr tokenMmanager = new_SyntaxCheckerTokenManager(charStream);
-		SyntaxCheckerPtr syntaxChecker = new_SyntaxChecker(tokenMmanager);
-		syntax = syntaxChecker->checkSyntax();
+		auto validation = syntaxchecker::prepareGrammarValidation(expressionStringCleaned);
+		syntax = validation->check(expressionStringCleaned);
+		if (syntax && validation->shortInput)
+			syntaxchecker::grammarValidationSlot().context = std::move(validation);
 
 		if (syntax) {
 			tokenizeExpressionString();
@@ -2466,7 +2581,7 @@ namespace org::mariuszgromada::math::mxparser {
 				performSyntaxStackPopIfEndOfSectionLevel(token, syntaxStack);
 			}
 		} else {
-			registerSyntaxLexicalError(recursionInfoLevel, syntaxChecker->errorMessages, tokenMmanager->errorMessages);
+			registerSyntaxLexicalError(recursionInfoLevel, validation->parser->errorMessages, validation->tokenManager->errorMessages);
 		}
 		registerFinalSyntax(recursionInfoLevel, syntax);
 		return syntax;

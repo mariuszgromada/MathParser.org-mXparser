@@ -66,6 +66,41 @@ public class SyntaxChecker : SyntaxCheckerConstants {
   }
 
   public void binaryOperator() {
+    // CS-09: single-token lookahead dispatch.
+    Token next = token.next;
+    if (next == null) next = token.next = token_source.getNextToken();
+    int kind = next.kind;
+    switch (kind) {
+      case PLUS:
+      case MINUS:
+      case MULTIPLY:
+      case DIV:
+      case MODULO:
+      case POWER:
+      case TETRATION:
+      case EQ:
+      case NEQ:
+      case GT:
+      case GEQ:
+      case LT:
+      case LEQ:
+      case OR:
+      case AND:
+      case NOR:
+      case NAND:
+      case XOR:
+      case IMP:
+      case CIMP:
+      case NIMP:
+      case CNIMP:
+      case EQV:
+      case BITWISE:
+      case NANCOAL:
+        jj_consume_token(kind);
+        return;
+      default:
+        break;
+    }
     if (jj_2_6(2)) {
       jj_consume_token(PLUS);
     } else if (jj_2_7(2)) {
@@ -123,6 +158,18 @@ public class SyntaxChecker : SyntaxCheckerConstants {
   }
 
   public void unaryRigthOperator() {
+    // CS-09: single-token lookahead dispatch.
+    Token next = token.next;
+    if (next == null) next = token.next = token_source.getNextToken();
+    int kind = next.kind;
+    switch (kind) {
+      case FACTORIAL:
+      case PERCENTAGE:
+        jj_consume_token(kind);
+        return;
+      default:
+        break;
+    }
     if (jj_2_31(2)) {
       jj_consume_token(FACTORIAL);
     } else if (jj_2_32(2)) {
@@ -634,1086 +681,1086 @@ public class SyntaxChecker : SyntaxCheckerConstants {
 
   private bool jj_2_1(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_1(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_1() || jj_done; }
     finally { jj_save(0, xla); }
   }
 
   private bool jj_2_2(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_2(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_2() || jj_done; }
     finally { jj_save(1, xla); }
   }
 
   private bool jj_2_3(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_3(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_3() || jj_done; }
     finally { jj_save(2, xla); }
   }
 
   private bool jj_2_4(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_4(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_4() || jj_done; }
     finally { jj_save(3, xla); }
   }
 
   private bool jj_2_5(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_5(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_5() || jj_done; }
     finally { jj_save(4, xla); }
   }
 
   private bool jj_2_6(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_6(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_6() || jj_done; }
     finally { jj_save(5, xla); }
   }
 
   private bool jj_2_7(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_7(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_7() || jj_done; }
     finally { jj_save(6, xla); }
   }
 
   private bool jj_2_8(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_8(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_8() || jj_done; }
     finally { jj_save(7, xla); }
   }
 
   private bool jj_2_9(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_9(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_9() || jj_done; }
     finally { jj_save(8, xla); }
   }
 
   private bool jj_2_10(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_10(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_10() || jj_done; }
     finally { jj_save(9, xla); }
   }
 
   private bool jj_2_11(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_11(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_11() || jj_done; }
     finally { jj_save(10, xla); }
   }
 
   private bool jj_2_12(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_12(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_12() || jj_done; }
     finally { jj_save(11, xla); }
   }
 
   private bool jj_2_13(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_13(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_13() || jj_done; }
     finally { jj_save(12, xla); }
   }
 
   private bool jj_2_14(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_14(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_14() || jj_done; }
     finally { jj_save(13, xla); }
   }
 
   private bool jj_2_15(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_15(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_15() || jj_done; }
     finally { jj_save(14, xla); }
   }
 
   private bool jj_2_16(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_16(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_16() || jj_done; }
     finally { jj_save(15, xla); }
   }
 
   private bool jj_2_17(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_17(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_17() || jj_done; }
     finally { jj_save(16, xla); }
   }
 
   private bool jj_2_18(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_18(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_18() || jj_done; }
     finally { jj_save(17, xla); }
   }
 
   private bool jj_2_19(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_19(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_19() || jj_done; }
     finally { jj_save(18, xla); }
   }
 
   private bool jj_2_20(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_20(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_20() || jj_done; }
     finally { jj_save(19, xla); }
   }
 
   private bool jj_2_21(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_21(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_21() || jj_done; }
     finally { jj_save(20, xla); }
   }
 
   private bool jj_2_22(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_22(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_22() || jj_done; }
     finally { jj_save(21, xla); }
   }
 
   private bool jj_2_23(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_23(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_23() || jj_done; }
     finally { jj_save(22, xla); }
   }
 
   private bool jj_2_24(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_24(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_24() || jj_done; }
     finally { jj_save(23, xla); }
   }
 
   private bool jj_2_25(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_25(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_25() || jj_done; }
     finally { jj_save(24, xla); }
   }
 
   private bool jj_2_26(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_26(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_26() || jj_done; }
     finally { jj_save(25, xla); }
   }
 
   private bool jj_2_27(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_27(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_27() || jj_done; }
     finally { jj_save(26, xla); }
   }
 
   private bool jj_2_28(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_28(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_28() || jj_done; }
     finally { jj_save(27, xla); }
   }
 
   private bool jj_2_29(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_29(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_29() || jj_done; }
     finally { jj_save(28, xla); }
   }
 
   private bool jj_2_30(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_30(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_30() || jj_done; }
     finally { jj_save(29, xla); }
   }
 
   private bool jj_2_31(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_31(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_31() || jj_done; }
     finally { jj_save(30, xla); }
   }
 
   private bool jj_2_32(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_32(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_32() || jj_done; }
     finally { jj_save(31, xla); }
   }
 
   private bool jj_2_33(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_33(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_33() || jj_done; }
     finally { jj_save(32, xla); }
   }
 
   private bool jj_2_34(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_34(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_34() || jj_done; }
     finally { jj_save(33, xla); }
   }
 
   private bool jj_2_35(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_35(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_35() || jj_done; }
     finally { jj_save(34, xla); }
   }
 
   private bool jj_2_36(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_36(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_36() || jj_done; }
     finally { jj_save(35, xla); }
   }
 
   private bool jj_2_37(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_37(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_37() || jj_done; }
     finally { jj_save(36, xla); }
   }
 
   private bool jj_2_38(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_38(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_38() || jj_done; }
     finally { jj_save(37, xla); }
   }
 
   private bool jj_2_39(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_39(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_39() || jj_done; }
     finally { jj_save(38, xla); }
   }
 
   private bool jj_2_40(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_40(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_40() || jj_done; }
     finally { jj_save(39, xla); }
   }
 
   private bool jj_2_41(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_41(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_41() || jj_done; }
     finally { jj_save(40, xla); }
   }
 
   private bool jj_2_42(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_42(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_42() || jj_done; }
     finally { jj_save(41, xla); }
   }
 
   private bool jj_2_43(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_43(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_43() || jj_done; }
     finally { jj_save(42, xla); }
   }
 
   private bool jj_2_44(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_44(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_44() || jj_done; }
     finally { jj_save(43, xla); }
   }
 
   private bool jj_2_45(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_45(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_45() || jj_done; }
     finally { jj_save(44, xla); }
   }
 
   private bool jj_2_46(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_46(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_46() || jj_done; }
     finally { jj_save(45, xla); }
   }
 
   private bool jj_2_47(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_47(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_47() || jj_done; }
     finally { jj_save(46, xla); }
   }
 
   private bool jj_2_48(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_48(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_48() || jj_done; }
     finally { jj_save(47, xla); }
   }
 
   private bool jj_2_49(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_49(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_49() || jj_done; }
     finally { jj_save(48, xla); }
   }
 
   private bool jj_2_50(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_50(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_50() || jj_done; }
     finally { jj_save(49, xla); }
   }
 
   private bool jj_2_51(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_51(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_51() || jj_done; }
     finally { jj_save(50, xla); }
   }
 
   private bool jj_2_52(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_52(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_52() || jj_done; }
     finally { jj_save(51, xla); }
   }
 
   private bool jj_2_53(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_53(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_53() || jj_done; }
     finally { jj_save(52, xla); }
   }
 
   private bool jj_2_54(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_54(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_54() || jj_done; }
     finally { jj_save(53, xla); }
   }
 
   private bool jj_2_55(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_55(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_55() || jj_done; }
     finally { jj_save(54, xla); }
   }
 
   private bool jj_2_56(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_56(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_56() || jj_done; }
     finally { jj_save(55, xla); }
   }
 
   private bool jj_2_57(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_57(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_57() || jj_done; }
     finally { jj_save(56, xla); }
   }
 
   private bool jj_2_58(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_58(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_58() || jj_done; }
     finally { jj_save(57, xla); }
   }
 
   private bool jj_2_59(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_59(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_59() || jj_done; }
     finally { jj_save(58, xla); }
   }
 
   private bool jj_2_60(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_60(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_60() || jj_done; }
     finally { jj_save(59, xla); }
   }
 
   private bool jj_2_61(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_61(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_61() || jj_done; }
     finally { jj_save(60, xla); }
   }
 
   private bool jj_2_62(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_62(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_62() || jj_done; }
     finally { jj_save(61, xla); }
   }
 
   private bool jj_2_63(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_63(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_63() || jj_done; }
     finally { jj_save(62, xla); }
   }
 
   private bool jj_2_64(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_64(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_64() || jj_done; }
     finally { jj_save(63, xla); }
   }
 
   private bool jj_2_65(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_65(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_65() || jj_done; }
     finally { jj_save(64, xla); }
   }
 
   private bool jj_2_66(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_66(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_66() || jj_done; }
     finally { jj_save(65, xla); }
   }
 
   private bool jj_2_67(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_67(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_67() || jj_done; }
     finally { jj_save(66, xla); }
   }
 
   private bool jj_2_68(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_68(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_68() || jj_done; }
     finally { jj_save(67, xla); }
   }
 
   private bool jj_2_69(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_69(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_69() || jj_done; }
     finally { jj_save(68, xla); }
   }
 
   private bool jj_2_70(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_70(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_70() || jj_done; }
     finally { jj_save(69, xla); }
   }
 
   private bool jj_2_71(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_71(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_71() || jj_done; }
     finally { jj_save(70, xla); }
   }
 
   private bool jj_2_72(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_72(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_72() || jj_done; }
     finally { jj_save(71, xla); }
   }
 
   private bool jj_2_73(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_73(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_73() || jj_done; }
     finally { jj_save(72, xla); }
   }
 
   private bool jj_2_74(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_74(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_74() || jj_done; }
     finally { jj_save(73, xla); }
   }
 
   private bool jj_2_75(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_75(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_75() || jj_done; }
     finally { jj_save(74, xla); }
   }
 
   private bool jj_2_76(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_76(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_76() || jj_done; }
     finally { jj_save(75, xla); }
   }
 
   private bool jj_2_77(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_77(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_77() || jj_done; }
     finally { jj_save(76, xla); }
   }
 
   private bool jj_2_78(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_78(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_78() || jj_done; }
     finally { jj_save(77, xla); }
   }
 
   private bool jj_2_79(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_79(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_79() || jj_done; }
     finally { jj_save(78, xla); }
   }
 
   private bool jj_2_80(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_80(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_80() || jj_done; }
     finally { jj_save(79, xla); }
   }
 
   private bool jj_2_81(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_81(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_81() || jj_done; }
     finally { jj_save(80, xla); }
   }
 
   private bool jj_2_82(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_82(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_82() || jj_done; }
     finally { jj_save(81, xla); }
   }
 
   private bool jj_2_83(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_83(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_83() || jj_done; }
     finally { jj_save(82, xla); }
   }
 
   private bool jj_2_84(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_84(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_84() || jj_done; }
     finally { jj_save(83, xla); }
   }
 
   private bool jj_2_85(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_85(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_85() || jj_done; }
     finally { jj_save(84, xla); }
   }
 
   private bool jj_2_86(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_86(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_86() || jj_done; }
     finally { jj_save(85, xla); }
   }
 
   private bool jj_2_87(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_87(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_87() || jj_done; }
     finally { jj_save(86, xla); }
   }
 
   private bool jj_2_88(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_88(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_88() || jj_done; }
     finally { jj_save(87, xla); }
   }
 
   private bool jj_2_89(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_89(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_89() || jj_done; }
     finally { jj_save(88, xla); }
   }
 
   private bool jj_2_90(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_90(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_90() || jj_done; }
     finally { jj_save(89, xla); }
   }
 
   private bool jj_2_91(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_91(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_91() || jj_done; }
     finally { jj_save(90, xla); }
   }
 
   private bool jj_2_92(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_92(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_92() || jj_done; }
     finally { jj_save(91, xla); }
   }
 
   private bool jj_2_93(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_93(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_93() || jj_done; }
     finally { jj_save(92, xla); }
   }
 
   private bool jj_2_94(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_94(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_94() || jj_done; }
     finally { jj_save(93, xla); }
   }
 
   private bool jj_2_95(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_95(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_95() || jj_done; }
     finally { jj_save(94, xla); }
   }
 
   private bool jj_2_96(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_96(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_96() || jj_done; }
     finally { jj_save(95, xla); }
   }
 
   private bool jj_2_97(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_97(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_97() || jj_done; }
     finally { jj_save(96, xla); }
   }
 
   private bool jj_2_98(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_98(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_98() || jj_done; }
     finally { jj_save(97, xla); }
   }
 
   private bool jj_2_99(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_99(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_99() || jj_done; }
     finally { jj_save(98, xla); }
   }
 
   private bool jj_2_100(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_100(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_100() || jj_done; }
     finally { jj_save(99, xla); }
   }
 
   private bool jj_2_101(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_101(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_101() || jj_done; }
     finally { jj_save(100, xla); }
   }
 
   private bool jj_2_102(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_102(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_102() || jj_done; }
     finally { jj_save(101, xla); }
   }
 
   private bool jj_2_103(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_103(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_103() || jj_done; }
     finally { jj_save(102, xla); }
   }
 
   private bool jj_2_104(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_104(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_104() || jj_done; }
     finally { jj_save(103, xla); }
   }
 
   private bool jj_2_105(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_105(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_105() || jj_done; }
     finally { jj_save(104, xla); }
   }
 
   private bool jj_2_106(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_106(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_106() || jj_done; }
     finally { jj_save(105, xla); }
   }
 
   private bool jj_2_107(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_107(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_107() || jj_done; }
     finally { jj_save(106, xla); }
   }
 
   private bool jj_2_108(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_108(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_108() || jj_done; }
     finally { jj_save(107, xla); }
   }
 
   private bool jj_2_109(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_109(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_109() || jj_done; }
     finally { jj_save(108, xla); }
   }
 
   private bool jj_2_110(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_110(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_110() || jj_done; }
     finally { jj_save(109, xla); }
   }
 
   private bool jj_2_111(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_111(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_111() || jj_done; }
     finally { jj_save(110, xla); }
   }
 
   private bool jj_2_112(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_112(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_112() || jj_done; }
     finally { jj_save(111, xla); }
   }
 
   private bool jj_2_113(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_113(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_113() || jj_done; }
     finally { jj_save(112, xla); }
   }
 
   private bool jj_2_114(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_114(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_114() || jj_done; }
     finally { jj_save(113, xla); }
   }
 
   private bool jj_2_115(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_115(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_115() || jj_done; }
     finally { jj_save(114, xla); }
   }
 
   private bool jj_2_116(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_116(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_116() || jj_done; }
     finally { jj_save(115, xla); }
   }
 
   private bool jj_2_117(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_117(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_117() || jj_done; }
     finally { jj_save(116, xla); }
   }
 
   private bool jj_2_118(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_118(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_118() || jj_done; }
     finally { jj_save(117, xla); }
   }
 
   private bool jj_2_119(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_119(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_119() || jj_done; }
     finally { jj_save(118, xla); }
   }
 
   private bool jj_2_120(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_120(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_120() || jj_done; }
     finally { jj_save(119, xla); }
   }
 
   private bool jj_2_121(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_121(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_121() || jj_done; }
     finally { jj_save(120, xla); }
   }
 
   private bool jj_2_122(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_122(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_122() || jj_done; }
     finally { jj_save(121, xla); }
   }
 
   private bool jj_2_123(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_123(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_123() || jj_done; }
     finally { jj_save(122, xla); }
   }
 
   private bool jj_2_124(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_124(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_124() || jj_done; }
     finally { jj_save(123, xla); }
   }
 
   private bool jj_2_125(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_125(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_125() || jj_done; }
     finally { jj_save(124, xla); }
   }
 
   private bool jj_2_126(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_126(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_126() || jj_done; }
     finally { jj_save(125, xla); }
   }
 
   private bool jj_2_127(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_127(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_127() || jj_done; }
     finally { jj_save(126, xla); }
   }
 
   private bool jj_2_128(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_128(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_128() || jj_done; }
     finally { jj_save(127, xla); }
   }
 
   private bool jj_2_129(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_129(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_129() || jj_done; }
     finally { jj_save(128, xla); }
   }
 
   private bool jj_2_130(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_130(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_130() || jj_done; }
     finally { jj_save(129, xla); }
   }
 
   private bool jj_2_131(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_131(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_131() || jj_done; }
     finally { jj_save(130, xla); }
   }
 
   private bool jj_2_132(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_132(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_132() || jj_done; }
     finally { jj_save(131, xla); }
   }
 
   private bool jj_2_133(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_133(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_133() || jj_done; }
     finally { jj_save(132, xla); }
   }
 
   private bool jj_2_134(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_134(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_134() || jj_done; }
     finally { jj_save(133, xla); }
   }
 
   private bool jj_2_135(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_135(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_135() || jj_done; }
     finally { jj_save(134, xla); }
   }
 
   private bool jj_2_136(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_136(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_136() || jj_done; }
     finally { jj_save(135, xla); }
   }
 
   private bool jj_2_137(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_137(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_137() || jj_done; }
     finally { jj_save(136, xla); }
   }
 
   private bool jj_2_138(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_138(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_138() || jj_done; }
     finally { jj_save(137, xla); }
   }
 
   private bool jj_2_139(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_139(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_139() || jj_done; }
     finally { jj_save(138, xla); }
   }
 
   private bool jj_2_140(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_140(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_140() || jj_done; }
     finally { jj_save(139, xla); }
   }
 
   private bool jj_2_141(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_141(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_141() || jj_done; }
     finally { jj_save(140, xla); }
   }
 
   private bool jj_2_142(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_142(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_142() || jj_done; }
     finally { jj_save(141, xla); }
   }
 
   private bool jj_2_143(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_143(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_143() || jj_done; }
     finally { jj_save(142, xla); }
   }
 
   private bool jj_2_144(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_144(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_144() || jj_done; }
     finally { jj_save(143, xla); }
   }
 
   private bool jj_2_145(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_145(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_145() || jj_done; }
     finally { jj_save(144, xla); }
   }
 
   private bool jj_2_146(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_146(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_146() || jj_done; }
     finally { jj_save(145, xla); }
   }
 
   private bool jj_2_147(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_147(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_147() || jj_done; }
     finally { jj_save(146, xla); }
   }
 
   private bool jj_2_148(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_148(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_148() || jj_done; }
     finally { jj_save(147, xla); }
   }
 
   private bool jj_2_149(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_149(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_149() || jj_done; }
     finally { jj_save(148, xla); }
   }
 
   private bool jj_2_150(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_150(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_150() || jj_done; }
     finally { jj_save(149, xla); }
   }
 
   private bool jj_2_151(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_151(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_151() || jj_done; }
     finally { jj_save(150, xla); }
   }
 
   private bool jj_2_152(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_152(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_152() || jj_done; }
     finally { jj_save(151, xla); }
   }
 
   private bool jj_2_153(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_153(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_153() || jj_done; }
     finally { jj_save(152, xla); }
   }
 
   private bool jj_2_154(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_154(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_154() || jj_done; }
     finally { jj_save(153, xla); }
   }
 
   private bool jj_2_155(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_155(); }
-    catch(LookaheadSuccess) { return true; }
+    jj_done = false;
+    try { return !jj_3_155() || jj_done; }
     finally { jj_save(154, xla); }
   }
 
@@ -1747,7 +1794,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     if (jj_3_44()) return true;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3_44()) { jj_scanpos = xsp; break; }
+      if (jj_3_44()) { if (jj_done) return true; jj_scanpos = xsp; break; }
     }
     if (jj_3R_22()) return true;
     return false;
@@ -1768,7 +1815,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     if (jj_3_69()) return true;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3_69()) { jj_scanpos = xsp; break; }
+      if (jj_3_69()) { if (jj_done) return true; jj_scanpos = xsp; break; }
     }
     if (jj_scan_token(DECIMAL)) return true;
     return false;
@@ -1798,6 +1845,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_70()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_71()) return true;
     }
@@ -1843,6 +1891,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_45()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_46()) return true;
     }
@@ -1873,7 +1922,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     if (jj_3R_24()) return true;
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3_72()) jj_scanpos = xsp;
+    if (jj_3_72()) { if (jj_done) return true; jj_scanpos = xsp; }
     return false;
   }
 
@@ -1932,7 +1981,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     if (jj_3_65()) return true;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3_65()) { jj_scanpos = xsp; break; }
+      if (jj_3_65()) { if (jj_done) return true; jj_scanpos = xsp; break; }
     }
     if (jj_scan_token(DECIMAL)) return true;
     return false;
@@ -1962,6 +2011,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_66()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_67()) return true;
     }
@@ -2023,7 +2073,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     if (jj_3_40()) return true;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3_40()) { jj_scanpos = xsp; break; }
+      if (jj_3_40()) { if (jj_done) return true; jj_scanpos = xsp; break; }
     }
     if (jj_3R_21()) return true;
     return false;
@@ -2043,32 +2093,46 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_134()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_135()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_136()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_137()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_138()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_139()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_140()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_141()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_142()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_143()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_144()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_145()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_146()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_147()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_148()) return true;
     }
@@ -2192,6 +2256,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_154()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_155()) return true;
     }
@@ -2208,6 +2273,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_41()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_42()) return true;
     }
@@ -2248,15 +2314,17 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_130()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_131()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_132()) return true;
     }
     }
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3_133()) { jj_scanpos = xsp; break; }
+      if (jj_3_133()) { if (jj_done) return true; jj_scanpos = xsp; break; }
     }
     return false;
   }
@@ -2266,10 +2334,11 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     if (jj_3_59()) return true;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3_59()) { jj_scanpos = xsp; break; }
+      if (jj_3_59()) { if (jj_done) return true; jj_scanpos = xsp; break; }
     }
     xsp = jj_scanpos;
     if (jj_3_60()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_61()) return true;
     }
@@ -2296,12 +2365,14 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     if (jj_3_76()) return true;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3_76()) { jj_scanpos = xsp; break; }
+      if (jj_3_76()) { if (jj_done) return true; jj_scanpos = xsp; break; }
     }
     xsp = jj_scanpos;
     if (jj_3_77()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_78()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_79()) return true;
     }
@@ -2315,7 +2386,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     if (jj_3_149()) return true;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3_149()) { jj_scanpos = xsp; break; }
+      if (jj_3_149()) { if (jj_done) return true; jj_scanpos = xsp; break; }
     }
     return false;
   }
@@ -2329,7 +2400,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     if (jj_3R_29()) return true;
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3_84()) jj_scanpos = xsp;
+    if (jj_3_84()) { if (jj_done) return true; jj_scanpos = xsp; }
     return false;
   }
 
@@ -2348,7 +2419,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     if (jj_3_55()) return true;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3_55()) { jj_scanpos = xsp; break; }
+      if (jj_3_55()) { if (jj_done) return true; jj_scanpos = xsp; break; }
     }
     if (jj_3R_23()) return true;
     return false;
@@ -2384,8 +2455,10 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_150()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_151()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_152()) return true;
     }
@@ -2402,6 +2475,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_80()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_81()) return true;
     }
@@ -2432,8 +2506,10 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_127()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_128()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_129()) return true;
     }
@@ -2451,7 +2527,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     if (jj_3_48()) return true;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3_48()) { jj_scanpos = xsp; break; }
+      if (jj_3_48()) { if (jj_done) return true; jj_scanpos = xsp; break; }
     }
     if (jj_3R_22()) return true;
     return false;
@@ -2461,82 +2537,121 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_87()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_88()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_89()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_90()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_91()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_92()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_93()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_94()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_95()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_96()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_97()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_98()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_99()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_100()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_101()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_102()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_103()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_104()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_105()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_106()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_107()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_108()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_109()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_110()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_111()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_112()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_113()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_114()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_115()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_116()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_117()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_118()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_119()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_120()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_121()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_122()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_123()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_124()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_125()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_126()) return true;
     }
@@ -2595,6 +2710,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_85()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_86()) return true;
     }
@@ -2605,6 +2721,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_56()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_57()) return true;
     }
@@ -2630,6 +2747,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_62()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_63()) return true;
     }
@@ -2645,6 +2763,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_82()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_83()) return true;
     }
@@ -2655,6 +2774,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_52()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_53()) return true;
     }
@@ -2665,9 +2785,9 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     if (jj_3R_22()) return true;
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3_43()) jj_scanpos = xsp;
+    if (jj_3_43()) { if (jj_done) return true; jj_scanpos = xsp; }
     xsp = jj_scanpos;
-    if (jj_3_47()) jj_scanpos = xsp;
+    if (jj_3_47()) { if (jj_done) return true; jj_scanpos = xsp; }
     return false;
   }
 
@@ -2676,7 +2796,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3_75()) { jj_scanpos = xsp; break; }
+      if (jj_3_75()) { if (jj_done) return true; jj_scanpos = xsp; break; }
     }
     return false;
   }
@@ -2701,7 +2821,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     if (jj_3_33()) return true;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3_33()) { jj_scanpos = xsp; break; }
+      if (jj_3_33()) { if (jj_done) return true; jj_scanpos = xsp; break; }
     }
     return false;
   }
@@ -2710,6 +2830,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_73()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_74()) return true;
     }
@@ -2720,9 +2841,9 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     if (jj_scan_token(DECIMAL)) return true;
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3_64()) jj_scanpos = xsp;
+    if (jj_3_64()) { if (jj_done) return true; jj_scanpos = xsp; }
     xsp = jj_scanpos;
-    if (jj_3_68()) jj_scanpos = xsp;
+    if (jj_3_68()) { if (jj_done) return true; jj_scanpos = xsp; }
     return false;
   }
 
@@ -2771,6 +2892,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_37()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_38()) return true;
     }
@@ -2785,11 +2907,11 @@ public class SyntaxChecker : SyntaxCheckerConstants {
   private bool jj_3R_32() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3_39()) jj_scanpos = xsp;
+    if (jj_3_39()) { if (jj_done) return true; jj_scanpos = xsp; }
     if (jj_3_54()) return true;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3_54()) { jj_scanpos = xsp; break; }
+      if (jj_3_54()) { if (jj_done) return true; jj_scanpos = xsp; break; }
     }
     return false;
   }
@@ -2798,8 +2920,10 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_34()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_35()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_36()) return true;
     }
@@ -2832,6 +2956,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_31()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_32()) return true;
     }
@@ -2847,6 +2972,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_49()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_50()) return true;
     }
@@ -2862,52 +2988,76 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_6()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_7()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_8()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_9()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_10()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_11()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_12()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_13()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_14()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_15()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_16()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_17()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_18()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_19()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_20()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_21()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_22()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_23()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_24()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_25()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_26()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_27()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_28()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_29()) {
+      if (jj_done) return true;
     jj_scanpos = xsp;
     if (jj_3_30()) return true;
     }
@@ -2960,7 +3110,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
   private bool jj_3R_31() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3_5()) jj_scanpos = xsp;
+    if (jj_3_5()) { if (jj_done) return true; jj_scanpos = xsp; }
     if (jj_3R_32()) return true;
     return false;
   }
@@ -2969,7 +3119,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     if (jj_3R_31()) return true;
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3_4()) jj_scanpos = xsp;
+    if (jj_3_4()) { if (jj_done) return true; jj_scanpos = xsp; }
     return false;
   }
 
@@ -2983,7 +3133,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3_3()) { jj_scanpos = xsp; break; }
+      if (jj_3_3()) { if (jj_done) return true; jj_scanpos = xsp; break; }
     }
     return false;
   }
@@ -3086,7 +3236,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     jj_ntk = -1;
     jj_gen = 0;
     for (int i = 0; i < 0; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.Length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   public void ReInit(System.IO.Stream stream) {
@@ -3096,7 +3245,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     jj_ntk = -1;
     jj_gen = 0;
     for (int i = 0; i < 0; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.Length; i++) jj_2_rtns[i] = new JJCalls();
+    System.Array.Clear(jj_2_rtns, 0, jj_2_rtns.Length);
   }
 
   public SyntaxChecker(System.IO.TextReader stream) {
@@ -3106,7 +3255,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     jj_ntk = -1;
     jj_gen = 0;
     for (int i = 0; i < 0; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.Length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   public void ReInit(System.IO.TextReader stream) {
@@ -3116,7 +3264,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     jj_ntk = -1;
     jj_gen = 0;
     for (int i = 0; i < 0; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.Length; i++) jj_2_rtns[i] = new JJCalls();
+    System.Array.Clear(jj_2_rtns, 0, jj_2_rtns.Length);
   }
 
   public SyntaxChecker(SyntaxCheckerTokenManager tm) {
@@ -3125,7 +3273,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     jj_ntk = -1;
     jj_gen = 0;
     for (int i = 0; i < 0; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.Length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   public void ReInit(SyntaxCheckerTokenManager tm) {
@@ -3134,7 +3281,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     jj_ntk = -1;
     jj_gen = 0;
     for (int i = 0; i < 0; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.Length; i++) jj_2_rtns[i] = new JJCalls();
+    System.Array.Clear(jj_2_rtns, 0, jj_2_rtns.Length);
   }
 
   private Token jj_consume_token(int kind){
@@ -3161,8 +3308,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     throw generateParseException();
   }
 
-  class LookaheadSuccess : System.Exception{ }
-  private LookaheadSuccess jj_ls = new LookaheadSuccess();
+  private bool jj_done;
   private bool jj_scan_token(int kind) {
     if (jj_scanpos == jj_lastpos) {
       jj_la--;
@@ -3180,7 +3326,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       if (tok != null) jj_add_error_token(kind, i);
     }
     if (jj_scanpos.kind != kind) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) throw jj_ls;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) return jj_done = true;
     return false;
   }
 
@@ -3298,11 +3444,12 @@ public class SyntaxChecker : SyntaxCheckerConstants {
   private void jj_rescan_token() {
     jj_rescan = true;
     for (int i = 0; i < 155; i++) {
-    try {
       JJCalls p = jj_2_rtns[i];
+      if (p == null) continue;
       do {
         if (p.gen > jj_gen) {
           jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;
+          jj_done = false;
           switch (i) {
             case 0: jj_3_1(); break;
             case 1: jj_3_2(); break;
@@ -3460,16 +3607,17 @@ public class SyntaxChecker : SyntaxCheckerConstants {
             case 153: jj_3_154(); break;
             case 154: jj_3_155(); break;
           }
+          if (jj_done) break;
         }
         p = p.next;
       } while (p != null);
-      } catch(LookaheadSuccess) { }
     }
     jj_rescan = false;
   }
 
   private void jj_save(int index, int xla) {
     JJCalls p = jj_2_rtns[index];
+    if (p == null) p = jj_2_rtns[index] = new JJCalls();
     while (p.gen > jj_gen) {
       if (p.next == null) { p = p.next = new JJCalls(); break; }
       p = p.next;

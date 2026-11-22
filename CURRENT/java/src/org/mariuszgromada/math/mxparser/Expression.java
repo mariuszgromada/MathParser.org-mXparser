@@ -219,6 +219,7 @@ package org.mariuszgromada.math.mxparser;
 
 import java.io.StringReader;
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 import java.util.*;
 
 import org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations;
@@ -246,7 +247,10 @@ import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
 import org.mariuszgromada.math.mxparser.parsertokens.RandomVariable;
 import org.mariuszgromada.math.mxparser.parsertokens.Token;
 import org.mariuszgromada.math.mxparser.parsertokens.Unit;
+import org.mariuszgromada.math.mxparser.syntaxchecker.ParseException;
+import org.mariuszgromada.math.mxparser.syntaxchecker.SimpleCharStream;
 import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
+import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxCheckerTokenManager;
 
 /**
  * Expression - base class for real expression definition.
@@ -4878,9 +4882,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 			registerFinalSyntaxExpressionStringIsEmpty(StringInvariant.EMPTY);
 			return syntax;
 		}
-		SyntaxChecker syn = new SyntaxChecker(new StringReader(expressionStringCleaned));
+		GrammarValidation validation = prepareGrammarValidation(expressionStringCleaned);
 	    try {
-	        syn.checkSyntax();
+	        validation.check(expressionStringCleaned);
 	    } catch (Throwable e) {
 			syntax = SYNTAX_ERROR;
 			registerSyntaxLexicalError(StringInvariant.EMPTY, e);
@@ -4888,6 +4892,59 @@ public class Expression extends PrimitiveElement implements Serializable {
 		errorMessage = StringModel.addErrorMassage(errorMessage, StringInvariant.EMPTY,
 				syntax == NO_SYNTAX_ERRORS ? StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED : StringModel.STRING_RESOURCES.ERRORS_HAVE_BEEN_FOUND);
 		return syntax;
+	}
+
+	private static final int SHORT_SYNTAX_BUFFER_SIZE = 256;
+	// A pooled application thread must not keep this library's class loader alive.
+	private static final ThreadLocal<WeakReference<GrammarValidation>> grammarValidation = new ThreadLocal<>();
+
+	private static final class GrammarValidation {
+		private final SimpleCharStream shortStream;
+		private final SyntaxCheckerTokenManager tokenManager;
+		private final SyntaxChecker parser;
+		private final WeakReference<GrammarValidation> cachedReference;
+		private String acceptedText;
+
+		private GrammarValidation(String text, boolean shortInput) {
+			StringReader reader = new StringReader(text);
+			if (shortInput) {
+				shortStream = new SimpleCharStream(reader, 1, 1, SHORT_SYNTAX_BUFFER_SIZE);
+				tokenManager = new SyntaxCheckerTokenManager(shortStream);
+				parser = new SyntaxChecker(tokenManager);
+				cachedReference = new WeakReference<>(this);
+			} else {
+				shortStream = null;
+				tokenManager = null;
+				parser = new SyntaxChecker(reader);
+				cachedReference = null;
+			}
+		}
+
+		private void reset(String text) {
+			acceptedText = null;
+			shortStream.ReInit(new StringReader(text), 1, 1, SHORT_SYNTAX_BUFFER_SIZE);
+			tokenManager.ReInit(shortStream);
+			parser.ReInit(tokenManager);
+		}
+
+		private void check(String text) throws ParseException {
+			if (!text.equals(acceptedText)) parser.checkSyntax();
+			if (cachedReference != null) {
+				acceptedText = text;
+				grammarValidation.set(cachedReference);
+			}
+		}
+	}
+
+	private static GrammarValidation prepareGrammarValidation(String text) {
+		// Leave one slot free for EOF; larger inputs keep the normal growable stream.
+		if (text.length() >= SHORT_SYNTAX_BUFFER_SIZE) return new GrammarValidation(text, false);
+		WeakReference<GrammarValidation> reference = grammarValidation.get();
+		GrammarValidation validation = reference == null ? null : reference.get();
+		if (validation == null) return new GrammarValidation(text, true);
+		grammarValidation.set(null);
+		if (!text.equals(validation.acceptedText)) validation.reset(text);
+		return validation;
 	}
 
 	/**
@@ -5381,9 +5438,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 			registerFinalSyntaxExpressionStringIsEmpty(recursionInfoLevel);
 			return SYNTAX_ERROR;
 		}
-		SyntaxChecker syn = new SyntaxChecker(new StringReader(expressionStringCleaned));
+		GrammarValidation validation = prepareGrammarValidation(expressionStringCleaned);
 	    try {
-	        syn.checkSyntax();
+	        validation.check(expressionStringCleaned);
 			tokenizeExpressionString();
 
 			syntax = checkPartialSyntaxImpliedMultiplication(recursionInfoLevel) && syntax;

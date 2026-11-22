@@ -3887,10 +3887,9 @@ namespace org.mariuszgromada.math.mxparser {
                 registerFinalSyntaxExpressionStringIsEmpty(StringInvariant.EMPTY);
                 return syntax;
 			}
-			cleanExpressionString();
-			syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionStringCleaned)));
+			GrammarValidation validation = prepareGrammarValidation(expressionStringCleaned);
 			try {
-				syn.checkSyntax();
+				validation.check(expressionStringCleaned);
 			} catch (Exception e) {
 				syntax = SYNTAX_ERROR;
                 registerSyntaxLexicalError(StringInvariant.EMPTY, e);
@@ -3899,6 +3898,70 @@ namespace org.mariuszgromada.math.mxparser {
                 syntax == NO_SYNTAX_ERRORS ? StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED : StringModel.STRING_RESOURCES.ERRORS_HAVE_BEEN_FOUND);
             return syntax;
 		}
+		private const int SHORT_SYNTAX_BUFFER_SIZE = 256;
+		// The cache may be collected while the application thread remains alive.
+		[ThreadStatic]
+		private static WeakReference grammarValidation;
+
+		private sealed class GrammarValidation {
+			private readonly syntaxchecker.SimpleCharStream shortStream;
+			private readonly syntaxchecker.SyntaxCheckerTokenManager tokenManager;
+			private readonly syntaxchecker.SyntaxChecker parser;
+			private readonly WeakReference cachedReference;
+			internal String acceptedText;
+
+			internal GrammarValidation(String text, bool shortInput) {
+				TextReader reader = createGrammarReader(text);
+				if (shortInput) {
+					shortStream = new syntaxchecker.SimpleCharStream(reader, 1, 1, SHORT_SYNTAX_BUFFER_SIZE);
+					tokenManager = new syntaxchecker.SyntaxCheckerTokenManager(shortStream);
+					parser = new syntaxchecker.SyntaxChecker(tokenManager);
+					cachedReference = new WeakReference(this);
+				} else {
+					shortStream = null;
+					tokenManager = null;
+					parser = new syntaxchecker.SyntaxChecker(reader);
+					cachedReference = null;
+				}
+			}
+
+			internal void reset(String text) {
+				acceptedText = null;
+				shortStream.ReInitForExpression(createGrammarReader(text), SHORT_SYNTAX_BUFFER_SIZE);
+				tokenManager.ReInit(shortStream);
+				parser.ReInit(tokenManager);
+			}
+
+			internal void check(String text) {
+				if (!text.Equals(acceptedText, StringComparison.Ordinal)) parser.checkSyntax();
+				if (cachedReference != null) {
+					acceptedText = text;
+					grammarValidation = cachedReference;
+				}
+			}
+		}
+
+		private static TextReader createGrammarReader(String text) {
+			// Preserve StreamReader's leading BOM handling and UTF-8 replacement of invalid UTF-16.
+			if (text.Length != 0 && text[0] == '\uFEFF')
+				return new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(text)));
+			foreach (char symbol in text)
+				if (Char.IsSurrogate(symbol))
+					return new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(text)));
+			return new StringReader(text);
+		}
+
+		private static GrammarValidation prepareGrammarValidation(String text) {
+			// Leave one slot free for EOF; larger inputs keep the normal growable stream.
+			if (text.Length >= SHORT_SYNTAX_BUFFER_SIZE) return new GrammarValidation(text, false);
+			WeakReference reference = grammarValidation;
+			GrammarValidation validation = reference == null ? null : (GrammarValidation)reference.Target;
+			if (validation == null) return new GrammarValidation(text, true);
+			grammarValidation = null;
+			if (!text.Equals(validation.acceptedText, StringComparison.Ordinal)) validation.reset(text);
+			return validation;
+		}
+
 		/// <summary>Cleans blanks and other cases like "++', "+-", "-+"", "--"</summary>
 		private void cleanExpressionString() {
             expressionStringCleaned = ExpressionUtils.cleanExpressionString(expressionString, attemptToFixExpStrEnabled);
@@ -4371,9 +4434,9 @@ namespace org.mariuszgromada.math.mxparser {
 				registerFinalSyntaxExpressionStringIsEmpty(recursionInfoLevel);
 				return SYNTAX_ERROR;
 			}
-			syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionStringCleaned)));
+			GrammarValidation validation = prepareGrammarValidation(expressionStringCleaned);
 			try {
-				syn.checkSyntax();
+				validation.check(expressionStringCleaned);
 				tokenizeExpressionString();
 
 				syntax = checkPartialSyntaxImpliedMultiplication(recursionInfoLevel) && syntax;

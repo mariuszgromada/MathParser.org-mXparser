@@ -68,8 +68,7 @@ private int jjStartNfaWithStates_0(int pos, int kind, int state)
 {
    jjmatchedKind = kind;
    jjmatchedPos = pos;
-   try { curChar = input_stream.readChar(); }
-   catch(System.IO.IOException) { return pos + 1; }
+   if (!tryReadSyntaxChar(ref curChar)) { return pos + 1; }
    return jjMoveNfa_0(state, pos + 1);
 }
 private int jjMoveStringLiteralDfa0_0()
@@ -116,8 +115,7 @@ private int jjMoveStringLiteralDfa0_0()
 }
 private int jjMoveStringLiteralDfa1_0(ulong active1, ulong active2)
 {
-   try { curChar = input_stream.readChar(); }
-   catch(System.IO.IOException) {
+   if (!tryReadSyntaxChar(ref curChar)) {
       jjStopStringLiteralDfa_0(0, 0L, active1, active2);
       return 1;
    }
@@ -146,8 +144,7 @@ private int jjMoveStringLiteralDfa2_0(ulong old1, ulong active1, ulong old2, ulo
 {
    if (((active1 &= old1) | (active2 &= old2)) == 0L)
       return jjStartNfa_0(0, 0L, old1, old2); 
-   try { curChar = input_stream.readChar(); }
-   catch(System.IO.IOException) {
+   if (!tryReadSyntaxChar(ref curChar)) {
       jjStopStringLiteralDfa_0(1, 0L, active1, active2);
       return 2;
    }
@@ -168,8 +165,7 @@ private int jjMoveStringLiteralDfa3_0(ulong old1, ulong active1, ulong old2, ulo
 {
    if (((active1 &= old1) | (active2 &= old2)) == 0L)
       return jjStartNfa_0(1, 0L, old1, old2); 
-   try { curChar = input_stream.readChar(); }
-   catch(System.IO.IOException) {
+   if (!tryReadSyntaxChar(ref curChar)) {
       jjStopStringLiteralDfa_0(2, 0L, 0L, active2);
       return 3;
    }
@@ -2017,8 +2013,7 @@ private int jjMoveNfa_0(int startState, int curPos)
       ++curPos;
       if ((i = jjnewStateCnt) == (startsAt = 279 - (jjnewStateCnt = startsAt)))
          return curPos;
-      try { curChar = input_stream.readChar(); }
-      catch(System.IO.IOException) { return curPos; }
+      if (!tryReadSyntaxChar(ref curChar)) { return curPos; }
    }
 }
 static int[] jjnextStates = {
@@ -2317,6 +2312,18 @@ long jjround;
 int jjmatchedPos;
 int jjmatchedKind;
 
+private bool tryReadSyntaxChar(ref char c)
+{
+   try { return input_stream.TryReadChar(ref c); }
+   catch (System.IO.IOException) { return false; }
+}
+
+private bool tryBeginSyntaxToken(ref char c)
+{
+   try { return input_stream.TryBeginToken(ref c); }
+   catch (System.IO.IOException) { return false; }
+}
+
 public Token getNextToken() 
 {
   Token matchedToken;
@@ -2324,19 +2331,15 @@ public Token getNextToken()
 
   EOFLoop :
   for (;;){
-   try{     
-      curChar = input_stream.BeginToken();
-   }catch(System.IO.IOException){
+   if (!tryBeginSyntaxToken(ref curChar)){
       jjmatchedKind = 0;
       matchedToken = jjFillToken();
       return matchedToken;
    }
 
-   try { input_stream.backup(0);
-      while (curChar <= 32 && (0x100002600L & (1L << curChar)) != 0L)
-         curChar = input_stream.BeginToken();
-   }
-   catch (System.IO.IOException) { goto EOFLoop; }
+   input_stream.backup(0);
+   while (curChar <= 32 && (0x100002600L & (1L << curChar)) != 0L)
+      if (!tryBeginSyntaxToken(ref curChar)) goto EOFLoop;
    jjmatchedKind = 0x7fffffff;
    jjmatchedPos = 0;
    curPos = jjMoveStringLiteralDfa0_0();
@@ -2359,10 +2362,10 @@ public Token getNextToken()
    int error_line = input_stream.getEndLine();
    int error_column = input_stream.getEndColumn();
    String error_after = null;
-   bool EOFSeen = false;
-   try { input_stream.readChar(); input_stream.backup(1); }
-   catch (System.IO.IOException) {
-      EOFSeen = true;
+   char nextChar = '\0';
+   bool EOFSeen = !tryReadSyntaxChar(ref nextChar);
+   if (!EOFSeen) input_stream.backup(1);
+   else {
       error_after = curPos <= 1 ? "" : input_stream.GetImage();
       if (curChar == '\n' || curChar == '\r') {
          error_line++;

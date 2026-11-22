@@ -318,6 +318,41 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 
 
 	void SyntaxChecker::binaryOperator() {
+		// CPP-24: single-token lookahead dispatch.
+		if (!hasError) {
+			int kind = getToken(1)->kind;
+			switch (kind) {
+			case PLUS:
+			case MINUS:
+			case MULTIPLY:
+			case DIV:
+			case MODULO:
+			case POWER:
+			case TETRATION:
+			case EQ:
+			case NEQ:
+			case GT:
+			case GEQ:
+			case LT:
+			case LEQ:
+			case OR:
+			case AND:
+			case NOR:
+			case NAND:
+			case XOR:
+			case IMP:
+			case CIMP:
+			case NIMP:
+			case CNIMP:
+			case EQV:
+			case BITWISE:
+			case NANCOAL:
+				if (!hasError) jj_consume_token(kind);
+				return;
+			default:
+				break;
+			}
+		}
 		if (jj_2_6(2)) {
 			if (!hasError) {
 				jj_consume_token(PLUS);
@@ -426,6 +461,18 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 
 
 	void SyntaxChecker::unaryRigthOperator() {
+		// CPP-24: single-token lookahead dispatch.
+		if (!hasError) {
+			int kind = getToken(1)->kind;
+			switch (kind) {
+			case FACTORIAL:
+			case PERCENTAGE:
+				if (!hasError) jj_consume_token(kind);
+				return;
+			default:
+				break;
+			}
+		}
 		if (jj_2_31(2)) {
 			if (!hasError) {
 				jj_consume_token(FACTORIAL);

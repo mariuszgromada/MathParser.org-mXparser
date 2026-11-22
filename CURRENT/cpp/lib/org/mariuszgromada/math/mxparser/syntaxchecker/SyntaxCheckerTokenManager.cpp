@@ -2588,6 +2588,16 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 
 	/** Token literal values. */
 
+	static thread_local const SyntaxCheckerTokenManager *pooledExpressionTokenManager = nullptr;
+	JavaCCToken *newPooledExpressionSyntaxToken(int kind, const JJString &image);
+
+	const SyntaxCheckerTokenManager *exchangePooledExpressionSyntaxTokenManager(
+		const SyntaxCheckerTokenManager *manager) noexcept {
+		const SyntaxCheckerTokenManager *previous = pooledExpressionTokenManager;
+		pooledExpressionTokenManager = manager;
+		return previous;
+	}
+
 	JavaCCToken *SyntaxCheckerTokenManager::jjFillToken() const {
 		JavaCCToken *t;
 		JJString curTokenImage;
@@ -2603,7 +2613,9 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 			endLine = input_stream->getEndLine();
 			endColumn = input_stream->getEndColumn();
 		}
-		t = JavaCCToken::newToken(jjmatchedKind, curTokenImage);
+		t = this == pooledExpressionTokenManager
+				? newPooledExpressionSyntaxToken(jjmatchedKind, curTokenImage)
+				: JavaCCToken::newToken(jjmatchedKind, curTokenImage);
 		t->specialToken = nullptr;
 		t->next = nullptr;
 

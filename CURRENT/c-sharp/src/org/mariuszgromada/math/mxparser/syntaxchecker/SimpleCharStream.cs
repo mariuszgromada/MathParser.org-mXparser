@@ -78,6 +78,10 @@ public class SimpleCharStream{
 
   bool stream_closed = false;
   protected void FillBuff(){
+     if (!TryFillBuff()) throw new System.IO.IOException();
+  }
+
+  private bool TryFillBuff(){
      if (maxNextCharInd == available){
         if (available == bufsize){
            if (tokenBegin > 2048){
@@ -95,23 +99,28 @@ public class SimpleCharStream{
            available = tokenBegin;
      }
 
-     int i;
      try {
-        if (stream_closed || (i = inputStream.Read(buffer, maxNextCharInd, available - maxNextCharInd)) <= 0){
-           stream_closed = true;
-           inputStream.Close();
-           throw new System.IO.IOException();
-        }else
-           maxNextCharInd += i;
-        return;
+        int count;
+        if (!stream_closed && (count = inputStream.Read(buffer, maxNextCharInd, available - maxNextCharInd)) > 0){
+           maxNextCharInd += count;
+           return true;
+        }
+        stream_closed = true;
+        inputStream.Close();
      }
      catch(System.IO.IOException) {
-        --bufpos;
-        backup(0);
-        if (tokenBegin == -1)
-           tokenBegin = bufpos;
+        RestoreAfterReadFailure();
         throw;
      }
+     RestoreAfterReadFailure();
+     return false;
+  }
+
+  private void RestoreAfterReadFailure(){
+     --bufpos;
+     backup(0);
+     if (tokenBegin == -1)
+        tokenBegin = bufpos;
   }
 
   public char BeginToken(){
@@ -120,6 +129,13 @@ public class SimpleCharStream{
      tokenBegin = bufpos;
 
      return c;
+  }
+
+  internal bool TryBeginToken(ref char c){
+     tokenBegin = -1;
+     if (!TryReadChar(ref c)) return false;
+     tokenBegin = bufpos;
+     return true;
   }
 
   protected void UpdateLineColumn(char c){
@@ -157,22 +173,30 @@ public class SimpleCharStream{
   }
 
   public char readChar(){
+     char c = '\0';
+     if (!TryReadChar(ref c)) throw new System.IO.IOException();
+     return c;
+  }
+
+  internal bool TryReadChar(ref char result){
      if (inBuf > 0){
         --inBuf;
 
         if (++bufpos == bufsize)
            bufpos = 0;
 
-        return buffer[bufpos];
+        result = buffer[bufpos];
+        return true;
      }
 
-     if (++bufpos >= maxNextCharInd)
-        FillBuff();
+     if (++bufpos >= maxNextCharInd && !TryFillBuff())
+        return false;
 
      char c = buffer[bufpos];
 
      UpdateLineColumn(c);
-     return (c);
+     result = c;
+     return true;
   }
 
   /**
@@ -247,6 +271,11 @@ public class SimpleCharStream{
     prevCharIsLF = prevCharIsCR = false;
     tokenBegin = inBuf = maxNextCharInd = 0;
     bufpos = -1;
+  }
+
+  internal void ReInitForExpression(System.IO.TextReader dstream, int buffersize){
+     stream_closed = false;
+     ReInit(dstream, 1, 1, buffersize);
   }
 
   public void ReInit(System.IO.TextReader dstream, int startline, int startcolumn){

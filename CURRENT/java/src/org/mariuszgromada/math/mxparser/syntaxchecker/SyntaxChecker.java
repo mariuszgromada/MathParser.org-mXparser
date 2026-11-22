@@ -60,6 +60,39 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
 }
 
   final public void binaryOperator() throws ParseException {
+    // J-04: single-token lookahead dispatch.
+    int kind = getToken(1).kind;
+    switch (kind) {
+      case PLUS:
+      case MINUS:
+      case MULTIPLY:
+      case DIV:
+      case MODULO:
+      case POWER:
+      case TETRATION:
+      case EQ:
+      case NEQ:
+      case GT:
+      case GEQ:
+      case LT:
+      case LEQ:
+      case OR:
+      case AND:
+      case NOR:
+      case NAND:
+      case XOR:
+      case IMP:
+      case CIMP:
+      case NIMP:
+      case CNIMP:
+      case EQV:
+      case BITWISE:
+      case NANCOAL:
+        jj_consume_token(kind);
+        return;
+      default:
+        break;
+    }
     if (jj_2_6(2)) {
       jj_consume_token(PLUS);
     } else if (jj_2_7(2)) {
@@ -117,6 +150,16 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
 }
 
   final public void unaryRigthOperator() throws ParseException {
+    // J-04: single-token lookahead dispatch.
+    int kind = getToken(1).kind;
+    switch (kind) {
+      case FACTORIAL:
+      case PERCENTAGE:
+        jj_consume_token(kind);
+        return;
+      default:
+        break;
+    }
     if (jj_2_31(2)) {
       jj_consume_token(FACTORIAL);
     } else if (jj_2_32(2)) {
@@ -3400,7 +3443,6 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
@@ -3415,7 +3457,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
 	 jj_ntk = -1;
 	 jj_gen = 0;
 	 for (int i = 0; i < 0; i++) jj_la1[i] = -1;
-	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+	 java.util.Arrays.fill(jj_2_rtns, null);
   }
 
   /** Constructor. */
@@ -3425,7 +3467,6 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
@@ -3443,7 +3484,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+	 java.util.Arrays.fill(jj_2_rtns, null);
   }
 
   /** Constructor with generated Token Manager. */
@@ -3452,7 +3493,6 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
@@ -3461,7 +3501,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+	 java.util.Arrays.fill(jj_2_rtns, null);
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -3654,6 +3694,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
 	 for (int i = 0; i < 155; i++) {
 	   try {
 		 JJCalls p = jj_2_rtns[i];
+		 if (p == null) continue;
 
 		 do {
 		   if (p.gen > jj_gen) {
@@ -3826,6 +3867,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
 
   private void jj_save(int index, int xla) {
 	 JJCalls p = jj_2_rtns[index];
+	 if (p == null) p = jj_2_rtns[index] = new JJCalls();
 	 while (p.gen > jj_gen) {
 	   if (p.next == null) { p = p.next = new JJCalls(); break; }
 	   p = p.next;
