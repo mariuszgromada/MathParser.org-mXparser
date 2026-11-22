@@ -602,7 +602,18 @@ namespace org::mariuszgromada::math::mxparser {
 		 */
 		template<typename... PrimitiveElements>
 		void addDefinitions(PrimitiveElements &&... elements) {
-			EXECUTE_FUNCTION_VARIADIC(VariadicProcessorUdfs, elements, addDefinitions);
+			if constexpr (sizeof...(elements) > 0 &&
+				((std::is_same_v<std::decay_t<PrimitiveElements>, ArgumentPtr> ||
+				  std::is_same_v<std::decay_t<PrimitiveElements>, ConstantPtr> ||
+				  std::is_same_v<std::decay_t<PrimitiveElements>, FunctionPtr> ||
+				  std::is_same_v<std::decay_t<PrimitiveElements>, RecursiveArgumentPtr> ||
+				  std::is_same_v<std::decay_t<PrimitiveElements>, PrimitiveElementPtr>) && ...)) {
+				const ListPtr<PrimitiveElementPtr> definitions = new_List<PrimitiveElementPtr>(static_cast<int>(sizeof...(elements)));
+				(definitions->add(PrimitiveElementPtr(elements)), ...);
+				addDefinitions(definitions);
+			} else {
+				EXECUTE_FUNCTION_VARIADIC(VariadicProcessorUdfs, elements, addDefinitions);
+			}
 		}
 		/**
 		 * \brief Adds user defined elements (such as: Arguments, Constants, Functions)
@@ -2941,7 +2952,9 @@ namespace org::mariuszgromada::math::mxparser {
 		void initParserKeyWords();
 		void modifyParserKeyWords();
 		void validateParserKeyWords();
+		struct ImpliedMultiplicationNames;
 		bool checkArgumentNameInCalculusOperator(const TokenPtr &token);
+		bool checkArgumentNameInCalculusOperator(const TokenPtr &token, ImpliedMultiplicationNames *names);
 		bool checkSpecialConstantName(const TokenPtr &token);
 		bool checkOtherNumberBases(const TokenPtr &token);
 		void addFractionToken(const TokenPtr &token);
@@ -2954,7 +2967,11 @@ namespace org::mariuszgromada::math::mxparser {
 		bool tryAssignKnownKeyword(const TokenPtr &token);
 		void initialTokensAddTokenPart(const TokenPartPtr &tokenPart);
 		bool checkNumberNameManyImpliedMultiplication(const TokenPtr &token, bool parenthesisIsOnTheRight, const ArrayPtr<int> &asciiCandidates);
+		bool checkNumberNameManyImpliedMultiplication(const TokenPtr &token, bool parenthesisIsOnTheRight,
+			const ArrayPtr<int> &asciiCandidates, const ImpliedMultiplicationNames *names);
 		void addToken(const StringPtr &tokenStr, const KeyWordPtr &keyWord, bool parenthesisIsOnTheRight, const ArrayPtr<int> &asciiCandidates);
+		void addToken(const StringPtr &tokenStr, const KeyWordPtr &keyWord, bool parenthesisIsOnTheRight,
+			const ArrayPtr<int> &asciiCandidates, ImpliedMultiplicationNames *names);
 		void addToken(const StringPtr &tokenStr, const KeyWordPtr &keyWord);
 		void addUserDefinedKeyWords();
 		static constexpr int ASCII_KEYWORD_BUCKETS = 128;

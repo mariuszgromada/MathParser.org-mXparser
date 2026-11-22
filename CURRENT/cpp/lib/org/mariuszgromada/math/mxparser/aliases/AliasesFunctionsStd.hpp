@@ -225,15 +225,18 @@
 #include <locale>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace org::mariuszgromada::math::mxparser {
 
 
-	inline std::wstring UTF8toUTF16(const std::string& utf8NarrowStr) {
+	namespace native_utf_detail {
+	inline std::wstring decodeUtf8(std::string_view utf8NarrowStr) {
 	    std::wstring unicodeWideString;
 	    size_t i = 0;
 	    size_t len = utf8NarrowStr.size();
+	    unicodeWideString.reserve(len);
 
 	    while (i < len) {
 	        uint8_t ch = static_cast<uint8_t>(utf8NarrowStr[i]);
@@ -294,9 +297,15 @@ namespace org::mariuszgromada::math::mxparser {
 
 	    return unicodeWideString;
 	}
+	}
+
+	inline std::wstring UTF8toUTF16(const std::string& utf8NarrowStr) {
+	    return native_utf_detail::decodeUtf8(utf8NarrowStr);
+	}
 
 	inline std::string UTF16toUTF8(const std::wstring& unicodeWideStr) {
 	    std::string utf8String;
+	    utf8String.reserve(unicodeWideStr.size());
 
 	    auto append_utf8_from_code_point = [&](char32_t code_point) {
 	        if (code_point <= 0x7F) {
@@ -365,7 +374,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 	inline String SC(const char *str) {
 		if (str == nullptr) return UTF("");
-		return SC(std::string(str));
+		return native_utf_detail::decodeUtf8(str);
 	}
 
 	inline String SC(const Char c) {

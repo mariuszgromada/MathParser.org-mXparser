@@ -1710,7 +1710,7 @@ namespace org::mariuszgromada::math::mxparser {
 		bool end = false;
 		bool readParam = true;
 		ListPtr<TokenPtr> paramTkones = new_List<TokenPtr>();
-		StringBuilderPtr paramStrBuilder = new_StringBuilder();
+		StringPtr paramText = std::make_shared<String>();
 		do {
 			const TokenPtr& t = tokensList->getRef(cPos);
 			comma = false;
@@ -1725,16 +1725,18 @@ namespace org::mariuszgromada::math::mxparser {
 			if (paren || comma) {
 				if (cPos > pos + 2) {
 					functionParameters->add(new_FunctionParameter(paramTkones,
-						readParam ? paramStrBuilder->toString() : nullptr, pPos, cPos - 1));
+						paramText, pPos, cPos - 1));
 					if (paren || contents == ParameterContents::FIRST) break;
 					if (contents == ParameterContents::CONDITIONS) readParam = !readParam;
 					paramTkones = readParam ? new_List<TokenPtr>() : nullptr;
-					paramStrBuilder = readParam ? new_StringBuilder() : nullptr;
+					paramText = readParam ? std::make_shared<String>() : nullptr;
 					pPos = cPos + 1;
 				}
 			} else if (readParam) {
 				paramTkones->add(t);
-				paramStrBuilder->append(t->tokenStr);
+				if (t->tokenStr == nullptr)
+					throw std::invalid_argument("Native StringBuilder.append requires non-null text");
+				paramText->append(*t->tokenStr);
 			}
 			if (paren)
 				end = true;
@@ -1793,10 +1795,11 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE StringPtr ExpressionUtils::cleanExpressionString(const StringPtr &expressionString,
 	                                                 bool attemptToFixExpStrEnabled) {
-		StringBuilderPtr expressionStringCleanedBuilder = new_StringBuilder();
 		if (expressionString == nullptr) return StringInvariant::EMPTY;
 		int expLen = CAST_INT(expressionString->length());
 		if (expLen == 0) return StringInvariant::EMPTY;
+		StringPtr expressionStringCleaned = std::make_shared<String>();
+		if (expLen > 0) expressionStringCleaned->reserve(static_cast<size_t>(expLen));
 		Char c;
 		Char clag1 = UTF('a');
 		int blankCnt = 0;
@@ -1807,18 +1810,16 @@ namespace org::mariuszgromada::math::mxparser {
 				blankCnt++;
 			} else if (blankCnt > 0) {
 				if (newExpLen > 0) {
-					if (StringUtils::isNotSpecialChar(clag1)) expressionStringCleanedBuilder->append(
-						StringInvariant::SPACE);
+					if (StringUtils::isNotSpecialChar(clag1)) expressionStringCleaned->append(*StringInvariant::SPACE);
 				}
 				blankCnt = 0;
 			}
 			if (blankCnt == 0) {
-				expressionStringCleanedBuilder->append(c);
+				expressionStringCleaned->push_back(c);
 				clag1 = c;
 				newExpLen++;
 			}
 		}
-		StringPtr expressionStringCleaned = expressionStringCleanedBuilder->toString();
 		if (attemptToFixExpStrEnabled) {
 			if (StringUtils::contains(expressionStringCleaned, UTF("++")))
 				expressionStringCleaned = StringUtils::replace(expressionStringCleaned, UTF("++"), UTF("+"));

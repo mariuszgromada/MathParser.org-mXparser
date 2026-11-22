@@ -268,6 +268,7 @@
 #include <optional>
 #include <string_view>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace org::mariuszgromada::math::mxparser::parsertokens {
 	namespace {
@@ -592,10 +593,10 @@ namespace org::mariuszgromada::math::mxparser {
 		/*
 		 * New lists
 		 */
-		argumentsList = new_List<ArgumentPtr>();
-		functionsList = new_List<FunctionPtr>();
-		constantsList = new_List<ConstantPtr>();
-		relatedExpressionsList = new_List<std::weak_ptr<Expression>>();
+		argumentsList = new_List<ArgumentPtr>(0);
+		functionsList = new_List<FunctionPtr>(0);
+		constantsList = new_List<ConstantPtr>(0);
+		relatedExpressionsList = new_List<std::weak_ptr<Expression>>(0);
 		/*
 		 * Empty description
 		 * Silent mode
@@ -4094,6 +4095,28 @@ namespace org::mariuszgromada::math::mxparser {
 			keyWordsList->remove(kw);
 	}
 
+	// Tokenization owns the names in neverParseForImpliedMultiplication and does
+	// not mutate them. The temporary index leaves the serialized set untouched.
+	struct Expression::ImpliedMultiplicationNames {
+		std::array<std::wstring_view, 4> small;
+		size_t size = 0;
+		std::optional<std::unordered_set<std::wstring_view>> index;
+
+		bool contains(std::wstring_view name) const {
+			if (index) return index->find(name) != index->end();
+			return std::find(small.begin(), small.begin() + size, name) != small.begin() + size;
+		}
+
+		void add(std::wstring_view name) {
+			if (size < small.size()) {
+				small[size++] = name;
+				return;
+			}
+			if (!index) index.emplace(small.begin(), small.end());
+			index->insert(name);
+		}
+	};
+
 	/**
 	 * \brief Method used in case of implied multiplication, where x2x can be understood as x2*x
 	 *
@@ -4104,7 +4127,11 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \return Returns true in case calculus argument was found
 	 */
 	API_VISIBLE bool Expression::checkArgumentNameInCalculusOperator(const TokenPtr &token) {
-		if (neverParseForImpliedMultiplication->containsByPtrDeref(token->tokenStr)) {
+		return checkArgumentNameInCalculusOperator(token, nullptr);
+	}
+
+	bool Expression::checkArgumentNameInCalculusOperator(const TokenPtr &token, ImpliedMultiplicationNames *names) {
+		if (names ? names->contains(*token->tokenStr) : neverParseForImpliedMultiplication->containsByPtrDeref(token->tokenStr)) {
 			initialTokens->add(token);
 			return true;
 		}
@@ -4153,6 +4180,7 @@ namespace org::mariuszgromada::math::mxparser {
 		if (argumentNameFound) {
 			initialTokens->add(token);
 			neverParseForImpliedMultiplication->add(token->tokenStr);
+			if (names) names->add(*token->tokenStr);
 		}
 
 		return argumentNameFound;
@@ -4545,6 +4573,11 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param parenthesisIsOnTheRight Whether a parenthesis follows this token.
 	 */
 	API_VISIBLE bool Expression::checkNumberNameManyImpliedMultiplication(const TokenPtr &token, bool parenthesisIsOnTheRight, const ArrayPtr<int> &asciiCandidates) {
+		return checkNumberNameManyImpliedMultiplication(token, parenthesisIsOnTheRight, asciiCandidates, nullptr);
+	}
+
+	bool Expression::checkNumberNameManyImpliedMultiplication(const TokenPtr &token, bool parenthesisIsOnTheRight,
+		const ArrayPtr<int> &asciiCandidates, const ImpliedMultiplicationNames *names) {
 		int tokenStrLength = CAST_INT(token->tokenStr->length());
 		if (tokenStrLength < 2) return false;
 		Char c;
@@ -4616,7 +4649,7 @@ namespace org::mariuszgromada::math::mxparser {
 							keywordFound = true;
 							break;
 						}
-					} else if (neverParseForImpliedMultiplication->containsByPtrDeref(substr)) {
+					} else if (names ? names->contains(*substr) : neverParseForImpliedMultiplication->containsByPtrDeref(substr)) {
 						keywordFound = true;
 						parserKeyword = new_KeyWord();
 						break;
@@ -4721,6 +4754,11 @@ namespace org::mariuszgromada::math::mxparser {
 	 * \param parenthesisIsOnTheRight Whether a parenthesis follows this token.
 	 */
 	API_VISIBLE void Expression::addToken(const StringPtr &tokenStr, const KeyWordPtr &keyWord, bool parenthesisIsOnTheRight, const ArrayPtr<int> &asciiCandidates) {
+		addToken(tokenStr, keyWord, parenthesisIsOnTheRight, asciiCandidates, nullptr);
+	}
+
+	void Expression::addToken(const StringPtr &tokenStr, const KeyWordPtr &keyWord, bool parenthesisIsOnTheRight,
+		const ArrayPtr<int> &asciiCandidates, ImpliedMultiplicationNames *names) {
 		TokenPtr token = new_Token();
 		token->tokenStr = tokenStr;
 		token->keyWord = keyWord->wordString;
@@ -4734,18 +4772,18 @@ namespace org::mariuszgromada::math::mxparser {
 			token->tokenValue = parseTokenDouble(token->tokenStr);
 			token->keyWord = ParserSymbol::NUMBER_STR;
 		} else if (token->tokenTypeId == Token::NOT_MATCHED) {
-			bool alternativeMatchFound = checkArgumentNameInCalculusOperator(token);
+			bool alternativeMatchFound = checkArgumentNameInCalculusOperator(token, names);
 			if (!alternativeMatchFound) alternativeMatchFound = checkSpecialConstantName(token);
 			if (!alternativeMatchFound) alternativeMatchFound = checkOtherNumberBases(token);
 			if (!alternativeMatchFound) alternativeMatchFound = checkFraction(token);
 			if (impliedMultiplicationMode && !alternativeMatchFound)
-				alternativeMatchFound = checkNumberNameManyImpliedMultiplication(token, parenthesisIsOnTheRight, asciiCandidates);
+				alternativeMatchFound = checkNumberNameManyImpliedMultiplication(token, parenthesisIsOnTheRight, asciiCandidates, names);
 			if (!alternativeMatchFound) initialTokensAdd(token);
 		}
 	}
 
 	API_VISIBLE void Expression::addToken(const StringPtr &tokenStr, const KeyWordPtr &keyWord) {
-		addToken(tokenStr, keyWord, false, nullptr);
+		addToken(tokenStr, keyWord, false, nullptr, nullptr);
 	}
 
 	API_VISIBLE void Expression::addUserDefinedKeyWords() {
@@ -4904,6 +4942,7 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 		initialTokens = new_List<TokenPtr>();
 		neverParseForImpliedMultiplication = new_PtrsSet<String>();
+		ImpliedMultiplicationNames impliedMultiplicationNames;
 		int expLen = CAST_INT(expressionString->length());
 		if (expLen == 0) return;
 		/*
@@ -4959,7 +4998,7 @@ namespace org::mariuszgromada::math::mxparser {
 					 * as unknown keyword word
 					 */
 					tokenStr = S(newExpressionString->substr(lastPos, pos - lastPos));
-					addToken(tokenStr, new_KeyWord(), StringUtils::charIsLeftParenthesis(newExpressionString, pos), asciiCandidates);
+					addToken(tokenStr, new_KeyWord(), StringUtils::charIsLeftParenthesis(newExpressionString, pos), asciiCandidates, &impliedMultiplicationNames);
 				}
 				/*
 				 * Check leading operators ('-' or '+')
@@ -5112,7 +5151,7 @@ namespace org::mariuszgromada::math::mxparser {
 						 * as unknown keyword
 						 */
 						tokenStr = S(newExpressionString->substr(lastPos, pos - lastPos));
-						addToken(tokenStr, new_KeyWord(), StringUtils::charIsLeftParenthesis(newExpressionString, pos), asciiCandidates);
+						addToken(tokenStr, new_KeyWord(), StringUtils::charIsLeftParenthesis(newExpressionString, pos), asciiCandidates, &impliedMultiplicationNames);
 					}
 					matchFoundPrev = true;
 					/*
@@ -5126,7 +5165,7 @@ namespace org::mariuszgromada::math::mxparser {
 						}
 					} else {
 						tokenStr = specialConstStr;
-						addToken(tokenStr, new_KeyWord(), false, asciiCandidates);
+						addToken(tokenStr, new_KeyWord(), false, asciiCandidates, &impliedMultiplicationNames);
 					}
 					/*
 					 * Remember position where last added word ends + 1
@@ -5160,7 +5199,7 @@ namespace org::mariuszgromada::math::mxparser {
 		 */
 		if (!matchFound) {
 			tokenStr = S(newExpressionString->substr(lastPos, pos - lastPos));
-			addToken(tokenStr, new_KeyWord(), StringUtils::charIsLeftParenthesis(newExpressionString, pos), asciiCandidates);
+			addToken(tokenStr, new_KeyWord(), StringUtils::charIsLeftParenthesis(newExpressionString, pos), asciiCandidates, &impliedMultiplicationNames);
 		}
 		/*
 		 * Evaluate tokens levels

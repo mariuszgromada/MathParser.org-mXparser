@@ -348,7 +348,10 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 	}
 
 	API_VISIBLE String StringUtils::trim(const String &str) {
-		return lTrim(rTrim(str));
+		const auto first = std::find_if(str.begin(), str.end(), [](Char ch) { return !std::iswspace(ch); });
+		const auto last = std::find_if(str.rbegin(), String::const_reverse_iterator(first),
+			[](Char ch) { return !std::iswspace(ch); }).base();
+		return String(first, last);
 	}
 
 	API_VISIBLE StringPtr StringUtils::lTrim(const StringPtr &str) {
@@ -362,7 +365,7 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 	API_VISIBLE StringPtr StringUtils::trim(const StringPtr &str) {
 		if (str == nullptr)
 			throw std::invalid_argument("Native StringUtils.trim requires non-null text");
-		return S(lTrim(rTrim(*str)));
+		return std::make_shared<String>(trim(*str));
 	}
 
 	API_VISIBLE StringPtr StringUtils::stringConcatenateMaxLength(const StringPtr &str1, const StringPtr &str2, int maxLength) {
@@ -743,7 +746,7 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 	}
 
 	API_VISIBLE bool StringUtils::startsWith(const String &bigString, const String &prefix) {
-		return bigString.find(prefix) == 0;
+		return bigString.compare(0, prefix.size(), prefix) == 0;
 	}
 
 	API_VISIBLE void StringUtils::stringBuilderPartsAppend(const StringBuilderPtr &stringBuilder, const ListPtr<StringPtr> &partsToAppend) {

@@ -241,6 +241,7 @@
 #include "org/mariuszgromada/math/mxparser/parsertokens/Token.hpp"
 #include "org/mariuszgromada/math/mxparser/RecursiveArgument.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/Math.hpp"
+#include <array>
 
 namespace org::mariuszgromada::math::mxparser {
 	using namespace org::mariuszgromada::math::mxparser::expressionutils;
@@ -1584,8 +1585,22 @@ namespace org::mariuszgromada::math::mxparser {
 				break;
 			end++;
 		} while (end < lastIndex);
-		ArrayPtr<double> numbers = new_double(end - pos);
-		for (int i = 0; i < numbers->length; i++)
+		const int count = end - pos;
+		constexpr int smallCapacity = 4;
+		ArrayPtr<double> numbers;
+		if (count > 0 && count <= smallCapacity) {
+			// Keep the short buffer in its shared owner's allocation.
+			const auto buffer = std::make_shared<std::array<double, smallCapacity>>();
+			numbers = std::make_shared<Array<double>>();
+			numbers->data = std::shared_ptr<double[]>(buffer, buffer->data());
+			numbers->sizet = count;
+			numbers->rows = count;
+			numbers->columns = 1;
+			numbers->length = count;
+		} else {
+			numbers = new_double(count);
+		}
+		for (int i = 0; i < count; i++)
 			(*numbers)(i) = tokensList->getRef(pos + i + 1)->tokenValue;
 		return numbers;
 	}

@@ -1002,11 +1002,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 		template<typename... DoubleOrPrimitiveElements>
 		double calculate(DoubleOrPrimitiveElements &&... parameters) {
-			if constexpr (sizeof...(parameters) > 0) {
-				VariadicProcessorDoubleOrUdf vp;
-				vp.processArgs(std::forward<DoubleOrPrimitiveElements>(parameters)...);
-				return calculateNonTemplatePart(vp.paramsDouble, vp.paramsArgument, vp.paramsConstant, vp.paramsFunction, vp.paramsExpression);
-			} else {
+			if constexpr (sizeof...(parameters) == 0) {
 				return calculateNonTemplatePart(
 					VariadicProcessor::paramsDoubleEmpty
 					,VariadicProcessor::paramsArgumentEmpty
@@ -1014,6 +1010,15 @@ namespace org::mariuszgromada::math::mxparser {
 					,VariadicProcessor::paramsFunctionEmpty
 					,VariadicProcessor::paramsExpressionEmpty)
 				;
+			} else if constexpr (((std::is_same_v<std::remove_const_t<std::remove_reference_t<DoubleOrPrimitiveElements>>, double>
+				|| std::is_same_v<std::remove_const_t<std::remove_reference_t<DoubleOrPrimitiveElements>>, int>) && ...)) {
+				const ListPtr<double> numbers = new_List<double>(static_cast<int>(sizeof...(parameters)));
+				(numbers->add(static_cast<double>(parameters)), ...);
+				return calculate(numbers);
+			} else {
+				VariadicProcessorDoubleOrUdf vp;
+				vp.processArgs(std::forward<DoubleOrPrimitiveElements>(parameters)...);
+				return calculateNonTemplatePart(vp.paramsDouble, vp.paramsArgument, vp.paramsConstant, vp.paramsFunction, vp.paramsExpression);
 			}
 		}
 
