@@ -2845,6 +2845,7 @@ namespace org::mariuszgromada::math::mxparser {
 		void registerFinalSyntax(const StringPtr &recursionInfoLevel, bool syntax);
 		void registerPartialSyntaxStartingSyntaxCheck(const StringPtr &recursionInfoLevel);
 		bool checkPartialSyntaxImpliedMultiplication(const StringPtr &recursionInfoLevel);
+		bool sortDistinctSyntaxKeywords();
 		bool checkPartialSyntaxDuplicatedKeywords(const StringPtr &recursionInfoLevel);
 		bool checkPartialSyntaxUserDefinedArgument(const StringPtr &recursionInfoLevel, int tokenIndex,
 		                                           const TokenPtr &token, SyntaxTokenInfo &tokenInfo, SyntaxParameterCounts *counts);

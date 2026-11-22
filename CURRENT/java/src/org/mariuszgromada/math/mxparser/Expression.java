@@ -5049,7 +5049,71 @@ public class Expression extends PrimitiveElement implements Serializable {
 		}
 		return NO_SYNTAX_ERRORS;
 	}
+	/* Cache only a permutation of a known distinct sequence of keyword names. */
+	private static volatile SyntaxKeywordOrder syntaxKeywordOrder;
+
+	private static final class SyntaxKeywordOrder {
+		private final String[] names;
+		private final int[] swapWith;
+
+		private SyntaxKeywordOrder(String[] names, int[] swapWith) {
+			this.names = names;
+			this.swapWith = swapWith;
+		}
+
+		private boolean applyIfMatching(List<KeyWord> keywords) {
+			if (names.length != keywords.size()) return false;
+			for (int i = 0; i < names.length; i++) {
+				KeyWord keyword = keywords.get(i);
+				if (keyword == null || !names[i].equals(keyword.wordString)) return false;
+			}
+			for (int i = 0; i < swapWith.length; i++)
+				if (swapWith[i] != i)
+					Collections.swap(keywords, i, swapWith[i]);
+			return true;
+		}
+	}
+
+	private boolean sortDistinctSyntaxKeywords() {
+		int size = keyWordsList.size();
+		if (size < 128 || size > 1024 || parserKeyWordsOnly || UDFExpression || !unicodeKeyWordsEnabled
+				|| !argumentsList.isEmpty() || !constantsList.isEmpty() || !functionsList.isEmpty()
+				|| mXparser.overrideBuiltinTokens || !mXparser.tokensToRemove.isEmpty() || !mXparser.tokensToModify.isEmpty())
+			return false;
+
+		SyntaxKeywordOrder order = syntaxKeywordOrder;
+		if (order != null) return order.applyIfMatching(keyWordsList);
+
+		String[] names = new String[size];
+		Map<String, Integer> originalPositions = new HashMap<>(2 * size);
+		for (int i = 0; i < size; i++) {
+			KeyWord keyword = keyWordsList.get(i);
+			if (keyword == null || keyword.wordString == null) return false;
+			names[i] = keyword.wordString;
+			if (originalPositions.put(names[i], i) != null) return false;
+		}
+		Collections.sort(keyWordsList, new KwStrComparator());
+		int[] swapWith = new int[size];
+		int[] sourceAt = new int[size];
+		int[] positionOf = new int[size];
+		for (int i = 0; i < size; i++) {
+			sourceAt[i] = i;
+			positionOf[i] = i;
+		}
+		for (int i = 0; i < size; i++) {
+			int source = originalPositions.get(keyWordsList.get(i).wordString);
+			int from = positionOf[source];
+			swapWith[i] = from;
+			int displaced = sourceAt[i];
+			sourceAt[from] = displaced;
+			positionOf[displaced] = from;
+		}
+		syntaxKeywordOrder = new SyntaxKeywordOrder(names, swapWith);
+		return true;
+	}
+
 	private boolean checkPartialSyntaxDuplicatedKeywords(String recursionInfoLevel) {
+		if (sortDistinctSyntaxKeywords()) return NO_SYNTAX_ERRORS;
 		java.util.Collections.sort(keyWordsList, new KwStrComparator() );
 		for (int kwId = 1; kwId < keyWordsList.size(); kwId++) {
 			String kw1 = keyWordsList.get(kwId-1).wordString;

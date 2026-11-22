@@ -236,6 +236,7 @@
 #include <locale>
 #include <sstream>
 #include <cmath>
+#include <cfenv>
 #include <limits>
 #include <stdexcept>
 
@@ -340,6 +341,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (!mXparser::checkIfCanonicalRounding()) return a / b;
 		if (Double::isInfinite(a)) return a / b;
 		if (Double::isInfinite(b)) return a / b;
+		if (a != 0 && isSmallCanonicalInteger(a) && isSmallCanonicalInteger(b)) {
+			// Integers in this range fit in int, so checking divisibility never
+			// speculatively rounds a fractional quotient in the native FP environment.
+			int dividend = CAST_INT(a);
+			int divisor = CAST_INT(b);
+			if (dividend % divisor == 0) return dividend / divisor;
+		}
 		BigDecimal da = BigDecimal::valueOf(a);
 		BigDecimal db = BigDecimal::valueOf(b);
 		double r = da.divide(db).doubleValue();
@@ -1110,6 +1118,17 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (n == 0) return 1;
 		if (n == 1) return a;
 		if (mXparser::checkIfCanonicalRounding()) {
+			if (n >= 2 && n <= 4) {
+				// These bounds keep all intermediate integers at or below 2^48.
+				double limit = n == 2 ? 0x1.0p24 : n == 3 ? 0x1.0p16 : 0x1.0p12;
+				if (a >= -limit && a <= limit && isSmallCanonicalInteger(a)
+						&& std::fegetround() == FE_TONEAREST) {
+					double square = a * a;
+					if (n == 2) return square;
+					if (n == 3) return square * a;
+					return square * square;
+				}
+			}
 			BigDecimal da = BigDecimal::valueOf(a);
 			if (n >= 0) return da.pow(n).doubleValue();
 			double r = BigDecimal::ONE.divide(da).pow(-n).doubleValue();

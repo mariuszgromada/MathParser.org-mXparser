@@ -360,6 +360,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (!mXparser.checkIfCanonicalRounding()) return r;
 			if (Double.IsInfinity(a)) return r;
 			if (Double.IsInfinity(b)) return r;
+			// The product of two integers in this range is exact, so this also
+			// rules out a quotient that only rounded to an integer.
+			if (r != 0 && isSmallCanonicalInteger(r)
+					&& isSmallCanonicalInteger(a) && isSmallCanonicalInteger(b) && r * b == a)
+				return r;
 			if (isNotInDecimalRange(a)) return r;
 			if (isNotInDecimalRange(b)) return r;
 			if (isNotInDecimalRange(r)) return r;
@@ -2034,30 +2039,36 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double aint = Math.Round(a);
 			return abs(a - aint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON;
 		}
+		private static int shorterResultLength(double value, bool compareDecimalCandidate) {
+#if NET8_0_OR_GREATER
+			Span<char> buffer = stackalloc char[32];
+			if (value.TryFormat(buffer, out int length, default, CultureInfo.InvariantCulture))
+				return length;
+#endif
+#if NETFRAMEWORK
+			if (compareDecimalCandidate) return value.ToString("G17", CultureInfo.InvariantCulture).Length;
+#endif
+			return value.ToString(CultureInfo.InvariantCulture).Length;
+		}
+
 		private static double shorterResult(decimal dr, double r) {
 			if (Double.IsNaN(r)) return Double.NaN;
 			if (Double.IsInfinity(r)) return r;
 			double drd = (double)dr;
-#if !NETFRAMEWORK
-			String drds = drd.ToString(CultureInfo.InvariantCulture);
-			String rs = r.ToString(CultureInfo.InvariantCulture);
-#else
-			String drds = drd.ToString("G17", CultureInfo.InvariantCulture);
-			String rs = r.ToString("G17", CultureInfo.InvariantCulture);
-#endif
-			double res;
-			String sres;
-			if (drds.Length < rs.Length) {
-				res = drd;
-				sres = drds;
-			} else {
-				res = r;
-				sres = rs;
+			double res = r;
+			int length = shorterResultLength(r, true);
+			if (BitConverter.DoubleToInt64Bits(drd) != BitConverter.DoubleToInt64Bits(r)) {
+				int decimalLength = shorterResultLength(drd, true);
+				if (decimalLength < length) {
+					res = drd;
+					length = decimalLength;
+				}
 			}
+			// Even the shortest number needs one character.
+			if (length < 5) return res;
 			double resround = MathFunctions.round(res, MathFunctions.ulpDecimalDigitsBefore(res));
-			String sresround = resround.ToString(CultureInfo.InvariantCulture);
-			if (sres.Length - sresround.Length >= 4) return resround;
-			else return res;
+			if (BitConverter.DoubleToInt64Bits(resround) == BitConverter.DoubleToInt64Bits(res)) return res;
+			return length - shorterResultLength(resround, false) >= 4 ? resround : res;
 		}
 		/// <summary>Applies the integer exponent to the base a</summary>
 		/// <param name="a">The base</param>
@@ -2065,16 +2076,27 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/// <returns>Return a to the power of n, if canonical rounding is enable, the it operates on big numbers</returns>
 		private static double powInt(double a, int n) {
 			if (Double.IsNaN(a)) return Double.NaN;
-			double r = Math.Pow(a, n);
-			if (Double.IsInfinity(a)) return r;
-			if (a == 0) return r;
+			if (Double.IsInfinity(a)) return Math.Pow(a, n);
+			if (a == 0) return Math.Pow(a, n);
 			if (n == 0) return 1;
 			if (n == 1) return a;
+			bool canonical = mXparser.checkIfCanonicalRounding();
+			if (canonical && n >= 2 && n <= 4) {
+				// These bounds keep all intermediate integers at or below 2^48.
+				double limit = n == 2 ? 16777216.0 : n == 3 ? 65536.0 : 4096.0;
+				if (a >= -limit && a <= limit && isSmallCanonicalInteger(a)) {
+					double square = a * a;
+					if (n == 2) return square;
+					if (n == 3) return square * a;
+					return square * square;
+				}
+			}
+			double r = Math.Pow(a, n);
 			if (isNotInDecimalRange(a)) return r;
 			if (isNotInDecimalRange(r)) return r;
 			decimal dr = (decimal)r;
 			double apow = 1;
-			if (mXparser.checkIfCanonicalRounding()) {
+			if (canonical) {
 				decimal da = (decimal)a;
 				if (n == 2) {
 					r = a * a;

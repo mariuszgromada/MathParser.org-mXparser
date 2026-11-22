@@ -266,6 +266,7 @@
 #include <cstdint>
 #include <limits>
 #include <optional>
+#include <string_view>
 #include <unordered_map>
 
 namespace org::mariuszgromada::math::mxparser::parsertokens {
@@ -1979,7 +1980,88 @@ namespace org::mariuszgromada::math::mxparser {
 		return NO_SYNTAX_ERRORS;
 	}
 
+	namespace {
+		constexpr int MAX_SYNTAX_ORDER_KEYWORDS = 1024;
+		constexpr int MAX_SYNTAX_ORDER_CHARACTERS = 8192;
+		using KeywordName = std::basic_string_view<Char>;
+
+		struct SyntaxKeywordOrder {
+			int size;
+			std::array<Char, MAX_SYNTAX_ORDER_CHARACTERS> names;
+			std::array<std::uint16_t, MAX_SYNTAX_ORDER_KEYWORDS + 1> offsets;
+			std::array<std::uint16_t, MAX_SYNTAX_ORDER_KEYWORDS> swapWith;
+
+			bool applyIfMatching(const ListPtr<KeyWordPtr> &keywords) const {
+				if (size != keywords->size()) return false;
+				for (int i = 0; i < size; i++) {
+					const KeyWordPtr &keyword = keywords->getRef(i);
+					KeywordName name(names.data() + offsets[i], offsets[i + 1] - offsets[i]);
+					if (!keyword || !keyword->wordString || name != KeywordName(*keyword->wordString)) return false;
+				}
+				for (int i = 0; i < size; i++)
+					if (swapWith[i] != i)
+						(*keywords)[i].swap((*keywords)[swapWith[i]]);
+				return true;
+			}
+		};
+
+		SyntaxKeywordOrder syntaxKeywordOrder{};
+		std::atomic<bool> syntaxKeywordOrderReady{false};
+		std::atomic_flag syntaxKeywordOrderClaimed = ATOMIC_FLAG_INIT;
+
+		bool captureSyntaxKeywordOrder(const ListPtr<KeyWordPtr> &keywords, int size) {
+			// Snapshot the characters, since native callers can edit a shared String in place.
+			auto order = std::make_unique<SyntaxKeywordOrder>();
+			order->size = size;
+			std::unordered_map<KeywordName, int> originalPositions;
+			originalPositions.reserve(size);
+			for (int i = 0; i < size; i++) {
+				const KeyWordPtr &keyword = keywords->getRef(i);
+				if (!keyword || !keyword->wordString) return false;
+				KeywordName name(*keyword->wordString);
+				if (name.length() > static_cast<size_t>(MAX_SYNTAX_ORDER_CHARACTERS - order->offsets[i])) return false;
+				std::copy(name.begin(), name.end(), order->names.begin() + order->offsets[i]);
+				order->offsets[i + 1] = static_cast<std::uint16_t>(order->offsets[i] + name.length());
+				KeywordName saved(order->names.data() + order->offsets[i], name.length());
+				if (!originalPositions.emplace(saved, i).second) return false;
+			}
+			std::sort(keywords->begin(), keywords->end(), KwStrComparator());
+			std::vector<int> sourceAt(size);
+			std::vector<int> positionOf(size);
+			for (int i = 0; i < size; i++) {
+				sourceAt[i] = i;
+				positionOf[i] = i;
+			}
+			for (int i = 0; i < size; i++) {
+				int source = originalPositions.at(KeywordName(*keywords->getRef(i)->wordString));
+				int from = positionOf[source];
+				order->swapWith[i] = static_cast<std::uint16_t>(from);
+				int displaced = sourceAt[i];
+				sourceAt[from] = displaced;
+				positionOf[displaced] = from;
+			}
+			if (!syntaxKeywordOrderClaimed.test_and_set(std::memory_order_relaxed)) {
+				syntaxKeywordOrder = *order;
+				syntaxKeywordOrderReady.store(true, std::memory_order_release);
+			}
+			return true;
+		}
+	}
+
+	API_VISIBLE bool Expression::sortDistinctSyntaxKeywords() {
+		int size = keyWordsList->size();
+		if (size < 128 || size > MAX_SYNTAX_ORDER_KEYWORDS || parserKeyWordsOnly || UDFExpression || !unicodeKeyWordsEnabled
+				|| !argumentsList->isEmpty() || !constantsList->isEmpty() || !functionsList->isEmpty()
+				|| mXparser::overrideBuiltinTokens || !mXparser::tokensToRemove->isEmpty() || !mXparser::tokensToModify->isEmpty())
+			return false;
+
+		if (syntaxKeywordOrderReady.load(std::memory_order_acquire))
+			return syntaxKeywordOrder.applyIfMatching(keyWordsList);
+		return captureSyntaxKeywordOrder(keyWordsList, size);
+	}
+
 	API_VISIBLE bool Expression::checkPartialSyntaxDuplicatedKeywords(const StringPtr &recursionInfoLevel) {
+		if (sortDistinctSyntaxKeywords()) return NO_SYNTAX_ERRORS;
 		std::sort(keyWordsList->begin(), keyWordsList->end(), KwStrComparator());
 		for (int kwId = 1; kwId < keyWordsList->size(); kwId++) {
 			StringPtr kw1 = keyWordsList->getRef(kwId - 1)->wordString;

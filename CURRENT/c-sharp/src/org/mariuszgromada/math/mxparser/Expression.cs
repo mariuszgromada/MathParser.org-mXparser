@@ -4048,7 +4048,75 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			return NO_SYNTAX_ERRORS;
 		}
+		/* Cache only a permutation of a known distinct sequence of keyword names. */
+		private static volatile SyntaxKeywordOrder syntaxKeywordOrder;
+
+		private sealed class SyntaxKeywordOrder {
+			private readonly String[] names;
+			private readonly int[] swapWith;
+
+			internal SyntaxKeywordOrder(String[] names, int[] swapWith) {
+				this.names = names;
+				this.swapWith = swapWith;
+			}
+
+			internal bool applyIfMatching(List<KeyWord> keywords) {
+				if (names.Length != keywords.Count) return false;
+				for (int i = 0; i < names.Length; i++) {
+					KeyWord keyword = keywords[i];
+					if (keyword == null || !names[i].Equals(keyword.wordString, StringComparison.Ordinal)) return false;
+				}
+				for (int i = 0; i < swapWith.Length; i++)
+					if (swapWith[i] != i) {
+						KeyWord previous = keywords[i];
+						keywords[i] = keywords[swapWith[i]];
+						keywords[swapWith[i]] = previous;
+					}
+				return true;
+			}
+		}
+
+		private bool sortDistinctSyntaxKeywords() {
+			int size = keyWordsList.Count;
+			if (size < 128 || size > 1024 || parserKeyWordsOnly || UDFExpression || !unicodeKeyWordsEnabled
+					|| argumentsList.Count != 0 || constantsList.Count != 0 || functionsList.Count != 0
+					|| mXparser.overrideBuiltinTokens || mXparser.tokensToRemove.Count != 0 || mXparser.tokensToModify.Count != 0)
+				return false;
+
+			SyntaxKeywordOrder order = syntaxKeywordOrder;
+			if (order != null) return order.applyIfMatching(keyWordsList);
+
+			String[] names = new String[size];
+			Dictionary<String, int> originalPositions = new Dictionary<String, int>(2 * size, StringComparer.Ordinal);
+			for (int i = 0; i < size; i++) {
+				KeyWord keyword = keyWordsList[i];
+				if (keyword == null || keyword.wordString == null) return false;
+				names[i] = keyword.wordString;
+				if (originalPositions.ContainsKey(names[i])) return false;
+				originalPositions.Add(names[i], i);
+			}
+			keyWordsList.Sort(new KwStrComparator());
+			int[] swapWith = new int[size];
+			int[] sourceAt = new int[size];
+			int[] positionOf = new int[size];
+			for (int i = 0; i < size; i++) {
+				sourceAt[i] = i;
+				positionOf[i] = i;
+			}
+			for (int i = 0; i < size; i++) {
+				int source = originalPositions[keyWordsList[i].wordString];
+				int from = positionOf[source];
+				swapWith[i] = from;
+				int displaced = sourceAt[i];
+				sourceAt[from] = displaced;
+				positionOf[displaced] = from;
+			}
+			syntaxKeywordOrder = new SyntaxKeywordOrder(names, swapWith);
+			return true;
+		}
+
 		private bool checkPartialSyntaxDuplicatedKeywords(String recursionInfoLevel) {
+			if (sortDistinctSyntaxKeywords()) return NO_SYNTAX_ERRORS;
 			keyWordsList.Sort( new KwStrComparator() );
 			for (int kwId = 1; kwId < keyWordsList.Count; kwId++) {
                 String kw1 = keyWordsList[kwId-1].wordString;

@@ -339,15 +339,21 @@ public final class MathFunctions {
 		if (b == 0) return Double.NaN;
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isNaN(b)) return Double.NaN;
-		if (!mXparser.checkIfCanonicalRounding()) return a / b;
-		if (Double.isInfinite(a)) return a / b;
-		if (Double.isInfinite(b)) return a / b;
+		double result = a / b;
+		if (!mXparser.checkIfCanonicalRounding()) return result;
+		if (Double.isInfinite(a)) return result;
+		if (Double.isInfinite(b)) return result;
+		// The product of two integers in this range is exact, so this also
+		// rules out a quotient that only rounded to an integer.
+		if (result != 0 && isSmallCanonicalInteger(result)
+				&& isSmallCanonicalInteger(a) && isSmallCanonicalInteger(b) && result * b == a)
+			return result;
 		BigDecimal da = BigDecimal.valueOf(a);
 		BigDecimal db = BigDecimal.valueOf(b);
 		try {
 			return da.divide(db, MathContext.DECIMAL128).doubleValue();
 		} catch (Throwable e) {
-			return a / b;
+			return result;
 		}
 	}
 	/**
@@ -2329,6 +2335,16 @@ public final class MathFunctions {
 		if (n == 0) return 1;
 		if (n == 1) return a;
 		if (mXparser.checkIfCanonicalRounding()) {
+			if (n >= 2 && n <= 4) {
+				// These bounds keep all intermediate integers at or below 2^48.
+				double limit = n == 2 ? 0x1.0p24 : n == 3 ? 0x1.0p16 : 0x1.0p12;
+				if (a >= -limit && a <= limit && isSmallCanonicalInteger(a)) {
+					double square = a * a;
+					if (n == 2) return square;
+					if (n == 3) return square * a;
+					return square * square;
+				}
+			}
 			BigDecimal da = BigDecimal.valueOf(a);
 			try {
 				if (n >= 0) return da.pow(n).doubleValue();

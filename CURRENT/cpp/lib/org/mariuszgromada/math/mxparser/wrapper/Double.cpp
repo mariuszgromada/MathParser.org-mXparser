@@ -222,6 +222,7 @@
 
 #include <sstream>
 #include <array>
+#include <string_view>
 // Floating charconv arrived later than C++17 in several standard libraries.
 // Unknown/older libraries retain the original stream implementation.
 #if defined(__has_include)
@@ -255,26 +256,72 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 				&& std::fegetround() == FE_TONEAREST;
 		}
 
-		bool tryCanonicalDecimalFormat(double value, int maxFractionDigits,
-			int resultPrecisionChange, std::string& result) {
-			if (!std::isfinite(value) || resultPrecisionChange < -340
-				|| resultPrecisionChange > 340 || !canUseCanonicalCharconv()) return false;
+		// Finite double needs at most 309 integer digits, a sign, a dot and
+		// 340 fractional digits.
+		using CanonicalDecimalBuffer = std::array<char, 768>;
+
+		std::string_view formatCanonicalDecimalInto(double value, int maxFractionDigits,
+			int resultPrecisionChange, CanonicalDecimalBuffer& buffer) {
 			int maxPrecision = Double::maxPossibleDecimalPrecision(value) + resultPrecisionChange;
 			int precision = std::max(0, std::min(maxFractionDigits, maxPrecision));
-			if (precision > 340) return false;
-			// Finite double needs at most 309 integer digits, a sign, a dot and
-			// 340 fractional digits. Check the library's result before accessing it.
-			std::array<char, 768> buffer;
+			if (precision > 340) return {};
 			auto converted = std::to_chars(buffer.data(), buffer.data() + buffer.size(),
 				value, std::chars_format::fixed, precision);
-			if (converted.ec != std::errc()) return false;
-			result.assign(buffer.data(), converted.ptr);
+			if (converted.ec != std::errc()) return {};
+			std::string_view result(buffer.data(), converted.ptr - buffer.data());
 			size_t dotPos = result.find_first_of('.');
 			if (dotPos != std::string::npos) {
 				size_t lastNon0Pos = result.find_last_not_of('0');
 				if (lastNon0Pos == dotPos) lastNon0Pos--;
-				result.erase(lastNon0Pos + 1);
+				result.remove_suffix(result.size() - lastNon0Pos - 1);
 			}
+			return result;
+		}
+
+		// Keep the same formatted extraction and locale for the stream backend,
+		// while reading the existing buffer instead of copying it into a stringbuf.
+		class CanonicalDecimalInput : public std::streambuf {
+		public:
+			CanonicalDecimalInput(char* first, char* last) {
+				setg(first, first, last);
+			}
+		};
+
+		double parseCanonicalDecimalBuffer(char* first, size_t length) {
+			char* last = first + length;
+			double result;
+#if !defined(__GLIBCXX__)
+			auto converted = std::from_chars(first, last, result, std::chars_format::fixed);
+			if (converted.ec == std::errc() && converted.ptr == last && std::isfinite(result)) return result;
+#endif
+			CanonicalDecimalInput input(first, last);
+			std::istream stream(&input);
+			stream.imbue(*SystemUtils::classicLocale);
+			result = Double::NaN;
+			stream >> result;
+			return result;
+		}
+
+		// Keep these buffers off the exact-result path on MSVC-style toolchains.
+#if defined(_MSC_VER)
+		__declspec(noinline)
+#endif
+		bool tryReParseCanonicalDecimal(double value, int precisionChange, double& result) {
+			if (!canUseCanonicalCharconv()) return false;
+			CanonicalDecimalBuffer buffer;
+			std::string_view normal = formatCanonicalDecimalInto(value, 340, 0, buffer);
+			if (normal.empty()) return false;
+			size_t dot = normal.find('.');
+			if (normal.size() >= 9 && dot != std::string_view::npos && normal.size() - dot - 1 >= 6) {
+				CanonicalDecimalBuffer shorterBuffer;
+				std::string_view shorter = formatCanonicalDecimalInto(value, 340, precisionChange, shorterBuffer);
+				if (shorter.empty()) return false;
+				if (normal.size() - shorter.size() >= 4) {
+					result = parseCanonicalDecimalBuffer(shorterBuffer.data(), shorter.size());
+					return true;
+				}
+			}
+			result = parseCanonicalDecimalBuffer(buffer.data(), normal.size());
 			return true;
 		}
 
@@ -363,16 +410,17 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 
 	API_VISIBLE double Double::reParseDouble(double value) {
 		if (doubleGoodToGo(value)) return value;
-
-		const std::string& valueStr = decimalFormat(value, 340, 0);
-		const std::string& valueStrToReParse = valueStr;
-		if (valueStr.length() >= 9) {
-
 #ifdef _MSC_VER
-			int percChange = -2;
+		int percChange = -2;
 #else
-			int percChange = -1;
+		int percChange = -1;
 #endif
+#if defined(MXPARSER_CANONICAL_FLOAT_CHARCONV)
+		double result;
+		if (tryReParseCanonicalDecimal(value, percChange, result)) return result;
+#endif
+		const std::string& valueStr = decimalFormat(value, 340, 0);
+		if (valueStr.length() >= 9) {
 			if (fractionalPartLength(valueStr) >= 6) {
 				const std::string& valueStrTrunc = decimalFormat(value, 340, percChange);
 				if (valueStr.length() - valueStrTrunc.length() >= 4) {
@@ -381,7 +429,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 			}
 		}
 
-		return parseCanonicalDecimal(valueStrToReParse);
+		return parseCanonicalDecimal(valueStr);
 	}
 
 	API_VISIBLE double Double::toDouble(long double ld) {
@@ -415,9 +463,16 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 
 	API_VISIBLE std::string Double::decimalFormat(double value, int maxFractionDigits, int resultPrecisionChange) {
 #if defined(MXPARSER_CANONICAL_FLOAT_CHARCONV)
-		std::string formatted;
-		if (tryCanonicalDecimalFormat(value, maxFractionDigits, resultPrecisionChange, formatted))
-			return formatted;
+		if (std::isfinite(value) && resultPrecisionChange >= -340
+				&& resultPrecisionChange <= 340 && canUseCanonicalCharconv()) {
+			CanonicalDecimalBuffer buffer;
+			std::string_view formatted = formatCanonicalDecimalInto(value, maxFractionDigits, resultPrecisionChange, buffer);
+			if (!formatted.empty()) {
+				std::string result;
+				result.assign(buffer.data(), buffer.data() + formatted.size());
+				return result;
+			}
+		}
 #endif
 
 		std::ostringstream out;
