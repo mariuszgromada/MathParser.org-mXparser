@@ -6949,3 +6949,3110 @@ TEST_CASE("testSyn0423", "[Syntax]") {
     TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
     REQUIRE(testResult);
 }
+
+static void addSyntaxCorpusDefinitions(const ExpressionPtr &e) {
+    e->addDefinitions(new_Argument("_x", 2), new_Argument("alpha_2", 3), new_Argument("rate2", 4),
+            new_Constant("Offset2", 5), new_Function("mix_2(a,b)=a+2*b"),
+            new_Function("_shift(x)=x+1"), new_Function("Poly2(t)=t^2-1"));
+}
+
+TEST_CASE("testSyn0429", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(2+3";
+    TestCommonTools::consolePrintTestSynStart(429, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0430", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2*(3+4))";
+    TestCommonTools::consolePrintTestSynStart(430, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0431", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "sin((pi/2)";
+    TestCommonTools::consolePrintTestSynStart(431, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0432", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(1+())";
+    TestCommonTools::consolePrintTestSynStart(432, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0433", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "((2+3)*4]";
+    TestCommonTools::consolePrintTestSynStart(433, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0434", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2(3+4";
+    TestCommonTools::consolePrintTestSynStart(434, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0435", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(2+3)(4+5";
+    TestCommonTools::consolePrintTestSynStart(435, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0436", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(2+3))sin(pi)";
+    TestCommonTools::consolePrintTestSynStart(436, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0437", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "((2),(3))";
+    TestCommonTools::consolePrintTestSynStart(437, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0438", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(2;3)+4";
+    TestCommonTools::consolePrintTestSynStart(438, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0439", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "sin()";
+    TestCommonTools::consolePrintTestSynStart(439, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0440", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "log(,2)";
+    TestCommonTools::consolePrintTestSynStart(440, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0441", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "min(1,,2)";
+    TestCommonTools::consolePrintTestSynStart(441, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0442", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "max(1;2;)";
+    TestCommonTools::consolePrintTestSynStart(442, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0443", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "if(1,;2,3)";
+    TestCommonTools::consolePrintTestSynStart(443, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0444", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "log(2;8, )";
+    TestCommonTools::consolePrintTestSynStart(444, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0445", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "min(\t1,\n;2)";
+    TestCommonTools::consolePrintTestSynStart(445, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0446", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "sum(i,1,3;i+;2)";
+    TestCommonTools::consolePrintTestSynStart(446, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0447", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "min(max(1,2);;3)";
+    TestCommonTools::consolePrintTestSynStart(447, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0448", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "prod(i;1;3;)";
+    TestCommonTools::consolePrintTestSynStart(448, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0449", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(.+2)";
+    TestCommonTools::consolePrintTestSynStart(449, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0450", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1.+2";
+    TestCommonTools::consolePrintTestSynStart(450, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0451", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1.e-3+2";
+    TestCommonTools::consolePrintTestSynStart(451, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0452", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = ".e3+1";
+    TestCommonTools::consolePrintTestSynStart(452, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0453", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1e+*2";
+    TestCommonTools::consolePrintTestSynStart(453, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0454", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = ".5E- /2";
+    TestCommonTools::consolePrintTestSynStart(454, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0455", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2e.+3";
+    TestCommonTools::consolePrintTestSynStart(455, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0456", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1.2..3";
+    TestCommonTools::consolePrintTestSynStart(456, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0457", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1e2. + 3";
+    TestCommonTools::consolePrintTestSynStart(457, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0458", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2.5e+;3";
+    TestCommonTools::consolePrintTestSynStart(458, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0459", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "b2..101";
+    TestCommonTools::consolePrintTestSynStart(459, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0460", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "o.8.";
+    TestCommonTools::consolePrintTestSynStart(460, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0461", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "h.G1+1";
+    TestCommonTools::consolePrintTestSynStart(461, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0462", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "b16.G+1";
+    TestCommonTools::consolePrintTestSynStart(462, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0463", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "b36._Z";
+    TestCommonTools::consolePrintTestSynStart(463, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0464", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "b.101+o..7";
+    TestCommonTools::consolePrintTestSynStart(464, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0465", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1_2.";
+    TestCommonTools::consolePrintTestSynStart(465, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0466", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2_1_3._4";
+    TestCommonTools::consolePrintTestSynStart(466, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0467", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1_2.3..4";
+    TestCommonTools::consolePrintTestSynStart(467, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0468", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1_2_3_4.5.";
+    TestCommonTools::consolePrintTestSynStart(468, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0469", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "3+*2";
+    TestCommonTools::consolePrintTestSynStart(469, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0470", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "3/*2";
+    TestCommonTools::consolePrintTestSynStart(470, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0471", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "3^/2";
+    TestCommonTools::consolePrintTestSynStart(471, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0472", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "3^^^2";
+    TestCommonTools::consolePrintTestSynStart(472, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0473", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "3**2";
+    TestCommonTools::consolePrintTestSynStart(473, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0474", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "3#%2";
+    TestCommonTools::consolePrintTestSynStart(474, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0475", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1===1";
+    TestCommonTools::consolePrintTestSynStart(475, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0476", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2<>==3";
+    TestCommonTools::consolePrintTestSynStart(476, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0477", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2><3";
+    TestCommonTools::consolePrintTestSynStart(477, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0478", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1??/2";
+    TestCommonTools::consolePrintTestSynStart(478, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0479", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "~";
+    TestCommonTools::consolePrintTestSynStart(479, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0480", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "~@~1";
+    TestCommonTools::consolePrintTestSynStart(480, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0481", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "\u00ac\u00ac1";
+    TestCommonTools::consolePrintTestSynStart(481, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0482", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "@~\u221a4";
+    TestCommonTools::consolePrintTestSynStart(482, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0483", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2!%";
+    TestCommonTools::consolePrintTestSynStart(483, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0484", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2%!!";
+    TestCommonTools::consolePrintTestSynStart(484, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0485", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "!4";
+    TestCommonTools::consolePrintTestSynStart(485, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0486", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "%4";
+    TestCommonTools::consolePrintTestSynStart(486, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0487", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "-~1";
+    TestCommonTools::consolePrintTestSynStart(487, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0488", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "4!\u221a9";
+    TestCommonTools::consolePrintTestSynStart(488, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0489", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2\u03bb\u2081";
+    TestCommonTools::consolePrintTestSynStart(489, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0490", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "sin\uff08\u03c0\uff09";
+    TestCommonTools::consolePrintTestSynStart(490, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0491", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "\u03c0\uff0b1";
+    TestCommonTools::consolePrintTestSynStart(491, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0492", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "4\u22122";
+    TestCommonTools::consolePrintTestSynStart(492, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0493", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "r\u00e9sultat+1";
+    TestCommonTools::consolePrintTestSynStart(493, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0494", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "\u03c0\u2264\u22653";
+    TestCommonTools::consolePrintTestSynStart(494, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0495", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "sin(\u03d5)";
+    TestCommonTools::consolePrintTestSynStart(495, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0496", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2\u00b7\u03c0";
+    TestCommonTools::consolePrintTestSynStart(496, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0497", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "rate\u2082+1";
+    TestCommonTools::consolePrintTestSynStart(497, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0498", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "\u221a(16)\u221b()";
+    TestCommonTools::consolePrintTestSynStart(498, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0499", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "[]";
+    TestCommonTools::consolePrintTestSynStart(499, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0500", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "[%%%]";
+    TestCommonTools::consolePrintTestSynStart(500, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0501", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "[2m]";
+    TestCommonTools::consolePrintTestSynStart(501, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0502", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "[!m]";
+    TestCommonTools::consolePrintTestSynStart(502, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0503", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "[[m]]";
+    TestCommonTools::consolePrintTestSynStart(503, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0504", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "[m=2]";
+    TestCommonTools::consolePrintTestSynStart(504, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0505", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "[m??2]";
+    TestCommonTools::consolePrintTestSynStart(505, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0506", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "[m/s2";
+    TestCommonTools::consolePrintTestSynStart(506, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0507", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "[m/s2]]";
+    TestCommonTools::consolePrintTestSynStart(507, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0508", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "[m;2]";
+    TestCommonTools::consolePrintTestSynStart(508, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0509", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1&&&0";
+    TestCommonTools::consolePrintTestSynStart(509, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0510", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1|||0";
+    TestCommonTools::consolePrintTestSynStart(510, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0511", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1<-->0";
+    TestCommonTools::consolePrintTestSynStart(511, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0512", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1-//>0";
+    TestCommonTools::consolePrintTestSynStart(512, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0513", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1<//-0";
+    TestCommonTools::consolePrintTestSynStart(513, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0514", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1@<2";
+    TestCommonTools::consolePrintTestSynStart(514, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0515", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1@>>=2";
+    TestCommonTools::consolePrintTestSynStart(515, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0516", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1@~&|2";
+    TestCommonTools::consolePrintTestSynStart(516, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0517", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1(+)(+)0";
+    TestCommonTools::consolePrintTestSynStart(517, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0518", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1???0";
+    TestCommonTools::consolePrintTestSynStart(518, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0519", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "der+(,2)";
+    TestCommonTools::consolePrintTestSynStart(519, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0520", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "\u2202-(x;)";
+    TestCommonTools::consolePrintTestSynStart(520, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0521", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "read.value(2)";
+    TestCommonTools::consolePrintTestSynStart(521, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0522", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "gain$2+1";
+    TestCommonTools::consolePrintTestSynStart(522, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0523", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "_x'=2";
+    TestCommonTools::consolePrintTestSynStart(523, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0524", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "mean?(1,2)";
+    TestCommonTools::consolePrintTestSynStart(524, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0525", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1++2";
+    TestCommonTools::consolePrintTestSynStart(525, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0526", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "max(3,- -2)";
+    TestCommonTools::consolePrintTestSynStart(526, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0527", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "3+ -4";
+    TestCommonTools::consolePrintTestSynStart(527, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0528", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "min(2,3)-+4";
+    TestCommonTools::consolePrintTestSynStart(528, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool syn = e->checkLexSyntax();
+    testResult = syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0529", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "((2+3)*(4-1))";
+    TestCommonTools::consolePrintTestSynStart(529, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0530", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2*(-3+4)";
+    TestCommonTools::consolePrintTestSynStart(530, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0531", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "-(2+(3-4))";
+    TestCommonTools::consolePrintTestSynStart(531, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0532", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "+(2*(3+4))";
+    TestCommonTools::consolePrintTestSynStart(532, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0533", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2^-3";
+    TestCommonTools::consolePrintTestSynStart(533, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0534", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(-2)^(-3)";
+    TestCommonTools::consolePrintTestSynStart(534, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0535", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2/-(-3)";
+    TestCommonTools::consolePrintTestSynStart(535, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0536", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(3-(-2))^2";
+    TestCommonTools::consolePrintTestSynStart(536, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0537", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(1+(2*(3+(4/5))))";
+    TestCommonTools::consolePrintTestSynStart(537, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0538", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(\t2 +\n3\r)";
+    TestCommonTools::consolePrintTestSynStart(538, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0539", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = ".5";
+    TestCommonTools::consolePrintTestSynStart(539, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0540", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(-.125E+2)";
+    TestCommonTools::consolePrintTestSynStart(540, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0541", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "+2.5e-3";
+    TestCommonTools::consolePrintTestSynStart(541, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0542", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1e-2+3E+2";
+    TestCommonTools::consolePrintTestSynStart(542, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0543", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "00012.003";
+    TestCommonTools::consolePrintTestSynStart(543, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0544", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "0E+00";
+    TestCommonTools::consolePrintTestSynStart(544, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0545", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "3.141592653589793238462643383279";
+    TestCommonTools::consolePrintTestSynStart(545, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0546", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2e-05^2";
+    TestCommonTools::consolePrintTestSynStart(546, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0547", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1.25.5";
+    TestCommonTools::consolePrintTestSynStart(547, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0548", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2E-3pi";
+    TestCommonTools::consolePrintTestSynStart(548, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = false;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    // Implicit multiplication leaves E as an undefined argument.
+    testResult = lex && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0549", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "b1.+b1.111";
+    TestCommonTools::consolePrintTestSynStart(549, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0550", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "B2.101001+b.11";
+    TestCommonTools::consolePrintTestSynStart(550, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0551", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "b3.1202+b4.3021";
+    TestCommonTools::consolePrintTestSynStart(551, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0552", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "B8.70+O.17";
+    TestCommonTools::consolePrintTestSynStart(552, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0553", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "b10.00019+b11.A09";
+    TestCommonTools::consolePrintTestSynStart(553, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0554", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "b16.Ff+H.aF";
+    TestCommonTools::consolePrintTestSynStart(554, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0555", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "B27.qP+b36.Za9";
+    TestCommonTools::consolePrintTestSynStart(555, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0556", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "b20.Ja9+b35.Y";
+    TestCommonTools::consolePrintTestSynStart(556, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0557", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "7_16+2_3_4";
+    TestCommonTools::consolePrintTestSynStart(557, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0558", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2_1_3pi";
+    TestCommonTools::consolePrintTestSynStart(558, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0559", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2(3+4)";
+    TestCommonTools::consolePrintTestSynStart(559, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0560", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(1+2)(3+4)(5+6)";
+    TestCommonTools::consolePrintTestSynStart(560, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0561", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(2+3)4";
+    TestCommonTools::consolePrintTestSynStart(561, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0562", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2sin(pi/6)";
+    TestCommonTools::consolePrintTestSynStart(562, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0563", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "sin(pi/4)cos(pi/4)";
+    TestCommonTools::consolePrintTestSynStart(563, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0564", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "3[m]";
+    TestCommonTools::consolePrintTestSynStart(564, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0565", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2\u03c0";
+    TestCommonTools::consolePrintTestSynStart(565, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0566", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(1+2)_x";
+    TestCommonTools::consolePrintTestSynStart(566, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0567", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "0.5alpha_2";
+    TestCommonTools::consolePrintTestSynStart(567, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0568", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2\u221a(9)";
+    TestCommonTools::consolePrintTestSynStart(568, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0569", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "sin(cos(0))";
+    TestCommonTools::consolePrintTestSynStart(569, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0570", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "log(2;.125)";
+    TestCommonTools::consolePrintTestSynStart(570, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0571", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "max(1;min(2,3);-4)";
+    TestCommonTools::consolePrintTestSynStart(571, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0572", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "iff(1<0,10;2>1,20)";
+    TestCommonTools::consolePrintTestSynStart(572, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0573", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "if(rate2>=alpha_2;_shift(_x),Poly2(Offset2))";
+    TestCommonTools::consolePrintTestSynStart(573, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0574", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "mix_2(alpha_2;rate2)";
+    TestCommonTools::consolePrintTestSynStart(574, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0575", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "_shift(mix_2(_x,Offset2))";
+    TestCommonTools::consolePrintTestSynStart(575, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0576", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "Poly2(+rate2)-_shift(-_x)";
+    TestCommonTools::consolePrintTestSynStart(576, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0577", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "_x+rate2*alpha_2+Offset2";
+    TestCommonTools::consolePrintTestSynStart(577, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0578", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2mix_2(1,3)";
+    TestCommonTools::consolePrintTestSynStart(578, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0579", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2^^3^2";
+    TestCommonTools::consolePrintTestSynStart(579, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0580", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "-2^(-3)";
+    TestCommonTools::consolePrintTestSynStart(580, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0581", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "7#4*3";
+    TestCommonTools::consolePrintTestSynStart(581, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0582", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2\u00d73\u2a094\u22195\u00f76";
+    TestCommonTools::consolePrintTestSynStart(582, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0583", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "9:3+8\\3";
+    TestCommonTools::consolePrintTestSynStart(583, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0584", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1==1";
+    TestCommonTools::consolePrintTestSynStart(584, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0585", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(2<>3)+(3!=4)";
+    TestCommonTools::consolePrintTestSynStart(585, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0586", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "3~=4";
+    TestCommonTools::consolePrintTestSynStart(586, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0587", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "2\u22dc3\u22274\u22dd4";
+    TestCommonTools::consolePrintTestSynStart(587, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0588", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "\u03c0\u2260e";
+    TestCommonTools::consolePrintTestSynStart(588, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0589", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1/\\0\\/1";
+    TestCommonTools::consolePrintTestSynStart(589, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0590", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1~&&0";
+    TestCommonTools::consolePrintTestSynStart(590, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0591", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "0\u00ac||1";
+    TestCommonTools::consolePrintTestSynStart(591, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0592", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1-->0<--1";
+    TestCommonTools::consolePrintTestSynStart(592, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0593", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1-/>0</-1";
+    TestCommonTools::consolePrintTestSynStart(593, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0594", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1<->0(+)1";
+    TestCommonTools::consolePrintTestSynStart(594, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0595", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1\u22bc0\u22bd1";
+    TestCommonTools::consolePrintTestSynStart(595, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0596", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1\u21d20\u21d01";
+    TestCommonTools::consolePrintTestSynStart(596, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0597", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(1\u21cf0)\u21d4(0\u21cd1)";
+    TestCommonTools::consolePrintTestSynStart(597, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0598", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "[NaN]??[NaN]??42";
+    TestCommonTools::consolePrintTestSynStart(598, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0599", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(@~b.101)@&h.F";
+    TestCommonTools::consolePrintTestSynStart(599, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0600", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "1@<<3@>>1";
+    TestCommonTools::consolePrintTestSynStart(600, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0601", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "6@~&3";
+    TestCommonTools::consolePrintTestSynStart(601, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0602", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "5@~|2";
+    TestCommonTools::consolePrintTestSynStart(602, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0603", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "12@~^10@^3@|1";
+    TestCommonTools::consolePrintTestSynStart(603, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0604", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(5!)%";
+    TestCommonTools::consolePrintTestSynStart(604, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0605", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(50%)!";
+    TestCommonTools::consolePrintTestSynStart(605, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0606", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "\u221a\u221b64";
+    TestCommonTools::consolePrintTestSynStart(606, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0607", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "\u221c(16)+\u221b27";
+    TestCommonTools::consolePrintTestSynStart(607, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0608", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "\u00ac(1\u22bb0)";
+    TestCommonTools::consolePrintTestSynStart(608, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0609", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(36*[km/h])/[m/s]";
+    TestCommonTools::consolePrintTestSynStart(609, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0610", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "9.81*[m/s2]*(2*[s])^2";
+    TestCommonTools::consolePrintTestSynStart(610, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0611", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "([m2]/[m])/[m]";
+    TestCommonTools::consolePrintTestSynStart(611, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0612", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "sin(90*[deg])";
+    TestCommonTools::consolePrintTestSynStart(612, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0613", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "5*[%]+25*[%%]";
+    TestCommonTools::consolePrintTestSynStart(613, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0614", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "[NaN]??(2*[m])";
+    TestCommonTools::consolePrintTestSynStart(614, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0615", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "[true]&&~[false]";
+    TestCommonTools::consolePrintTestSynStart(615, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0616", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "([Int3]@&7)|[false]";
+    TestCommonTools::consolePrintTestSynStart(616, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0617", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "max([Uni],[Nor])";
+    TestCommonTools::consolePrintTestSynStart(617, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0618", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "(50%+[%])*100";
+    TestCommonTools::consolePrintTestSynStart(618, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0619", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "sum(idx2;1;4;idx2^2)";
+    TestCommonTools::consolePrintTestSynStart(619, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0620", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "prod(k,1,4,1+k/2)";
+    TestCommonTools::consolePrintTestSynStart(620, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0621", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "sum(i,1,3,sum(j,1,i,i*j))";
+    TestCommonTools::consolePrintTestSynStart(621, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0622", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "int(rate2*t^2,t,0,1)";
+    TestCommonTools::consolePrintTestSynStart(622, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0623", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "\u222b(t^3,t,0,1)";
+    TestCommonTools::consolePrintTestSynStart(623, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0624", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "der+(x^2,x,2)";
+    TestCommonTools::consolePrintTestSynStart(624, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0625", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "\u2202-(x^3,x,2)";
+    TestCommonTools::consolePrintTestSynStart(625, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0626", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "\u2211(k,1,4,k^2)";
+    TestCommonTools::consolePrintTestSynStart(626, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0627", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "\u220f(k,1,3,k+1)";
+    TestCommonTools::consolePrintTestSynStart(627, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
+
+TEST_CASE("testSyn0628", "[Syntax]") {
+    TestCommonTools::testSynSettingsInit();
+    bool testResult = false;
+    string expStr = "solve(t^2-2,t,1,2)";
+    TestCommonTools::consolePrintTestSynStart(628, expStr);
+    mXparser::disableAttemptToFixExpStrMode();
+    ExpressionPtr e = new_Expression(expStr);
+    bool reg = true;
+    bool lex = e->checkLexSyntax();
+    addSyntaxCorpusDefinitions(e);
+    bool syn = e->checkSyntax();
+    testResult = lex == reg && syn == reg;
+    TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
+    INFO("checkLexSyntax() = " << lex);
+    CHECK(testResult);
+}
