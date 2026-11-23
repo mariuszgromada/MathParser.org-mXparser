@@ -2054,11 +2054,22 @@ export async function initMxParser(options = {}) {
     for (const group of methods.values()) {
         const first = group[0], owner = owners[first.owner], target = first.static ? owner : owner.prototype;
         const inherited = Object.getPrototypeOf(target)?.[first.name];
+        let noArgumentCalculation;
+        if (!first.static && (
+            (first.owner === 'Expression' || first.owner === 'Function') && first.name === 'calculate' ||
+            first.owner === 'Argument' && first.name === 'getArgumentValue'
+        )) {
+            const signatures = managedProfile.signatures[first.owner + '|' + first.name + '|instance'];
+            if (!signatures || signatures.some(signature => managedSignatureMatches([], signature)))
+                noArgumentCalculation = group.find(item => item.parameters.length === 0);
+        }
         const cancellationEntry = first.name.endsWith('WithCancel') || first.owner === 'mXparser'
             && ['isCalculationCancelled', 'cancelCalculation', 'resetCalculationCancellation',
                 'reserveCancellationTokenId', 'releaseCancellationTokenId'].includes(first.name);
         Object.defineProperty(target, first.name, {
             configurable: true, value: function (...args) {
+                if (noArgumentCalculation && args.length === 0)
+                    return wrap(call(() => native[noArgumentCalculation.export](this[handle], args)), noArgumentCalculation.result);
                 if (cancellationEntry) {
                     // Check before overload conversion: Embind int conversion would truncate fractions.
                     const id = args.at(-1);
@@ -2494,12 +2505,13 @@ export async function initMxParser(options = {}) {
         && item.parameters.length === 1 && item.parameters[0].kind === 'array' && item.parameters[0].element.kind === 'number');
     Object.defineProperty(classes.Function.prototype, 'calculate', {
         value: function (...args) {
+            if (args.length === 0) return calculate.apply(this, args);
             managedGuard('Function', 'calculate', false, args);
             if (args.length === 1 && args[0] === null) {
                 if (this.isDeleted()) throw new TypeError('Cannot use a deleted Function handle');
                 return call(() => native[nullParameters.export](this[handle], [null]));
             }
-            if (!args.length || (args.length === 1 && (args[0] === null || args[0] instanceof classes.CalcStepsRegister || (args[0] instanceof NativeListHandle && args[0][elementDescriptor].kind === 'number')))) return calculate.apply(this, args);
+            if (args.length === 1 && (args[0] === null || args[0] instanceof classes.CalcStepsRegister || (args[0] instanceof NativeListHandle && args[0][elementDescriptor].kind === 'number'))) return calculate.apply(this, args);
             const values = flat(args).map(value => {
                 if (value instanceof NativeListHandle) {
                     const type = value[elementDescriptor];
