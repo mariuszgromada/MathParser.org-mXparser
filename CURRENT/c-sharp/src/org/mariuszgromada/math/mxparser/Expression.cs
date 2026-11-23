@@ -4586,6 +4586,14 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 
 		private double calculateCoreWithCancel(CalcStepsRegister calcStepsRegister, int cancelId) {
+			return calculateCoreWithCancel(calcStepsRegister, cancelId, false);
+		}
+
+		internal double calculateArgumentDefinition() {
+			return calculateCoreWithCancel(null, 0, true);
+		}
+
+		private double calculateCoreWithCancel(CalcStepsRegister calcStepsRegister, int cancelId, bool argumentDefinition) {
 			int previousCancelId = activeCancelId;
 			activeCancelId = cancelId;
 			activeCalculations++;
@@ -4593,7 +4601,7 @@ namespace org.mariuszgromada.math.mxparser {
 	            License.checkLicense();
 	            int recursionCallsCounterBeforeCalculation = recursionCallsCounter;
 	            try {
-					return calculateInternal(calcStepsRegister);
+					return calculateInternal(calcStepsRegister, argumentDefinition);
 				} catch (Exception e) {
 					recursionCallsCounter = recursionCallsCounterBeforeCalculation;
 					if (recursionCallsCounterBeforeCalculation == 0)
@@ -5173,7 +5181,7 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			return stepsRegisteredCounter;
 		}
-		private double calculateInternal(CalcStepsRegister calcStepsRegister) {
+		private double calculateInternal(CalcStepsRegister calcStepsRegister, bool argumentDefinition) {
 			computingTime = 0;
 			bool measureTime = !skipSampleTiming || verboseMode || calcStepsRegister != null;
 			long startTime = measureTime ? mXparser.currentTimeMillis() : 0;
@@ -5188,7 +5196,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 * evaluate expression string tokens
 			 *
 			 */
-			if (!syntaxIsAlreadyCheckedNorErrors())
+			if (!syntaxIsAlreadyCheckedNorErrors() && !(argumentDefinition && tryPrepareIntegerArgumentDefinition()))
 				syntaxStatus = checkSyntax();
 			if (syntaxStatus == SYNTAX_ERROR) {
 				if (verboseMode)
@@ -5570,6 +5578,81 @@ namespace org.mariuszgromada.math.mxparser {
 			modifyParserKeyWords();
 			validateParserKeyWords();
 			addUserDefinedKeyWords();
+		}
+
+		private static volatile ArgumentLiteralKeywords argumentLiteralKeywords;
+
+		private sealed class ArgumentLiteralKeywords {
+			private readonly String[] names;
+			private readonly int numberIndex;
+
+			private ArgumentLiteralKeywords(String[] names, int numberIndex) {
+				this.names = names;
+				this.numberIndex = numberIndex;
+			}
+
+			internal static ArgumentLiteralKeywords capture(List<KeyWord> keywords) {
+				String[] names = new String[keywords.Count];
+				HashSet<String> distinct = new HashSet<String>();
+				int numberIndex = -1;
+				for (int i = 0; i < names.Length; i++) {
+					KeyWord keyword = keywords[i];
+					if (keyword == null || keyword.wordString == null || !distinct.Add(keyword.wordString)) return null;
+					names[i] = keyword.wordString;
+					if (keyword.wordTypeId == ParserSymbol.NUMBER_TYPE_ID) {
+						if (numberIndex >= 0 || keyword.wordId != ParserSymbol.NUMBER_ID) return null;
+						numberIndex = i;
+					}
+				}
+				return numberIndex >= 0 ? new ArgumentLiteralKeywords(names, numberIndex) : null;
+			}
+
+			internal bool matches(List<KeyWord> keywords) {
+				if (keywords.Count != names.Length) return false;
+				for (int i = 0; i < names.Length; i++) {
+					KeyWord keyword = keywords[i];
+					if (keyword == null || !ReferenceEquals(keyword.wordString, names[i])) return false;
+					if ((keyword.wordTypeId == ParserSymbol.NUMBER_TYPE_ID) != (i == numberIndex)) return false;
+				}
+				return keywords[numberIndex].wordId == ParserSymbol.NUMBER_ID;
+			}
+		}
+
+		// This check is only used on a freshly constructed argument body without definitions.
+		private bool tryPrepareIntegerArgumentDefinition() {
+			int length = expressionString.Length;
+			if (length == 0 || length > 9) return false;
+			int value = 0;
+			for (int i = 0; i < length; i++) {
+				int digit = expressionString[i] - '0';
+				if (digit < 0 || digit > 9) return false;
+				value = 10 * value + digit;
+			}
+			if (!unicodeKeyWordsEnabled || mXparser.overrideBuiltinTokens
+					|| mXparser.tokensToRemove.Count != 0 || mXparser.tokensToModify.Count != 0) return false;
+
+			List<KeyWord> keywords = ExpressionUtils.getBaseKeyWordsList(false, false, unicodeKeyWordsEnabled);
+			ArgumentLiteralKeywords snapshot = argumentLiteralKeywords;
+			if (snapshot == null) {
+				snapshot = ArgumentLiteralKeywords.capture(keywords);
+				if (snapshot == null) return false;
+				argumentLiteralKeywords = snapshot;
+			} else if (!snapshot.matches(keywords)) return false;
+
+			// A standalone ASCII integer needs only the standard number token and a distinct vocabulary.
+			String recursionInfoLevel = ExpressionUtils.createExpressionDescription(description, expressionString);
+			optionsChangesetNumber = mXparser.optionsChangesetNumber;
+			registerPartialSyntaxStartingSyntaxCheck(recursionInfoLevel);
+			expressionStringCleaned = expressionString;
+			initialTokens = new List<Token>(1);
+			Token token = Token.makeNumberToken();
+			token.tokenStr = expressionString;
+			token.keyWord = ParserSymbol.NUMBER_STR;
+			token.tokenValue = value;
+			initialTokens.Add(token);
+			ExpressionUtils.evaluateTokensLevels(initialTokens);
+			registerFinalSyntax(recursionInfoLevel, NO_SYNTAX_ERRORS);
+			return true;
 		}
 
 		private void modifyParserKeyWords() {

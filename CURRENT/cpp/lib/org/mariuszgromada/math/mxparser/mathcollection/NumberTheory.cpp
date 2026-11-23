@@ -1739,8 +1739,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (Double::isNaN(number)) return Double::NaN;
 		if (Double::isInfinite(number)) return Double::POSITIVE_INFINITY;
 		if (number < 0.0) number = -number;
-		number = MathFunctions::floor(number);
-		if (number < 1.0) return 1;
+		// All thresholds are integral, so taking the floor first cannot change the comparison.
+		if (number < 10.0) return 1;
 		return Double::numberOfIntegerDigits(number);
 	}
 

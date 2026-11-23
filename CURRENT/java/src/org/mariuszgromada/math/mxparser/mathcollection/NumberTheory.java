@@ -2929,6 +2929,39 @@ public final class NumberTheory {
 		if (number < 1000000000) return 9;
 		else return 10;
 	}
+	private static final double[] INTEGER_DIGIT_THRESHOLDS = {
+		1e0, 1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9,
+		1e10, 1e11, 1e12, 1e13, 1e14, 1e15, 1e16, 1e17, 1e18, 1e19,
+		1e20, 1e21, 1e22, 1e23, 1e24, 1e25, 1e26, 1e27, 1e28, 1e29,
+		1e30, 1e31, 1e32, 1e33, 1e34, 1e35, 1e36, 1e37, 1e38, 1e39,
+		1e40, 1e41, 1e42, 1e43, 1e44, 1e45, 1e46, 1e47, 1e48, 1e49,
+		1e50, 1e51, 1e52, 1e53, 1e54, 1e55, 1e56, 1e57, 1e58, 1e59,
+		1e60, 1e61, 1e62, 1e63, 1e64, 1e65, 1e66, 1e67, 1e68, 1e69,
+		1e70, 1e71, 1e72, 1e73, 1e74, 1e75, 1e76, 1e77, 1e78, 1e79,
+		1e80, 1e81, 1e82, 1e83, 1e84, 1e85, 1e86, 1e87, 1e88, 1e89,
+		1e90, 1e91, 1e92, 1e93, 1e94, 1e95, 1e96, 1e97, 1e98, 1e99,
+		1e100, 1e101, 1e102, 1e103, 1e104, 1e105, 1e106, 1e107, 1e108, 1e109,
+		1e110, 1e111, 1e112, 1e113, 1e114, 1e115, 1e116, 1e117, 1e118, 1e119,
+		1e120, 1e121, 1e122, 1e123, 1e124, 1e125, 1e126, 1e127, 1e128, 1e129,
+		1e130, 1e131, 1e132, 1e133, 1e134, 1e135, 1e136, 1e137, 1e138, 1e139,
+		1e140, 1e141, 1e142, 1e143, 1e144, 1e145, 1e146, 1e147, 1e148, 1e149,
+		1e150, 1e151, 1e152, 1e153, 1e154, 1e155, 1e156, 1e157, 1e158, 1e159,
+		1e160, 1e161, 1e162, 1e163, 1e164, 1e165, 1e166, 1e167, 1e168, 1e169,
+		1e170, 1e171, 1e172, 1e173, 1e174, 1e175, 1e176, 1e177, 1e178, 1e179,
+		1e180, 1e181, 1e182, 1e183, 1e184, 1e185, 1e186, 1e187, 1e188, 1e189,
+		1e190, 1e191, 1e192, 1e193, 1e194, 1e195, 1e196, 1e197, 1e198, 1e199,
+		1e200, 1e201, 1e202, 1e203, 1e204, 1e205, 1e206, 1e207, 1e208, 1e209,
+		1e210, 1e211, 1e212, 1e213, 1e214, 1e215, 1e216, 1e217, 1e218, 1e219,
+		1e220, 1e221, 1e222, 1e223, 1e224, 1e225, 1e226, 1e227, 1e228, 1e229,
+		1e230, 1e231, 1e232, 1e233, 1e234, 1e235, 1e236, 1e237, 1e238, 1e239,
+		1e240, 1e241, 1e242, 1e243, 1e244, 1e245, 1e246, 1e247, 1e248, 1e249,
+		1e250, 1e251, 1e252, 1e253, 1e254, 1e255, 1e256, 1e257, 1e258, 1e259,
+		1e260, 1e261, 1e262, 1e263, 1e264, 1e265, 1e266, 1e267, 1e268, 1e269,
+		1e270, 1e271, 1e272, 1e273, 1e274, 1e275, 1e276, 1e277, 1e278, 1e279,
+		1e280, 1e281, 1e282, 1e283, 1e284, 1e285, 1e286, 1e287, 1e288, 1e289,
+		1e290, 1e291, 1e292, 1e293, 1e294, 1e295, 1e296, 1e297, 1e298, 1e299,
+		1e300, 1e301, 1e302, 1e303, 1e304, 1e305, 1e306, 1e307, 1e308
+	};
 	/**
 	 * Number of digits needed to represent given number in base 10 numeral system.
 	 * @param number   The number
@@ -2940,339 +2973,14 @@ public final class NumberTheory {
 		if (Double.isNaN(number)) return Double.NaN;
 		if (Double.isInfinite(number)) return Double.POSITIVE_INFINITY;
 
-		double value;
-		if (number >= 0) value = number;
-		else value = -number;
-		value = MathFunctions.floor(value);
+		double value = Math.abs(number);
+		if (value < 10) return 1;
 
-		if (value < 1.0e5) {
-			/* if (value < 1.0) return 0; */
-			if (value < 1.0e1) return 1;
-			if (value < 1.0e2) return 2;
-			if (value < 1.0e3) return 3;
-			if (value < 1.0e4) return 4;
-			/* if (value < 1.0e5) */ return 5;
-		}
-
-		if (value < 1.0e10) {
-			if (value < 1.0e6) return 6;
-			if (value < 1.0e7) return 7;
-			if (value < 1.0e8) return 8;
-			if (value < 1.0e9) return 9;
-			/* if (value < 1.0e10) */ return 10;
-		}
-
-		if (value < 1.0e20) {
-			if (value < 1.0e11) return 11;
-			if (value < 1.0e12) return 12;
-			if (value < 1.0e13) return 13;
-			if (value < 1.0e14) return 14;
-			if (value < 1.0e15) return 15;
-			if (value < 1.0e16) return 16;
-			if (value < 1.0e17) return 17;
-			if (value < 1.0e18) return 18;
-			if (value < 1.0e19) return 19;
-			/* if (value < 1.0e20) */ return 20;
-		}
-
-		if (value < 1.0e50) {
-			if (value < 1.0e21) return 21;
-			if (value < 1.0e22) return 22;
-			if (value < 1.0e23) return 23;
-			if (value < 1.0e24) return 24;
-			if (value < 1.0e25) return 25;
-			if (value < 1.0e26) return 26;
-			if (value < 1.0e27) return 27;
-			if (value < 1.0e28) return 28;
-			if (value < 1.0e29) return 29;
-			if (value < 1.0e30) return 30;
-			if (value < 1.0e31) return 31;
-			if (value < 1.0e32) return 32;
-			if (value < 1.0e33) return 33;
-			if (value < 1.0e34) return 34;
-			if (value < 1.0e35) return 35;
-			if (value < 1.0e36) return 36;
-			if (value < 1.0e37) return 37;
-			if (value < 1.0e38) return 38;
-			if (value < 1.0e39) return 39;
-			if (value < 1.0e40) return 40;
-			if (value < 1.0e41) return 41;
-			if (value < 1.0e42) return 42;
-			if (value < 1.0e43) return 43;
-			if (value < 1.0e44) return 44;
-			if (value < 1.0e45) return 45;
-			if (value < 1.0e46) return 46;
-			if (value < 1.0e47) return 47;
-			if (value < 1.0e48) return 48;
-			if (value < 1.0e49) return 49;
-			/* if (value < 1.0e50) */ return 50;
-		}
-
-		if (value < 1.0e100) {
-			if (value < 1.0e51) return 51;
-			if (value < 1.0e52) return 52;
-			if (value < 1.0e53) return 53;
-			if (value < 1.0e54) return 54;
-			if (value < 1.0e55) return 55;
-			if (value < 1.0e56) return 56;
-			if (value < 1.0e57) return 57;
-			if (value < 1.0e58) return 58;
-			if (value < 1.0e59) return 59;
-			if (value < 1.0e60) return 60;
-			if (value < 1.0e61) return 61;
-			if (value < 1.0e62) return 62;
-			if (value < 1.0e63) return 63;
-			if (value < 1.0e64) return 64;
-			if (value < 1.0e65) return 65;
-			if (value < 1.0e66) return 66;
-			if (value < 1.0e67) return 67;
-			if (value < 1.0e68) return 68;
-			if (value < 1.0e69) return 69;
-			if (value < 1.0e70) return 70;
-			if (value < 1.0e71) return 71;
-			if (value < 1.0e72) return 72;
-			if (value < 1.0e73) return 73;
-			if (value < 1.0e74) return 74;
-			if (value < 1.0e75) return 75;
-			if (value < 1.0e76) return 76;
-			if (value < 1.0e77) return 77;
-			if (value < 1.0e78) return 78;
-			if (value < 1.0e79) return 79;
-			if (value < 1.0e80) return 80;
-			if (value < 1.0e81) return 81;
-			if (value < 1.0e82) return 82;
-			if (value < 1.0e83) return 83;
-			if (value < 1.0e84) return 84;
-			if (value < 1.0e85) return 85;
-			if (value < 1.0e86) return 86;
-			if (value < 1.0e87) return 87;
-			if (value < 1.0e88) return 88;
-			if (value < 1.0e89) return 89;
-			if (value < 1.0e90) return 90;
-			if (value < 1.0e91) return 91;
-			if (value < 1.0e92) return 92;
-			if (value < 1.0e93) return 93;
-			if (value < 1.0e94) return 94;
-			if (value < 1.0e95) return 95;
-			if (value < 1.0e96) return 96;
-			if (value < 1.0e97) return 97;
-			if (value < 1.0e98) return 98;
-			if (value < 1.0e99) return 99;
-			/* if (value < 1.0e100) */ return 100;
-		}
-
-		if (value < 1.0e200) {
-			if (value < 1.0e101) return 101;
-			if (value < 1.0e102) return 102;
-			if (value < 1.0e103) return 103;
-			if (value < 1.0e104) return 104;
-			if (value < 1.0e105) return 105;
-			if (value < 1.0e106) return 106;
-			if (value < 1.0e107) return 107;
-			if (value < 1.0e108) return 108;
-			if (value < 1.0e109) return 109;
-			if (value < 1.0e110) return 110;
-			if (value < 1.0e111) return 111;
-			if (value < 1.0e112) return 112;
-			if (value < 1.0e113) return 113;
-			if (value < 1.0e114) return 114;
-			if (value < 1.0e115) return 115;
-			if (value < 1.0e116) return 116;
-			if (value < 1.0e117) return 117;
-			if (value < 1.0e118) return 118;
-			if (value < 1.0e119) return 119;
-			if (value < 1.0e120) return 120;
-			if (value < 1.0e121) return 121;
-			if (value < 1.0e122) return 122;
-			if (value < 1.0e123) return 123;
-			if (value < 1.0e124) return 124;
-			if (value < 1.0e125) return 125;
-			if (value < 1.0e126) return 126;
-			if (value < 1.0e127) return 127;
-			if (value < 1.0e128) return 128;
-			if (value < 1.0e129) return 129;
-			if (value < 1.0e130) return 130;
-			if (value < 1.0e131) return 131;
-			if (value < 1.0e132) return 132;
-			if (value < 1.0e133) return 133;
-			if (value < 1.0e134) return 134;
-			if (value < 1.0e135) return 135;
-			if (value < 1.0e136) return 136;
-			if (value < 1.0e137) return 137;
-			if (value < 1.0e138) return 138;
-			if (value < 1.0e139) return 139;
-			if (value < 1.0e140) return 140;
-			if (value < 1.0e141) return 141;
-			if (value < 1.0e142) return 142;
-			if (value < 1.0e143) return 143;
-			if (value < 1.0e144) return 144;
-			if (value < 1.0e145) return 145;
-			if (value < 1.0e146) return 146;
-			if (value < 1.0e147) return 147;
-			if (value < 1.0e148) return 148;
-			if (value < 1.0e149) return 149;
-			if (value < 1.0e150) return 150;
-			if (value < 1.0e151) return 151;
-			if (value < 1.0e152) return 152;
-			if (value < 1.0e153) return 153;
-			if (value < 1.0e154) return 154;
-			if (value < 1.0e155) return 155;
-			if (value < 1.0e156) return 156;
-			if (value < 1.0e157) return 157;
-			if (value < 1.0e158) return 158;
-			if (value < 1.0e159) return 159;
-			if (value < 1.0e160) return 160;
-			if (value < 1.0e161) return 161;
-			if (value < 1.0e162) return 162;
-			if (value < 1.0e163) return 163;
-			if (value < 1.0e164) return 164;
-			if (value < 1.0e165) return 165;
-			if (value < 1.0e166) return 166;
-			if (value < 1.0e167) return 167;
-			if (value < 1.0e168) return 168;
-			if (value < 1.0e169) return 169;
-			if (value < 1.0e170) return 170;
-			if (value < 1.0e171) return 171;
-			if (value < 1.0e172) return 172;
-			if (value < 1.0e173) return 173;
-			if (value < 1.0e174) return 174;
-			if (value < 1.0e175) return 175;
-			if (value < 1.0e176) return 176;
-			if (value < 1.0e177) return 177;
-			if (value < 1.0e178) return 178;
-			if (value < 1.0e179) return 179;
-			if (value < 1.0e180) return 180;
-			if (value < 1.0e181) return 181;
-			if (value < 1.0e182) return 182;
-			if (value < 1.0e183) return 183;
-			if (value < 1.0e184) return 184;
-			if (value < 1.0e185) return 185;
-			if (value < 1.0e186) return 186;
-			if (value < 1.0e187) return 187;
-			if (value < 1.0e188) return 188;
-			if (value < 1.0e189) return 189;
-			if (value < 1.0e190) return 190;
-			if (value < 1.0e191) return 191;
-			if (value < 1.0e192) return 192;
-			if (value < 1.0e193) return 193;
-			if (value < 1.0e194) return 194;
-			if (value < 1.0e195) return 195;
-			if (value < 1.0e196) return 196;
-			if (value < 1.0e197) return 197;
-			if (value < 1.0e198) return 198;
-			if (value < 1.0e199) return 199;
-			/* if (value < 1.0e200) */ return 200;
-		}
-
-		if (value < 1.0e201) return 201;
-		if (value < 1.0e202) return 202;
-		if (value < 1.0e203) return 203;
-		if (value < 1.0e204) return 204;
-		if (value < 1.0e205) return 205;
-		if (value < 1.0e206) return 206;
-		if (value < 1.0e207) return 207;
-		if (value < 1.0e208) return 208;
-		if (value < 1.0e209) return 209;
-		if (value < 1.0e210) return 210;
-		if (value < 1.0e211) return 211;
-		if (value < 1.0e212) return 212;
-		if (value < 1.0e213) return 213;
-		if (value < 1.0e214) return 214;
-		if (value < 1.0e215) return 215;
-		if (value < 1.0e216) return 216;
-		if (value < 1.0e217) return 217;
-		if (value < 1.0e218) return 218;
-		if (value < 1.0e219) return 219;
-		if (value < 1.0e220) return 220;
-		if (value < 1.0e221) return 221;
-		if (value < 1.0e222) return 222;
-		if (value < 1.0e223) return 223;
-		if (value < 1.0e224) return 224;
-		if (value < 1.0e225) return 225;
-		if (value < 1.0e226) return 226;
-		if (value < 1.0e227) return 227;
-		if (value < 1.0e228) return 228;
-		if (value < 1.0e229) return 229;
-		if (value < 1.0e230) return 230;
-		if (value < 1.0e231) return 231;
-		if (value < 1.0e232) return 232;
-		if (value < 1.0e233) return 233;
-		if (value < 1.0e234) return 234;
-		if (value < 1.0e235) return 235;
-		if (value < 1.0e236) return 236;
-		if (value < 1.0e237) return 237;
-		if (value < 1.0e238) return 238;
-		if (value < 1.0e239) return 239;
-		if (value < 1.0e240) return 240;
-		if (value < 1.0e241) return 241;
-		if (value < 1.0e242) return 242;
-		if (value < 1.0e243) return 243;
-		if (value < 1.0e244) return 244;
-		if (value < 1.0e245) return 245;
-		if (value < 1.0e246) return 246;
-		if (value < 1.0e247) return 247;
-		if (value < 1.0e248) return 248;
-		if (value < 1.0e249) return 249;
-		if (value < 1.0e250) return 250;
-		if (value < 1.0e251) return 251;
-		if (value < 1.0e252) return 252;
-		if (value < 1.0e253) return 253;
-		if (value < 1.0e254) return 254;
-		if (value < 1.0e255) return 255;
-		if (value < 1.0e256) return 256;
-		if (value < 1.0e257) return 257;
-		if (value < 1.0e258) return 258;
-		if (value < 1.0e259) return 259;
-		if (value < 1.0e260) return 260;
-		if (value < 1.0e261) return 261;
-		if (value < 1.0e262) return 262;
-		if (value < 1.0e263) return 263;
-		if (value < 1.0e264) return 264;
-		if (value < 1.0e265) return 265;
-		if (value < 1.0e266) return 266;
-		if (value < 1.0e267) return 267;
-		if (value < 1.0e268) return 268;
-		if (value < 1.0e269) return 269;
-		if (value < 1.0e270) return 270;
-		if (value < 1.0e271) return 271;
-		if (value < 1.0e272) return 272;
-		if (value < 1.0e273) return 273;
-		if (value < 1.0e274) return 274;
-		if (value < 1.0e275) return 275;
-		if (value < 1.0e276) return 276;
-		if (value < 1.0e277) return 277;
-		if (value < 1.0e278) return 278;
-		if (value < 1.0e279) return 279;
-		if (value < 1.0e280) return 280;
-		if (value < 1.0e281) return 281;
-		if (value < 1.0e282) return 282;
-		if (value < 1.0e283) return 283;
-		if (value < 1.0e284) return 284;
-		if (value < 1.0e285) return 285;
-		if (value < 1.0e286) return 286;
-		if (value < 1.0e287) return 287;
-		if (value < 1.0e288) return 288;
-		if (value < 1.0e289) return 289;
-		if (value < 1.0e290) return 290;
-		if (value < 1.0e291) return 291;
-		if (value < 1.0e292) return 292;
-		if (value < 1.0e293) return 293;
-		if (value < 1.0e294) return 294;
-		if (value < 1.0e295) return 295;
-		if (value < 1.0e296) return 296;
-		if (value < 1.0e297) return 297;
-		if (value < 1.0e298) return 298;
-		if (value < 1.0e299) return 299;
-		if (value < 1.0e300) return 300;
-		if (value < 1.0e301) return 301;
-		if (value < 1.0e302) return 302;
-		if (value < 1.0e303) return 303;
-		if (value < 1.0e304) return 304;
-		if (value < 1.0e305) return 305;
-		if (value < 1.0e306) return 306;
-		if (value < 1.0e307) return 307;
-		if (value < 1.0e308) return 308;
-		return 309;
+		// All thresholds are integral, so taking the floor first cannot change the comparison.
+		int places = Math.getExponent(value) * 1233 >> 12;
+		if (value >= INTEGER_DIGIT_THRESHOLDS[places + 1]) return places + 2;
+		if (value < INTEGER_DIGIT_THRESHOLDS[places]) return places;
+		return places + 1;
 	}
 	/**
 	 * Number of digits needed to represent given number in numeral system with given base.

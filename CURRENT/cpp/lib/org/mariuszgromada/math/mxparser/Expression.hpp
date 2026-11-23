@@ -3087,6 +3087,10 @@ namespace org::mariuszgromada::math::mxparser {
 		STATIC_VARS_INITI_H;
 	private:
 		double calculateCoreWithCancel(const CalcStepsRegisterPtr &calcStepsRegister, int cancelId);
+		double calculateCoreWithCancel(const CalcStepsRegisterPtr &calcStepsRegister, int cancelId, bool argumentDefinition);
+		double calculateInternal(const CalcStepsRegisterPtr &calcStepsRegister, bool argumentDefinition);
+		double calculateArgumentDefinition();
+		bool tryPrepareIntegerArgumentDefinition();
 
 	};
 

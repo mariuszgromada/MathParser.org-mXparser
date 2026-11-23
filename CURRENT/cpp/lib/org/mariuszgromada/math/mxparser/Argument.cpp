@@ -440,7 +440,7 @@ namespace org::mariuszgromada::math::mxparser {
 			ExpressionPtr bodyExpr = new_Expression(headEqBody->bodyStr);
 			bodyExpr->setDescription(StringInvariant::INTERNAL);
 			bodyExpr->setForwardErrorMessage(false);
-			double bodyValue = bodyExpr->calculate();
+			double bodyValue = forceDependent ? bodyExpr->calculate() : bodyExpr->calculateArgumentDefinition();
 			if (!forceDependent && bodyExpr->getSyntaxStatus() == Expression::NO_SYNTAX_ERRORS && !
 			    Double::isNaN(bodyValue)) {
 				argumentExpression = new_Expression();

@@ -2693,6 +2693,15 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE double Expression::calculateCoreWithCancel(const CalcStepsRegisterPtr &calcStepsRegister, int cancelId) {
+		return calculateCoreWithCancel(calcStepsRegister, cancelId, false);
+	}
+
+	API_VISIBLE double Expression::calculateArgumentDefinition() {
+		return calculateCoreWithCancel(nullptr, 0, true);
+	}
+
+	API_VISIBLE double Expression::calculateCoreWithCancel(const CalcStepsRegisterPtr &calcStepsRegister, int cancelId,
+		bool argumentDefinition) {
 		struct RestoreCancelId {
 			int &field;
 			int previous;
@@ -2704,7 +2713,7 @@ namespace org::mariuszgromada::math::mxparser {
 		License::checkLicense();
 		int recursionCallsCounterBeforeCalculation = recursionCallsCounter;
 		try {
-			return calculateInternal(calcStepsRegister);
+			return calculateInternal(calcStepsRegister, argumentDefinition);
 		} catch (std::exception &e) {
 			recursionCallsCounter = recursionCallsCounterBeforeCalculation;
 			if (recursionCallsCounterBeforeCalculation == 0)
@@ -3379,6 +3388,10 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE double Expression::calculateInternal(const CalcStepsRegisterPtr &calcStepsRegister) {
+		return calculateInternal(calcStepsRegister, false);
+	}
+
+	API_VISIBLE double Expression::calculateInternal(const CalcStepsRegisterPtr &calcStepsRegister, bool argumentDefinition) {
 		computingTime = 0;
 		bool measureTime = !skipSampleTiming || verboseMode || calcStepsRegister != nullptr;
 		Long startTime = measureTime ? SystemUtils::currentTimeMillis() : 0;
@@ -3393,7 +3406,7 @@ namespace org::mariuszgromada::math::mxparser {
 		 * evaluate expression string tokens
 		 *
 		 */
-		if (!syntaxIsAlreadyCheckedNorErrors())
+		if (!syntaxIsAlreadyCheckedNorErrors() && !(argumentDefinition && tryPrepareIntegerArgumentDefinition()))
 			syntaxStatus = checkSyntax();
 		if (syntaxStatus == SYNTAX_ERROR) {
 			if (verboseMode)
@@ -4006,6 +4019,91 @@ namespace org::mariuszgromada::math::mxparser {
 		modifyParserKeyWords();
 		validateParserKeyWords();
 		addUserDefinedKeyWords();
+	}
+
+	namespace {
+		struct ArgumentLiteralKeywords {
+			std::vector<String> names;
+			int numberIndex = -1;
+
+			static std::optional<ArgumentLiteralKeywords> capture(const ListPtr<KeyWordPtr> &keywords) {
+				ArgumentLiteralKeywords result;
+				result.names.reserve(keywords->size());
+				std::unordered_set<String> distinct;
+				for (int i = 0; i < keywords->size(); i++) {
+					const KeyWordPtr &keyword = keywords->getRef(i);
+					if (!keyword || !keyword->wordString || !distinct.insert(*keyword->wordString).second)
+						return std::nullopt;
+					// StringPtr contents are publicly mutable, so retain a value snapshot.
+					result.names.push_back(*keyword->wordString);
+					if (keyword->wordTypeId == ParserSymbol::NUMBER_TYPE_ID) {
+						if (result.numberIndex >= 0 || keyword->wordId != ParserSymbol::NUMBER_ID) return std::nullopt;
+						result.numberIndex = i;
+					}
+				}
+				if (result.numberIndex < 0) return std::nullopt;
+				return result;
+			}
+
+			bool matches(const ListPtr<KeyWordPtr> &keywords) const {
+				if (keywords->size() != static_cast<int>(names.size())) return false;
+				for (int i = 0; i < keywords->size(); i++) {
+					const KeyWordPtr &keyword = keywords->getRef(i);
+					if (!keyword || !keyword->wordString || *keyword->wordString != names[i]) return false;
+					if ((keyword->wordTypeId == ParserSymbol::NUMBER_TYPE_ID) != (i == numberIndex)) return false;
+				}
+				return keywords->getRef(numberIndex)->wordId == ParserSymbol::NUMBER_ID;
+			}
+		};
+
+		struct ArgumentLiteralKeywordsCache {
+			ArgumentLiteralKeywords snapshot;
+			std::atomic<bool> ready{false};
+			std::atomic_flag claimed = ATOMIC_FLAG_INIT;
+		};
+	}
+
+	// This check is only used on a freshly constructed argument body without definitions.
+	API_VISIBLE bool Expression::tryPrepareIntegerArgumentDefinition() {
+		const size_t length = expressionString->size();
+		if (length == 0 || length > 9) return false;
+		int value = 0;
+		for (size_t i = 0; i < length; i++) {
+			int digit = (*expressionString)[i] - '0';
+			if (digit < 0 || digit > 9) return false;
+			value = 10 * value + digit;
+		}
+		if (!unicodeKeyWordsEnabled || mXparser::overrideBuiltinTokens
+				|| !mXparser::tokensToRemove->isEmpty() || !mXparser::tokensToModify->isEmpty()) return false;
+		// Preserve the native numeric parser's public locale override.
+		const auto &locale = SystemUtils::classicLocale;
+		if (!locale || *locale != std::locale::classic()) return false;
+
+		const ListPtr<KeyWordPtr> keywords = ExpressionUtils::getBaseKeyWordsList(false, false, unicodeKeyWordsEnabled);
+		static ArgumentLiteralKeywordsCache cache;
+		if (!cache.ready.load(std::memory_order_acquire)) {
+			auto snapshot = ArgumentLiteralKeywords::capture(keywords);
+			if (!snapshot) return false;
+			if (!cache.claimed.test_and_set(std::memory_order_relaxed)) {
+				cache.snapshot = std::move(*snapshot);
+				cache.ready.store(true, std::memory_order_release);
+			}
+		} else if (!cache.snapshot.matches(keywords)) return false;
+
+		// A standalone ASCII integer needs only the standard number token and a distinct vocabulary.
+		const StringPtr recursionInfoLevel = ExpressionUtils::createExpressionDescription(description, expressionString);
+		optionsChangesetNumber = mXparser::optionsChangesetNumber;
+		registerPartialSyntaxStartingSyntaxCheck(recursionInfoLevel);
+		expressionStringCleaned = S(*expressionString);
+		initialTokens = new_List<TokenPtr>(1);
+		TokenPtr token = Token::makeNumberToken();
+		token->tokenStr = S(*expressionStringCleaned);
+		token->keyWord = ParserSymbol::NUMBER_STR;
+		token->tokenValue = value;
+		initialTokens->add(token);
+		ExpressionUtils::evaluateTokensLevels(initialTokens);
+		registerFinalSyntax(recursionInfoLevel, NO_SYNTAX_ERRORS);
+		return true;
 	}
 
 	API_VISIBLE void Expression::modifyParserKeyWords() {

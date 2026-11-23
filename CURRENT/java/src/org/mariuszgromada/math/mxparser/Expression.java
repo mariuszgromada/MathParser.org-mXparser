@@ -5597,6 +5597,14 @@ public class Expression extends PrimitiveElement implements Serializable {
 	}
 
 	private double calculateCoreWithCancel(CalcStepsRegister calcStepsRegister, int cancelId) {
+		return calculateCoreWithCancel(calcStepsRegister, cancelId, false);
+	}
+
+	double calculateArgumentDefinition() {
+		return calculateCoreWithCancel(null, 0, true);
+	}
+
+	private double calculateCoreWithCancel(CalcStepsRegister calcStepsRegister, int cancelId, boolean argumentDefinition) {
 		int previousCancelId = activeCancelId;
 		activeCancelId = cancelId;
 		activeCalculations++;
@@ -5604,7 +5612,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			License.checkLicense();
 			int recursionCallsCounterBeforeCalculation = recursionCallsCounter;
 			try {
-				return calculateInternal(calcStepsRegister);
+				return calculateInternal(calcStepsRegister, argumentDefinition);
 			} catch (Throwable e) {
 				recursionCallsCounter = recursionCallsCounterBeforeCalculation;
 				if (recursionCallsCounterBeforeCalculation == 0)
@@ -6182,7 +6190,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		}
 		return stepsRegisteredCounter;
 	}
-	private double calculateInternal(CalcStepsRegister calcStepsRegister) {
+	private double calculateInternal(CalcStepsRegister calcStepsRegister, boolean argumentDefinition) {
 		computingTime = 0;
 		boolean measureTime = !skipSampleTiming || verboseMode || calcStepsRegister != null;
 		long startTime = measureTime ? System.currentTimeMillis() : 0;
@@ -6197,7 +6205,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 * evaluate expression string tokens
 		 *
 		 */
-		if (!syntaxIsAlreadyCheckedNorErrors())
+		if (!syntaxIsAlreadyCheckedNorErrors() && !(argumentDefinition && tryPrepareIntegerArgumentDefinition()))
 				syntaxStatus = checkSyntax();
 		if (syntaxStatus == SYNTAX_ERROR) {
 			if (verboseMode)
@@ -6594,6 +6602,81 @@ public class Expression extends PrimitiveElement implements Serializable {
 		modifyParserKeyWords();
 		validateParserKeyWords();
 		addUserDefinedKeyWords();
+	}
+
+	private static volatile ArgumentLiteralKeywords argumentLiteralKeywords;
+
+	private static final class ArgumentLiteralKeywords {
+		private final String[] names;
+		private final int numberIndex;
+
+		private ArgumentLiteralKeywords(String[] names, int numberIndex) {
+			this.names = names;
+			this.numberIndex = numberIndex;
+		}
+
+		private static ArgumentLiteralKeywords capture(List<KeyWord> keywords) {
+			String[] names = new String[keywords.size()];
+			Set<String> distinct = new HashSet<>();
+			int numberIndex = -1;
+			for (int i = 0; i < names.length; i++) {
+				KeyWord keyword = keywords.get(i);
+				if (keyword == null || keyword.wordString == null || !distinct.add(keyword.wordString)) return null;
+				names[i] = keyword.wordString;
+				if (keyword.wordTypeId == ParserSymbol.NUMBER_TYPE_ID) {
+					if (numberIndex >= 0 || keyword.wordId != ParserSymbol.NUMBER_ID) return null;
+					numberIndex = i;
+				}
+			}
+			return numberIndex >= 0 ? new ArgumentLiteralKeywords(names, numberIndex) : null;
+		}
+
+		private boolean matches(List<KeyWord> keywords) {
+			if (keywords.size() != names.length) return false;
+			for (int i = 0; i < names.length; i++) {
+				KeyWord keyword = keywords.get(i);
+				if (keyword == null || keyword.wordString != names[i]) return false;
+				if ((keyword.wordTypeId == ParserSymbol.NUMBER_TYPE_ID) != (i == numberIndex)) return false;
+			}
+			return keywords.get(numberIndex).wordId == ParserSymbol.NUMBER_ID;
+		}
+	}
+
+	/** This check is only used on a freshly constructed argument body without definitions. */
+	private boolean tryPrepareIntegerArgumentDefinition() {
+		int length = expressionString.length();
+		if (length == 0 || length > 9) return false;
+		int value = 0;
+		for (int i = 0; i < length; i++) {
+			int digit = expressionString.charAt(i) - '0';
+			if (digit < 0 || digit > 9) return false;
+			value = 10 * value + digit;
+		}
+		if (!unicodeKeyWordsEnabled || mXparser.overrideBuiltinTokens
+				|| !mXparser.tokensToRemove.isEmpty() || !mXparser.tokensToModify.isEmpty()) return false;
+
+		List<KeyWord> keywords = ExpressionUtils.getBaseKeyWordsList(false, false, unicodeKeyWordsEnabled);
+		ArgumentLiteralKeywords snapshot = argumentLiteralKeywords;
+		if (snapshot == null) {
+			snapshot = ArgumentLiteralKeywords.capture(keywords);
+			if (snapshot == null) return false;
+			argumentLiteralKeywords = snapshot;
+		} else if (!snapshot.matches(keywords)) return false;
+
+		// A standalone ASCII integer needs only the standard number token and a distinct vocabulary.
+		String recursionInfoLevel = ExpressionUtils.createExpressionDescription(description, expressionString);
+		optionsChangesetNumber = mXparser.optionsChangesetNumber;
+		registerPartialSyntaxStartingSyntaxCheck(recursionInfoLevel);
+		expressionStringCleaned = expressionString;
+		initialTokens = new ArrayList<>(1);
+		Token token = Token.makeNumberToken();
+		token.tokenStr = expressionString;
+		token.keyWord = ParserSymbol.NUMBER_STR;
+		token.tokenValue = value;
+		initialTokens.add(token);
+		ExpressionUtils.evaluateTokensLevels(initialTokens);
+		registerFinalSyntax(recursionInfoLevel, NO_SYNTAX_ERRORS);
+		return true;
 	}
 
 	private void modifyParserKeyWords() {
