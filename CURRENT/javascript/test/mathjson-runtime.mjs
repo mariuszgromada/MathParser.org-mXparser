@@ -1373,6 +1373,25 @@ try {
         assert.equal(math.exportExpression(importedGroup), grouped);
     });
 
+    test('0528/0529: readable import source preserves shared parameter evaluation', () => {
+        const example = '["Multiply",2,["Add",1,["Sin",["Divide","Pi",2]]]]';
+        const compact = keep(value(math.importExpression(example)));
+        assert.equal(compact.getExpressionString(), '2*(1+sin(pi/2))');
+        assert.equal(compact.calculate(), 4);
+
+        const x = keep(new mx.Argument('x', 3));
+        const y = keep(new mx.Argument('y', 0));
+        const g = keep(new mx.Function('g', 'x', x));
+        const h = keep(new mx.Function('h', 'x+0*y', y, x));
+        g.setParametersNumber(1);
+        h.setParametersNumber(1);
+        const wire = '["Add",["Abs",["h",0]],["Max",["Add",["g",9],0]]]';
+        const grouped = keep(value(math.importExpression(wire, x, g, h)));
+        assert.equal(grouped.getExpressionString(), '(abs(h(0)))+(max((g(9))+(0)))');
+        assert.equal(grouped.calculate(), 18);
+        assert.equal(x.getArgumentValue(), 9);
+    });
+
     test('public surface hides internals and interpreter remains silent', () => {
         assert.equal(mx.MathJSONUtils, undefined);
         assert.equal(keep(math.ImportOptions.defaults()).withInexactIntegerConversion, undefined);

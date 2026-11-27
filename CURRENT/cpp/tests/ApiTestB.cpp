@@ -11461,3 +11461,42 @@ TEST_CASE("testApi0527", "[API]") {
     TestCommonTools::consolePrintTestApiEnd(testResult);
     REQUIRE(testResult);
 }
+
+TEST_CASE("testApi0528", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON emits simple operands without changing operator grouping";
+    TestCommonTools::consolePrintTestApiStart(528, testDescr);
+    std::vector<String> wires = {L"[\"Multiply\",2,[\"Add\",1,[\"Sin\",[\"Divide\",\"Pi\",2]]]]",
+            L"[\"Subtract\",8,[\"Subtract\",4,1]]", L"[\"Power\",-2,2]",
+            L"[\"Add\",2,[\"Multiply\",3,4]]", L"[\"Divide\",[\"Negate\",\"Pi\"],\"Pi\"]",
+            L"[\"Power\",2,[\"Factorial\",3]]"};
+    std::vector<String> sources = {L"2*(1+sin(pi/2))", L"8-(4-1)", L"(-2)^2", L"2+(3*4)", L"(-(pi))/pi", L"2^((3)!)"};
+    double values[] = {4, 5, 4, 14, -1, 64};
+    bool testResult = true;
+    for (std::size_t i = 0; i < wires.size(); i++) {
+        auto imported = mathJsonImport(wires[i]);
+        testResult &= imported.isSuccess() && mathJsonEqual(sources[i], imported.getValue()->getExpressionString())
+                && imported.getValue()->calculate() == values[i];
+    }
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0529", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON preserves evaluation order for functions sharing a parameter";
+    TestCommonTools::consolePrintTestApiStart(529, testDescr);
+    ArgumentPtr x = new_Argument(L"x", 3);
+    ArgumentPtr y = new_Argument(L"y", 0);
+    FunctionPtr g = new_Function(L"g", L"x", mathJsonDefinitions(x));
+    FunctionPtr h = new_Function(L"h", L"x+0*y", mathJsonDefinitions(y, x));
+    g->setParametersNumber(1);
+    h->setParametersNumber(1);
+    String wire = L"[\"Add\",[\"Abs\",[\"h\",0]],[\"Max\",[\"Add\",[\"g\",9],0]]]";
+    auto imported = mathJsonImport(wire, x, g, h);
+    bool testResult = imported.isSuccess()
+            && mathJsonEqual(L"(abs(h(0)))+(max((g(9))+(0)))", imported.getValue()->getExpressionString())
+            && imported.getValue()->calculate() == 18 && x->getArgumentValue() == 9;
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}

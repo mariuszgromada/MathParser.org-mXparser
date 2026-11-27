@@ -1287,7 +1287,7 @@ final class MathJSONUtils {
             }
         }
 
-        static String emit(Node node, Codec.Budget budget) {
+        static String emit(Node node, Codec.Budget budget, boolean preserveGroups) {
             StringBuilder text = new StringBuilder();
             Deque<EmitPart> pending = new ArrayDeque<>();
             pending.push(new EmitPart(node, null));
@@ -1295,7 +1295,7 @@ final class MathJSONUtils {
                 EmitPart part = pending.pop();
                 budget.work(1, node.at);
                 if (part.node == null) text.append(part.text);
-                else appendOrSchedule(part.node, text, pending);
+                else appendOrSchedule(part.node, text, pending, preserveGroups);
                 if (text.length() > Codec.MAX_SOURCE)
                     throw error(RESOURCE_LIMIT, node.at, formatMessage(STRING_RESOURCES.MATHJSON_RESOURCE_LIMIT, Codec.MAX_SOURCE));
             }
@@ -1303,7 +1303,7 @@ final class MathJSONUtils {
             return text.toString();
         }
 
-        private static void appendOrSchedule(Node node, StringBuilder text, Deque<EmitPart> pending) {
+        private static void appendOrSchedule(Node node, StringBuilder text, Deque<EmitPart> pending, boolean preserveGroups) {
             if (node.kind == Kind.NUMBER) {
                 if (node.number < 0) text.append(ParserSymbol.LEFT_PARENTHESES_STR);
                 text.append(decimalSpelling(node.number));
@@ -1324,13 +1324,22 @@ final class MathJSONUtils {
                 text.append(ParserSymbol.LEFT_PARENTHESES_STR);
                 pending.push(new EmitPart(null, ParserSymbol.RIGHT_PARENTHESES_STR + spelling));
                 pending.push(new EmitPart(node.arg(0), null));
-            } else if (op != null && (op.type == org.mariuszgromada.math.mxparser.parsertokens.Operator.TYPE_ID || op.relation())) {
-                text.append(ParserSymbol.LEFT_PARENTHESES_STR);
-                pending.push(new EmitPart(null, ParserSymbol.RIGHT_PARENTHESES_STR));
-                String join = ParserSymbol.RIGHT_PARENTHESES_STR + spelling + ParserSymbol.LEFT_PARENTHESES_STR;
+            } else if (op != null && (op.type == Operator.TYPE_ID || op.relation())) {
+                String separator = spelling;
+                if (preserveGroups) {
+                    text.append(ParserSymbol.LEFT_PARENTHESES_STR);
+                    pending.push(new EmitPart(null, ParserSymbol.RIGHT_PARENTHESES_STR));
+                    separator = ParserSymbol.RIGHT_PARENTHESES_STR + spelling + ParserSymbol.LEFT_PARENTHESES_STR;
+                }
                 for (int i = node.children.size() - 1; i >= 0; i--) {
-                    pending.push(new EmitPart(node.arg(i), null));
-                    if (i > 0) pending.push(new EmitPart(null, join));
+                    Node operand = node.arg(i);
+                    Operation operandOp = !preserveGroups && operand.kind == Kind.CALL ? operation(operand.name) : null;
+                    boolean group = operandOp != null && (operandOp == Operation.NEGATE
+                            || operandOp.type == Operator.TYPE_ID || operandOp.relation());
+                    if (group) pending.push(new EmitPart(null, ParserSymbol.RIGHT_PARENTHESES_STR));
+                    pending.push(new EmitPart(operand, null));
+                    if (group) pending.push(new EmitPart(null, ParserSymbol.LEFT_PARENTHESES_STR));
+                    if (i > 0) pending.push(new EmitPart(null, separator));
                 }
             } else {
                 text.append(spelling).append(ParserSymbol.LEFT_PARENTHESES_STR);
@@ -2417,8 +2426,9 @@ final class MathJSONUtils {
             private String emitChecked(Node plan, Expression control, boolean open) {
                 Map<String, KeyWord> keywords = new LinkedHashMap<>();
                 for (KeyWord keyword : control.getKeyWords()) keywords.putIfAbsent(keyword.wordString, keyword);
-                bindSpellings(plan, keywords);
-                String text = Plan.emit(plan, budget);
+                // Operand groups can affect when the evaluator reads or calls user definitions.
+                boolean preserveGroups = bindSpellings(plan, keywords) || open;
+                String text = Plan.emit(plan, budget, preserveGroups);
                 control.setExpressionString(text);
                 Node parsed;
                 try {
@@ -2434,7 +2444,7 @@ final class MathJSONUtils {
                 return text;
             }
 
-            private void bindSpellings(Node node, Map<String, KeyWord> keywords) {
+            private boolean bindSpellings(Node node, Map<String, KeyWord> keywords) {
                 Operation op = node.kind == Kind.CALL && !node.userCall ? operation(node.name) : null;
                 if (op == Operation.NEGATE) op = Operation.SUBTRACT;
                 if (op != null) node.spelling = spelling(node, keywords, op.source, op.type, op.id);
@@ -2446,7 +2456,9 @@ final class MathJSONUtils {
                     node.spelling = spelling(node, keywords, ConstantValue.TRUE_STR, ConstantValue.TYPE_ID, ConstantValue.TRUE_ID);
                 if (node.builtin && node.symbol(SYMBOL_FALSE))
                     node.spelling = spelling(node, keywords, ConstantValue.FALSE_STR, ConstantValue.TYPE_ID, ConstantValue.FALSE_ID);
-                for (Node child : node.children) bindSpellings(child, keywords);
+                boolean usesDefinitions = node.userCall || node.binding != null;
+                for (Node child : node.children) usesDefinitions |= bindSpellings(child, keywords);
+                return usesDefinitions;
             }
 
             private String spelling(Node at, Map<String, KeyWord> keywords, String source, int type, int id) {

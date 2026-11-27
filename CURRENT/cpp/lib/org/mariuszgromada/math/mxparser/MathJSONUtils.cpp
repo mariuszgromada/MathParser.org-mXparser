@@ -1434,7 +1434,7 @@ class MathJSONUtils::Implementation final {
             String text;
         };
 
-        static String emit(Node node, Codec::Budget& budget) {
+        static String emit(Node node, Codec::Budget& budget, bool preserveGroups) {
             String text;
             std::vector<EmitPart> pending;
             pending.push_back({node, {}});
@@ -1443,7 +1443,7 @@ class MathJSONUtils::Implementation final {
                 pending.pop_back();
                 budget.work(1, node->at);
                 if (part.node == nullptr) text.append(part.text);
-                else appendOrSchedule(part.node, text, pending);
+                else appendOrSchedule(part.node, text, pending, preserveGroups);
                 if (text.size() > Codec::MAX_SOURCE)
                     throw Codec::error(RESOURCE_LIMIT, node->at, formatMessage(resources()->MATHJSON_RESOURCE_LIMIT, Codec::MAX_SOURCE));
             }
@@ -1451,7 +1451,7 @@ class MathJSONUtils::Implementation final {
             return text;
         }
 
-        static void appendOrSchedule(Node node, String& text, std::vector<EmitPart>& pending) {
+        static void appendOrSchedule(Node node, String& text, std::vector<EmitPart>& pending, bool preserveGroups) {
             if (node->kind == NodeKind::NUMBER) {
                 if (node->number < 0) text.append(textOrEmpty(ParserSymbol::LEFT_PARENTHESES_STR));
                 text.append(Tree::decimalSpelling(node->number));
@@ -1473,12 +1473,22 @@ class MathJSONUtils::Implementation final {
                 pending.push_back({nullptr, textOrEmpty(ParserSymbol::RIGHT_PARENTHESES_STR) + spelling});
                 pending.push_back({node->arg(0), {}});
             } else if (op != nullptr && (op->type == Operator::TYPE_ID || op->relation())) {
-                text.append(textOrEmpty(ParserSymbol::LEFT_PARENTHESES_STR));
-                pending.push_back({nullptr, textOrEmpty(ParserSymbol::RIGHT_PARENTHESES_STR)});
-                String join = textOrEmpty(ParserSymbol::RIGHT_PARENTHESES_STR) + spelling + textOrEmpty(ParserSymbol::LEFT_PARENTHESES_STR);
+                String separator = spelling;
+                if (preserveGroups) {
+                    text.append(textOrEmpty(ParserSymbol::LEFT_PARENTHESES_STR));
+                    pending.push_back({nullptr, textOrEmpty(ParserSymbol::RIGHT_PARENTHESES_STR)});
+                    separator = textOrEmpty(ParserSymbol::RIGHT_PARENTHESES_STR) + spelling + textOrEmpty(ParserSymbol::LEFT_PARENTHESES_STR);
+                }
                 for (int i = static_cast<int>(node->children.size()) - 1; i >= 0; i--) {
-                    pending.push_back({node->arg(i), {}});
-                    if (i > 0) pending.push_back({nullptr, join});
+                    Node operand = node->arg(i);
+                    const Tree::Operation* operandOp = !preserveGroups && operand->kind == NodeKind::CALL
+                            ? Tree::operation(operand->name) : nullptr;
+                    bool group = operandOp != nullptr && (operandOp == Tree::registered(Tree::Operation::NEGATE)
+                            || operandOp->type == Operator::TYPE_ID || operandOp->relation());
+                    if (group) pending.push_back({nullptr, textOrEmpty(ParserSymbol::RIGHT_PARENTHESES_STR)});
+                    pending.push_back({operand, {}});
+                    if (group) pending.push_back({nullptr, textOrEmpty(ParserSymbol::LEFT_PARENTHESES_STR)});
+                    if (i > 0) pending.push_back({nullptr, separator});
                 }
             } else {
                 text.append(spelling).append(textOrEmpty(ParserSymbol::LEFT_PARENTHESES_STR));
@@ -2652,8 +2662,9 @@ class MathJSONUtils::Implementation final {
                     KeyWordPtr keyword = words->get(i);
                     if (keywords.emplace(textOrEmpty(keyword->wordString), keyword).second) ordered.push_back(keyword);
                 }
-                bindSpellings(plan, keywords, ordered);
-                String text = Plan::emit(plan, budget);
+                // Operand groups can affect when the evaluator reads or calls user definitions.
+                bool preserveGroups = bindSpellings(plan, keywords, ordered) || open;
+                String text = Plan::emit(plan, budget, preserveGroups);
                 control->setExpressionString(S(text));
                 Node parsed;
                 try {
@@ -2669,7 +2680,7 @@ class MathJSONUtils::Implementation final {
                 return text;
             }
 
-            void bindSpellings(const Node& node, const Keywords& keywords, const std::vector<KeyWordPtr>& ordered) {
+            bool bindSpellings(const Node& node, const Keywords& keywords, const std::vector<KeyWordPtr>& ordered) {
                 const Operation* op = node->kind == NodeKind::CALL && !node->userCall ? Tree::operation(node->name) : nullptr;
                 if (op == Tree::registered(Operation::NEGATE)) op = Tree::registered(Operation::SUBTRACT);
                 if (op != nullptr) node->spelling = spelling(node, keywords, ordered, op->source, op->type, op->id);
@@ -2681,7 +2692,9 @@ class MathJSONUtils::Implementation final {
                     node->spelling = spelling(node, keywords, ordered, textOrEmpty(ConstantValue::TRUE_STR), ConstantValue::TYPE_ID, ConstantValue::TRUE_ID);
                 if (node->builtin && node->symbol(Vocabulary::SYMBOL_FALSE))
                     node->spelling = spelling(node, keywords, ordered, textOrEmpty(ConstantValue::FALSE_STR), ConstantValue::TYPE_ID, ConstantValue::FALSE_ID);
-                for (const Node& child : node->children) bindSpellings(child, keywords, ordered);
+                bool usesDefinitions = node->userCall || node->binding != nullptr;
+                for (const Node& child : node->children) usesDefinitions |= bindSpellings(child, keywords, ordered);
+                return usesDefinitions;
             }
 
             String spelling(const Node& at, const Keywords& keywords, const std::vector<KeyWordPtr>& ordered,

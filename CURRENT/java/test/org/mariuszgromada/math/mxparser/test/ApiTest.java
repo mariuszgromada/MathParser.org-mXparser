@@ -15069,6 +15069,47 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
 
+    @Test
+    public void testApi0528() {
+        TestCommonTools.testApiSettingsInit();
+        String testDescr = "MathJSON emits simple operands without changing operator grouping";
+        TestCommonTools.consolePrintTestApiStart(528, testDescr);
+        String[] wires = {"[\"Multiply\",2,[\"Add\",1,[\"Sin\",[\"Divide\",\"Pi\",2]]]]",
+                "[\"Subtract\",8,[\"Subtract\",4,1]]", "[\"Power\",-2,2]",
+                "[\"Add\",2,[\"Multiply\",3,4]]", "[\"Divide\",[\"Negate\",\"Pi\"],\"Pi\"]",
+                "[\"Power\",2,[\"Factorial\",3]]"};
+        String[] sources = {"2*(1+sin(pi/2))", "8-(4-1)", "(-2)^2", "2+(3*4)", "(-(pi))/pi", "2^((3)!)"};
+        double[] values = {4, 5, 4, 14, -1, 64};
+        boolean testResult = true;
+        for (int i = 0; i < wires.length; i++) {
+            MathJSON.Result<Expression> imported = MathJSON.importExpression(wires[i]);
+            testResult &= imported.isSuccess() && sources[i].equals(imported.getValue().getExpressionString())
+                    && imported.getValue().calculate() == values[i];
+        }
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0529() {
+        TestCommonTools.testApiSettingsInit();
+        String testDescr = "MathJSON preserves evaluation order for functions sharing a parameter";
+        TestCommonTools.consolePrintTestApiStart(529, testDescr);
+        Argument x = new Argument("x", 3);
+        Argument y = new Argument("y", 0);
+        Function g = new Function("g", "x", x);
+        Function h = new Function("h", "x+0*y", y, x);
+        g.setParametersNumber(1);
+        h.setParametersNumber(1);
+        String wire = "[\"Add\",[\"Abs\",[\"h\",0]],[\"Max\",[\"Add\",[\"g\",9],0]]]";
+        MathJSON.Result<Expression> imported = MathJSON.importExpression(wire, x, g, h);
+        boolean testResult = imported.isSuccess()
+                && "(abs(h(0)))+(max((g(9))+(0)))".equals(imported.getValue().getExpressionString())
+                && imported.getValue().calculate() == 18 && x.getArgumentValue() == 9;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
     private static boolean mathJsonWarning(MathJSON.Result<?> result, int index, String code, String path) {
         return index < result.getDiagnostics().size() && code.equals(result.getDiagnostics().get(index).getCode())
                 && path.equals(result.getDiagnostics().get(index).getPath());
