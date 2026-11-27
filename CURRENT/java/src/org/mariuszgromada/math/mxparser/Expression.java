@@ -6310,13 +6310,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			recursionCallsCounter--;
 
 		double result = tokensList.get(0).tokenValue;
-		if (!disableRounding) {
-			if (mXparser.almostIntRounding) {
-				double resultInt = Math.round(result);
-				if (Math.abs(result-resultInt) <= BinaryRelations.getEpsilon()) result = resultInt;
-			}
-			if (mXparser.canonicalRounding) result = MathFunctions.lengthRoundWithCancel(result, activeCancelId);
-		}
+		if (!disableRounding) result = ExpressionUtils.roundResult(result, activeCancelId);
 
 		if (calcStepsRegister != null) {
 			stepsRegisteredCounter++;
@@ -6325,6 +6319,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 		return result;
 	}
+
 	private void registerCompiledElement(CompiledElement.ToCall toCall, int position) {
 		if (initialCompilationDetails.containsIf) return;
 		CompiledElement compiledElement = new CompiledElement();
@@ -7903,6 +7898,17 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public String getExpressionAsLaTeX() {
 		return LaTeXExporter.format(getCopyOfInitialTokens());
+	}
+	/**
+	 * Exports the supported portion of this expression as MathJSON. User
+	 * definitions are referenced by name. Use {@link MathJSON#exportProgram}
+	 * to include supported definitions in a closed program.
+	 *
+	 * @return A MathJSON formula or a root MathJSON Error if it cannot be exchanged.
+	 * @since 6.2.0
+	 */
+	public String getExpressionAsMathJSON() {
+		return MathJSON.exportExpression(this);
 	}
 	/**
 	 * Prints to the console copy of initial tokens. Presents how

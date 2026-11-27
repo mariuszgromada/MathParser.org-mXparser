@@ -541,6 +541,10 @@ add_library(MathParserOrgMxParser SHARED
 		org/mariuszgromada/math/mxparser/LaTeXParser.hpp
 		org/mariuszgromada/math/mxparser/LaTeXExporter.cpp
 		org/mariuszgromada/math/mxparser/LaTeXExporter.hpp
+		org/mariuszgromada/math/mxparser/MathJSON.cpp
+		org/mariuszgromada/math/mxparser/MathJSON.hpp
+		org/mariuszgromada/math/mxparser/MathJSONUtils.cpp
+		org/mariuszgromada/math/mxparser/MathJSONUtils.hpp
 		org/mariuszgromada/math/mxparser/LaTeXSupport.hpp
 		org/mariuszgromada/math/mxparser/wrapper/ReadOnlyList.hpp
 		org/mariuszgromada/math/mxparser/License.cpp

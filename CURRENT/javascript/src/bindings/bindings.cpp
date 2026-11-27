@@ -249,9 +249,79 @@
 #include "BindingExtensionFactories.hpp"
 #include "BindingOwnedSyntax.hpp"
 #include "BindingLaTeX.hpp"
+#include "BindingMathJSON.hpp"
 using namespace mx_binding;
 
 EMSCRIPTEN_BINDINGS (mxparser_public_bindings) {
+
+    emscripten::class_<MathJSON::ImportOptions>("NativeMathJSONImportOptions")
+        .smart_ptr<MathJSON::ImportOptionsPtr>("MathJSONImportOptionsPtr")
+        .function("nativeAliasOf", emscripten::optional_override(
+            [](const MathJSON::ImportOptions& self, const MathJSON::ImportOptions& other) { return &self == &other; }));
+    emscripten::class_<MathJSON::Diagnostic>("NativeMathJSONDiagnostic")
+        .smart_ptr<MathJSON::DiagnosticPtr>("MathJSONDiagnosticPtr")
+        .function("nativeAliasOf", emscripten::optional_override(
+            [](const MathJSON::Diagnostic& self, const MathJSON::Diagnostic& other) { return &self == &other; }));
+    emscripten::class_<MathJSONResult>("NativeMathJSONResult")
+        .smart_ptr<MathJSONResultPtr>("MathJSONResultPtr")
+        .function("nativeAliasOf", emscripten::optional_override(
+            [](const MathJSONResult& self, const MathJSONResult& other) { return &self == &other; }));
+    emscripten::function("api_C1_MJ_0001", &MemberCall<&Expression::getExpressionAsMathJSON>::call);
+    emscripten::function("api_C1_MJ_0002", &StaticCall<&MathJSON::exportExpression>::call);
+    emscripten::function("api_C1_MJ_0003", &StaticCall<static_cast<MathJSON::Result<StringPtr> (*)(const ExpressionPtr&)>(&MathJSON::exportExpressionWithDiagnostics)>::call);
+    emscripten::function("api_C1_MJ_0004", &StaticCall<&MathJSON::exportProgram>::call);
+    emscripten::function("api_C1_MJ_0005", &StaticCall<&MathJSON::exportProgramWithDiagnostics>::call);
+    emscripten::function("api_C1_MJ_0006", &mathJSImportExpression);
+    emscripten::function("api_C1_MJ_0007", &mathJSImportExpressionWithDiagnostics);
+    emscripten::function("api_C1_MJ_0008", &mathJSImportDefinition);
+    emscripten::function("api_C1_MJ_0009", &StaticCall<&MathJSON::exportDefinition>::call);
+    emscripten::function("api_C1_MJ_0010", &StaticCall<&MathJSON::exportDefinitionWithDiagnostics>::call);
+    emscripten::function("api_C1_MJ_0011", &StaticCall<&MathJSON::ImportOptions::defaults>::call);
+    emscripten::function("api_C1_MJ_0014", &MathJSONConstMemberCall<&MathJSON::ImportOptions::withKilometresAsScalar>::call);
+    emscripten::function("api_C1_MJ_0015", &mathJSONIsSuccess);
+    emscripten::function("api_C1_MJ_0016", &mathJSONGetValue);
+    emscripten::function("api_C1_MJ_0017", &mathJSONGetError);
+    emscripten::function("api_C1_MJ_0018", &mathJSONGetDiagnostics);
+    emscripten::function("api_C1_MJ_0019", &MathJSONConstMemberCall<&MathJSON::Diagnostic::getCode>::call);
+    emscripten::function("api_C1_MJ_0020", &MathJSONConstMemberCall<&MathJSON::Diagnostic::getPath>::call);
+    emscripten::function("api_C1_MJ_0021", &MathJSONConstMemberCall<&MathJSON::Diagnostic::getOffset>::call);
+    emscripten::function("api_C1_MJ_0022", &MathJSONConstMemberCall<&MathJSON::Diagnostic::getMessage>::call);
+    emscripten::function("api_C1_MJ_0178_get", &FieldAccess<&StringResources::MATHJSON_INVALID_ARGUMENT>::get);
+    emscripten::function("api_C1_MJ_0178_set", &FieldAccess<&StringResources::MATHJSON_INVALID_ARGUMENT>::set);
+    emscripten::function("api_C1_MJ_0179_get", &FieldAccess<&StringResources::MATHJSON_INVALID_JSON>::get);
+    emscripten::function("api_C1_MJ_0179_set", &FieldAccess<&StringResources::MATHJSON_INVALID_JSON>::set);
+    emscripten::function("api_C1_MJ_0180_get", &FieldAccess<&StringResources::MATHJSON_INVALID_SHAPE>::get);
+    emscripten::function("api_C1_MJ_0180_set", &FieldAccess<&StringResources::MATHJSON_INVALID_SHAPE>::set);
+    emscripten::function("api_C1_MJ_0158_get", &FieldAccess<&StringResources::MATHJSON_INPUT_ERROR_NODE>::get);
+    emscripten::function("api_C1_MJ_0158_set", &FieldAccess<&StringResources::MATHJSON_INPUT_ERROR_NODE>::set);
+    emscripten::function("api_C1_MJ_0181_get", &FieldAccess<&StringResources::MATHJSON_INVALID_NAME>::get);
+    emscripten::function("api_C1_MJ_0181_set", &FieldAccess<&StringResources::MATHJSON_INVALID_NAME>::set);
+    emscripten::function("api_C1_MJ_0182_get", &FieldAccess<&StringResources::MATHJSON_NAME_COLLISION>::get);
+    emscripten::function("api_C1_MJ_0182_set", &FieldAccess<&StringResources::MATHJSON_NAME_COLLISION>::set);
+    emscripten::function("api_C1_MJ_0183_get", &FieldAccess<&StringResources::MATHJSON_UNRESOLVED_REFERENCE>::get);
+    emscripten::function("api_C1_MJ_0183_set", &FieldAccess<&StringResources::MATHJSON_UNRESOLVED_REFERENCE>::set);
+    emscripten::function("api_C1_MJ_0190_get", &FieldAccess<&StringResources::MATHJSON_EXTERNAL_DEFINITION>::get);
+    emscripten::function("api_C1_MJ_0190_set", &FieldAccess<&StringResources::MATHJSON_EXTERNAL_DEFINITION>::set);
+    emscripten::function("api_C1_MJ_0191_get", &FieldAccess<&StringResources::MATHJSON_MXPARSER_EXTENSION>::get);
+    emscripten::function("api_C1_MJ_0191_set", &FieldAccess<&StringResources::MATHJSON_MXPARSER_EXTENSION>::set);
+    emscripten::function("api_C1_MJ_0054_get", &FieldAccess<&StringResources::MATHJSON_WRONG_ARGUMENT_COUNT>::get);
+    emscripten::function("api_C1_MJ_0054_set", &FieldAccess<&StringResources::MATHJSON_WRONG_ARGUMENT_COUNT>::set);
+    emscripten::function("api_C1_MJ_0184_get", &FieldAccess<&StringResources::MATHJSON_UNSUPPORTED_CONSTRUCT>::get);
+    emscripten::function("api_C1_MJ_0184_set", &FieldAccess<&StringResources::MATHJSON_UNSUPPORTED_CONSTRUCT>::set);
+    emscripten::function("api_C1_MJ_0185_get", &FieldAccess<&StringResources::MATHJSON_UNSUPPORTED_NUMBER>::get);
+    emscripten::function("api_C1_MJ_0185_set", &FieldAccess<&StringResources::MATHJSON_UNSUPPORTED_NUMBER>::set);
+    emscripten::function("api_C1_MJ_0186_get", &FieldAccess<&StringResources::MATHJSON_UNSUPPORTED_DEFINITION>::get);
+    emscripten::function("api_C1_MJ_0186_set", &FieldAccess<&StringResources::MATHJSON_UNSUPPORTED_DEFINITION>::set);
+    emscripten::function("api_C1_MJ_0175_get", &FieldAccess<&StringResources::MATHJSON_BUILTIN_SPELLING_UNAVAILABLE>::get);
+    emscripten::function("api_C1_MJ_0175_set", &FieldAccess<&StringResources::MATHJSON_BUILTIN_SPELLING_UNAVAILABLE>::set);
+    emscripten::function("api_C1_MJ_0187_get", &FieldAccess<&StringResources::MATHJSON_INVALID_MXPARSER_SOURCE>::get);
+    emscripten::function("api_C1_MJ_0187_set", &FieldAccess<&StringResources::MATHJSON_INVALID_MXPARSER_SOURCE>::set);
+    emscripten::function("api_C1_MJ_0188_get", &FieldAccess<&StringResources::MATHJSON_EMISSION_MISMATCH>::get);
+    emscripten::function("api_C1_MJ_0188_set", &FieldAccess<&StringResources::MATHJSON_EMISSION_MISMATCH>::set);
+    emscripten::function("api_C1_MJ_0189_get", &FieldAccess<&StringResources::MATHJSON_RESOURCE_LIMIT>::get);
+    emscripten::function("api_C1_MJ_0189_set", &FieldAccess<&StringResources::MATHJSON_RESOURCE_LIMIT>::set);
+    emscripten::function("api_C1_MJ_0082_get", &FieldAccess<&StringResources::MATHJSON_UNIT_PROJECTED_TO_SCALAR>::get);
+    emscripten::function("api_C1_MJ_0082_set", &FieldAccess<&StringResources::MATHJSON_UNIT_PROJECTED_TO_SCALAR>::set);
     // Public Java/C# LaTeX surface. No exporter internals or C++ list API.
     emscripten::class_<LaTeXParser::Node>("NativeLaTeXNode")
         .smart_ptr<LaTeXParser::NodePtr>("LaTeXNodePtr")

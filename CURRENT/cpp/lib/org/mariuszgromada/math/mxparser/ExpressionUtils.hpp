@@ -222,10 +222,15 @@
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesStd.hpp"
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesUser.hpp"
 
+namespace org::mariuszgromada::math::mxparser {
+	class MathJSONUtils;
+}
+
 namespace org::mariuszgromada::math::mxparser::expressionutils {
 	USING_FRIENDS_NAMESPACES;
 
 	class API_VISIBLE ExpressionUtils {
+		friend class ::org::mariuszgromada::math::mxparser::MathJSONUtils;
 	public:
 		ExpressionUtils() = delete;
 
@@ -290,6 +295,7 @@ namespace org::mariuszgromada::math::mxparser::expressionutils {
 	private:
 		friend class miscellaneous::HeadEqBody;
 		friend class ::org::mariuszgromada::math::mxparser::Expression;
+		static double roundResult(double result, int cancelId);
 		enum class ParameterContents { ALL, FIRST, CONDITIONS };
 		static ListPtr<FunctionParameterPtr> getFunctionParametersWithContents(int pos, const ListPtr<TokenPtr> &tokensList,
 		                                                                      ParameterContents contents);

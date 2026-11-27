@@ -224,6 +224,8 @@
 #include "org/mariuszgromada/math/mxparser/Constant.hpp"
 #include "org/mariuszgromada/math/mxparser/Function.hpp"
 #include "org/mariuszgromada/math/mxparser/mXparser.hpp"
+#include "org/mariuszgromada/math/mxparser/mathcollection/BinaryRelations.hpp"
+#include "org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.hpp"
 #include "org/mariuszgromada/math/mxparser/parsertokens/BinaryRelation.hpp"
 #include "org/mariuszgromada/math/mxparser/parsertokens/BitwiseOperator.hpp"
 #include "org/mariuszgromada/math/mxparser/parsertokens/BooleanOperator.hpp"
@@ -1853,6 +1855,15 @@ namespace org::mariuszgromada::math::mxparser {
 		if (!StringUtils::trim(description)->empty())
 			expressionDescription = StringUtils::surroundSquareBrackets(description) + expressionDescription;
 		return expressionDescription;
+	}
+
+	double ExpressionUtils::roundResult(double result, int cancelId) {
+		if (mXparser::checkIfAlmostIntRounding()) {
+			double resultInt = Math::round(result);
+			if (Math::abs(result - resultInt) <= BinaryRelations::getEpsilon()) result = resultInt;
+		}
+		if (mXparser::checkIfCanonicalRounding()) result = MathFunctions::lengthRoundWithCancel(result, cancelId);
+		return result;
 	}
 
 	API_VISIBLE const StringPtr ExpressionUtils::FUNCTION = S(UTF("function"));

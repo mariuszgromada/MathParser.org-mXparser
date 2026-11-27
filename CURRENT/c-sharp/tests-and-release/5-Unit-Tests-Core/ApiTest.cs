@@ -13313,5 +13313,1901 @@ namespace org.mariuszgromada.math.mxparser.test {
         Assert.IsTrue(testResult);
     }
 
+        [TestMethod]
+        public void testApi0475() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON expression round trip and exact exported operator binding";
+            TestCommonTools.consolePrintTestApiStart(475, testDescr);
+            String[][] examples = {
+                    new String[] {"x+2*3", "[\"Add\",\"x\",[\"Multiply\",2,3]]"},
+                    new String[] {"2^3!", "[\"Factorial\",[\"Power\",2,3]]"},
+                    new String[] {"2^(3!)", "[\"Power\",2,[\"Factorial\",3]]"},
+                    new String[] {"2^3!+2^-x", "[\"Add\",[\"Power\",2,[\"Factorial\",3]],[\"Power\",2,[\"Negate\",\"x\"]]]"},
+                    new String[] {"2^-x^2", "[\"Power\",2,[\"Negate\",[\"Power\",\"x\",2]]]"},
+                    new String[] {"-2^2", "[\"Power\",-2,2]"},
+                    new String[] {"-x^2", "[\"Negate\",[\"Power\",\"x\",2]]"},
+                    new String[] {"(-x)^2", "[\"Power\",[\"Negate\",\"x\"],2]"},
+                    new String[] {"-2_1_3^2", "[\"Negate\",[\"Power\",[\"Rational\",7,3],2]]"},
+                    new String[] {"h.ff", "255"},
+                    new String[] {"2x", "[\"Multiply\",2,\"x\"]"}
+            };
+            bool testResult = true;
+            foreach (String[] example in examples) {
+                Argument originalX = new Argument("x", 1);
+                Expression original = new Expression(example[0], originalX);
+                double expected = original.calculate();
+                String exported = original.getExpressionAsMathJSON();
+                Expression restored = MathJSON.importExpression(exported, new Argument("x", 1)).getValue();
+                double received = restored.calculate();
+                testResult &= example[1].Equals(exported) && !Double.IsNaN(expected) && !Double.IsInfinity(expected);
+                if (example[0].Equals("-2_1_3^2")) {
+                    // A fraction is one token before export and an evaluated division after import.
+                    double mathematical = -49.0 / 9.0;
+                    testResult &= Math.Abs(expected - mathematical) <= 2e-14
+                            && Math.Abs(received - mathematical) <= 2e-14;
+                    mXparser.disableUlpRounding();
+                    mXparser.disableCanonicalRounding();
+                    mXparser.disableAlmostIntRounding();
+                    try {
+                        testResult &= original.calculate() == restored.calculate();
+                    } finally {
+                        mXparser.enableUlpRounding();
+                        mXparser.enableCanonicalRounding();
+                        mXparser.enableAlmostIntRounding();
+                    }
+                } else testResult &= expected == received;
+                mXparser.consolePrintln(example[0] + " -> " + exported + " -> " + received);
+            }
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0476() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON imports fixed reference results without external evaluation";
+            TestCommonTools.consolePrintTestApiStart(476, testDescr);
+            String[] inputs = {
+                "[\"Add\",2,3,4]", "[\"Subtract\",7,2]", "[\"Multiply\",2,3,4]", "[\"Divide\",1,2]",
+                "[\"Rational\",2,3]", "[\"Square\",4]", "[\"Negate\",2]", "[\"Abs\",-2]",
+                "[\"Sqrt\",4]", "[\"Ln\",1]", "[\"Log\",8,2]", "[\"Root\",27,3]",
+                "[\"Floor\",2.8]", "[\"Ceil\",2.2]", "{\"fn\":[\"Power\",2,[\"Factorial\",3]],\"comment\":\"ignored\"}",
+                "[\"If\",[\"LessEqual\",2,2],4,9]", "[\"If\",\"False\",4,9]",
+                "[\"Sum\",[\"Power\",\"i\",2],[\"Limits\",\"i\",1,3]]",
+                "[\"Sum\",[\"Power\",\"i\",2],[\"Element\",\"i\",[\"Range\",1,3]]]",
+                "[\"Product\",\"i\",[\"Limits\",\"i\",1,3]]", "\"Pi\"", "\"ExponentialE\""
+            };
+            double[] expected = {9, 5, 24, 0.5, 2.0 / 3, 16, -2, 2, 2, 0, 3, 3, 2, 3, 64,
+                    4, 9, 14, 14, 6, Math.PI, Math.E};
+            bool testResult = true;
+            for (int i = 0; i < inputs.Length; i++) {
+                double received = MathJSON.importExpression(inputs[i]).getValue().calculate();
+                double tolerance = i == 4 ? 1e-14 : 0;
+                testResult &= (!Double.IsNaN(received) && !Double.IsInfinity(received)) && Math.Abs(expected[i] - received) <= tolerance;
+                mXparser.consolePrintln(inputs[i] + " -> " + received);
+            }
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0477() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON declarations and a Block with direct recursion";
+            TestCommonTools.consolePrintTestApiStart(477, testDescr);
+            String block = "[\"Block\",[\"Declare\",\"x\",{\"dict\":{\"value\":5}}],"
+                    + "[\"Declare\",\"k\",[\"Dictionary\",[\"KeyValuePair\",\"value\",2],[\"KeyValuePair\",\"constant\",\"True\"]]],"
+                    + "[\"DefineFunction\",\"fact\",[\"Function\",[\"If\",[\"LessEqual\",\"n\",1],1,"
+                    + "[\"Multiply\",\"n\",[\"fact\",[\"Subtract\",\"n\",1]]]],\"n\"]],[\"Add\",\"k\",[\"fact\",\"x\"]]]";
+            Expression imported = MathJSON.importExpression(block).getValue();
+            double importedResult = imported.calculate();
+            String exported = MathJSON.exportProgram(imported);
+            Expression restored = MathJSON.importExpression(exported).getValue();
+            Function recursion = imported.getFunction("fact");
+            PrimitiveElement declared = MathJSON.importDefinition(MathJSON.exportDefinition(imported.getConstant("k"))).getValue();
+            PrimitiveElement function = MathJSON.importDefinition(MathJSON.exportDefinition(recursion)).getValue();
+            bool testResult = importedResult == 122 && restored.calculate() == importedResult
+                    && declared is Constant && ((Constant) declared).getConstantValue() == 2
+                    && function is Function && ((Function) function).calculate(5) == 120
+                    && recursion.getFunction(0) == recursion;
+            String ordered = "[\"Block\",[\"DefineFunction\",\"orderedF\",[\"Function\",[\"Subtract\",\"z\",\"a\"],\"z\",\"a\"]],[\"orderedF\",8,3]]";
+            MathJSON.Result<Expression> orderedModel = MathJSON.importExpression(ordered);
+            testResult &= orderedModel.isSuccess() && orderedModel.getValue().calculate() == 5
+                    && ordered.Equals(MathJSON.exportProgram(orderedModel.getValue()));
+            MathJSON.Result<PrimitiveElement> unorderedAttributes = MathJSON.importDefinition(
+                    "[\"Declare\",\"valueX\",{\"dict\":{\"badZ\":0,\"badA\":0,\"value\":2}}]");
+            testResult &= mathJsonError(unorderedAttributes, "INVALID_SHAPE")
+                    && "/2/dict/badZ".Equals(unorderedAttributes.getError().getPath());
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0478() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON keeps caller bindings live and honours local and lazy evaluation";
+            TestCommonTools.consolePrintTestApiStart(478, testDescr);
+            Argument x = new Argument("x", 0);
+            Expression guarded = MathJSON.importExpression(
+                    "[\"If\",[\"Equal\",\"x\",0],7,[\"Divide\",1,\"x\"]]", x).getValue();
+            bool testResult = guarded.getArgument("x") == x && guarded.calculate() == 7;
+            x.setArgumentValue(4);
+            testResult &= guarded.calculate() == 0.25;
+            Expression open = MathJSON.importExpression("\"openName\"").getValue();
+            testResult &= open.getArgumentsNumber() == 0;
+            open.addArguments(new Argument("openName", 3));
+            testResult &= open.calculate() == 3;
+            Expression sum = new Expression("sum(i,1,2,sum(j,1,2,i+j))");
+            Expression restored = MathJSON.importExpression(sum.getExpressionAsMathJSON()).getValue();
+            testResult &= sum.calculate() == 12 && restored.calculate() == 12;
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0479() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON native double conversion and optional projections";
+            TestCommonTools.consolePrintTestApiStart(479, testDescr);
+            bool testResult = MathJSON.importExpression("{\"num\":\"9007199254740992\"}").getValue().calculate() == 9007199254740992d;
+            PrimitiveElement negativeZero = MathJSON.importDefinition(
+                    "[\"Declare\",\"z\",{\"dict\":{\"value\":{\"num\":\"-0\"}}}]").getValue();
+            testResult &= BitConverter.DoubleToInt64Bits(((Argument) negativeZero).getArgumentValue()) == Int64.MinValue;
+            Expression subnormal = MathJSON.importExpression("{\"num\":\"5e-324\"}").getValue();
+            testResult &= BitConverter.DoubleToInt64Bits(subnormal.getCopyOfInitialTokens()[0].tokenValue) == 1;
+            String[] roundedInputs = {"9007199254740993", "{\"num\":\"9007199254740995\"}", "-9007199254740993"};
+            double[] roundedValues = {9007199254740992d, 9007199254740996d, -9007199254740992d};
+            for (int i = 0; i < roundedInputs.Length; i++) {
+                MathJSON.Result<Expression> rounded = MathJSON.importExpression(roundedInputs[i]);
+                testResult &= rounded.isSuccess() && rounded.getDiagnostics().Count == 0
+                        && rounded.getValue().calculate() == roundedValues[i];
+            }
+            MathJSON.Result<PrimitiveElement> roundedDefinition = MathJSON.importDefinition(
+                    "[\"Declare\",\"largeValue\",{\"dict\":{\"value\":9007199254740993}}]");
+            testResult &= roundedDefinition.isSuccess()
+                    && ((Argument) roundedDefinition.getValue()).getArgumentValue() == roundedValues[0];
+            String[] roundedSources = {"9007199254740993", "9007199254740995", "h.20000000000001"};
+            double[] expectedExports = {9007199254740992d, 9007199254740996d, 9007199254740992d};
+            for (int i = 0; i < roundedSources.Length; i++) {
+                Expression original = new Expression(roundedSources[i]);
+                MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(original);
+                testResult &= exported.isSuccess() && original.calculate() == expectedExports[i];
+                if (exported.isSuccess()) {
+                    MathJSON.Result<Expression> restored = MathJSON.importExpression(exported.getValue());
+                    testResult &= restored.isSuccess() && restored.getValue().calculate() == expectedExports[i];
+                }
+            }
+            String[] inputs = {"{\"num\":\"0.(3)\"}", "{\"num\":\"0.1(6)e1\"}", "\"-1.(6)\"", "{\"num\":\"0.(9)\"}"};
+            double[] expected = {1.0 / 3, 5.0 / 3, -5.0 / 3, 1};
+            for (int i = 0; i < inputs.Length; i++) {
+                MathJSON.Result<Expression> result = MathJSON.importExpression(inputs[i]);
+                testResult &= result.isSuccess() && Math.Abs(result.getValue().calculate() - expected[i]) <= 1e-14
+                        && result.getDiagnostics().Count == 0;
+            }
+            MathJSON.Result<Expression> quantity = MathJSON.importExpressionWithOptions("[\"Quantity\",2,{\"str\":\"km\"}]",
+                    MathJSON.ImportOptions.defaults().withKilometresAsScalar(true));
+            testResult &= quantity.isSuccess() && quantity.getValue().calculate() == 2000
+                    && quantity.getDiagnostics().Count == 1 && mathJsonWarning(quantity, 0, "UNIT_PROJECTED_TO_SCALAR", "");
+            MathJSON.Result<PrimitiveElement> periodicDeclaration = MathJSON.importDefinition(
+                    "[\"Declare\",\"x\",{\"dict\":{\"value\":{\"num\":\"0.(3)\"}}}]");
+            testResult &= periodicDeclaration.isSuccess() && periodicDeclaration.getDiagnostics().Count == 0
+                    && ((Argument) periodicDeclaration.getValue()).getArgumentValue() == 1.0 / 3;
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0480() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON rejects unsupported forms and points to the original input";
+            TestCommonTools.consolePrintTestApiStart(480, testDescr);
+            String[][] cases = {
+                    new String[] {"[\"Rational\",1,0]", "UNSUPPORTED_NUMBER", "/2"},
+                    new String[] {"1e400", "UNSUPPORTED_NUMBER", ""},
+                    new String[] {"[\"List\",0]", "UNSUPPORTED_NODE", ""},
+                    new String[] {"[\"Add\",1,]", "INVALID_JSON", "/2"},
+                    new String[] {"{\"num\":\"2\",\"num\":\"3\"}", "INVALID_JSON", "/num"},
+                    new String[] {"{\"sym\":\"\\uD800\"}", "INVALID_JSON", "/sym"},
+                    new String[] {"[\"Add\",[\"List\",1,0],2]", "UNSUPPORTED_NODE", "/1"}
+            };
+            bool testResult = true;
+            foreach (String[] example in cases) {
+                var rejected = MathJSON.importExpression(example[0]);
+                MathJSON.Diagnostic error = rejected.getError();
+                String status = error == null ? "success" : error.getCode() + " at " + error.getPath();
+                mXparser.consolePrintln(example[0] + " -> " + status);
+                testResult &= mathJsonError(rejected, example[1]) && example[2].Equals(error.getPath());
+            }
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0481() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON rejects stateful or non-exchangeable source without evaluating it";
+            TestCommonTools.consolePrintTestApiStart(481, testDescr);
+            String overflow = "1797693134862315808" + new String('0', 290) + ".5";
+            String oversizedName = new String('z', 300);
+            String[][] cases = {
+                    new String[] {"1_0", "UNSUPPORTED_NUMBER"},
+                    new String[] {"x??1", "UNSUPPORTED_NODE"},
+                    new String[] {oversizedName, "RESOURCE_LIMIT"}, new String[] {"[" + oversizedName + "]", "RESOURCE_LIMIT"},
+                    new String[] {"sum(i,1,3,sum(i,1,2,i)+i)", "UNSUPPORTED_BINDING"},
+                    new String[] {"sum(i,1,3,i,2)", "UNSUPPORTED_DOMAIN"}
+            };
+            bool testResult = true;
+            foreach (String[] example in cases) {
+                Expression candidate = new Expression(example[0], new Argument("x", 1));
+                testResult &= mathJsonError(MathJSON.exportExpressionWithDiagnostics(candidate), example[1]);
+            }
+            foreach (String literal in new String[]{"1e400", overflow, "-" + overflow}) {
+                Expression original = new Expression(literal);
+                double nativeValue;
+                try {
+                    nativeValue = original.getCopyOfInitialTokens()[0].tokenValue;
+                } catch (OverflowException) {
+                    nativeValue = Double.PositiveInfinity;
+                }
+                MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(original);
+                if (Double.IsNaN(nativeValue) || Double.IsInfinity(nativeValue)) {
+                    testResult &= mathJsonError(exported, "UNSUPPORTED_NUMBER");
+                } else {
+                    MathJSON.Result<Expression> restored = MathJSON.importExpression(exported.getValue());
+                    testResult &= exported.isSuccess() && restored.isSuccess()
+                            && restored.getValue().calculate() == nativeValue;
+                }
+            }
+            Expression underflow = new Expression("1e-400");
+            testResult &= underflow.calculate() == 0 && "0".Equals(MathJSON.exportExpression(underflow));
+            String nearMaximum = "17976931348623157" + new String('0', 292) + ".5";
+            MathJSON.Result<String> maximum = MathJSON.exportExpressionWithDiagnostics(new Expression(nearMaximum));
+            MathJSON.Result<Expression> restoredMaximum = MathJSON.importExpression(maximum.getValue());
+            testResult &= maximum.isSuccess() && restoredMaximum.isSuccess()
+                    && restoredMaximum.getValue().calculate() == Double.MaxValue;
+            String maximumName = oversizedName.Substring(0, 256);
+            MathJSON.Result<Expression> withMaximumName =
+                    MathJSON.importExpression("\"" + maximumName + "\"", new Argument(maximumName, 7));
+            testResult &= withMaximumName.isSuccess() && withMaximumName.getValue().calculate() == 7;
+            Argument shared = new Argument("shared", 3);
+            Function f = new Function("modelF", "shared", new PrimitiveElement[] {shared});
+            f.setParametersNumber(1);
+            Expression expression = new Expression("modelF(4)+shared", f, shared);
+            testResult &= mathJsonError(MathJSON.exportProgramWithDiagnostics(expression), "UNSUPPORTED_PROGRAM")
+                    && shared.getArgumentValue() == 3;
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0482() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON preserves negative atoms in conditionals, limits and function calls";
+            TestCommonTools.consolePrintTestApiStart(482, testDescr);
+            Expression conditional = MathJSON.importExpression(
+                    "[\"If\",[\"Less\",\"x\",0],-1,1]", new Argument("x", -3)).getValue();
+            Expression sum = MathJSON.importExpression("[\"Sum\",\"i\",[\"Limits\",\"i\",-2,2]]").getValue();
+            Function function = new Function("f", "a+b", "a", "b");
+            Expression call = MathJSON.importExpression("[\"f\",1,-2]", function).getValue();
+            bool testResult = conditional.calculate() == -1 && sum.calculate() == 0 && call.calculate() == -1;
+            testResult &= conditional.getExpressionAsMathJSON().Contains(",-1,");
+            testResult &= sum.getExpressionAsMathJSON().Contains("\"i\",-2,2");
+            testResult &= "[\"f\",1,-2]".Equals(call.getExpressionAsMathJSON());
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0483() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON names, lexical scope and changed mXparser vocabulary";
+            TestCommonTools.consolePrintTestApiStart(483, testDescr);
+            bool testResult = MathJSON.importExpression("[\"Add\",{\"sym\":\"λ\"},2]", new Argument("λ", 3)).getValue().calculate() == 5;
+            MathJSON.Result<Expression> greek = MathJSON.importExpression("[\"Add\",\"`\\u2126`\",{\"sym\":\"\\u1FBE\"}]",
+                    new Argument("\u03A9", 2), new Argument("\u03B9", 3));
+            testResult &= greek.isSuccess() && greek.getValue().calculate() == 5
+                    && "[\"Add\",\"\u03A9\",\"\u03B9\"]".Equals(MathJSON.exportExpression(greek.getValue()));
+            MathJSON.Result<Expression> kelvin = MathJSON.importExpression("[\"Add\",{\"sym\":\"\\u212AA\"},{\"sym\":\"\\u039A\"}]",
+                    new Argument("KA", 3), new Argument("\u039A", 7));
+            testResult &= kelvin.isSuccess() && kelvin.getValue().calculate() == 10
+                    && "[\"Add\",\"KA\",\"\u039A\"]".Equals(MathJSON.exportExpression(kelvin.getValue()));
+            StringBuilder longName = new StringBuilder();
+            for (int i = 0; i < 255; i++) longName.Append('a');
+            testResult &= mathJsonError(
+                    MathJSON.importExpression("{\"sym\":\"" + longName + "e\\u0301\"}"), "RESOURCE_LIMIT");
+            String[][] cases = {
+                    new String[] {"{\"fn\":1}", "INVALID_SHAPE"},
+                    new String[] {"{\"fn\":[[\"Add\",1,2],3]}", "INVALID_SHAPE"},
+                    new String[] {"{\"sym\":\"bad)name\"}", "INVALID_NAME"},
+                    new String[] {"{\"sym\":\"cafe\\u0301\"}", "INVALID_NAME"},
+                    new String[] {"[\"DefineFunction\",\"f\",[\"Function\",1,\"Ω\",\"\\u2126\"]]", "NAME_COLLISION"}
+            };
+            foreach (String[] example in cases) {
+                bool rejected = example[0].StartsWith("[\"Declare\"")
+                        || example[0].StartsWith("[\"DefineFunction\"")
+                        ? mathJsonError(MathJSON.importDefinition(example[0]), example[1]) : mathJsonError(MathJSON.importExpression(example[0]), example[1]);
+                testResult &= rejected;
+            }
+            MathJSON.Result<Expression> local = MathJSON.importExpression("[\"Sum\",\"i\",[\"Limits\",\"i\",1,3]]", new Argument("i", 5));
+            testResult &= local.isSuccess() && local.getValue().calculate() == 6 && local.getValue().getArgument("i") == null;
+            mXparser.modifyBuiltinToken(Function1Arg.SQRT_STR, "testSqrt");
+            try {
+                MathJSON.Result<Expression> renamed = MathJSON.importExpression("[\"Sqrt\",4]");
+                testResult &= renamed.isSuccess() && renamed.getValue().calculate() == 2;
+                MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(new Expression("testSqrt(4)"));
+                testResult &= exported.isSuccess() && "[\"Sqrt\",4]".Equals(exported.getValue());
+            } finally {
+                mXparser.unmodifyBuiltinTokens(Function1Arg.SQRT_STR);
+            }
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0484() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON failed import is atomic and rejects disallowed recursion and shared parameters";
+            TestCommonTools.consolePrintTestApiStart(484, testDescr);
+            Argument x = new Argument("x", 5);
+            const System.Reflection.BindingFlags fields = System.Reflection.BindingFlags.Instance
+                    | System.Reflection.BindingFlags.NonPublic;
+            System.Reflection.FieldInfo argumentBody = typeof(Argument).GetField("argumentExpression", fields);
+            System.Reflection.FieldInfo related = typeof(Expression).GetField("relatedExpressionsList", fields);
+            System.Collections.IList observers = (System.Collections.IList) related.GetValue(argumentBody.GetValue(x));
+            int initialObservers = observers.Count;
+            String invalid = "[\"Block\",[\"DefineFunction\",\"f\",[\"Function\",[\"Add\",\"x\",\"a\"],\"a\"]],[\"Rational\",1,0]]";
+            bool testResult = mathJsonError(MathJSON.importExpression(invalid, x), "UNSUPPORTED_NUMBER")
+                    && observers.Count == initialObservers && x.getArgumentValue() == 5;
+            Function g = new Function("g", "x*2", "x");
+            foreach (String source in new String[] {"x+g(3)", "g(3)+x"}) {
+                MathJSON.Result<String> exported = MathJSON.exportProgramWithDiagnostics(new Expression(source, x, g));
+                MathJSON.Result<Expression> restored = MathJSON.importExpression(exported.getValue());
+                testResult &= exported.isSuccess() && restored.isSuccess() && restored.getValue().calculate() == 11;
+            }
+            Argument shared = new Argument("shared", 3);
+            Function f = new Function("f", "shared", new PrimitiveElement[]{shared});
+            f.setParametersNumber(1);
+            foreach (String source in new String[] {"shared+f(4)", "f(4)+shared"}) {
+                var rejected = MathJSON.exportProgramWithDiagnostics(new Expression(source, shared, f));
+                MathJSON.Diagnostic error = rejected.getError();
+                testResult &= mathJsonError(rejected, "UNSUPPORTED_PROGRAM") && error.getPath().Length == 0 && error.getOffset() == -1;
+            }
+            MathJSON.Result<Expression> referenced = MathJSON.importExpression("[\"Add\",[\"f\",4],\"shared\"]", f, shared);
+            testResult &= referenced.isSuccess() && referenced.getValue().getFunction("f") == f
+                    && referenced.getValue().getArgument("shared") == shared && shared.getArgumentValue() == 3;
+            Function left = new Function("leftF", "rightF(a)", "a");
+            Function right = new Function("rightF", "leftF(b)", "b");
+            left.addFunctions(right);
+            right.addFunctions(left);
+            testResult &= mathJsonError(MathJSON.exportProgramWithDiagnostics(new Expression("leftF(2)", left)), "UNSUPPORTED_PROGRAM");
+            int beforeSuccess = observers.Count;
+            Expression success = MathJSON.importExpression("[\"Add\",\"x\",1]", x).getValue();
+            testResult &= success.calculate() == 6 && observers.Count == beforeSuccess + 1;
+            x.setArgumentName("renamedX");
+            testResult &= !success.checkSyntax();
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0485() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON declaration round trips, native rounding and diagnostic locations";
+            TestCommonTools.consolePrintTestApiStart(485, testDescr);
+            long[] bits = {0L, Int64.MinValue, 1L, 0x0010000000000000L, 0x43f0000000000000L};
+            bool testResult = true;
+            foreach (long bitsIn in bits) {
+                String exported = MathJSON.exportDefinition(new Argument("valuex", BitConverter.Int64BitsToDouble(bitsIn)));
+                Argument restored = (Argument) MathJSON.importDefinition(exported).getValue();
+                testResult &= BitConverter.DoubleToInt64Bits(restored.getArgumentValue()) == bitsIn;
+                if (bitsIn == Int64.MinValue) testResult &= exported.Contains("{\"num\":\"-0\"}");
+                if (bitsIn == 0x43f0000000000000L) testResult &= exported.Contains("{\"num\":");
+            }
+            String[] midpoints = {"1.00000000000000011102230246251565404236316680908203125",
+                    "1.00000000000000033306690738754696212708950042724609375"};
+            for (int i = 0; i < midpoints.Length; i++) {
+                Argument result = (Argument) MathJSON.importDefinition("[\"Declare\",\"valuex\",[\"Dictionary\","
+                        + "[\"Tuple\",{\"str\":\"value\"},{\"num\":\"" + midpoints[i] + "\"}]]]").getValue();
+                double nativeValue = new Expression(midpoints[i]).getCopyOfInitialTokens()[0].tokenValue;
+                testResult &= result.getArgumentValue() == nativeValue;
+            }
+            testResult &= "10".Equals(MathJSON.exportExpression(new Expression("b2.1010")));
+            testResult &= "15".Equals(MathJSON.exportExpression(new Expression("o.17")));
+            testResult &= "3".Equals(MathJSON.exportExpression(new Expression("b1.111")));
+            MathJSON.ImportOptions options = MathJSON.ImportOptions.defaults().withKilometresAsScalar(true);
+            MathJSON.Result<Expression> projected = MathJSON.importExpressionWithOptions(
+                    "[\"Quantity\",9007199254740993,{\"str\":\"km\"}]", options);
+            IList<MathJSON.Diagnostic> diagnostics = projected.getDiagnostics();
+            testResult &= projected.isSuccess() && diagnostics.Count == 1 && diagnostics[0].getPath().Length == 0
+                    && "UNIT_PROJECTED_TO_SCALAR".Equals(diagnostics[0].getCode());
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0486() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON resource bounds and structural rejection";
+            TestCommonTools.consolePrintTestApiStart(486, testDescr);
+            StringBuilder deep = new StringBuilder();
+            for (int i = 0; i < 255; i++) deep.Append("[\"Negate\",");
+            deep.Append('1');
+            for (int i = 0; i < 255; i++) deep.Append(']');
+            bool testResult = MathJSON.importExpression(deep.ToString()).getValue().calculate() == -1;
+            StringBuilder many = new StringBuilder("{\"num\":\"0\",\"comment\":[0");
+            for (int i = 0; i < 250000; i++) many.Append(",0");
+            many.Append("]}");
+            char[] digits = new char[1025];
+            for (int i = 0; i < digits.Length; i++) digits[i] = '1';
+            char[] name = new char[257];
+            for (int i = 0; i < name.Length; i++) name[i] = 'x';
+            String[][] cases = {
+                    new String[] {"[\"Negate\"," + deep + "]", "RESOURCE_LIMIT"},
+                    new String[] {many.ToString(), "RESOURCE_LIMIT"},
+                    new String[] {"{\"num\":\"" + new String(digits) + "\"}", "RESOURCE_LIMIT"},
+                    new String[] {"\"" + new String(name) + "\"", "RESOURCE_LIMIT"},
+                    new String[] {"{\"num\":\"1e9999999999999999999999\"}", "UNSUPPORTED_NUMBER"},
+                    new String[] {"\"PositiveInfinity\"", "UNSUPPORTED_NUMBER"},
+                    new String[] {"\"NegativeInfinity\"", "UNSUPPORTED_NUMBER"},
+                    new String[] {"[\"Rational\",[\"Add\",1,2],3]", "UNSUPPORTED_NUMBER"}
+            };
+            foreach (String[] example in cases) {
+                testResult &= mathJsonError(MathJSON.importExpression(example[0]), example[1]);
+            }
+            testResult &= mathJsonError(MathJSON.importDefinition("[\"Add\",1e400,1]"), "INVALID_ROOT");
+            testResult &= mathJsonError(MathJSON.importExpression("{\"num\":\"1(3)\"}"), "UNSUPPORTED_NUMBER");
+            String[][] unsupported = {
+                    new String[] {"iff(1=1,2)", "UNSUPPORTED_NODE"}
+            };
+            foreach (String[] example in unsupported) {
+                testResult &= mathJsonError(MathJSON.exportExpressionWithDiagnostics(new Expression(example[0])), example[1]);
+            }
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0487() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON contextual powers in two log calls passed to a user function";
+            TestCommonTools.consolePrintTestApiStart(487, testDescr);
+            Argument originalX = new Argument("x", 1);
+            Argument importedX = new Argument("x", 1);
+            Function originalFold = new Function("foldV6", "a+2*b", "a", "b");
+            Function importedFold = new Function("foldV6", "a+2*b", "a", "b");
+            Expression original = new Expression("foldV6(log(2^3!,2^-x),log(2^-x,2^3!))", originalX, originalFold);
+            String expectedTree = "[\"foldV6\",[\"Log\",[\"Power\",2,[\"Negate\",\"x\"]],[\"Power\",2,[\"Factorial\",3]]],"
+                    + "[\"Log\",[\"Factorial\",[\"Power\",2,3]],[\"Power\",2,[\"Negate\",\"x\"]]]]";
+            String exported = MathJSON.exportExpression(original);
+            Expression imported = MathJSON.importExpression(exported, importedX, importedFold).getValue();
+            bool testResult = expectedTree.Equals(exported);
+            foreach (int x in new int[]{1, 3}) {
+                originalX.setArgumentValue(x);
+                importedX.setArgumentValue(x);
+                // The first log has base 64 and the second has base 2^-x.
+                double expected = -x / 6.0 - 2 * Math.Log(40320) / (x * Math.Log(2));
+                double before = original.calculate();
+                double after = imported.calculate();
+                testResult &= Math.Abs(before - expected) <= 1e-12 && Math.Abs(after - before) <= 1e-12;
+            }
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0488() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON Block combines a constant root degree, recursion, sum and product";
+            TestCommonTools.consolePrintTestApiStart(488, testDescr);
+            String block = "[\"Block\","
+                    + "[\"Declare\",\"grade\",[\"Dictionary\",[\"KeyValuePair\",\"value\",2],[\"KeyValuePair\",\"constant\",\"True\"]]],"
+                    + "[\"DefineFunction\",\"rootWrap\",[\"Function\",[\"Root\",\"t\",\"grade\"],\"t\"]],"
+                    + "[\"DefineFunction\",\"series\",[\"Function\",[\"If\",[\"LessEqual\",\"n\",0],0,"
+                    + "[\"Add\",[\"rootWrap\",[\"Power\",\"n\",2]],[\"series\",[\"Subtract\",\"n\",1]]]],\"n\"]],"
+                    + "[\"Add\",[\"Sum\",[\"series\",\"j\"],[\"Limits\",\"j\",1,3]],"
+                    + "[\"Product\",[\"Power\",\"k\",2],[\"Limits\",\"k\",1,2]]]]";
+            Expression original = MathJSON.importExpression(block).getValue();
+            double before = original.calculate();
+            String exported = MathJSON.exportProgram(original);
+            Expression restored = MathJSON.importExpression(exported).getValue();
+            // The triangular numbers 1, 3, 6 and the product 1 * 4 give 14.
+            bool testResult = before == 14 && restored.calculate() == before && block.Equals(exported)
+                    && restored.getFunction("series").calculate(3) == 6;
+            // With first roots the partial sums become 1, 5, 14, while the product stays 4.
+            restored.getConstant("grade").setConstantValue(1);
+            testResult &= restored.calculate() == 24 && original.calculate() == 14;
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0489() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON object-form If combines explicit projections, diagnostics and lazy evaluation";
+            TestCommonTools.consolePrintTestApiStart(489, testDescr);
+            String json = "{\"fn\":[\"If\",[\"Equal\",{\"sym\":\"probeX\"},0],"
+                    + "[\"Add\",[\"Quantity\",{\"num\":\"0.(3)\"},{\"str\":\"km\"}],"
+                    + "[\"Subtract\",{\"num\":\"9007199254740993\"},{\"num\":\"9007199254740992\"}],[\"Rational\",-2,3]],"
+                    + "[\"Divide\",1,{\"sym\":\"probeX\"}]],\"comment\":\"offline MathJSON fixture\"}";
+            Argument probeX = new Argument("probeX", 0);
+            MathJSON.ImportOptions options = MathJSON.ImportOptions.defaults().withKilometresAsScalar(true);
+            MathJSON.Result<Expression> imported = MathJSON.importExpressionWithOptions(json, options, probeX);
+            Expression expression = imported.getValue();
+            // The integer subtraction becomes zero, leaving 1000/3 - 2/3.
+            bool testResult = Math.Abs(expression.calculate() - 998.0 / 3) <= 1e-12;
+            String path = "/fn/2/1";
+            testResult &= imported.getDiagnostics().Count == 1 && mathJsonWarning(imported, 0, "UNIT_PROJECTED_TO_SCALAR", path)
+                    && imported.getDiagnostics()[0].getOffset() == json.IndexOf("[\"Quantity\"");
+            String projected = MathJSON.exportExpression(expression);
+            Argument restoredX = new Argument("probeX", 0);
+            Expression restored = MathJSON.importExpression(projected, restoredX).getValue();
+            testResult &= Math.Abs(restored.calculate() - 998.0 / 3) <= 1e-12;
+            probeX.setArgumentValue(4);
+            restoredX.setArgumentValue(4);
+            testResult &= expression.calculate() == 0.25 && restored.calculate() == 0.25;
+            var rejected = MathJSON.importExpression(json, probeX);
+            MathJSON.Diagnostic error = rejected.getError();
+            testResult &= mathJsonError(rejected, "UNSUPPORTED_NODE") && path.Equals(error.getPath());
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0490() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON renamed built-in inside a user function used with a conditional and powers";
+            TestCommonTools.consolePrintTestApiStart(490, testDescr);
+            String source = "if(1<2,kernel(3)+2^(3!),0)";
+            String expectedFormula = "[\"If\",[\"Less\",1,2],[\"Add\",[\"kernel\",3],[\"Power\",2,[\"Factorial\",3]]],0]";
+            bool testResult = true;
+            mXparser.modifyBuiltinToken(Function1Arg.SQRT_STR, "shiftedSqrt");
+            try {
+                Function kernel = new Function("kernel", "shiftedSqrt(t^2)+1", "t");
+                Expression original = new Expression(source, kernel);
+                String formula = MathJSON.exportExpression(original);
+                testResult &= original.calculate() == 68 && expectedFormula.Equals(formula)
+                        && MathJSON.importExpression(formula, kernel).getValue().calculate() == 68;
+                MathJSON.Result<String> renamedProgram = MathJSON.exportProgramWithDiagnostics(original);
+                testResult &= renamedProgram.isSuccess() && MathJSON.importExpression(renamedProgram.getValue()).getValue().calculate() == 68;
+                MathJSON.Result<Expression> renamedImport = MathJSON.importExpression("[\"If\",\"False\",[\"Sqrt\",9],4]");
+                testResult &= renamedImport.isSuccess() && renamedImport.getValue().calculate() == 4;
+            } finally {
+                mXparser.unmodifyBuiltinTokens(Function1Arg.SQRT_STR);
+            }
+            Expression restoredVocabulary = new Expression(source, new Function("kernel", "sqrt(t^2)+1", "t"));
+            String block = MathJSON.exportProgram(restoredVocabulary);
+            String expectedBlock = "[\"Block\",[\"DefineFunction\",\"kernel\","
+                    + "[\"Function\",[\"Add\",[\"Sqrt\",[\"Power\",\"t\",2]],1],\"t\"]]," + expectedFormula + "]";
+            testResult &= expectedBlock.Equals(block) && MathJSON.importExpression(block).getValue().calculate() == 68;
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0491() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON validates the inactive branch of a Block function with a constant sum limit";
+            TestCommonTools.consolePrintTestApiStart(491, testDescr);
+            String valid = "[\"Block\",[\"Declare\",\"steps\",[\"Dictionary\",[\"KeyValuePair\",\"value\",3],"
+                    + "[\"KeyValuePair\",\"constant\",\"True\"]]],"
+                    + "[\"DefineFunction\",\"selected\",[\"Function\",[\"If\",[\"GreaterEqual\",\"argT\",0],"
+                    + "[\"Sum\",[\"Power\",\"i\",2],[\"Limits\",\"i\",1,\"steps\"]],[\"Divide\",1,[\"Rational\",5,5]]],\"argT\"]],"
+                    + "[\"selected\",3]]";
+            Expression imported = MathJSON.importExpression(valid).getValue();
+            bool testResult = imported.calculate() == 14 && imported.getFunction("selected").calculate(-1) == 1;
+            String zeroDivisor = valid.Replace("[\"Rational\",5,5]", "[\"Rational\",0,5]");
+            MathJSON.Result<Expression> conditional = MathJSON.importExpression(zeroDivisor);
+            testResult &= conditional.isSuccess() && conditional.getValue().calculate() == 14
+                    && Double.IsNaN(conditional.getValue().getFunction("selected").calculate(-1));
+            String invalid = valid.Replace("[\"Rational\",5,5]", "[\"Rational\",5,0]");
+            var rejected = MathJSON.importExpression(invalid);
+            MathJSON.Diagnostic error = rejected.getError();
+            testResult &= mathJsonError(rejected, "UNSUPPORTED_NUMBER") && "/2/2/1/3/2/2".Equals(error.getPath())
+                    && error.getOffset() == invalid.IndexOf("[\"Rational\",5,0]") + "[\"Rational\",5,".Length;
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+        [TestMethod]
+        public void testApi0492() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON export returns a standard Error node or a typed diagnostic";
+            TestCommonTools.consolePrintTestApiStart(492, testDescr);
+            Expression unsupported = new Expression("x??1", new Argument("x", 2));
+            String expected = "[\"Error\",[\"ErrorCode\",{\"str\":\"mxparser:UNSUPPORTED_NODE\"},"
+                    + "{\"str\":\"Unsupported MathJSON construct\"},{\"str\":\"\"},-1]]";
+            String formula = MathJSON.exportExpression(unsupported);
+            MathJSON.Result<String> result = MathJSON.exportExpressionWithDiagnostics(unsupported);
+            bool testResult = expected.Equals(formula) && expected.Equals(unsupported.getExpressionAsMathJSON())
+                    && expected.Equals(MathJSON.exportProgram(unsupported))
+                    && mathJsonError(result, "UNSUPPORTED_NODE")
+                    && "Unsupported MathJSON construct".Equals(result.getError().getMessage());
+            String invalidDefinition = "[\"Error\",[\"ErrorCode\",{\"str\":\"mxparser:INVALID_ARGUMENT\"},"
+                    + "{\"str\":\"Invalid MathJSON conversion argument\"},{\"str\":\"\"},-1]]";
+            testResult &= invalidDefinition.Equals(MathJSON.exportDefinition(null))
+                    && mathJsonError(MathJSON.exportDefinitionWithDiagnostics(null), "INVALID_ARGUMENT")
+                    && mathJsonError(MathJSON.importExpression(formula), "INPUT_ERROR");
+            Expression supported = new Expression("2+3");
+            MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(supported);
+            MathJSON.Result<String> program = MathJSON.exportProgramWithDiagnostics(supported);
+            Constant constant = new Constant("exampleValue", 5);
+            MathJSON.Result<String> declaration = MathJSON.exportDefinitionWithDiagnostics(constant);
+            testResult &= exported.isSuccess() && exported.getError() == null && (exported.getDiagnostics().Count == 0)
+                    && "[\"Add\",2,3]".Equals(exported.getValue())
+                    && program.isSuccess() && MathJSON.exportProgram(supported).Equals(program.getValue())
+                    && declaration.isSuccess() && MathJSON.exportDefinition(constant).Equals(declaration.getValue());
+            String lexicalError = MathJSON.exportExpression(new Expression("1+\""));
+            testResult &= lexicalError.StartsWith("[\"Error\",[\"ErrorCode\",{\"str\":\"mxparser:INVALID_MXPARSER_SOURCE\"}")
+                    && lexicalError.Contains("\\\"") && lexicalError.Contains("\\n")
+                    && mathJsonError(MathJSON.importExpression(lexicalError), "INPUT_ERROR");
+            char[] longName = new char[1200];
+            for (int i = 0; i < longName.Length; i++) longName[i] = 'z';
+            Expression unknown = new Expression(new String(longName) + "(1)");
+            MathJSON.Result<String> unknownResult = MathJSON.exportExpressionWithDiagnostics(unknown);
+            String shortened = MathJSON.exportExpression(unknown);
+            testResult &= mathJsonError(unknownResult, "RESOURCE_LIMIT")
+                    && mathJsonError(MathJSON.importExpression(shortened), "INPUT_ERROR");
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0493() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON import returns failures, warnings and usable results without exceptions";
+            TestCommonTools.consolePrintTestApiStart(493, testDescr);
+            String invalid = "[\"Add\",[\"Quantity\",2,{\"str\":\"km\"}],[\"Rational\",1,0]]";
+            MathJSON.ImportOptions options = MathJSON.ImportOptions.defaults().withKilometresAsScalar(true);
+            MathJSON.Result<Expression> failed = MathJSON.importExpressionWithOptions(invalid, options);
+            bool testResult = mathJsonError(failed, "UNSUPPORTED_NUMBER")
+                    && "/2/2".Equals(failed.getError().getPath())
+                    && failed.getError().getOffset() == invalid.LastIndexOf('0');
+            String remote = " {\"fn\":[\"Error\",{\"str\":\"external-error\"}]}";
+            MathJSON.Result<PrimitiveElement> remoteFailure = MathJSON.importDefinition(remote);
+            testResult &= mathJsonError(remoteFailure, "INPUT_ERROR") && (remoteFailure.getError().getPath().Length == 0)
+                    && remoteFailure.getError().getOffset() == 1;
+            testResult &= mathJsonError(MathJSON.importExpression(null), "INVALID_ARGUMENT")
+                    && mathJsonError(MathJSON.importExpressionWithOptions("1", null), "INVALID_ARGUMENT")
+                    && mathJsonError(MathJSON.importDefinition("1", (PrimitiveElement[]) null), "INVALID_ARGUMENT");
+            MathJSON.Result<Expression> clean = MathJSON.importExpression("[\"Add\",2,3]");
+            MathJSON.Result<Expression> projected = MathJSON.importExpressionWithOptions(
+                    "[\"Quantity\",2,{\"str\":\"km\"}]", options);
+            MathJSON.Result<PrimitiveElement> definition = MathJSON.importDefinition(
+                    "[\"Declare\",\"exampleValue\",{\"dict\":{\"value\":5}}]");
+            testResult &= clean.isSuccess() && clean.getError() == null && clean.getValue().calculate() == 5
+                    && projected.isSuccess() && projected.getError() == null && projected.getValue().calculate() == 2000
+                    && projected.getDiagnostics().Count == 1
+                    && "UNIT_PROJECTED_TO_SCALAR".Equals(projected.getDiagnostics()[0].getCode())
+                    && definition.isSuccess() && definition.getError() == null
+                    && definition.getValue() is Argument && ((Argument) definition.getValue()).getArgumentValue() == 5;
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0494() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON errors and warnings use the active mXparser StringResources";
+            TestCommonTools.consolePrintTestApiStart(494, testDescr);
+            String[] languages = {"en", "pl", "de", "fr", "es", "it", "pt", "zh"};
+            String[] messages = {
+                    "Unsupported MathJSON construct", "Nieobsługiwana konstrukcja MathJSON",
+                    "Nicht unterstützte MathJSON-Konstruktion", "Construction MathJSON non prise en charge",
+                    "Construcción MathJSON no admitida", "Costrutto MathJSON non supportato",
+                    "Construção MathJSON não suportada", "不支持的 MathJSON 结构"
+            };
+            String[] warningMessages = {
+                    "Quantity converted to metres", "Przeliczono wielkość na metry",
+                    "Größe in Meter umgerechnet", "Quantité convertie en mètres",
+                    "Magnitud convertida a metros", "Quantità convertita in metri",
+                    "Grandeza convertida em metros", "量值已换算为米"
+            };
+            String foreign = "[\"Add\",1,[\"List\",0]]";
+            String quantity = "[\"Quantity\",2,{\"str\":\"km\"}]";
+            Expression unsupported = new Expression("x??1", new Argument("x", 2));
+            Expression supported = new Expression("2+3");
+            MathJSON.ImportOptions options = MathJSON.ImportOptions.defaults().withKilometresAsScalar(true);
+            StringResources saved = StringModel.getStringResources();
+            bool testResult = true;
+            try {
+                for (int i = 0; i < languages.Length; i++) {
+                    mXparser.changeLanguageTo(languages[i]);
+                    MathJSON.Result<Expression> imported = MathJSON.importExpression(foreign);
+                    MathJSON.Diagnostic importError = imported.getError();
+                    testResult &= mathJsonError(imported, "UNSUPPORTED_NODE") && messages[i].Equals(importError.getMessage())
+                            && "/2".Equals(importError.getPath()) && importError.getOffset() == foreign.IndexOf("[\"List\"");
+                    MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(unsupported);
+                    MathJSON.Diagnostic exportError = exported.getError();
+                    String errorJson = "[\"Error\",[\"ErrorCode\",{\"str\":\"mxparser:UNSUPPORTED_NODE\"},"
+                            + "{\"str\":\"" + messages[i] + "\"},{\"str\":\"\"},-1]]";
+                    testResult &= mathJsonError(exported, "UNSUPPORTED_NODE") && messages[i].Equals(exportError.getMessage())
+                            && (exportError.getPath().Length == 0) && exportError.getOffset() == -1
+                            && errorJson.Equals(MathJSON.exportExpression(unsupported))
+                            && "[\"Add\",2,3]".Equals(MathJSON.exportExpression(supported));
+                    MathJSON.Result<Expression> projected = MathJSON.importExpressionWithOptions(quantity, options);
+                    testResult &= projected.isSuccess() && projected.getDiagnostics().Count == 1;
+                    if (projected.getDiagnostics().Count == 1) {
+                        MathJSON.Diagnostic warning = projected.getDiagnostics()[0];
+                        testResult &= "UNIT_PROJECTED_TO_SCALAR".Equals(warning.getCode())
+                                && warningMessages[i].Equals(warning.getMessage())
+                                && (warning.getPath().Length == 0) && warning.getOffset() == 0;
+                    }
+                }
+                StringResources custom = StringResources.languagePolish();
+                custom.MATHJSON_UNRESOLVED_REFERENCE = "Brak funkcji „{0}” ({0}).";
+                StringModel.setStringResources(custom);
+                MathJSON.Result<Expression> missing = MathJSON.importExpression("[\"sampleFunction\",1]");
+                testResult &= missing.isSuccess() && missing.getDiagnostics().Count == 1
+                        && "UNRESOLVED_FUNCTION".Equals(missing.getDiagnostics()[0].getCode())
+                        && "Brak funkcji „sampleFunction” (sampleFunction).".Equals(missing.getDiagnostics()[0].getMessage());
+                MathJSON.Result<Expression> rational = MathJSON.importExpression("[\"Rational\",1,0]");
+                testResult &= mathJsonError(rational, "UNSUPPORTED_NUMBER")
+                        && "Nieobsługiwana liczba przy konwersji MathJSON".Equals(rational.getError().getMessage());
+                custom.MATHJSON_UNSUPPORTED_NUMBER = null;
+                custom.MATHJSON_UNSUPPORTED_CONSTRUCT = null;
+                custom.MATHJSON_UNIT_PROJECTED_TO_SCALAR = null;
+                MathJSON.Result<Expression> noErrorText = MathJSON.importExpression("[\"Rational\",1,0]");
+                MathJSON.Result<Expression> noWarningText = MathJSON.importExpressionWithOptions(quantity, options);
+                testResult &= mathJsonError(noErrorText, "UNSUPPORTED_NUMBER") && (noErrorText.getError().getMessage().Length == 0)
+                        && "/2".Equals(noErrorText.getError().getPath()) && noErrorText.getError().getOffset() == 14
+                        && "[\"Error\",[\"ErrorCode\",{\"str\":\"mxparser:UNSUPPORTED_NODE\"},{\"str\":\"\"},{\"str\":\"\"},-1]]"
+                        .Equals(MathJSON.exportExpression(unsupported))
+                        && noWarningText.isSuccess() && noWarningText.getDiagnostics().Count == 1
+                        && "UNIT_PROJECTED_TO_SCALAR".Equals(noWarningText.getDiagnostics()[0].getCode())
+                        && (noWarningText.getDiagnostics()[0].getMessage().Length == 0);
+            } finally {
+                StringModel.setStringResources(saved);
+            }
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0495() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON leaves ordinary operation domains to mXparser on import and export";
+            TestCommonTools.consolePrintTestApiStart(495, testDescr);
+            String[][] cases = {
+                    new String[] {"19!", "[\"Factorial\",19]"},
+                    new String[] {"root(3,-8)", "[\"Root\",[\"Negate\",8],3]"},
+                    new String[] {"1/0", "[\"Divide\",1,0]"},
+                    new String[] {"sqrt(-1)", "[\"Sqrt\",-1]"},
+                    new String[] {"ln(0)", "[\"Ln\",0]"},
+                    new String[] {"log(1,8)", "[\"Log\",8,1]"},
+                    new String[] {"0^0", "[\"Power\",0,0]"},
+                    new String[] {"if(1.25<1.5,7,8)", "[\"If\",[\"Less\",{\"num\":\"1.25\"},{\"num\":\"1.5\"}],7,8]"},
+                    new String[] {"if(1=1,7,1/0)", "[\"If\",[\"Equal\",1,1],7,[\"Divide\",1,0]]"}
+            };
+            double[] expected = {121645100408832000.0, -2, Double.NaN, Double.NaN, Double.NegativeInfinity,
+                    Double.NaN, 1, 7, 7};
+            bool testResult = true;
+            for (int i = 0; i < cases.Length; i++) {
+                Expression original = new Expression(cases[i][0]);
+                MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(original);
+                MathJSON.Result<Expression> imported = MathJSON.importExpression(cases[i][1]);
+                testResult &= exported.isSuccess() && cases[i][1].Equals(exported.getValue())
+                        && imported.isSuccess();
+                if (imported.isSuccess()) {
+                    double originalValue = original.calculate();
+                    double importedValue = imported.getValue().calculate();
+                    testResult &= Double.IsNaN(expected[i])
+                            ? Double.IsNaN(originalValue) && Double.IsNaN(importedValue)
+                            : originalValue == expected[i] && importedValue == expected[i];
+                }
+            }
+            String powerJson = "[\"Power\",\"x\",\"y\"]";
+            Argument x = new Argument("x", 2);
+            Argument y = new Argument("y", 3);
+            Expression originalPower = new Expression("x^y", x, y);
+            MathJSON.Result<Expression> power = MathJSON.importExpression(powerJson, x, y);
+            testResult &= powerJson.Equals(MathJSON.exportExpression(originalPower)) && power.isSuccess();
+            if (power.isSuccess()) {
+                testResult &= originalPower.calculate() == 8 && power.getValue().calculate() == 8;
+                y.setArgumentValue(-3);
+                testResult &= originalPower.calculate() == 0.125 && power.getValue().calculate() == 0.125;
+            }
+            MathJSON.Result<Expression> negativeRoot = MathJSON.importExpression("[\"Root\",-8,3]");
+            testResult &= negativeRoot.isSuccess() && negativeRoot.getValue().calculate() == -2;
+            MathJSON.Result<Expression> rationalBase = MathJSON.importExpression("[\"Power\",[\"Rational\",0,1],0]");
+            testResult &= rationalBase.isSuccess() && rationalBase.getValue().calculate() == 1;
+            MathJSON.Result<Expression> longSum = MathJSON.importExpression("[\"Sum\",\"i\",[\"Limits\",\"i\",1,1001]]");
+            testResult &= longSum.isSuccess() && longSum.getValue().calculate() == 501501;
+            testResult &= MathJSON.exportExpressionWithDiagnostics(new Expression("sum(i,1,1001,i)")).isSuccess();
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0496() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON delegates Sum and Product bounds to mXparser";
+            TestCommonTools.consolePrintTestApiStart(496, testDescr);
+            Argument n = new Argument("n", 5);
+            String[][] examples = {
+                    new String[] {"sum(i,1,n,i)", "[\"Sum\",\"i\",[\"Limits\",\"i\",1,\"n\"]]"},
+                    new String[] {"prod(i,1,n,i)", "[\"Product\",\"i\",[\"Limits\",\"i\",1,\"n\"]]"},
+                    new String[] {"sum(i,3,1,i)", "[\"Sum\",\"i\",[\"Limits\",\"i\",3,1]]"},
+                    new String[] {"sum(i,1,2.5,i)", "[\"Sum\",\"i\",[\"Limits\",\"i\",1,2.5]]"},
+                    new String[] {"sum(i,1,2,sum(j,1,i,j))", "[\"Sum\",[\"Sum\",\"j\",[\"Limits\",\"j\",1,\"i\"]],[\"Limits\",\"i\",1,2]]"}
+            };
+            double[] expected = {15, 120, 6, 3, 4};
+            bool testResult = true;
+            for (int i = 0; i < examples.Length; i++) {
+                Expression original = new Expression(examples[i][0], n);
+                MathJSON.Result<Expression> imported = MathJSON.importExpression(examples[i][1], n);
+                MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(original);
+                testResult &= original.calculate() == expected[i] && imported.isSuccess()
+                        && imported.getValue().calculate() == expected[i] && exported.isSuccess();
+                if (exported.isSuccess()) {
+                    MathJSON.Result<Expression> restored = MathJSON.importExpression(exported.getValue(), n);
+                    testResult &= restored.isSuccess() && restored.getValue().calculate() == expected[i];
+                }
+            }
+            MathJSON.Result<Expression> dynamic = MathJSON.importExpression(examples[0][1], n);
+            n.setArgumentValue(6);
+            testResult &= dynamic.isSuccess() && dynamic.getValue().calculate() == 21;
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0497() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON validates supplied definitions on reference";
+            TestCommonTools.consolePrintTestApiStart(497, testDescr);
+            Argument x = new Argument("x", 10);
+            Argument dependent = new Argument("valueY", "x+2", x);
+            Argument duplicate1 = new Argument("valueZ", 1);
+            Argument duplicate2 = new Argument("valueZ", 2);
+            RecoveringArgumentSource host = new RecoveringArgumentSource();
+            host.failureKind = 1;
+            Argument extended = new Argument("hostValue", host);
+            MathJSON.Result<Expression> ignored = MathJSON.importExpression("[\"Add\",\"x\",2]",
+                    dependent, duplicate1, duplicate2, extended, x, null, new Expression("7"));
+            bool testResult = ignored.isSuccess() && ignored.getValue().calculate() == 12;
+            MathJSON.Result<Expression> linkedDependent = MathJSON.importExpression("\"valueY\"", dependent);
+            testResult &= linkedDependent.isSuccess() && linkedDependent.getValue().getArgument("valueY") == dependent
+                    && linkedDependent.getValue().calculate() == 12;
+            MathJSON.Result<Expression> linkedHost = MathJSON.importExpression("\"hostValue\"", extended);
+            testResult &= linkedHost.isSuccess() && linkedHost.getValue().getArgument("hostValue") == extended
+                    && linkedHost.getDiagnostics().Count == 1 && host.failureKind == 1;
+            MathJSON.Result<Expression> duplicate = MathJSON.importExpression("[\"Add\",1,\"valueZ\"]", duplicate1, duplicate2);
+            testResult &= mathJsonError(duplicate, "NAME_COLLISION") && "/2".Equals(duplicate.getError().getPath());
+            MathJSON.Result<Expression> repeated = MathJSON.importExpression("\"x\"", x, x);
+            testResult &= repeated.isSuccess() && repeated.getValue().calculate() == 10;
+            Argument subclass = new MathJsonHostArgument();
+            MathJSON.Result<Expression> ignoredSubclass = MathJSON.importExpression("1", subclass);
+            testResult &= ignoredSubclass.isSuccess() && ignoredSubclass.getValue().calculate() == 1
+                    && "1".Equals(MathJSON.exportExpression(new Expression("1", subclass)));
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0498() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON unary associative operations and large integral Rational atoms";
+            TestCommonTools.consolePrintTestApiStart(498, testDescr);
+            Argument x = new Argument("x", 7);
+            MathJSON.Result<Expression> unary = MathJSON.importExpression("[\"Multiply\",[\"Add\",\"x\"]]", x);
+            bool testResult = unary.isSuccess() && unary.getValue().calculate() == 7
+                    && "\"x\"".Equals(MathJSON.exportExpression(unary.getValue()));
+            String[] rationals = {"[\"Rational\",9007199254740992,2]",
+                    "[\"Rational\",{\"num\":\"1.8014398509481984e16\"},-2]"};
+            double[] expected = {4503599627370496.0, -9007199254740992.0};
+            for (int i = 0; i < rationals.Length; i++) {
+                MathJSON.Result<Expression> rational = MathJSON.importExpression(rationals[i]);
+                testResult &= rational.isSuccess() && rational.getValue().calculate() == expected[i];
+            }
+            testResult &= mathJsonError(MathJSON.importExpression("[\"Add\"]"), "INVALID_ARITY");
+            testResult &= mathJsonError(MathJSON.importExpression("[\"Multiply\"]"), "INVALID_ARITY");
+            testResult &= mathJsonError(MathJSON.importExpression("[\"Rational\",1.5,2]"), "UNSUPPORTED_NUMBER");
+            testResult &= mathJsonError(MathJSON.importExpression("[\"Rational\",2,0]"), "UNSUPPORTED_NUMBER");
+            Expression fraction = new Expression("9007199254740992_2");
+            MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(fraction);
+            testResult &= exported.isSuccess() && exported.getValue().StartsWith("[\"Rational\",");
+            if (exported.isSuccess()) {
+                MathJSON.Result<Expression> restored = MathJSON.importExpression(exported.getValue());
+                testResult &= restored.isSuccess() && restored.getValue().calculate() == expected[0];
+            }
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0499() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON shares messages while retaining diagnostic codes and positions";
+            TestCommonTools.consolePrintTestApiStart(499, testDescr);
+            MathJSON.Result<Expression> first = MathJSON.importExpression("1 true");
+            MathJSON.Result<Expression> second = MathJSON.importExpression("[1,]");
+            bool testResult = mathJsonError(first, "INVALID_JSON") && mathJsonError(second, "INVALID_JSON")
+                    && "Invalid JSON syntax".Equals(first.getError().getMessage())
+                    && first.getError().getMessage().Equals(second.getError().getMessage())
+                    && first.getError().getPath().Length == 0 && first.getError().getOffset() == 2
+                    && "/1".Equals(second.getError().getPath()) && second.getError().getOffset() == 3;
+            MathJSON.Result<Expression> shape = MathJSON.importExpression("[\"Add\",1,true]");
+            MathJSON.Result<PrimitiveElement> root = MathJSON.importDefinition("1");
+            testResult &= mathJsonError(shape, "INVALID_SHAPE") && mathJsonError(root, "INVALID_ROOT")
+                    && "Invalid MathJSON structure".Equals(shape.getError().getMessage())
+                    && shape.getError().getMessage().Equals(root.getError().getMessage())
+                    && "/2".Equals(shape.getError().getPath()) && shape.getError().getOffset() == 9
+                    && root.getError().getPath().Length == 0 && root.getError().getOffset() == 0;
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0500() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON direct recursion follows the mXparser recursion limit";
+            TestCommonTools.consolePrintTestApiStart(500, testDescr);
+            String[] definitions = {"walk(n)=if(n<=0,1,n*walk(n-1))", "walk(n)=walk(n)",
+                    "walk(n)=1+walk(n-1)", "walk(n)=if(n<=0,walk(n+1),walk(n-1))", "walk(n)=if(walk(n)>0,1,0)",
+                    "walk(n)=sum(i,1,1,walk(n))", "walk(n)=sum(i,1,walk(n),i)", "walk(n)=prod(i,1,1,walk(n))",
+                    "walk(n)=if(n<=0,0,sum(i,1,1,walk(n)))"};
+            String[] bodies = {"[\"If\",[\"LessEqual\",\"n\",0],1,[\"Multiply\",\"n\",[\"walk\",[\"Subtract\",\"n\",1]]]]",
+                    "[\"walk\",\"n\"]", "[\"Add\",1,[\"walk\",[\"Subtract\",\"n\",1]]]",
+                    "[\"If\",[\"LessEqual\",\"n\",0],[\"walk\",[\"Add\",\"n\",1]],[\"walk\",[\"Subtract\",\"n\",1]]]",
+                    "[\"If\",[\"Greater\",[\"walk\",\"n\"],0],1,0]",
+                    "[\"Sum\",[\"walk\",\"n\"],[\"Limits\",\"i\",1,1]]", "[\"Sum\",\"i\",[\"Limits\",\"i\",1,[\"walk\",\"n\"]]]",
+                    "[\"Product\",[\"walk\",\"n\"],[\"Limits\",\"i\",1,1]]",
+                    "[\"If\",[\"LessEqual\",\"n\",0],0,[\"Sum\",[\"walk\",\"n\"],[\"Limits\",\"i\",1,1]]]"};
+            bool testResult = true;
+            int saved = mXparser.getMaxAllowedRecursionDepth();
+            try {
+                mXparser.setMaxAllowedRecursionDepth(48);
+                for (int i = 0; i < definitions.Length; i++) {
+                    Expression original = new Expression("walk(4)", new Function(definitions[i]));
+                    String wire = "[\"Block\",[\"DefineFunction\",\"walk\",[\"Function\"," + bodies[i] + ",\"n\"]],[\"walk\",4]]";
+                    MathJSON.Result<Expression> imported = MathJSON.importExpression(wire);
+                    MathJSON.Result<String> exported = MathJSON.exportProgramWithDiagnostics(original);
+                    if (i >= 4) {
+                        testResult &= original.checkSyntax() && mathJsonError(imported, "UNSUPPORTED_PROGRAM")
+                                && mathJsonError(exported, "UNSUPPORTED_PROGRAM");
+                        if (i == 4 && imported.getError() != null)
+                            testResult &= "/1/2/1/1/1".Equals(imported.getError().getPath());
+                        continue;
+                    }
+                    testResult &= original.checkSyntax() && imported.isSuccess() && exported.isSuccess();
+                    if (!imported.isSuccess() || !exported.isSuccess()) continue;
+                    MathJSON.Result<Expression> restored = MathJSON.importExpression(exported.getValue());
+                    testResult &= restored.isSuccess();
+                    if (!restored.isSuccess()) continue;
+                    foreach (Expression expression in new Expression[]{original, imported.getValue(), restored.getValue()}) {
+                        Function function = expression.getFunction("walk");
+                        testResult &= function != null && function.getFunction("walk") == function;
+                        double first = expression.calculate(), second = expression.calculate();
+                        testResult &= i == 0 ? first == 24 && second == 24 : Double.IsNaN(first) && Double.IsNaN(second);
+                    }
+                }
+            } finally {
+                mXparser.setMaxAllowedRecursionDepth(saved);
+            }
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0501() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON export ignores unused extensions without invoking callbacks";
+            TestCommonTools.consolePrintTestApiStart(501, testDescr);
+            RecoveringArgumentSource argumentSource = new RecoveringArgumentSource();
+            Argument extra = new Argument("unusedArg", argumentSource);
+            LaTeXFunctionExtension functionSource = new LaTeXFunctionExtension();
+            Function extraFunction = new Function("unusedFn", functionSource);
+            Argument x = new Argument("x", 2);
+            Function inc = new Function("inc(t)=t+1");
+            Expression plain = new Expression("inc(x)", x, inc);
+            Expression augmented = new Expression("inc(x)", extra, extraFunction, x, inc);
+            Function outer = new Function("outer(t)=t+1");
+            outer.addDefinitions(extra, extraFunction);
+            Expression usesArgument = new Expression("unusedArg+1", extra);
+            Expression usesFunction = new Expression("unusedFn(1)", extraFunction);
+            int metadataBefore = functionSource.metadata;
+            argumentSource.failureKind = 1;
+            MathJSON.Result<String> formula = MathJSON.exportExpressionWithDiagnostics(augmented);
+            MathJSON.Result<String> program = MathJSON.exportProgramWithDiagnostics(augmented);
+            bool testResult = formula.isSuccess() && "[\"inc\",\"x\"]".Equals(formula.getValue())
+                    && program.isSuccess() && MathJSON.exportProgram(plain).Equals(program.getValue());
+            MathJSON.Result<String> definition = MathJSON.exportDefinitionWithDiagnostics(outer);
+            testResult &= definition.isSuccess()
+                    && MathJSON.exportDefinition(new Function("outer(t)=t+1")).Equals(definition.getValue());
+            MathJSON.Result<String> referencedArgument = MathJSON.exportExpressionWithDiagnostics(usesArgument);
+            MathJSON.Result<String> referencedFunction = MathJSON.exportExpressionWithDiagnostics(usesFunction);
+            testResult &= referencedArgument.isSuccess() && "[\"Add\",\"unusedArg\",1]".Equals(referencedArgument.getValue())
+                    && referencedArgument.getDiagnostics().Count == 1;
+            testResult &= referencedFunction.isSuccess() && "[\"unusedFn\",1]".Equals(referencedFunction.getValue())
+                    && referencedFunction.getDiagnostics().Count == 1;
+            testResult &= mathJsonError(MathJSON.exportProgramWithDiagnostics(usesArgument), "UNSUPPORTED_PROGRAM");
+            testResult &= mathJsonError(MathJSON.exportProgramWithDiagnostics(usesFunction), "UNSUPPORTED_PROGRAM");
+            testResult &= argumentSource.failureKind == 1 && functionSource.metadata == metadataBefore
+                    && functionSource.calculations == 0 && functionSource.assignments == 0;
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0502() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON rounds decimal underflow to zero";
+            TestCommonTools.consolePrintTestApiStart(502, testDescr);
+            String[] examples = {"1e-400", "-1e-400", "{\"num\":\"1E-400\"}", "{\"num\":\"-1E-400\"}",
+                    "[\"Rational\",-1e-400,2]"};
+            bool testResult = true;
+            foreach (String example in examples) {
+                MathJSON.Result<Expression> imported = MathJSON.importExpression(example);
+                testResult &= imported.isSuccess() && imported.getDiagnostics().Count == 0
+                        && BitConverter.DoubleToInt64Bits(imported.getValue().calculate()) == 0;
+            }
+            MathJSON.Result<PrimitiveElement> positive = MathJSON.importDefinition("[\"Declare\",\"valueX\",{\"dict\":{\"value\":1e-400}}]");
+            MathJSON.Result<PrimitiveElement> negative = MathJSON.importDefinition("[\"Declare\",\"valueX\",{\"dict\":{\"value\":-1e-400}}]");
+            testResult &= positive.isSuccess() && BitConverter.DoubleToInt64Bits(((Argument) positive.getValue()).getArgumentValue()) == 0;
+            testResult &= negative.isSuccess() && BitConverter.DoubleToInt64Bits(((Argument) negative.getValue()).getArgumentValue()) == Int64.MinValue;
+            testResult &= mathJsonError(MathJSON.importExpression("[\"Rational\",1,1e-400]"), "UNSUPPORTED_NUMBER")
+                    && mathJsonError(MathJSON.importExpression("-1e400"), "UNSUPPORTED_NUMBER");
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        private sealed class MathJsonHostArgument : Argument {
+            internal MathJsonHostArgument() : base("hostSubclass", 1) {}
+        }
+
+        [TestMethod]
+        public void testApi0503() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON exchanges shared functions, conditional bodies and angle units";
+            TestCommonTools.consolePrintTestApiStart(503, testDescr);
+            String[][] cases = {
+                    new String[]{"sin(pi/2)", "[\"Sin\",[\"Divide\",\"Pi\",2]]"}, new String[]{"cos(0)", "[\"Cos\",0]"},
+                    new String[]{"tg(pi/4)", "[\"Tan\",[\"Divide\",\"Pi\",4]]"}, new String[]{"exp(1)", "[\"Exp\",1]"},
+                    new String[]{"Gamma(5)", "[\"Gamma\",5]"}, new String[]{"min(8,3,4)", "[\"Min\",8,3,4]"}, new String[]{"max(8,3,4)", "[\"Max\",8,3,4]"},
+                    new String[]{"1+if(1<2,3,1/0)", "[\"Add\",1,[\"If\",[\"Less\",1,2],3,[\"Divide\",1,0]]]"},
+                    new String[]{"min(cos(0),2)", "[\"Min\",[\"Cos\",0],2]"},
+                    new String[]{"if(if(1<2,3,4)>2,1,0)", "[\"If\",[\"Greater\",[\"If\",[\"Less\",1,2],3,4],2],1,0]"},
+                    new String[]{"sum(i,1,3,if(i<3,1,0))", "[\"Sum\",[\"If\",[\"Less\",\"i\",3],1,0],[\"Limits\",\"i\",1,3]]"}
+            };
+            double[] expected = {1, 1, 1, Math.E, 24, 3, 8, 4, 1, 1, 2};
+            bool testResult = true;
+            for (int i = 0; i < cases.Length; i++) {
+                Expression original = new Expression(cases[i][0]);
+                MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(original);
+                MathJSON.Result<Expression> imported = MathJSON.importExpression(cases[i][1]);
+                testResult &= Math.Abs(original.calculate() - expected[i]) <= 1e-14;
+                testResult &= exported.isSuccess() && exported.getDiagnostics().Count == 0 && cases[i][1].Equals(exported.getValue());
+                testResult &= imported.isSuccess() && imported.getDiagnostics().Count == 0
+                        && Math.Abs(imported.getValue().calculate() - expected[i]) <= 1e-14;
+            }
+            mXparser.setDegreesMode();
+            try {
+                MathJSON.Result<String> degrees = MathJSON.exportExpressionWithDiagnostics(new Expression("sin(30)"));
+                testResult &= degrees.isSuccess() && degrees.getDiagnostics().Count == 0
+                        && "[\"Sin\",[\"Degrees\",30]]".Equals(degrees.getValue());
+                MathJSON.Result<Expression> imported = MathJSON.importExpression("[\"Sin\",[\"Divide\",\"Pi\",2]]");
+                testResult &= imported.isSuccess() && Math.Abs(imported.getValue().calculate() - 1) <= 1e-14;
+                MathJSON.Result<Expression> restored = MathJSON.importExpression(degrees.getValue());
+                testResult &= restored.isSuccess() && Math.Abs(restored.getValue().calculate() - 0.5) <= 1e-14;
+                MathJSON.Result<Expression> cos = MathJSON.importExpression("[\"Cos\",[\"Degrees\",60]]");
+                MathJSON.Result<Expression> tan = MathJSON.importExpression("[\"Tan\",[\"Degrees\",45]]");
+                testResult &= cos.isSuccess() && Math.Abs(cos.getValue().calculate() - 0.5) <= 1e-14
+                        && tan.isSuccess() && Math.Abs(tan.getValue().calculate() - 1) <= 1e-14;
+                MathJSON.Result<String> nested = MathJSON.exportExpressionWithDiagnostics(new Expression("sin(rad(30))"));
+                testResult &= nested.isSuccess() && "[\"Sin\",[\"Degrees\",[\"Degrees\",30]]]".Equals(nested.getValue());
+            } finally {
+                mXparser.setRadiansMode();
+            }
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0504() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON open formulas can be completed without reimport";
+            TestCommonTools.consolePrintTestApiStart(504, testDescr);
+            String json = "[\"Add\",[\"score\",2],\"offset\"]";
+            MathJSON.Result<Expression> imported = MathJSON.importExpression(json);
+            bool testResult = imported.isSuccess() && mathJsonWarning(imported, 0, "UNRESOLVED_FUNCTION", "/1")
+                    && mathJsonWarning(imported, 1, "UNRESOLVED_SYMBOL", "/2") && imported.getDiagnostics().Count == 2;
+            if (imported.isSuccess()) {
+                Expression expression = imported.getValue();
+                testResult &= !expression.checkSyntax()
+                        && "score".Equals(String.Join(",", expression.getMissingUserDefinedFunctions()))
+                        && "offset".Equals(String.Join(",", expression.getMissingUserDefinedArguments()));
+                MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(expression);
+                testResult &= exported.isSuccess() && json.Equals(exported.getValue()) && exported.getDiagnostics().Count == 2;
+                expression.addDefinitions(new Function("score(t)=t^2"), new Constant("offset", 1));
+                testResult &= expression.checkSyntax() && expression.calculate() == 5;
+            }
+            MathJSON.Result<Expression> variadic = MathJSON.importExpression("[\"Add\",[\"score\",2],[\"score\",2,3]]");
+            testResult &= variadic.isSuccess() && variadic.getDiagnostics().Count == 1;
+            if (variadic.isSuccess()) {
+                variadic.getValue().addDefinitions(new Function("score(...)= [npar]"));
+                testResult &= variadic.getValue().checkSyntax() && variadic.getValue().calculate() == 3;
+            }
+            String[] nested = {"[\"score\",[\"offset\",2]]", "[\"Sin\",[\"score\",2]]",
+                    "[\"If\",\"True\",[\"score\",2],0]", "[\"Sum\",[\"score\",\"j\"],[\"Limits\",\"j\",1,2]]"};
+            double[] expected = {81, Math.Sin(4), 4, 5};
+            for (int i = 0; i < nested.Length; i++) {
+                MathJSON.Result<Expression> result = MathJSON.importExpression(nested[i]);
+                testResult &= result.isSuccess();
+                if (result.isSuccess()) {
+                    result.getValue().addDefinitions(new Function("score(t)=t^2"), new Function("offset(t)=t+7"));
+                    testResult &= result.getValue().checkSyntax() && Math.Abs(result.getValue().calculate() - expected[i]) <= 1e-14;
+                }
+            }
+            testResult &= mathJsonError(MathJSON.importExpression("[\"Block\",[\"score\",2]]"), "UNRESOLVED_FUNCTION");
+            testResult &= mathJsonError(MathJSON.importExpression("[\"List\",1,2]"), "UNSUPPORTED_NODE");
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0505() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON links host arguments and functions without calling them during conversion";
+            TestCommonTools.consolePrintTestApiStart(505, testDescr);
+            RecoveringArgumentSource argumentSource = new RecoveringArgumentSource();
+            Argument extra = new Argument("hostValue", argumentSource);
+            LaTeXFunctionExtension functionSource = new LaTeXFunctionExtension();
+            Function function = new Function("hostFn", functionSource);
+            int metadata = functionSource.metadata;
+            argumentSource.failureKind = 1;
+            String json = "[\"Add\",\"hostValue\",[\"hostFn\",1]]";
+            MathJSON.Result<Expression> imported = MathJSON.importExpression(json, extra, function);
+            bool testResult = imported.isSuccess() && mathJsonWarning(imported, 0, "EXTERNAL_DEFINITION", "/1")
+                    && mathJsonWarning(imported, 1, "EXTERNAL_DEFINITION", "/2");
+            if (imported.isSuccess()) {
+                Expression expression = imported.getValue();
+                testResult &= expression.getArgument("hostValue") == extra && expression.getFunction("hostFn") == function;
+                MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(expression);
+                testResult &= exported.isSuccess() && json.Equals(exported.getValue()) && exported.getDiagnostics().Count == 2;
+                testResult &= argumentSource.failureKind == 1 && functionSource.metadata == metadata
+                        && functionSource.calculations == 0 && functionSource.assignments == 0;
+                argumentSource.failureKind = 0;
+                testResult &= expression.calculate() == 44 && functionSource.calculations == 1;
+            }
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0506() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON preserves standard and overridden builtin bindings";
+            TestCommonTools.consolePrintTestApiStart(506, testDescr);
+            Argument tan = new Argument("Tan", 2);
+            MathJSON.Result<Expression> scalar = MathJSON.importExpression("[\"Add\",\"Tan\",1]", tan);
+            bool testResult = scalar.isSuccess() && scalar.getValue().calculate() == 3;
+            Function custom = new Function("Tan(t)=t+1");
+            String declaration = MathJSON.exportDefinition(custom);
+            MathJSON.Result<PrimitiveElement> definition = MathJSON.importDefinition(declaration);
+            testResult &= definition.isSuccess() && ((Function) definition.getValue()).calculate(2) == 3;
+            testResult &= mathJsonError(MathJSON.importExpression("[\"Sum\",\"Pi\",[\"Limits\",\"Pi\",1,3]]"), "NAME_COLLISION");
+            testResult &= mathJsonError(MathJSON.importDefinition("[\"DefineFunction\",\"turn\",[\"Function\",\"Pi\",\"Pi\"]]"), "NAME_COLLISION");
+            Argument i = new Argument("i", 2);
+            MathJSON.Result<String> symbol = MathJSON.exportExpressionWithDiagnostics(new Expression("i+1", i));
+            testResult &= symbol.isSuccess() && "[\"Add\",[\"MxParserSymbol\",\"i\"],1]".Equals(symbol.getValue())
+                    && mathJsonWarning(symbol, 1, "MXPARSER_EXTENSION", "");
+            MathJSON.Result<Expression> restoredSymbol = MathJSON.importExpression(symbol.getValue(), i);
+            testResult &= restoredSymbol.isSuccess() && restoredSymbol.getValue().calculate() == 3;
+            String recursive = "[\"Block\",[\"DefineFunction\",\"Sum\",[\"Function\",\"t\",\"t\"]],"
+                    + "[\"DefineFunction\",\"walk\",[\"Function\",[\"If\",[\"Less\",\"n\",1],0,"
+                    + "[\"MxParserCall\",\"Sum\",[\"walk\",[\"Subtract\",\"n\",1]]]],\"n\"]],[\"walk\",3]]";
+            MathJSON.Result<Expression> recursion = MathJSON.importExpression(recursive);
+            testResult &= recursion.isSuccess() && recursion.getValue().calculate() == 0;
+            mXparser.setToOverrideBuiltinTokens();
+            try {
+                Function sin = new Function("sin(t)=t+1");
+                Expression overridden = new Expression("sin(0)", sin);
+                MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(overridden);
+                testResult &= overridden.calculate() == 1 && exported.isSuccess()
+                        && "[\"MxParserCall\",\"sin\",0]".Equals(exported.getValue())
+                        && mathJsonWarning(exported, 1, "MXPARSER_EXTENSION", "");
+                MathJSON.Result<Expression> restored = MathJSON.importExpression(exported.getValue(), sin);
+                testResult &= restored.isSuccess() && restored.getValue().calculate() == 1;
+                String mixed = "[\"Add\",[\"Sin\",0],[\"MxParserCall\",\"sin\",0]]";
+                testResult &= mathJsonError(MathJSON.importExpression(mixed, sin), "BUILTIN_UNAVAILABLE");
+                mXparser.modifyBuiltinToken(Function1Arg.SIN_STR, "sine");
+                MathJSON.Result<Expression> renamed = MathJSON.importExpression(mixed, sin);
+                testResult &= renamed.isSuccess() && renamed.getValue().calculate() == 1;
+                MathJSON.Result<String> standard = MathJSON.exportExpressionWithDiagnostics(new Expression("sine(0)"));
+                testResult &= standard.isSuccess() && standard.getDiagnostics().Count == 0 && "[\"Sin\",0]".Equals(standard.getValue());
+            } finally {
+                mXparser.unmodifyBuiltinTokens(Function1Arg.SIN_STR);
+                mXparser.setNotToOverrideBuiltinTokens();
+            }
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0507() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON carries explicit mXparser operators with a portability warning";
+            TestCommonTools.consolePrintTestApiStart(507, testDescr);
+            Expression original = new Expression("2^^3+1");
+            MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(original);
+            bool testResult = exported.isSuccess() && "[\"Add\",[\"MxParserTetration\",2,3],1]".Equals(exported.getValue())
+                    && exported.getDiagnostics().Count == 1 && mathJsonWarning(exported, 0, "MXPARSER_EXTENSION", "");
+            MathJSON.Result<Expression> imported = MathJSON.importExpression(exported.getValue());
+            testResult &= original.calculate() == 17 && imported.isSuccess() && imported.getValue().calculate() == 17;
+            testResult &= mathJsonError(MathJSON.importExpression("[\"MxParserTetration\",2]"), "INVALID_ARITY");
+            String[] chains = {"2^^2^^2", "2^^3!", "2^-3^^2", "2^^-1*3"};
+            double[] expected = {65536, 20922789888000.0, 0.9746546091224311, Double.NaN};
+            for (int i = 0; i < chains.Length; i++) {
+                Expression chain = new Expression(chains[i]);
+                MathJSON.Result<String> encoded = MathJSON.exportExpressionWithDiagnostics(chain);
+                MathJSON.Result<Expression> decoded = MathJSON.importExpression(encoded.getValue());
+                if (encoded.isSuccess() && decoded.isSuccess()) {
+                    double value = decoded.getValue().calculate();
+                    testResult &= Double.IsNaN(expected[i]) ? Double.IsNaN(value) && Double.IsNaN(chain.calculate())
+                            : Math.Abs(value - expected[i]) <= 1e-14 && Math.Abs(chain.calculate() - expected[i]) <= 1e-14;
+                } else testResult = false;
+            }
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0508() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON exports a single function with external references";
+            TestCommonTools.consolePrintTestApiStart(508, testDescr);
+            Function g = new Function("g(t)=t??1");
+            Function f = new Function("f(t)=g(t)+g(t)");
+            f.addDefinitions(g, new Function("unused(t)=t??3"));
+            String wire = "[\"DefineFunction\",\"f\",[\"Function\",[\"Add\",[\"g\",\"t\"],[\"g\",\"t\"]],\"t\"]]";
+            MathJSON.Result<String> exported = MathJSON.exportDefinitionWithDiagnostics(f);
+            bool testResult = f.calculate(2) == 4 && exported.isSuccess() && wire.Equals(exported.getValue())
+                    && exported.getDiagnostics().Count == 1 && mathJsonWarning(exported, 0, "EXTERNAL_DEFINITION", "");
+            MathJSON.Result<PrimitiveElement> imported = MathJSON.importDefinition(exported.getValue(), g);
+            testResult &= imported.isSuccess() && ((Function) imported.getValue()).getFunction("g") == g
+                    && ((Function) imported.getValue()).calculate(2) == 4;
+            MathJSON.Result<PrimitiveElement> open = MathJSON.importDefinition(wire);
+            testResult &= open.isSuccess() && open.getDiagnostics().Count == 1
+                    && mathJsonWarning(open, 0, "UNRESOLVED_FUNCTION", "/2/1/1");
+            testResult &= mathJsonError(MathJSON.exportDefinitionWithDiagnostics(new Function("missing(t)=g(t)")), "UNRESOLVED_FUNCTION");
+            Function wrongArity = new Function("wrong(t)=g(t,t)");
+            wrongArity.addDefinitions(g);
+            testResult &= mathJsonError(MathJSON.exportDefinitionWithDiagnostics(wrongArity), "INVALID_ARITY");
+            testResult &= mathJsonError(MathJSON.exportDefinitionWithDiagnostics(g), "UNSUPPORTED_NODE");
+            testResult &= mathJsonError(MathJSON.exportProgramWithDiagnostics(new Expression("f(2)", f)), "UNSUPPORTED_NODE");
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0509() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON normalizes formula zeros and preserves declaration signs";
+            TestCommonTools.consolePrintTestApiStart(509, testDescr);
+            String[] examples = {"-0", "-0.0", "{\"num\":\"-0e-400\"}", "[\"Multiply\",2,-0]", "[\"Rational\",-0,2]"};
+            bool testResult = true;
+            foreach (String example in examples) {
+                MathJSON.Result<Expression> imported = MathJSON.importExpression(example);
+                testResult &= imported.isSuccess() && imported.getDiagnostics().Count == 0
+                        && BitConverter.DoubleToInt64Bits(imported.getValue().calculate()) == 0;
+            }
+            Expression original = new Expression("2*(-0.0)");
+            MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(original);
+            MathJSON.Result<Expression> restored = MathJSON.importExpression(exported.getValue());
+            testResult &= exported.isSuccess() && "[\"Multiply\",2,0]".Equals(exported.getValue())
+                    && restored.isSuccess() && original.calculate() == restored.getValue().calculate();
+            Expression signedPower = new Expression("(-0.0)^(-1)");
+            String normalizedPower = MathJSON.exportExpression(signedPower);
+            MathJSON.Result<Expression> restoredPower = MathJSON.importExpression(normalizedPower);
+            testResult &= Double.IsInfinity(signedPower.calculate())
+                    && "[\"Power\",0,-1]".Equals(normalizedPower)
+                    && restoredPower.isSuccess() && restoredPower.getValue().calculate() == Double.PositiveInfinity;
+            testResult &= mathJsonError(MathJSON.importExpression("[\"Rational\",1,-0]"), "UNSUPPORTED_NUMBER");
+            Argument signed = new Argument("z", -0.0);
+            String declaration = "[\"Declare\",\"z\",[\"Dictionary\",[\"KeyValuePair\",\"value\",{\"num\":\"-0\"}]]]";
+            testResult &= declaration.Equals(MathJSON.exportDefinition(signed));
+            MathJSON.Result<PrimitiveElement> importedDeclaration = MathJSON.importDefinition(declaration);
+            testResult &= importedDeclaration.isSuccess()
+                    && BitConverter.DoubleToInt64Bits(((Argument) importedDeclaration.getValue()).getArgumentValue()) == Int64.MinValue;
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0510() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON qualified user names stay distinct from numeric atoms";
+            TestCommonTools.consolePrintTestApiStart(510, testDescr);
+            Argument symbol = new Argument("NaN", 7);
+            MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(new Expression("NaN+1", symbol));
+            bool testResult = exported.isSuccess()
+                    && "[\"Add\",[\"MxParserSymbol\",{\"sym\":\"NaN\"}],1]".Equals(exported.getValue())
+                    && mathJsonWarning(exported, 1, "MXPARSER_EXTENSION", "");
+            String[] references = {exported.getValue(), "[\"Add\",[\"MxParserSymbol\",\"NaN\"],1]"};
+            foreach (String reference in references) {
+                MathJSON.Result<Expression> imported = MathJSON.importExpression(reference, symbol);
+                testResult &= imported.isSuccess() && imported.getValue().getArgument("NaN") == symbol
+                        && imported.getValue().calculate() == 8;
+            }
+            MathJSON.Result<String> program = MathJSON.exportProgramWithDiagnostics(new Expression("NaN+1", symbol));
+            MathJSON.Result<Expression> restoredProgram = MathJSON.importExpression(program.getValue());
+            testResult &= program.isSuccess() && program.getValue().Contains("[\"Declare\",{\"sym\":\"NaN\"},")
+                    && restoredProgram.isSuccess() && restoredProgram.getValue().calculate() == 8;
+            Function function = new Function("Infinity(t)=t+1");
+            String call = "[\"MxParserCall\",{\"sym\":\"Infinity\"},2]";
+            MathJSON.Result<String> qualified = MathJSON.exportExpressionWithDiagnostics(new Expression("Infinity(2)", function));
+            testResult &= qualified.isSuccess() && call.Equals(qualified.getValue())
+                    && mathJsonWarning(qualified, 1, "MXPARSER_EXTENSION", "");
+            foreach (String reference in new String[]{call, "[\"MxParserCall\",\"Infinity\",2]"}) {
+                MathJSON.Result<Expression> imported = MathJSON.importExpression(reference, function);
+                testResult &= imported.isSuccess() && imported.getValue().getFunction("Infinity") == function
+                        && imported.getValue().calculate() == 3;
+            }
+            Function wrapper = new Function("MxParserSymbol(t)=t+1");
+            testResult &= "[\"MxParserCall\",\"MxParserSymbol\",2]".Equals(
+                    MathJSON.exportExpression(new Expression("MxParserSymbol(2)", wrapper)));
+            testResult &= mathJsonError(MathJSON.importExpression("[\"MxParserSymbol\",{\"num\":\"NaN\"}]", symbol), "INVALID_SHAPE")
+                    && mathJsonError(MathJSON.importExpression("{\"num\":\"NaN\"}"), "UNSUPPORTED_NUMBER");
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0511() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON keeps function parameters local";
+            TestCommonTools.consolePrintTestApiStart(511, testDescr);
+            Argument x = new Argument("x", 99);
+            Function f = new Function("f(x)=x+1");
+            String declaration = "[\"DefineFunction\",\"f\",[\"Function\",[\"Add\",\"x\",1],\"x\"]]";
+            String scalar = "[\"Declare\",\"x\",[\"Dictionary\",[\"KeyValuePair\",\"value\",99]]]";
+            String body = "[\"Add\",\"x\",[\"f\",2]]";
+            Expression original = new Expression("x+f(2)", x, f);
+            String exported = MathJSON.exportProgram(original);
+            bool testResult = original.calculate() == 102 && x.getArgumentValue() == 99
+                    && ("[\"Block\"," + scalar + "," + declaration + "," + body + "]").Equals(exported);
+            String[] blocks = {exported, "[\"Block\"," + declaration + "," + scalar + "," + body + "]"};
+            foreach (String block in blocks) {
+                MathJSON.Result<Expression> imported = MathJSON.importExpression(block);
+                testResult &= imported.isSuccess() && imported.getValue().calculate() == 102
+                        && imported.getValue().getArgument("x").getArgumentValue() == 99;
+            }
+            MathJSON.Result<PrimitiveElement> importedDeclaration = MathJSON.importDefinition(declaration, x);
+            testResult &= importedDeclaration.isSuccess() && ((Function) importedDeclaration.getValue()).calculate(2) == 3
+                    && x.getArgumentValue() == 99;
+            testResult &= mathJsonError(MathJSON.importDefinition("[\"DefineFunction\",\"f\",[\"Function\",\"x\",\"x\",\"x\"]]"), "NAME_COLLISION");
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0512() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON preserves comparisons in scalar and predicate positions";
+            TestCommonTools.consolePrintTestApiStart(512, testDescr);
+            String[] sources = {"1<2", "1+(1<2)", "3<2<1", "if(1<2,3,4)", "5>3=3", "if(3<2<1,5,6)"};
+            String[] wires = {"[\"Boole\",[\"Less\",1,2]]", "[\"Add\",1,[\"Boole\",[\"Less\",1,2]]]",
+                    "[\"Boole\",[\"Less\",[\"Boole\",[\"Less\",3,2]],1]]", "[\"If\",[\"Less\",1,2],3,4]",
+                    "[\"Boole\",[\"Greater\",5,[\"Boole\",[\"Equal\",3,3]]]]", "[\"If\",[\"Less\",[\"Boole\",[\"Less\",3,2]],1],5,6]"};
+            double[] expected = {1, 2, 1, 3, 1, 5};
+            bool testResult = true;
+            for (int i = 0; i < sources.Length; i++) {
+                Expression original = new Expression(sources[i]);
+                String exported = MathJSON.exportExpression(original);
+                MathJSON.Result<Expression> imported = MathJSON.importExpression(exported);
+                testResult &= original.calculate() == expected[i] && wires[i].Equals(exported)
+                        && imported.isSuccess() && imported.getValue().calculate() == expected[i];
+            }
+            MathJSON.Result<Expression> bare = MathJSON.importExpression("[\"Less\",2,1]");
+            String[] literals = {"True", "False"};
+            for (int i = 0; i < literals.Length; i++) {
+                String bareLiteral = "\"" + literals[i] + "\"";
+                String scalarWire = "[\"Boole\"," + bareLiteral + "]";
+                MathJSON.Result<Expression> scalar = MathJSON.importExpression(scalarWire);
+                MathJSON.Result<Expression> literal = MathJSON.importExpression(bareLiteral);
+                testResult &= scalar.isSuccess() && scalar.getValue().calculate() == 1 - i
+                        && scalarWire.Equals(MathJSON.exportExpression(scalar.getValue()))
+                        && literal.isSuccess() && literal.getValue().calculate() == 1 - i;
+            }
+            MathJSON.Result<Expression> embedded = MathJSON.importExpression("[\"Add\",1,[\"Less\",1,2]]");
+            testResult &= bare.isSuccess() && bare.getValue().calculate() == 0
+                    && embedded.isSuccess() && embedded.getValue().calculate() == 2
+                    && mathJsonError(MathJSON.importExpression("[\"Less\",1,2,3]"), "INVALID_ARITY")
+                    && mathJsonError(MathJSON.importExpression("[\"Boole\"]"), "INVALID_ARITY")
+                    && mathJsonError(MathJSON.importExpression("[\"Boole\",\"True\",\"False\"]"), "INVALID_ARITY")
+                    && mathJsonError(MathJSON.importExpression("[\"Boole\",2]"), "UNSUPPORTED_DOMAIN");
+            Function host = new Function("Boole(t)=t+1");
+            String qualified = MathJSON.exportExpression(new Expression("Boole(2)", host));
+            MathJSON.Result<Expression> restoredHost = MathJSON.importExpression(qualified, host);
+            MathJSON.Result<Expression> standard = MathJSON.importExpression("[\"Boole\",\"True\"]", host);
+            testResult &= "[\"MxParserCall\",\"Boole\",2]".Equals(qualified)
+                    && restoredHost.isSuccess() && restoredHost.getValue().calculate() == 3
+                    && standard.isSuccess() && standard.getValue().calculate() == 1;
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0513() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON exports a parenthesized unit step";
+            TestCommonTools.consolePrintTestApiStart(513, testDescr);
+            String[] sources = {"sum(i,1,3,i,(1))", "prod(i,1,3,i,((1)))"};
+            String[] wires = {"[\"Sum\",\"i\",[\"Limits\",\"i\",1,3]]", "[\"Product\",\"i\",[\"Limits\",\"i\",1,3]]"};
+            bool testResult = true;
+            for (int i = 0; i < sources.Length; i++) {
+                Expression original = new Expression(sources[i]);
+                String exported = MathJSON.exportExpression(original);
+                MathJSON.Result<Expression> imported = MathJSON.importExpression(exported);
+                testResult &= original.calculate() == 6 && wires[i].Equals(exported)
+                        && imported.isSuccess() && imported.getValue().calculate() == 6;
+            }
+            testResult &= mathJsonError(MathJSON.exportExpressionWithDiagnostics(new Expression("sum(i,1,3,i,(2-1))")), "UNSUPPORTED_DOMAIN");
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0514() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON checks iterator names against installed definitions";
+            TestCommonTools.consolePrintTestApiStart(514, testDescr);
+            Argument i = new Argument("i", 7);
+            String sum = "[\"Sum\",\"i\",[\"Limits\",\"i\",1,3]]";
+            String tupleSum = "[\"Sum\",\"i\",[\"Tuple\",\"i\",1,3]]";
+            String tupleProduct = "[\"Product\",\"i\",[\"Tuple\",\"i\",1,3]]";
+            bool testResult = true;
+            foreach (String wire in new String[] {sum, tupleSum, tupleProduct}) {
+                MathJSON.Result<Expression> result = MathJSON.importExpression(wire, i);
+                testResult &= result.isSuccess() && result.getValue().calculate() == 6
+                        && result.getValue().getArgument("i") == null && i.getArgumentValue() == 7;
+            }
+            MathJSON.Result<Expression> collision = MathJSON.importExpression("[\"Add\",\"i\"," + tupleSum + "]", i);
+            testResult &= mathJsonError(collision, "NAME_COLLISION") && "/2/2/1".Equals(collision.getError().getPath());
+            testResult &= mathJsonError(MathJSON.importExpression("[\"Block\",[\"Declare\",\"i\",{\"dict\":{\"value\":7}}]," + sum + "]"), "NAME_COLLISION");
+            String function = "[\"DefineFunction\",\"localSum\",[\"Function\",[\"Multiply\",\"n\"," + tupleSum + "],\"n\"]]";
+            MathJSON.Result<PrimitiveElement> importedFunction = MathJSON.importDefinition(function, i);
+            testResult &= importedFunction.isSuccess() && ((Function) importedFunction.getValue()).calculate(2) == 12;
+            testResult &= mathJsonError(MathJSON.importDefinition("[\"DefineFunction\",\"i\",[\"Function\"," + sum + ",\"n\"]]"), "NAME_COLLISION")
+                    && mathJsonError(MathJSON.importExpression("[\"Sum\",\"i\",[\"Tuple\",\"i\",1]]"), "INVALID_ARITY");
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0515() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON reads explicit Boolean declaration attributes";
+            TestCommonTools.consolePrintTestApiStart(515, testDescr);
+            String prefix = "[\"Declare\",\"x\",";
+            String[] arguments = {"{\"dict\":{\"value\":7,\"constant\":false}}", "{\"dict\":{\"value\":7,\"constant\":\"False\"}}",
+                    "[\"Dictionary\",[\"Tuple\",\"constant\",\"False\"],[\"Tuple\",\"value\",7]]"};
+            bool testResult = true;
+            foreach (String attributes in arguments) {
+                MathJSON.Result<PrimitiveElement> result = MathJSON.importDefinition(prefix + attributes + "]");
+                testResult &= result.isSuccess() && result.getValue() is Argument
+                        && ((Argument) result.getValue()).getArgumentValue() == 7 && result.getDiagnostics().Count == 0;
+            }
+            MathJSON.Result<PrimitiveElement> constant = MathJSON.importDefinition(prefix + "{\"dict\":{\"value\":7,\"constant\":true}}]");
+            testResult &= constant.isSuccess() && constant.getValue() is Constant
+                    && ((Constant) constant.getValue()).getConstantValue() == 7;
+            testResult &= mathJsonError(MathJSON.importDefinition(prefix + "{\"dict\":{\"value\":7,\"constant\":0}}]"), "INVALID_SHAPE")
+                    && mathJsonError(MathJSON.importDefinition(prefix + "[\"Dictionary\",[\"Tuple\",\"value\",7],[\"Tuple\",\"constant\",\"False\"],[\"Tuple\",\"constant\",\"True\"]]]"), "INVALID_SHAPE")
+                    && mathJsonError(MathJSON.importExpression("[\"If\",true,3,4]"), "INVALID_SHAPE");
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0516() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON exports numeric literal conditions with native rounding";
+            TestCommonTools.consolePrintTestApiStart(516, testDescr);
+            String[] sources = {"if(2,3,4)", "if(0,3,4)", "if(-(2),3,4)", "if(1e-15,3,4)"};
+            String[] wires = {"[\"If\",\"True\",3,4]", "[\"If\",\"False\",3,4]", "[\"If\",\"True\",3,4]", "[\"If\",\"False\",3,4]"};
+            double[] expected = {3, 4, 3, 4};
+            bool testResult = true;
+            for (int j = 0; j < sources.Length; j++) {
+                Expression source = new Expression(sources[j]);
+                String exported = MathJSON.exportExpression(source);
+                MathJSON.Result<Expression> restored = MathJSON.importExpression(exported);
+                testResult &= source.calculate() == expected[j] && wires[j].Equals(exported)
+                        && restored.isSuccess() && restored.getValue().calculate() == expected[j];
+            }
+            mXparser.disableAlmostIntRounding();
+            mXparser.disableCanonicalRounding();
+            Expression small = new Expression("if(1e-15,3,4)");
+            testResult &= small.calculate() == 3 && wires[0].Equals(MathJSON.exportExpression(small));
+            mXparser.enableAlmostIntRounding();
+            mXparser.enableCanonicalRounding();
+            Function negate = new Function("Negate(t)=t+1");
+            testResult &= mathJsonError(MathJSON.importExpression("[\"If\",2,3,4]"), "UNSUPPORTED_DOMAIN")
+                    && mathJsonError(MathJSON.exportExpressionWithDiagnostics(new Expression("if(Negate(2),3,4)", negate)), "UNSUPPORTED_DOMAIN");
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        private sealed class MathJsonUnusedArgument : Argument {
+            internal MathJsonUnusedArgument() : base("x", 7) {}
+        }
+
+        [TestMethod]
+        public void testApi0517() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON checks definition types only when used";
+            TestCommonTools.consolePrintTestApiStart(517, testDescr);
+            Argument custom = new MathJsonUnusedArgument();
+            Expression source = new Expression("1+2", custom);
+            MathJSON.Result<Expression> imported = MathJSON.importExpression("[\"Add\",1,2]", custom);
+            bool testResult = source.calculate() == 3 && "[\"Add\",1,2]".Equals(MathJSON.exportExpression(source))
+                    && imported.isSuccess() && imported.getValue().calculate() == 3
+                    && imported.getValue().getArgument("x") == null && imported.getDiagnostics().Count == 0;
+            testResult &= mathJsonError(MathJSON.exportDefinitionWithDiagnostics(custom), "UNSUPPORTED_PROGRAM");
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0518() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON imports standalone functions with unresolved references";
+            TestCommonTools.consolePrintTestApiStart(518, testDescr);
+            Function source = new Function("f", "x+y+g(x)", "x");
+            Argument y = new Argument("y", 4);
+            Function g = new Function("g(t)=2*t");
+            source.addArguments(y);
+            source.addFunctions(g);
+            String wire = MathJSON.exportDefinition(source);
+            MathJSON.Result<PrimitiveElement> imported = MathJSON.importDefinition(wire);
+            bool testResult = source.calculate(3) == 13 && imported.isSuccess()
+                    && imported.getDiagnostics().Count == 2
+                    && mathJsonWarning(imported, 0, "UNRESOLVED_SYMBOL", "/2/1/2")
+                    && mathJsonWarning(imported, 1, "UNRESOLVED_FUNCTION", "/2/1/3");
+            if (imported.isSuccess()) {
+                Function restored = (Function) imported.getValue();
+                testResult &= !restored.checkSyntax();
+                restored.addArguments(y);
+                restored.addFunctions(g);
+                testResult &= restored.checkSyntax() && restored.calculate(3) == 13;
+            }
+            MathJSON.Result<PrimitiveElement> complete = MathJSON.importDefinition(wire, y, g);
+            testResult &= complete.isSuccess() && complete.getDiagnostics().Count == 0
+                    && ((Function) complete.getValue()).calculate(3) == 13
+                    && mathJsonError(MathJSON.importExpression("[\"Block\"," + wire + ",[\"f\",3]]"), "UNRESOLVED_SYMBOL");
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0519() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON wide flat arithmetic preserves native infix order";
+            TestCommonTools.consolePrintTestApiStart(519, testDescr);
+            mXparser.disableCanonicalRounding();
+            mXparser.disableAlmostIntRounding();
+            mXparser.disableUlpRounding();
+            StringBuilder add = new StringBuilder("[\"Add\",1e16,1,-1e16");
+            StringBuilder multiply = new StringBuilder("[\"Multiply\",1e-200,1e-200,1e200");
+            StringBuilder nativeAdd = new StringBuilder("1e16+1+(-1e16)");
+            StringBuilder nativeMultiply = new StringBuilder("1e-200*1e-200*1e200");
+            String tooDeep = "1";
+            for (int i = 0; i < 300; i++) {
+                add.Append(",1");
+                multiply.Append(",1");
+                nativeAdd.Append("+1");
+                nativeMultiply.Append("*1");
+                tooDeep = "[\"Abs\"," + tooDeep + "]";
+            }
+            String[] wires = {"[\"Abs\"," + add.Append("]") + "]", multiply.Append("]").ToString()};
+            String[] sources = {"abs(" + nativeAdd + ")", nativeMultiply.ToString()};
+            double[] expected = {300, 0};
+            bool testResult = true;
+            for (int j = 0; j < wires.Length; j++) {
+                MathJSON.Result<Expression> imported = MathJSON.importExpression(wires[j]);
+                testResult &= new Expression(sources[j]).calculate() == expected[j]
+                        && imported.isSuccess() && imported.getValue().calculate() == expected[j];
+                if (imported.isSuccess()) {
+                    MathJSON.Result<Expression> restored = MathJSON.importExpression(MathJSON.exportExpression(imported.getValue()));
+                    testResult &= restored.isSuccess() && restored.getValue().calculate() == expected[j];
+                }
+            }
+            MathJSON.Result<Expression> grouped = MathJSON.importExpression("[\"Add\",1e16,[\"Add\",-1e16,1]]");
+            testResult &= grouped.isSuccess() && grouped.getValue().calculate() == 0
+                    && mathJsonError(MathJSON.importExpression(tooDeep), "RESOURCE_LIMIT");
+            mXparser.enableCanonicalRounding();
+            mXparser.enableAlmostIntRounding();
+            mXparser.enableUlpRounding();
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+
+        [TestMethod]
+        public void testApi0520() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON reads active builtin names from mXparser";
+            TestCommonTools.consolePrintTestApiStart(520, testDescr);
+            String cosineWire = "[\"Cos\",0]";
+            String shiftedDeclaration = "[\"Declare\",\"shifted\",{\"dict\":{\"value\":2}}]";
+            bool testResult = true;
+            mXparser.modifyBuiltinToken(Function1Arg.COS_STR, "shifted");
+            mXparser.modifyBuiltinToken("shifted", "fresh");
+            try {
+                int activeNames = 0;
+                foreach (String name in new String[]{"shifted", "fresh"}) {
+                    Expression nativeCall = new Expression(name + "(0)");
+                    String declaration = "[\"Declare\",\"" + name + "\",{\"dict\":{\"value\":2}}]";
+                    if (nativeCall.checkSyntax()) {
+                        activeNames++;
+                        testResult &= nativeCall.calculate() == 1 && mathJsonError(MathJSON.importDefinition(declaration), "NAME_COLLISION");
+                    } else {
+                        Argument argument = new Argument(name, 2);
+                        Expression source = new Expression(name + "+1", argument);
+                        String wire = "[\"Add\",\"" + name + "\",1]";
+                        MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(source);
+                        MathJSON.Result<Expression> imported = MathJSON.importExpression(wire, argument);
+                        MathJSON.Result<PrimitiveElement> definition = MathJSON.importDefinition(declaration);
+                        testResult &= source.calculate() == 3 && exported.isSuccess() && wire.Equals(exported.getValue())
+                                && imported.isSuccess() && imported.getValue().calculate() == 3
+                                && definition.isSuccess() && ((Argument) definition.getValue()).getArgumentValue() == 2;
+                    }
+                }
+                MathJSON.Result<Expression> cosine = MathJSON.importExpression(cosineWire);
+                testResult &= activeNames == 1 && cosine.isSuccess() && cosine.getValue().calculate() == 1;
+            } finally {
+                mXparser.unmodifyBuiltinTokens(Function1Arg.COS_STR, "shifted");
+            }
+            mXparser.removeBuiltinTokens(Function1Arg.COS_STR);
+            mXparser.modifyBuiltinToken(Function1Arg.COS_STR, "shifted");
+            try {
+                MathJSON.Result<Expression> cosine = MathJSON.importExpression(cosineWire);
+                testResult &= new Expression("shifted(0)").calculate() == 1 && cosine.isSuccess() && cosine.getValue().calculate() == 1
+                        && mathJsonError(MathJSON.importDefinition(shiftedDeclaration), "NAME_COLLISION");
+            } finally {
+                mXparser.unmodifyBuiltinTokens(Function1Arg.COS_STR);
+                mXparser.unremoveBuiltinTokens(Function1Arg.COS_STR);
+            }
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0521() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON imports renamed builtin constants in brackets";
+            TestCommonTools.consolePrintTestApiStart(521, testDescr);
+            bool testResult;
+            mXparser.modifyBuiltinToken(ConstantValue.TRUE_STR, "[testTrue]");
+            mXparser.modifyBuiltinToken(ConstantValue.FALSE_STR, "[testFalse]");
+            try {
+                String[] sources = {"if([testTrue],3,4)", "if([testFalse],3,4)"};
+                String[] wires = {"[\"If\",\"True\",3,4]", "[\"If\",\"False\",3,4]"};
+                double[] expected = {3, 4};
+                testResult = true;
+                for (int i = 0; i < sources.Length; i++) {
+                    Expression source = new Expression(sources[i]);
+                    MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(source);
+                    MathJSON.Result<Expression> imported = MathJSON.importExpression(exported.getValue());
+                    testResult &= source.calculate() == expected[i] && exported.isSuccess() && wires[i].Equals(exported.getValue())
+                            && imported.isSuccess() && imported.getValue().calculate() == expected[i];
+                }
+            } finally {
+                mXparser.unmodifyBuiltinTokens(ConstantValue.TRUE_STR, ConstantValue.FALSE_STR);
+            }
+            mXparser.removeBuiltinTokens(ConstantValue.TRUE_STR);
+            try {
+                testResult &= mathJsonError(MathJSON.importExpression("[\"If\",\"True\",3,4]"), "BUILTIN_UNAVAILABLE");
+            } finally {
+                mXparser.unremoveBuiltinTokens(ConstantValue.TRUE_STR);
+            }
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+
+        [TestMethod]
+        public void testApi0522() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON budgets long decimal atoms by processed text length";
+            TestCommonTools.consolePrintTestApiStart(522, testDescr);
+            StringBuilder digits = new StringBuilder("1.");
+            for (int i = 0; i < 1022; i++) digits.Append('0');
+            String @decimal = digits.ToString();
+            String atom = "{\"num\":\"" + @decimal + "\"}";
+            StringBuilder wire = new StringBuilder("[\"Add\"");
+            for (int i = 0; i < 800; i++) wire.Append(',').Append(atom);
+            MathJSON.Result<Expression> imported = MathJSON.importExpression(wire.Append(']').ToString());
+            MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(new Expression(@decimal));
+            bool testResult = imported.isSuccess() && imported.getValue().calculate() == 800
+                    && exported.isSuccess() && "1".Equals(exported.getValue())
+                    && mathJsonError(MathJSON.importExpression("{\"num\":\"" + @decimal + "0\"}"), "RESOURCE_LIMIT");
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        private sealed class MathJsonReferenceArgument : Argument {
+            internal MathJsonReferenceArgument(String name, double value) : base(name, value) {}
+            public override bool Equals(Object other) { return other is MathJsonReferenceArgument; }
+            public override int GetHashCode() { return 1; }
+        }
+
+        private sealed class MathJsonReferenceConstant : Constant {
+            internal MathJsonReferenceConstant() : base("constK", 3) {}
+        }
+
+        private sealed class MathJsonReferenceFunction : Function {
+            internal MathJsonReferenceFunction() : base("funF(t)=t+1") {}
+        }
+
+        [TestMethod]
+        public void testApi0523() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON formula references preserve supplied subclass instances";
+            TestCommonTools.consolePrintTestApiStart(523, testDescr);
+            Argument x = new MathJsonReferenceArgument("argX", 2);
+            Constant k = new MathJsonReferenceConstant();
+            Function f = new MathJsonReferenceFunction();
+            Expression source = new Expression("argX+constK*funF(2)", x, k, f);
+            String wire = "[\"Add\",\"argX\",[\"Multiply\",\"constK\",[\"funF\",2]]]";
+            MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(source);
+            MathJSON.Result<Expression> imported = MathJSON.importExpression(wire, x, k, f);
+            bool testResult = source.calculate() == 11 && exported.isSuccess() && wire.Equals(exported.getValue())
+                    && exported.getDiagnostics().Count == 3 && imported.isSuccess() && imported.getDiagnostics().Count == 3;
+            for (int i = 0; i < 3 && testResult; i++)
+                testResult &= "EXTERNAL_DEFINITION".Equals(exported.getDiagnostics()[i].getCode())
+                        && "EXTERNAL_DEFINITION".Equals(imported.getDiagnostics()[i].getCode());
+            if (imported.isSuccess()) {
+                Expression restored = imported.getValue();
+                testResult &= restored.getArgument("argX") == x && restored.getConstant("constK") == k
+                        && restored.getFunction("funF") == f && restored.calculate() == 11;
+                x.setArgumentValue(7);
+                k.setConstantValue(4);
+                testResult &= restored.calculate() == 19 && source.calculate() == 19;
+            }
+            Argument other = new MathJsonReferenceArgument("otherX", 5);
+            String pairWire = "[\"Add\",\"argX\",\"otherX\"]";
+            MathJSON.Result<String> pairExport = MathJSON.exportExpressionWithDiagnostics(new Expression("argX+otherX", x, other));
+            MathJSON.Result<Expression> pairImport = MathJSON.importExpression(pairWire, x, other);
+            testResult &= x.Equals(other) && pairExport.isSuccess() && pairWire.Equals(pairExport.getValue())
+                    && pairExport.getDiagnostics().Count == 2 && pairImport.isSuccess()
+                    && pairImport.getValue().getArgument("argX") == x && pairImport.getValue().getArgument("otherX") == other
+                    && pairImport.getDiagnostics().Count == 2 && pairImport.getValue().calculate() == 12;
+            MathJSON.Result<Expression> unresolved = MathJSON.importExpression(wire);
+            testResult &= unresolved.isSuccess() && unresolved.getDiagnostics().Count == 3
+                    && !unresolved.getValue().checkSyntax();
+            testResult &= mathJsonError(MathJSON.importExpression("[\"funF\",1,2]", f), "INVALID_ARITY");
+            testResult &= mathJsonError(MathJSON.exportDefinitionWithDiagnostics(x), "UNSUPPORTED_PROGRAM")
+                    && mathJsonError(MathJSON.exportDefinitionWithDiagnostics(k), "UNSUPPORTED_PROGRAM")
+                    && mathJsonError(MathJSON.exportDefinitionWithDiagnostics(f), "UNSUPPORTED_PROGRAM")
+                    && mathJsonError(MathJSON.exportProgramWithDiagnostics(source), "UNSUPPORTED_PROGRAM")
+                    && mathJsonError(MathJSON.importExpression("[\"Block\"," + wire + "]", x, k, f), "UNSUPPORTED_PROGRAM");
+            String definition = "[\"DefineFunction\",\"funG\",[\"Function\",[\"Add\",\"t\",\"argX\"],\"t\"]]";
+            Function declarationSource = new Function("funG(t)=t+argX");
+            declarationSource.addDefinitions(x);
+            testResult &= declarationSource.calculate(2) == 9
+                    && mathJsonError(MathJSON.importDefinition(definition, x), "UNSUPPORTED_PROGRAM")
+                    && mathJsonError(MathJSON.exportDefinitionWithDiagnostics(declarationSource), "UNSUPPORTED_PROGRAM");
+            RecursiveArgument recursive = new RecursiveArgument("recR(n)=n");
+            testResult &= mathJsonError(MathJSON.importExpression("\"recR\"", recursive), "UNSUPPORTED_PROGRAM");
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0524() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON reports input and function arity errors at their validation stage";
+            TestCommonTools.consolePrintTestApiStart(524, testDescr);
+            Function f = new Function("curveF(t)=2*t");
+            String wire = "[\"curveF\",2]";
+            Expression source = new Expression("curveF(2)", f);
+            MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(source);
+            MathJSON.Result<Expression> imported = MathJSON.importExpression(wire, f);
+            bool testResult = source.calculate() == 4 && exported.isSuccess() && wire.Equals(exported.getValue())
+                    && mathJsonWarning(exported, 0, "EXTERNAL_DEFINITION", "")
+                    && imported.isSuccess() && imported.getValue().getFunction("curveF") == f
+                    && imported.getValue().calculate() == 4;
+            testResult &= mathJsonError(MathJSON.exportExpressionWithDiagnostics(new Expression("curveF(2,3)", f)), "INVALID_ARITY")
+                    && mathJsonError(MathJSON.importExpression("[\"curveF\",2,3]", f), "INVALID_ARITY")
+                    && mathJsonError(MathJSON.exportDefinitionWithDiagnostics(new Function("outerF(t)=curveF(t,3)", f)), "INVALID_ARITY")
+                    && mathJsonError(MathJSON.exportExpressionWithDiagnostics(new Expression("sin(2,3)")), "INVALID_ARITY");
+            testResult &= mathJsonError(MathJSON.importExpression("[", f), "INVALID_JSON")
+                    && mathJsonError(MathJSON.importDefinition("[", f), "INVALID_JSON")
+                    && mathJsonError(MathJSON.importExpression("[\"Error\"]", f), "INPUT_ERROR")
+                    && mathJsonError(MathJSON.importDefinition("[\"Error\"]", f), "INPUT_ERROR");
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0525() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON rejects an invalid root before processing definitions";
+            TestCommonTools.consolePrintTestApiStart(525, testDescr);
+            Argument x = new Argument("x", 2);
+            String declaration = "[\"Declare\",\"x\",{\"dict\":{\"value\":3}}]";
+            bool testResult = mathJsonError(MathJSON.importExpression(declaration, x), "INVALID_ROOT")
+                    && mathJsonError(MathJSON.importDefinition("[\"Add\",\"x\",1]", x), "INVALID_ROOT")
+                    && mathJsonError(MathJSON.importDefinition("[\"Block\",1]", x), "INVALID_ROOT")
+                    && mathJsonError(MathJSON.importExpression("[\"Block\"]", x), "INVALID_ROOT")
+                    && mathJsonError(MathJSON.importExpression("[\"Block\",[\"Block\",1]]", x), "INVALID_ROOT")
+                    && mathJsonError(MathJSON.importExpression("[\"Block\"," + declaration + "," + declaration + "]", x), "INVALID_ROOT")
+                    && x.getArgumentValue() == 2;
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0526() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON exchanges names that start with an underscore";
+            TestCommonTools.consolePrintTestApiStart(526, testDescr);
+            Argument offset = new Argument("_offset", 2);
+            bool testResult = true;
+            foreach (String name in new String[]{"_scale", "_mxp0"}) {
+                Function scale = new Function(name + "(_v)=2*_v");
+                String wire = "[\"Add\",\"_offset\",[\"" + name + "\",3]]";
+                Expression source = new Expression("_offset+" + name + "(3)", offset, scale);
+                MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(source);
+                MathJSON.Result<Expression> imported = MathJSON.importExpression(wire, offset, scale);
+                MathJSON.Result<Expression> block = MathJSON.importExpression("[\"Block\"," + wire + "]", offset, scale);
+                MathJSON.Result<Expression> program = MathJSON.importExpression(MathJSON.exportProgram(source));
+                String declaration = "[\"DefineFunction\",\"outerF\",[\"Function\",[\"" + name + "\",\"t\"],\"t\"]]";
+                MathJSON.Result<PrimitiveElement> definition = MathJSON.importDefinition(declaration, scale);
+                testResult &= source.calculate() == 8 && exported.isSuccess() && wire.Equals(exported.getValue())
+                        && imported.isSuccess() && imported.getValue().getArgument("_offset") == offset
+                        && imported.getValue().getFunction(name) == scale && imported.getValue().calculate() == 8
+                        && block.isSuccess() && block.getValue().calculate() == 8
+                        && program.isSuccess() && program.getValue().calculate() == 8
+                        && definition.isSuccess() && ((Function) definition.getValue()).calculate(3) == 6;
+            }
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        [TestMethod]
+        public void testApi0527() {
+            TestCommonTools.testApiSettingsInit();
+            String testDescr = "MathJSON retains flat arithmetic and explicit grouping";
+            TestCommonTools.consolePrintTestApiStart(527, testDescr);
+            String[] wires = {"[\"Add\",1,2,3]", "[\"Multiply\",2,3,4]",
+                    "[\"Add\",[\"Add\",1,2],3]", "[\"Multiply\",2,[\"Multiply\",3,4]]"};
+            double[] expected = {6, 24, 6, 24};
+            bool testResult = true;
+            for (int i = 0; i < wires.Length; i++) {
+                MathJSON.Result<Expression> imported = MathJSON.importExpression(wires[i]);
+                testResult &= imported.isSuccess() && imported.getValue().calculate() == expected[i]
+                        && wires[i].Equals(MathJSON.exportExpression(imported.getValue()));
+            }
+            Argument x = new Argument("x", 3);
+            Function f = new Function("f", "x", x);
+            Function g = new Function("g", "x", x);
+            f.setParametersNumber(1);
+            g.setParametersNumber(1);
+            Expression source = new Expression("(x)+(f(4))+((x)+(g(9)))", x, f, g);
+            String wire = "[\"Add\",\"x\",[\"f\",4],[\"Add\",\"x\",[\"g\",9]]]";
+            MathJSON.Result<String> exported = MathJSON.exportExpressionWithDiagnostics(source);
+            testResult &= exported.isSuccess() && wire.Equals(exported.getValue())
+                    && source.calculate() == 19 && x.getArgumentValue() == 4;
+            x.setArgumentValue(3);
+            MathJSON.Result<Expression> restored = MathJSON.importExpression(exported.getValue(), x, f, g);
+            testResult &= restored.isSuccess() && restored.getValue().calculate() == 19 && x.getArgumentValue() == 4;
+            x.setArgumentValue(3);
+            String grouped = "[\"Add\",[\"Add\",\"x\",[\"f\",4]],[\"Add\",\"x\",[\"g\",9]]]";
+            MathJSON.Result<Expression> importedGroup = MathJSON.importExpression(grouped, x, f, g);
+            testResult &= importedGroup.isSuccess() && importedGroup.getValue().calculate() == 19
+                    && x.getArgumentValue() == 9 && grouped.Equals(MathJSON.exportExpression(importedGroup.getValue()));
+            TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+        }
+
+        private static bool mathJsonWarning<T>(MathJSON.Result<T> result, int index, String code, String path) {
+            return index < result.getDiagnostics().Count && code.Equals(result.getDiagnostics()[index].getCode())
+                    && path.Equals(result.getDiagnostics()[index].getPath());
+        }
+
+        private static bool mathJsonError<T>(MathJSON.Result<T> result, String code) {
+            return !result.isSuccess() && object.ReferenceEquals(result.getValue(), null) && (result.getDiagnostics().Count == 0)
+                    && result.getError() != null && code.Equals(result.getError().getCode());
+        }
 }
 }

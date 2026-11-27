@@ -308,9 +308,13 @@ def main():
                         'MXPARSER_SERIALIZATION_ARCHIVES_OUT']:
                 env.pop(key,None)
             run(prefix+'-node-version',[node,'--version'])
-            for filename in ['public-runtime.mjs','varargs.mjs','numeric-types.mts','behavior-runtime.mjs','latex-runtime.mjs','extension-serialization.mjs','cancellation.mjs']:
+            for filename in ['public-runtime.mjs','varargs.mjs','numeric-types.mts','behavior-runtime.mjs','latex-runtime.mjs','extension-serialization.mjs','cancellation.mjs','mathjson-runtime.mjs']:
                 if args.asan_conformance_only: continue
-                run(prefix+'-'+Path(filename).stem,[node,'test/'+filename],env=env)
+                # MathJSON's long-token regression needs the documented smaller
+                # ASan quarantine used by the tutorial. Heap and leak checks stay active.
+                suite_env = ({**env, 'MXPARSER_ASAN_TUTORIAL_PROFILE': '1'}
+                             if prefix == 'asan' and filename == 'mathjson-runtime.mjs' else env)
+                run(prefix+'-'+Path(filename).stem,[node,'test/'+filename],env=suite_env)
             if prefix != 'asan':
                 for script in ['resilience','worker']:
                     run(prefix+'-'+script,[node,'test/'+script+'.mjs'],env=env)

@@ -5301,13 +5301,7 @@ namespace org.mariuszgromada.math.mxparser {
 				recursionCallsCounter--;
 
 			double result = tokensList[0].tokenValue;
-			if (!disableRounding) {
-				if (mXparser.almostIntRounding) {
-					double resultInt = Math.Round(result);
-					if (Math.Abs(result- resultInt) <= BinaryRelations.getEpsilon()) result = resultInt;
-				}
-				if (mXparser.canonicalRounding) result = MathFunctions.lengthRoundWithCancel(result, activeCancelId);
-			}
+			if (!disableRounding) result = ExpressionUtils.roundResult(result, activeCancelId);
 
 			if (calcStepsRegister != null) {
 				stepsRegisteredCounter++;
@@ -5319,6 +5313,7 @@ namespace org.mariuszgromada.math.mxparser {
 
 			return result;
 		}
+
 		private void registerCompiledElement(CompiledElement.ToCall toCall, int position) {
 			if (initialCompilationDetails.containsIf) return;
 			CompiledElement compiledElement = new CompiledElement();
@@ -6847,6 +6842,12 @@ namespace org.mariuszgromada.math.mxparser {
 		public String getExpressionAsLaTeX() {
 			return LaTeXExporter.format(getCopyOfInitialTokens());
 		}
+
+        /// <summary>Exports this expression as MathJSON, or returns a root Error.</summary>
+        /// <seealso cref="MathJSON.exportProgram"/>
+        public String getExpressionAsMathJSON() {
+            return MathJSON.exportExpression(this);
+        }
         /// <summary>Prints to the console copy of initial tokens. Presents how
         /// expression string is interpreted by the parser.</summary>
         /// <seealso cref="org.mariuszgromada.math.mxparser.Expression.getCopyOfInitialTokens()"/>

@@ -235,6 +235,25 @@ namespace org.mariuszgromada.math.mxparser {
     internal class StringResourcesPolish : StringResources {
         internal StringResourcesPolish() {
             USER_LANGUAGE = "Polski";
+            // MathJSON diagnostics
+            MATHJSON_INVALID_ARGUMENT = "Nieprawidłowy argument konwersji MathJSON";
+            MATHJSON_INVALID_JSON = "Nieprawidłowa składnia JSON";
+            MATHJSON_INVALID_SHAPE = "Nieprawidłowa struktura MathJSON";
+            MATHJSON_INPUT_ERROR_NODE = "Korzeniem wejścia MathJSON jest węzeł Error";
+            MATHJSON_INVALID_NAME = "Nieprawidłowa nazwa MathJSON: {0}";
+            MATHJSON_NAME_COLLISION = "Konflikt nazw przy konwersji MathJSON";
+            MATHJSON_UNRESOLVED_REFERENCE = "Brak definicji: {0}";
+            MATHJSON_EXTERNAL_DEFINITION = "Wyrażenie wymaga definicji zewnętrznej: {0}";
+            MATHJSON_MXPARSER_EXTENSION = "Operacja lub odwołanie właściwe dla mXparsera: {0}";
+            MATHJSON_WRONG_ARGUMENT_COUNT = "Nieprawidłowa liczba argumentów dla {0}";
+            MATHJSON_UNSUPPORTED_CONSTRUCT = "Nieobsługiwana konstrukcja MathJSON";
+            MATHJSON_UNSUPPORTED_NUMBER = "Nieobsługiwana liczba przy konwersji MathJSON";
+            MATHJSON_UNSUPPORTED_DEFINITION = "Nieobsługiwana definicja lub wiązanie przy konwersji MathJSON";
+            MATHJSON_BUILTIN_SPELLING_UNAVAILABLE = "Niedostępna pisownia elementu wbudowanego: {0}";
+            MATHJSON_INVALID_MXPARSER_SOURCE = "Nieprawidłowe wyrażenie mXparsera";
+            MATHJSON_EMISSION_MISMATCH = "Konwersja MathJSON nie zachowała wyrażenia";
+            MATHJSON_RESOURCE_LIMIT = "Przekroczono limit konwersji MathJSON ({0})";
+            MATHJSON_UNIT_PROJECTED_TO_SCALAR = "Przeliczono wielkość na metry";
             // -------------------------------------------------
             STARTING_SYNTAX_CHECK = "Rozpoczynanie sprawdzania składni...";
             NO_ERRORS_DETECTED = "Nie wykryto błędów.";

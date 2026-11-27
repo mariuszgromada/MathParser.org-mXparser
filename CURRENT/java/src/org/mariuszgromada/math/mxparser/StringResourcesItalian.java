@@ -240,6 +240,25 @@ package org.mariuszgromada.math.mxparser;
 class StringResourcesItalian extends StringResources {
     StringResourcesItalian() {
         USER_LANGUAGE = "Italiano";
+        // MathJSON diagnostics
+        MATHJSON_INVALID_ARGUMENT = "Argomento di conversione MathJSON non valido";
+        MATHJSON_INVALID_JSON = "Sintassi JSON non valida";
+        MATHJSON_INVALID_SHAPE = "Struttura MathJSON non valida";
+        MATHJSON_INPUT_ERROR_NODE = "L’input MathJSON ha un nodo Error alla radice";
+        MATHJSON_INVALID_NAME = "Nome MathJSON non valido: {0}";
+        MATHJSON_NAME_COLLISION = "Conflitto di nomi durante la conversione MathJSON";
+        MATHJSON_UNRESOLVED_REFERENCE = "Definizione mancante: {0}";
+        MATHJSON_EXTERNAL_DEFINITION = "Definizione esterna richiesta dall’espressione: {0}";
+        MATHJSON_MXPARSER_EXTENSION = "Operazione o riferimento specifico di mXparser: {0}";
+        MATHJSON_WRONG_ARGUMENT_COUNT = "Numero di argomenti errato per {0}";
+        MATHJSON_UNSUPPORTED_CONSTRUCT = "Costrutto MathJSON non supportato";
+        MATHJSON_UNSUPPORTED_NUMBER = "Numero non supportato dalla conversione MathJSON";
+        MATHJSON_UNSUPPORTED_DEFINITION = "Definizione o associazione non supportata dalla conversione MathJSON";
+        MATHJSON_BUILTIN_SPELLING_UNAVAILABLE = "Notazione dell’elemento predefinito non disponibile: {0}";
+        MATHJSON_INVALID_MXPARSER_SOURCE = "Espressione mXparser non valida";
+        MATHJSON_EMISSION_MISMATCH = "La conversione MathJSON non ha potuto preservare l’espressione";
+        MATHJSON_RESOURCE_LIMIT = "Limite di conversione MathJSON superato ({0})";
+        MATHJSON_UNIT_PROJECTED_TO_SCALAR = "Quantità convertita in metri";
         // -------------------------------------------------
         STARTING_SYNTAX_CHECK = "Inizio controllo della sintassi...";
         NO_ERRORS_DETECTED = "Nessun errore rilevato.";

@@ -220,6 +220,24 @@
 #define MXPARSER_API_TEST_TOOLS_HPP
 #include "org/mariuszgromada/math/mxparser.hpp"
 #include <tuple>
+
+namespace org::mariuszgromada::math::mxparser {
+// Read-only test friend: weak observers only, no lifetime/identity registry.
+struct OwnershipTestAccess {
+    static std::weak_ptr<Expression> body(const FunctionPtr& f) { return f->functionExpression; }
+    static std::weak_ptr<Expression> body(const ArgumentPtr& a) { return a->argumentExpression; }
+    static std::weak_ptr<void> functions(const ExpressionPtr& e) { return e->functionsList; }
+    static std::weak_ptr<void> arguments(const ExpressionPtr& e) { return e->argumentsList; }
+    static int observerSlots(const ExpressionPtr& e) { return e->relatedExpressionsList->size(); }
+    static int observers(const ExpressionPtr& e) {
+        int count = 0;
+        for (const auto& observer : *e->relatedExpressionsList)
+            if (!observer.expired()) ++count;
+        return count;
+    }
+};
+}
+
 namespace {
 using namespace org::mariuszgromada::math::mxparser;
 static StringPtr cleanMarkdownBackslash(const String &str) {

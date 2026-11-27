@@ -217,6 +217,7 @@
  */
 
 #include "org/mariuszgromada/math/mxparser/LaTeXExporter.hpp"
+#include "org/mariuszgromada/math/mxparser/MathJSON.hpp"
 #include "org/mariuszgromada/math/mxparser/Expression.hpp"
 // --------------------------------------------------------------------------
 #include "org/mariuszgromada/math/mxparser/Argument.hpp"
@@ -3522,13 +3523,7 @@ namespace org::mariuszgromada::math::mxparser {
 			recursionCallsCounter--;
 
 		double result = tokensList->getRef(0)->tokenValue;
-		if (!disableRounding) {
-			if (mXparser::almostIntRounding) {
-				double resultInt = Math::round(result);
-				if (Math::abs(result-resultInt) <= BinaryRelations::getEpsilon()) result = resultInt;
-			}
-			if (mXparser::canonicalRounding) result = MathFunctions::lengthRoundWithCancel(result, activeCancelId);
-		}
+		if (!disableRounding) result = ExpressionUtils::roundResult(result, activeCancelId);
 
 		if (calcStepsRegister != nullptr) {
 			stepsRegisteredCounter++;
@@ -5388,6 +5383,10 @@ namespace org::mariuszgromada::math::mxparser {
 
     API_VISIBLE StringPtr Expression::getExpressionAsLaTeX() {
         return LaTeXExporter::format(getCopyOfInitialTokens());
+    }
+
+    API_VISIBLE StringPtr Expression::getExpressionAsMathJSON() {
+        return MathJSON::asJson(MathJSON::exportExpressionWithDiagnostics(*this));
     }
 
 	API_VISIBLE void Expression::consolePrintCopyOfInitialTokens() {

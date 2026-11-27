@@ -217,6 +217,8 @@
  */
 package org.mariuszgromada.math.mxparser;
 
+import org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations;
+import org.mariuszgromada.math.mxparser.mathcollection.MathFunctions;
 import org.mariuszgromada.math.mxparser.parsertokens.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -242,6 +244,15 @@ import java.util.regex.Pattern;
  */
 final class ExpressionUtils {
     static final boolean LANGUAGE_SPECIFIC_DESCRIPTIONS_SET = StringModel.LANGUAGE_SPECIFIC_DESCRIPTIONS_SET;
+
+    static double roundResult(double result, int cancelId) {
+        if (mXparser.checkIfAlmostIntRounding()) {
+            double resultInt = Math.round(result);
+            if (Math.abs(result - resultInt) <= BinaryRelations.getEpsilon()) result = resultInt;
+        }
+        if (mXparser.checkIfCanonicalRounding()) result = MathFunctions.lengthRoundWithCancel(result, cancelId);
+        return result;
+    }
 
     static void addUDFSpecificParserKeyWords(List<KeyWord> keyWordsList) {
         addKeyWord(Function1Arg.PARAM_STR, Function1Arg.PARAM_DESC, Function1Arg.PARAM_ID, Function1Arg.PARAM_SYN, Function1Arg.PARAM_SINCE, Function1Arg.TYPE_ID, keyWordsList);
@@ -1080,7 +1091,7 @@ final class ExpressionUtils {
         return expressionDescription;
     }
 
-    private static final String FUNCTION = "function";
+    static final String FUNCTION = "function";
     private static final String ARGUMENT = "argument";
     private static final String UNITCONST = "unit/const";
     private static final String ERROR = "error";

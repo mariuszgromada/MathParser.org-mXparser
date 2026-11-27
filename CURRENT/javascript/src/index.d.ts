@@ -2131,6 +2131,8 @@ export interface Expression extends PrimitiveElement {
      * @throws {Error} Named `std::invalid_argument` for a null stored expression.
      */
     "getExpressionAsLaTeX"(): string;
+    /** Returns this expression as a MathJSON formula, or a root MathJSON Error. */
+    "getExpressionAsMathJSON"(): string;
 
     /**
      * Clears expression string
@@ -4127,6 +4129,24 @@ export interface StringResources extends NativeHandleBase {
     cloneHandle(): StringResources;
 
     "USER_LANGUAGE": string | null;
+    "MATHJSON_INVALID_ARGUMENT": string | null;
+    "MATHJSON_INVALID_JSON": string | null;
+    "MATHJSON_INVALID_SHAPE": string | null;
+    "MATHJSON_INPUT_ERROR_NODE": string | null;
+    "MATHJSON_INVALID_NAME": string | null;
+    "MATHJSON_NAME_COLLISION": string | null;
+    "MATHJSON_UNRESOLVED_REFERENCE": string | null;
+    "MATHJSON_EXTERNAL_DEFINITION": string | null;
+    "MATHJSON_MXPARSER_EXTENSION": string | null;
+    "MATHJSON_WRONG_ARGUMENT_COUNT": string | null;
+    "MATHJSON_UNSUPPORTED_CONSTRUCT": string | null;
+    "MATHJSON_UNSUPPORTED_NUMBER": string | null;
+    "MATHJSON_UNSUPPORTED_DEFINITION": string | null;
+    "MATHJSON_BUILTIN_SPELLING_UNAVAILABLE": string | null;
+    "MATHJSON_INVALID_MXPARSER_SOURCE": string | null;
+    "MATHJSON_EMISSION_MISMATCH": string | null;
+    "MATHJSON_RESOURCE_LIMIT": string | null;
+    "MATHJSON_UNIT_PROJECTED_TO_SCALAR": string | null;
     "STARTING_SYNTAX_CHECK": string | null;
     "NO_ERRORS_DETECTED": string | null;
     "NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION": string | null;
@@ -18768,6 +18788,64 @@ export interface VirtualFileSystem {
     rmdir(path: string): void;
 }
 
+/** Public MathJSON conversion results and explicit import options. */
+export namespace MathJSON {
+    interface Diagnostic extends NativeHandle {
+        cloneHandle(): Diagnostic;
+        /** Stable diagnostic code. */
+        "getCode"(): string;
+        /** JSON Pointer, or an empty string at the root or during export. */
+        "getPath"(): string;
+        /** Zero-based UTF-16 input offset, or -1 if unavailable. */
+        "getOffset"(): number;
+        /** Message from the active mXparser StringResources. */
+        "getMessage"(): string;
+    }
+
+    interface Result<T> extends NativeHandle {
+        cloneHandle(): Result<T>;
+        "isSuccess"(): boolean;
+        /** The converted value, or null on failure. Release a returned native handle separately. */
+        "getValue"(): T | null;
+        /** The fatal diagnostic, or null on success. */
+        "getError"(): Diagnostic | null;
+        /** Frozen snapshot of warnings in input order. Release its diagnostic handles separately. */
+        "getDiagnostics"(): readonly Diagnostic[];
+    }
+
+    interface ImportOptions extends NativeHandle {
+        cloneHandle(): ImportOptions;
+        "withKilometresAsScalar"(allowed: boolean): ImportOptions;
+    }
+}
+
+export interface MathJSONStatics {
+    readonly Diagnostic: { readonly prototype: MathJSON.Diagnostic };
+    readonly ImportOptions: {
+        readonly prototype: MathJSON.ImportOptions;
+        /** Optional conversions disabled. */
+        "defaults"(): MathJSON.ImportOptions;
+    };
+    readonly Result: { readonly prototype: MathJSON.Result<unknown> };
+
+    /** Exports a formula, or a root MathJSON Error. */
+    "exportExpression"(expression: Expression | null): string;
+    "exportExpressionWithDiagnostics"(expression: Expression | null): MathJSON.Result<string>;
+    /** Exports a formula and its supported declarations as a closed Block, or a root Error. */
+    "exportProgram"(expression: Expression | null): string;
+    "exportProgramWithDiagnostics"(expression: Expression | null): MathJSON.Result<string>;
+    /** Imports a formula or closed Block with lossless defaults. */
+    "importExpression"(json: string | null, ...definitions: (PrimitiveElement | null)[]): MathJSON.Result<Expression>;
+    "importExpression"(json: string | null, definitions: readonly (PrimitiveElement | null)[] | null): MathJSON.Result<Expression>;
+    "importExpressionWithOptions"(json: string | null, options: MathJSON.ImportOptions | null, ...definitions: (PrimitiveElement | null)[]): MathJSON.Result<Expression>;
+    "importExpressionWithOptions"(json: string | null, options: MathJSON.ImportOptions | null, definitions: readonly (PrimitiveElement | null)[] | null): MathJSON.Result<Expression>;
+    /** Imports a Declare or DefineFunction. */
+    "importDefinition"(json: string | null, ...definitions: (PrimitiveElement | null)[]): MathJSON.Result<PrimitiveElement>;
+    "importDefinition"(json: string | null, definitions: readonly (PrimitiveElement | null)[] | null): MathJSON.Result<PrimitiveElement>;
+    "exportDefinition"(definition: PrimitiveElement | null): string;
+    "exportDefinitionWithDiagnostics"(definition: PrimitiveElement | null): MathJSON.Result<string>;
+}
+
 /** Experimental arithmetic LaTeX subset; not a full TeX importer.
  * API/subset/metadata may evolve. Offsets count UTF-16 code units.
  * @version        6.2.0
@@ -18870,6 +18948,7 @@ export interface LaTeXParserStatics {
  */
 export interface MxParser {
     readonly LaTeXParser: LaTeXParserStatics;
+    readonly MathJSON: MathJSONStatics;
     /**
      * Module-local virtual filesystem shared with native file operations; paths do not address host files.
      */

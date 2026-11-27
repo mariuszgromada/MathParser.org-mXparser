@@ -235,6 +235,25 @@ namespace org.mariuszgromada.math.mxparser {
     internal class StringResourcesChinese : StringResources {
         internal StringResourcesChinese() {
 			USER_LANGUAGE = "中文";
+			// MathJSON diagnostics
+            MATHJSON_INVALID_ARGUMENT = "MathJSON 转换参数无效";
+            MATHJSON_INVALID_JSON = "JSON 语法无效";
+            MATHJSON_INVALID_SHAPE = "MathJSON 结构无效";
+            MATHJSON_INPUT_ERROR_NODE = "MathJSON 输入的根节点是 Error";
+            MATHJSON_INVALID_NAME = "MathJSON 名称无效：{0}";
+            MATHJSON_NAME_COLLISION = "MathJSON 转换中存在名称冲突";
+            MATHJSON_UNRESOLVED_REFERENCE = "缺少定义：{0}";
+            MATHJSON_EXTERNAL_DEFINITION = "表达式需要外部定义：{0}";
+            MATHJSON_MXPARSER_EXTENSION = "mXparser 专用的运算或引用：{0}";
+            MATHJSON_WRONG_ARGUMENT_COUNT = "{0} 的参数个数不正确";
+            MATHJSON_UNSUPPORTED_CONSTRUCT = "不支持的 MathJSON 结构";
+            MATHJSON_UNSUPPORTED_NUMBER = "MathJSON 转换不支持此数值";
+            MATHJSON_UNSUPPORTED_DEFINITION = "MathJSON 转换不支持此定义或绑定";
+            MATHJSON_BUILTIN_SPELLING_UNAVAILABLE = "内置项的拼写不可用：{0}";
+            MATHJSON_INVALID_MXPARSER_SOURCE = "mXparser 表达式无效";
+            MATHJSON_EMISSION_MISMATCH = "MathJSON 转换无法保留原表达式";
+            MATHJSON_RESOURCE_LIMIT = "超出 MathJSON 转换限制（{0}）";
+            MATHJSON_UNIT_PROJECTED_TO_SCALAR = "量值已换算为米";
 			// -------------------------------------------------
 			STARTING_SYNTAX_CHECK = "开始语法检查...";
 			NO_ERRORS_DETECTED = "未检测到错误。";

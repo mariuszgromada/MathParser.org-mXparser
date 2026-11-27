@@ -235,6 +235,25 @@ namespace org.mariuszgromada.math.mxparser {
     internal class StringResourcesGerman : StringResources{
         internal StringResourcesGerman() {
             USER_LANGUAGE = "Deutsch";
+            // MathJSON diagnostics
+            MATHJSON_INVALID_ARGUMENT = "Ungültiges Argument für die MathJSON-Konvertierung";
+            MATHJSON_INVALID_JSON = "Ungültige JSON-Syntax";
+            MATHJSON_INVALID_SHAPE = "Ungültige MathJSON-Struktur";
+            MATHJSON_INPUT_ERROR_NODE = "Das MathJSON-Eingabedokument hat einen Error-Knoten als Wurzel";
+            MATHJSON_INVALID_NAME = "Ungültiger MathJSON-Name: {0}";
+            MATHJSON_NAME_COLLISION = "Namenskonflikt bei der MathJSON-Konvertierung";
+            MATHJSON_UNRESOLVED_REFERENCE = "Fehlende Definition: {0}";
+            MATHJSON_EXTERNAL_DEFINITION = "Vom Ausdruck benötigte externe Definition: {0}";
+            MATHJSON_MXPARSER_EXTENSION = "mXparser-spezifische Operation oder Referenz: {0}";
+            MATHJSON_WRONG_ARGUMENT_COUNT = "Falsche Anzahl von Argumenten für {0}";
+            MATHJSON_UNSUPPORTED_CONSTRUCT = "Nicht unterstützte MathJSON-Konstruktion";
+            MATHJSON_UNSUPPORTED_NUMBER = "Nicht unterstützte Zahl bei der MathJSON-Konvertierung";
+            MATHJSON_UNSUPPORTED_DEFINITION = "Nicht unterstützte Definition oder Bindung bei der MathJSON-Konvertierung";
+            MATHJSON_BUILTIN_SPELLING_UNAVAILABLE = "Schreibweise des eingebauten Elements nicht verfügbar: {0}";
+            MATHJSON_INVALID_MXPARSER_SOURCE = "Ungültiger mXparser-Ausdruck";
+            MATHJSON_EMISSION_MISMATCH = "Die MathJSON-Konvertierung konnte den Ausdruck nicht erhalten";
+            MATHJSON_RESOURCE_LIMIT = "Limit der MathJSON-Konvertierung überschritten ({0})";
+            MATHJSON_UNIT_PROJECTED_TO_SCALAR = "Größe in Meter umgerechnet";
             // -------------------------------------------------
             STARTING_SYNTAX_CHECK = "Starte Syntaxprüfung...";
             NO_ERRORS_DETECTED = "Es wurden keine Fehler gefunden.";

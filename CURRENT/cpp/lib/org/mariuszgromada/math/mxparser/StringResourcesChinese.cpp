@@ -804,5 +804,25 @@ namespace org::mariuszgromada::math::mxparser {
 		UNIT_DEGREE_ARC = S(UTF("角度"));
 		UNIT_MINUTE_ARC = S(UTF("角分"));
 		UNIT_SECOND_ARC = S(UTF("角秒"));
+
+		// MathJSON diagnostics
+		MATHJSON_INVALID_ARGUMENT = S(UTF("MathJSON 转换参数无效"));
+		MATHJSON_INVALID_JSON = S(UTF("JSON 语法无效"));
+		MATHJSON_INVALID_SHAPE = S(UTF("MathJSON 结构无效"));
+		MATHJSON_INPUT_ERROR_NODE = S(UTF("MathJSON 输入的根节点是 Error"));
+		MATHJSON_INVALID_NAME = S(UTF("MathJSON 名称无效：{0}"));
+		MATHJSON_NAME_COLLISION = S(UTF("MathJSON 转换中存在名称冲突"));
+		MATHJSON_UNRESOLVED_REFERENCE = S(UTF("缺少定义：{0}"));
+		MATHJSON_EXTERNAL_DEFINITION = S(UTF("表达式需要外部定义：{0}"));
+		MATHJSON_MXPARSER_EXTENSION = S(UTF("mXparser 专用的运算或引用：{0}"));
+		MATHJSON_WRONG_ARGUMENT_COUNT = S(UTF("{0} 的参数个数不正确"));
+		MATHJSON_UNSUPPORTED_CONSTRUCT = S(UTF("不支持的 MathJSON 结构"));
+		MATHJSON_UNSUPPORTED_NUMBER = S(UTF("MathJSON 转换不支持此数值"));
+		MATHJSON_UNSUPPORTED_DEFINITION = S(UTF("MathJSON 转换不支持此定义或绑定"));
+		MATHJSON_BUILTIN_SPELLING_UNAVAILABLE = S(UTF("内置项的拼写不可用：{0}"));
+		MATHJSON_INVALID_MXPARSER_SOURCE = S(UTF("mXparser 表达式无效"));
+		MATHJSON_EMISSION_MISMATCH = S(UTF("MathJSON 转换无法保留原表达式"));
+		MATHJSON_RESOURCE_LIMIT = S(UTF("超出 MathJSON 转换限制（{0}）"));
+		MATHJSON_UNIT_PROJECTED_TO_SCALAR = S(UTF("量值已换算为米"));
 	}
 } // org::mariuszgromada::math::mxparser

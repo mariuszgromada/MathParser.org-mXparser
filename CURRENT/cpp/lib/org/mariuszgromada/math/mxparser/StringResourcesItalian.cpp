@@ -818,5 +818,25 @@ namespace org::mariuszgromada::math::mxparser {
 		UNIT_DEGREE_ARC = S(UTF("Grado di arco"));
 		UNIT_MINUTE_ARC = S(UTF("Minuto d'arco"));
 		UNIT_SECOND_ARC = S(UTF("Secondo d'arco"));
+
+		// MathJSON diagnostics
+		MATHJSON_INVALID_ARGUMENT = S(UTF("Argomento di conversione MathJSON non valido"));
+		MATHJSON_INVALID_JSON = S(UTF("Sintassi JSON non valida"));
+		MATHJSON_INVALID_SHAPE = S(UTF("Struttura MathJSON non valida"));
+		MATHJSON_INPUT_ERROR_NODE = S(UTF("L’input MathJSON ha un nodo Error alla radice"));
+		MATHJSON_INVALID_NAME = S(UTF("Nome MathJSON non valido: {0}"));
+		MATHJSON_NAME_COLLISION = S(UTF("Conflitto di nomi durante la conversione MathJSON"));
+		MATHJSON_UNRESOLVED_REFERENCE = S(UTF("Definizione mancante: {0}"));
+		MATHJSON_EXTERNAL_DEFINITION = S(UTF("Definizione esterna richiesta dall’espressione: {0}"));
+		MATHJSON_MXPARSER_EXTENSION = S(UTF("Operazione o riferimento specifico di mXparser: {0}"));
+		MATHJSON_WRONG_ARGUMENT_COUNT = S(UTF("Numero di argomenti errato per {0}"));
+		MATHJSON_UNSUPPORTED_CONSTRUCT = S(UTF("Costrutto MathJSON non supportato"));
+		MATHJSON_UNSUPPORTED_NUMBER = S(UTF("Numero non supportato dalla conversione MathJSON"));
+		MATHJSON_UNSUPPORTED_DEFINITION = S(UTF("Definizione o associazione non supportata dalla conversione MathJSON"));
+		MATHJSON_BUILTIN_SPELLING_UNAVAILABLE = S(UTF("Notazione dell’elemento predefinito non disponibile: {0}"));
+		MATHJSON_INVALID_MXPARSER_SOURCE = S(UTF("Espressione mXparser non valida"));
+		MATHJSON_EMISSION_MISMATCH = S(UTF("La conversione MathJSON non ha potuto preservare l’espressione"));
+		MATHJSON_RESOURCE_LIMIT = S(UTF("Limite di conversione MathJSON superato ({0})"));
+		MATHJSON_UNIT_PROJECTED_TO_SCALAR = S(UTF("Quantità convertita in metri"));
 	}
 } // org::mariuszgromada::math::mxparser

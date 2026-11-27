@@ -697,6 +697,8 @@ export async function initMxParser(options = {}) {
     function wrap(value, type) {
         if (value === null) return null;
         if (type.kind === 'long_double') return longDoubleValue(value);
+        if (type.kind === 'mathjson_value')
+            return typeof value === 'string' ? value : wrap(value, {kind: 'handle', name: 'PrimitiveElement'});
         if (type.kind === 'array') {
             const snapshot = value.map(item => wrap(item, type.element));
             return type.readonly ? Object.freeze(snapshot) : snapshot;
@@ -1981,6 +1983,15 @@ export async function initMxParser(options = {}) {
         }
     };
     owners.LaTeXParser = Object.create(null);
+    owners.MathJSON = Object.create(null);
+    for (const name of ['ImportOptions', 'Result', 'Diagnostic']) {
+        classes['MathJSON' + name] = class extends NativeHandle {
+            constructor(token, value) {
+                if (token !== constructing) throw new TypeError('MathJSON.' + name + ' has no public constructor');
+                super(token, value);
+            }
+        };
+    }
     Object.defineProperty(classes.IRandom, 'implement', {
         value(implementation) {
             if (!interfaceMatches(implementation, ['nextInt', 'nextDouble', 'setSeed'])) throw new TypeError('Expected an IRandom implementation object');
@@ -2080,6 +2091,12 @@ export async function initMxParser(options = {}) {
                         throw new RangeError(`cancelId must be in ${minimum}..32767`);
                 }
                 managedGuard(first.owner, first.name, first.static, args);
+                if (first.static && first.owner === 'MathJSON' && first.name.startsWith('import')) {
+                    const prefix = first.parameters.length - 1;
+                    const definitions = args.slice(prefix);
+                    args = [...args.slice(0, prefix), definitions.length === 1 && definitions[0] === null
+                        ? null : flat(definitions)];
+                }
                 // Managed numeric varargs whose native counterpart accepts a single
                 // array/list. Only normalize the container; calculation stays native.
                 const numericPrefix = first.static && first.name === 'convOthBase2Decimal'

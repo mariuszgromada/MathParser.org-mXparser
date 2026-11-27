@@ -9514,3 +9514,1950 @@ TEST_CASE("testApi0458", "[API]") {
     TestCommonTools::consolePrintTestApiEnd(testResult);
     REQUIRE(testResult);
 }
+
+namespace {
+namespace mathjson_test {
+const String& text(const String& value) { return value; }
+const String& text(const StringPtr& value) {
+    static const String empty;
+    return value ? *value : empty;
+}
+const wchar_t* text(const wchar_t* value) { return value; }
+}
+
+template<class T> String mathJsonText(const T& value) { return mathjson_test::text(value); }
+
+template<class A, class B> bool mathJsonEqual(const A& left, const B& right) {
+    return mathJsonText(left) == mathJsonText(right);
+}
+
+bool mathJsonStartsWith(const String& text, const String& prefix) {
+    return text.compare(0, prefix.size(), prefix) == 0;
+}
+
+template<class T> bool mathJsonContains(const T& text, const String& part) {
+    return mathJsonText(text).find(part) != String::npos;
+}
+
+String mathJsonReplace(String text, const String& oldValue, const String& newValue) {
+    auto position = text.find(oldValue);
+    if (position != String::npos) text.replace(position, oldValue.size(), newValue);
+    return text;
+}
+
+template<class... DefinitionTypes>
+auto mathJsonDefinitions(const DefinitionTypes&... definitions) {
+    auto list = new_List<PrimitiveElementPtr>();
+    (list->add(std::static_pointer_cast<PrimitiveElement>(definitions)), ...);
+    return list;
+}
+
+template<class Text, class... Definitions>
+auto mathJsonImport(const Text& json, const Definitions&... definitions) {
+    return MathJSON::importExpression(S(mathJsonText(json)), mathJsonDefinitions(definitions...));
+}
+
+template<class Text, class... Definitions>
+auto mathJsonImportWithDiagnostics(const Text& json, const MathJSON::ImportOptionsPtr& options,
+                                   const Definitions&... definitions) {
+    return MathJSON::importExpressionWithOptions(S(mathJsonText(json)), options, mathJsonDefinitions(definitions...));
+}
+
+template<class Text, class... Definitions>
+auto mathJsonImportDefinition(const Text& json, const Definitions&... definitions) {
+    return MathJSON::importDefinition(S(mathJsonText(json)), mathJsonDefinitions(definitions...));
+}
+
+template<class T> bool mathJsonWarning(const MathJSON::Result<T>& result, std::size_t index, const String& code, const String& path) {
+    return index < result.getDiagnostics().size() && mathJsonEqual(code, result.getDiagnostics()[index]->getCode())
+            && mathJsonEqual(path, result.getDiagnostics()[index]->getPath());
+}
+
+template<class T> bool mathJsonError(const MathJSON::Result<T>& result, const String& code) {
+    return !result.isSuccess() && result.getValue() == nullptr && result.getDiagnostics().empty()
+        && result.getError() != nullptr && code == *result.getError()->getCode();
+}
+
+template<class T> T mathJsonValue(const MathJSON::Result<T>& result) {
+    if (!result.isSuccess()) {
+        INFO(UTF16toUTF8(*result.getError()->getCode()) + ": " + UTF16toUTF8(*result.getError()->getMessage()));
+        REQUIRE(result.isSuccess());
+    }
+    return result.getValue();
+}
+
+std::uint64_t mathJsonBits(double value) {
+    static_assert(sizeof(double) == sizeof(std::uint64_t));
+    std::uint64_t bits;
+    std::memcpy(&bits, &value, sizeof(bits));
+    return bits;
+}
+
+double mathJsonFromBits(std::uint64_t bits) {
+    double value;
+    std::memcpy(&value, &bits, sizeof(value));
+    return value;
+}
+
+template<class Action> struct MathJsonCleanup {
+    Action action;
+    ~MathJsonCleanup() { action(); }
+};
+
+template<class Action> MathJsonCleanup<Action> mathJsonOnExit(Action action) { return {std::move(action)}; }
+}
+
+TEST_CASE("testApi0475", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON expression round trip and exact exported operator binding";
+    TestCommonTools::consolePrintTestApiStart(475, testDescr);
+    const std::vector<std::vector<String>> examples = {
+            {L"x+2*3", L"[\"Add\",\"x\",[\"Multiply\",2,3]]"},
+            {L"2^3!", L"[\"Factorial\",[\"Power\",2,3]]"},
+            {L"2^(3!)", L"[\"Power\",2,[\"Factorial\",3]]"},
+            {L"2^3!+2^-x", L"[\"Add\",[\"Power\",2,[\"Factorial\",3]],[\"Power\",2,[\"Negate\",\"x\"]]]"},
+            {L"2^-x^2", L"[\"Power\",2,[\"Negate\",[\"Power\",\"x\",2]]]"},
+            {L"-2^2", L"[\"Power\",-2,2]"},
+            {L"-x^2", L"[\"Negate\",[\"Power\",\"x\",2]]"},
+            {L"(-x)^2", L"[\"Power\",[\"Negate\",\"x\"],2]"},
+            {L"-2_1_3^2", L"[\"Negate\",[\"Power\",[\"Rational\",7,3],2]]"},
+            {L"h.ff", L"255"},
+            {L"2x", L"[\"Multiply\",2,\"x\"]"}
+    };
+    bool testResult = true;
+    for (const auto& example : examples) {
+        ArgumentPtr originalX = new_Argument(L"x", 1);
+        ExpressionPtr original = new_Expression(example[0], originalX);
+        double expected = original->calculate();
+        String exported = mathJsonText(original->getExpressionAsMathJSON());
+        ExpressionPtr restored = mathJsonValue(mathJsonImport(exported, new_Argument(L"x", 1)));
+        double received = restored->calculate();
+        testResult &= mathJsonEqual(example[1], exported) && std::isfinite(expected);
+        if (mathJsonEqual(example[0], L"-2_1_3^2")) {
+            // A fraction is one token before export and an evaluated division after import.
+            double mathematical = -49.0 / 9.0;
+            testResult &= std::abs(expected - mathematical) <= 2e-14
+                    && std::abs(received - mathematical) <= 2e-14;
+            mXparser::disableUlpRounding();
+            mXparser::disableCanonicalRounding();
+            mXparser::disableAlmostIntRounding();
+            {
+                const auto restore = mathJsonOnExit([&] {
+                    mXparser::enableUlpRounding();
+                    mXparser::enableCanonicalRounding();
+                    mXparser::enableAlmostIntRounding();
+                });
+                testResult &= original->calculate() == restored->calculate();
+            }
+        } else testResult &= expected == received;
+        mXparser::consolePrintln(example[0] + L" -> " + exported + L" -> " + std::to_wstring(received));
+    }
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0476", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON imports fixed reference results without external evaluation";
+    TestCommonTools::consolePrintTestApiStart(476, testDescr);
+    std::vector<String> inputs = {
+        L"[\"Add\",2,3,4]", L"[\"Subtract\",7,2]", L"[\"Multiply\",2,3,4]", L"[\"Divide\",1,2]",
+        L"[\"Rational\",2,3]", L"[\"Square\",4]", L"[\"Negate\",2]", L"[\"Abs\",-2]",
+        L"[\"Sqrt\",4]", L"[\"Ln\",1]", L"[\"Log\",8,2]", L"[\"Root\",27,3]",
+        L"[\"Floor\",2.8]", L"[\"Ceil\",2.2]", L"{\"fn\":[\"Power\",2,[\"Factorial\",3]],\"comment\":\"ignored\"}",
+        L"[\"If\",[\"LessEqual\",2,2],4,9]", L"[\"If\",\"False\",4,9]",
+        L"[\"Sum\",[\"Power\",\"i\",2],[\"Limits\",\"i\",1,3]]",
+        L"[\"Sum\",[\"Power\",\"i\",2],[\"Element\",\"i\",[\"Range\",1,3]]]",
+        L"[\"Product\",\"i\",[\"Limits\",\"i\",1,3]]", L"\"Pi\"", L"\"ExponentialE\""
+    };
+    std::vector<double> expected = {9, 5, 24, 0.5, 2.0 / 3, 16, -2, 2, 2, 0, 3, 3, 2, 3, 64,
+            4, 9, 14, 14, 6, MathConstants::PI, MathConstants::E};
+    bool testResult = true;
+    for (std::size_t i = 0; i < inputs.size(); i++) {
+        double received = mathJsonValue(mathJsonImport(inputs[i]))->calculate();
+        double tolerance = i == 4 ? 1e-14 : 0;
+        testResult &= std::isfinite(received) && std::abs(expected[i] - received) <= tolerance;
+        mXparser::consolePrintln(inputs[i] + L" -> " + std::to_wstring(received));
+    }
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0477", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON declarations and a Block with direct recursion";
+    TestCommonTools::consolePrintTestApiStart(477, testDescr);
+    String block = L"[\"Block\",[\"Declare\",\"x\",{\"dict\":{\"value\":5}}],"
+            L"[\"Declare\",\"k\",[\"Dictionary\",[\"KeyValuePair\",\"value\",2],[\"KeyValuePair\",\"constant\",\"True\"]]],"
+            L"[\"DefineFunction\",\"fact\",[\"Function\",[\"If\",[\"LessEqual\",\"n\",1],1,"
+            L"[\"Multiply\",\"n\",[\"fact\",[\"Subtract\",\"n\",1]]]],\"n\"]],[\"Add\",\"k\",[\"fact\",\"x\"]]]";
+    ExpressionPtr imported = mathJsonValue(mathJsonImport(block));
+    double importedResult = imported->calculate();
+    String exported = mathJsonText(MathJSON::exportProgram(imported));
+    ExpressionPtr restored = mathJsonValue(mathJsonImport(exported));
+    FunctionPtr recursion = imported->getFunction(L"fact");
+    PrimitiveElementPtr declared = mathJsonValue(mathJsonImportDefinition(MathJSON::exportDefinition(imported->getConstant(L"k"))));
+    PrimitiveElementPtr function = mathJsonValue(mathJsonImportDefinition(MathJSON::exportDefinition(recursion)));
+    bool testResult = importedResult == 122 && restored->calculate() == importedResult
+            && std::dynamic_pointer_cast<Constant>(declared) && std::static_pointer_cast<Constant>(declared)->getConstantValue() == 2
+            && std::dynamic_pointer_cast<Function>(function) && std::static_pointer_cast<Function>(function)->calculate(5) == 120
+            && static_cast<const Function&>(*recursion).getFunction(0) == recursion;
+    String ordered = L"[\"Block\",[\"DefineFunction\",\"orderedF\",[\"Function\",[\"Subtract\",\"z\",\"a\"],\"z\",\"a\"]],[\"orderedF\",8,3]]";
+    auto orderedModel = mathJsonImport(ordered);
+    testResult &= orderedModel.isSuccess() && orderedModel.getValue()->calculate() == 5
+            && mathJsonEqual(ordered, MathJSON::exportProgram(orderedModel.getValue()));
+    auto unorderedAttributes = mathJsonImportDefinition(
+            L"[\"Declare\",\"valueX\",{\"dict\":{\"badZ\":0,\"badA\":0,\"value\":2}}]");
+    testResult &= mathJsonError(unorderedAttributes, L"INVALID_SHAPE")
+            && mathJsonEqual(L"/2/dict/badZ", unorderedAttributes.getError()->getPath());
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0478", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON keeps caller bindings live and honours local and lazy evaluation";
+    TestCommonTools::consolePrintTestApiStart(478, testDescr);
+    ArgumentPtr x = new_Argument(L"x", 0);
+    ExpressionPtr guarded = mathJsonValue(mathJsonImport(
+            L"[\"If\",[\"Equal\",\"x\",0],7,[\"Divide\",1,\"x\"]]", x));
+    bool testResult = guarded->getArgument(L"x") == x && guarded->calculate() == 7;
+    x->setArgumentValue(4);
+    testResult &= guarded->calculate() == 0.25;
+    ExpressionPtr open = mathJsonValue(mathJsonImport(L"\"openName\""));
+    testResult &= open->getArgumentsNumber() == 0;
+    open->addArguments(new_Argument(L"openName", 3));
+    testResult &= open->calculate() == 3;
+    ExpressionPtr sum = new_Expression(L"sum(i,1,2,sum(j,1,2,i+j))");
+    ExpressionPtr restored = mathJsonValue(mathJsonImport(sum->getExpressionAsMathJSON()));
+    testResult &= sum->calculate() == 12 && restored->calculate() == 12;
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0479", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON native double conversion and optional projections";
+    TestCommonTools::consolePrintTestApiStart(479, testDescr);
+    bool testResult = mathJsonValue(mathJsonImport(L"{\"num\":\"9007199254740992\"}"))->calculate() == 9007199254740992.0;
+    PrimitiveElementPtr negativeZero = mathJsonValue(mathJsonImportDefinition(
+            L"[\"Declare\",\"z\",{\"dict\":{\"value\":{\"num\":\"-0\"}}}]"));
+    testResult &= mathJsonBits(std::static_pointer_cast<Argument>(negativeZero)->getArgumentValue()) == UINT64_C(0x8000000000000000);
+    ExpressionPtr subnormal = mathJsonValue(mathJsonImport(L"{\"num\":\"5e-324\"}"));
+    testResult &= mathJsonBits(subnormal->getCopyOfInitialTokens()->get(0)->tokenValue) == 1;
+    std::vector<String> roundedInputs = {L"9007199254740993", L"{\"num\":\"9007199254740995\"}", L"-9007199254740993"};
+    double roundedValues[] = {9007199254740992.0, 9007199254740996.0, -9007199254740992.0};
+    for (std::size_t i = 0; i < roundedInputs.size(); i++) {
+        auto rounded = mathJsonImport(roundedInputs[i]);
+        testResult &= rounded.isSuccess() && rounded.getDiagnostics().empty()
+                && rounded.getValue()->calculate() == roundedValues[i];
+    }
+    auto roundedDefinition = mathJsonImportDefinition(
+            L"[\"Declare\",\"largeValue\",{\"dict\":{\"value\":9007199254740993}}]");
+    testResult &= roundedDefinition.isSuccess()
+            && std::static_pointer_cast<Argument>(roundedDefinition.getValue())->getArgumentValue() == roundedValues[0];
+    std::vector<String> roundedSources = {L"9007199254740993", L"9007199254740995", L"h.20000000000001"};
+    double expectedExports[] = {9007199254740992.0, 9007199254740996.0, 9007199254740992.0};
+    for (std::size_t i = 0; i < roundedSources.size(); i++) {
+        ExpressionPtr original = new_Expression(roundedSources[i]);
+        auto exported = MathJSON::exportExpressionWithDiagnostics(original);
+        testResult &= exported.isSuccess() && original->calculate() == expectedExports[i];
+        if (exported.isSuccess()) {
+            auto restored = mathJsonImport(exported.getValue());
+            testResult &= restored.isSuccess() && restored.getValue()->calculate() == expectedExports[i];
+        }
+    }
+    std::vector<String> inputs = {L"{\"num\":\"0.(3)\"}", L"{\"num\":\"0.1(6)e1\"}", L"\"-1.(6)\"", L"{\"num\":\"0.(9)\"}"};
+    std::vector<double> expected = {1.0 / 3, 5.0 / 3, -5.0 / 3, 1};
+    for (std::size_t i = 0; i < inputs.size(); i++) {
+        auto result = mathJsonImport(inputs[i]);
+        testResult &= result.isSuccess() && std::abs(result.getValue()->calculate() - expected[i]) <= 1e-14
+                && result.getDiagnostics().empty();
+    }
+    auto quantity = mathJsonImportWithDiagnostics(L"[\"Quantity\",2,{\"str\":\"km\"}]",
+            MathJSON::ImportOptions::defaults()->withKilometresAsScalar(true));
+    testResult &= quantity.isSuccess() && quantity.getValue()->calculate() == 2000
+            && quantity.getDiagnostics().size() == 1 && mathJsonWarning(quantity, 0, L"UNIT_PROJECTED_TO_SCALAR", L"");
+    auto periodicDeclaration = mathJsonImportDefinition(
+            L"[\"Declare\",\"x\",{\"dict\":{\"value\":{\"num\":\"0.(3)\"}}}]");
+    testResult &= periodicDeclaration.isSuccess() && periodicDeclaration.getDiagnostics().empty()
+            && std::dynamic_pointer_cast<Argument>(periodicDeclaration.getValue())->getArgumentValue() == 1.0 / 3;
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0480", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON rejects unsupported forms and points to the original input";
+    TestCommonTools::consolePrintTestApiStart(480, testDescr);
+    const std::vector<std::vector<String>> cases = {
+            {L"[\"Rational\",1,0]", L"UNSUPPORTED_NUMBER", L"/2"},
+            {L"1e400", L"UNSUPPORTED_NUMBER", L""},
+            {L"[\"List\",0]", L"UNSUPPORTED_NODE", L""},
+            {L"[\"Add\",1,]", L"INVALID_JSON", L"/2"},
+            {L"{\"num\":\"2\",\"num\":\"3\"}", L"INVALID_JSON", L"/num"},
+            {L"{\"sym\":\"\\uD800\"}", L"INVALID_JSON", L"/sym"},
+            {L"[\"Add\",[\"List\",1,0],2]", L"UNSUPPORTED_NODE", L"/1"}
+    };
+    bool testResult = true;
+    for (const auto& example : cases) {
+        auto rejected = mathJsonImport(example[0]);
+        auto error = rejected.getError();
+        String status = error == nullptr ? L"success" : mathJsonText(error->getCode()) + L" at " + mathJsonText(error->getPath());
+        mXparser::consolePrintln(example[0] + L" -> " + status);
+        testResult &= mathJsonError(rejected, example[1]) && mathJsonEqual(example[2], mathJsonText(error->getPath()));
+    }
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0481", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON rejects stateful or non-exchangeable source without evaluating it";
+    TestCommonTools::consolePrintTestApiStart(481, testDescr);
+    const String overflow = L"1797693134862315808" + String(290, L'0') + L".5";
+    const String oversizedName(300, L'z');
+    const std::vector<std::vector<String>> cases = {
+            {L"1_0", L"UNSUPPORTED_NUMBER"},
+            {L"x??1", L"UNSUPPORTED_NODE"},
+            {oversizedName, L"RESOURCE_LIMIT"}, {L"[" + oversizedName + L"]", L"RESOURCE_LIMIT"},
+            {L"sum(i,1,3,sum(i,1,2,i)+i)", L"UNSUPPORTED_BINDING"},
+            {L"sum(i,1,3,i,2)", L"UNSUPPORTED_DOMAIN"}
+    };
+    bool testResult = true;
+    for (const auto& example : cases) {
+        ExpressionPtr expression = new_Expression(example[0], new_Argument(L"x", 1));
+        testResult &= mathJsonError(MathJSON::exportExpressionWithDiagnostics(expression), example[1]);
+    }
+    for (const String& literal : std::vector<String>{L"1e400", overflow, L"-" + overflow}) {
+        ExpressionPtr original = new_Expression(literal);
+        double nativeValue = original->getCopyOfInitialTokens()->get(0)->tokenValue;
+        auto exported = MathJSON::exportExpressionWithDiagnostics(original);
+        if (!std::isfinite(nativeValue)) {
+            testResult &= mathJsonError(exported, L"UNSUPPORTED_NUMBER");
+        } else {
+            auto restored = mathJsonImport(exported.getValue());
+            testResult &= exported.isSuccess() && restored.isSuccess()
+                    && restored.getValue()->calculate() == nativeValue;
+        }
+    }
+    ExpressionPtr underflow = new_Expression(L"1e-400");
+    testResult &= underflow->calculate() == 0 && mathJsonEqual(L"0", MathJSON::exportExpression(underflow));
+    const String nearMaximum = L"17976931348623157" + String(292, L'0') + L".5";
+    auto maximum = MathJSON::exportExpressionWithDiagnostics(new_Expression(nearMaximum.c_str()));
+    auto restoredMaximum = MathJSON::importExpression(maximum.getValue());
+    testResult &= maximum.isSuccess() && restoredMaximum.isSuccess()
+            && restoredMaximum.getValue()->calculate() == (std::numeric_limits<double>::max)();
+    const String maximumName = oversizedName.substr(0, 256);
+    auto withMaximumName = mathJsonImport((L"\"" + maximumName + L"\"").c_str(), new_Argument(maximumName.c_str(), 7.0));
+    testResult &= withMaximumName.isSuccess() && withMaximumName.getValue()->calculate() == 7;
+    ArgumentPtr shared = new_Argument(L"shared", 3);
+    FunctionPtr f = new_Function(L"modelF", L"shared", mathJsonDefinitions(shared));
+    f->setParametersNumber(1);
+    ExpressionPtr expression = new_Expression(L"modelF(4)+shared", f, shared);
+    testResult &= mathJsonError(MathJSON::exportProgramWithDiagnostics(expression), L"UNSUPPORTED_PROGRAM")
+            && shared->getArgumentValue() == 3;
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0482", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON preserves negative atoms in conditionals, limits and function calls";
+    TestCommonTools::consolePrintTestApiStart(482, testDescr);
+    ExpressionPtr conditional = mathJsonValue(mathJsonImport(
+            L"[\"If\",[\"Less\",\"x\",0],-1,1]", new_Argument(L"x", -3)));
+    ExpressionPtr sum = mathJsonValue(mathJsonImport(L"[\"Sum\",\"i\",[\"Limits\",\"i\",-2,2]]"));
+    FunctionPtr function = new_Function(L"f", L"a+b", L"a", L"b");
+    ExpressionPtr call = mathJsonValue(mathJsonImport(L"[\"f\",1,-2]", function));
+    bool testResult = conditional->calculate() == -1 && sum->calculate() == 0 && call->calculate() == -1;
+    testResult &= mathJsonContains(conditional->getExpressionAsMathJSON(), L",-1,");
+    testResult &= mathJsonContains(sum->getExpressionAsMathJSON(), L"\"i\",-2,2");
+    testResult &= mathJsonEqual(L"[\"f\",1,-2]", call->getExpressionAsMathJSON());
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0483", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON names, lexical scope and changed mXparser vocabulary";
+    TestCommonTools::consolePrintTestApiStart(483, testDescr);
+    bool testResult = mathJsonValue(mathJsonImport(L"[\"Add\",{\"sym\":\"λ\"},2]", new_Argument(L"λ", 3)))->calculate() == 5;
+    auto greek = mathJsonImport(L"[\"Add\",\"`\\u2126`\",{\"sym\":\"\\u1FBE\"}]",
+            new_Argument(L"\u03A9", 2), new_Argument(L"\u03B9", 3));
+    testResult &= greek.isSuccess() && greek.getValue()->calculate() == 5
+            && mathJsonEqual(L"[\"Add\",\"\u03A9\",\"\u03B9\"]", MathJSON::exportExpression(greek.getValue()));
+    auto kelvin = mathJsonImport(L"[\"Add\",{\"sym\":\"\\u212AA\"},{\"sym\":\"\\u039A\"}]",
+            new_Argument(L"KA", 3), new_Argument(L"\u039A", 7));
+    testResult &= kelvin.isSuccess() && kelvin.getValue()->calculate() == 10
+            && mathJsonEqual(L"[\"Add\",\"KA\",\"\u039A\"]", MathJSON::exportExpression(kelvin.getValue()));
+    String longName;
+    for (int i = 0; i < 255; i++) longName.push_back(L'a');
+    testResult &= mathJsonError(
+            mathJsonImport(L"{\"sym\":\"" + longName + L"e\\u0301\"}"), L"RESOURCE_LIMIT");
+    const std::vector<std::vector<String>> cases = {
+            {L"{\"fn\":1}", L"INVALID_SHAPE"},
+            {L"{\"fn\":[[\"Add\",1,2],3]}", L"INVALID_SHAPE"},
+            {L"{\"sym\":\"bad)name\"}", L"INVALID_NAME"},
+            {L"{\"sym\":\"cafe\\u0301\"}", L"INVALID_NAME"},
+            {L"[\"DefineFunction\",\"f\",[\"Function\",1,\"Ω\",\"\\u2126\"]]", L"NAME_COLLISION"}
+    };
+    for (const auto& example : cases) {
+        bool rejected = mathJsonStartsWith(example[0], L"[\"Declare\"")
+                || mathJsonStartsWith(example[0], L"[\"DefineFunction\"")
+                ? mathJsonError(mathJsonImportDefinition(example[0]), example[1]) : mathJsonError(mathJsonImport(example[0]), example[1]);
+        testResult &= rejected;
+    }
+    auto local = mathJsonImport(L"[\"Sum\",\"i\",[\"Limits\",\"i\",1,3]]", new_Argument(L"i", 5));
+    testResult &= local.isSuccess() && local.getValue()->calculate() == 6 && local.getValue()->getArgument(L"i") == nullptr;
+    mXparser::modifyBuiltinToken(Function1Arg::SQRT_STR, S(L"testSqrt"));
+    {
+        const auto restore = mathJsonOnExit([&] {
+            mXparser::unmodifyBuiltinTokens(Function1Arg::SQRT_STR);
+        });
+        auto renamed = mathJsonImport(L"[\"Sqrt\",4]");
+        auto exported = MathJSON::exportExpressionWithDiagnostics(new_Expression(L"testSqrt(4)"));
+        testResult &= renamed.isSuccess() && renamed.getValue()->calculate() == 2
+                && exported.isSuccess() && mathJsonEqual(L"[\"Sqrt\",4]", exported.getValue());
+    }
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0484", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON failed import is atomic and rejects disallowed recursion and shared parameters";
+    TestCommonTools::consolePrintTestApiStart(484, testDescr);
+    ArgumentPtr x = new_Argument(L"x", 5);
+    const auto observers = OwnershipTestAccess::body(x).lock();
+    int initialObservers = OwnershipTestAccess::observerSlots(observers);
+    String invalid = L"[\"Block\",[\"DefineFunction\",\"f\",[\"Function\",[\"Add\",\"x\",\"a\"],\"a\"]],[\"Rational\",1,0]]";
+    bool testResult = mathJsonError(mathJsonImport(invalid, x), L"UNSUPPORTED_NUMBER")
+            && OwnershipTestAccess::observerSlots(observers) == initialObservers && x->getArgumentValue() == 5;
+    FunctionPtr g = new_Function(L"g", L"x*2", L"x");
+    for (const String& source : std::vector<String>{L"x+g(3)", L"g(3)+x"}) {
+        auto exported = MathJSON::exportProgramWithDiagnostics(new_Expression(source, x, g));
+        auto restored = mathJsonImport(mathJsonText(exported.getValue()));
+        testResult &= exported.isSuccess() && restored.isSuccess() && restored.getValue()->calculate() == 11;
+    }
+    ArgumentPtr shared = new_Argument(L"shared", 3);
+    FunctionPtr f = new_Function(L"f", L"shared", mathJsonDefinitions(shared));
+    f->setParametersNumber(1);
+    for (const String& source : std::vector<String>{L"shared+f(4)", L"f(4)+shared"}) {
+        auto rejected = MathJSON::exportProgramWithDiagnostics(new_Expression(source, shared, f));
+        auto error = rejected.getError();
+        testResult &= mathJsonError(rejected, L"UNSUPPORTED_PROGRAM") && mathJsonText(error->getPath()).empty() && error->getOffset() == -1;
+    }
+    auto referenced = mathJsonImport(L"[\"Add\",[\"f\",4],\"shared\"]", f, shared);
+    testResult &= referenced.isSuccess() && referenced.getValue()->getFunction(L"f") == f
+            && referenced.getValue()->getArgument(L"shared") == shared && shared->getArgumentValue() == 3;
+    FunctionPtr left = new_Function(L"leftF", L"rightF(a)", L"a");
+    FunctionPtr right = new_Function(L"rightF", L"leftF(b)", L"b");
+    left->addFunctions(right);
+    right->addFunctions(left);
+    const auto releaseCycle = mathJsonOnExit([&] {
+        left->removeFunctions(right);
+        right->removeFunctions(left);
+    });
+    testResult &= mathJsonError(MathJSON::exportProgramWithDiagnostics(new_Expression(L"leftF(2)", left)), L"UNSUPPORTED_PROGRAM");
+    int beforeSuccess = OwnershipTestAccess::observers(observers);
+    ExpressionPtr success = mathJsonValue(mathJsonImport(L"[\"Add\",\"x\",1]", x));
+    testResult &= success->calculate() == 6 && OwnershipTestAccess::observers(observers) == beforeSuccess + 1;
+    x->setArgumentName(L"renamedX");
+    testResult &= !success->checkSyntax();
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0485", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON declaration round trips, native rounding and diagnostic locations";
+    TestCommonTools::consolePrintTestApiStart(485, testDescr);
+    std::vector<std::uint64_t> bits = {0ULL, UINT64_C(0x8000000000000000), 1ULL, 0x0010000000000000ULL, 0x43f0000000000000ULL};
+    bool testResult = true;
+    for (std::uint64_t bitsIn : bits) {
+        String exported = mathJsonText(MathJSON::exportDefinition(new_Argument(L"valuex", mathJsonFromBits(bitsIn))));
+        ArgumentPtr restored = std::static_pointer_cast<Argument>(mathJsonValue(mathJsonImportDefinition(exported)));
+        testResult &= mathJsonBits(restored->getArgumentValue()) == bitsIn;
+        if (bitsIn == UINT64_C(0x8000000000000000)) testResult &= mathJsonContains(exported, L"{\"num\":\"-0\"}");
+        if (bitsIn == 0x43f0000000000000ULL) testResult &= mathJsonContains(exported, L"{\"num\":");
+    }
+    std::vector<String> midpoints = {L"1.00000000000000011102230246251565404236316680908203125",
+            L"1.00000000000000033306690738754696212708950042724609375"};
+    for (std::size_t i = 0; i < midpoints.size(); i++) {
+        ArgumentPtr result = std::static_pointer_cast<Argument>(mathJsonValue(mathJsonImportDefinition(L"[\"Declare\",\"valuex\",[\"Dictionary\","
+                L"[\"Tuple\",{\"str\":\"value\"},{\"num\":\"" + midpoints[i] + L"\"}]]]")));
+        double nativeValue = new_Expression(midpoints[i])->getCopyOfInitialTokens()->get(0)->tokenValue;
+        testResult &= result->getArgumentValue() == nativeValue;
+    }
+    testResult &= mathJsonEqual(L"10", MathJSON::exportExpression(new_Expression(L"b2.1010")));
+    testResult &= mathJsonEqual(L"15", MathJSON::exportExpression(new_Expression(L"o.17")));
+    testResult &= mathJsonEqual(L"3", MathJSON::exportExpression(new_Expression(L"b1.111")));
+    MathJSON::ImportOptionsPtr options = MathJSON::ImportOptions::defaults()->withKilometresAsScalar(true);
+    auto projected = mathJsonImportWithDiagnostics(
+            L"[\"Quantity\",9007199254740993,{\"str\":\"km\"}]", options);
+    std::vector<MathJSON::DiagnosticPtr> diagnostics = projected.getDiagnostics();
+    testResult &= projected.isSuccess() && diagnostics.size() == 1 && mathJsonText(diagnostics[0]->getPath()).empty()
+            && mathJsonEqual(L"UNIT_PROJECTED_TO_SCALAR", mathJsonText(diagnostics[0]->getCode()));
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0486", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON resource bounds and structural rejection";
+    TestCommonTools::consolePrintTestApiStart(486, testDescr);
+    String deep;
+    for (int i = 0; i < 255; i++) deep.append(L"[\"Negate\",");
+    deep.push_back(L'1');
+    for (int i = 0; i < 255; i++) deep.push_back(L']');
+    bool testResult = mathJsonValue(mathJsonImport(deep))->calculate() == -1;
+    String many(L"{\"num\":\"0\",\"comment\":[0");
+    for (int i = 0; i < 250000; i++) many.append(L",0");
+    many.append(L"]}");
+    String digits(1025, L'1');
+    String name(257, L'x');
+    const std::vector<std::vector<String>> cases = {
+            {L"[\"Negate\"," + deep + L"]", L"RESOURCE_LIMIT"},
+            {many, L"RESOURCE_LIMIT"},
+            {L"{\"num\":\"" + digits + L"\"}", L"RESOURCE_LIMIT"},
+            {L"\"" + name + L"\"", L"RESOURCE_LIMIT"},
+            {L"{\"num\":\"1e9999999999999999999999\"}", L"UNSUPPORTED_NUMBER"},
+            {L"\"PositiveInfinity\"", L"UNSUPPORTED_NUMBER"},
+            {L"\"NegativeInfinity\"", L"UNSUPPORTED_NUMBER"},
+            {L"[\"Rational\",[\"Add\",1,2],3]", L"UNSUPPORTED_NUMBER"}
+    };
+    for (const auto& example : cases) {
+        testResult &= mathJsonError(mathJsonImport(example[0]), example[1]);
+    }
+    testResult &= mathJsonError(mathJsonImportDefinition(L"[\"Add\",1e400,1]"), L"INVALID_ROOT");
+    testResult &= mathJsonError(mathJsonImport(L"{\"num\":\"1(3)\"}"), L"UNSUPPORTED_NUMBER");
+    const std::vector<std::vector<String>> unsupported = {
+            {L"iff(1=1,2)", L"UNSUPPORTED_NODE"}
+    };
+    for (const auto& example : unsupported) {
+        testResult &= mathJsonError(MathJSON::exportExpressionWithDiagnostics(new_Expression(example[0])), example[1]);
+    }
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0487", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON contextual powers in two log calls passed to a user function";
+    TestCommonTools::consolePrintTestApiStart(487, testDescr);
+    ArgumentPtr originalX = new_Argument(L"x", 1);
+    ArgumentPtr importedX = new_Argument(L"x", 1);
+    FunctionPtr originalFold = new_Function(L"foldV6", L"a+2*b", L"a", L"b");
+    FunctionPtr importedFold = new_Function(L"foldV6", L"a+2*b", L"a", L"b");
+    ExpressionPtr original = new_Expression(L"foldV6(log(2^3!,2^-x),log(2^-x,2^3!))", originalX, originalFold);
+    String expectedTree = L"[\"foldV6\",[\"Log\",[\"Power\",2,[\"Negate\",\"x\"]],[\"Power\",2,[\"Factorial\",3]]],"
+            L"[\"Log\",[\"Factorial\",[\"Power\",2,3]],[\"Power\",2,[\"Negate\",\"x\"]]]]";
+    String exported = mathJsonText(MathJSON::exportExpression(original));
+    ExpressionPtr imported = mathJsonValue(mathJsonImport(exported, importedX, importedFold));
+    bool testResult = mathJsonEqual(expectedTree, exported);
+    for (int x : std::vector<int>{1, 3}) {
+        originalX->setArgumentValue(x);
+        importedX->setArgumentValue(x);
+        // The first log has base 64 and the second has base 2^-x.
+        double expected = -x / 6.0 - 2 * std::log(40320) / (x * std::log(2));
+        double before = original->calculate();
+        double after = imported->calculate();
+        testResult &= std::abs(before - expected) <= 1e-12 && std::abs(after - before) <= 1e-12;
+    }
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0488", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON Block combines a constant root degree, recursion, sum and product";
+    TestCommonTools::consolePrintTestApiStart(488, testDescr);
+    String block = L"[\"Block\","
+            L"[\"Declare\",\"grade\",[\"Dictionary\",[\"KeyValuePair\",\"value\",2],[\"KeyValuePair\",\"constant\",\"True\"]]],"
+            L"[\"DefineFunction\",\"rootWrap\",[\"Function\",[\"Root\",\"t\",\"grade\"],\"t\"]],"
+            L"[\"DefineFunction\",\"series\",[\"Function\",[\"If\",[\"LessEqual\",\"n\",0],0,"
+            L"[\"Add\",[\"rootWrap\",[\"Power\",\"n\",2]],[\"series\",[\"Subtract\",\"n\",1]]]],\"n\"]],"
+            L"[\"Add\",[\"Sum\",[\"series\",\"j\"],[\"Limits\",\"j\",1,3]],"
+            L"[\"Product\",[\"Power\",\"k\",2],[\"Limits\",\"k\",1,2]]]]";
+    ExpressionPtr original = mathJsonValue(mathJsonImport(block));
+    double before = original->calculate();
+    String exported = mathJsonText(MathJSON::exportProgram(original));
+    ExpressionPtr restored = mathJsonValue(mathJsonImport(exported));
+    // The triangular numbers 1, 3, 6 and the product 1 * 4 give 14.
+    bool testResult = before == 14 && restored->calculate() == before && mathJsonEqual(block, exported)
+            && restored->getFunction(L"series")->calculate(3) == 6;
+    // With first roots the partial sums become 1, 5, 14, while the product stays 4.
+    restored->getConstant(L"grade")->setConstantValue(1);
+    testResult &= restored->calculate() == 24 && original->calculate() == 14;
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0489", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON object-form If combines explicit projections, diagnostics and lazy evaluation";
+    TestCommonTools::consolePrintTestApiStart(489, testDescr);
+    String json = L"{\"fn\":[\"If\",[\"Equal\",{\"sym\":\"probeX\"},0],"
+            L"[\"Add\",[\"Quantity\",{\"num\":\"0.(3)\"},{\"str\":\"km\"}],"
+            L"[\"Subtract\",{\"num\":\"9007199254740993\"},{\"num\":\"9007199254740992\"}],[\"Rational\",-2,3]],"
+            L"[\"Divide\",1,{\"sym\":\"probeX\"}]],\"comment\":\"offline MathJSON fixture\"}";
+    ArgumentPtr probeX = new_Argument(L"probeX", 0);
+    MathJSON::ImportOptionsPtr options = MathJSON::ImportOptions::defaults()->withKilometresAsScalar(true);
+    auto imported = mathJsonImportWithDiagnostics(json, options, probeX);
+    ExpressionPtr expression = mathJsonValue(imported);
+    // The integer subtraction becomes zero, leaving 1000/3 - 2/3.
+    bool testResult = std::abs(expression->calculate() - 998.0 / 3) <= 1e-12;
+    String path = L"/fn/2/1";
+    testResult &= imported.getDiagnostics().size() == 1 && mathJsonWarning(imported, 0, L"UNIT_PROJECTED_TO_SCALAR", path)
+            && imported.getDiagnostics()[0]->getOffset() == json.find(L"[\"Quantity\"");
+    String projected = mathJsonText(MathJSON::exportExpression(expression));
+    ArgumentPtr restoredX = new_Argument(L"probeX", 0);
+    ExpressionPtr restored = mathJsonValue(mathJsonImport(projected, restoredX));
+    testResult &= std::abs(restored->calculate() - 998.0 / 3) <= 1e-12;
+    probeX->setArgumentValue(4);
+    restoredX->setArgumentValue(4);
+    testResult &= expression->calculate() == 0.25 && restored->calculate() == 0.25;
+    auto rejected = mathJsonImport(json, probeX);
+    auto error = rejected.getError();
+    testResult &= mathJsonError(rejected, L"UNSUPPORTED_NODE") && mathJsonEqual(path, mathJsonText(error->getPath()));
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0490", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON renamed built-in inside a user function used with a conditional and powers";
+    TestCommonTools::consolePrintTestApiStart(490, testDescr);
+    String source = L"if(1<2,kernel(3)+2^(3!),0)";
+    String expectedFormula = L"[\"If\",[\"Less\",1,2],[\"Add\",[\"kernel\",3],[\"Power\",2,[\"Factorial\",3]]],0]";
+    bool testResult = true;
+    mXparser::modifyBuiltinToken(Function1Arg::SQRT_STR, S(L"shiftedSqrt"));
+    {
+        const auto restore = mathJsonOnExit([&] {
+            mXparser::unmodifyBuiltinTokens(Function1Arg::SQRT_STR);
+        });
+        FunctionPtr kernel = new_Function(L"kernel", L"shiftedSqrt(t^2)+1", L"t");
+        ExpressionPtr original = new_Expression(source, kernel);
+        String formula = mathJsonText(MathJSON::exportExpression(original));
+        testResult &= original->calculate() == 68 && mathJsonEqual(expectedFormula, formula)
+                && mathJsonValue(mathJsonImport(formula, kernel))->calculate() == 68;
+        auto renamedProgram = MathJSON::exportProgramWithDiagnostics(original);
+        auto reimported = mathJsonImport(renamedProgram.getValue());
+        testResult &= renamedProgram.isSuccess() && reimported.isSuccess() && reimported.getValue()->calculate() == 68;
+        auto renamedImport = mathJsonImport(L"[\"If\",\"False\",[\"Sqrt\",9],4]");
+        testResult &= renamedImport.isSuccess() && renamedImport.getValue()->calculate() == 4;
+    }
+    ExpressionPtr restoredVocabulary = new_Expression(source, new_Function(L"kernel", L"sqrt(t^2)+1", L"t"));
+    String block = mathJsonText(MathJSON::exportProgram(restoredVocabulary));
+    String expectedBlock = L"[\"Block\",[\"DefineFunction\",\"kernel\","
+            L"[\"Function\",[\"Add\",[\"Sqrt\",[\"Power\",\"t\",2]],1],\"t\"]]," + expectedFormula + L"]";
+    testResult &= mathJsonEqual(expectedBlock, block) && mathJsonValue(mathJsonImport(block))->calculate() == 68;
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0491", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON validates the inactive branch of a Block function with a constant sum limit";
+    TestCommonTools::consolePrintTestApiStart(491, testDescr);
+    String valid = L"[\"Block\",[\"Declare\",\"steps\",[\"Dictionary\",[\"KeyValuePair\",\"value\",3],"
+            L"[\"KeyValuePair\",\"constant\",\"True\"]]],"
+            L"[\"DefineFunction\",\"selected\",[\"Function\",[\"If\",[\"GreaterEqual\",\"argT\",0],"
+            L"[\"Sum\",[\"Power\",\"i\",2],[\"Limits\",\"i\",1,\"steps\"]],[\"Divide\",1,[\"Rational\",5,5]]],\"argT\"]],"
+            L"[\"selected\",3]]";
+    ExpressionPtr imported = mathJsonValue(mathJsonImport(valid));
+    bool testResult = imported->calculate() == 14 && imported->getFunction(L"selected")->calculate(-1) == 1;
+    String zeroDivisor = mathJsonReplace(valid, L"[\"Rational\",5,5]", L"[\"Rational\",0,5]");
+    auto conditional = mathJsonImport(zeroDivisor);
+    testResult &= conditional.isSuccess() && conditional.getValue()->calculate() == 14
+            && std::isnan(conditional.getValue()->getFunction(L"selected")->calculate(-1));
+    String invalid = mathJsonReplace(valid, L"[\"Rational\",5,5]", L"[\"Rational\",5,0]");
+    auto rejected = mathJsonImport(invalid);
+    auto error = rejected.getError();
+    testResult &= mathJsonError(rejected, L"UNSUPPORTED_NUMBER") && mathJsonEqual(L"/2/2/1/3/2/2", mathJsonText(error->getPath()))
+            && error->getOffset() == invalid.find(L"[\"Rational\",5,0]") + String(L"[\"Rational\",5,").size();
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+TEST_CASE("testApi0492", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON export returns a standard Error node or a typed diagnostic";
+    TestCommonTools::consolePrintTestApiStart(492, testDescr);
+    ExpressionPtr unsupported = new_Expression(L"x??1", new_Argument(L"x", 2));
+    String expected = L"[\"Error\",[\"ErrorCode\",{\"str\":\"mxparser:UNSUPPORTED_NODE\"},"
+            L"{\"str\":\"Unsupported MathJSON construct\"},{\"str\":\"\"},-1]]";
+    String formula = mathJsonText(MathJSON::exportExpression(unsupported));
+    auto result = MathJSON::exportExpressionWithDiagnostics(unsupported);
+    bool testResult = mathJsonEqual(expected, formula) && mathJsonEqual(expected, unsupported->getExpressionAsMathJSON())
+            && mathJsonEqual(expected, MathJSON::exportProgram(unsupported))
+            && mathJsonError(result, L"UNSUPPORTED_NODE")
+            && mathJsonEqual(L"Unsupported MathJSON construct", mathJsonText(result.getError()->getMessage()));
+    String invalidDefinition = L"[\"Error\",[\"ErrorCode\",{\"str\":\"mxparser:INVALID_ARGUMENT\"},"
+            L"{\"str\":\"Invalid MathJSON conversion argument\"},{\"str\":\"\"},-1]]";
+    testResult &= mathJsonEqual(invalidDefinition, MathJSON::exportDefinition(nullptr))
+            && mathJsonError(MathJSON::exportDefinitionWithDiagnostics(nullptr), L"INVALID_ARGUMENT")
+            && mathJsonError(mathJsonImport(formula), L"INPUT_ERROR");
+    ExpressionPtr supported = new_Expression(L"2+3");
+    auto exported = MathJSON::exportExpressionWithDiagnostics(supported);
+    auto program = MathJSON::exportProgramWithDiagnostics(supported);
+    ConstantPtr constant = new_Constant(L"exampleValue", 5);
+    auto declaration = MathJSON::exportDefinitionWithDiagnostics(constant);
+    testResult &= exported.isSuccess() && exported.getError() == nullptr && exported.getDiagnostics().empty()
+            && mathJsonEqual(L"[\"Add\",2,3]", exported.getValue())
+            && program.isSuccess() && mathJsonEqual(MathJSON::exportProgram(supported), program.getValue())
+            && declaration.isSuccess() && mathJsonEqual(MathJSON::exportDefinition(constant), declaration.getValue());
+    String lexicalError = mathJsonText(MathJSON::exportExpression(new_Expression(L"1+\"")));
+    testResult &= mathJsonStartsWith(lexicalError, L"[\"Error\",[\"ErrorCode\",{\"str\":\"mxparser:INVALID_MXPARSER_SOURCE\"}")
+            && mathJsonContains(lexicalError, L"\\\"") && mathJsonContains(lexicalError, L"\\n")
+            && mathJsonError(mathJsonImport(lexicalError), L"INPUT_ERROR");
+    String longName(1200, L'z');
+    String source = longName + L"(1)";
+    ExpressionPtr unknown = new_Expression(source.c_str());
+    auto unknownResult = MathJSON::exportExpressionWithDiagnostics(unknown);
+    String shortened = mathJsonText(MathJSON::exportExpression(unknown));
+    testResult &= mathJsonError(unknownResult, L"RESOURCE_LIMIT")
+            && mathJsonError(mathJsonImport(shortened), L"INPUT_ERROR");
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0493", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON import returns failures, warnings and usable results without exceptions";
+    TestCommonTools::consolePrintTestApiStart(493, testDescr);
+    String invalid = L"[\"Add\",[\"Quantity\",2,{\"str\":\"km\"}],[\"Rational\",1,0]]";
+    MathJSON::ImportOptionsPtr options = MathJSON::ImportOptions::defaults()->withKilometresAsScalar(true);
+    auto failed = mathJsonImportWithDiagnostics(invalid, options);
+    bool testResult = mathJsonError(failed, L"UNSUPPORTED_NUMBER")
+            && mathJsonEqual(L"/2/2", mathJsonText(failed.getError()->getPath()))
+            && failed.getError()->getOffset() == invalid.rfind(L'0');
+    String remote = L" {\"fn\":[\"Error\",{\"str\":\"external-error\"}]}";
+    auto remoteFailure = mathJsonImportDefinition(remote);
+    testResult &= mathJsonError(remoteFailure, L"INPUT_ERROR") && mathJsonText(remoteFailure.getError()->getPath()).empty()
+            && remoteFailure.getError()->getOffset() == 1;
+    testResult &= mathJsonError(MathJSON::importExpression(StringPtr{}), L"INVALID_ARGUMENT")
+            && mathJsonError(mathJsonImportWithDiagnostics(L"1", nullptr), L"INVALID_ARGUMENT")
+            && mathJsonError(MathJSON::importDefinition(S(L"1"), ListPtr<PrimitiveElementPtr>{}), L"INVALID_ARGUMENT");
+    auto clean = mathJsonImport(L"[\"Add\",2,3]");
+    auto projected = mathJsonImportWithDiagnostics(
+            L"[\"Quantity\",2,{\"str\":\"km\"}]", options);
+    auto definition = mathJsonImportDefinition(
+            L"[\"Declare\",\"exampleValue\",{\"dict\":{\"value\":5}}]");
+    testResult &= clean.isSuccess() && clean.getError() == nullptr && clean.getValue()->calculate() == 5
+            && projected.isSuccess() && projected.getError() == nullptr && projected.getValue()->calculate() == 2000
+            && projected.getDiagnostics().size() == 1
+            && mathJsonEqual(L"UNIT_PROJECTED_TO_SCALAR", mathJsonText(projected.getDiagnostics()[0]->getCode()))
+            && definition.isSuccess() && definition.getError() == nullptr
+            && std::dynamic_pointer_cast<Argument>(definition.getValue()) && std::static_pointer_cast<Argument>(definition.getValue())->getArgumentValue() == 5;
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0494", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON errors and warnings use the active mXparser StringResources";
+    TestCommonTools::consolePrintTestApiStart(494, testDescr);
+    std::vector<String> languages = {L"en", L"pl", L"de", L"fr", L"es", L"it", L"pt", L"zh"};
+    std::vector<String> messages = {
+            L"Unsupported MathJSON construct", L"Nieobsługiwana konstrukcja MathJSON",
+            L"Nicht unterstützte MathJSON-Konstruktion", L"Construction MathJSON non prise en charge",
+            L"Construcción MathJSON no admitida", L"Costrutto MathJSON non supportato",
+            L"Construção MathJSON não suportada", L"不支持的 MathJSON 结构"
+    };
+    std::vector<String> warningMessages = {
+            L"Quantity converted to metres", L"Przeliczono wielkość na metry",
+            L"Größe in Meter umgerechnet", L"Quantité convertie en mètres",
+            L"Magnitud convertida a metros", L"Quantità convertita in metri",
+            L"Grandeza convertida em metros", L"量值已换算为米"
+    };
+    String foreign = L"[\"Add\",1,[\"List\",0]]";
+    String quantity = L"[\"Quantity\",2,{\"str\":\"km\"}]";
+    ExpressionPtr unsupported = new_Expression(L"x??1", new_Argument(L"x", 2));
+    ExpressionPtr supported = new_Expression(L"2+3");
+    MathJSON::ImportOptionsPtr options = MathJSON::ImportOptions::defaults()->withKilometresAsScalar(true);
+    StringResourcesPtr saved = StringModel::getStringResources();
+    bool testResult = true;
+    {
+        const auto restore = mathJsonOnExit([&] {
+            StringModel::setStringResources(saved);
+        });
+        for (std::size_t i = 0; i < languages.size(); i++) {
+            mXparser::changeLanguageTo(S(languages[i]));
+            auto imported = mathJsonImport(foreign);
+            auto importError = imported.getError();
+            testResult &= mathJsonError(imported, L"UNSUPPORTED_NODE") && mathJsonEqual(messages[i], mathJsonText(importError->getMessage()))
+                    && mathJsonEqual(L"/2", mathJsonText(importError->getPath())) && importError->getOffset() == foreign.find(L"[\"List\"");
+            auto exported = MathJSON::exportExpressionWithDiagnostics(unsupported);
+            auto exportError = exported.getError();
+            String errorJson = L"[\"Error\",[\"ErrorCode\",{\"str\":\"mxparser:UNSUPPORTED_NODE\"},"
+                    L"{\"str\":\"" + messages[i] + L"\"},{\"str\":\"\"},-1]]";
+            testResult &= mathJsonError(exported, L"UNSUPPORTED_NODE") && mathJsonEqual(messages[i], mathJsonText(exportError->getMessage()))
+                    && mathJsonText(exportError->getPath()).empty() && exportError->getOffset() == -1
+                    && mathJsonEqual(errorJson, MathJSON::exportExpression(unsupported))
+                    && mathJsonEqual(L"[\"Add\",2,3]", MathJSON::exportExpression(supported));
+            auto projected = mathJsonImportWithDiagnostics(quantity, options);
+            testResult &= projected.isSuccess() && projected.getDiagnostics().size() == 1;
+            if (projected.getDiagnostics().size() == 1) {
+                auto warning = projected.getDiagnostics()[0];
+                testResult &= mathJsonEqual(L"UNIT_PROJECTED_TO_SCALAR", mathJsonText(warning->getCode()))
+                        && mathJsonEqual(warningMessages[i], mathJsonText(warning->getMessage()))
+                        && mathJsonText(warning->getPath()).empty() && warning->getOffset() == 0;
+            }
+        }
+        StringResourcesPtr custom = StringResources::languagePolish();
+        custom->MATHJSON_UNRESOLVED_REFERENCE = S(L"Brak funkcji „{0}” ({0}).");
+        StringModel::setStringResources(custom);
+        auto missing = mathJsonImport(L"[\"sampleFunction\",1]");
+        testResult &= missing.isSuccess() && mathJsonWarning(missing, 0, L"UNRESOLVED_FUNCTION", L"")
+                && mathJsonEqual(L"Brak funkcji „sampleFunction” (sampleFunction).", mathJsonText(missing.getDiagnostics()[0]->getMessage()));
+        auto rational = mathJsonImport(L"[\"Rational\",1,0]");
+        testResult &= mathJsonError(rational, L"UNSUPPORTED_NUMBER")
+                && mathJsonEqual(L"Nieobsługiwana liczba przy konwersji MathJSON", mathJsonText(rational.getError()->getMessage()));
+        custom->MATHJSON_UNSUPPORTED_NUMBER = nullptr;
+        custom->MATHJSON_UNSUPPORTED_CONSTRUCT = nullptr;
+        custom->MATHJSON_UNIT_PROJECTED_TO_SCALAR = nullptr;
+        auto noErrorText = mathJsonImport(L"[\"Rational\",1,0]");
+        auto noWarningText = mathJsonImportWithDiagnostics(quantity, options);
+        testResult &= mathJsonError(noErrorText, L"UNSUPPORTED_NUMBER") && mathJsonText(noErrorText.getError()->getMessage()).empty()
+                && mathJsonEqual(L"/2", mathJsonText(noErrorText.getError()->getPath())) && noErrorText.getError()->getOffset() == 14
+                && mathJsonEqual(L"[\"Error\",[\"ErrorCode\",{\"str\":\"mxparser:UNSUPPORTED_NODE\"},{\"str\":\"\"},{\"str\":\"\"},-1]]", MathJSON::exportExpression(unsupported))
+                && noWarningText.isSuccess() && noWarningText.getDiagnostics().size() == 1
+                && mathJsonEqual(L"UNIT_PROJECTED_TO_SCALAR", mathJsonText(noWarningText.getDiagnostics()[0]->getCode()))
+                && mathJsonText(noWarningText.getDiagnostics()[0]->getMessage()).empty();
+    }
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0495", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON leaves ordinary operation domains to mXparser on import and export";
+    TestCommonTools::consolePrintTestApiStart(495, testDescr);
+    const std::vector<std::vector<String>> cases = {
+            {L"19!", L"[\"Factorial\",19]"},
+            {L"root(3,-8)", L"[\"Root\",[\"Negate\",8],3]"},
+            {L"1/0", L"[\"Divide\",1,0]"},
+            {L"sqrt(-1)", L"[\"Sqrt\",-1]"},
+            {L"ln(0)", L"[\"Ln\",0]"},
+            {L"log(1,8)", L"[\"Log\",8,1]"},
+            {L"0^0", L"[\"Power\",0,0]"},
+            {L"if(1.25<1.5,7,8)", L"[\"If\",[\"Less\",{\"num\":\"1.25\"},{\"num\":\"1.5\"}],7,8]"},
+            {L"if(1=1,7,1/0)", L"[\"If\",[\"Equal\",1,1],7,[\"Divide\",1,0]]"}
+    };
+    const double nan = std::numeric_limits<double>::quiet_NaN();
+    const double expected[] = {121645100408832000.0, -2, nan, nan, -std::numeric_limits<double>::infinity(),
+            nan, 1, 7, 7};
+    bool testResult = true;
+    for (std::size_t i = 0; i < cases.size(); i++) {
+        ExpressionPtr original = new_Expression(cases[i][0]);
+        auto exported = MathJSON::exportExpressionWithDiagnostics(original);
+        auto imported = mathJsonImport(cases[i][1]);
+        testResult &= exported.isSuccess() && mathJsonEqual(cases[i][1], exported.getValue())
+                && imported.isSuccess();
+        if (imported.isSuccess()) {
+            double originalValue = original->calculate();
+            double importedValue = imported.getValue()->calculate();
+            testResult &= std::isnan(expected[i])
+                    ? std::isnan(originalValue) && std::isnan(importedValue)
+                    : originalValue == expected[i] && importedValue == expected[i];
+        }
+    }
+    String powerJson = L"[\"Power\",\"x\",\"y\"]";
+    ArgumentPtr x = new_Argument(L"x", 2);
+    ArgumentPtr y = new_Argument(L"y", 3);
+    ExpressionPtr original = new_Expression(L"x^y", x, y);
+    auto power = mathJsonImport(powerJson, x, y);
+    testResult &= mathJsonEqual(powerJson, MathJSON::exportExpression(original)) && power.isSuccess();
+    if (power.isSuccess()) {
+        testResult &= original->calculate() == 8 && power.getValue()->calculate() == 8;
+        y->setArgumentValue(-3);
+        testResult &= original->calculate() == 0.125 && power.getValue()->calculate() == 0.125;
+    }
+    auto negativeRoot = mathJsonImport(L"[\"Root\",-8,3]");
+    testResult &= negativeRoot.isSuccess() && negativeRoot.getValue()->calculate() == -2;
+    auto rationalBase = mathJsonImport(L"[\"Power\",[\"Rational\",0,1],0]");
+    testResult &= rationalBase.isSuccess() && rationalBase.getValue()->calculate() == 1;
+    auto longSum = mathJsonImport(L"[\"Sum\",\"i\",[\"Limits\",\"i\",1,1001]]");
+    testResult &= longSum.isSuccess() && longSum.getValue()->calculate() == 501501;
+    testResult &= MathJSON::exportExpressionWithDiagnostics(new_Expression(L"sum(i,1,1001,i)")).isSuccess();
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0496", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON delegates Sum and Product bounds to mXparser";
+    TestCommonTools::consolePrintTestApiStart(496, testDescr);
+    ArgumentPtr n = new_Argument(L"n", 5);
+    const std::vector<std::vector<String>> examples = {
+            {L"sum(i,1,n,i)", L"[\"Sum\",\"i\",[\"Limits\",\"i\",1,\"n\"]]"},
+            {L"prod(i,1,n,i)", L"[\"Product\",\"i\",[\"Limits\",\"i\",1,\"n\"]]"},
+            {L"sum(i,3,1,i)", L"[\"Sum\",\"i\",[\"Limits\",\"i\",3,1]]"},
+            {L"sum(i,1,2.5,i)", L"[\"Sum\",\"i\",[\"Limits\",\"i\",1,2.5]]"},
+            {L"sum(i,1,2,sum(j,1,i,j))", L"[\"Sum\",[\"Sum\",\"j\",[\"Limits\",\"j\",1,\"i\"]],[\"Limits\",\"i\",1,2]]"}
+    };
+    const double expected[] = {15, 120, 6, 3, 4};
+    bool testResult = true;
+    for (std::size_t i = 0; i < examples.size(); i++) {
+        ExpressionPtr original = new_Expression(examples[i][0], n);
+        auto imported = mathJsonImport(examples[i][1], n);
+        auto exported = MathJSON::exportExpressionWithDiagnostics(original);
+        testResult &= original->calculate() == expected[i] && imported.isSuccess()
+                && imported.getValue()->calculate() == expected[i] && exported.isSuccess();
+        if (exported.isSuccess()) {
+            auto restored = mathJsonImport(exported.getValue(), n);
+            testResult &= restored.isSuccess() && restored.getValue()->calculate() == expected[i];
+        }
+    }
+    auto dynamic = mathJsonImport(examples[0][1], n);
+    n->setArgumentValue(6);
+    testResult &= dynamic.isSuccess() && dynamic.getValue()->calculate() == 21;
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+namespace {
+class MathJsonHostArgument final : public Argument {
+public:
+    MathJsonHostArgument() : Argument(L"hostSubclass", 1.0) {}
+};
+}
+
+TEST_CASE("testApi0497", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON validates supplied definitions on reference";
+    TestCommonTools::consolePrintTestApiStart(497, testDescr);
+    ArgumentPtr x = new_Argument(L"x", 10);
+    ArgumentPtr dependent = new_Argument(L"valueY", L"x+2", x);
+    ArgumentPtr duplicate1 = new_Argument(L"valueZ", 1);
+    ArgumentPtr duplicate2 = new_Argument(L"valueZ", 2);
+    auto host = std::make_shared<RecoveringArgumentSource>();
+    host->failureKind = 1;
+    ArgumentExtensionPtr extension = host;
+    ArgumentPtr extended = new_Argument(L"hostValue", extension);
+    auto ignored = mathJsonImport(L"[\"Add\",\"x\",2]", dependent, duplicate1, duplicate2, extended, x,
+            PrimitiveElementPtr{}, new_Expression(L"7"));
+    bool testResult = ignored.isSuccess() && ignored.getValue()->calculate() == 12;
+    auto linkedDependent = mathJsonImport(L"\"valueY\"", dependent);
+    testResult &= linkedDependent.isSuccess() && linkedDependent.getValue()->getArgument(L"valueY") == dependent
+            && linkedDependent.getValue()->calculate() == 12;
+    auto linkedHost = mathJsonImport(L"\"hostValue\"", extended);
+    testResult &= linkedHost.isSuccess() && linkedHost.getValue()->getArgument(L"hostValue") == extended
+            && mathJsonWarning(linkedHost, 0, L"EXTERNAL_DEFINITION", L"") && host->failureKind == 1;
+    auto duplicate = mathJsonImport(L"[\"Add\",1,\"valueZ\"]", duplicate1, duplicate2);
+    testResult &= mathJsonError(duplicate, L"NAME_COLLISION") && mathJsonEqual(L"/2", duplicate.getError()->getPath());
+    auto repeated = mathJsonImport(L"\"x\"", x, x);
+    testResult &= repeated.isSuccess() && repeated.getValue()->calculate() == 10;
+    ArgumentPtr subclass = std::make_shared<MathJsonHostArgument>();
+    auto ignoredSubclass = mathJsonImport(L"1", subclass);
+    testResult &= ignoredSubclass.isSuccess() && ignoredSubclass.getValue()->calculate() == 1
+            && mathJsonEqual(L"1", MathJSON::exportExpression(new_Expression(L"1", subclass)));
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0498", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON unary associative operations and large integral Rational atoms";
+    TestCommonTools::consolePrintTestApiStart(498, testDescr);
+    ArgumentPtr x = new_Argument(L"x", 7);
+    auto unary = mathJsonImport(L"[\"Multiply\",[\"Add\",\"x\"]]", x);
+    bool testResult = unary.isSuccess() && unary.getValue()->calculate() == 7
+            && mathJsonEqual(L"\"x\"", MathJSON::exportExpression(unary.getValue()));
+    const std::vector<String> rationals = {L"[\"Rational\",9007199254740992,2]",
+            L"[\"Rational\",{\"num\":\"1.8014398509481984e16\"},-2]"};
+    const double expected[] = {4503599627370496.0, -9007199254740992.0};
+    for (std::size_t i = 0; i < rationals.size(); i++) {
+        auto rational = mathJsonImport(rationals[i]);
+        testResult &= rational.isSuccess() && rational.getValue()->calculate() == expected[i];
+    }
+    testResult &= mathJsonError(mathJsonImport(L"[\"Add\"]"), L"INVALID_ARITY");
+    testResult &= mathJsonError(mathJsonImport(L"[\"Multiply\"]"), L"INVALID_ARITY");
+    testResult &= mathJsonError(mathJsonImport(L"[\"Rational\",1.5,2]"), L"UNSUPPORTED_NUMBER");
+    testResult &= mathJsonError(mathJsonImport(L"[\"Rational\",2,0]"), L"UNSUPPORTED_NUMBER");
+    ExpressionPtr fraction = new_Expression(L"9007199254740992_2");
+    auto exported = MathJSON::exportExpressionWithDiagnostics(fraction);
+    testResult &= exported.isSuccess() && mathJsonStartsWith(mathJsonText(exported.getValue()), L"[\"Rational\",");
+    if (exported.isSuccess()) {
+        auto restored = mathJsonImport(exported.getValue());
+        testResult &= restored.isSuccess() && restored.getValue()->calculate() == expected[0];
+    }
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0499", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON shares messages while retaining diagnostic codes and positions";
+    TestCommonTools::consolePrintTestApiStart(499, testDescr);
+    auto first = mathJsonImport(L"1 true");
+    auto second = mathJsonImport(L"[1,]");
+    bool testResult = mathJsonError(first, L"INVALID_JSON") && mathJsonError(second, L"INVALID_JSON")
+            && mathJsonEqual(L"Invalid JSON syntax", first.getError()->getMessage())
+            && mathJsonEqual(first.getError()->getMessage(), second.getError()->getMessage())
+            && mathJsonText(first.getError()->getPath()).empty() && first.getError()->getOffset() == 2
+            && mathJsonEqual(L"/1", second.getError()->getPath()) && second.getError()->getOffset() == 3;
+    auto shape = mathJsonImport(L"[\"Add\",1,true]");
+    auto root = mathJsonImportDefinition(L"1");
+    testResult &= mathJsonError(shape, L"INVALID_SHAPE") && mathJsonError(root, L"INVALID_ROOT")
+            && mathJsonEqual(L"Invalid MathJSON structure", shape.getError()->getMessage())
+            && mathJsonEqual(shape.getError()->getMessage(), root.getError()->getMessage())
+            && mathJsonEqual(L"/2", shape.getError()->getPath()) && shape.getError()->getOffset() == 9
+            && mathJsonText(root.getError()->getPath()).empty() && root.getError()->getOffset() == 0;
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0500", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON direct recursion follows the mXparser recursion limit";
+    TestCommonTools::consolePrintTestApiStart(500, testDescr);
+    const std::vector<String> definitions = {L"walk(n)=if(n<=0,1,n*walk(n-1))", L"walk(n)=walk(n)",
+            L"walk(n)=1+walk(n-1)", L"walk(n)=if(n<=0,walk(n+1),walk(n-1))", L"walk(n)=if(walk(n)>0,1,0)",
+            L"walk(n)=sum(i,1,1,walk(n))", L"walk(n)=sum(i,1,walk(n),i)", L"walk(n)=prod(i,1,1,walk(n))",
+            L"walk(n)=if(n<=0,0,sum(i,1,1,walk(n)))"};
+    const std::vector<String> bodies = {L"[\"If\",[\"LessEqual\",\"n\",0],1,[\"Multiply\",\"n\",[\"walk\",[\"Subtract\",\"n\",1]]]]",
+            L"[\"walk\",\"n\"]", L"[\"Add\",1,[\"walk\",[\"Subtract\",\"n\",1]]]",
+            L"[\"If\",[\"LessEqual\",\"n\",0],[\"walk\",[\"Add\",\"n\",1]],[\"walk\",[\"Subtract\",\"n\",1]]]",
+            L"[\"If\",[\"Greater\",[\"walk\",\"n\"],0],1,0]",
+            L"[\"Sum\",[\"walk\",\"n\"],[\"Limits\",\"i\",1,1]]", L"[\"Sum\",\"i\",[\"Limits\",\"i\",1,[\"walk\",\"n\"]]]",
+            L"[\"Product\",[\"walk\",\"n\"],[\"Limits\",\"i\",1,1]]",
+            L"[\"If\",[\"LessEqual\",\"n\",0],0,[\"Sum\",[\"walk\",\"n\"],[\"Limits\",\"i\",1,1]]]"};
+    bool testResult = true;
+    int saved = mXparser::getMaxAllowedRecursionDepth();
+    {
+        const auto restore = mathJsonOnExit([&] {
+            mXparser::setMaxAllowedRecursionDepth(saved);
+        });
+        mXparser::setMaxAllowedRecursionDepth(48);
+        for (std::size_t i = 0; i < definitions.size(); i++) {
+            ExpressionPtr original = new_Expression(L"walk(4)", new_Function(definitions[i].c_str()));
+            String wire = L"[\"Block\",[\"DefineFunction\",\"walk\",[\"Function\"," + bodies[i] + L",\"n\"]],[\"walk\",4]]";
+            auto imported = mathJsonImport(wire);
+            auto exported = MathJSON::exportProgramWithDiagnostics(original);
+            if (i >= 4) {
+                testResult &= original->checkSyntax() && mathJsonError(imported, L"UNSUPPORTED_PROGRAM")
+                        && mathJsonError(exported, L"UNSUPPORTED_PROGRAM");
+                if (i == 4 && imported.getError() != nullptr)
+                    testResult &= mathJsonEqual(L"/1/2/1/1/1", imported.getError()->getPath());
+                continue;
+            }
+            testResult &= original->checkSyntax() && imported.isSuccess() && exported.isSuccess();
+            if (!imported.isSuccess() || !exported.isSuccess()) continue;
+            auto restored = mathJsonImport(exported.getValue());
+            testResult &= restored.isSuccess();
+            if (!restored.isSuccess()) continue;
+            for (const ExpressionPtr& expression : {original, imported.getValue(), restored.getValue()}) {
+                FunctionPtr function = expression->getFunction(L"walk");
+                testResult &= function != nullptr && function->getFunction(L"walk") == function;
+                double first = expression->calculate(), second = expression->calculate();
+                testResult &= i == 0 ? first == 24 && second == 24 : std::isnan(first) && std::isnan(second);
+            }
+        }
+    }
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0501", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON export ignores unused extensions without invoking callbacks";
+    TestCommonTools::consolePrintTestApiStart(501, testDescr);
+    auto argumentSource = std::make_shared<RecoveringArgumentSource>();
+    const ArgumentExtensionPtr argumentExtension = argumentSource;
+    ArgumentPtr extra = new_Argument(L"unusedArg", argumentExtension);
+    auto functionSource = std::make_shared<LaTeXFunctionExtension>();
+    const FunctionExtensionPtr functionExtension = functionSource;
+    FunctionPtr extraFunction = new_Function(L"unusedFn", functionExtension);
+    ArgumentPtr x = new_Argument(L"x", 2);
+    FunctionPtr inc = new_Function(L"inc(t)=t+1");
+    ExpressionPtr plain = new_Expression(L"inc(x)", x, inc);
+    ExpressionPtr augmented = new_Expression(L"inc(x)", extra, extraFunction, x, inc);
+    FunctionPtr outer = new_Function(L"outer(t)=t+1");
+    outer->addDefinitions(extra, extraFunction);
+    ExpressionPtr usesArgument = new_Expression(L"unusedArg+1", extra);
+    ExpressionPtr usesFunction = new_Expression(L"unusedFn(1)", extraFunction);
+    int metadataBefore = functionSource->metadata;
+    argumentSource->failureKind = 1;
+    auto formula = MathJSON::exportExpressionWithDiagnostics(augmented);
+    auto program = MathJSON::exportProgramWithDiagnostics(augmented);
+    bool testResult = formula.isSuccess() && mathJsonEqual(L"[\"inc\",\"x\"]", formula.getValue())
+            && program.isSuccess() && mathJsonEqual(MathJSON::exportProgram(plain), program.getValue());
+    auto definition = MathJSON::exportDefinitionWithDiagnostics(outer);
+    testResult &= definition.isSuccess()
+            && mathJsonEqual(MathJSON::exportDefinition(new_Function(L"outer(t)=t+1")), definition.getValue());
+    auto referencedArgument = MathJSON::exportExpressionWithDiagnostics(usesArgument);
+    auto referencedFunction = MathJSON::exportExpressionWithDiagnostics(usesFunction);
+    testResult &= referencedArgument.isSuccess() && mathJsonEqual(L"[\"Add\",\"unusedArg\",1]", referencedArgument.getValue())
+            && mathJsonWarning(referencedArgument, 0, L"EXTERNAL_DEFINITION", L"");
+    testResult &= referencedFunction.isSuccess() && mathJsonEqual(L"[\"unusedFn\",1]", referencedFunction.getValue())
+            && mathJsonWarning(referencedFunction, 0, L"EXTERNAL_DEFINITION", L"");
+    testResult &= mathJsonError(MathJSON::exportProgramWithDiagnostics(usesArgument), L"UNSUPPORTED_PROGRAM")
+            && mathJsonError(MathJSON::exportProgramWithDiagnostics(usesFunction), L"UNSUPPORTED_PROGRAM");
+    testResult &= argumentSource->failureKind == 1 && functionSource->metadata == metadataBefore
+            && functionSource->calculations == 0 && functionSource->assignments == 0;
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0502", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON rounds decimal underflow to zero";
+    TestCommonTools::consolePrintTestApiStart(502, testDescr);
+    const std::vector<String> examples = {L"1e-400", L"-1e-400", L"{\"num\":\"1E-400\"}", L"{\"num\":\"-1E-400\"}",
+            L"[\"Rational\",-1e-400,2]"};
+    bool testResult = true;
+    for (const String& example : examples) {
+        auto imported = mathJsonImport(example);
+        testResult &= imported.isSuccess() && imported.getDiagnostics().empty();
+        if (imported.isSuccess()) {
+            double value = imported.getValue()->calculate();
+            testResult &= value == 0 && !std::signbit(value);
+        }
+    }
+    auto positive = mathJsonImportDefinition(L"[\"Declare\",\"valueX\",{\"dict\":{\"value\":1e-400}}]");
+    auto negative = mathJsonImportDefinition(L"[\"Declare\",\"valueX\",{\"dict\":{\"value\":-1e-400}}]");
+    testResult &= positive.isSuccess() && negative.isSuccess();
+    if (positive.isSuccess()) {
+        double value = std::static_pointer_cast<Argument>(positive.getValue())->getArgumentValue();
+        testResult &= value == 0 && !std::signbit(value);
+    }
+    if (negative.isSuccess()) {
+        double value = std::static_pointer_cast<Argument>(negative.getValue())->getArgumentValue();
+        testResult &= value == 0 && std::signbit(value);
+    }
+    testResult &= mathJsonError(mathJsonImport(L"[\"Rational\",1,1e-400]"), L"UNSUPPORTED_NUMBER")
+            && mathJsonError(mathJsonImport(L"-1e400"), L"UNSUPPORTED_NUMBER");
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0503", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON exchanges shared functions, conditional bodies and angle units";
+    TestCommonTools::consolePrintTestApiStart(503, testDescr);
+    const std::vector<std::vector<String>> cases = {
+            {L"sin(pi/2)", L"[\"Sin\",[\"Divide\",\"Pi\",2]]"}, {L"cos(0)", L"[\"Cos\",0]"},
+            {L"tg(pi/4)", L"[\"Tan\",[\"Divide\",\"Pi\",4]]"}, {L"exp(1)", L"[\"Exp\",1]"},
+            {L"Gamma(5)", L"[\"Gamma\",5]"}, {L"min(8,3,4)", L"[\"Min\",8,3,4]"}, {L"max(8,3,4)", L"[\"Max\",8,3,4]"},
+            {L"1+if(1<2,3,1/0)", L"[\"Add\",1,[\"If\",[\"Less\",1,2],3,[\"Divide\",1,0]]]"},
+            {L"min(cos(0),2)", L"[\"Min\",[\"Cos\",0],2]"},
+            {L"if(if(1<2,3,4)>2,1,0)", L"[\"If\",[\"Greater\",[\"If\",[\"Less\",1,2],3,4],2],1,0]"},
+            {L"sum(i,1,3,if(i<3,1,0))", L"[\"Sum\",[\"If\",[\"Less\",\"i\",3],1,0],[\"Limits\",\"i\",1,3]]"}
+    };
+    const std::vector<double> expected = {1, 1, 1, std::exp(1.0), 24, 3, 8, 4, 1, 1, 2};
+    bool testResult = true;
+    for (int i = 0; i < static_cast<int>(cases.size()); i++) {
+        ExpressionPtr original = new_Expression(cases[i][0]);
+        auto exported = MathJSON::exportExpressionWithDiagnostics(original);
+        auto imported = mathJsonImport(cases[i][1]);
+        testResult &= std::abs(original->calculate() - expected[i]) <= 1e-14;
+        testResult &= exported.isSuccess() && exported.getDiagnostics().empty() && mathJsonEqual(cases[i][1], exported.getValue());
+        testResult &= imported.isSuccess() && imported.getDiagnostics().empty()
+                && std::abs(imported.getValue()->calculate() - expected[i]) <= 1e-14;
+    }
+    mXparser::setDegreesMode();
+    {
+        const auto restore = mathJsonOnExit([] { mXparser::setRadiansMode(); });
+        auto degrees = MathJSON::exportExpressionWithDiagnostics(new_Expression(L"sin(30)"));
+        testResult &= degrees.isSuccess() && degrees.getDiagnostics().empty()
+                && mathJsonEqual(L"[\"Sin\",[\"Degrees\",30]]", degrees.getValue());
+        auto imported = mathJsonImport(L"[\"Sin\",[\"Divide\",\"Pi\",2]]");
+        testResult &= imported.isSuccess() && std::abs(imported.getValue()->calculate() - 1) <= 1e-14;
+        auto restored = mathJsonImport(degrees.getValue());
+        testResult &= restored.isSuccess() && std::abs(restored.getValue()->calculate() - 0.5) <= 1e-14;
+        auto cos = mathJsonImport(L"[\"Cos\",[\"Degrees\",60]]");
+        auto tan = mathJsonImport(L"[\"Tan\",[\"Degrees\",45]]");
+        testResult &= cos.isSuccess() && std::abs(cos.getValue()->calculate() - 0.5) <= 1e-14
+                && tan.isSuccess() && std::abs(tan.getValue()->calculate() - 1) <= 1e-14;
+        auto nested = MathJSON::exportExpressionWithDiagnostics(new_Expression(L"sin(rad(30))"));
+        testResult &= nested.isSuccess() && mathJsonEqual(L"[\"Sin\",[\"Degrees\",[\"Degrees\",30]]]", nested.getValue());
+    }
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0504", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON open formulas can be completed without reimport";
+    TestCommonTools::consolePrintTestApiStart(504, testDescr);
+    String json = L"[\"Add\",[\"score\",2],\"offset\"]";
+    auto imported = mathJsonImport(json);
+    bool testResult = imported.isSuccess() && mathJsonWarning(imported, 0, L"UNRESOLVED_FUNCTION", L"/1")
+            && mathJsonWarning(imported, 1, L"UNRESOLVED_SYMBOL", L"/2") && imported.getDiagnostics().size() == 2;
+    if (imported.isSuccess()) {
+        ExpressionPtr expression = imported.getValue();
+        auto missingFunctions = expression->getMissingUserDefinedFunctions();
+        auto missingArguments = expression->getMissingUserDefinedArguments();
+        testResult &= !expression->checkSyntax()
+                && missingFunctions->length == 1 && mathJsonEqual(L"score", (*missingFunctions)(0))
+                && missingArguments->length == 1 && mathJsonEqual(L"offset", (*missingArguments)(0));
+        auto exported = MathJSON::exportExpressionWithDiagnostics(expression);
+        testResult &= exported.isSuccess() && mathJsonEqual(json, exported.getValue()) && exported.getDiagnostics().size() == 2;
+        expression->addDefinitions(new_Function(L"score(t)=t^2"), new_Constant(L"offset", 1));
+        testResult &= expression->checkSyntax() && expression->calculate() == 5;
+    }
+    auto variadic = mathJsonImport(L"[\"Add\",[\"score\",2],[\"score\",2,3]]");
+    testResult &= variadic.isSuccess() && variadic.getDiagnostics().size() == 1;
+    if (variadic.isSuccess()) {
+        variadic.getValue()->addDefinitions(new_Function(L"score(...)= [npar]"));
+        testResult &= variadic.getValue()->checkSyntax() && variadic.getValue()->calculate() == 3;
+    }
+    const std::vector<String> nested = {L"[\"score\",[\"offset\",2]]", L"[\"Sin\",[\"score\",2]]",
+            L"[\"If\",\"True\",[\"score\",2],0]", L"[\"Sum\",[\"score\",\"j\"],[\"Limits\",\"j\",1,2]]"};
+    const std::vector<double> expected = {81, std::sin(4), 4, 5};
+    for (int i = 0; i < static_cast<int>(nested.size()); i++) {
+        auto result = mathJsonImport(nested[i]);
+        testResult &= result.isSuccess();
+        if (result.isSuccess()) {
+            result.getValue()->addDefinitions(new_Function(L"score(t)=t^2"), new_Function(L"offset(t)=t+7"));
+            testResult &= result.getValue()->checkSyntax() && std::abs(result.getValue()->calculate() - expected[i]) <= 1e-14;
+        }
+    }
+    testResult &= mathJsonError(mathJsonImport(L"[\"Block\",[\"score\",2]]"), L"UNRESOLVED_FUNCTION");
+    testResult &= mathJsonError(mathJsonImport(L"[\"List\",1,2]"), L"UNSUPPORTED_NODE");
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0505", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON links host arguments and functions without calling them during conversion";
+    TestCommonTools::consolePrintTestApiStart(505, testDescr);
+    auto argumentSource = std::make_shared<RecoveringArgumentSource>();
+    const ArgumentExtensionPtr argumentExtension = argumentSource;
+    ArgumentPtr extra = new_Argument(L"hostValue", argumentExtension);
+    auto functionSource = std::make_shared<LaTeXFunctionExtension>();
+    const FunctionExtensionPtr functionExtension = functionSource;
+    FunctionPtr function = new_Function(L"hostFn", functionExtension);
+    int metadata = functionSource->metadata;
+    argumentSource->failureKind = 1;
+    String json = L"[\"Add\",\"hostValue\",[\"hostFn\",1]]";
+    auto imported = mathJsonImport(json, extra, function);
+    bool testResult = imported.isSuccess() && mathJsonWarning(imported, 0, L"EXTERNAL_DEFINITION", L"/1")
+            && mathJsonWarning(imported, 1, L"EXTERNAL_DEFINITION", L"/2");
+    if (imported.isSuccess()) {
+        ExpressionPtr expression = imported.getValue();
+        testResult &= expression->getArgument(L"hostValue") == extra && expression->getFunction(L"hostFn") == function;
+        auto exported = MathJSON::exportExpressionWithDiagnostics(expression);
+        testResult &= exported.isSuccess() && mathJsonEqual(json, exported.getValue()) && exported.getDiagnostics().size() == 2;
+        testResult &= argumentSource->failureKind == 1 && functionSource->metadata == metadata
+                && functionSource->calculations == 0 && functionSource->assignments == 0;
+        argumentSource->failureKind = 0;
+        testResult &= expression->calculate() == 44 && functionSource->calculations == 1;
+    }
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0506", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON preserves standard and overridden builtin bindings";
+    TestCommonTools::consolePrintTestApiStart(506, testDescr);
+    ArgumentPtr tan = new_Argument(L"Tan", 2);
+    auto scalar = mathJsonImport(L"[\"Add\",\"Tan\",1]", tan);
+    bool testResult = scalar.isSuccess() && scalar.getValue()->calculate() == 3;
+    FunctionPtr custom = new_Function(L"Tan(t)=t+1");
+    StringPtr declaration = MathJSON::exportDefinition(custom);
+    auto definition = mathJsonImportDefinition(declaration);
+    testResult &= definition.isSuccess() && std::dynamic_pointer_cast<Function>(definition.getValue())->calculate(2) == 3;
+    testResult &= mathJsonError(mathJsonImport(L"[\"Sum\",\"Pi\",[\"Limits\",\"Pi\",1,3]]"), L"NAME_COLLISION");
+    testResult &= mathJsonError(mathJsonImportDefinition(L"[\"DefineFunction\",\"turn\",[\"Function\",\"Pi\",\"Pi\"]]"), L"NAME_COLLISION");
+    ArgumentPtr i = new_Argument(L"i", 2);
+    auto symbol = MathJSON::exportExpressionWithDiagnostics(new_Expression(L"i+1", i));
+    testResult &= symbol.isSuccess() && mathJsonEqual(L"[\"Add\",[\"MxParserSymbol\",\"i\"],1]", symbol.getValue())
+            && mathJsonWarning(symbol, 1, L"MXPARSER_EXTENSION", L"");
+    auto restoredSymbol = mathJsonImport(symbol.getValue(), i);
+    testResult &= restoredSymbol.isSuccess() && restoredSymbol.getValue()->calculate() == 3;
+    String recursive = L"[\"Block\",[\"DefineFunction\",\"Sum\",[\"Function\",\"t\",\"t\"]],"
+            L"[\"DefineFunction\",\"walk\",[\"Function\",[\"If\",[\"Less\",\"n\",1],0,"
+            L"[\"MxParserCall\",\"Sum\",[\"walk\",[\"Subtract\",\"n\",1]]]],\"n\"]],[\"walk\",3]]";
+    auto recursion = mathJsonImport(recursive);
+    testResult &= recursion.isSuccess() && recursion.getValue()->calculate() == 0;
+    mXparser::setToOverrideBuiltinTokens();
+    {
+        const auto restore = mathJsonOnExit([] {
+            mXparser::unmodifyBuiltinTokens(Function1Arg::SIN_STR);
+            mXparser::setNotToOverrideBuiltinTokens();
+        });
+        FunctionPtr sin = new_Function(L"sin(t)=t+1");
+        ExpressionPtr overridden = new_Expression(L"sin(0)", sin);
+        auto exported = MathJSON::exportExpressionWithDiagnostics(overridden);
+        testResult &= overridden->calculate() == 1 && exported.isSuccess()
+                && mathJsonEqual(L"[\"MxParserCall\",\"sin\",0]", exported.getValue())
+                && mathJsonWarning(exported, 1, L"MXPARSER_EXTENSION", L"");
+        auto restored = mathJsonImport(exported.getValue(), sin);
+        testResult &= restored.isSuccess() && restored.getValue()->calculate() == 1;
+        String mixed = L"[\"Add\",[\"Sin\",0],[\"MxParserCall\",\"sin\",0]]";
+        testResult &= mathJsonError(mathJsonImport(mixed, sin), L"BUILTIN_UNAVAILABLE");
+        mXparser::modifyBuiltinToken(Function1Arg::SIN_STR, S(L"sine"));
+        auto renamed = mathJsonImport(mixed, sin);
+        testResult &= renamed.isSuccess() && renamed.getValue()->calculate() == 1;
+        auto standard = MathJSON::exportExpressionWithDiagnostics(new_Expression(L"sine(0)"));
+        testResult &= standard.isSuccess() && standard.getDiagnostics().empty() && mathJsonEqual(L"[\"Sin\",0]", standard.getValue());
+    }
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0507", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON carries explicit mXparser operators with a portability warning";
+    TestCommonTools::consolePrintTestApiStart(507, testDescr);
+    ExpressionPtr original = new_Expression(L"2^^3+1");
+    auto exported = MathJSON::exportExpressionWithDiagnostics(original);
+    bool testResult = exported.isSuccess() && mathJsonEqual(L"[\"Add\",[\"MxParserTetration\",2,3],1]", exported.getValue())
+            && exported.getDiagnostics().size() == 1 && mathJsonWarning(exported, 0, L"MXPARSER_EXTENSION", L"");
+    auto imported = mathJsonImport(exported.getValue());
+    testResult &= original->calculate() == 17 && imported.isSuccess() && imported.getValue()->calculate() == 17;
+    testResult &= mathJsonError(mathJsonImport(L"[\"MxParserTetration\",2]"), L"INVALID_ARITY");
+    const std::vector<String> chains = {L"2^^2^^2", L"2^^3!", L"2^-3^^2", L"2^^-1*3"};
+    const std::vector<double> expected = {65536, 20922789888000.0, 0.9746546091224311, std::numeric_limits<double>::quiet_NaN()};
+    for (int i = 0; i < static_cast<int>(chains.size()); i++) {
+        ExpressionPtr chain = new_Expression(chains[i]);
+        auto encoded = MathJSON::exportExpressionWithDiagnostics(chain);
+        auto decoded = mathJsonImport(encoded.getValue());
+        if (encoded.isSuccess() && decoded.isSuccess()) {
+            double value = decoded.getValue()->calculate();
+            testResult &= std::isnan(expected[i]) ? std::isnan(value) && std::isnan(chain->calculate())
+                    : std::abs(value - expected[i]) <= 1e-14 && std::abs(chain->calculate() - expected[i]) <= 1e-14;
+        } else testResult = false;
+    }
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0508", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON exports a single function with external references";
+    TestCommonTools::consolePrintTestApiStart(508, testDescr);
+    FunctionPtr g = new_Function(L"g(t)=t??1");
+    FunctionPtr f = new_Function(L"f(t)=g(t)+g(t)");
+    f->addDefinitions(g, new_Function(L"unused(t)=t??3"));
+    String wire = L"[\"DefineFunction\",\"f\",[\"Function\",[\"Add\",[\"g\",\"t\"],[\"g\",\"t\"]],\"t\"]]";
+    auto exported = MathJSON::exportDefinitionWithDiagnostics(f);
+    bool testResult = f->calculate(2) == 4 && exported.isSuccess() && mathJsonEqual(wire, exported.getValue())
+            && exported.getDiagnostics().size() == 1 && mathJsonWarning(exported, 0, L"EXTERNAL_DEFINITION", L"");
+    auto imported = mathJsonImportDefinition(exported.getValue(), g);
+    testResult &= imported.isSuccess() && std::dynamic_pointer_cast<Function>(imported.getValue())->getFunction(L"g") == g
+            && std::dynamic_pointer_cast<Function>(imported.getValue())->calculate(2) == 4;
+    auto open = mathJsonImportDefinition(wire);
+    testResult &= open.isSuccess() && open.getDiagnostics().size() == 1
+            && mathJsonWarning(open, 0, L"UNRESOLVED_FUNCTION", L"/2/1/1");
+    testResult &= mathJsonError(MathJSON::exportDefinitionWithDiagnostics(new_Function(L"missing(t)=g(t)")), L"UNRESOLVED_FUNCTION");
+    FunctionPtr wrongArity = new_Function(L"wrong(t)=g(t,t)");
+    wrongArity->addDefinitions(g);
+    testResult &= mathJsonError(MathJSON::exportDefinitionWithDiagnostics(wrongArity), L"INVALID_ARITY");
+    testResult &= mathJsonError(MathJSON::exportDefinitionWithDiagnostics(g), L"UNSUPPORTED_NODE");
+    testResult &= mathJsonError(MathJSON::exportProgramWithDiagnostics(new_Expression(L"f(2)", f)), L"UNSUPPORTED_NODE");
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0509", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON normalizes formula zeros and preserves declaration signs";
+    TestCommonTools::consolePrintTestApiStart(509, testDescr);
+    const std::vector<String> examples = {L"-0", L"-0.0", L"{\"num\":\"-0e-400\"}", L"[\"Multiply\",2,-0]", L"[\"Rational\",-0,2]"};
+    bool testResult = true;
+    for (const String& example : examples) {
+        auto imported = mathJsonImport(example);
+        testResult &= imported.isSuccess() && imported.getDiagnostics().empty()
+                && mathJsonBits(imported.getValue()->calculate()) == 0;
+    }
+    ExpressionPtr original = new_Expression(L"2*(-0.0)");
+    auto exported = MathJSON::exportExpressionWithDiagnostics(original);
+    auto restored = mathJsonImport(exported.getValue());
+    testResult &= exported.isSuccess() && mathJsonEqual(L"[\"Multiply\",2,0]", exported.getValue())
+            && restored.isSuccess() && original->calculate() == restored.getValue()->calculate();
+    ExpressionPtr signedPower = new_Expression(L"(-0.0)^(-1)");
+    StringPtr normalizedPower = MathJSON::exportExpression(signedPower);
+    auto restoredPower = mathJsonImport(normalizedPower);
+    testResult &= std::isinf(signedPower->calculate())
+            && mathJsonEqual(L"[\"Power\",0,-1]", normalizedPower)
+            && restoredPower.isSuccess() && restoredPower.getValue()->calculate() == std::numeric_limits<double>::infinity();
+    testResult &= mathJsonError(mathJsonImport(L"[\"Rational\",1,-0]"), L"UNSUPPORTED_NUMBER");
+    ArgumentPtr signedValue = new_Argument(L"z", -0.0);
+    String declaration = L"[\"Declare\",\"z\",[\"Dictionary\",[\"KeyValuePair\",\"value\",{\"num\":\"-0\"}]]]";
+    testResult &= mathJsonEqual(declaration, MathJSON::exportDefinition(signedValue));
+    auto imported = mathJsonImportDefinition(declaration);
+    testResult &= imported.isSuccess()
+            && mathJsonBits(std::dynamic_pointer_cast<Argument>(imported.getValue())->getArgumentValue()) == UINT64_C(0x8000000000000000);
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0510", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON qualified user names stay distinct from numeric atoms";
+    TestCommonTools::consolePrintTestApiStart(510, testDescr);
+    ArgumentPtr symbol = new_Argument(L"NaN", 7);
+    auto exported = MathJSON::exportExpressionWithDiagnostics(new_Expression(L"NaN+1", symbol));
+    bool testResult = exported.isSuccess()
+            && mathJsonEqual(L"[\"Add\",[\"MxParserSymbol\",{\"sym\":\"NaN\"}],1]", exported.getValue())
+            && mathJsonWarning(exported, 1, L"MXPARSER_EXTENSION", L"");
+    const std::vector<String> references = {mathJsonText(exported.getValue()), L"[\"Add\",[\"MxParserSymbol\",\"NaN\"],1]"};
+    for (const String& reference : references) {
+        auto imported = mathJsonImport(reference, symbol);
+        testResult &= imported.isSuccess() && imported.getValue()->getArgument(L"NaN") == symbol
+                && imported.getValue()->calculate() == 8;
+    }
+    auto program = MathJSON::exportProgramWithDiagnostics(new_Expression(L"NaN+1", symbol));
+    auto restoredProgram = mathJsonImport(program.getValue());
+    testResult &= program.isSuccess() && mathJsonContains(program.getValue(), L"[\"Declare\",{\"sym\":\"NaN\"},")
+            && restoredProgram.isSuccess() && restoredProgram.getValue()->calculate() == 8;
+    FunctionPtr function = new_Function(L"Infinity(t)=t+1");
+    String call = L"[\"MxParserCall\",{\"sym\":\"Infinity\"},2]";
+    auto qualified = MathJSON::exportExpressionWithDiagnostics(new_Expression(L"Infinity(2)", function));
+    testResult &= qualified.isSuccess() && mathJsonEqual(call, qualified.getValue())
+            && mathJsonWarning(qualified, 1, L"MXPARSER_EXTENSION", L"");
+    for (const String& reference : std::vector<String>{call, L"[\"MxParserCall\",\"Infinity\",2]"}) {
+        auto imported = mathJsonImport(reference, function);
+        testResult &= imported.isSuccess() && imported.getValue()->getFunction(L"Infinity") == function
+                && imported.getValue()->calculate() == 3;
+    }
+    FunctionPtr wrapper = new_Function(L"MxParserSymbol(t)=t+1");
+    testResult &= mathJsonEqual(L"[\"MxParserCall\",\"MxParserSymbol\",2]",
+            MathJSON::exportExpression(new_Expression(L"MxParserSymbol(2)", wrapper)));
+    testResult &= mathJsonError(mathJsonImport(L"[\"MxParserSymbol\",{\"num\":\"NaN\"}]", symbol), L"INVALID_SHAPE")
+            && mathJsonError(mathJsonImport(L"{\"num\":\"NaN\"}"), L"UNSUPPORTED_NUMBER");
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0511", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON keeps function parameters local";
+    TestCommonTools::consolePrintTestApiStart(511, testDescr);
+    ArgumentPtr x = new_Argument(L"x", 99);
+    FunctionPtr f = new_Function(L"f(x)=x+1");
+    String declaration = L"[\"DefineFunction\",\"f\",[\"Function\",[\"Add\",\"x\",1],\"x\"]]";
+    String scalar = L"[\"Declare\",\"x\",[\"Dictionary\",[\"KeyValuePair\",\"value\",99]]]";
+    String body = L"[\"Add\",\"x\",[\"f\",2]]";
+    ExpressionPtr original = new_Expression(L"x+f(2)", x, f);
+    String exported = mathJsonText(MathJSON::exportProgram(original));
+    bool testResult = original->calculate() == 102 && x->getArgumentValue() == 99
+            && mathJsonEqual(L"[\"Block\"," + scalar + L"," + declaration + L"," + body + L"]", exported);
+    std::vector<String> blocks = {exported, L"[\"Block\"," + declaration + L"," + scalar + L"," + body + L"]"};
+    for (const String& block : blocks) {
+        auto imported = mathJsonImport(block);
+        testResult &= imported.isSuccess() && imported.getValue()->calculate() == 102
+                && imported.getValue()->getArgument(S(L"x"))->getArgumentValue() == 99;
+    }
+    auto imported = mathJsonImportDefinition(declaration, x);
+    testResult &= imported.isSuccess() && std::dynamic_pointer_cast<Function>(imported.getValue())->calculate(2) == 3
+            && x->getArgumentValue() == 99;
+    testResult &= mathJsonError(mathJsonImportDefinition(L"[\"DefineFunction\",\"f\",[\"Function\",\"x\",\"x\",\"x\"]]"), L"NAME_COLLISION");
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0512", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON preserves comparisons in scalar and predicate positions";
+    TestCommonTools::consolePrintTestApiStart(512, testDescr);
+    std::vector<String> sources = {L"1<2", L"1+(1<2)", L"3<2<1", L"if(1<2,3,4)", L"5>3=3", L"if(3<2<1,5,6)"};
+    std::vector<String> wires = {L"[\"Boole\",[\"Less\",1,2]]", L"[\"Add\",1,[\"Boole\",[\"Less\",1,2]]]",
+            L"[\"Boole\",[\"Less\",[\"Boole\",[\"Less\",3,2]],1]]", L"[\"If\",[\"Less\",1,2],3,4]",
+            L"[\"Boole\",[\"Greater\",5,[\"Boole\",[\"Equal\",3,3]]]]", L"[\"If\",[\"Less\",[\"Boole\",[\"Less\",3,2]],1],5,6]"};
+    std::vector<double> expected = {1, 2, 1, 3, 1, 5};
+    bool testResult = true;
+    for (std::size_t i = 0; i < sources.size(); i++) {
+        ExpressionPtr original = new_Expression(sources[i]);
+        String exported = mathJsonText(MathJSON::exportExpression(original));
+        auto imported = mathJsonImport(exported);
+        testResult &= original->calculate() == expected[i] && mathJsonEqual(wires[i], exported)
+                && imported.isSuccess() && imported.getValue()->calculate() == expected[i];
+    }
+    auto bare = mathJsonImport(L"[\"Less\",2,1]");
+    std::vector<String> literals = {L"True", L"False"};
+    for (std::size_t i = 0; i < literals.size(); i++) {
+        String bareLiteral = L"\"" + literals[i] + L"\"";
+        String scalarWire = L"[\"Boole\"," + bareLiteral + L"]";
+        auto scalar = mathJsonImport(scalarWire);
+        auto literal = mathJsonImport(bareLiteral);
+        testResult &= scalar.isSuccess() && scalar.getValue()->calculate() == 1 - i
+                && mathJsonEqual(scalarWire, MathJSON::exportExpression(scalar.getValue()))
+                && literal.isSuccess() && literal.getValue()->calculate() == 1 - i;
+    }
+    auto embedded = mathJsonImport(L"[\"Add\",1,[\"Less\",1,2]]");
+    testResult &= bare.isSuccess() && bare.getValue()->calculate() == 0
+            && embedded.isSuccess() && embedded.getValue()->calculate() == 2
+            && mathJsonError(mathJsonImport(L"[\"Less\",1,2,3]"), L"INVALID_ARITY")
+            && mathJsonError(mathJsonImport(L"[\"Boole\"]"), L"INVALID_ARITY")
+            && mathJsonError(mathJsonImport(L"[\"Boole\",\"True\",\"False\"]"), L"INVALID_ARITY")
+            && mathJsonError(mathJsonImport(L"[\"Boole\",2]"), L"UNSUPPORTED_DOMAIN");
+    FunctionPtr host = new_Function(L"Boole(t)=t+1");
+    String qualified = mathJsonText(MathJSON::exportExpression(new_Expression(L"Boole(2)", host)));
+    auto restoredHost = mathJsonImport(qualified, host);
+    auto standard = mathJsonImport(L"[\"Boole\",\"True\"]", host);
+    testResult &= mathJsonEqual(L"[\"MxParserCall\",\"Boole\",2]", qualified)
+            && restoredHost.isSuccess() && restoredHost.getValue()->calculate() == 3
+            && standard.isSuccess() && standard.getValue()->calculate() == 1;
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0513", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON exports a parenthesized unit step";
+    TestCommonTools::consolePrintTestApiStart(513, testDescr);
+    std::vector<String> sources = {L"sum(i,1,3,i,(1))", L"prod(i,1,3,i,((1)))"};
+    std::vector<String> wires = {L"[\"Sum\",\"i\",[\"Limits\",\"i\",1,3]]", L"[\"Product\",\"i\",[\"Limits\",\"i\",1,3]]"};
+    bool testResult = true;
+    for (std::size_t i = 0; i < sources.size(); i++) {
+        ExpressionPtr original = new_Expression(sources[i]);
+        String exported = mathJsonText(MathJSON::exportExpression(original));
+        auto imported = mathJsonImport(exported);
+        testResult &= original->calculate() == 6 && mathJsonEqual(wires[i], exported)
+                && imported.isSuccess() && imported.getValue()->calculate() == 6;
+    }
+    testResult &= mathJsonError(MathJSON::exportExpressionWithDiagnostics(new_Expression(L"sum(i,1,3,i,(2-1))")), L"UNSUPPORTED_DOMAIN");
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0514", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON checks iterator names against installed definitions";
+    TestCommonTools::consolePrintTestApiStart(514, testDescr);
+    ArgumentPtr i = new_Argument(L"i", 7);
+    String sum = L"[\"Sum\",\"i\",[\"Limits\",\"i\",1,3]]";
+    String tupleSum = L"[\"Sum\",\"i\",[\"Tuple\",\"i\",1,3]]";
+    String tupleProduct = L"[\"Product\",\"i\",[\"Tuple\",\"i\",1,3]]";
+    bool testResult = true;
+    for (const String& wire : std::vector<String>{sum, tupleSum, tupleProduct}) {
+        auto result = mathJsonImport(wire, i);
+        testResult &= result.isSuccess() && result.getValue()->calculate() == 6
+                && result.getValue()->getArgument(L"i") == nullptr && i->getArgumentValue() == 7;
+    }
+    auto collision = mathJsonImport(L"[\"Add\",\"i\"," + tupleSum + L"]", i);
+    testResult &= mathJsonError(collision, L"NAME_COLLISION") && mathJsonEqual(L"/2/2/1", collision.getError()->getPath());
+    testResult &= mathJsonError(mathJsonImport(L"[\"Block\",[\"Declare\",\"i\",{\"dict\":{\"value\":7}}]," + sum + L"]"), L"NAME_COLLISION");
+    String function = L"[\"DefineFunction\",\"localSum\",[\"Function\",[\"Multiply\",\"n\"," + tupleSum + L"],\"n\"]]";
+    auto result = mathJsonImportDefinition(function, i);
+    testResult &= result.isSuccess() && std::dynamic_pointer_cast<Function>(result.getValue())->calculate(2) == 12;
+    testResult &= mathJsonError(mathJsonImportDefinition(L"[\"DefineFunction\",\"i\",[\"Function\"," + sum + L",\"n\"]]"), L"NAME_COLLISION")
+            && mathJsonError(mathJsonImport(L"[\"Sum\",\"i\",[\"Tuple\",\"i\",1]]"), L"INVALID_ARITY");
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0515", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON reads explicit Boolean declaration attributes";
+    TestCommonTools::consolePrintTestApiStart(515, testDescr);
+    String prefix = L"[\"Declare\",\"x\",";
+    std::vector<String> arguments = {L"{\"dict\":{\"value\":7,\"constant\":false}}", L"{\"dict\":{\"value\":7,\"constant\":\"False\"}}",
+            L"[\"Dictionary\",[\"Tuple\",\"constant\",\"False\"],[\"Tuple\",\"value\",7]]"};
+    bool testResult = true;
+    for (const String& attributes : arguments) {
+        auto result = mathJsonImportDefinition(prefix + attributes + L"]");
+        ArgumentPtr argument = std::dynamic_pointer_cast<Argument>(result.getValue());
+        testResult &= result.isSuccess() && argument && argument->getArgumentValue() == 7 && result.getDiagnostics().empty();
+    }
+    auto constant = mathJsonImportDefinition(prefix + L"{\"dict\":{\"value\":7,\"constant\":true}}]");
+    ConstantPtr constantValue = std::dynamic_pointer_cast<Constant>(constant.getValue());
+    testResult &= constant.isSuccess() && constantValue && constantValue->getConstantValue() == 7;
+    testResult &= mathJsonError(mathJsonImportDefinition(prefix + L"{\"dict\":{\"value\":7,\"constant\":0}}]"), L"INVALID_SHAPE")
+            && mathJsonError(mathJsonImportDefinition(prefix + L"[\"Dictionary\",[\"Tuple\",\"value\",7],[\"Tuple\",\"constant\",\"False\"],[\"Tuple\",\"constant\",\"True\"]]]"), L"INVALID_SHAPE")
+            && mathJsonError(mathJsonImport(L"[\"If\",true,3,4]"), L"INVALID_SHAPE");
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0516", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON exports numeric literal conditions with native rounding";
+    TestCommonTools::consolePrintTestApiStart(516, testDescr);
+    std::vector<String> sources = {L"if(2,3,4)", L"if(0,3,4)", L"if(-(2),3,4)", L"if(1e-15,3,4)"};
+    std::vector<String> wires = {L"[\"If\",\"True\",3,4]", L"[\"If\",\"False\",3,4]", L"[\"If\",\"True\",3,4]", L"[\"If\",\"False\",3,4]"};
+    std::vector<double> expected = {3, 4, 3, 4};
+    bool testResult = true;
+    for (std::size_t j = 0; j < sources.size(); j++) {
+        ExpressionPtr source = new_Expression(sources[j]);
+        String exported = mathJsonText(MathJSON::exportExpression(source));
+        auto restored = mathJsonImport(exported);
+        testResult &= source->calculate() == expected[j] && mathJsonEqual(wires[j], exported)
+                && restored.isSuccess() && restored.getValue()->calculate() == expected[j];
+    }
+    mXparser::disableAlmostIntRounding();
+    mXparser::disableCanonicalRounding();
+    ExpressionPtr small = new_Expression(L"if(1e-15,3,4)");
+    testResult &= small->calculate() == 3 && mathJsonEqual(wires[0], MathJSON::exportExpression(small));
+    mXparser::enableAlmostIntRounding();
+    mXparser::enableCanonicalRounding();
+    FunctionPtr negate = new_Function(L"Negate(t)=t+1");
+    testResult &= mathJsonError(mathJsonImport(L"[\"If\",2,3,4]"), L"UNSUPPORTED_DOMAIN")
+            && mathJsonError(MathJSON::exportExpressionWithDiagnostics(new_Expression(L"if(Negate(2),3,4)", negate)), L"UNSUPPORTED_DOMAIN");
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+class MathJsonUnusedArgument final : public Argument {
+public:
+    MathJsonUnusedArgument() : Argument(L"x", 7.0) {}
+};
+
+TEST_CASE("testApi0517", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON checks definition types only when used";
+    TestCommonTools::consolePrintTestApiStart(517, testDescr);
+    ArgumentPtr custom = std::make_shared<MathJsonUnusedArgument>();
+    ExpressionPtr source = new_Expression(L"1+2", custom);
+    auto imported = mathJsonImport(L"[\"Add\",1,2]", custom);
+    bool testResult = source->calculate() == 3 && mathJsonEqual(L"[\"Add\",1,2]", MathJSON::exportExpression(source))
+            && imported.isSuccess() && imported.getValue()->calculate() == 3
+            && imported.getValue()->getArgument(L"x") == nullptr && imported.getDiagnostics().empty();
+    testResult &= mathJsonError(MathJSON::exportDefinitionWithDiagnostics(custom), L"UNSUPPORTED_PROGRAM");
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0518", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON imports standalone functions with unresolved references";
+    TestCommonTools::consolePrintTestApiStart(518, testDescr);
+    FunctionPtr source = new_Function(L"f", L"x+y+g(x)", L"x");
+    ArgumentPtr y = new_Argument(L"y", 4.0);
+    FunctionPtr g = new_Function(L"g(t)=2*t");
+    source->addArguments(y);
+    source->addFunctions(g);
+    String wire = mathJsonText(MathJSON::exportDefinition(source));
+    auto imported = mathJsonImportDefinition(wire);
+    bool testResult = source->calculate(3) == 13 && imported.isSuccess()
+            && imported.getDiagnostics().size() == 2
+            && mathJsonWarning(imported, 0, L"UNRESOLVED_SYMBOL", L"/2/1/2")
+            && mathJsonWarning(imported, 1, L"UNRESOLVED_FUNCTION", L"/2/1/3");
+    if (imported.isSuccess()) {
+        FunctionPtr restored = std::dynamic_pointer_cast<Function>(imported.getValue());
+        testResult &= !restored->checkSyntax();
+        restored->addArguments(y);
+        restored->addFunctions(g);
+        testResult &= restored->checkSyntax() && restored->calculate(3) == 13;
+    }
+    auto complete = mathJsonImportDefinition(wire, y, g);
+    testResult &= complete.isSuccess() && complete.getDiagnostics().empty()
+            && std::dynamic_pointer_cast<Function>(complete.getValue())->calculate(3) == 13
+            && mathJsonError(mathJsonImport(L"[\"Block\"," + wire + L",[\"f\",3]]"), L"UNRESOLVED_SYMBOL");
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0519", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON wide flat arithmetic preserves native infix order";
+    TestCommonTools::consolePrintTestApiStart(519, testDescr);
+    mXparser::disableCanonicalRounding();
+    mXparser::disableAlmostIntRounding();
+    mXparser::disableUlpRounding();
+    String add = L"[\"Add\",1e16,1,-1e16";
+    String multiply = L"[\"Multiply\",1e-200,1e-200,1e200";
+    String nativeAdd = L"1e16+1+(-1e16)";
+    String nativeMultiply = L"1e-200*1e-200*1e200";
+    String tooDeep = L"1";
+    for (int i = 0; i < 300; i++) {
+        add.append(L",1");
+        multiply.append(L",1");
+        nativeAdd.append(L"+1");
+        nativeMultiply.append(L"*1");
+        tooDeep = L"[\"Abs\"," + tooDeep + L"]";
+    }
+    String wires[] = {L"[\"Abs\"," + add.append(L"]") + L"]", multiply.append(L"]")};
+    String sources[] = {L"abs(" + nativeAdd + L")", nativeMultiply};
+    double expected[] = {300, 0};
+    bool testResult = true;
+    for (int j = 0; j < 2; j++) {
+        auto imported = mathJsonImport(wires[j]);
+        testResult &= new_Expression(sources[j])->calculate() == expected[j]
+                && imported.isSuccess() && imported.getValue()->calculate() == expected[j];
+        if (imported.isSuccess()) {
+            auto restored = mathJsonImport(MathJSON::exportExpression(imported.getValue()));
+            testResult &= restored.isSuccess() && restored.getValue()->calculate() == expected[j];
+        }
+    }
+    auto grouped = mathJsonImport(L"[\"Add\",1e16,[\"Add\",-1e16,1]]");
+    testResult &= grouped.isSuccess() && grouped.getValue()->calculate() == 0
+            && mathJsonError(mathJsonImport(tooDeep), L"RESOURCE_LIMIT");
+    mXparser::enableCanonicalRounding();
+    mXparser::enableAlmostIntRounding();
+    mXparser::enableUlpRounding();
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0520", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON reads active builtin names from mXparser";
+    TestCommonTools::consolePrintTestApiStart(520, testDescr);
+    String cosineWire = L"[\"Cos\",0]";
+    String shiftedDeclaration = L"[\"Declare\",\"shifted\",{\"dict\":{\"value\":2}}]";
+    bool testResult = true;
+    mXparser::modifyBuiltinToken(Function1Arg::COS_STR, S(L"shifted"));
+    mXparser::modifyBuiltinToken(S(L"shifted"), S(L"fresh"));
+    {
+        const auto restore = mathJsonOnExit([] { mXparser::unmodifyBuiltinTokens(Function1Arg::COS_STR, L"shifted"); });
+        int activeNames = 0;
+        for (const String& name : std::vector<String>{L"shifted", L"fresh"}) {
+            const String callText = name + L"(0)";
+            ExpressionPtr nativeCall = new_Expression(callText);
+            String declaration = L"[\"Declare\",\"" + name + L"\",{\"dict\":{\"value\":2}}]";
+            if (nativeCall->checkSyntax()) {
+                activeNames++;
+                testResult &= nativeCall->calculate() == 1 && mathJsonError(mathJsonImportDefinition(declaration), L"NAME_COLLISION");
+            } else {
+                ArgumentPtr argument = new_Argument(name, 2.0);
+                const String sourceText = name + L"+1";
+                ExpressionPtr source = new_Expression(sourceText, argument);
+                String wire = L"[\"Add\",\"" + name + L"\",1]";
+                auto exported = MathJSON::exportExpressionWithDiagnostics(source);
+                auto imported = mathJsonImport(wire, argument);
+                auto definition = mathJsonImportDefinition(declaration);
+                testResult &= source->calculate() == 3 && exported.isSuccess() && mathJsonEqual(wire, exported.getValue())
+                        && imported.isSuccess() && imported.getValue()->calculate() == 3
+                        && definition.isSuccess() && std::dynamic_pointer_cast<Argument>(definition.getValue())->getArgumentValue() == 2;
+            }
+        }
+        auto cosine = mathJsonImport(cosineWire);
+        testResult &= activeNames == 1 && cosine.isSuccess() && cosine.getValue()->calculate() == 1;
+    }
+    mXparser::removeBuiltinTokens(Function1Arg::COS_STR);
+    mXparser::modifyBuiltinToken(Function1Arg::COS_STR, S(L"shifted"));
+    {
+        const auto restore = mathJsonOnExit([] {
+            mXparser::unmodifyBuiltinTokens(Function1Arg::COS_STR);
+            mXparser::unremoveBuiltinTokens(Function1Arg::COS_STR);
+        });
+        auto cosine = mathJsonImport(cosineWire);
+        testResult &= new_Expression(L"shifted(0)")->calculate() == 1 && cosine.isSuccess() && cosine.getValue()->calculate() == 1
+                && mathJsonError(mathJsonImportDefinition(shiftedDeclaration), L"NAME_COLLISION");
+    }
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0521", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON imports renamed builtin constants in brackets";
+    TestCommonTools::consolePrintTestApiStart(521, testDescr);
+    mXparser::modifyBuiltinToken(ConstantValue::TRUE_STR, S(L"[testTrue]"));
+    mXparser::modifyBuiltinToken(ConstantValue::FALSE_STR, S(L"[testFalse]"));
+    std::vector<String> sources = {L"if([testTrue],3,4)", L"if([testFalse],3,4)"};
+    std::vector<String> wires = {L"[\"If\",\"True\",3,4]", L"[\"If\",\"False\",3,4]"};
+    std::vector<double> expected = {3, 4};
+    bool testResult = true;
+    for (std::size_t i = 0; i < sources.size(); i++) {
+        ExpressionPtr source = new_Expression(sources[i]);
+        auto exported = MathJSON::exportExpressionWithDiagnostics(source);
+        auto imported = mathJsonImport(exported.getValue());
+        testResult &= source->calculate() == expected[i] && exported.isSuccess() && mathJsonEqual(wires[i], exported.getValue())
+                && imported.isSuccess() && imported.getValue()->calculate() == expected[i];
+    }
+    mXparser::unmodifyBuiltinTokens(ConstantValue::TRUE_STR, ConstantValue::FALSE_STR);
+    mXparser::removeBuiltinTokens(ConstantValue::TRUE_STR);
+    testResult &= mathJsonError(mathJsonImport(L"[\"If\",\"True\",3,4]"), L"BUILTIN_UNAVAILABLE");
+    mXparser::unremoveBuiltinTokens(ConstantValue::TRUE_STR);
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0522", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON budgets long decimal atoms by processed text length";
+    TestCommonTools::consolePrintTestApiStart(522, testDescr);
+    String digits = L"1.";
+    for (int i = 0; i < 1022; ++i) digits += L'0';
+    const String decimal = digits;
+    String atom = L"{\"num\":\"" + decimal + L"\"}";
+    String wire = L"[\"Add\"";
+    for (int i = 0; i < 800; ++i) wire += L',' + atom;
+    wire += L']';
+    auto imported = mathJsonImport(wire);
+    auto exported = MathJSON::exportExpressionWithDiagnostics(new_Expression(decimal));
+    bool testResult = imported.isSuccess() && imported.getValue()->calculate() == 800
+            && exported.isSuccess() && mathJsonEqual(L"1", exported.getValue())
+            && mathJsonError(mathJsonImport(L"{\"num\":\"" + decimal + L"0\"}"), L"RESOURCE_LIMIT");
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+namespace {
+class MathJsonReferenceArgument final : public Argument {
+public:
+    MathJsonReferenceArgument(const Char* name, double value) : Argument(name, value) {}
+};
+
+class MathJsonReferenceConstant final : public Constant {
+public:
+    MathJsonReferenceConstant() : Constant(L"constK", 3.0) {}
+};
+
+class MathJsonReferenceFunction final : public Function {
+public:
+    MathJsonReferenceFunction() : Function(L"funF(t)=t+1") {}
+};
+}
+
+TEST_CASE("testApi0523", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON formula references preserve supplied subclass instances";
+    TestCommonTools::consolePrintTestApiStart(523, testDescr);
+    ArgumentPtr x = std::make_shared<MathJsonReferenceArgument>(L"argX", 2);
+    ConstantPtr k = std::make_shared<MathJsonReferenceConstant>();
+    FunctionPtr f = std::make_shared<MathJsonReferenceFunction>();
+    x->postConstructorSync();
+    k->postConstructorSync();
+    f->postConstructorSync();
+    ExpressionPtr source = new_Expression(L"argX+constK*funF(2)", x, k, f);
+    String wire = L"[\"Add\",\"argX\",[\"Multiply\",\"constK\",[\"funF\",2]]]";
+    auto exported = MathJSON::exportExpressionWithDiagnostics(source);
+    auto imported = mathJsonImport(wire, x, k, f);
+    bool testResult = source->calculate() == 11 && exported.isSuccess() && mathJsonEqual(wire, exported.getValue())
+            && exported.getDiagnostics().size() == 3 && imported.isSuccess() && imported.getDiagnostics().size() == 3;
+    for (int i = 0; i < 3 && testResult; i++)
+        testResult &= mathJsonEqual(L"EXTERNAL_DEFINITION", exported.getDiagnostics()[i]->getCode())
+                && mathJsonEqual(L"EXTERNAL_DEFINITION", imported.getDiagnostics()[i]->getCode());
+    if (imported.isSuccess()) {
+        ExpressionPtr restored = imported.getValue();
+        testResult &= restored->getArgument(L"argX") == x && restored->getConstant(L"constK") == k
+                && restored->getFunction(L"funF") == f && restored->calculate() == 11;
+        x->setArgumentValue(7);
+        k->setConstantValue(4);
+        testResult &= restored->calculate() == 19 && source->calculate() == 19;
+    }
+    ArgumentPtr other = std::make_shared<MathJsonReferenceArgument>(L"otherX", 5);
+    other->postConstructorSync();
+    String pairWire = L"[\"Add\",\"argX\",\"otherX\"]";
+    auto pairExport = MathJSON::exportExpressionWithDiagnostics(new_Expression(L"argX+otherX", x, other));
+    auto pairImport = mathJsonImport(pairWire, x, other);
+    testResult &= *x == *other && pairExport.isSuccess() && mathJsonEqual(pairWire, pairExport.getValue())
+            && pairExport.getDiagnostics().size() == 2 && pairImport.isSuccess()
+            && pairImport.getValue()->getArgument(L"argX") == x && pairImport.getValue()->getArgument(L"otherX") == other
+            && pairImport.getDiagnostics().size() == 2 && pairImport.getValue()->calculate() == 12;
+    auto unresolved = mathJsonImport(wire);
+    testResult &= unresolved.isSuccess() && unresolved.getDiagnostics().size() == 3
+            && !unresolved.getValue()->checkSyntax();
+    testResult &= mathJsonError(mathJsonImport(L"[\"funF\",1,2]", f), L"INVALID_ARITY");
+    testResult &= mathJsonError(MathJSON::exportDefinitionWithDiagnostics(x), L"UNSUPPORTED_PROGRAM")
+            && mathJsonError(MathJSON::exportDefinitionWithDiagnostics(k), L"UNSUPPORTED_PROGRAM")
+            && mathJsonError(MathJSON::exportDefinitionWithDiagnostics(f), L"UNSUPPORTED_PROGRAM")
+            && mathJsonError(MathJSON::exportProgramWithDiagnostics(source), L"UNSUPPORTED_PROGRAM")
+            && mathJsonError(mathJsonImport(L"[\"Block\"," + wire + L"]", x, k, f), L"UNSUPPORTED_PROGRAM");
+    String definition = L"[\"DefineFunction\",\"funG\",[\"Function\",[\"Add\",\"t\",\"argX\"],\"t\"]]";
+    FunctionPtr declarationSource = new_Function(L"funG(t)=t+argX");
+    declarationSource->addDefinitions(x);
+    testResult &= declarationSource->calculate(2) == 9
+            && mathJsonError(mathJsonImportDefinition(definition, x), L"UNSUPPORTED_PROGRAM")
+            && mathJsonError(MathJSON::exportDefinitionWithDiagnostics(declarationSource), L"UNSUPPORTED_PROGRAM");
+    RecursiveArgumentPtr recursive = new_RecursiveArgument(L"recR(n)=n");
+    testResult &= mathJsonError(mathJsonImport(L"\"recR\"", recursive), L"UNSUPPORTED_PROGRAM");
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0524", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON reports input and function arity errors at their validation stage";
+    TestCommonTools::consolePrintTestApiStart(524, testDescr);
+    FunctionPtr f = new_Function(L"curveF(t)=2*t");
+    String wire = L"[\"curveF\",2]";
+    ExpressionPtr source = new_Expression(L"curveF(2)", f);
+    auto exported = MathJSON::exportExpressionWithDiagnostics(source);
+    auto imported = mathJsonImport(wire, f);
+    bool testResult = source->calculate() == 4 && exported.isSuccess() && mathJsonEqual(wire, exported.getValue())
+            && mathJsonWarning(exported, 0, L"EXTERNAL_DEFINITION", L"")
+            && imported.isSuccess() && imported.getValue()->getFunction(L"curveF") == f
+            && imported.getValue()->calculate() == 4;
+    testResult &= mathJsonError(MathJSON::exportExpressionWithDiagnostics(new_Expression(L"curveF(2,3)", f)), L"INVALID_ARITY")
+            && mathJsonError(mathJsonImport(L"[\"curveF\",2,3]", f), L"INVALID_ARITY")
+            && mathJsonError(MathJSON::exportDefinitionWithDiagnostics(new_Function(L"outerF(t)=curveF(t,3)", f)), L"INVALID_ARITY")
+            && mathJsonError(MathJSON::exportExpressionWithDiagnostics(new_Expression(L"sin(2,3)")), L"INVALID_ARITY");
+    testResult &= mathJsonError(mathJsonImport(L"[", f), L"INVALID_JSON")
+            && mathJsonError(mathJsonImportDefinition(L"[", f), L"INVALID_JSON")
+            && mathJsonError(mathJsonImport(L"[\"Error\"]", f), L"INPUT_ERROR")
+            && mathJsonError(mathJsonImportDefinition(L"[\"Error\"]", f), L"INPUT_ERROR");
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0525", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON rejects an invalid root before processing definitions";
+    TestCommonTools::consolePrintTestApiStart(525, testDescr);
+    ArgumentPtr x = new_Argument(L"x", 2);
+    String declaration = L"[\"Declare\",\"x\",{\"dict\":{\"value\":3}}]";
+    bool testResult = mathJsonError(mathJsonImport(declaration, x), L"INVALID_ROOT")
+            && mathJsonError(mathJsonImportDefinition(L"[\"Add\",\"x\",1]", x), L"INVALID_ROOT")
+            && mathJsonError(mathJsonImportDefinition(L"[\"Block\",1]", x), L"INVALID_ROOT")
+            && mathJsonError(mathJsonImport(L"[\"Block\"]", x), L"INVALID_ROOT")
+            && mathJsonError(mathJsonImport(L"[\"Block\",[\"Block\",1]]", x), L"INVALID_ROOT")
+            && mathJsonError(mathJsonImport(L"[\"Block\"," + declaration + L"," + declaration + L"]", x), L"INVALID_ROOT")
+            && x->getArgumentValue() == 2;
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0526", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON exchanges names that start with an underscore";
+    TestCommonTools::consolePrintTestApiStart(526, testDescr);
+    ArgumentPtr offset = new_Argument(L"_offset", 2);
+    bool testResult = true;
+    for (const String& name : {String(L"_scale"), String(L"_mxp0")}) {
+        const String definitionSource = name + L"(_v)=2*_v";
+        FunctionPtr scale = new_Function(definitionSource);
+        String wire = L"[\"Add\",\"_offset\",[\"" + name + L"\",3]]";
+        const String expressionSource = L"_offset+" + name + L"(3)";
+        ExpressionPtr source = new_Expression(expressionSource, offset, scale);
+        auto exported = MathJSON::exportExpressionWithDiagnostics(source);
+        auto imported = mathJsonImport(wire, offset, scale);
+        auto block = mathJsonImport(L"[\"Block\"," + wire + L"]", offset, scale);
+        auto program = mathJsonImport(MathJSON::exportProgram(source));
+        String declaration = L"[\"DefineFunction\",\"outerF\",[\"Function\",[\"" + name + L"\",\"t\"],\"t\"]]";
+        auto definition = mathJsonImportDefinition(declaration, scale);
+        testResult &= source->calculate() == 8 && exported.isSuccess() && mathJsonEqual(wire, exported.getValue())
+                && imported.isSuccess() && imported.getValue()->getArgument(L"_offset") == offset
+                && imported.getValue()->getFunction(name) == scale && imported.getValue()->calculate() == 8
+                && block.isSuccess() && block.getValue()->calculate() == 8
+                && program.isSuccess() && program.getValue()->calculate() == 8
+                && definition.isSuccess() && std::dynamic_pointer_cast<Function>(definition.getValue())->calculate(3) == 6;
+    }
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}
+
+TEST_CASE("testApi0527", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    std::string testDescr = "MathJSON retains flat arithmetic and explicit grouping";
+    TestCommonTools::consolePrintTestApiStart(527, testDescr);
+    std::vector<String> wires = {L"[\"Add\",1,2,3]", L"[\"Multiply\",2,3,4]",
+            L"[\"Add\",[\"Add\",1,2],3]", L"[\"Multiply\",2,[\"Multiply\",3,4]]"};
+    double expected[] = {6, 24, 6, 24};
+    bool testResult = true;
+    for (std::size_t i = 0; i < wires.size(); i++) {
+        auto imported = mathJsonImport(wires[i]);
+        testResult &= imported.isSuccess() && imported.getValue()->calculate() == expected[i]
+                && mathJsonEqual(wires[i], MathJSON::exportExpression(imported.getValue()));
+    }
+    ArgumentPtr x = new_Argument(L"x", 3);
+    FunctionPtr f = new_Function(L"f", L"x", mathJsonDefinitions(x));
+    FunctionPtr g = new_Function(L"g", L"x", mathJsonDefinitions(x));
+    f->setParametersNumber(1);
+    g->setParametersNumber(1);
+    ExpressionPtr source = new_Expression(L"(x)+(f(4))+((x)+(g(9)))", x, f, g);
+    String wire = L"[\"Add\",\"x\",[\"f\",4],[\"Add\",\"x\",[\"g\",9]]]";
+    auto exported = MathJSON::exportExpressionWithDiagnostics(source);
+    testResult &= exported.isSuccess() && mathJsonEqual(wire, exported.getValue())
+            && source->calculate() == 19 && x->getArgumentValue() == 4;
+    x->setArgumentValue(3);
+    auto restored = mathJsonImport(exported.getValue(), x, f, g);
+    testResult &= restored.isSuccess() && restored.getValue()->calculate() == 19 && x->getArgumentValue() == 4;
+    x->setArgumentValue(3);
+    String grouped = L"[\"Add\",[\"Add\",\"x\",[\"f\",4]],[\"Add\",\"x\",[\"g\",9]]]";
+    auto importedGroup = mathJsonImport(grouped, x, f, g);
+    testResult &= importedGroup.isSuccess() && importedGroup.getValue()->calculate() == 19
+            && x->getArgumentValue() == 9 && mathJsonEqual(grouped, MathJSON::exportExpression(importedGroup.getValue()));
+    TestCommonTools::consolePrintTestApiEnd(testResult);
+    REQUIRE(testResult);
+}

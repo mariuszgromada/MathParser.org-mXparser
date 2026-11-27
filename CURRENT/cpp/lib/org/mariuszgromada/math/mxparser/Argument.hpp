@@ -238,6 +238,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 	class API_VISIBLE Argument : public PrimitiveElement {
 
+		friend class MathJSONUtils;
 		ADD_FRIENDS_OF(Argument);
 		friend struct OwnershipTestAccess;
 

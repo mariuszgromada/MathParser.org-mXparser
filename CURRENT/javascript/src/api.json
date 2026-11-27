@@ -25,7 +25,11 @@
       "SyntaxChecker",
       "License",
       "LaTeXParser",
-      "LaTeXNode"
+      "LaTeXNode",
+      "MathJSON",
+      "MathJSONImportOptions",
+      "MathJSONResult",
+      "MathJSONDiagnostic"
     ],
     "transport_classes": [
       "Random",
@@ -92,7 +96,11 @@
       "LaTeXParser",
       "LaTeXParser::Node",
       "LaTeXParser::Kind",
-      "LaTeXParser::SymbolStyle"
+      "LaTeXParser::SymbolStyle",
+      "MathJSON",
+      "MathJSON::ImportOptions",
+      "MathJSON::Result",
+      "MathJSON::Diagnostic"
     ],
     "infrastructure_roots": [
       "FS",
@@ -22298,6 +22306,500 @@
           "line": 2440,
           "language": "csharp"
         }
+      ],
+      "Expression|getExpressionAsMathJSON|instance": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Expression.java",
+          "line": 7915,
+          "language": "java"
+        },
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/Expression.cs",
+          "line": 6853,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON|exportExpression|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression",
+              "nullable": true
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 237,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression",
+              "nullable": true
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 230,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON|exportExpressionWithDiagnostics|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression",
+              "nullable": true
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 246,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression",
+              "nullable": true
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 237,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON|exportProgram|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression",
+              "nullable": true
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 255,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression",
+              "nullable": true
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 244,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON|exportProgramWithDiagnostics|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression",
+              "nullable": true
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 264,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "Expression",
+              "nullable": true
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 251,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON|importExpression|static": [
+        {
+          "parameters": [
+            {
+              "kind": "string",
+              "nullable": true
+            },
+            {
+              "kind": "array",
+              "element": {
+                "kind": "handle",
+                "name": "PrimitiveElement",
+                "nullable": true
+              },
+              "nullable": true
+            }
+          ],
+          "variadic": true,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 275,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "string",
+              "nullable": true
+            },
+            {
+              "kind": "array",
+              "element": {
+                "kind": "handle",
+                "name": "PrimitiveElement",
+                "nullable": true
+              },
+              "nullable": true
+            }
+          ],
+          "variadic": true,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 262,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON|importExpressionWithOptions|static": [
+        {
+          "parameters": [
+            {
+              "kind": "string",
+              "nullable": true
+            },
+            {
+              "kind": "handle",
+              "name": "MathJSONImportOptions",
+              "nullable": true
+            },
+            {
+              "kind": "array",
+              "element": {
+                "kind": "handle",
+                "name": "PrimitiveElement",
+                "nullable": true
+              },
+              "nullable": true
+            }
+          ],
+          "variadic": true,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 286,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "string",
+              "nullable": true
+            },
+            {
+              "kind": "handle",
+              "name": "MathJSONImportOptions",
+              "nullable": true
+            },
+            {
+              "kind": "array",
+              "element": {
+                "kind": "handle",
+                "name": "PrimitiveElement",
+                "nullable": true
+              },
+              "nullable": true
+            }
+          ],
+          "variadic": true,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 271,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON|importDefinition|static": [
+        {
+          "parameters": [
+            {
+              "kind": "string",
+              "nullable": true
+            },
+            {
+              "kind": "array",
+              "element": {
+                "kind": "handle",
+                "name": "PrimitiveElement",
+                "nullable": true
+              },
+              "nullable": true
+            }
+          ],
+          "variadic": true,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 297,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "string",
+              "nullable": true
+            },
+            {
+              "kind": "array",
+              "element": {
+                "kind": "handle",
+                "name": "PrimitiveElement",
+                "nullable": true
+              },
+              "nullable": true
+            }
+          ],
+          "variadic": true,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 280,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON|exportDefinition|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "PrimitiveElement",
+              "nullable": true
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 306,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "PrimitiveElement",
+              "nullable": true
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 287,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON|exportDefinitionWithDiagnostics|static": [
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "PrimitiveElement",
+              "nullable": true
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 315,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "handle",
+              "name": "PrimitiveElement",
+              "nullable": true
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 294,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON::ImportOptions|defaults|static": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 350,
+          "language": "java"
+        },
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 329,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON::ImportOptions|withKilometresAsScalar|instance": [
+        {
+          "parameters": [
+            {
+              "kind": "boolean"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 375,
+          "language": "java"
+        },
+        {
+          "parameters": [
+            {
+              "kind": "boolean"
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 348,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON::Result|isSuccess|instance": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 397,
+          "language": "java"
+        },
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 367,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON::Result|getValue|instance": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 400,
+          "language": "java"
+        },
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 370,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON::Result|getError|instance": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 403,
+          "language": "java"
+        },
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 373,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON::Result|getDiagnostics|instance": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 406,
+          "language": "java"
+        },
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 376,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON::Diagnostic|getCode|instance": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 424,
+          "language": "java"
+        },
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 394,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON::Diagnostic|getPath|instance": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 427,
+          "language": "java"
+        },
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 397,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON::Diagnostic|getOffset|instance": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 430,
+          "language": "java"
+        },
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 400,
+          "language": "csharp"
+        }
+      ],
+      "MathJSON::Diagnostic|getMessage|instance": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/MathJSON.java",
+          "line": 433,
+          "language": "java"
+        },
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/c-sharp/src/org/mariuszgromada/math/mxparser/MathJSON.cs",
+          "line": 403,
+          "language": "csharp"
+        }
       ]
     },
     "constructors": {
@@ -24554,7 +25056,10 @@
     "nested_only_owners": [
       "LaTeXParser::Node",
       "LaTeXParser::Kind",
-      "LaTeXParser::SymbolStyle"
+      "LaTeXParser::SymbolStyle",
+      "MathJSON::ImportOptions",
+      "MathJSON::Result",
+      "MathJSON::Diagnostic"
     ],
     "latex_extension_review": {
       "managed_public_methods": 9,
@@ -25030,7 +25535,10 @@
     "StdLocale": "std::locale",
     "StdStringStream": "std::stringstream",
     "License": "License",
-    "LaTeXNode": "LaTeXParser::Node"
+    "LaTeXNode": "LaTeXParser::Node",
+    "MathJSONImportOptions": "MathJSON::ImportOptions",
+    "MathJSONResult": "MathJSON::Result",
+    "MathJSONDiagnostic": "MathJSON::Diagnostic"
   },
   "native_equality": {},
   "arrays": {
@@ -104382,6 +104890,660 @@
         "C1-10180"
       ],
       "export": "api_C1_10180"
+    },
+    {
+      "owner": "Expression",
+      "name": "getExpressionAsMathJSON",
+      "kind": "method",
+      "static": false,
+      "parameters": [],
+      "result": {
+        "kind": "string"
+      },
+      "native_ids": [
+        "C1-MJ-0001"
+      ],
+      "export": "api_C1_MJ_0001"
+    },
+    {
+      "owner": "MathJSON",
+      "name": "exportExpression",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        }
+      ],
+      "result": {
+        "kind": "string"
+      },
+      "native_ids": [
+        "C1-MJ-0002"
+      ],
+      "export": "api_C1_MJ_0002"
+    },
+    {
+      "owner": "MathJSON",
+      "name": "exportExpressionWithDiagnostics",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        }
+      ],
+      "result": {
+        "kind": "handle",
+        "name": "MathJSONResult"
+      },
+      "native_ids": [
+        "C1-MJ-0003"
+      ],
+      "export": "api_C1_MJ_0003"
+    },
+    {
+      "owner": "MathJSON",
+      "name": "exportProgram",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        }
+      ],
+      "result": {
+        "kind": "string"
+      },
+      "native_ids": [
+        "C1-MJ-0004"
+      ],
+      "export": "api_C1_MJ_0004"
+    },
+    {
+      "owner": "MathJSON",
+      "name": "exportProgramWithDiagnostics",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "Expression",
+          "nullable": true
+        }
+      ],
+      "result": {
+        "kind": "handle",
+        "name": "MathJSONResult"
+      },
+      "native_ids": [
+        "C1-MJ-0005"
+      ],
+      "export": "api_C1_MJ_0005"
+    },
+    {
+      "owner": "MathJSON",
+      "name": "importExpression",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "string",
+          "nullable": true
+        },
+        {
+          "kind": "array",
+          "element": {
+            "kind": "handle",
+            "name": "PrimitiveElement",
+            "nullable": true
+          },
+          "nullable": true
+        }
+      ],
+      "result": {
+        "kind": "handle",
+        "name": "MathJSONResult"
+      },
+      "native_ids": [
+        "C1-MJ-0006"
+      ],
+      "export": "api_C1_MJ_0006"
+    },
+    {
+      "owner": "MathJSON",
+      "name": "importExpressionWithOptions",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "string",
+          "nullable": true
+        },
+        {
+          "kind": "handle",
+          "name": "MathJSONImportOptions",
+          "nullable": true
+        },
+        {
+          "kind": "array",
+          "element": {
+            "kind": "handle",
+            "name": "PrimitiveElement",
+            "nullable": true
+          },
+          "nullable": true
+        }
+      ],
+      "result": {
+        "kind": "handle",
+        "name": "MathJSONResult"
+      },
+      "native_ids": [
+        "C1-MJ-0007"
+      ],
+      "export": "api_C1_MJ_0007"
+    },
+    {
+      "owner": "MathJSON",
+      "name": "importDefinition",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "string",
+          "nullable": true
+        },
+        {
+          "kind": "array",
+          "element": {
+            "kind": "handle",
+            "name": "PrimitiveElement",
+            "nullable": true
+          },
+          "nullable": true
+        }
+      ],
+      "result": {
+        "kind": "handle",
+        "name": "MathJSONResult"
+      },
+      "native_ids": [
+        "C1-MJ-0008"
+      ],
+      "export": "api_C1_MJ_0008"
+    },
+    {
+      "owner": "MathJSON",
+      "name": "exportDefinition",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "PrimitiveElement",
+          "nullable": true
+        }
+      ],
+      "result": {
+        "kind": "string"
+      },
+      "native_ids": [
+        "C1-MJ-0009"
+      ],
+      "export": "api_C1_MJ_0009"
+    },
+    {
+      "owner": "MathJSON",
+      "name": "exportDefinitionWithDiagnostics",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "handle",
+          "name": "PrimitiveElement",
+          "nullable": true
+        }
+      ],
+      "result": {
+        "kind": "handle",
+        "name": "MathJSONResult"
+      },
+      "native_ids": [
+        "C1-MJ-0010"
+      ],
+      "export": "api_C1_MJ_0010"
+    },
+    {
+      "owner": "MathJSON::ImportOptions",
+      "name": "defaults",
+      "kind": "method",
+      "static": true,
+      "parameters": [],
+      "result": {
+        "kind": "handle",
+        "name": "MathJSONImportOptions"
+      },
+      "native_ids": [
+        "C1-MJ-0011"
+      ],
+      "export": "api_C1_MJ_0011"
+    },
+    {
+      "owner": "MathJSON::ImportOptions",
+      "name": "withKilometresAsScalar",
+      "kind": "method",
+      "static": false,
+      "parameters": [
+        {
+          "kind": "boolean"
+        }
+      ],
+      "result": {
+        "kind": "handle",
+        "name": "MathJSONImportOptions"
+      },
+      "native_ids": [
+        "C1-MJ-0014"
+      ],
+      "export": "api_C1_MJ_0014"
+    },
+    {
+      "owner": "MathJSON::Result",
+      "name": "isSuccess",
+      "kind": "method",
+      "static": false,
+      "parameters": [],
+      "result": {
+        "kind": "boolean"
+      },
+      "native_ids": [
+        "C1-MJ-0015"
+      ],
+      "export": "api_C1_MJ_0015"
+    },
+    {
+      "owner": "MathJSON::Result",
+      "name": "getValue",
+      "kind": "method",
+      "static": false,
+      "parameters": [],
+      "result": {
+        "kind": "mathjson_value",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0016"
+      ],
+      "export": "api_C1_MJ_0016"
+    },
+    {
+      "owner": "MathJSON::Result",
+      "name": "getError",
+      "kind": "method",
+      "static": false,
+      "parameters": [],
+      "result": {
+        "kind": "handle",
+        "name": "MathJSONDiagnostic",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0017"
+      ],
+      "export": "api_C1_MJ_0017"
+    },
+    {
+      "owner": "MathJSON::Result",
+      "name": "getDiagnostics",
+      "kind": "method",
+      "static": false,
+      "parameters": [],
+      "result": {
+        "kind": "array",
+        "element": {
+          "kind": "handle",
+          "name": "MathJSONDiagnostic"
+        },
+        "readonly": true
+      },
+      "native_ids": [
+        "C1-MJ-0018"
+      ],
+      "export": "api_C1_MJ_0018"
+    },
+    {
+      "owner": "MathJSON::Diagnostic",
+      "name": "getCode",
+      "kind": "method",
+      "static": false,
+      "parameters": [],
+      "result": {
+        "kind": "string"
+      },
+      "native_ids": [
+        "C1-MJ-0019"
+      ],
+      "export": "api_C1_MJ_0019"
+    },
+    {
+      "owner": "MathJSON::Diagnostic",
+      "name": "getPath",
+      "kind": "method",
+      "static": false,
+      "parameters": [],
+      "result": {
+        "kind": "string"
+      },
+      "native_ids": [
+        "C1-MJ-0020"
+      ],
+      "export": "api_C1_MJ_0020"
+    },
+    {
+      "owner": "MathJSON::Diagnostic",
+      "name": "getOffset",
+      "kind": "method",
+      "static": false,
+      "parameters": [],
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-MJ-0021"
+      ],
+      "export": "api_C1_MJ_0021"
+    },
+    {
+      "owner": "MathJSON::Diagnostic",
+      "name": "getMessage",
+      "kind": "method",
+      "static": false,
+      "parameters": [],
+      "result": {
+        "kind": "string"
+      },
+      "native_ids": [
+        "C1-MJ-0022"
+      ],
+      "export": "api_C1_MJ_0022"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_INVALID_ARGUMENT",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0178"
+      ],
+      "export": "api_C1_MJ_0178"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_INVALID_JSON",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0179"
+      ],
+      "export": "api_C1_MJ_0179"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_INVALID_SHAPE",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0180"
+      ],
+      "export": "api_C1_MJ_0180"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_INPUT_ERROR_NODE",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0158"
+      ],
+      "export": "api_C1_MJ_0158"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_INVALID_NAME",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0181"
+      ],
+      "export": "api_C1_MJ_0181"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_NAME_COLLISION",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0182"
+      ],
+      "export": "api_C1_MJ_0182"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_UNRESOLVED_REFERENCE",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0183"
+      ],
+      "export": "api_C1_MJ_0183"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_EXTERNAL_DEFINITION",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0190"
+      ],
+      "export": "api_C1_MJ_0190"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_MXPARSER_EXTENSION",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0191"
+      ],
+      "export": "api_C1_MJ_0191"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_WRONG_ARGUMENT_COUNT",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0054"
+      ],
+      "export": "api_C1_MJ_0054"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_UNSUPPORTED_CONSTRUCT",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0184"
+      ],
+      "export": "api_C1_MJ_0184"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_UNSUPPORTED_NUMBER",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0185"
+      ],
+      "export": "api_C1_MJ_0185"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_UNSUPPORTED_DEFINITION",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0186"
+      ],
+      "export": "api_C1_MJ_0186"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_BUILTIN_SPELLING_UNAVAILABLE",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0175"
+      ],
+      "export": "api_C1_MJ_0175"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_INVALID_MXPARSER_SOURCE",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0187"
+      ],
+      "export": "api_C1_MJ_0187"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_EMISSION_MISMATCH",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0188"
+      ],
+      "export": "api_C1_MJ_0188"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_RESOURCE_LIMIT",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0189"
+      ],
+      "export": "api_C1_MJ_0189"
+    },
+    {
+      "owner": "StringResources",
+      "name": "MATHJSON_UNIT_PROJECTED_TO_SCALAR",
+      "kind": "field",
+      "static": false,
+      "readonly": false,
+      "result": {
+        "kind": "string",
+        "nullable": true
+      },
+      "native_ids": [
+        "C1-MJ-0082"
+      ],
+      "export": "api_C1_MJ_0082"
     }
   ]
 }

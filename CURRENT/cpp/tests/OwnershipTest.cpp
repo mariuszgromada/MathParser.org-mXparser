@@ -218,6 +218,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include "org/mariuszgromada/math/mxparser.hpp"
+#include "ApiTestTools.hpp"
 #include <iostream>
 #include <stdexcept>
 #include <atomic>
@@ -227,15 +228,7 @@
 #include <vector>
 using namespace org::mariuszgromada::math::mxparser;
 
-namespace org::mariuszgromada::math::mxparser {
-// Read-only test friend: weak observers only, no lifetime/identity registry.
-struct OwnershipTestAccess {
-    static std::weak_ptr<Expression> body(const FunctionPtr& f) { return f->functionExpression; }
-    static std::weak_ptr<Expression> body(const ArgumentPtr& a) { return a->argumentExpression; }
-    static std::weak_ptr<void> functions(const ExpressionPtr& e) { return e->functionsList; }
-    static std::weak_ptr<void> arguments(const ExpressionPtr& e) { return e->argumentsList; }
-};
-}
+
 namespace {
 int assertions=0;
 void check(bool pass,const char* id) {

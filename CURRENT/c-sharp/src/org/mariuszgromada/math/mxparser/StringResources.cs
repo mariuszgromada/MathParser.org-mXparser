@@ -348,6 +348,26 @@ namespace org.mariuszgromada.math.mxparser {
             return bestMatchingLanguage(CultureInfo.CurrentCulture);
         }
 
+        // MathJSON diagnostics
+        internal const String DEFAULT_MATHJSON_INVALID_ARGUMENT = "Invalid MathJSON conversion argument";
+        internal const String DEFAULT_MATHJSON_INVALID_JSON = "Invalid JSON syntax";
+        internal const String DEFAULT_MATHJSON_INVALID_SHAPE = "Invalid MathJSON structure";
+        internal const String DEFAULT_MATHJSON_INPUT_ERROR_NODE = "MathJSON input contains a root Error node";
+        internal const String DEFAULT_MATHJSON_INVALID_NAME = "Invalid MathJSON name: {0}";
+        internal const String DEFAULT_MATHJSON_NAME_COLLISION = "Conflicting names in MathJSON conversion";
+        internal const String DEFAULT_MATHJSON_UNRESOLVED_REFERENCE = "Missing definition: {0}";
+        internal const String DEFAULT_MATHJSON_EXTERNAL_DEFINITION = "External definition required by the expression: {0}";
+        internal const String DEFAULT_MATHJSON_MXPARSER_EXTENSION = "mXparser-specific operation or reference: {0}";
+        internal const String DEFAULT_MATHJSON_WRONG_ARGUMENT_COUNT = "Wrong number of arguments for {0}";
+        internal const String DEFAULT_MATHJSON_UNSUPPORTED_CONSTRUCT = "Unsupported MathJSON construct";
+        internal const String DEFAULT_MATHJSON_UNSUPPORTED_NUMBER = "Unsupported number in MathJSON conversion";
+        internal const String DEFAULT_MATHJSON_UNSUPPORTED_DEFINITION = "Unsupported definition or binding in MathJSON conversion";
+        internal const String DEFAULT_MATHJSON_BUILTIN_SPELLING_UNAVAILABLE = "Built-in spelling is unavailable: {0}";
+        internal const String DEFAULT_MATHJSON_INVALID_MXPARSER_SOURCE = "Invalid mXparser expression";
+        internal const String DEFAULT_MATHJSON_EMISSION_MISMATCH = "MathJSON conversion could not preserve the expression";
+        internal const String DEFAULT_MATHJSON_RESOURCE_LIMIT = "MathJSON conversion limit exceeded ({0})";
+        internal const String DEFAULT_MATHJSON_UNIT_PROJECTED_TO_SCALAR = "Quantity converted to metres";
+
         internal const String DEFAULT_USER_LANGUAGE = "English";
         // -------------------------------------------------
         internal const String DEFAULT_STARTING_SYNTAX_CHECK = "Starting syntax check...";
@@ -940,6 +960,47 @@ namespace org.mariuszgromada.math.mxparser {
         internal const String DEFAULT_UNIT_DEGREE_ARC = "Degree of arc";
         internal const String DEFAULT_UNIT_MINUTE_ARC = "Minute of arc";
         internal const String DEFAULT_UNIT_SECOND_ARC = "Second of arc";
+
+        /// <summary>Default message: Invalid MathJSON conversion argument.</summary>
+        public String MATHJSON_INVALID_ARGUMENT = DEFAULT_MATHJSON_INVALID_ARGUMENT;
+        /// <summary>Default message: Invalid JSON syntax.</summary>
+        public String MATHJSON_INVALID_JSON = DEFAULT_MATHJSON_INVALID_JSON;
+        /// <summary>Default message: Invalid MathJSON structure.</summary>
+        public String MATHJSON_INVALID_SHAPE = DEFAULT_MATHJSON_INVALID_SHAPE;
+        /// <summary>Default message: MathJSON input contains a root Error node.</summary>
+        public String MATHJSON_INPUT_ERROR_NODE = DEFAULT_MATHJSON_INPUT_ERROR_NODE;
+        /// <summary>Default message: Invalid MathJSON name: {0}.</summary>
+        public String MATHJSON_INVALID_NAME = DEFAULT_MATHJSON_INVALID_NAME;
+        /// <summary>Default message: Conflicting names in MathJSON conversion.</summary>
+        public String MATHJSON_NAME_COLLISION = DEFAULT_MATHJSON_NAME_COLLISION;
+        /// <summary>Default message: Missing definition: {0}.</summary>
+        public String MATHJSON_UNRESOLVED_REFERENCE = DEFAULT_MATHJSON_UNRESOLVED_REFERENCE;
+        /// <summary>
+        /// External definition required by a MathJSON expression.
+        /// </summary>
+        public String MATHJSON_EXTERNAL_DEFINITION = DEFAULT_MATHJSON_EXTERNAL_DEFINITION;
+        /// <summary>
+        /// mXparser-specific operation or reference in MathJSON.
+        /// </summary>
+        public String MATHJSON_MXPARSER_EXTENSION = DEFAULT_MATHJSON_MXPARSER_EXTENSION;
+        /// <summary>Default message: Wrong number of arguments for {0}.</summary>
+        public String MATHJSON_WRONG_ARGUMENT_COUNT = DEFAULT_MATHJSON_WRONG_ARGUMENT_COUNT;
+        /// <summary>Default message: Unsupported MathJSON construct.</summary>
+        public String MATHJSON_UNSUPPORTED_CONSTRUCT = DEFAULT_MATHJSON_UNSUPPORTED_CONSTRUCT;
+        /// <summary>Default message: Unsupported number in MathJSON conversion.</summary>
+        public String MATHJSON_UNSUPPORTED_NUMBER = DEFAULT_MATHJSON_UNSUPPORTED_NUMBER;
+        /// <summary>Default message: Unsupported definition or binding in MathJSON conversion.</summary>
+        public String MATHJSON_UNSUPPORTED_DEFINITION = DEFAULT_MATHJSON_UNSUPPORTED_DEFINITION;
+        /// <summary>Default message: Built-in spelling is unavailable: {0}.</summary>
+        public String MATHJSON_BUILTIN_SPELLING_UNAVAILABLE = DEFAULT_MATHJSON_BUILTIN_SPELLING_UNAVAILABLE;
+        /// <summary>Default message: Invalid mXparser expression.</summary>
+        public String MATHJSON_INVALID_MXPARSER_SOURCE = DEFAULT_MATHJSON_INVALID_MXPARSER_SOURCE;
+        /// <summary>Default message: MathJSON conversion could not preserve the expression.</summary>
+        public String MATHJSON_EMISSION_MISMATCH = DEFAULT_MATHJSON_EMISSION_MISMATCH;
+        /// <summary>Default message: MathJSON conversion limit exceeded ({0}).</summary>
+        public String MATHJSON_RESOURCE_LIMIT = DEFAULT_MATHJSON_RESOURCE_LIMIT;
+        /// <summary>Default message: Quantity converted to metres.</summary>
+        public String MATHJSON_UNIT_PROJECTED_TO_SCALAR = DEFAULT_MATHJSON_UNIT_PROJECTED_TO_SCALAR;
 
         /// <summary>Default String = "English"</summary>
         public String USER_LANGUAGE = DEFAULT_USER_LANGUAGE;
@@ -2102,6 +2163,24 @@ namespace org.mariuszgromada.math.mxparser {
         private const String LINE_BREAK = "// -------------------------------------------------";
         private static void printResources(StringResources stringResources, bool printDefault) {
             printCurrentVsDefault("USER_LANGUAGE", stringResources.USER_LANGUAGE, DEFAULT_USER_LANGUAGE, printDefault);
+            printCurrentVsDefault("MATHJSON_INVALID_ARGUMENT", stringResources.MATHJSON_INVALID_ARGUMENT, DEFAULT_MATHJSON_INVALID_ARGUMENT, printDefault);
+            printCurrentVsDefault("MATHJSON_INVALID_JSON", stringResources.MATHJSON_INVALID_JSON, DEFAULT_MATHJSON_INVALID_JSON, printDefault);
+            printCurrentVsDefault("MATHJSON_INVALID_SHAPE", stringResources.MATHJSON_INVALID_SHAPE, DEFAULT_MATHJSON_INVALID_SHAPE, printDefault);
+            printCurrentVsDefault("MATHJSON_INPUT_ERROR_NODE", stringResources.MATHJSON_INPUT_ERROR_NODE, DEFAULT_MATHJSON_INPUT_ERROR_NODE, printDefault);
+            printCurrentVsDefault("MATHJSON_INVALID_NAME", stringResources.MATHJSON_INVALID_NAME, DEFAULT_MATHJSON_INVALID_NAME, printDefault);
+            printCurrentVsDefault("MATHJSON_NAME_COLLISION", stringResources.MATHJSON_NAME_COLLISION, DEFAULT_MATHJSON_NAME_COLLISION, printDefault);
+            printCurrentVsDefault("MATHJSON_UNRESOLVED_REFERENCE", stringResources.MATHJSON_UNRESOLVED_REFERENCE, DEFAULT_MATHJSON_UNRESOLVED_REFERENCE, printDefault);
+            printCurrentVsDefault("MATHJSON_EXTERNAL_DEFINITION", stringResources.MATHJSON_EXTERNAL_DEFINITION, DEFAULT_MATHJSON_EXTERNAL_DEFINITION, printDefault);
+            printCurrentVsDefault("MATHJSON_MXPARSER_EXTENSION", stringResources.MATHJSON_MXPARSER_EXTENSION, DEFAULT_MATHJSON_MXPARSER_EXTENSION, printDefault);
+            printCurrentVsDefault("MATHJSON_WRONG_ARGUMENT_COUNT", stringResources.MATHJSON_WRONG_ARGUMENT_COUNT, DEFAULT_MATHJSON_WRONG_ARGUMENT_COUNT, printDefault);
+            printCurrentVsDefault("MATHJSON_UNSUPPORTED_CONSTRUCT", stringResources.MATHJSON_UNSUPPORTED_CONSTRUCT, DEFAULT_MATHJSON_UNSUPPORTED_CONSTRUCT, printDefault);
+            printCurrentVsDefault("MATHJSON_UNSUPPORTED_NUMBER", stringResources.MATHJSON_UNSUPPORTED_NUMBER, DEFAULT_MATHJSON_UNSUPPORTED_NUMBER, printDefault);
+            printCurrentVsDefault("MATHJSON_UNSUPPORTED_DEFINITION", stringResources.MATHJSON_UNSUPPORTED_DEFINITION, DEFAULT_MATHJSON_UNSUPPORTED_DEFINITION, printDefault);
+            printCurrentVsDefault("MATHJSON_BUILTIN_SPELLING_UNAVAILABLE", stringResources.MATHJSON_BUILTIN_SPELLING_UNAVAILABLE, DEFAULT_MATHJSON_BUILTIN_SPELLING_UNAVAILABLE, printDefault);
+            printCurrentVsDefault("MATHJSON_INVALID_MXPARSER_SOURCE", stringResources.MATHJSON_INVALID_MXPARSER_SOURCE, DEFAULT_MATHJSON_INVALID_MXPARSER_SOURCE, printDefault);
+            printCurrentVsDefault("MATHJSON_EMISSION_MISMATCH", stringResources.MATHJSON_EMISSION_MISMATCH, DEFAULT_MATHJSON_EMISSION_MISMATCH, printDefault);
+            printCurrentVsDefault("MATHJSON_RESOURCE_LIMIT", stringResources.MATHJSON_RESOURCE_LIMIT, DEFAULT_MATHJSON_RESOURCE_LIMIT, printDefault);
+            printCurrentVsDefault("MATHJSON_UNIT_PROJECTED_TO_SCALAR", stringResources.MATHJSON_UNIT_PROJECTED_TO_SCALAR, DEFAULT_MATHJSON_UNIT_PROJECTED_TO_SCALAR, printDefault);
             /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("STARTING_SYNTAX_CHECK", stringResources.STARTING_SYNTAX_CHECK, DEFAULT_STARTING_SYNTAX_CHECK, printDefault);
             printCurrentVsDefault("NO_ERRORS_DETECTED", stringResources.NO_ERRORS_DETECTED, DEFAULT_NO_ERRORS_DETECTED, printDefault);

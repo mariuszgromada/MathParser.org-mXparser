@@ -215,6 +215,7 @@
  * - online store: https://mathparser.org/order-commercial-license
  * - online store: https://payhip.com/infima
  */
+using org.mariuszgromada.math.mxparser.mathcollection;
 using org.mariuszgromada.math.mxparser.parsertokens;
 using System;
 using System.Collections.Generic;
@@ -235,6 +236,16 @@ namespace org.mariuszgromada.math.mxparser {
     ///                 <a href="https://mathspace.pl">MathSpace.pl</a><br/></para><para>Version: 6.2.0</para></remarks>
     internal sealed class ExpressionUtils {
         internal static readonly bool LANGUAGE_SPECIFIC_DESCRIPTIONS_SET = StringModel.LANGUAGE_SPECIFIC_DESCRIPTIONS_SET;
+
+        internal static double roundResult(double result, int cancelId) {
+            if (mXparser.checkIfAlmostIntRounding()) {
+                double resultInt = Math.Round(result);
+                if (Math.Abs(result - resultInt) <= BinaryRelations.getEpsilon()) result = resultInt;
+            }
+            if (mXparser.checkIfCanonicalRounding()) result = MathFunctions.lengthRoundWithCancel(result, cancelId);
+            return result;
+        }
+
         static void addUDFSpecificParserKeyWords(List<KeyWord> keyWordsList) {
             addKeyWord(Function1Arg.PARAM_STR, Function1Arg.PARAM_DESC, Function1Arg.PARAM_ID, Function1Arg.PARAM_SYN, Function1Arg.PARAM_SINCE, Function1Arg.TYPE_ID, keyWordsList);
             addKeyWord(ConstantValue.NPAR_STR, ConstantValue.NPAR_DESC, ConstantValue.NPAR_ID, ConstantValue.NPAR_SYN, ConstantValue.NPAR_SINCE, ConstantValue.TYPE_ID, keyWordsList);
@@ -316,7 +327,7 @@ namespace org.mariuszgromada.math.mxparser {
             baseKeyWordsListParUdfUni000 = makeParserKeyWords(false, false, false);
         }
 
-        static List<KeyWord> makeParserKeyWords(bool parserKeyWordsOnly, bool UDFExpression, bool unicodeKeyWordsEnabled) {
+        internal static List<KeyWord> makeParserKeyWords(bool parserKeyWordsOnly, bool UDFExpression, bool unicodeKeyWordsEnabled) {
             List<KeyWord> keyWordsList = new List<KeyWord>();
             makeParserKeyWords(parserKeyWordsOnly, UDFExpression, unicodeKeyWordsEnabled, keyWordsList);
             return keyWordsList;
@@ -1062,7 +1073,7 @@ namespace org.mariuszgromada.math.mxparser {
                 expressionDescription = StringUtils.surroundSquareBrackets(description) + expressionDescription;
             return expressionDescription;
         }
-		private const String FUNCTION = "function";
+		internal const String FUNCTION = "function";
 		private const String ARGUMENT = "argument";
 		private const String UNITCONST = "unit/const";
 		private const String ERROR = "error";

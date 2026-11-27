@@ -238,6 +238,7 @@ namespace org::mariuszgromada::math::mxparser {
 	USING_FRIENDS_NAMESPACES;
 
 	class API_VISIBLE Expression : public PrimitiveElement {
+		friend class MathJSONUtils;
 		ADD_FRIENDS_OF(Expression);
 		friend struct OwnershipTestAccess;
 		friend struct CancellationTestAccess;
@@ -1859,6 +1860,9 @@ namespace org::mariuszgromada::math::mxparser {
          * \exception std::logic_error Invalid structure, builtin arity, identifier or resource budget.
          */
         StringPtr getExpressionAsLaTeX();
+
+        /** Exports a supported formula as MathJSON. User definitions are referenced by name. */
+        StringPtr getExpressionAsMathJSON();
 		/**
 		 * \brief Returns missing user defined arguments names, i.e.
 		 * sin(x) + cos(y) where x and y are not defined

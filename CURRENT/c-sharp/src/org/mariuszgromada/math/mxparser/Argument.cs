@@ -313,7 +313,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private String argumentName = StringInvariant.EMPTY;
         /// <summary>Syntax status registered on argument definition:
         /// - constructor, set name, ...</summary>
-        protected bool syntaxStatusDefinition = SYNTAX_STATUS_UNKNOWN;
+        protected internal bool syntaxStatusDefinition = SYNTAX_STATUS_UNKNOWN;
 		/// <summary>Error Message registered on argument definition:
 		/// - constructor, set name, ...</summary>
 		private String errorMessageDefinition = StringInvariant.EMPTY;

@@ -234,6 +234,7 @@
 #include "org/mariuszgromada/math/mxparser/FunctionExtension.hpp"
 #include "org/mariuszgromada/math/mxparser/FunctionExtensionVariadic.hpp"
 #include "org/mariuszgromada/math/mxparser/LaTeXParser.hpp"
+#include "org/mariuszgromada/math/mxparser/MathJSON.hpp"
 #include "org/mariuszgromada/math/mxparser/License.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/AstronomicalConstants.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/BinaryRelations.hpp"

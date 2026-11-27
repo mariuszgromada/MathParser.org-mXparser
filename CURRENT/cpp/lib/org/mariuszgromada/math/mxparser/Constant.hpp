@@ -238,6 +238,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 	class API_VISIBLE Constant : public PrimitiveElement {
 
+		friend class MathJSONUtils;
 		ADD_FRIENDS_OF(Constant);
 
 	private:
